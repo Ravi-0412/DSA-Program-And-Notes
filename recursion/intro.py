@@ -23,13 +23,10 @@
 
 
 # recursive way 
-from socket import RCVALL_IPLEVEL
-
-
 def show(n):
     if n>5:   # base condition
         return
     print(n)
     show(n+1)
 show(1)
-    
+ 

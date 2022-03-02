@@ -1,0 +1,21 @@
+name= ("Navin", "Kumar", "Raju")
+roll_no= ("1", "2", "3")
+marks= ("90", "80", "70")
+
+zipped = zip(name,roll_no,marks)  
+# zipped returns a zip object
+# to print the data we need to convert it into a list, or dictionary,or tuple or set
+# then it will print according to the property of the data type
+# print(zipped)     # will print the address of zip object
+# lst= list(zipped)  # converting zip object into list
+# print(lst)
+# dict1= dict(zipped)  # converting zip object into dictionary
+# print(dict1)        # for more than 2 parameters, dictioanry will not work
+# set1= set(zipped)  # converting zip object into set
+# print(set1)
+
+# for iterating in zip object
+for a,b,c in zipped:
+    print(a,b,c)    # will print the data in the order of the tuple each in new line
+
+

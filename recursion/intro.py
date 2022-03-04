@@ -149,32 +149,59 @@
 
 #Do the same above Q but dont take list as argument, make list inside the function body itself
 # just for knowledge and concept
-def LinearSearch(arr,target,index):  # index tells from where we have to search
-    list1= []
-    if index== len(arr): # as we have traversed the whole array 
-        pass
-    elif arr[index]== target: # if ele is found add the index into the list and also
-                              # add the list returned by the further function calls
-        list1.append(index)  
-        c= LinearSearch(arr,target,index+1)  # store the list returned to add with the previous list 
-        list1= list1+ c   # will comtain all the index of target element till now
 
-        # list1.append(index)      # writing this and next onen below lines as combination not giving 
-        #                         #correct output 
-        # list1+ LinearSearch(arr,target,index+1)  # list returned by the next function is not getting added
-                                                # as after returning the value it will execute the further lines
-                                                # or any statement ahead and we are adding in the same line when when we are calling
+# def LinearSearch(arr,target,index):  # index tells from where we have to search
+#     list1= []
+#     if index== len(arr): # as we have traversed the whole array 
+#         pass
+#     elif arr[index]== target: # if ele is found add the index into the list and also
+#                               # add the list returned by the further function calls
+#         list1.append(index)  
+#         c= LinearSearch(arr,target,index+1)  # store the list returned to add with the previous list 
+#         list1= list1+ c   # will comtain all the index of target element till now
 
-        # list1.append()+ LinearSearch(arr,target,index+1)   # writing only this giving None(None+list)
+#         # list1.append(index)      # writing this and next onen below lines as combination not giving 
+#         #                         #correct output 
+#         # list1+ LinearSearch(arr,target,index+1)  # list returned by the next function is not getting added
+#                                                 # as after returning the value it will execute the further lines
+#                                                 # or any statement ahead and we are adding in the same line when when we are calling
 
-    else:
-        return LinearSearch(arr,target,index+1)
-    return list1
+#         # list1.append()+ LinearSearch(arr,target,index+1)   # writing only this giving None(None+list)
 
-arr= [2,4,5,7,4,9,4,10,15,22,4]
-print(LinearSearch(arr,4,0))
+#     else:
+#         return LinearSearch(arr,target,index+1)
+#     return list1
+
+# arr= [2,4,5,7,4,9,4,10,15,22,4]
+# print(LinearSearch(arr,4,0))
 # print(LinearSearch(arr,18,0))
 
+def search(arr,target,index):
+    if index >= len(arr):
+        l = []
+        return l
+    ans = []
+    if arr[index] == target:
+        ans.append(index)
+    smallAns = search(arr,target,index+1)
+    return ans + smallAns 
+arr= [2,4,5,7,4,9,4,10,15,22,4]
+print(search(arr,4,0))
 
 
 
+def search(arr,target,index):
+    if index >= len(arr):
+        l = []
+        return l
+    ans = []
+    if arr[index] == target:
+        ans.append(index)
+    print("ans only ",ans)
+    smallAns = search(arr,target,index+1)
+    print("small ans only ",smallAns)
+    temp = ans + smallAns
+    print("small ans + ans ",temp)
+    return ans + smallAns 
+arr= [2,4,5,4]
+print(search(arr,4,0))

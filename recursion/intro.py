@@ -176,32 +176,96 @@
 # print(LinearSearch(arr,4,0))
 # print(LinearSearch(arr,18,0))
 
-def search(arr,target,index):
-    if index >= len(arr):
-        l = []
-        return l
-    ans = []
-    if arr[index] == target:
-        ans.append(index)
-    smallAns = search(arr,target,index+1)
-    return ans + smallAns 
-arr= [2,4,5,7,4,9,4,10,15,22,4]
-print(search(arr,4,0))
+
+# def search(arr,target,index):
+#     if index >= len(arr):
+#         l = []
+#         return l
+#     ans = []
+#     if arr[index] == target:
+#         ans.append(index)
+#     smallAns = search(arr,target,index+1)
+#     return ans + smallAns 
+# arr= [2,4,5,7,4,9,4,10,15,22,4]
+# print(search(arr,4,0))
 
 
+#find factorial
+# def fact(n):
+#     if(n==1):
+#         return 1
+#     else:
+#         return n*fact(n-1)
+# print(fact(5)) 
 
-def search(arr,target,index):
-    if index >= len(arr):
-        l = []
-        return l
-    ans = []
-    if arr[index] == target:
-        ans.append(index)
-    print("ans only ",ans)
-    smallAns = search(arr,target,index+1)
-    print("small ans only ",smallAns)
-    temp = ans + smallAns
-    print("small ans + ans ",temp)
-    return ans + smallAns 
-arr= [2,4,5,4]
-print(search(arr,4,0))
+
+# sum of digits of a number
+# def SumDigit(n):
+#     sum,r,q= 0,0,0
+#     if 0<=n<=9:   # or if n%10== n 
+#         return n
+#     else:
+#         r= n%10
+#         q= int(n/10)
+#         sum1= SumDigit(q)
+#         return r+sum1
+
+# print(SumDigit(234))
+
+
+# reverse a number
+# mwthod 1:
+# def reverse(n):
+#     if n%10== n:
+#         return n
+#     else:
+#         r= n%10
+#         sum1= sum1*10 + r
+#         reverse(int(n/10))
+# print(reverse(234))
+
+# method 2:
+# def reverse(n):
+#     if n<10:
+#         print(n)
+#     else:
+#         print(n%10,end="")
+#         reverse(int(n/10))
+# print("reversed no is: ",end="")
+# reverse(234)
+
+
+# method3:
+# def reverse(n):
+#     ans= ""
+#     if n<10:
+#         ans= ans+ str(n)
+#         return ans
+#     else:
+#         r= n%10
+#         ans+= str(r)
+#         smallAns= reverse(int(n/10))
+#         ans+= str(smallAns)
+#     return ans
+# print(reverse(234))
+
+
+#method 4
+import math
+def reverse(n,x):
+    sum=0
+    if n<10 or x==0:
+        return n
+    else:
+        r= n%10
+        sum+= r*pow(10,x) 
+        smallAns= reverse(int(n/10),x-1)
+        sum+= smallAns
+    return sum
+num= int(input("enter the number"))
+digits= int(math.log(num,10))   # to start multiplying 10 with power of (no of digits in num-1)
+                                # and this log will give the same only no need to subtract '-1'
+print(reverse(num,digits)) 
+
+
+# count no of zeroes in a number

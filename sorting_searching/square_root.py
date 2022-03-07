@@ -60,6 +60,5 @@ precision= int(input("enter the no of decimal places : "))
 print(square_root(n,precision))
 
 
-# method3: by Newton Raph son method
 
 

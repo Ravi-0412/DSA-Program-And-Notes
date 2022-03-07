@@ -21,15 +21,14 @@ def missing(n):
 missing(n)
 
 
-
 #leetcode solution(2nd method) : using XOR operation
 # class Solution:
 #     def missingNumber(self, nums: List[int]) -> int:
 #         n= len(nums)
-#         x1=0
+#         x1=0      # 1st time xor will happen with zero and this will
+                    # give that number itself no problem in init x1=0
 #         for i in range(n+1):
-#             x1= x1^i
-        
+#             x1= x1^i          
 #         x2=0
 #         for i in range(n):
 #             x2= x2^nums[i]

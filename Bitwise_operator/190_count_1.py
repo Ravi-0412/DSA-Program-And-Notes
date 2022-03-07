@@ -9,7 +9,7 @@ class Solution:
 
 # method 2: (submitted on leetcode)
 # just check the rightmost bit using bitwise operator and count
-# time: O(logn)
+# time: O(1), as we have to check only 32 bit
 
 class Solution:
     def hammingWeight(self, n: int) -> int:
@@ -20,4 +20,19 @@ class Solution:
             n>>= 1
         return count
 
+# method3: submitted on leetcode
+# it execute only to the no of set bits
+# as while taking add and updating the value tends 
+# towards zero very fast as bits changes 
+# time: o(1)
+
+class Solution:
+    def hammingWeight(self, n: int) -> int:
+        count=0
+        while(n):    
+            count+= 1
+            # temp= n & n-1   # take and with its pre no 
+            # n= temp         # update the value of n= result of '&' operation and repeat till n becomes zero
+            n= n & n-1    # concise way of writing abobe two lines    
+        return count      # no of times loop will execute that will give the ans
 

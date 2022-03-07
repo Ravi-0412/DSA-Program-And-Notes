@@ -11,9 +11,9 @@ class Solution:
         #     i+= 1
         
         i=0
-        while True:
-            # idea of checking 2's comp from right
-            if (n& (1<<i))!=n:  # if (n& (1<<i))==0:
+        while True:    
+            # idea of getting  2's comp from right
+            if (n& (1<<i))==0:
                 i+= 1
         return i+1
         
@@ -26,4 +26,4 @@ class Solution:
         # 'k+1' will give the ans
         return k+1
 
-        # return int(math.log2 (n & -n)) + 1   
+        # return int(math.log2 (n & -n)) + 1    # good and concise

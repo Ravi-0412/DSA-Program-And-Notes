@@ -92,8 +92,10 @@ print(my_list)
 
 
 # reversing a list in python
+
 # method 1: using list.reverse()
-# method 2: using list1= reversed(list)
+# method 2: using a= reversed(list)  # this method will return the object
+# so in orderf to get the list youy will have to write:-  print(list(a))
 # method 3: list1= list[::-1]
 
 
@@ -121,23 +123,6 @@ print(my_list)
 # print(new_list)
 
 
-matrix= [
-    [1,2,3,4],
-    [5,6,7,8],
-    [9,10,11,12]
-]
-
-# transpose= []
-# for i in range(4):
-#     lst= []
-#     for row in matrix:
-#         lst.append(row[i])
-#     transpose.append(lst)
-# print(transpose)
-
-# concise way of finding the transpose of a matrix
-transposed= [[row[i] for row in matrix] for i in range(4)]
-print(transposed)
 
 
 # iterating for num directly in list for specific range
@@ -163,3 +148,22 @@ print(k)
 print(j)
 print(p)
 print(r)
+
+
+
+
+
+# deleting a list or some elements of a list
+
+# a= [1,2,3,4,5,6,7,8]
+# del a[:]  # will delete whole list
+# print(a)
+
+a= [1,2,3,4,5,6,7,8]
+# del a[2:]  # will delete everything from index 2
+del a[2:-2]  # will delete everything from index 2 
+            # to last two ele(won't delete last two ele)
+print(a)
+
+# a.clear()     # will delete whole list
+# a= []      # another way to delete all ele

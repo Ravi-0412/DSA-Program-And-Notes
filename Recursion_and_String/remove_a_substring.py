@@ -22,4 +22,4 @@ def remove_char(str1,str2,ans):
 str1= input("enter any string: ")
 str2= input("enter the substring to remove: ")
 ans= ""
-print(remove_char(str1,str2,ans))
+print(remove_char(str1,str2,ans)) 

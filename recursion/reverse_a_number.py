@@ -49,6 +49,9 @@ def reverse(n,x):
     return sum
 num= int(input("enter the number"))
 
-digits= int(math.log(num,10))   # to start multiplying 10 with power of (no of digits in num-1)
+digits= int(math.log(num,10))   # to start multiplying 10 with power of ('no of digits in num'-1)
                                 # and this log will give the same only no need to subtract '-1'
 print(reverse(num,digits)) 
+
+
+# method 5: by taking only one argument

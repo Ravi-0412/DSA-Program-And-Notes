@@ -17,8 +17,7 @@ def Newton_sqrt(n):
             break
         # if precision is not made, update x= root itself
         x= root
-    return root
+    return root 
 print(Newton_sqrt(40))
 
 
-]]

@@ -20,7 +20,7 @@ def sortedOrNot(arr,start,end):
 
 # arr= [2,4,5,6,7,8]
 arr= [1,5,3,9,10,54]
-print(sortedOrNot(arr,0,len(arr)-2))
+# print(sortedOrNot(arr,0,len(arr)-2))
 
 
 # another way of writing recursion function
@@ -44,5 +44,19 @@ def sortedOrNot(arr, index):
         return (arr[index]<=arr[index+1]) and sortedOrNot(arr,index+1)
 # arr= [2,4,4,5,6,7,8]
 arr= [1,5,3,9,10,54]
-print(sortedOrNot(arr,0))
+# print(sortedOrNot(arr,0))
+
+# another method:
+def sorted(arr,n):
+    if n==1:
+        return True
+    # elif arr[0]>arr[1]:
+    #     return False
+    # smallAns= sorted(arr[1:],n-1)
+    # return smallAns
+    return arr[0]<=arr[1] and sorted(arr[1:],n-1)
+
+arr1= [2,4,4,5,6,7]
+# arr1= [1,5,3,9,10,54]
+print(sorted(arr1,6))
 

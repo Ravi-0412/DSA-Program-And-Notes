@@ -5,15 +5,15 @@
 # lst.insert(2,'nine') # insert at specific location
 # print(lst)
 
-# lst.remove('two') 
+# lst.remove('two')   # will remove two from the list
 
-# lst.append(lst1)
-# lst.extend(lst1)
+# lst.append(lst1)  # will append the list1(in list form itself) at the last of lst
+# lst.extend(lst1)  # will only append elements of lst1(not list form) in the lst 
 # print(lst)
 
-# del lst[1]
+# del lst[1]   # will delete the ele at index '1' from the list
 # print(lst)
-# a= lst.pop(1)
+# a= lst.pop(1)  # will delete the ele at index '1' from the list
 # print(a)
 # print(lst)
 
@@ -25,14 +25,20 @@
 
 
 # numbers= [3,1,6,2,8]
-# sorted_lst= sorted(numbers)
+# numbers.sort()   # will sort the list in the given list itself(in place sorting)
+                  # used when we don't need the original list
+                  # this method 'sort' is only defined for list
+# sorted(numbers)  # it returns a new sorted list ,so to get the sorted list you have to
+                   # store the result in another list
+                   # original list will be same as before only
+# sorted_lst= sorted(numbers)  # this method 'sorted' accepts any iterable like string,set,tuple etc..
 # print("sorted list: ", sorted_lst)
 # print("original list: ", numbers)
-# print("reverse ordered list: ", sorted(numbers,reverse=True))
+# print("reverse ordered list: ", sorted(numbers,reverse=True))  # will sort  the list in the des order
 
 
 # s="my name is Ravi Raushan"
-# split_lst= s.split()
+# split_lst= s.split()  # return a list with words of string as elements
 # print(split_lst)
 
 
@@ -48,7 +54,7 @@
 # list2=[1,2,3,4]
 # new_list= list1 + list2
 # print(new_list)
-#  print(list1.count(10))
+#  print(list1.count(10))   # will count the no of '10' in the given list
 
 # method2 : to add list
 # using extend() function
@@ -85,8 +91,7 @@ print(my_list)
 
 # e.g: 3
 # my_list = ['geeks', 'for', 6, 0, 4, 1]  
-# # My string
-# my_list.extend('geeks') 
+# my_list.extend('geeks') # will add whole string(single letters wise) to the end of the list
 # print my_list
 # output: ['geeks', 'for', 6, 0, 4, 1, 'g', 'e', 'e', 'k', 's']
 

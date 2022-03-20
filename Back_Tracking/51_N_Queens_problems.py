@@ -1,0 +1,146 @@
+# Q)find the no of possible ways to put the Queens
+# page: 21
+# in this we are placing row wise
+# so we only need to check upper left diagonal, upper right diagonal and vertical
+# for whether Queen is safe orr not at that place
+
+def NQueens(board,row):  # since we are checking from starting for each row, no need to write col
+    if row== len(board):  # all queens are placed safely 
+                        # means we have found a ways to place all Queens safely
+                        # as we are checking each row one one after placing a Queen
+        Display(board)
+        print()
+        return 1    # will count the no of ways
+    
+    count= 0  # will count the total no of ways to place all Queen safely
+
+    # start placing the Queen at each col in the given row
+    # repeat this for every row
+
+    # after placing check whether that position is safe or not 
+    # if safe mark that position as: 'True'
+
+    for col in range(len(board)):   # checking for each col 
+        if isSafe(board,row,col):  # means safe so place the Queen and mark that position as True
+            board[row][col]= 'Q'
+            # after placing(if not possible to place in given row) check for 
+            # where we can place in further rows the next Queen
+            count+= NQueens(board,row+1)  
+            board[row][col]= 'X'     # while returning restore the changes made by that function call
+                                # since it can affect the further recursive call if we don't remove 
+                                # Also while finding for soultion it will create problem if we don't restore back
+    return count
+
+def isSafe(board,row,col):
+    # checking the vertical line in the col where we want to place
+    for i in range(len(board)):
+        if board[i][col]=='Q':  # if any position is 'Q' means you cant place Queen  there
+            return False
+
+    # checking the horizontal line where we want to place
+    # for i in range(len(board)):
+    #     if board[row][i]=='Q':  # if any position is true means you cant place Queen is there
+    #         return False
+    
+    # checking the upper left diagonal
+    r,c= row,col
+    while(r>=0 and c>=0):
+        if board[r][c]== 'Q':  # if true 
+            return False
+        r,c= r-1,c-1
+
+    # checking the lower left diagonal
+    # r,c= row,col
+    # while(r<len(board) and c>=0):
+    #     if board[r][c]== 'Q':  # if true 
+    #         return False
+    #     r,c= r+1,c-1
+        
+    
+    # checking the upper right diagonal
+    r,c= row,col
+    while(r>=0 and c<len(board)):
+        if board[r][c]== 'Q':  # if true 
+            return False
+        r,c= r-1,c+1
+    
+    # checking the lower right diagonal
+    # r,c= row,col
+    # while(r<len(board) and c<len(board)):
+    #     if board[r][c]== 'Q':  # if true 
+    #         return False
+    #     r,c= r+1,c+1
+        
+    
+    
+    # if any of these are false means you cant place Queen at that position
+    # you are here means all are position is safe so simply return True
+    return True
+
+def Display(board):    
+    # Now print the board
+    for row in board:
+        print(row)
+
+# board= [['X' for j in range(4)] for i in range(4)]  # only create 2d array like this , never create by any other way
+board= [['X' for j in range(5)] for i in range(5)]
+print(NQueens(board,0))
+                
+
+
+# submitted on leetcode
+# in this we were placing col wise
+# so we only need to check lower left diagonal, upper left diagonal and horizonatl
+# for whether Queen is safe orr not at that place
+
+# class Solution:
+#     def solveNQueens(self, n: int) -> List[List[str]]:
+#         all_board= []  # create to store the result. later we will append the ans array in this
+#         board= [['.' for j in range(n)]for i in range(n)]   # created inputs board
+#         self.helper(all_board,board,0)  # we will put col wise
+#                                         # starting from zero(row will always start from zero)
+#         return all_board
+    
+#     def helper(self,all_board,board,col):
+#         if col== len(board):
+#             self.saveBoard(all_board, board)
+#             return 
+        
+#         for row in range(len(board)):
+#             if self.isSafe(board,row,col):
+#                 board[row][col]= 'Q'
+#                 Solution().helper(all_board,board,col+1)
+#                 board[row][col]= '.'
+
+#     def saveBoard(self,all_board, board):
+#         new_board= []  # will contain the all the ele of board row by row in single array
+#         for i in range(len(board)):
+#             row= ""  # will store the content of row by row of 'board'
+#             for j in range(len(board[0])):
+#                 row+= board[i][j]
+#             new_board.append(row)  # will 
+#         all_board.append(new_board)
+
+#     def isSafe(self,board,row,col):    
+#         # checking the horizontal line where we want to place
+#         for i in range(len(board)):
+#             if board[row][i]=='Q':  # if any position is true means you cant place Queen is there
+#                 return False
+    
+#         # checking the upper left diagonal
+#         r,c= row,col
+#         while(r>=0 and c>=0):
+#             if board[r][c]== 'Q':  # if true 
+#                 return False
+#             r,c= r-1,c-1
+    
+#         # checking the lower left diagonal
+#         r,c= row,col
+#         while(r<len(board) and c>=0):
+#             if board[r][c]== 'Q':  # if true 
+#                 return False
+#             r,c= r+1,c-1
+                    
+#         # if any of these are false means you cant place Queen at that position
+#         # you are here means all are position is safe so simply return True
+#         return True

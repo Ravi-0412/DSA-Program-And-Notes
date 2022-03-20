@@ -16,3 +16,4 @@ def permutations(str1,ans):
 
 print(permutations("abc", ""))
 # print(permutations("abcd", ""))
+

@@ -1,11 +1,9 @@
-from re import L
-
 
 class Node:
     # function(constructor) to initilaise Node object
     def __init__(self,data,next=None):
         self.data= data  # assign the data
-        self.next= next  # Initialize next as null 
+        self.next= None  # Initialize next as null 
 
 class LinkedList:
     # function(constructor) to initilaise LinkedList object

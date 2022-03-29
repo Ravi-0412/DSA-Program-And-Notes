@@ -1,1 +1,0 @@
-print(my_dict.get('add'))

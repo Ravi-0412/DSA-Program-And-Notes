@@ -86,7 +86,50 @@ for i in range(n-2,-1,-1):
         max_ele_seen_so_far= temp
 print(arr)
 
+# another method:
+def LargerElement(arr,n):
+    stack= [] # will store the maximum ele from right side till now
+            # stack will contain exactly opne or no ele always
+    ans= []
+    for i in range(n-1,-1,-1):
+        if stack== []:  # since we are poping in above steps so we have to check for empty stack
+                        # empty stack means either it is the largest ele or the last ele
+            ans.append(-1)
+            stack.append(arr[i])
+        elif stack[-1]> arr[i]:  
+            ans.append(stack[-1])
+        else: # means new greater ele found
+            ans.append(-1)
+            stack.pop()
+            stack.append(arr[i])
+    # now print the ans in reverse to get the ans
+    for i in range(n-1,-1,-1):
+        print(ans[i], end=" ")
 
+# another way of writing above code
+# just exactly same code as replacing by nextLargerElement in right 
+# just we have commented one line in 'else' condition of that code
+
+def LargestRight(arr,n):
+    stack= [] # will store the all the larger ele till index 'i'
+              # no maximum then it will become empty
+    ans= []
+    # traverse the array from right to left
+    for i in range(n-1,-1,-1):
+        while(stack and stack[-1]<= arr[i]):
+                stack.pop()
+        if stack== []:  # since we are poping in above steps so we have to check for empty stack
+                        # empty stack means either it is the largest ele or the last ele
+            ans.append(-1)
+            stack.append(arr[i])
+        else:  # means stack top is greater than arr[i]
+            ans.append(stack[-1])
+            # stack.append(arr[i])  # after uncommenting it will give ans for nextgreater ele on right
+    for i in range(n-1,-1,-1):
+        print(ans[i], end=" ")
+
+arr= [0,1,8,3,2,4,6,7]
+LargestRight(arr,8)
 
 
 

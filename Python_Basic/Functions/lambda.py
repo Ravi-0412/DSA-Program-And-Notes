@@ -1,3 +1,8 @@
+# lambda arguments: expression
+# This function can have any number of arguments but only one expression, which is evaluated and returned.
+# One is free to use lambda functions wherever function objects are required.
+# You need to keep in your knowledge that lambda functions are syntactically restricted to a single expression.
+
 # double= lambda x: x*2
 # print(double(5))
 

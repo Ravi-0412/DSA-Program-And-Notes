@@ -24,6 +24,7 @@ def lcs(x,y,s1,s2):
 # s2= "bdcaba" 
 s1= "abcd"
 s2 = "xycd"
+
 x,y= len(s1), len(s2)
 print("the length of shortest common supersequence is: ")
 print(shortestCommonSupersequence(x,y,s1,s2))

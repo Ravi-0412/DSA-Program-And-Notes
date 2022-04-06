@@ -42,10 +42,12 @@ class Solution:
 
 # s1= "qpqrr"
 # s2= "pqprqrp"
-s1= "abcbdab"
-s2= "bdcaba"
+# s1= "abcbdab"
+# s2= "bdcaba"
 # s1= "abc"
 # s2= "acb"
+s1= "dcbcf"
+s2= "abcdaf"
 x,y= len(s1), len(s2)
 ob= Solution(x,y)
 print("length of the longest subsequences is: ",ob.lcs(x,y,s1,s2))
@@ -78,7 +80,7 @@ def FindLcs(x,y,s1,s2):
     i ,j = x, y
     while(i>0 and j>0):
         if s1[i-1]== s2[j-1]:
-            ans+= s1[i-1]
+            ans= s1[i-1] + ans
             i-= 1
             j-= 1
             

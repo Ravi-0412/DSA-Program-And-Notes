@@ -1,3 +1,18 @@
+# method1: by recursion
+class Solution:
+    def knapSack(self, N, W, val, wt):
+        profit= 0
+        if N==0 or W==0:
+            return 0
+        if wt[N-1]<= W:
+            tempAns= max(val[N-1]+ self.knapSack(N-1,W- wt[N-1],val,wt), self.knapSack(N-1,W,val, wt))
+            profit+= tempAns
+        else:
+            tempAns= self.knapSack(N-1,W,val, wt)
+            profit+= tempAns
+        return profit
+
+
 # submitted on gfg
 # time complexity: O(N*W)
 # method: By memoization

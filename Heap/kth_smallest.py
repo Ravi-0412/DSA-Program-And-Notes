@@ -1,3 +1,4 @@
+
 # 1st method: selection sort 
 # run the outer loop k times
 # time: O(n^2)
@@ -15,7 +16,15 @@ print(arr[k-1])
 import heapq
 def KthSmallest(arr,k):
     heap= []
-    for i in range()
+    for num in arr:
+        heapq.heappush(heap,-num)
+        if len(heap)> k:
+            heapq.heappop(heap)
+    return (-heap[0])
+
+arr = [7,4,6,3,9,1]
+print(KthSmallest(arr,3))
+
     
 
 

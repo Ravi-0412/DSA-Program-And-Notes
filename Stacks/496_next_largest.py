@@ -1,4 +1,4 @@
-# General Q
+# 1st q: Next greater right
 
 def nextLargerElement(arr,n):
     stack= [] # will store the all the larger ele till index 'i'

@@ -4,7 +4,7 @@
 # if any next greater exist then 'index of curr ele- index of next greater ele' will be the ans
 # ans will give the 'next greater left'
 # final will give the 'actual ans'
-def calculateSpan(a,n):
+def calculateSpan1(a,n):
     stack, ans, final= [], [], []
     # ans keep track of next greater ele left
     # final is storing the actual ans
@@ -24,11 +24,11 @@ def calculateSpan(a,n):
 
 price = [10, 4, 5, 90, 120, 80]
 # price= [100,80,60,70,60,75,85]
-print(calculateSpan(price,6))
+# print(calculateSpan1(price,6))
 
 
 # concise way of writing the above code
-def calculateSpan(a,n):
+def calculateSpan2(a,n):
     stack, final= [], []
     for i in range(n):
         while stack and stack[-1]<= a[i]:
@@ -40,4 +40,24 @@ def calculateSpan(a,n):
 
 # price = [10, 4, 5, 90, 120, 80]
 price= [100,80,60,70,60,75,85]
-print(calculateSpan(price,7))
+# print(calculateSpan2(price,7))
+
+
+# better one than all above one
+# just push the 'index' itself instead of arr value
+# this way you can also solve all the variations of 'next greater/smaller': better way
+def calculateSpan3(a,n):
+        stack= []
+        for i in range(n):
+            while stack and a[stack[-1]]<= a[i]:  # compare the value of top index of stack with the curr_val
+                stack.pop()
+            if stack==[]:  # means no next greater left ele exist so ans= i+1 
+                print(i+1,end=" ")
+            else:  # means you have found the ans for the curr_ele
+                print(i-stack[-1],end=" ")  # diff in index will be the ans
+            stack.append(i)  # you have to append it always so better write outside the loop
+        
+
+n = 8
+a= [100,80,60,70,60,75,85,110]
+calculateSpan3(a,n)

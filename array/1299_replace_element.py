@@ -132,4 +132,28 @@ arr= [0,1,8,3,2,4,6,7]
 LargestRight(arr,8)
 
 
+# another method: better one-concise way of above methods (16/04/2022)
+# traverse from right to left and only store the maximum ele in the stack 
+# i.e stack will contain only one ele always at any point 
+class Solution:
+    def replaceElements(self, arr: List[int]) -> List[int]:
+        n= len(arr)
+        if n== 1:
+            return [-1]
+        stack, ans= [], []
+        # initialise for last ele
+        stack.append(arr[n-1])
+        ans.append(-1)
+        for i in range(n-2,-1,-1):
+            # if arr[i]> stack measn arr[i] is the maximum ele on RHS till now
+            # so just pop the stack top and append 'poped one' to the ans
+            # poped will be the greatest for arr[i] and all the ele so far
+            if arr[i]> stack[-1]:
+                temp= stack.pop()
+                ans.append(temp)
+                # append arr[i] to the stack since arr[i] is the greatest till now
+                stack.append(arr[i])
+            else:  # means top of the stack is the greatest . so no need to append arr[i] in the stack
+                ans.append(stack[-1])
+        return ans[::-1]
 

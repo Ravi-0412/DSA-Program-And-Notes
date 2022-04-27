@@ -1,3 +1,4 @@
+# other two methods are by 'Binary Search'
 # method3: by Newton Raph son method
 # formaula: root= (x +N/x)/2, where root is the actual root and 
 # x is the root we have assumed

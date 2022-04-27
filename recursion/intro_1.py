@@ -28,7 +28,7 @@ def show(n):
         return  # no base condition will give "stackoverflow error["
     print(n)
     show(n+1)
-# show(1)
+show(1)
 
 
 

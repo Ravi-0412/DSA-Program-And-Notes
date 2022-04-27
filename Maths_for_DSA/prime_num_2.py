@@ -1,6 +1,7 @@
 #prime numbers in a range by reducing its time complexity
 # logic: only need to check till square root of the given number
 # as after this num1*num2= given no will start repeating
+# time: root(2) + root(3) + root(4)+ ...+ root(n)
 
 # import math
 # def isprime(n):

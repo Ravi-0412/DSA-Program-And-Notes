@@ -2,8 +2,7 @@
 def fibonacii(n):
     if n==0 or n==1:
         return n
-    else:
-        return fibonacii(n-1) + fibonacii(n-2)
+    return fibonacii(n-1) + fibonacii(n-2)
 
 print(fibonacii(9))
 
@@ -15,4 +14,4 @@ def fibonacii(n):
         fib.append(fib[i-1] + fib[i-2])
     return fib[n]
 
-print(fibonacii(9))
+# print(fibonacii(9))

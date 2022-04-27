@@ -6,9 +6,10 @@ def LinearSearch1(arr,target,index):  # index tells from where we have to search
         return index
     else:
         return LinearSearch1(arr,target,index+1)
-    
+
 arr= [2,4,5,7,9,10,15,22]
-print(LinearSearch1(arr,15,0))
+# print(LinearSearch1(arr,15,0))
+
 
 # in linear search return a list containing all the index of the target ele
 indexes= []
@@ -18,9 +19,9 @@ def LinearSearch2(arr,target,index):  # index tells from where we have to search
             return -1
         else:  # means ele is present
             return indexes
-    elif arr[index]== target: # if ele is found add in the list and again seasrch for further indexes
+    if arr[index]== target: # if ele is found add in the list and again seasrch for further indexes
         indexes.append(index)  
-    LinearSearch2(arr,target,index+1)
+    return LinearSearch2(arr,target,index+1)
     
 arr= [2,4,5,7,4,9,4,10,15,22,4]
 # print(LinearSearch2(arr,4,0))
@@ -78,7 +79,7 @@ def LinearSearch5(arr,target,index):  # index tells from where we have to search
         list1= list1+ c   # will comtain all the index of target element till now
 
         # list1.append(index)      # writing this and next onen below lines as combination not giving 
-        #                         #correct output 
+                                 #correct output 
         # list1+ LinearSearch(arr,target,index+1)  # list returned by the next function is not getting added
                                                 # as after returning the value it will execute the further lines
                                                 # or any statement ahead and we are adding in the same line when when we are calling
@@ -90,7 +91,7 @@ def LinearSearch5(arr,target,index):  # index tells from where we have to search
     return list1
 
 arr= [2,4,5,7,4,9,4,10,15,22,4]
-# print(LinearSearch5(arr,4,0))
+print(LinearSearch5(arr,4,0))
 # print(LinearSearch5(arr,18,0))
 
 

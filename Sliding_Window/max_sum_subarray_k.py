@@ -19,3 +19,15 @@ class Solution:
                 j+= 1
         return max_sum
 
+
+# little concise way of writing the above code
+def maximumSumSubarray (self,K,Arr,N):
+        i,j,sum1,max_sum= 0,0,0,-9999999999
+        while j<N:
+            sum1+= Arr[j]
+            if j>=K-1:
+                max_sum= max(sum1, max_sum)
+                sum1-= Arr[i]
+                i+= 1
+            j+= 1
+        return max_sum

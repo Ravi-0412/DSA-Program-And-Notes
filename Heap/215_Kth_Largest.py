@@ -35,6 +35,7 @@ class Solution:
     def QuickSelect(self,nums,k,l,r):
         pivot= nums[r]   # selecting the last ele as pivot
         p= l   # position where we will place in case ele is smaller than or equal to pivot
+        #p will give the kth largest element
         # now find the proper position of pivot ele
         for i in range(l, r):   # will check from l to r-1(except pivot)
             if nums[i]<= pivot:  # means this ele should come before pivot index 

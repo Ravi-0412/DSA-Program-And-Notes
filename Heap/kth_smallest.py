@@ -12,6 +12,10 @@ arr.sort()
 print(arr[k-1])
 
 
+# 3rd method: make a min heap and delete the k-1 element
+# after that return the top ele of the array, that will be the kth smallest element
+
+
 # third method: use max heap
 import heapq
 def KthSmallest(arr,k):

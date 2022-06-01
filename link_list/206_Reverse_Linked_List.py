@@ -1,4 +1,26 @@
-# method 1: Iterative(submitted on leetcode)
+# method 1: Since we have to reverse, so stack should come into mind
+# just push the node into the stack and then start poping
+#  and keep making the updating the pointer
+
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if head== None: return head
+        stack= []
+        curr= head
+        while curr:
+            stack.append(curr)
+            curr= curr.next
+        head= temp= stack.pop()
+        while stack:
+            temp.next= stack.pop()
+            temp= temp.next
+        # now temp will be pointing to the last node from reverse
+        # so make temp.next= None
+        temp.next= None
+        return head
+
+
+# method 2: Iterative(submitted on leetcode)
 # time: o(n), space: o(1)
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
@@ -13,7 +35,7 @@ class Solution:
         return pre              # at last pre will point to the 1st node in reverse list
                                 # and current and first will point to None
 
-# Method 2: By recursion
+# Method 3: By recursion
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         # at last current will point to None and

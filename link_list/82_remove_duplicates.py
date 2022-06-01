@@ -18,7 +18,7 @@ class Solution:
             while current.next!= None and current.next.val== temp.next.val:  # if duplicates 
                 current= current.next
             # after updating check whether temp and current adjacent or not
-            # as this while loop and break because of 1st condition also
+            # as this while loop can  break because of 1st condition also
 
             if temp.next==current:  # means no duplicates(adjacent)
                 temp= current

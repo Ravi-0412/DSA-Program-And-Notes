@@ -24,9 +24,9 @@ class Solution:
             new_list= []
             new_list.append(s[-1])
             return new_list
-        smallAns= Solution().reverseString(s[1:])
-        ans+= smallAns
-        ans.append(s[0])
+        smallAns= Solution().reverseString(s[1:])  # lo bhai tm baki sb reverse kar dena
+        ans+= smallAns # phir apna reversed wala karne add karne ke bad 
+        ans.append(s[0])  # hmko add kar dena
         return ans
 
 

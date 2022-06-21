@@ -9,7 +9,7 @@ def singlenumber(nums):
     for key,value in hashmap.items():
         if(value%2!=0):
             return key
-            break;
+            break
     # return 0   #if many elements occur odd times or no elements occur odd times(for gfg)
 nums = [4,1,2,1,2]
 print(singlenumber(nums))
@@ -18,12 +18,10 @@ print(singlenumber(nums))
 
 #2nd method: best one using XOR operation
 # Time: o(n), space: o(1)
+# logic: xor with any number itself is zero and xor of any number with zero is the number itself
 
 # def singlenumber(nums):
-#     x1=0
+#     ans=0  # taking zero initially since xor of any number with zero is the number itself
 #     for num in nums:
-#         x1=x1^num
-#     return x1
-
-
-
+#         ans= ans^num
+#     return ans

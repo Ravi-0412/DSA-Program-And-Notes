@@ -1,3 +1,5 @@
+# not a good one
+# just copy paste of video
 class Solution:
     def findMin(self, nums: List[int]) -> int:
         n= len(nums)
@@ -43,7 +45,7 @@ class Solution:
         return -1 # means array is not in correct format or already in ascending order 
 
 
-# 2nd method : Best one
+# 2nd method : Better one
 # minimum and maximum element will always in unsorted part
 # and there will be only one sorted and unsorted part
 
@@ -55,16 +57,42 @@ class Solution:
             if nums[mid] > nums[right]:   # means array from 'mid' to 'right' is unsorted
                 left = mid + 1            # so minimum will lie beyond mid
 
-            else:      # here it will guarantee that array from 
+            else:      
+            # here it will guarantee that array from 
             # mid to right is sorted and start to mid is unsorted and mid can also be minimum
-
                 right = mid
         # after loop will fail , start and end will point to 
         # the same ele and that will be the minimum ele
-        # because both are merging towards the index of max ele in each iteration
-
+        # because both are merging towards the index of min ele in each iteration
         return nums[left]
 
+
+# myself got at revision time (18/06/2022)
+# so good 
+def findMin(self, arr):
+    start, end, n= 0, len(arr)-1, len(arr)
+    while start<= end:
+        mid= start + (end-start)//2
+        if arr[mid]> arr[(mid+1)%n]:  # this condition will only happen once in the whole array 
+                                     # and (mid+1)% 1 will give the index of minimum element 
+                                     # and mid will give the max ele
+            return arr[(mid+1)%n]
+        # if above condition not found then update the start and end in the unsorted part
+        # and there are two chances of unsorted part
+        
+        # case 1: means ele will be present till mid and mid can also be the minimum
+        # so update end in this case
+        elif arr[mid] < arr[start]: 
+            end= mid
+
+        # case 2: means ele will be present after mid till end      
+        # so update 'start' in this case     
+        elif arr[mid] > arr[end]:
+            start= mid +1
+        # if no such condition found then array is sorted in ascending order
+        # so in this case simply return nums[0]
+        else:
+            return arr[0]
 
 
 # below method will give the incorrect result
@@ -85,6 +113,7 @@ class Solution:
 
             #  as array can be already sorted then it will not work
             # or if array become sorted from start to mid after changing start
+        
             # means this condition doesnt fully guarantte that array beyond mid 
             # will be unsoretd
 

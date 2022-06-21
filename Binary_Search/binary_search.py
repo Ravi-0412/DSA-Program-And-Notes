@@ -60,7 +60,7 @@ def binary_search(arr,key):
 #         if arr[mid]== key:
 #             print("element is present at index: ",mid)
 #         elif arr[mid]> key:
-#             return binary_search(arr,key,0,mid-1)
+#             return binary_search(arr,key,low,mid-1)
 #         else:
 #             return binary_search(arr,key,mid+1,up)
 #     else:

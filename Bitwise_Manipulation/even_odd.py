@@ -15,3 +15,4 @@ def even_odd(n):
     print("even") if n & 1== 0 else print("odd")
 even_odd(5)
 even_odd(10)
+

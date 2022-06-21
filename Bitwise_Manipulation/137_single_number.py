@@ -22,11 +22,11 @@ class Solution:
 
 # this is valid for all this type of problem for every frequency
 
-time: O(n), space: O(n)
+# time: O(n), space: O(n)
 
 class Solution:
     def singleElement(self,arr, N):
-        return int((3*sum(set(arr))-sum(arr))/2)
+        return (3*sum(set(arr))-sum(arr))//2
 
 
 # method 3: submitted on Leetcode
@@ -43,10 +43,31 @@ class Solution:
             if frequency[i]==1:
                 return i
 
+
+# method 4: find the sum of set bits at all the positions and divide by 3
+# if sum of set bits at that position is not divisible by 3 then it means the single number has set bit at that position
+# time: O(32* n)
+# This method will work only for positive number
+
+def singleNumber(self, nums: List[int]) -> int:
+        ans= 0
+        for i in range(0, 32): # since max bits in any number can be 32
+            check_set= 1<< i   # to check whether ith bit of that num is set biot or not so took left shift of 1 'i' times
+            sum_bits = 0      
+            for num in nums:
+                if num & check_set:  # if 1 then 
+                    sum_bits+= 1    # add to the set_bit
+            if sum_bits %3!= 0:     # now check whether sum of set bits at that position is divisible by 3 or not 
+                                    # if not divisible by 3 then
+                ans= ans | check_set   # put '1' at ith position in the ans keeping other bit zero
+        return ans
+
+
 # method 4: needs a lot of thinking but better method
 # using bit manipulation
 #submitted on leetcode(didn't do myself)
-
+# have to look later properly
+# time: O(n)
 class Solution:
     def singleNumber(self, nums: List[int]) -> int:
         ones,twos= 0,0

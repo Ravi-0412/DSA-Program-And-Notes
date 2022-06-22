@@ -1,5 +1,5 @@
-# just write down and take xor till 8 or more ,you will see it is 
-# following a sequence of repitition with below conclusions
+# just write down and take xor till 8 or 12 ,you will see it is 
+# following a sequence of repitition with below conclusions 
 
 def xor_n(n):
     if n==0:

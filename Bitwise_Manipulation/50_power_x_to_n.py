@@ -1,5 +1,5 @@
 # logic: think of binary form of given 'power'
-# and whenever it its bit is equal to 1, update the ans
+# and whenever  its bit is equal to 1, update the ans
 # as presence of 1 in binary represents 2^0,2^1,2^2.....
 # and update the base each tim(base=base*base) till you traverse the whole digit of power
 
@@ -66,3 +66,22 @@ class Solution:
         return ans
 
 
+        # and writing the above logic in other form will given the time out
+
+        # if n < 0:
+        #     x= 1/x
+        #     n= -n
+        # if n== 0:
+        #     return 1
+        # return self.myPow(x, n//2) * self.myPow(x, n//2) if n% 2==0 else x * self.myPow(x, n//2) * self.myPow(x, n//2)
+        
+        
+        # if n < 0:
+        #     x= 1/x
+        #     n= -n
+        # if n== 0:
+        #     return 1
+        # elif n %2==0:
+        #     return self.myPow(x, n//2) * self.myPow(x, n//2) 
+        # else:
+        #     return x * self.myPow(x, n//2) * self.myPow(x, n//2)

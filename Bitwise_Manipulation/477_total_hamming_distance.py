@@ -9,14 +9,15 @@ class Solution:
         count=0
         # find xor for each pair
         # and to count the no of 1's 
-        # just incr the count whenever 'while' loop executes
+        # just incr the count whenever 'while' loop executes just same logic as count the no of set bits
         for i in range(len(nums)-1):
             for j in range(i+1,len(nums)):
                 xor_pair= nums[i]^nums[j]
+                # now count the no of set bits for each pair
                 while(xor_pair):
                     count+= 1
                     xor_pair= xor_pair & xor_pair-1
-                xor_pair= 0
+                xor_pair= 0   # to calculate for next pair
         return count
 
 
@@ -30,7 +31,7 @@ class Solution:
 # we are doing same, we are just calculating the no of set bit of all given
 # numbers for each bit one by one
 
-# and hamming distance for each bit position= (no of 1's)*(no of 0's) at that position
+# and hamming distance for each bit position= (no of 1's)*(no of 0's) at that position. we calculate in the same way for two no
 # no of 0's will be equal= len(nums)-(no of 1's at that bit position)
 # so calculate the hamming distance for each bit and add all to get the ans
 

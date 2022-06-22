@@ -21,7 +21,8 @@ class Solution:
         return count
 
 # method3: submitted on leetcode
-# it execute only to the no of set bits
+# it execute only to the no of set bits  
+# Logic: as n is formed from 'n-1' by changing one bit and so on every iteration one '1' will get cancelled out when we will take '&'
 # as while taking add and updating the value tends 
 # towards zero very fast as bits changes 
 # time: o(1)

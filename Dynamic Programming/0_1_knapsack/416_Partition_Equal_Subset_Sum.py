@@ -1,4 +1,6 @@
-# find the sum of the aarray, if sum is odd then no partition possible
+# Problem reduces to is there any subset possible which has sum equal to sum(array)//2
+
+# find the sum of the array, if sum is odd then no partition possible
 # if sum is even then may be possible
 # and for finding this, apply eaxctly the subset method on sum/2
 # time: space= O(n*(sum/2))
@@ -54,3 +56,4 @@ class Solution:
                     dp[i]= dp[i] | dp[i-num]
                     
         return dp[total]
+

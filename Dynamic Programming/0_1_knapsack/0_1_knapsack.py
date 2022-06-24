@@ -30,10 +30,9 @@ class Solution:
             return dp[n][W]
         if wt[n-1]>W:   # we are checking from last so will comapre with weight of last ele with available bag size ans so on
             dp[n][W]= self.helper(W, wt, val,n-1,dp)
-            return dp[n][W]   # last ele of dp matrix will give the ans
         if wt[n-1]<= W:    # if weight of that item is less than or equal to the available bag size
             dp[n][W]= max((val[n-1]+ self.helper(W-wt[n-1],wt,val,n-1,dp)), self.helper(W, wt, val,n-1,dp))
-            return dp[n][W]
+        return dp[n][W]   # last ele of dp matrix will give the ans
 
 
 # another method: (By top down approach)
@@ -49,4 +48,6 @@ class Solution:
                 else:
                     dp[i][j]= dp[i-1][j]
         return dp[n][W]  # return the last grid value(bottom most one)
-                
+
+
+

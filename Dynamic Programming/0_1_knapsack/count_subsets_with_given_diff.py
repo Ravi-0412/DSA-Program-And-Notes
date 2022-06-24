@@ -1,6 +1,9 @@
+# Q: count no of subset with a given difference
+# method 1: 
+# will work properly for all cases in which value of ele will be greater than zero may not for value of ele= 0
 def NoOfSubsets(N, arr, sum):
     # 1st initialse the matrix properly, little diff from subset sum
-    # or you can do by same way lik esubset sum as python treat 'False =0'
+    # or you can do by same way like subset sum as python treat 'False =0'
     # and 'True=1' only
     dp= [[0 for i in range(sum+1) ] for i in range(N+1)]
     for i in range(N+1):
@@ -25,6 +28,43 @@ def SubsetWithDiff(arr,diff):
     return NoOfSubsets(len(arr), arr, s1)
 
 # arr= [1,2,3,3]
-arr= [1,1,2,3]
-diff= 1  
-print(SubsetWithDiff(arr,1))
+# arr= [1,1,2,3]
+# diff= 1  
+arr= [5,2,6,4]
+diff= 3
+# print(SubsetWithDiff(arr,diff))
+
+# method 2: will work in all cases
+class Solution:
+    def SubsetWithDiff1(self, arr, diff): 
+        total, n= sum(arr), len(arr)
+        if (total + diff) %2 :
+            return 0
+        s1= (total + diff) //2
+        dp= [[-1 for i in range(s1+1)] for i in range(n)]  # no need to go till 'N+1' as we are starting from  'N-1' 
+        return self.helper(n-1, arr, s1, dp)
+    
+    def helper(self, ind, arr, sum, dp):
+        if ind== 0:
+            if sum== 0 and arr[0]== 0:
+                return 2
+            if sum==0 or sum== arr[0]: # in actual sum== 0 and arr[0] != 0 or sum== arr[0]
+                return 1
+            else:
+                return 0
+        if dp[ind][sum] != -1: 
+            return dp[ind][sum]
+        if arr[ind]> sum:
+            dp[ind][sum]= self.helper(ind -1, arr, sum, dp)
+        else:   # arr[ind] <= sum
+            dp[ind][sum]= self.helper(ind -1, arr, sum- arr[ind], dp) +  self.helper(ind -1, arr, sum, dp)
+        return dp[ind][sum]  # return the last ele
+
+# arr= [1,2,3,3]
+# arr= [1,1,2,3]
+# diff= 1 
+arr= [5,2,6,4]
+diff= 3
+ob= Solution()
+print(ob.SubsetWithDiff1(arr, diff))   
+# print(ob.SubsetWithDiff1(arr, diff))

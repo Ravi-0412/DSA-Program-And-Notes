@@ -58,5 +58,3 @@ def Heap_Sort(arr):
 
 # for deleting an element from the heap
 
-    
-

@@ -1,24 +1,60 @@
-def NoOfSubsets(N, arr, sum):
-    # 1st initialse the matrix properly, little diff from subset sum
-    # or you can do by same way lik esubset sum as python treat 'False =0'
-    # and 'True=1' only
-    dp= [[0 for i in range(sum+1) ] for i in range(N+1)]
-    for i in range(N+1):
-        for j in range(sum+1):
-            if j==0:
-                dp[i][j]= 1
-    # exactyle same as subset sum          
-    for i in range(1,N+1):
-        for j in range(1,sum+1):
-            if arr[i-1]> j:  # no subset possible,just replace or with '+'
-                dp[i][j]= dp[i-1][j]
-            else: # subset possible including this ele + subset possible without including it
-                dp[i][j]= dp[i-1][j-arr[i-1]] + dp[i-1][j]
-    return dp[N][sum]
+# this will not give correct ans in all cases when val of array element < 1.
+# will give less number of count than the actual one
+
+# Bottom up Approach
+class Solution:
+    def isSubsetSum(self, N, arr, sum): 
+        dp= [[-1 for i in range(sum+1)] for i in range(N)]  # no need to go till 'N+1' as we are starting from  'N-1' 
+        return self.helper(N-1, arr, sum, dp)
+    
+    def helper(self, ind, arr, sum, dp):
+        if sum== 0:
+            return True
+        if ind== 0:
+            return arr[0]== sum
+        if dp[ind][sum] != -1: 
+            return dp[ind][sum]
+        if arr[ind]> sum:
+            dp[ind][sum]= self.helper(ind -1, arr, sum, dp)
+        else:   # arr[ind] <= sum
+            dp[ind][sum]= self.helper(ind -1, arr, sum- arr[ind], dp) or self.helper(ind -1, arr, sum, dp)
+        return dp[ind][sum]
 
 # arr= [1,2,3,3]
 # arr= [1,1,1,1]
-arr= [1,1,2,3]
+# arr= [1,1,2,3]
 # print(NoOfSubsets(4,arr,6))   
-print(NoOfSubsets(4,arr,4)) 
+# print(NoOfSubsets(4,arr,4)) 
 
+
+# correct one that will work in all cases
+# can also do by bottom up approach by initialising the dp matrix with these base condition
+class Solution:
+    def NoOfSubsets1(self, N, arr, sum): 
+        dp= [[-1 for i in range(sum+1)] for i in range(N)]  # no need to go till 'N+1' as we are starting from  'N-1' 
+        return self.helper(N-1, arr, sum, dp)
+    
+    def helper(self, ind, arr, sum, dp):
+        if ind== 0:
+            if sum== 0 and arr[0]== 0:
+                return 2
+            if sum==0 or sum== arr[0]: # in actual sum== 0 and arr[0] != 0 or sum== arr[0]
+                return 1
+            else:
+                return 0
+        if dp[ind][sum] != -1: 
+            return dp[ind][sum]
+        if arr[ind]> sum:
+            dp[ind][sum]= self.helper(ind -1, arr, sum, dp)
+        else:   # arr[ind] <= sum
+            dp[ind][sum]= self.helper(ind -1, arr, sum- arr[ind], dp) +  self.helper(ind -1, arr, sum, dp)
+        return dp[ind][sum]
+
+# arr= [1,2,3,3]
+arr= [0, 0, 0, 1]
+# arr= [1,1,1,1]
+# arr= [1,1,2,3]
+ob= Solution()
+# print(ob.NoOfSubsets1(4,arr,6))   
+# print(ob.NoOfSubsets1(4,arr,4))
+print(ob.NoOfSubsets1(4,arr,1))

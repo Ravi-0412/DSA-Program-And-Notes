@@ -1,3 +1,28 @@
+# method 1: Memoization
+class Solution:
+    def change(self, amount: int, coins: List[int]) -> int:
+        # just exactly same as ' count no of subsets with a given sum'
+        # just write the logic of unbounded kanpsack when we include any else:
+        # here we don't need to make the weight array like 'cutting rod problem' 
+        # acc to the q we will increase/ decrease the no of variable
+        N= len(coins)
+        dp= [[-1 for i in range(amount +1)] for i in range(N +1)]   
+        return self.helper(N, coins, amount, dp)
+    def helper(self, n, arr, sum, dp):
+        if sum== 0:
+            return 1
+        if n== 0:
+            return 0
+        if dp[n][sum] != -1: 
+            return dp[n][sum]
+        if arr[n -1]> sum:
+            dp[n][sum]= self.helper(n -1, arr, sum, dp)
+        else:   # arr[n -1] <= sum
+            dp[n][sum]= self.helper(n, arr, sum- arr[n-1], dp) + self.helper(n -1, arr, sum, dp)
+        return dp[n][sum]
+
+
+# method 2: Bottom up Approach
 class Solution:
     def change(self, amount: int, coins: List[int]) -> int:
         return self.NoWays(len(coins),coins,amount)

@@ -9,7 +9,7 @@ class Solution:
     def helper(self, n, arr, sum, dp):
         if sum== 0:
             return True
-        if n== 0:
+        if n== 0:  # means n== 0 and sum != 0
             return False
         if dp[n][sum]!= -1:
             return dp[n][sum]

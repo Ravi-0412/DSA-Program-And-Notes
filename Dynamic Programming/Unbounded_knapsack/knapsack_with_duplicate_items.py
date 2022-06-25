@@ -16,18 +16,22 @@ class Solution:
 
 
 # method2: By memoization
-# corect only but giving TLE
+# corect only but two test cases not passing, have to see later
 class Solution:
     def knapSack(self, N, W, val, wt):
-        dp= [[-1 for i in range(W+1)] for i in range(N+1)]
+        dp=[[-1 for j in range(W + 1)] for i in range(N +1)]  # initialising the answer matrix  
+        ans= self.helper(N,W,val,wt,dp)
+        # print(dp)
+        return ans
+    def helper(self,N,W,val,wt,dp):
         if N==0 or W==0:
             return 0
         if dp[N][W]!= -1:
             return dp[N][W]
         if wt[N-1]<= W:
-            dp[N][W]= max(val[N-1]+ self.knapSack(N,W- wt[N-1],val,wt), self.knapSack(N-1,W,val, wt))
+            dp[N][W]= max(val[N-1]+ self.helper(N,W- wt[N-1],val,wt,dp), self.helper(N-1,W,val, wt,dp))
         else:
-            dp[N][W]= self.knapSack(N-1,W,val, wt)
+            dp[N][W]= self.helper(N-1,W,val, wt,dp)
         return dp[N][W]
 
 

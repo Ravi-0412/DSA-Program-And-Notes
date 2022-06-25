@@ -1,3 +1,41 @@
+# method 1: Recursive way
+class Solution:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        ans= 0
+        m, n= len(text1), len(text2)
+        return self.LCS(m, n, text1, text2)
+    def LCS(self, m, n, s1, s2):
+        ans= 0
+        if m==0 or n==0:
+            return 0
+        elif s1[m -1] == s2[n -1]:
+            SmallAns= 1+ self.LCS(m-1, n-1, s1, s2)
+            ans= ans+ SmallAns
+        else: # s1[m -1] == s2[n -1]
+            SmallAns= max (self.LCS(m, n-1, s1, s2), self.LCS(m-1, n, s1, s2))
+            ans= ans+ SmallAns
+        return ans
+
+# method 2: memoization
+class Solution:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        ans= 0
+        m, n= len(text1), len(text2)
+        dp= [[-1 for i in range(m+1)]for i in range(n+1)]
+        return self.LCS(m, n, text1, text2, dp)
+    def LCS(self, m, n, s1, s2, dp):
+        ans= 0
+        if m==0 or n==0:
+            return 0
+        if dp[n][m]!= -1:
+            return dp[n][m]
+        elif s1[m -1] == s2[n -1]:
+            dp[n][m]= 1+ self.LCS(m-1, n-1, s1, s2,dp)
+        else: # s1[m -1] == s2[n -1]
+            dp[n][m]= max (self.LCS(m, n-1, s1, s2,dp), self.LCS(m-1, n, s1, s2,dp))
+        return dp[n][m]
+
+# method 3:
 def longestCommonSubstr(S1, S2, n, m):
     dp= [[0 for j in range(m+1)] for i in range(n+1)]
     final= 0 #this will store the maximum common substring till any point

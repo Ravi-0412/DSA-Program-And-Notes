@@ -1,4 +1,4 @@
-# logic: jusr reverse the string and find lcs of actual and reversed string
+# logic: just reverse the string and find lcs of actual and reversed string
 # lcs will be our final ans as for palindrome reading from both sides will be same
 # so the subsequence in one must be there in other also
 # and largest subsequence will be our ans

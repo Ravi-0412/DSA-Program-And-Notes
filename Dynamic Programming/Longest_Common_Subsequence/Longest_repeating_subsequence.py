@@ -5,7 +5,26 @@
 # but we have to count repeating char only 
 #  and take max of other two like we used to case of unequal one
 
+# method 1: memoized 
+# class Solution:
+#     def LongestRepeatingSubsequence(self, str):
+# 	n= len(str)
+#         dp= [[-1 for i in range(n+1)]for i in range(n+1)]
+#         return self.LCS(n, n, str, str, dp)
+    
+#     def LCS(self, m, n, s1, s2, dp):
+#         if m==0 or n==0:
+#             return 0
+#         if dp[n][m]!= -1:
+#             return dp[n][m]
+#         elif s1[m -1] == s2[n -1] and m!= n:  # this will mean that there exist the same char somewhere in the given string
+#             dp[n][m]= 1+ self.LCS(m-1, n-1, s1, s2,dp)
+#         else: # s1[m -1] == s2[n -1] and this will cover the above if also when i==j and when s1[i-1]!=s2[j-1]
+#             dp[n][m]= max (self.LCS(m, n-1, s1, s2,dp), self.LCS(m-1, n, s1, s2,dp))
+#         return dp[n][m]
 
+
+# method 2: To print the string also
 def LongestRepeatingSubsequence(s1):
     x=y= len(s1)
     dp= lcs(x,x,s1,s1)
@@ -38,4 +57,30 @@ def lcs(x,y,s1,s2):
     return dp
 
 LongestRepeatingSubsequence("AABEBCDD")
-# LongestRepeatingSubsequence("aabb")
+LongestRepeatingSubsequence("aabb")
+LongestRepeatingSubsequence("axbxcxdx")  
+
+
+# my approach to print the string
+# class Solution:
+#     def LongestRepeatingSubsequence1(self, str):
+# 	    n = len(str)
+# 	    length, string= self.LCS(n, n, str, str)
+# 	    print("length of longest repeaing subsequence is: ", length)
+# 	    print("longest repeaing subsequence is: ", string)
+# 	def LCS(self,x,y,s1,s2):
+# 	    dp= [[0 for j in range(y+1)] for i in range(x+1)]
+# 	    ans= ""
+# 	    for i in range(1,x+1):
+# 	        for j in range(1,y+1):
+# 	            if s1[i-1]== s2[j-1] and i!= j:
+# 	                ans+= s1[i-1]   # when you will print then this will give incorrect ans due to else condition
+# 	                dp[i][j]= 1+ dp[i-1][j-1]
+# 	            else:
+# 	                dp[i][j]= max(dp[i-1][j], dp[i][j-1])
+# 	    # print(ans)
+# 	    return dp[x][y], ans
+
+# ob= Solution()
+# ob.LongestRepeatingSubsequence1("aabebcdd")
+# ob.LongestRepeatingSubsequence1("axbxcxdx")

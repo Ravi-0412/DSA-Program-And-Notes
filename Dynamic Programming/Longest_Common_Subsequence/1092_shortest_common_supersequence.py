@@ -1,10 +1,9 @@
 # will print length of shortest common supersequence
 # logic: lcs will be common in both the string for sure
 # so just add the length of given string and minus
-# the length of the lcs to get the ans
-# as you can delete only the common char not any extra char
-# after deleting lcs after merging both the strings, you will be
-# left with minimal string that will contain the both the given string as subsequences within it
+# the length of the lcs to get the 'length of shortest common supersequence'
+
+
 def shortestCommonSupersequence(x,y,s1,s2):
         lcs_length= lcs(x,y,s1,s2)
         return x+y-lcs_length
@@ -30,4 +29,40 @@ print("the length of shortest common supersequence is: ")
 print(shortestCommonSupersequence(x,y,s1,s2))
 
 
-# best one: will give the possible supersequences
+# to print the string 'shortest common supersequence'
+class Solution:
+    def shortestCommonSupersequence(self, str1: str, str2: str) -> str:
+        x,y= len(str1), len(str2)
+        i,j, ans= x,y, ""
+        dp= self.lcs(x,y,str1,str2)
+        print(dp)
+        while(i>0 and j>0):
+            if str1[i-1]== str2[j-1]:
+                ans= str1[i-1] + ans
+                i, j= i-1, j-1
+            elif dp[i][j-1]> dp[i-1][j]:  # in equal case only writing one of the string
+                    ans= str2[j-1] + ans
+                    j-= 1
+            # and in unequal cases only writing everytime in direction we will move
+            else:
+                ans= str1[i-1] + ans
+                i-= 1
+        # now write the remaining string if left any
+        while(i>0):
+            ans= str1[i-1] + ans
+            i-= 1
+        while(j>0):
+            ans= str2[j-1] + ans
+            j-= 1  
+        return ans
+            
+    def lcs(self,x,y,s1,s2):
+        dp= [[0 for j in range(y+1)] for i in range(x+1)]
+        for i in range(1,x+1):
+            for j in range(1,y+1):
+                if s1[i-1]== s2[j-1]:
+                    dp[i][j]= 1+ dp[i-1][j-1]
+                else:
+                    dp[i][j]= max(dp[i-1][j], dp[i][j-1])
+        return dp
+

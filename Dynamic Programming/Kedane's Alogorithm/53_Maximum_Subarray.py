@@ -3,6 +3,7 @@
 
 def maxSubArray(self, nums: List[int]) -> int:
     max_sum, n= -inf, len(nums)
+    # finding ṭhe sum of all the possible subarrays
     for i in range(n):
         curr_sum= 0
         for j in range(i,n):  # this will handle the case of single ele also
@@ -61,5 +62,17 @@ def maxSubArray(self, nums: List[int]) -> int:
         return max_sum
 
 
+# this i did as revision time on 11/07/2021
+# just same logic as method 3 and 4 even 2 is same only
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        curr_sum, max_sum= 0, -9999999999
+        for num in nums:
+            if curr_sum< 0 and curr_sum< num:  # if curr sum is negative and less than current ele then make curr_sum= curr_element as thsi will only lead to max_sum
+                curr_sum= num 
+            else: 
+                curr_sum+= num
+            max_sum= max(curr_sum, max_sum) 
+        return max_sum
 
 

@@ -28,10 +28,10 @@ class Solution:
         # what ever node we will pass in function, it will reverse all node from that node till end
         pre,current,first= None,head,head 
         while current:
-            first= current.next  # storing the value of current.next to initialise(incr) current with first later
-            current.next= pre    # chnaging the direction of current.next
-            pre= current        # initi to change the direction of current in next step
-            current= first      # move current one step forward
+            first= current.next  # you need to store current.next somewhere so that after reversing current ele , current point to his next to reverse that also
+            current.next= pre    # change the direction of current ele i.e point to the ele before it
+            pre= current        # we have to store current somewhere so that next time reversed ele point to this 
+            current= first      # move current one step forward 
         return pre              # at last pre will point to the 1st node in reverse list
                                 # and current and first will point to None
 

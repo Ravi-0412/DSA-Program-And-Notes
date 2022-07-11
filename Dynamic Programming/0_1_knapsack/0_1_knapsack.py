@@ -19,7 +19,7 @@ class Solution:
 class Solution:
     #Function to return max value that can be put in knapsack of capacity W.
     def knapSack(self,W, wt, val, n):
-        dp=[[0   for j in range(W+1)] for i in range(n+1)]  # initialising the answer matrix  
+        dp=[[-1 for j in range(W+1)] for i in range(n+1)]  # initialising the answer matrix  
         ans= self.helper(W,wt,val,n,dp)
         print(dp)
         return ans

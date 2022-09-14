@@ -1,6 +1,6 @@
-def Heapify(arr,n,i):   # 'i': index of root node of the subtree
+def Heapify(arr,n,i):   # 'i': index of root node of the subtree, n denotes no of element in the subtree
     largest= i  # intialise largest as root(parent)
-    l= 2*i +1   # left child postion of root
+    l= 2*i +1   # left child postion of root (index is starting from 0)
     r= 2*i +2   # right child position of root
     if(l<n and arr[l]>arr[largest]):
         largest= l   # if left child is greater than root then make it largest
@@ -14,7 +14,7 @@ def Heapify(arr,n,i):   # 'i': index of root node of the subtree
 
 def Build_Max_Heap(arr):
     k= int(len(arr)/2) - 1      # loop goes only upto (n/2 -1) because after this
-                                # position there will be no child of any element
+                             # position there will be no child of any element i.e start from last non-leaf node
     for i in range(k,-1,-1):
         Heapify(arr,len(arr),i)
     print("max heap is: ", arr)
@@ -24,10 +24,10 @@ def Heap_Sort(arr):
     n= len(arr)
     Build_Max_Heap(arr)
     # one by one extract(delete) an element from the heap
-    for i in range(n-1,0,-1):
+     for i in range(n-1,0,-1):  # going till index '1' only because at last 0th ele will get sorted automatically
         # move the current root to the last
 		# by this will largest element will go to the end and finally we will get sorted array
-        arr[i] ,arr[0]= arr[0],arr[i]
+        arr[i] ,arr[0]= arr[0],arr[i]  # now one element is sorted i.e last ele went to last index
         Heapify(arr,i,0)  # again call heapify after each swap to maintain property of max heap
 
 

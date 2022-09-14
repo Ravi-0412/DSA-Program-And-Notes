@@ -25,10 +25,7 @@ class Solution:
                         stack.pop()
                     else:
                         return False
-        if stack[-1]== 0:  # means no extra char remaining in stack 
-            return True
-        else:
-            return False
+        return stack[-1]== 0  # means no extra char remaining in stack 
 
 
 # method 2: concise one
@@ -47,7 +44,7 @@ class Solution:
                 stack.append('}')
             elif s[i]== '[':
                 stack.append(']')
-            elif stack== [0] or  stack.pop()!= s[i]: # if stack is empty or current char
+            elif stack.pop()!= s[i]: # if stack is empty or current char
                                                     # is not equal to ele on top of the stack
                                                     # then it means not valid
                 return False
@@ -55,19 +52,20 @@ class Solution:
                             # then valid otherwise not
 
 
- # method 3: using dictionary
- class Solution:
-        def valid(self, s): 
-        stack= [0] 
-        # use the dictionary and map the valid parenthesis
-        hashmap= {'(': ')', '{': '}', '[': ']')
-        for c in s:
-            # if opening braces come then push
-            if c in hashmap:
-                stack.append(c)
-            else: # if closing brace comes then map the ele on top of the stack after poping
-                  # if not equal to the current character then false
-                if hashmap[stack.pop()]!= c: return false
-        # at last check for stack content ,if like before then
-        # true otherwise false
-        return stack== [0]
+# method 3: using dictionary
+# just sam3 logic as method 2
+def valid(self, s): 
+    stack= [0] 
+    # use the dictionary and map the valid parenthesis
+    hashmap= {'(': ')', '{': '}', '[': ']'}
+    for c in s:
+        # if opening braces come then push
+        if c in hashmap:
+            stack.append(c)
+        else: # if closing brace comes then map the ele on top of the stack after poping
+              # if not equal to the current character then false
+            if hashmap[stack.pop()]!= c: return False
+    # at last check for stack content ,if like before then
+    # true otherwise false
+    return stack== [0]
+

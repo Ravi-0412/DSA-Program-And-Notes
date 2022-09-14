@@ -1,4 +1,6 @@
-# just the same way we can earn max profit in stocks by holding and selling on estock at a time
+# just the same way we can earn max profit in stocks by holding and selling one stock at a time
+# buy the stock on first day when price starts decreasing and sell the stock when on the last day(of increasing price) 
+# before start decreasing again. And repeat the same for max price
 # Time: O(n)
 
 def maxProfit(self, prices: List[int]) -> int:

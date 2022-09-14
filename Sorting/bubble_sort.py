@@ -21,9 +21,9 @@ def swap(arr,x,y):
 
 def bubble_sort(arr):
     n= len(arr)
-    already_sorted= 0
     for i in range(n):
-        for j in range(n-i-1):
+        already_sorted= 0
+        for j in range(n-i-1):  # as till 'i'th pass, 'i' element is already sorted at last
             if arr[j]> arr[j+1]:
                 swap(arr,j,j+1)
                 # arr[j],arr[j+1]= arr[j+1],arr[j]

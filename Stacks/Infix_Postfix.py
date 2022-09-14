@@ -31,9 +31,10 @@ class Solution:
             # if any operator comes
             # pop and output until you get one of the lower precedence than the current operator : exp[i] 
             # because higher precednce operator have to be evaluated first
-            # or you stack becomes empty or until left parenthesis is encountered
+            # so pop and output until stack becomes empty or left parenthesis is encountered
             
-            #due to below two lines  i was gettingh error again and again i)i had written con: stack[-1]!='(' 
+            
+            #due to below two lines  i was gettingh error again and again), i had written con: stack[-1]!='(' 
             # at last so when stack[-1]= '(' there was no map in dic for '('
             # since '^' is right associative but i was treating '^' as left associative only and was giving error 
             # for more than one consecutive '^' operator

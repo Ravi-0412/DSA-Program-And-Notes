@@ -4,17 +4,18 @@
 def maxProfit(self, prices: List[int]) -> int:
         # you are allowed to buy and sell only one time
         # using two pointer approach
-        # left pointer will tell buying day and write pointer will tell the selling day
+        # left pointer will tell buying day and right pointer will tell the selling day
         left, right, profit, n= 0, 1, 0, len(prices)
         # We always want our left pointer to be minimum
         while right< n:
             if prices[left] >= prices[right]:
-                # then make the left point to right and incr right by 1
-                left, right= right, right+1
+                # then make the left point to right
+                left= right
             else:  # prices[right]> prices[left]
                 # then only incr the right pointer by 1 as we are geeting profit
                 profit= max(profit, prices[right]- prices[left])
-                right= right+1
+            # right will always increment by 1
+            right= right+1
         return profit 
 
 
@@ -31,6 +32,22 @@ def maxProfit(self, prices: List[int]) -> int:
             # now update the ans
             ans= max(ans, profit_if_sold_today)
         return ans
+
+
+# this i did at revision time(12/07/2022)
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        curr_max, max_profit, least_so_far= 0, 0, prices[0]
+        # least_so_far will always store the minimum price among all till now
+        for num in prices:
+            if num< least_so_far:  # if curr price is less than min till now then store make curr ele as least_so_far
+                least_so_far= num
+                curr_max= 0   # and update curr_max = 0 as buying day will this only for max profit
+            else:
+                curr_max= num- least_so_far  # calculate the curr_max
+            max_profit= max(curr_max, max_profit)  # update the max_profit always
+        return max_profit
+
 
 
 

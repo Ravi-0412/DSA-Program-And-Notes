@@ -1,4 +1,4 @@
-
+# method 1:
 def insertion_sort(arr):
     n= len(arr)
     for i in range(1,n):
@@ -10,12 +10,13 @@ def insertion_sort(arr):
         arr[j+1]= temp
 
 
-lst= []
-n= int(input("enter the number of elements \n")) 
-print("enter the elements")   
-for i in range(n):
-    ele= int(input())
-    lst.append(ele)
+# lst= []
+# n= int(input("enter the number of elements \n")) 
+# print("enter the elements")   
+# for i in range(n):
+#     ele= int(input())
+#     lst.append(ele)
 
-insertion_sort(lst)
-print(lst)
+arr = [12, 11, 13, 5, 6]
+insertion_sort(arr)
+print(arr)

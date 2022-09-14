@@ -7,7 +7,7 @@ class Graph:
         self.pred= [-1]*n
         self.adjMatrix= []
         for i in range(n):
-            self.adjMatrix.append([0 for i in range(n)])  # intilaise all ele with '0'
+            self.adjMatrix.append([0 for i in range(n)])  # intilaise all ele with '0' and creating a matrix
     # add the add
     def addEdge(self,v1,v2):
         if v1==v2:
@@ -32,7 +32,7 @@ class Graph:
     def BFS(self,s):   # s: starting vertex
         # first store adjacent of all vertices into a dictionary
         graph= defaultdict(list)  # will contain the vertices mapped with their adjacent vertices
-                                  # values will be in the list
+                                  # values(adjacent vertices) will be in the list
         for i in range(self.size):
             for j in range(self.size):
                 if self.adjMatrix[i][j]== 1:

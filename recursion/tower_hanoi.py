@@ -1,3 +1,5 @@
+
+# Solution:
 # the tower from which you are moving the disc that will the source
 # and to which you are moving that will be the destination
 # and tower that will be remaining at any moment that will work as helper

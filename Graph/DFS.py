@@ -10,6 +10,7 @@ class Graph:
         self.last_time_visited= [0]*n
         self.graph= defaultdict(list)
     
+    # for directed graph
     def add_edge(self,u,v):
         self.graph[u].append(v)
 
@@ -44,4 +45,5 @@ g.add_edge(3,1)
 g.add_edge(4,3)
 g.add_edge(4,5)
 g.add_edge(5,5)
+print(g.graph)
 g.DFS()

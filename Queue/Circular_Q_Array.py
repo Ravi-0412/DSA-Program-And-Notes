@@ -9,11 +9,11 @@ class CircularQ:
         # check if full
         if self.front== (self.rear +1)% self.size:
             print("queue is full")
-        elif self.front== -1:   # if empty
+        elif self.front== -1:   # if empty  OR self.front== self.rear== -1
             self.front, self.rear= 0,0   # make both '0'
             self.arr[self.rear]= data
         else:
-            self.rear= (self.rear+1)%self.size
+            self.rear= (self.rear+1)%self.size   # to handle the case when rear is pointing to last index and we have space at starting indices
             self.arr[self.rear]= data
     
     def Dequeue(self):
@@ -30,7 +30,7 @@ class CircularQ:
         else:
             temp= self.arr[self.front]
             self.arr[self.front]= None
-            self.front= (self.front+1)%self.size
+            self.front= (self.front+1)%self.size  # to handle the case when front is pointing to last index and rear to starting indices
             print("element deleted is: ",temp)
 
     def show(self):

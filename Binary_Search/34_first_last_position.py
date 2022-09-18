@@ -90,6 +90,7 @@ print(searchRange(nums1,0))
 #         return ans
     
 #     def search(self,nums,target,findStartIndex):
+          # if findStartIndex== 1, it means we are finding the first position if '0' means we are finding the last position
 #         ans= -1
 #         start= 0
 #         end= len(nums)-1

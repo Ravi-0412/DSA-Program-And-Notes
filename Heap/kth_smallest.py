@@ -5,7 +5,7 @@
 
 
 # 2nd method: sort the elements and return the 'arr[k-1]'
-# time: O(n^2)
+# time: O(nlogn)
 arr=[1,3,5,7,9,2]
 k=2
 arr.sort()

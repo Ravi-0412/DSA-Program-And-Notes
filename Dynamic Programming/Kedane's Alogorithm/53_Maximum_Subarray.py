@@ -3,7 +3,7 @@
 
 def maxSubArray(self, nums: List[int]) -> int:
     max_sum, n= -inf, len(nums)
-    # finding ṭhe sum of all the possible subarrays
+    # finding ṭhe sum of all the possible subarrays starting from each index 
     for i in range(n):
         curr_sum= 0
         for j in range(i,n):  # this will handle the case of single ele also

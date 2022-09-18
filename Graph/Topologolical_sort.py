@@ -5,7 +5,8 @@
 # why came with DFS? 
 # Ans: as DFS go deeper and deeper and we need to print the node with lesser outorder vertices first
 # means stop at node with no adjacent node(no outgoing vertices as DAG will must contain at least one vertex with outgoing edge = 0 and incoming edge =0)
-#  and we have to print the vertex with no outgoing edge at last and that can be done 
+
+# i.e we have to print the vertex with no outgoing edge at last and that can be done 
 # while traversing back in case of DFS
 
 
@@ -26,6 +27,8 @@
 #                 self.FindTopoSort(adj, u, stack)  
 #         # while traversing back put the node into the stack and node with less no of outorder vertices 
 #         # will be kept first(as it will start traversing at this node only) so final ans will be the opposite of stack
+
+         # node with largest visiting time(or minimum finishing time) is pushed first when there is no further adjacent node is there which has not been visited
 #         stack.append(src)
 
 #     def TopoSort(self,n, adj):
@@ -33,8 +36,7 @@
 #         for i in range(n):
 #             if not self.visited[i]:
 #                 self.FindTopoSort(adj,i,stack)
-
-#         while stack:
+#         while stack:  
 #             print(stack.pop(), end=" ")
 
 # g= Graph(6)
@@ -53,11 +55,13 @@
 # logic: use the concept of indegree as the node with indegree 0 will come at first and
 # node with more indegree will come later and so
 
+# This method can also be used to detect cycle in directed graph
+
 from collections import defaultdict
 class Graph:
     def __init__(self,n):
         self.V= n
-        # self.visited= [False]*n  # here no need of this as we are pushing on ele in stack and doing the operation on that
+        # self.visited= [False]*n  # here no need of this as we are pushing on ele in Q and doing the operation on that
         self.indegree= [0]*n
         self.AdjList= defaultdict(list)
     
@@ -88,7 +92,7 @@ class Graph:
                 if self.indegree[j]== 0:  # after decreasing if any node has indegree == 0 then put in the Q
                     Q.append(j)
 
-        if count!= self.V:
+        if count!= self.V:  # for checking the cycle in directed graph using BFS
             print("there exist a cycle in the graph")
         else:
             print(ans)

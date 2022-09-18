@@ -1,6 +1,7 @@
 # method 1: By DFS
-# it can't be done by one array and with parent logic because
-# the adjacent node of current vertex can also be visited other path but it may not be the cycle
+# it can't be done by one array and with parent logic(like undirected graph) because
+# the adjacent node of current vertex can also be visited by other path but it may not be the cycle
+#  because in directed graph is one directional (btw two vertex) unlike undirected graph
 
 # so here we will need two array one dfs_visited to check if the adjacent node of curr node is 
 # visited in current DFS call or not.
@@ -24,6 +25,7 @@ class Graph:
             if not self.visited[u]:
                 if self.DFS_Visit(adj, u):  # if for any component there is a cycle
                     return True
+            # if adjacent node is visited then check if that is visited in current cycle or not
             elif self.dfs_visited[u]==True:
                 return True
         # while traversing back(i.e curr node has no adjacent node) make dfs_visited of current node= False 
@@ -52,10 +54,11 @@ g.addEdge(5,4)
 g.addEdge(6,1)
 g.addEdge(6,7)
 g.addEdge(7,8)
-g.addEdge(8,6)
+# g.addEdge(8,6)
 
 print(g.AdjList)
 print(g.isCycle(9,g.AdjList))
 
 
 # method 2: using BFS(kahn's Algorithm)
+# this is under topological sort (Method 2)

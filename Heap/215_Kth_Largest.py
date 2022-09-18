@@ -24,7 +24,9 @@ class Solution:
         return heap[0]
 
 
-# better one than all
+# better one than all: Using Quick Select
+# time: O(n)
+
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
         k= len(nums)-k   # if array is alreay sorted then you will get the ans at this index only
@@ -34,7 +36,7 @@ class Solution:
     
     def QuickSelect(self,nums,k,l,r):
         pivot= nums[r]   # selecting the last ele as pivot
-        p= l   # position where we will place in case ele is smaller than or equal to pivot
+        p= l   # position where we will place in case ele is smaller than or equal to pivot 
         #p will give the kth largest element
         # now find the proper position of pivot ele
         for i in range(l, r):   # will check from l to r-1(except pivot)

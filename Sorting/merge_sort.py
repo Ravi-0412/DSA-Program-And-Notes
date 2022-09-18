@@ -23,7 +23,7 @@ def merge(arr,low,mid,up):
         low2+=1
     j= low
     k= 0
-    while(j<up):
+    while(j<=up):
         arr[j]= b[k]
         j+= 1
         k+= 1

@@ -4,7 +4,7 @@ def binary_search(arr,key):
     low=0
     up= n-1
     while(low<= up):
-        mid= (low+up)//2
+        mid= low+ (up-low)//2
         if arr[mid]== key:
            print("element is present at index: ",mid)
            break

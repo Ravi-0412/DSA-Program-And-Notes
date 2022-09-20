@@ -1,0 +1,22 @@
+# time: O(n)
+
+class Solution:
+    def singleNumber(self, nums: List[int]) -> List[int]:
+        x1= 0
+        for num in nums:
+            x1^= num
+        # x1 will contain the xor of two number which is not repeating
+        # now we have find the two non repeating no
+        rightmost_set_bit= x1 & (-x1)  # at this position of set bit the no of ele with bit set must be odd and no ele with bit not set must be also odd only
+        # using this set bit at rightmost position we can divide the array into two parts
+        # both the non repeating no will lie in diff part as both of their bit can't be set at that position and xor in both the diff gr will give the ans
+        num1,num2= 0,0
+        for i in range(len(nums)):
+            # 1st: if bit set then and will be >0 (and no of such number will be odd only) 
+            if rightmost_set_bit & nums[i]: 
+                num1^= nums[i]
+            else:  # 2nd: if bit not set then and will be ==0 (and no of such number will be odd only)
+                num2^= nums[i]
+        return [num1,num2]
+
+    

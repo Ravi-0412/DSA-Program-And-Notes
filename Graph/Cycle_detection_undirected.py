@@ -1,6 +1,6 @@
-# # can detect cycle even graph is given as component
-# # method 1 : using BFS
-# # time complexity is same as BFS
+# can detect cycle even graph is given as component
+# method 1 : using BFS
+# time complexity is same as BFS
 
 # # logic: if adjacent node of any vertex is already visited and if it is not parent then there is a cycle 
 #  because if that is not parent and already visited then there must be another path also for reaching that adjacent node and 

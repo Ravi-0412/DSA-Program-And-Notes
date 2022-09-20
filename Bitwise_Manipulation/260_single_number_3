@@ -19,4 +19,30 @@ class Solution:
                 num2^= nums[i]
         return [num1,num2]
 
+
+# just another way of finding 2nd number
+# logic: as x1 will contain xor of two non repeating number
+# so after getting 1st number , we can do xor of 1st no with x1 to get the 2nd no
+class Solution:
+    def singleNumber(self, nums: List[int]) -> List[int]:
+        x1= 0
+        for num in nums:
+            x1^= num
+        rightmost_set_bit= x1 & (-x1)
+        num1= 0
+        for i in range(len(nums)):
+            if rightmost_set_bit & nums[i]:
+                num1^= nums[i]
+        return [num1,num1^ x1]
+
+
+# shorter version of above one
+class Solution:
+    def singleNumber(self, nums: List[int]) -> List[int]:    
+        x1= reduce(xor, nums)
+        rightmost_set_bit= x1 & (x1-1) ^x1  # or x1 ^ (-x1)
+        num1= reduce(xor,filter(lambda x: x & rightmost_set_bit, nums))
+        return (num1, num1^ x1)
+
+
     

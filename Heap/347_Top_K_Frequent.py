@@ -11,6 +11,7 @@ class Solution:
             else:
                 hashmap[num]+= 1
         # now make a min heap with freq as first ele and key of dict as second ele
+        # when we push more than one ele in heap, it create the min/max heap acc to the 1st ele(1st pushed ele)
         for ele in hashmap:
             heapq.heappush(heap, (hashmap[ele],ele))  # value and key is pushed
             if len(heap)>k:

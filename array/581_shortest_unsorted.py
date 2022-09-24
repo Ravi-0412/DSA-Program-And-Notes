@@ -17,7 +17,7 @@
 #             return  end-start+1
 
 
-# 2nd method- time: o(n), space= o(n)
+# 2nd method- time: o(nlogn), space= o(n)
 # def findUnsortedSubarray(self, nums: List[int]) -> int:
 #         n= len(nums)
 #         # copying the sorted 'nums' into another list temp

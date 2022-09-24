@@ -1,35 +1,6 @@
-# # 1st method(myslef): Brute force but haven't get accpeted due to time limit 
-# # but gives correct output for all cases
-# # this approach gives best case: o(n) when maximum element is last or 2nd last
-# # for above case there is no need of for loop
-# # and without 1st for loop , answer will be always correct, there is no need 
-# # of 1st for loop. just replace 'k' with '0' in arr[k:n-1] in 2nd for loop
-arr = [4,9,8,4,7]
-n= len(arr)
-#find the index of maximum element
-k=arr.index(max(arr))
-#arr[n-1]= -1  # writing here this will lead to wrong answer 
-#replacing every element on left side of maximum value with maximum value
-for i in range(0,k):
-    if(i!= n-1):
-        arr[i]= arr[k]
-#replacing every element from maximum element to n-2(except last) 
-# index element with greatest element on their right side
-for num in arr[k:n-1]:
-    # print(arr[k])
-    greatest= -1000000
-    j=k+1
-    while(j<=n-1):
-        if(arr[j]>=greatest):
-            greatest= arr[j]
-        j+= 1
-    arr[k]= greatest
-    k+= 1
-arr[n-1]= -1
-print(arr)
 
 
-# # 2nd method(normal brute force): modified of 1st methode(commented lines)
+# # 1st method(normal brute force): modified of 1st methode(commented lines)
 # arr = [4,9,8,4,7]
 # n= len(arr)
 # k=0
@@ -70,69 +41,60 @@ print(arr)
 #         return arr
 
 
-# 2nd method- time: o(n), space= o(n)
+# 2nd method- time: o(n), space= o(1)
+# very better solution
 # logic: tranverse from right to left and store the element with max_ele_seen_so_far
-# comparing the element while iterating
-# and replace the iterating element with max_ele_seen_so_far
+# comparing the element in max_seen_so_far
+# max_seen_so_far will contain the maximum ele seen till now from right side
+# and replace the iterating element with max_ele_seen_so_far as we are traversing from right to left
 
 arr = [17,18,5,4,6,1]
 n= len(arr)
 max_ele_seen_so_far= arr[n-1]
 arr[n-1]= -1
 for i in range(n-2,-1,-1):
-    temp=arr[i]
+    temp=arr[i]  # to comapre arr[i] with max_ele_seen_so_far after updating arr[i]
     arr[i]= max_ele_seen_so_far
     if(temp>=max_ele_seen_so_far):
         max_ele_seen_so_far= temp
 print(arr)
 
-# another method:
-def LargerElement(arr,n):
-    stack= [] # will store the maximum ele from right side till now
-            # stack will contain exactly opne or no ele always
-    ans= []
-    for i in range(n-1,-1,-1):
-        if stack== []:  # since we are poping in above steps so we have to check for empty stack
-                        # empty stack means either it is the largest ele or the last ele
-            ans.append(-1)
-            stack.append(arr[i])
-        elif stack[-1]> arr[i]:  
-            ans.append(stack[-1])
-        else: # means new greater ele found
-            ans.append(-1)
-            stack.pop()
-            stack.append(arr[i])
-    # now print the ans in reverse to get the ans
-    for i in range(n-1,-1,-1):
-        print(ans[i], end=" ")
+
 
 # another way of writing above code
-# just exactly same code as replacing by nextLargerElement in right 
-# just we have commented one line in 'else' condition of that code
+# mostly same code and logic is totally same as "replacing by nextLargerElement in right" 
+# just uncomment the three lines in the code 
 
-def LargestRight(arr,n):
-    stack= [] # will store the all the larger ele till index 'i'
-              # no maximum then it will become empty
-    ans= []
-    # traverse the array from right to left
-    for i in range(n-1,-1,-1):
-        while(stack and stack[-1]<= arr[i]):
-                stack.pop()
-        if stack== []:  # since we are poping in above steps so we have to check for empty stack
-                        # empty stack means either it is the largest ele or the last ele
-            ans.append(-1)
-            stack.append(arr[i])
-        else:  # means stack top is greater than arr[i]
-            ans.append(stack[-1])
-            # stack.append(arr[i])  # after uncommenting it will give ans for nextgreater ele on right
-    for i in range(n-1,-1,-1):
-        print(ans[i], end=" ")
+class Solution:
+    def replaceElements(self, arr: List[int]) -> List[int]:
+        n= len(arr)
+        stack= [arr[n-1]] # will store the all the larger ele till index 'i'
+        # since we have to compare with last ele so we pushed last ele into the stack
 
-arr= [0,1,8,3,2,4,6,7]
-LargestRight(arr,8)
+        ans= [-1]  # for last ele it will be '-1' only
+        # traverse the array from right to left
+        last_poped= 0  # will store the last poped ele
+        for i in range(n-2,-1,-1):
+            # run the loop till you get any ele greater than curr ele or stack becomes empty
+            while(stack and stack[-1]<= arr[i]):
+                    # stack.pop()    # only this was fine for 'nextgreater ele on right'
+                    last_poped= stack.pop()
+            if stack== []:  # since we are poping in above steps so we have to check for empty stack
+                            # empty stack means either it is the largest ele till now
+                            # so ans will be 'last_poped'
+                ans.append(last_poped)
+                # ans.append(-1)      # this was needed in case of 'next greater ele' as if there is no max ele ele on RHS return -1
+                stack.append(arr[i])
+            else:  # means stack top is greater than arr[i]
+                ans.append(stack[-1])
+                # stack.append(arr[i])  # uncomment this for nextgreater ele on right as the curr ele can be next greater for incoming ele
+
+        # now reverse the ans to get the actual ans 
+        return ans[::-1]
 
 
-# another method: better one-concise way of above methods (16/04/2022)
+# another method: better one-concise way of above methods(stack one) (16/04/2022)
+# just same logic as 2nd method 
 # traverse from right to left and only store the maximum ele in the stack 
 # i.e stack will contain only one ele always at any point 
 class Solution:

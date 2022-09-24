@@ -37,15 +37,15 @@ class Solution:
         n= len(nums)
         middle= math.floor(n/2)
         cnt=0
-        global m      # m storing elements with maximum frequency
+        global m      # m storing elements with maximum frequency ele till any index
         for i in range(n):
-            if cnt==0:
+            if cnt==0:  # only update the m when count= 0 because if count!= 0 then it means m is the most occuring ele till that index
                 m= nums[i]  
                 cnt+= 1
             else:
-                if m==nums[i]:
+                if m==nums[i]:  # if m and array ele is same then increase the count by 1 
                     cnt+= 1
-                else:
+                else:  # else decrease the count by 1
                     cnt-= 1
 # now check the no of occurences of the elemnet that has occured most no of times
 # if greater than middle then 'm' is majority element
@@ -56,8 +56,11 @@ class Solution:
                     
 
 
-# leetcode 3rd method(if given majority elements always exist)
+# if given majority elements always exist and array is sorted
 # in this case middle index must be the index of majority element
+# in this case, time: O(1), just return the middle ele 
+
+# but here we are sorting then returning the mid ele so, time: 0(nlogn)
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
         nums.sort()

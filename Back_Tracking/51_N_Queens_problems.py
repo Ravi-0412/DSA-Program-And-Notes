@@ -82,7 +82,7 @@ def Display(board):
     for row in board:
         print(row)
 
-# board= [['X' for j in range(4)] for i in range(4)]  # only create 2d array like this , never create by any other way
+# board= [['X' for j in range(4)] for i in range(4)]  # only create 2d array like this , never create by any other way(like a= [[0]*n]*n) due to this only i was getting wrong ans
 board= [['X' for j in range(5)] for i in range(5)]
 print(NQueens(board,0))
                 

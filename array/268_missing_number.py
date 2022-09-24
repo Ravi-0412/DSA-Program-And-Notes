@@ -1,5 +1,5 @@
 # o(n): 1st method
-
+# but this can overflow 
 n= int(input("enter the value of n \n"))
 lst= []
 for i in range(n-1):
@@ -21,20 +21,35 @@ def missing(n):
 missing(n)
 
 
-#leetcode solution(2nd method) : using XOR operation
-# class Solution:
-#     def missingNumber(self, nums: List[int]) -> int:
-#         n= len(nums)
-#         x1=0      # 1st time xor will happen with zero and this will
+# leetcode solution(2nd method) : using XOR operation
+# time: O(n)
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
+        n= len(nums)
+        x1=0      # 1st time xor will happen with zero and this will
                     # give that number itself no problem in init x1=0
-#         for i in range(n+1):
-#             x1= x1^i          
-#         x2=0
-#         for i in range(n):
-#             x2= x2^nums[i]
-        
-#         num=x1^x2
-#         return num
+
+        # 1st find the xor of all numbers in that range
+        for i in range(n+1):
+            x1= x1^i          
+        x2=0
+        for i in range(n):
+            x2= x2^nums[i]
+# now take xor of x1 and x2, no occuring two times will get wiped out and we will 
+# get the missing number since it will occur only one time including both traversal
+        num=x1^x2   # for ans take the cumulative xor not one by one
+        return num
+
+
+# my mikstake 
+        # but this logic is giving the incorrect ans after finding x1 don't know why
+        # x2=0
+        # while taking xor one by one, it is giving incorrect ans
+        # for i in range(n):
+        #     x2^= x1^nums[i]
+        # return x2
+    
+
 
 
 

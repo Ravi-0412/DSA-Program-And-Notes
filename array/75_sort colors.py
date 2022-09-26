@@ -1,4 +1,9 @@
-# 1st method:
+# 1st method is sorting
+# since you have arrange the ele in ascending order basically so sorting will always a solution
+# time: O(nlogn)
+
+
+# 2nd method:
 # just count the no of 0,1,2 & put the 0 first then 1 then 2 according to the the count value
 # 0 will come till index 'count0-1' and same for others
 class Solution:
@@ -19,7 +24,8 @@ class Solution:
         return nums
 
 
-# 2nd method(using double pointer)
+
+# 3rd method(using double pointer)
 # move the array 0 at front ,1 in the middle and 2 at the last
 # final goal is to make this 'low' and 'high' pointer points to 
 # 1st and last index of all consecutive 1's respectively

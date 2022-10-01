@@ -10,55 +10,58 @@
 # just count the no of times BFS is called that will be the ans
 
 
-# from collections import defaultdict
-# from collections import deque
-# class Graph:
-    # def __init__(self,n):
-#         self.V= n
-#         self.visited= [False]*n
-#         self.AdjList= defaultdict(list)
+from collections import defaultdict
+from collections import deque
+class Graph:
+    def __init__(self,n):
+        self.V= n
+        self.visited= [False]*n
+        self.AdjList= defaultdict(list)
     
-#     def addEdge(self,u,v):
-#         self.AdjList[u].append(v)
-#         self.AdjList[v].append(u)
+    def addEdge(self,u,v):
+        self.AdjList[u].append(v)
+        self.AdjList[v].append(u)
     
-#     def BFS(self, adj, src):
-#         Q= deque()
-#         while adding vertex to Q, add its parent node also
-#         Q.append((src, -1))
-#         while Q:
-#             (curr, parent)= Q.popleft()
-#             # print(curr, parent)
-#             for u in self.AdjList[curr]:
-#                 if self.visited[u]== False:
-#                     self.visited[u]= True
-#                     Q.append((u,curr))
-#                 elif u!= parent:  # u is not visited as well as not parent means cycle so return true
-#                     return True
-#         # return False
+    def BFS(self, adj, src):
+        Q= deque()
+        # while adding vertex to Q, add its parent node also
+        Q.append((src, -1))
+        while Q:
+            (curr, parent)= Q.popleft()
+            # print(curr, parent)
+            for u in self.AdjList[curr]:
+                if self.visited[u]== False:
+                    self.visited[u]= True
+                    Q.append((u,curr))
+                elif u!= parent:  # u is visited as well as not parent means cycle so return true
+                    return True
+        # return False   # no need of this line
 
-#     def isCycle(self,n, adj):
-#         for i in range(n):
-#             if self.visited[i]== False:
-#                 if self.BFS(adj,i):
-#                     return True      
-#         return False
+    def isCycle(self,n, adj):
+        for i in range(n):
+            if self.visited[i]== False:
+                self.visited[i]= True
+                if self.BFS(adj,i):
+                    return True
+        # if no component has cycle then return False     
+        return False
 
     
-# g= Graph(11)
-# g.addEdge(0,1)
-# g.addEdge(1,3)
-# g.addEdge(2,4)
-# g.addEdge(4,9)
-# g.addEdge(4,5)
-# g.addEdge(5,6)
-# # g.addEdge(5,8)
-# g.addEdge(9,8)
-# g.addEdge(8,7)
-# g.addEdge(6,7)
-# g.addEdge(7,10)
-# print(g.AdjList)
-# print(g.isCycle(11,g.AdjList))
+g= Graph(11)
+g.addEdge(0,1)
+g.addEdge(1,3)
+g.addEdge(2,4)
+g.addEdge(4,9)
+g.addEdge(4,5)
+g.addEdge(5,6)
+# g.addEdge(5,8)
+g.addEdge(9,8)
+g.addEdge(8,7)
+g.addEdge(6,7)
+g.addEdge(7,10)
+print(g.AdjList)
+print(g.isCycle(11,g.AdjList))
+print(g.visited)
 
 
 

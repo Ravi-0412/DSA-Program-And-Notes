@@ -26,7 +26,7 @@
 #             if not self.visited[u]:
 #                 self.FindTopoSort(adj, u, stack)  
 #         # while traversing back put the node into the stack and node with less no of outorder vertices 
-#         # will be kept first(as it will start traversing at this node only) so final ans will be the opposite of stack
+#         # will be kept first(as it will start traversing back at this node only) so final ans will be the opposite of stack
 
          # node with largest visiting time(or minimum finishing time) is pushed first when there is no further adjacent node is there which has not been visited
 #         stack.append(src)
@@ -56,6 +56,8 @@
 # node with more indegree will come later and so
 
 # This method can also be used to detect cycle in directed graph
+# just count the no of nodes added in the Q, if there will be cycle then count <n because  at some point 
+# there will not be any node whose indegree will be equal to '0' to put into the Q
 
 from collections import defaultdict
 class Graph:
@@ -77,6 +79,8 @@ class Graph:
 
     def FindTopoSort(self):
         Q, ans= [], []
+        # find the node with indegree '0' as this node will come 1st in the topological order
+        # i.e it will be the source node and after that apply the BFS
         for i in range(self.V):
             if self.indegree[i]==0: 
                 Q.append(i)
@@ -97,14 +101,20 @@ class Graph:
         else:
             print(ans)
         
+# test case 1
+# g= Graph(6)
+# g.addEdge(5,2)
+# g.addEdge(5,0)
+# g.addEdge(2,3)
+# g.addEdge(3,1)
+# g.addEdge(4,0)
+# g.addEdge(4,1)
 
-g= Graph(6)
-g.addEdge(5,2)
-g.addEdge(5,0)
-g.addEdge(2,3)
-g.addEdge(3,1)
-g.addEdge(4,0)
-g.addEdge(4,1)
+# test case 2
+g= Graph(3)
+g.addEdge(0,1)
+g.addEdge(1,2)
+g.addEdge(2,0)
 g.Indegree_count()
 g.FindTopoSort()
 

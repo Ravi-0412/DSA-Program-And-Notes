@@ -11,12 +11,12 @@ class Graph:
     
     def add_edge(self,s,d):  # s: source, d: destination
         # we are appending using insert first i.e we are inserting the destination first
-        # adding source to destination
+        # adding destination to source
         node= Node(d)
         node.next= self.graph[s]
         self.graph[s]= node  # now make that index of graph as destination node(insert at first)
         # since undirected so add links in other also
-        # add destination to source
+        # add  source to destination
         node= Node(s)
         node.next= self.graph[d]
         self.graph[d]= node

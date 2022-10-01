@@ -1,4 +1,4 @@
-# using min heap, time: 0(E*logV)
+# using min heap, time: 0(E*logV). Every edge will get relaxed exactly one time 
 # logic: same as Bfs only diff is we use here min_heap instead of Q with weight
 
 from collections import defaultdict

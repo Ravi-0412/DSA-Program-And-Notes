@@ -1,6 +1,7 @@
-#link:  https://www.youtube.com/watch?v=V8qIqJxCioo
+#link:  https://www.youtube.com/watch?v=V8qIqJxCioo (Kosaraju Algorithm)
 # logic steps: 1) sort all nodes in order of largest finishing time using Topo Sort logic, time: O(n + E)
 # 2) Transpose the graph so that the path got disconnected to reach any other components, time: O(n + E)
+# transposing the graph means changing the direrction of the path 
 # 3) Call DFS acc to the largest finishing time got in step 1 on the transposed graph, time: O(n +E)
 # Space : O(n)
 
@@ -10,7 +11,7 @@ class Graph:
     def __init__(self,n):
         self.V= n
         self.visited= [False]*n
-        self.visited_reverse= [False]*n
+        self.visited_reverse= [False]*n  # when we call the DFS on the transpose
         self.AdjList= defaultdict(list)
     
     def addEdge(self,u,v):
@@ -24,7 +25,7 @@ class Graph:
         
         stack.append(src) # will contain node with largest finishing time at the top
 
-    def PrintScc(self, transpose1, src):
+    def PrintScc(self, transpose1, src):   # just the DFS only on tranpose matrix
         self.visited_reverse[src]= True
         print(src, end=" ")
         for v in transpose1[src]:

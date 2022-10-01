@@ -1,7 +1,7 @@
 # time complexity: sqrt(n)
 # logic: take n= 20, if 2 divides  20 , then 
 # 10 will also divide 20 as 2*10= 20
-# so need to check for 10 again & so on for other no
+# so no need to check for 10 again & so on for other no.. only to check till
 
 def factors(n):
     i= 1
@@ -13,7 +13,7 @@ def factors(n):
             # print(int(j), end=" ")  # will print in improper order
             ans.append(j)  # will store in descending order
         i+= 1
-    # now print the 'upper' from right side
+    # now print the 'upper' from right side to get all factors in ascending order
     for i in range(len(ans)-1,-1,-1):
         print(int(ans[i]),end=" ")
 

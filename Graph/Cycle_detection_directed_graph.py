@@ -31,7 +31,7 @@ class Graph:
         # while traversing back(i.e curr node has no adjacent node) make dfs_visited of current node= False 
         # to check again in next DFS call or next component
         self.dfs_visited[src]= False
-        return False
+        # return False   # no need of this line 
 
 
     def isCycle(self,n, adj):
@@ -39,11 +39,12 @@ class Graph:
             if not self.visited[i]:
                 if self.DFS_Visit(adj,i):
                     return True
-        
+        # if no component has cycle then return False
         return False
 
 
 g= Graph(9)
+# test case 1: only one component
 g.addEdge(0,1)
 g.addEdge(1,2)
 g.addEdge(2,3)
@@ -56,6 +57,7 @@ g.addEdge(6,7)
 g.addEdge(7,8)
 # g.addEdge(8,6)
 
+# test case 2: more than one component
 print(g.AdjList)
 print(g.isCycle(9,g.AdjList))
 

@@ -7,9 +7,10 @@ class Graph:
         self.V= n
         self.visited= [False]*n
         self.parent= [-1]*n
-        self.distance= [0]*n
+        self.distance= ['inf']*n  # value at any index will give the distance of that node from the source
     
     def BFS(self, adj, src, des):
+        self.distance[src]= 0
         Q, total_distance= [], 0
         self.visited[src]= True
         Q.append(src)

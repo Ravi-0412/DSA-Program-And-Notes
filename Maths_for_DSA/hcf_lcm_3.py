@@ -1,11 +1,12 @@
 # hcf by euclid's algo
 # time: O(log(min(a, b))
+# just same as we calculate the hcf on paper 
 def hcf(a,b):
     if a==0:
         return b
     return hcf((b%a),a)  # or hcf(a,(a%b))
 
-# other method ,diff is working saem as '%'
+# other method ,diff is working same as '%'
 # same logic as above, here we are taking difference instead of '%'
 # so checking which one is greater first
 def hcf(a,b):

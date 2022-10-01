@@ -28,7 +28,9 @@ class Graph:
         else:
             self.adjMatrix[v1][v2]= 0
             self.adjMatrix[v2][v1]= 0
-    
+
+# use deque as poping starting ele from q when using as list will be take O(n) for eacch element
+
     def BFS(self,s):   # s: starting vertex
         # first store adjacent of all vertices into a dictionary
         graph= defaultdict(list)  # will contain the vertices mapped with their adjacent vertices

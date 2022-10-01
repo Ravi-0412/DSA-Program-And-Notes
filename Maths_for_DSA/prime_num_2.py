@@ -3,6 +3,8 @@
 # as after this num1*num2= given no will start repeating
 # time: root(2) + root(3) + root(4)+ ...+ root(n)
 
+# checking a number prime or not
+
 # import math
 # def isprime(n):
 #     if n==2:
@@ -22,7 +24,7 @@
 # in this way we have only to run loop till 'square_root(range)' 
 # as after this no will start repeating if it is not prime
 # as any non prime no must have at least one divisor till its square root
-# for program: start from 2 and make all its multiple as false 
+# for program: start from 2 and make all its multiple as false(not prime) 
 # till root(range)
 
 # True in the array means no is prime

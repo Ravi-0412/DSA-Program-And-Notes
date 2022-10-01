@@ -31,27 +31,30 @@ class Solution:
 # 1st and last index of all consecutive 1's respectively
 class Solution:
     def sortColors(self, nums: List[int]) -> None:
-        """
-        Do not return anything, modify nums in-place instead.
-        """
+        # it can't be done by two pointer so we have to take another pointer also for 
+        # handling the cases like after swapping if low points to 1 and there is more '0' 
+        # in the middle, this type of cases can't be handled by the two pointer e.g :[2,0,2,1,1,1,0,1,1]
+        # current will max point till the last '1', the main aim of curr is to put '0' at 
+        # start and '2' at the end  and '1' at the mid so 'curr' will never go beyond the 'high'
         current,low=0,0
         high= len(nums)-1
+        # after high all the elements will be two only and before 'low' all the 
+        # ele will be '0' only
         while(current<=high):
-            # trying to move the 0 to the start of the array
-            # means we have seen one more 0 and in search of another 0
             if nums[current]== 0:
+                # swap it with nums[low] as before low all will be '0' only
                 nums[current],nums[low]= nums[low], nums[current] 
                 low+= 1
                 current+= 1
-            # trying to move the 1 to the middle of the array
-            # means we have seen one more 1 and in search of another one 
             elif nums[current]== 1:
+                # don't swap as main aim to curr to put '1' in the middle, simply incr curr by 1
                 current+= 1
-            # moving the 2 to the end of the array
+            # if nums[current] ==2:
             else:
+                # # swap it with nums[high] as after high all will be '2' only
                 nums[current], nums[high]= nums[high], nums[current]
                 high-= 1
-                # don't move the current since after swapping in above all 
-                # cases current can contain 0 and 1 
+                # don't move the current since after swapping in this
+                # cases current can contain 1 also
         return nums
 

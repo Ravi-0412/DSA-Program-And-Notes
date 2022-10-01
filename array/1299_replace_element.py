@@ -96,7 +96,8 @@ class Solution:
 # another method: better one-concise way of above methods(stack one) (16/04/2022)
 # just same logic as 2nd method 
 # traverse from right to left and only store the maximum ele in the stack 
-# i.e stack will contain only one ele always at any point 
+# i.e stack will contain only one ele always at any point and that ele will max till now from right side
+# in this there no need of while loop since we have to compare the curr ele with only on ele(top one) on the stack
 class Solution:
     def replaceElements(self, arr: List[int]) -> List[int]:
         n= len(arr)

@@ -4,7 +4,7 @@
 # this will ensure first-second= n-1 and thus 'second' will point to the
 # nth node from the last
 def getNthFromLast(head,n):
-    first, slow= head,head
+    first, second= head,head
     count= 0
     while first.next:
         first= first.next

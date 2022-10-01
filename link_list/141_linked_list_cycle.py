@@ -14,8 +14,7 @@ class Solution:
             else:
                 first= first.next
                 length+= 1
-        if(length<10001):
-            return False
+        return False
 
 
 # 2nd method: using dictionary to store the address of visiting node
@@ -28,6 +27,8 @@ class Solution:
         while first:
             if id(first) not in hashmap: # error in this line 
                 hashmap[first.val]= id(first) # error in this line
+                # giving error because since we are storing address against the value and ele in the list can repeat with different add
+                # so everytime it will change the address when repeating ele will come
                 first= first.next
             else:
                 return True
@@ -38,22 +39,25 @@ class Solution:
 # correct code of method 2
 class Solution:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
-        mem = {}
+        add = {}
         temp = head
         # traverse the link list and when you see any node
         # for 1st time then store 'True' at the address of that node
         # and if that adress is alreay present then return true
         while temp:
-            if temp in mem: return True  # means we are visiting that address 
+            if temp in add: return True  # means we are visiting that address 
                                           # again means there is a loop
-            else: mem[temp]= True # at address of temp, making the value =True
+            else: add[temp]= True # at address of temp, making the value =True   , we are storing against the node 
+            # so it will take the address of that node automatically as node conatains more than one object
             temp = temp.next
         return False
 
 
 
 # 3rd method : storing the address into the set
-# time: o(n^2), space: o(n)
+# why set came into mind: since we have to find cycle means same address can't repeat again while traversing and
+# set only store the unique values
+# time: o(n), space: o(n)
 class Solution:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
         first= head
@@ -86,14 +90,15 @@ class Solution:
 # time: o(n), space= o(1)
 # logic: move the slow pointer one step ahead and 'fast' pointer 
 # two steps ahead. And if there will be any cycle then at some time 
-# slow== fast means there exist a cycle
+# slow== fast means there exist a cycle  since 'fast' was ahead of slow and again they meet means there must be moving in a cycle
+
 class Solution:
-    #Function to check if the linked list has a loop.
-    def detectLoop(self, head):
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
         fast, slow= head, head
         # while slow: # will generate error as in this case slow might not be None 
                     # but fast.next or fast.next.next may be null
-        while fast.next and fast.next.next and slow:
+        while slow and fast.next and fast.next.next :  # these condition and condition sequence has been written keeping 'no cycle' and empty list 
+                                                        # as for cycle all will be valid only
             slow= slow.next
             fast= fast.next.next
             if slow== fast:

@@ -57,3 +57,20 @@ class Solution:
         # now change the pointer to delete the element
         first.next= first.next.next 
         return dummy.next 
+
+
+# just same logic as method 1
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        dummy= ListNode()
+        dummy.next= head
+        slow, fast, count= dummy, head, 0
+        # slow pointing to dummy to handle corner cases
+        while fast.next:
+            fast= fast.next
+            count+= 1
+            if count >=n:
+                slow= slow.next
+        slow.next= slow.next.next
+        return dummy.next
+        

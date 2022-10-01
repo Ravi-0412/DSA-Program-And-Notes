@@ -8,8 +8,6 @@ class Solution:
         """
         
         nums= nums1[:m]
-        print(nums)
-        print(nums2)
         i,j,k= 0,0,0
         while(i<m and j <n):
             if nums[i]>= nums2[j]:
@@ -20,7 +18,6 @@ class Solution:
                 nums1[k]= nums[i] 
                 k+= 1
                 i+= 1
-        print(nums1)
         while(i<m):
             nums1[k]= nums[i]
             k+= 1
@@ -34,9 +31,6 @@ class Solution:
 # method 2: in place merging(best one)
 class Solution:
     def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
-        """
-        Do not return anything, modify nums1 in-place instead.
-        """
         # for in place we can replace the zeroes at last 
         # as replacing these will not affect the nums1
         # but we start putting from start in nums1 then ele of nums1 will get affected   

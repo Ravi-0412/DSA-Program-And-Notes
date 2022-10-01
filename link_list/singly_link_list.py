@@ -13,8 +13,7 @@ class LinkedList:
     def isempty(self):
         if self.head== None:
             return True
-        else:
-            return False                     
+        return False                     
 
     def insert_at_begining(self,data):
         # node= Node(data,self.head)  # 'next' value of the inserting node
@@ -65,22 +64,22 @@ class LinkedList:
         print("no of elements in linked list is: ", count)
 
     # # removing the elements at given index
-    # def remove_at(self,index):
-    #     current,forward= self.head, self.head
-    #     # current will point one locaton before the index element at final
-    #     # forward will point one location next to current i.e
-    #     # forward will point to the index that we have to delete at final
-    #     for i in range(index-1): 
-    #         current= current.next
-    #         forward= current.next
-    #     current.next= current.next.next # make current point to next node after index value
-    #     forward.next= None  # make the next of index as ' None'
+    def remove_at(self,index):
+        current,pre= self.head, None
+        # current will point to the index that we have to delete at final
+        # pre will point one location before the index
+        for i in range(index):
+            pre= current 
+            current= current.next
+        pre.next= current.next # make next of pre point to next node after index value
+        # current.next= None  # make the next of index as ' None'    # no need to even write this
 
     
-    # # swapping kth and (k+1)th node from end of the link list by swapping the data
+    # swapping kth and (k+1)th node from end of the link list by swapping the data
+    # count will give the total no of nodes-1
     # def swap_two_node_last_values(self,k):
     #     first,second,third= self.head, self.head,self.head
-    #     count= 0
+    #     count= 0   # count will give the total no of nodes-1
     #     while first.next:
     #         count+= 1
     #         first= first.next
@@ -88,7 +87,7 @@ class LinkedList:
     #             third= second
     #             second= second.next
     #     # now second will point to the kth element from the last
-    #     # third will point to (k+1)th node from the end
+    #     # third will point to (k+1)th node from the end i.e one ele before 'second' from start
     #     # after this swap the data of both
     #     if count <k:
     #         print("swapping not possible in this case")
@@ -100,48 +99,48 @@ class LinkedList:
     # #same logic can be applied to swapping any two given nodes of at any position
     # #just first find the position of nodes and update the pointers 
     # #accordinbg to the cases
-    # def swap_two_node_last_links(self,k):
-    #     first,curr_x,pre_y, curr_y= self.head,self.head,None,None
-    #     count= 0
-    #     while first.next:
-    #         first= first.next
-    #         count+= 1
-    #         if count>=k:
-    #             pre_y= curr_y
-    #             curr_y= curr_x
-    #             curr_x= curr_x.next
-    #     # now curr_x will point to the kth element from the last
-    #     # curr_y  will point to (k+1)th node from the end
-    #     # pre_y will point to the (k+2)th node from the end
+    def swap_two_node_last_links(self,k):
+        first,curr_x,pre_y, curr_y= self.head,self.head,None,None
+        count= 0
+        while first.next:
+            first= first.next
+            count+= 1
+            if count>=k:
+                pre_y= curr_y
+                curr_y= curr_x
+                curr_x= curr_x.next
+        # now curr_x will point to the kth element from the last
+        # curr_y  will point to (k+1)th node from the end
+        # pre_y will point to the (k+2)th node from the end
         
-    #     # if k >= no of elements 
-    #     if count <k:
-    #         print("swapping not possible in this case")
-    #     # else update the pointers
-    #     # case 1: there exist only two elements and (k+1)th= curr_y 
-    #     # is a head node and kth is a last node
-    #     elif curr_y== self.head and curr_x.next==None:
-    #         self.head= curr_x
-    #         curr_x.next= curr_y
-    #         curr_y.next= None
-    #     #case 2: when kth is a last node having elemenst greater than 2
-    #     elif curr_x.next== None:
-    #         curr_x.next= curr_y
-    #         pre_y.next= curr_x
-    #         curr_y.next= None
-    #     # case 3: when (k+1)th node is first node(head) and kth node is 
-    #     # not the last node(an internal node)
-    #     elif curr_y== self.head and curr_x.next!= None:
-    #         temp= curr_x.next
-    #         curr_x.next= self.head
-    #         curr_y.next= temp
-    #         self.head= curr_x
-    #     # case 4: when both are internal nodes
-    #     else:
-    #         temp= curr_x.next
-    #         curr_x.next= curr_y
-    #         curr_y.next= temp
-    #         pre_y.next= curr_x
+        # if k >= no of elements 
+        if count <k:
+            print("swapping not possible in this case")
+        # else update the pointers
+        # case 1: there exist only two elements and (k+1)th= curr_y 
+        # is a head node and kth is a last node
+        elif curr_y== self.head and curr_x.next==None:
+            self.head= curr_x
+            curr_x.next= curr_y
+            curr_y.next= None
+        #case 2: when kth is a last node having elemenst greater than 2
+        elif curr_x.next== None:
+            curr_x.next= curr_y
+            pre_y.next= curr_x
+            curr_y.next= None
+        # case 3: when (k+1)th node is first node(head) and kth node is 
+        # not the last node(an internal node)
+        elif curr_y== self.head and curr_x.next!= None:
+            temp= curr_x.next
+            curr_x.next= self.head
+            curr_y.next= temp
+            self.head= curr_x
+        # case 4: when both are internal nodes
+        else:
+            temp= curr_x.next
+            curr_x.next= curr_y
+            curr_y.next= temp
+            pre_y.next= curr_x
 
 
 # method 2(best one):
@@ -214,22 +213,25 @@ class LinkedList:
 
 if __name__ == "__main__":
     l1= LinkedList()
-    l1.insert_at_begining(5)
-    l1.insert_at_begining(85)
-    l1.insert_last(67)
-    l1.insert_last(23)
+    # l1.insert_at_begining(5)
+    # l1.insert_at_begining(85)
+    # l1.insert_last(67)
+    # l1.insert_last(23)
     # test cases for swapping function
-    arr= ['mango','apple','banana','grapes','orange','pineapple','potato','onion']
+    # arr= ['mango','apple','banana','grapes','orange','pineapple','potato','onion']
+    arr= [1,2,3,4,5]
     # arr= [1,2]
     # arr= [1,2,3]
     l1.insert_values(arr)
     l1.show()
     # l1.swap_two_node_last_values(2)
-    # l1.swap_two_node_last_links(7)
-    # l1.swap_two_node_last_links1(7)
-    l1.swap_kth_end_beg(4)
-    # l1.remove_at(2)
     # l1.show()
+    l1.swap_two_node_last_links(2)
+    l1.show()
+    # l1.swap_two_node_last_links1(7)
+    # l1.swap_kth_end_beg(4)
+    l1.remove_at(2)
+    l1.show()
     # l1.get_length()
 
 

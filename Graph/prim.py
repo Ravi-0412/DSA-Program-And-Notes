@@ -5,8 +5,6 @@ import heapq
 def Prim(adj, src, n):
     edges= defaultdict(list)
     parent= [-1]*n
-    distance= [9999999]*n
-    distance[src]= 0
     for u,v,w in adj:
         edges[u].append((v,w))
     visited= set()
@@ -14,14 +12,14 @@ def Prim(adj, src, n):
     min_heap= [(0,src)]
     while len(visited)< n:
         w1,n1= heapq.heappop(min_heap)
-        if n1 in visited:
+        if n1 in visited:  # this will automatically check whether all nodes get included or not
             continue
         visited.add(n1)
-        min_mst+= w1
+        min_mst+= w1   # different from Dijkastra.. Adding the weight of edges coming under MST
         for n2,w2 in edges[n1]:
             if n2 not in visited:
                 parent[n2]= n1
-                heapq.heappush(min_heap,(w2, n2))
+                heapq.heappush(min_heap,(w2, n2))  # here little change from dijkastra as in this we have to add the weight of all edges which will be come under MST
     # for printing the path
     # print("Edge \tweight")
     # for i in range(1,n):
@@ -29,7 +27,7 @@ def Prim(adj, src, n):
 
     print("cost of minimum spanning tree is:", min_mst)
 
-# adj= [[0,1,28],[0,5,10],[1,0,28],[1,6,14],[1,2,16],[2,1,16],[2,3,12],[3,6,18],[3,2,12],[3,4,22],[4,6,24],[4,5,25],[5,0,10],[4,3,22],[5,4,25],[6,1,14],[6,4,24],[6,3,18]]
-adj= [[0,2,3],[1,3,4],[1,2,10],[2,1,10],[2,3,2],[2,4,6],[2,0,3],[3,1,4],[3,2,2],[3,4,1],[4,2,6],[4,3,1]]
-# Prim(adj, 0, 7)
-Prim(adj, 0, 5)
+adj= [[0,1,28],[0,5,10],[1,0,28],[1,6,14],[1,2,16],[2,1,16],[2,3,12],[3,6,18],[3,2,12],[3,4,22],[4,6,24],[4,5,25],[5,0,10],[4,3,22],[5,4,25],[6,1,14],[6,4,24],[6,3,18]] # ans= 99
+# adj= [[0,2,3],[1,3,4],[1,2,10],[2,1,10],[2,3,2],[2,4,6],[2,0,3],[3,1,4],[3,2,2],[3,4,1],[4,2,6],[4,3,1]]  # ans= 10
+Prim(adj, 0, 7)
+# Prim(adj, 0, 5)

@@ -56,7 +56,7 @@ class Solution:
 # it basically checking the address of the node, if equal then intesection point exist at that node
 # other don't exist
 def getIntersectionNode(self, headA, headB) ->:
-        curr1,curr2,hashmap1,hashmap2= headA, headB,{},{}
+        curr1,curr2,hashmap1= headA, headB,{}
         while curr1:
             hashmap1[curr1]= 1
             curr1= curr1.next

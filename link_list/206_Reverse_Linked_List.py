@@ -73,7 +73,7 @@ class Solution:
         return headreverse  # at last return head reverse
 
 
-# method 4: try by another approach by storing the ans and using only one parameter in recursive function
+# method 4: try by another approach by storing the ans and using only one parameter in recursive function(Neetcode solution )
 
 
 

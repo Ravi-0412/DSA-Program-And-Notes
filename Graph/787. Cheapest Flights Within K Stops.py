@@ -22,7 +22,7 @@ class Solution:
             # tempPrices= prices   # here i was making mistake again and again
             # copying like this (changing the value at an index) will update the values in new array also
             # when we will update the values in original array or vice versa( it creates the reference for the same object). 
-            # But we have change the value onkly in tempPrices for each edge 
+            # But we have change the value only in tempPrices for each edge 
 
             tempPrices= prices.copy()    # this create another copy of the original array
             # temp will conatin the cheapest price till previous iteration as we have updated values in the temp only seeing the optimal ans (prices ) till previous one

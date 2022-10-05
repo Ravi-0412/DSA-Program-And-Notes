@@ -13,6 +13,7 @@ class Solution:
         # print(middle_head.val, middle_next_head.val)
         newHead1= self.sortList(head)      # i was not storing the returned value thats why took some time 
         newHead2= self.sortList(middle_head)
+        # now use the concept of merging two sorted lists
         After_merging= self.mergeTwoLists(newHead1, newHead2)
         return After_merging
     

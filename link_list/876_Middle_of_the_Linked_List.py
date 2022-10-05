@@ -1,4 +1,6 @@
-# method 1
+# method 1: find the length and again traverse till middle
+
+# method 2: better than all
 # using double pointer slow and fast(submitted on leetcode)
 # slow will incr by one and fast will incr by two step 
 class Solution:
@@ -8,20 +10,13 @@ class Solution:
         # slow will point to next middle
         fast, slow= head, head
         # if no of elements in the list is even
-        while fast:
-            if fast.next: # internal stopping condition if no of elements 
-                fast= fast.next.next      # is evenfast= fast.next.next
-                slow= slow.next
-            else:
-                return slow            
+        while fast and fast.next: # if fast== None it means 'even' no of elements and if fast.next== None it means 'even' no of elements
+            fast= fast.next.next      # is evenfast= fast.next.next
+            slow= slow.next           
         return slow
-        # # if no of elements is odd
-        # while first.next:
-        #     slow= slow.next
-        #     fast= fast.next.next
 
 
-# method 2: by storing node in the array
+# method 3: by storing node in the array
 class Solution:
     def middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:
         # just traverse the list and go on keeping the node in the array till arr[-1].next is not None
@@ -33,14 +28,5 @@ class Solution:
         return arr[len(arr)//2]
 
 
-# concise way of method 1:(best solution) 
-# just combine the while and if loop of method 1
-# same logic we do to check loop or not
-class Solution:
-    def middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        slow,fast= head, head
-        while fast and fast.next:
-            slow= slow.next
-            fast= fast.next.next
-        return slow
+
 

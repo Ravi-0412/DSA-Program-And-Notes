@@ -2,7 +2,7 @@
 # time: o(n), space: o(n)
 # logic: palindrome means identical from both side
 # so just traverse the list two times
-# while traversing for first tim ego on pushing the val on stack
+# while traversing for first time go on pushing the val on stack
 # and while traversing for second time compare the val on stack
 class Solution:
     def isPalindrome(self, head: Optional[ListNode]) -> bool:
@@ -52,7 +52,7 @@ class Solution:
         middle= self.middleNode(head)
         print(middle.val)
         # now reverse the element from middle to end
-        # after reversing 1st half will contain node till pre_slow of
+        # after reversing 1st half will contain node till pre_slow 
         
         ReverseHead= self.ReverseByRecursion(None,middle)
         # ReverseHead= self.reverseList(middle)
@@ -73,18 +73,13 @@ class Solution:
         # pre_slow will help in meging the  the two nodes
         # as it will point to last ele in 1st half after reversing the list
         
-        # count= 0  # will count no of times loop will execute
-                  # if count is odd means even no of elements
-                  # if even means odd no of elements
         while fast and fast.next:
-            # count+= 1
             pre_slow= slow
             slow= slow.next
             fast= fast.next.next
         # after this slow will point to middle ele in case of odd no
         # of ele and second middle in case no of ele is even
         # pre_slow will point to one node before slow i.e last ele of 1st half
-        # so make pre_slow.next== None
         pre_slow== None
         return slow
             
@@ -132,11 +127,12 @@ class Solution:
         return str1== str1[::-1]
 
 
-# method 4: just traverse the list and right the no from both side
+# method 4: just traverse the list and write the no from both side
 # i.e from left as well as right side 
 # just same as we write the no from left and right
-# way to write from right side= i*current.val + right_val and incr 'i in multiple of given base
-# way to write from left side= left_val*base + current.val
+# way to write from right_side and left_side when you are seeing the ele from left side:
+# right side= i*current.val + right_val and incr 'i in multiple of given base
+# left side= left_val*base + current.val
 
 # will only work for integers(also for very long input showing time limit exceeded on leetcode)
 

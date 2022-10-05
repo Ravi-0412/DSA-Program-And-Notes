@@ -1,3 +1,9 @@
+# Note: In linklist, if you want to break the link between any two node OR
+# if you want to connect any two node that can be done by using 'ptr.next' only (next must be there with pointer name)
+
+# Note: every pointer stores the address of the pointing node(reference creation) so, if you change the address of any pointer pointing to the same node using 'ptr.next'
+# then next node pointed by all the pointers to that node will change because you are changing the address
+
 
 class Node:
     # function(constructor) to initilaise Node object
@@ -177,36 +183,6 @@ class LinkedList:
 #         print(llstr)
 
 
-# program to swap kth node fromend and kth node from beginning
-    def swap_kth_end_beg(self,k):
-        dummy= Node(0)
-        dummy.next= self.head
-        pre_x,curr_x, pre_y, curr_y, first= dummy,self.head,dummy,self.head,self.head
-        count= 0
-        while first.next:
-            first= first.next
-            count+= 1
-            if count<=k-1:
-                pre_x= curr_x
-                curr_x= curr_x.next
-            if count>= k:
-                pre_y= curr_y
-                curr_y= curr_y.next
-        print(first.data)
-        print(pre_x.data)
-        print(curr_x.data)
-        print(pre_y.data)
-        print(curr_y.data)
-        temp = curr_y.next
-        pre_x.next= curr_y
-        curr_y.next= curr_x.next
-        curr_x.next= temp
-        pre_y.next= curr_x
-        print(first.data)
-        print(pre_x.data)
-        print(curr_x.data)
-        print(pre_y.data)
-        print(curr_y.data)
 
 
 
@@ -229,7 +205,6 @@ if __name__ == "__main__":
     l1.swap_two_node_last_links(2)
     l1.show()
     # l1.swap_two_node_last_links1(7)
-    # l1.swap_kth_end_beg(4)
     l1.remove_at(2)
     l1.show()
     # l1.get_length()

@@ -31,7 +31,7 @@ class Solution:
             # here we have to relax every edge so we can do it by the given 'flights' matrix also directly
             for s,d,p in flights:  # s: source, d: destination, p: prices
                 if prices[s]== 'inf':  # it means that the stopage s(source) is not reachable till ith stop
-                                        # it basically means that 's' is not connected to the any node that has been updated till now
+                                        # it basically means that 'd' is not connected to the any node that has been updated(relaxed) till now
                     continue
                 if prices[s] + p< tempPrices[d]:
                     tempPrices[d]= prices[s] + p

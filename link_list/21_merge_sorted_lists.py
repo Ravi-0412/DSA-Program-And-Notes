@@ -45,6 +45,11 @@ class Solution:
 class Solution:
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
         dummy= temp= ListNode(0)
+        # 'dummy.next' we will return at last and temp will connect all the nodes
+
+        # here no need to point 'dummy.next' to any of the head as we don't know which head will come first
+        # to handle this corner cases we are using dummy list
+
         while list1 and list2:
             if list1.val>=list2.val:   # will check the 1st ele in each list to which it is pointing
                 temp.next= list2
@@ -52,7 +57,7 @@ class Solution:
             else:
                 temp.next= list1
                 list1= list1.next
-            # after each iteration make temp point to the list which has executed the 'if' statement
+            # after each check update 'temp' so that it connect the next node to already merged node
             temp= temp.next
         
         # if l1 is not none means remaining ele in l1 is greater than or equal
@@ -67,25 +72,34 @@ class Solution:
 
 # just conversion of above iterative method
 def mergeTwoLists2(self, l1, l2):
-    if not l1 or not l2:
+    # base condition.. Both list can't be None at the same time
+    if not l1 or not l2:   # if l1 if None then return 'l2' and if 'l2' is None then return 'l1'. (This condition is short form of this meaning)
         return l1 or l2
     if l1.val < l2.val:
         l1.next = self.mergeTwoLists(l1.next, l2)
-        return l1
+        # in this case starting node will be from 'l1' so return 'l1'
+        return l1  
     else:
         l2.next = self.mergeTwoLists(l1, l2.next)
+        # in this case starting node will be from 'l1' so return 'l1'
         return l2
 
 
 # method 4: Recursive way but very much concise
+# just the above logic only 
 
 class Solution:
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
         if list1 and list2:
-            if not list1 or list1 and list1.val> list2.val:   # make sure whether list1 has minimum ele or not
-                                                              # i.e we can start from list1 or not
-                                                              # if not minimum then exchange the pointers
-                list1, list2= list2, list1                    # we were only exchanging the pointers(point to min) in all the above cases
-                                                              # in iterative(exchanging temp) and in recursion above one exchanging the list pointer
+            # make sure whether list1 has minimum ele or not
+            # i.e we can start from list1 or not
+            # if not minimum then exchange the pointers
+            # we were only exchanging the pointers(point to min) in all the above cases
+
+            if list1.val> list2.val:
+                # in iterative(exchanging temp) and in recursion above one exchanging the list pointer based on condition and exactly same here                       
+                list1, list2= list2, list1                                                                                  
             list1.next= self.mergeTwoLists(list1.next,list2)  # now whichever list will have min ele will become 1st ele
-        return list1 or list2                                 # return the list which is not 'None' at last 
+        
+        # if any of the list is None then return the list which is not 'None' at last 
+        return list1 or list2                              

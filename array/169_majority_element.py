@@ -31,13 +31,17 @@ majority_element()
 # by balancing the count i.e after seeing any other element it 
 # decreases the count if count is zero and  'm' is
 # not equal to the current element
+
+# note: will only work properly for finding ele with maximum fre , only valid for majority ele if they occur for sure
+# if the max_fre ele occur at the start then count will get decrement to '0' later and 'm' will have different ele at last
+# then will give incorrect ans 
 import math
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
         n= len(nums)
         middle= math.floor(n/2)
         cnt=0
-        global m      # m storing elements with maximum frequency ele till any index
+        m= None     # m storing elements with maximum frequency ele till any index
         for i in range(n):
             if cnt==0:  # only update the m when count= 0 because if count!= 0 then it means m is the most occuring ele till that index
                 m= nums[i]  

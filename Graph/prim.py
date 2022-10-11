@@ -12,7 +12,7 @@ def Prim(adj, src, n):
     min_heap= [(0,src)]
     while len(visited)< n:
         w1,n1= heapq.heappop(min_heap)
-        if n1 in visited:  # this will automatically check whether all nodes get included or not
+        if n1 in visited:  # this will automatically check whether all nodes get included or not. so no need to check the condition "if len(visited)==n:"
             continue
         visited.add(n1)
         min_mst+= w1   # different from Dijkastra.. Adding the weight of edges coming under MST

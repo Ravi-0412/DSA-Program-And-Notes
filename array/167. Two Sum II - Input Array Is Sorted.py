@@ -20,6 +20,7 @@ class Solution:
         n= len(numbers)
         start, end= 0, n-1
         while start< end:  #  start can't be equal to end as we can't use the same ele twice
+            
             # in this case our ans will lie before end since array is sorted so incr start will incr the more 
             if numbers[start] + numbers[end] > target:
                     end-= 1

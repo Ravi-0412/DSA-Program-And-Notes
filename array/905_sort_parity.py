@@ -57,7 +57,7 @@ class Solution:
             
             # while(start <end):
             #     if(nums[start]%2!= 0): # if odd swap ele at start and end index
-            #     while start <end and nums[end]%2 != 0 :
+            #       while start <end and nums[end]%2 != 0 :
             #         end-= 1
             #     nums[start], nums[end]= nums[end], nums[start]
             # start+= 1   # in this case don't decr 'end '

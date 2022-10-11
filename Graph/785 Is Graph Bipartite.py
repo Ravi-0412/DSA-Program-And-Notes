@@ -55,7 +55,7 @@ class Solution:
 
 
 
-# don't know wjy this giving incorrect result by using two array visited and color
+# my mistakes
 class Solution:
     def isBipartite(self, graph: List[List[int]]) -> bool:
         n= len(graph)
@@ -71,6 +71,8 @@ class Solution:
         return True
     
     def DFSVisit(self, graph, src, visited, color):
+        # color[v]= 0   # writing here this one will give 'False' always as for every node it will set(update) the color as '0'
+                            # But will work properly in case of 'BFS' as there is no recursive call
         for u in graph[src]:
             if not visited[u]:
                 visited[u]= True

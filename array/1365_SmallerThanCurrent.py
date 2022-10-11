@@ -47,6 +47,7 @@
 
 
 #4th method: using Prefix sum method Time: o(n), space:O (n)
+# very better one
 # https://www.youtube.com/watch?v=pVS3yhlzrlQ 
 # prefix sum means calculating the sum of all elemenst till that index(included)
 # for calculating this we can start from index 1 and add the value at pre index+ current index and so on

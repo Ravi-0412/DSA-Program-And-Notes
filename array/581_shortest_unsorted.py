@@ -39,7 +39,7 @@ class Solution:
 
 
 # 3rd method using stack , time:O(n), space: O(n)
-# my mistake: for start index, i was just checking the first time it is violating theincreasing order sequence
+# my mistake: for start index, i was just checking the first time it is violating the increasing order sequence
 # for end, i was checking 1st time it is violating the decreasing order sequence
 
 # but this can be totally wrong e.g:

@@ -10,7 +10,7 @@ def ShortestPath(adj,n, src):
     distance= [9999999]*n
     distance[src]= 0   # will conatin the distance of source to all other vertices
     minHeap= [(0,src)]  # first ele should be weight as it will create the heap using 1st ele always
-    visited= set()  # better use an array since searching in set will take O(n) for each time..visited tells whether that node has been relaxed or not
+    visited= set()  
     while minHeap:
         w1,n1= heapq.heappop(minHeap)
         if n1 in visited:

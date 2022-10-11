@@ -40,7 +40,7 @@ class Solution:
         return min_mst
 
 
-# my mistake: i was creating adjacency list likme this
+# my mistake: i was creating adjacency list like this
 for i in range(len(points)//2 +1):  # if you do like this then you will miss all the edges after mid to the remaining nodes
     x1,y1= points[i]
     for j in range(i+1,len(points)):

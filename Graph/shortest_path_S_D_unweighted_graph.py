@@ -24,7 +24,8 @@ class Graph:
                     self.distance[u]= self.distance[curr] +1
                     if u== des:
                         total_distance= self.distance[u]
-
+                        
+        print(self.parent)
         # for printing the path
         reverse_path, v= [], des
         reverse_path.append(des)

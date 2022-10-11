@@ -1,36 +1,4 @@
 
-
-# # 1st method(normal brute force): modified of 1st methode(commented lines)
-# arr = [4,9,8,4,7]
-# n= len(arr)
-# k=0
-# for num in arr[k:n-1]:
-#     greatest= -1000000
-#     j=k+1
-#     while(j<=n-1):
-#         if(arr[j]>=greatest):
-#             greatest= arr[j]
-#         j+= 1
-#     arr[k]= greatest
-#     k+= 1
-# arr[n-1]= -1
-# print(arr)
-
-# # simple and straight foward brute force
-# arr = [4,9,8,4,7]
-# n= len(arr)
-# for i in range(0,n-1):
-#     greatest= -1000000
-#     k= i+1
-#     while(k<=n-1):
-#         if(arr[k]>=greatest):
-#             greatest=arr[k]
-#         k+= 1
-#     arr[i]= greatest
-# arr[n-1]= -1
-# print(arr)
-
-
 # brute force but very concise and simple: Accepted 
 # class Solution:
 #     def replaceElements(self, arr: List[int]) -> List[int]:
@@ -53,7 +21,7 @@ n= len(arr)
 max_ele_seen_so_far= arr[n-1]
 arr[n-1]= -1
 for i in range(n-2,-1,-1):
-    temp=arr[i]  # to comapre arr[i] with max_ele_seen_so_far after updating arr[i]
+    temp=arr[i]  # because this can be maximum till now
     arr[i]= max_ele_seen_so_far
     if(temp>=max_ele_seen_so_far):
         max_ele_seen_so_far= temp

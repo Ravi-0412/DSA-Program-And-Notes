@@ -10,6 +10,7 @@
 # while traversing back in case of DFS
 
 
+# Note: this method will only work if no cycle.. for cycle detecting and then printing see the below method that i submitted in Q "210. Course Schedule II"
 # from collections import defaultdict
 # class Graph:
 #     def __init__(self,n):
@@ -50,6 +51,46 @@
 # g.TopoSort(6,g.AdjList)
 
 
+# modified dfs for cycle detection in directed graph and then printing the topological sorting
+# in this no need to use two set visited and dfs_visited(for checking already visited in current cycle or not) as we have done in "cycle detection for directed graph using dfs"
+# visited[src]= 0 means till now we have not visited the 'src' 
+# visited[src]= -1 means till now we have only visited the 'src' not its adjacent node
+# visited[src]= 1  we have only visited the 'src' as well as its neighbour and put in the ans(stack)
+
+# very better solution
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        AdjList= defaultdict(list)
+        # first convert into adjacency list(edges) for directed graph
+        for second,first in prerequisites:
+            AdjList[first].append(second)
+        visited= [0]*numCourses
+        stack= []
+        for i in range(numCourses):
+            if not self.FindTopoSort(AdjList,i,stack,visited):    # if cycle simply return [], else continue checking for another node
+                return []
+        return stack[::-1]
+        
+    def FindTopoSort(self, adj,src, stack,visited):
+        # base case for checking whether we have visited all the adjacent node.. if visited then check on another node
+        if visited[src]== 1:   # been visited and added to the stack(ans). so simply return true so that it can check for next node without repeating the work
+            return True
+        # base case for checking cycle 
+        if visited[src]== -1:   # means cycle as the current node(src) is already visited in current cycle only
+            return False
+
+        # code starts from here
+        visited[src]= -1   # means till now we have only visited the 'src' not its adjacent node
+        for u in adj[src]:
+            if not self.FindTopoSort(adj, u, stack, visited):
+                return False
+                
+        # while traversing back make visited[src]= 1 and  put the node into the stack
+        visited[src]= 1   # means we have visited the 'src' as well as its neighbour and added to the ans(stack)
+        stack.append(src)
+        return True   # means we have visited the current node as well as its neighbour successfully
+
+
 
 # method 2 using BFS: Kahn's Algorithm
 # logic: use the concept of indegree as the node with indegree 0 will come at first and
@@ -58,6 +99,7 @@
 # This method can also be used to detect cycle in directed graph
 # just count the no of nodes added in the Q, if there will be cycle then count <n because  at some point 
 # there will not be any node whose indegree will be equal to '0' to put into the Q
+# here no need of visited set since we are adding only the node with 'indegree==0'
 
 from collections import defaultdict
 class Graph:

@@ -36,6 +36,7 @@ class Solution:
         return island
 
 
+
 # simple and concise way of writing the above code
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
@@ -104,14 +105,16 @@ class Solution:
             for dr,dc in directions:
                 r1,c1= r+dr, c+dc
                 DFS(r1,c1)   
-                        
+
         # code starts from here
         for r in range(row):
             for c in range(col):
-                if grid[r][c]== "1" and grid[r][c]=="1": 
+                if grid[r][c]== "1": 
                     island+= 1
                     DFS(r,c)
         return island
+
+
 
 
 

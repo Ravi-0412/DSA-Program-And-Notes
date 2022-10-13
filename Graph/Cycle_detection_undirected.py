@@ -87,10 +87,10 @@ print(g.visited)
 #             elif u != parent:
 #                 return True
 
-
+# you can start with any node, in dfs it doesn't matter in printing topological sort or detecting cycle
 #     def isCycle(self,n, adj):
 #         for i in range(n):
-#             if not self.visited[i]:
+#             if not self.visited[i]:    
 #                 if self.DFS_Visit(adj,i, -1):
 #                     return True       
 #         return False

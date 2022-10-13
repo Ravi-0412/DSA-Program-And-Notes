@@ -9,8 +9,15 @@
 # i.e we have to print the vertex with no outgoing edge at last and that can be done 
 # while traversing back in case of DFS
 
+# Note(VVI) for dfs method: here you are putting the node in the ans(stack), while traversing back that's why it's giving correct ans always
+# but if we put the node at start itself in the ans like when you are calling the dfs for that node then it will not give the corect ans always...keep this in mind
+# if you do like this graph like test case 2 will not work
+
+# if you do by finding the indegree like BFS then that will always give the correct ans as that is the basic of tolopogical sort
 
 # Note: this method will only work if no cycle.. for cycle detecting and then printing see the below method that i submitted in Q "210. Course Schedule II"
+# or we can also modify in this like we can use two visited array like we did in cycle detection Q
+
 # from collections import defaultdict
 # class Graph:
 #     def __init__(self,n):
@@ -32,6 +39,7 @@
          # node with largest visiting time(or minimum finishing time) is pushed first when there is no further adjacent node is there which has not been visited
 #         stack.append(src)
 
+# you can start with any node, in dfs it doesn't matter in printing topological sort or detecting cycle
 #     def TopoSort(self,n, adj):
 #         stack= []
 #         for i in range(n):
@@ -40,6 +48,7 @@
 #         while stack:  
 #             print(stack.pop(), end=" ")
 
+# test case 1:
 # g= Graph(6)
 # g.addEdge(5,2)
 # g.addEdge(5,0)
@@ -50,45 +59,52 @@
 # print(g.AdjList)
 # g.TopoSort(6,g.AdjList)
 
+# test case 2:
+# g= Graph(3)
+# g.addEdge(0,2)
+# g.addEdge(0,1)
+# g.addEdge(1,2)
 
-# modified dfs for cycle detection in directed graph and then printing the topological sorting
+
+
+# modified dfs for cycle detection in directed graph and then printing the topological sorting.. this i submitted in Q "210.Course Schedule 2"
 # in this no need to use two set visited and dfs_visited(for checking already visited in current cycle or not) as we have done in "cycle detection for directed graph using dfs"
 # visited[src]= 0 means till now we have not visited the 'src' 
 # visited[src]= -1 means till now we have only visited the 'src' not its adjacent node
 # visited[src]= 1  we have only visited the 'src' as well as its neighbour and put in the ans(stack)
 
-# very better solution
-class Solution:
-    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        AdjList= defaultdict(list)
-        # first convert into adjacency list(edges) for directed graph
-        for second,first in prerequisites:
-            AdjList[first].append(second)
-        visited= [0]*numCourses
-        stack= []
-        for i in range(numCourses):
-            if not self.FindTopoSort(AdjList,i,stack,visited):    # if cycle simply return [], else continue checking for another node
-                return []
-        return stack[::-1]
+# # very better solution
+# class Solution:
+#     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+#         AdjList= defaultdict(list)
+#         # first convert into adjacency list(edges) for directed graph
+#         for second,first in prerequisites:
+#             AdjList[first].append(second)
+#         visited= [0]*numCourses
+#         stack= []
+#         for i in range(numCourses):
+#             if not self.FindTopoSort(AdjList,i,stack,visited):    # if cycle simply return [], else continue checking for another node
+#                 return []
+#         return stack[::-1]
         
-    def FindTopoSort(self, adj,src, stack,visited):
-        # base case for checking whether we have visited all the adjacent node.. if visited then check on another node
-        if visited[src]== 1:   # been visited and added to the stack(ans). so simply return true so that it can check for next node without repeating the work
-            return True
-        # base case for checking cycle 
-        if visited[src]== -1:   # means cycle as the current node(src) is already visited in current cycle only
-            return False
+#     def FindTopoSort(self, adj,src, stack,visited):
+#         # base case for checking whether we have visited all the adjacent node.. if visited then check on another node
+#         if visited[src]== 1:   # been visited and added to the stack(ans). so simply return true so that it can check for next node without repeating the work
+#             return True
+#         # base case for checking cycle 
+#         if visited[src]== -1:   # means cycle as the current node(src) is already visited in current cycle only
+#             return False
 
-        # code starts from here
-        visited[src]= -1   # means till now we have only visited the 'src' not its adjacent node
-        for u in adj[src]:
-            if not self.FindTopoSort(adj, u, stack, visited):
-                return False
+#         # code starts from here
+#         visited[src]= -1   # means till now we have only visited the 'src' not its adjacent node
+#         for u in adj[src]:
+#             if not self.FindTopoSort(adj, u, stack, visited):
+#                 return False
                 
-        # while traversing back make visited[src]= 1 and  put the node into the stack
-        visited[src]= 1   # means we have visited the 'src' as well as its neighbour and added to the ans(stack)
-        stack.append(src)
-        return True   # means we have visited the current node as well as its neighbour successfully
+#         # while traversing back make visited[src]= 1 and  put the node into the stack
+#         visited[src]= 1   # means we have visited the 'src' as well as its neighbour and added to the ans(stack)
+#         stack.append(src)
+#         return True   # means we have visited the current node as well as its neighbour successfully
 
 
 
@@ -117,7 +133,6 @@ class Graph:
         for i in range(self.V):
             for k in self.AdjList[i]:  # if k is adj to 'i' means there is one indegree edge to 'k'
                 self.indegree[k]+= 1
-        print(self.indegree)
 
     def FindTopoSort(self):
         Q, ans= [], []
@@ -153,11 +168,26 @@ class Graph:
 # g.addEdge(4,1)
 
 # test case 2
+# g= Graph(3)
+# g.addEdge(0,1)
+# g.addEdge(1,2)
+# g.addEdge(2,0)
+# g.Indegree_count()
+# g.FindTopoSort()
+
+# test case 3
 g= Graph(3)
+g.addEdge(0,2)
 g.addEdge(0,1)
 g.addEdge(1,2)
-g.addEdge(2,0)
+print(g.AdjList)
 g.Indegree_count()
 g.FindTopoSort()
+
+
+
+
+
+
 
 

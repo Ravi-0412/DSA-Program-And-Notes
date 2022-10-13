@@ -33,7 +33,7 @@ class Graph:
         self.dfs_visited[src]= False
         # return False   # no need of this line 
 
-
+# you can start with any node, in dfs it doesn't matter in printing topological sort or detecting cycle
     def isCycle(self,n, adj):
         for i in range(n):
             if not self.visited[i]:

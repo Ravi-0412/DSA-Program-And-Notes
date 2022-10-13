@@ -42,3 +42,35 @@ class Solution:
 
 
 # # method 2: Dfs (already done in topological sorting)
+# # very better solution
+# class Solution:
+#     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+#         AdjList= defaultdict(list)
+#         # first convert into adjacency list(edges) for directed graph
+#         for second,first in prerequisites:
+#             AdjList[first].append(second)
+#         visited= [0]*numCourses
+#         stack= []
+#         for i in range(numCourses):
+#             if not self.FindTopoSort(AdjList,i,stack,visited):    # if cycle simply return [], else continue checking for another node
+#                 return []
+#         return stack[::-1]
+        
+#     def FindTopoSort(self, adj,src, stack,visited):
+#         # base case for checking whether we have visited all the adjacent node.. if visited then check on another node
+#         if visited[src]== 1:   # been visited and added to the stack(ans). so simply return true so that it can check for next node without repeating the work
+#             return True
+#         # base case for checking cycle 
+#         if visited[src]== -1:   # means cycle as the current node(src) is already visited in current cycle only
+#             return False
+
+#         # code starts from here
+#         visited[src]= -1   # means till now we have only visited the 'src' not its adjacent node
+#         for u in adj[src]:
+#             if not self.FindTopoSort(adj, u, stack, visited):
+#                 return False
+                
+#         # while traversing back make visited[src]= 1 and  put the node into the stack
+#         visited[src]= 1   # means we have visited the 'src' as well as its neighbour and added to the ans(stack)
+#         stack.append(src)
+#         return True   # means we have visited the current node as well as its neighbour successfully

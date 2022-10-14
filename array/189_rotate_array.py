@@ -51,8 +51,8 @@ class Solution:
 
 # 3rd method: optimising the space complexity to O(1) for right rotation
 # logic: 1)Reverse the first 'n-k' elements 
-# 2) Reverse the remaining ele 'k' ele i.e from index 'n-k' to 'n-1'
-# 3) and finally reverse the whole array
+# 2) Reverse the remaining ele 'k' ele i.e from index 'n-k' to 'n-1' i.e 'k' ele from end
+# 3) and finally reverse the whole array 
 # Time: o(n),space: o(1)
 
 

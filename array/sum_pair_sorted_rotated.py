@@ -33,3 +33,6 @@ print(pair_sum_rotated_sorted(arr,sum2))
 print(pair_sum_rotated_sorted(arr,sum3))
 print(pair_sum_rotated_sorted(arr,sum4))
 print(pair_sum_rotated_sorted(arr,sum5))
+
+# method2: optimising the above code. find the pivot using binary search but overall time complexity will be same only
+# time: O(logn + n)= O(n)

@@ -48,6 +48,8 @@ class Solution:
 # logic:1) for start index , if elements are in order , push into the stack and once you find any ele out of order then
 # keep on poping until you find any ele smaller than the current ele(out of order ele). we are simply finding the position of out of order ele and that will the 'start' index
 # do the opposite for 'end' index 
+
+# time: o(n), space= o(n)
 class Solution:
     def findUnsortedSubarray(self, nums: List[int]) -> int:
         n= len(nums)
@@ -77,32 +79,33 @@ class Solution:
             # if ele is is in order, then push 
             stack.append(i)
         
+        # if array is not sorted then start will be somewhere before end. so 'end-start' will be greater than zero
         if end-start >0:  # means array is not already sorted, if array is already sorted then start= n-1 and end= 0
             return end-start+1   # this will give the final ans
         else:  # if array is already sorted
             return 0
 
 
-# method 4:
+# method 4: optimising the space complexity
 # just reverse way of above logic, method 3
 class Solution:
     def findUnsortedSubarray(self, nums: List[int]) -> int:
         if len(nums) <2:
             return 0
         
-        prev = nums[0]
+        prev = nums[0]   # it will store the largest ele till now
         end = 0
 		# find the largest index not in place from starting to find the 'end'
-        for i in range(0, len(nums)):
+        for i in range(1,len(nums)):
             if nums[i] < prev:
                 end = i
             else:
                 prev = nums[i]
 
         start = len(nums) - 1
-        prev = nums[start]
+        prev = nums[start]   # it will store the max ele till now from end
 		# find the smallest index not in place from last to find the 'start'
-        for i in range(len(nums)-1, -1, -1):
+        for i in range(len(nums)-2, -1, -1):
             if prev < nums[i]:
                 start = i
             else:

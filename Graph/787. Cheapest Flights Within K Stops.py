@@ -8,7 +8,10 @@
 # and for checking the negative weight cycle, just run the loop n times nad compare the value of any node with previous one
 # if it is less then it means cycle 
 
-
+# working: phla bar run karne pe jo edge source se attach hoga uska optimal ans milega ,ek bar relax karne pe
+# 2nd time jo node abhi tak reached hua h uske help se remaining connected edge optimise hoga + already optimise edge also if they are connected to any viisted node till
+# isi tarah se ye repeat hota rhega or har bar har edge optimise hota rhega agar wo connected hoga to
+# Note: we will optimise seeing the previous iteration result not the current one 
 class Solution:
     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
         prices= ['inf']*n  # this will store the actual ans
@@ -25,7 +28,7 @@ class Solution:
             # But we have change the value only in tempPrices for each edge 
 
             tempPrices= prices.copy()    # this create another copy of the original array
-            # temp will conatin the cheapest price till previous iteration as we have updated values in the temp only seeing the optimal ans (prices ) till previous one
+            # we will update the current iteration ans in the tempPrices seeing the previous optimise ans(prices), so we copied 
 
             # here no need to make the adjacency list as we are not using any data structure for push and pop like heap 
             # here we have to relax every edge so we can do it by the given 'flights' matrix also directly
@@ -35,7 +38,7 @@ class Solution:
                     continue
                 if prices[s] + p< tempPrices[d]:
                     tempPrices[d]= prices[s] + p
-            # prices= tempPrices  # here this will also work as we are not updating prices array anywhere 
+            # prices= tempPrices  # here this will also work as we are not updating prices array anywhere            
             prices= tempPrices.copy()  # this will always work fine 
         return -1 if prices[dst]== 'inf' else prices[dst]
 

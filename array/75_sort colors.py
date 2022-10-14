@@ -1,5 +1,5 @@
 # 1st method is sorting
-# since you have arrange the ele in ascending order basically so sorting will always a solution
+# since you have to arrange the ele in ascending order basically so sorting will always a solution
 # time: O(nlogn)
 
 
@@ -8,9 +8,6 @@
 # 0 will come till index 'count0-1' and same for others
 class Solution:
     def sortColors(self, nums: List[int]) -> None:
-        """
-        Do not return anything, modify nums in-place instead.
-        """
         count0= nums.count(0)
         count1= nums.count(1)
         count2= nums.count(2)
@@ -25,10 +22,13 @@ class Solution:
 
 
 
-# 3rd method(using double pointer)
+# 3rd method(using double pointer): time=O(N),Space: O(1).. Q is made on this approach only
+
 # move the array 0 at front ,1 in the middle and 2 at the last
 # final goal is to make this 'low' and 'high' pointer points to 
 # 1st and last index of all consecutive 1's respectively
+# before low all will be zero and low will point to the first one
+# after high all will be 2, high will point to the last one
 class Solution:
     def sortColors(self, nums: List[int]) -> None:
         # it can't be done by two pointer so we have to take another pointer also for 
@@ -50,7 +50,7 @@ class Solution:
                 # don't swap as main aim to curr to put '1' in the middle, simply incr curr by 1
                 current+= 1
             # if nums[current] ==2:
-            else:
+            else:  
                 # # swap it with nums[high] as after high all will be '2' only
                 nums[current], nums[high]= nums[high], nums[current]
                 high-= 1

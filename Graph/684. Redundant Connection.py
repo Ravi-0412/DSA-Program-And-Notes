@@ -1,4 +1,4 @@
-# i thought in correct way onl;y but not able to get the last occured input as ans in acse of more than one
+# i thought in correct way only but not able to get the last occured input , in case of more than one ans
 # like when two greater node value is connected to a smaller node value all forming a cycle
 # tried a lot 
 class Solution:
@@ -40,10 +40,13 @@ class Solution:
 # for better understanding the 'union find'. general and better one.. 
 # https://www.youtube.com/watch?v=3gbO7FDYNFQ&t=306s
 
+# logic: we have to find which edge(two node), we can't do union that's all
+
 # every node will be parent of itself at start and rank of all will be '0' initially
 
-# for union(merging the two into one): find the root parent of both the node and attach the node with smaller rank to the node with larger rank 
-# and parent_larger_rank= parent[node_with_smaller_rank]
+# for union(merging the two into one): union tells whether we can connect two node or not by an edge. if not then it means connecting these two node(given edge) will lead to cycle
+# logic for union: find the root parent of both the node and attach the node with smaller rank to the node with larger rank 
+# and make parent_larger_rank= parent[node_with_smaller_rank]
 
 # when attaching the node, only increment the rank by '1'  for parent node(to which we are attaching) if rank of both the parent node is equal otherwise don't incr 
 # increment in rank by '1' means increment in height by '1'
@@ -58,7 +61,7 @@ class Solution:
 class Solution:
     def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
         parent= [i for i in range(len(edges)+1)]  # node starting from '1' to 'n' but starting from  '0' for easier calculation(direct geeting the value from node number)
-                # willc ontain the value of root parent at last for each node
+                # will ontain the value of root parent at last for each node
         rank= [0] *(len(edges)+1)  # initally rank of all will be '0' since all are at height '0' (single node)
         
         # finding the root parent and the 1st level parent
@@ -66,7 +69,7 @@ class Solution:
         def find(n):
             p= parent[n]
             # path compression so that you can directly go to the root parent of each node
-            while p!= parent[p]:
+            while p!= parent[p]:  # root node will be parent of itself , means we have found the root parent
                 parent[p]= parent[parent[p]]  # for checking the next level node(grandparent) in next cycle
                 p= parent[p]
             return p

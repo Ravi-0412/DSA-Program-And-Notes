@@ -33,7 +33,7 @@ majority_element()
 # not equal to the current element
 
 
-# note: will only work properly for finding ele with maximum fre , only valid for majority ele if they occur for sure
+# note: only valid for majority ele if they occur for sure
 # if the max_fre ele occur at the start then count will get decrement to '0' later and 'm' will have different ele at last
 # then will give incorrect ans 
 import math

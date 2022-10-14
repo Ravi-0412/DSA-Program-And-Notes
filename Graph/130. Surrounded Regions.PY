@@ -15,7 +15,7 @@ class Solution:
         def dfs(r,c):
             if r<0 or r>=row or c<0 or c>= col or board[r][c]!= "O":
                 return 
-            if board[r][c]== "O":
+            if board[r][c]== "O":   # we are not checking the symbol before calling the function so we have to check here as it can be "X" also
                 board[r][c]= "V"     # any special symbol
             directions= [[-1,0],[1,0],[0,-1],[0,1]]    # up,down,left,right
             for dr,dc in directions:

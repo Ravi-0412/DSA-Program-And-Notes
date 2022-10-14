@@ -1,5 +1,6 @@
 # i was trying to do by 'union-find' but not able to do in case of more than one components 
 # cycle is getting detected easily but for checking we have to use bfs or dfs. not able to do this by 'union find'
+# hav edto ask someone 
 
 class Solution:
     def valid_tree(self, n: int, edges: List[List[int]]) -> bool:
@@ -98,9 +99,11 @@ class Solution:
         # code starts from here
         # for tree it shoule be connected and should not have a cycle
         # so we only need to call dfs once, if conneceted all node will get visited 
-        if isCycle(0,-1):   # means cycle  
+        if isCycle(0,-1):   # means cycle  so it can't be a tree
             return False
-        if len(visited)== n:  # this will check connected or not
+        # to check connected or not. Either you do this or call Dfs in a for loop and count the no of times dfs is called..
+        #  if called more than one time then it means has more than one component
+        if len(visited)== n:  
             return True
         return False
 

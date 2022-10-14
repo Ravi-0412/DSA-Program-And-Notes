@@ -32,6 +32,7 @@ class Graph:
             if not self.visited_reverse[v]:
                 self.PrintScc(transpose1, v)
 
+    # start reading from here
     def KosaRaju(self, adj, n):
         stack= []
         for i in range(n):

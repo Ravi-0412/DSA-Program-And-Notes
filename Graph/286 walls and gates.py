@@ -29,7 +29,7 @@ def wallsAndGates(a, n, m):
             directions= [[-1,0],[1,0],[0,-1],[0,1]]
             for dr,dc in directions:
                 r,c= r1+dr, c1+dc
-                if 0<=r<row and 0<=c<col and  a[r][c]== 2147483647:
+                if 0<=r<row and 0<=c<col and  a[r][c]== 2147483647:  # if a[r][c] is not 'inf' means if already marked then that will be minimum distance only so not checking that condition
                     a[r][c]= distance
                     q.append((r,c))   # for next iterat
     return a

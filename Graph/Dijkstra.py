@@ -12,14 +12,17 @@ def ShortestPath(adj,n, src):
     minHeap= [(0,src)]  # first ele should be weight as it will create the heap using 1st ele always
     visited= set()  
     while minHeap:
-        w1,n1= heapq.heappop(minHeap)
-        if n1 in visited:
+        w1,n1= heapq.heappop(minHeap)    # it means for this node, we have got the optimal ans so we will relax all the nodes to this node
+        if n1 in visited:    # since we have called the function without checking node is visited or not so we have to check it here
             continue
-        visited.add(n1)
+        visited.add(n1)     # only mark visited if we have are going to relax all of the outgoing edge from the curr node. 
         for n2, w2 in edges[n1]:
             if n2 not in visited:
                 if distance[n2] > w1+ w2:
                     distance[n2]= w1+w2
+                    # visited.add(n2)       # this will give incorrect ans. this is one more diff from Bfs
+                                            # you can only add any node to visited if ypu have found the optimal ans for that node i.e when you will pop
+
                 # when we push more than one ele in heap, 
                 # it create the min/max heap acc to the 1st ele(1st pushed ele)
                 heapq.heappush(minHeap,(distance[n2], n2))  

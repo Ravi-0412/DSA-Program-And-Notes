@@ -18,6 +18,7 @@ class Solution:
         def DFS(r,c,visited,preHeight):
             if r<0 or r>=row or c<0 or c>=col or (r,c) in visited or heights[r][c] < preHeight:
                 return
+            # now means this cell can reach the ocean so add in the visited 
             visited.add((r,c))
             directions= [[-1,0],[1,0],[0,-1],[0,1]]    # up,down,left,right
             for dr,dc in directions:
@@ -45,5 +46,5 @@ class Solution:
 
 # method 2: By Bfs using same logic as we did in case of "No of island"
 
-# method: Try to do by DP(neetocde was not able to do by DP).. i also tried but not bale to do
+# method: Try to do by DP(neetocde was not able to do by DP).. i also tried but not able to do
 # But seeming a Q of dp:  Ask someone

@@ -9,5 +9,4 @@ class Solution:
 # my mistake: Didn't read the Q properly, i was thinking to delete the node itself and got stuck
 # but Q is something else, doesn't mean that node should be deleted from the memory
 
-# Note: Read all the Q proeprly then only try to solve according to the Q, don't go on the way you
-# were solving the Q
+# Note: Read all the Q proeprly then only try to solve according to the meaning of Q, don't go on the way you were solving the Q always

@@ -1,30 +1,3 @@
-# 2nd method(best one): in one travesal
-
-class Solution:
-    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]: 
-        #create a dummy node at start and make it(dummy.next=head)           
-        # containing only one element ii: when we are deleting the          
-        #point to the head to handle #the corner cases(like list             
-        #first element itself
-        # move the pointer 'first' to n step after beginning(like 1->4 for n=3)
-        dummy = ListNode(0)
-        dummy.next= head
-        first = dummy
-        second= dummy   
-        # move the pointer 'first' to n step after beginning(1->4 for n=3) without incr 'second'
-        for i in range(n+1):
-            first= first.next
-        # now start incr the 'second' to maintain the difference bw first-second= n always
-        # after reaching the end , second.next will be= nth node from last
-        # first will point to None 
-        while first:
-            first= first.next
-            second= second.next
-        # now update the pointers
-        second.next= second.next.next
-        return dummy.next     
-
-        
 
 # 1st method: traversing the linked list two times(leetcode accepted)
 # one for finding the length and 2nd for deleting the element
@@ -48,7 +21,7 @@ class Solution:
         # after this current.next will point to the element we 
         # have to delete
 
-        length-= n
+        length=length-n
         first = dummy
         while length>0:
             length-= 1
@@ -58,6 +31,27 @@ class Solution:
         first.next= first.next.next 
         return dummy.next 
 
+# 2nd method(best one): in one travesal
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        #create a dummy node at start and make it(dummy.next=head) to handle the corner cases like:
+        # 1) when there is only one ele 2) when 1st ele is the nth from the last
+        
+        dummy = ListNode(0)
+        dummy.next= head
+        first = dummy
+        second= dummy   
+        # move the first n step ahead then start moving the second
+        for i in range(n):
+            first= first.next
+        # now start incr the 'second' to maintain the difference bw first-second= n always
+        # when first will reach the end, second will be pointing to the one node before the node that we have to delete                           
+        while first.next:
+            first= first.next
+            second= second.next
+        # now update the pointers
+        second.next= second.next.next
+        return dummy.next  
 
 # just same logic as method 1
 class Solution:

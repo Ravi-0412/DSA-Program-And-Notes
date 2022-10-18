@@ -10,33 +10,12 @@ class Solution:
         while first:
             if(length>10001):
                 return True
-                break
             else:
                 first= first.next
                 length+= 1
         return False
 
-
-# 2nd method: using dictionary to store the address of visiting node
-# and if again we find the same address of any node means there is cycle otherwise not
-# but not working 
-class Solution:
-    def hasCycle(self, head: Optional[ListNode]) -> bool:
-        first= head
-        hashmap= {}
-        while first:
-            if id(first) not in hashmap: # error in this line 
-                hashmap[first.val]= id(first) # error in this line
-                # giving error because since we are storing address against the value and ele in the list can repeat with different add
-                # so everytime it will change the address when repeating ele will come
-                first= first.next
-            else:
-                return True
-                break
-        if first== None:
-            return False
-
-# correct code of method 2
+# 2nd method
 class Solution:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
         add = {}
@@ -53,6 +32,25 @@ class Solution:
         return False
 
 
+# my mistake in method 2 
+class Solution:
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        first= head
+        hashmap= {}
+        while first:
+            if id(first) not in hashmap: # error in this line 
+                hashmap[first.val]= id(first) # error in this line
+                # giving error because since we are storing address against the value and ele in the list can repeat with different add
+                # so everytime it will change the address when repeating ele will come
+                first= first.next
+            else:
+                return True
+        if first== None:
+            return False
+
+
+
+
 
 # 3rd method : storing the address into the set
 # why set came into mind: since we have to find cycle means same address can't repeat again while traversing and
@@ -67,7 +65,6 @@ class Solution:
         while first:
             if first in s:
                 return True 
-                break
             s.add(first)  # adding the add of fisrt into the set
             first= first.next
         return False

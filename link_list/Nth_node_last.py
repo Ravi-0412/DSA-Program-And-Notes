@@ -9,7 +9,7 @@ def getNthFromLast(head,n):
     while first.next:
         first= first.next
         count+= 1
-        if count>=n:
+        if count>=n:   # after count becomes equal to n
             second= second.next
     if count+1<n: # means n> no of elements in the link list
         return -1

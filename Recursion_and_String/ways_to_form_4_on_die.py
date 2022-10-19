@@ -10,4 +10,4 @@ def Form_Num(num,ans):
     return res
 
 print(Form_Num(4,""))
-print(Form_Num(6,""))
+# print(Form_Num(6,""))

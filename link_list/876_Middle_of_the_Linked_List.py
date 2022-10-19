@@ -6,12 +6,11 @@
 class Solution:
     def middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:
         # fast will point to last node or none after the loop will break
-        # slow will point to middle node and in case of even no of node
-        # slow will point to next middle
+        # slow will point to middle node and in case of even no of node will point to next middle
         fast, slow= head, head
         # if no of elements in the list is even
         while fast and fast.next: # if fast== None it means 'even' no of elements and if fast.next== None it means 'even' no of elements
-            fast= fast.next.next      # is evenfast= fast.next.next
+            fast= fast.next.next      # after inc 'fast' here it can point to None so checking in while loop for 'fast' as well as 'fast.next'
             slow= slow.next           
         return slow
 

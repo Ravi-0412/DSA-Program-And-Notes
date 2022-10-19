@@ -21,29 +21,23 @@ class Solution:
                 return right
         return left
     
-    def BinarySearchPivot(self,arr,start, end):
-        n= len(arr)
-        while start<= end:
-            mid= start + (end-start)//2
-            if arr[mid]> arr[(mid+1)%n]:  # this condition will only happen once in the whole array 
-                                         # and (mid+1)% 1 will give the index of minimum element
-                return (mid+1)%n
-            # if above condition not found then update the start and end in the unsorted part
-            # and there are two chances of unsorted part
-            
-            # case 1: means ele will be present till mid and mid can also be the minimum
-            # so update end in this case
-            elif arr[mid] < arr[start]: 
-                end= mid
+    def BinarySearchPivot(nums):              
+        left, right = 0, len(nums)-1
+        while left < right:
+            mid = (left + right) // 2
+    
+            if nums[left] >nums[mid]:   # means array from 'left' to 'mid' is unsorted
+                right = mid-1            # so max will lie before mid 
 
-            # case 2: means ele will be present after mid till end      
-            # so update 'start' in this case     
-            elif arr[mid] > arr[end]:
-                start= mid +1
-            # if no such condition found then array is sorted in ascending order
-            # so in this case simply return 0
-            else:
-                return 0
+            else:      # here it will guarantee that array from left to mid is sorted and 
+            # mid to right is unsorted and mid can also be the max
+            # so max will lie in this range only 
+                left= mid
+        # after loop will fail , start and end will point to 
+        # the same ele and that will be the maximum ele
+        # because both are merging towards the index of max ele in each iteration
+    
+        return nums[left]
             
     def BinarySearch(self,arr,target,low,high):
         start,end= low,high
@@ -60,7 +54,8 @@ class Solution:
 
 # method2: By recursion
 #logic: just finding the sorted part and checking whether ele lies 
-# in this or not .. if lies then call the binary search
+# in this or not .. if lies then call the binary search  as we can directly apply binary search in sorted part only
+
 
 def search(arr, target, low, high):
     start, end= low, high
@@ -80,12 +75,12 @@ def search(arr, target, low, high):
 
         # if above part is not sorted then it other part from mid+1 to end must be sorted
         # check if target lies in this range        
-        elif arr[mid+1] <=target<=arr[end]:  # if lies call binary search
+        else: 
+            if arr[mid+1] <=target<=arr[end]:  # if lies call binary search
                 return search(arr, target,mid+1,end)
-        
-        # if not lies from 'mid+1' to end then it must be before it
-        else: # you can write this else ij above elif jujst like the 1st one 
-            return search(arr, target,start,mid)
+            # if not lies from 'mid+1' to end then it must be before it
+            else:
+                return search(arr, target,start,mid)
     return -1
 
 # arr = [4, 5, 6, 7, 8, 9, 1, 2, 3]

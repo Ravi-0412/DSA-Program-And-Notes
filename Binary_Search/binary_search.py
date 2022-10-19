@@ -17,42 +17,6 @@ def binary_search(arr,key):
 
 
 
-# # for searching element is present more than one time
-# def binary_search(arr,key):
-#     n= len(arr)
-#     low=0
-#     up= n-1
-#     mid1=0
-#     temp= 0
-#     # this will give the index of searching element
-#     # it may or may not be the first index of searching element
-#     # will depend on the position of mid index
-#     while(low<= up):
-#         mid= low+ (up-low)//2
-#         if arr[mid]== key:
-#            print("element is present at index: ",mid)
-#            mid1= mid
-#            temp= 1
-#            break
-#         elif(arr[mid]> key):
-#             up= mid-1
-#         else:
-#             low= mid+1
-#     if(temp==0):
-#         print("element is not present")
-#     else:
-#         # to get all the index of searching element left of position we got in above iteration
-#         k= mid1-1
-#         while(k>= 0 and arr[k]==key):
-#             print("element is present at index: ",k)
-#             k-= 1
-#         # to get all the index of searching element right of position we got in above iteration
-#         p= mid1+1
-#         while(p<= n-1 and arr[p]==key):
-#             print("element is present at index: ",p)
-#             p+= 1
-
-
 # recursive way
 # def binary_search(arr,key,low,up):
 #     if(up>= low):

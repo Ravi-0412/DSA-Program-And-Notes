@@ -2,9 +2,10 @@
 
 # 2nd method: using dictionary 
 # time: O(n), space: O(n)
-# logic: just go on storing the ele in hashmap if not present and 
+# logic: for every ele, find the remaining sum then 
 # check the remaining sum is present in the hashamp or not 
 # if remaining sum is already present in the dictionary return its value 
+# if not present then add the current ele into hashmap with its index
 def twoSum(self, nums: List[int], target: int) -> List[int]:
         hashmap= {}
         for i in range(len(nums)):

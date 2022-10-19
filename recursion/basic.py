@@ -142,12 +142,12 @@ print(SumDigit1(234))
 
 # check whether a given string is palindrome or not
 def palindrome(s,i,n):
-    if s[i]!= s[n] :
-        print("not palindrome")
-        return
     if i>= n:  # if i reaches till middle means palindrome
         print("palindrome")
         return 
+    if s[i]!= s[n] :
+        print("not palindrome")
+        return
     palindrome(s,i+1,n-1)
 
 palindrome("malayalam",0,8)

@@ -96,10 +96,9 @@ print(LinearSearch5(arr,4,0))
 
 
 def search(arr,target,index):
+    ans= []
     if index >= len(arr): 
-        l = []
-        return l
-    ans = []
+        return ans
     if arr[index] == target:
         ans.append(index)
     smallAns = search(arr,target,index+1)

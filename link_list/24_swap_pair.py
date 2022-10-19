@@ -1,5 +1,5 @@
-# did myself on 03/10/2022
-# very basic approach
+
+# very basic approach.. this can be modified to two pointer only curr_odd and pre
 class Solution:
     def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
         dummy= ListNode(0)
@@ -28,7 +28,6 @@ class Solution:
 
 
 
-
 # 2nd method(better one):
 # logic: just create a dummy node to handle the corner cases like :
 # i) if there is only two elements
@@ -43,8 +42,11 @@ class Solution:
         pre,curr= dummy,head
         # just after seeing two elements we are swapping
         # current will point to 1st element of swap and
-        # pre will follow the current 
-        while curr and curr.next:  # if curr.next is not None it means we have seen the two nodes so swap
+        # pre will follow the current
+
+        # if curr.next is not None it means we have seen the two nodes so swap.  
+        # it basically confirming that remaining node is at least two
+        while curr and curr.next: 
             pre.next= curr.next
             curr.next= pre.next.next
             pre.next.next= curr

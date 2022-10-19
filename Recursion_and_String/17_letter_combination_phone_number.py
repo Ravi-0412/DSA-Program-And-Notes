@@ -43,6 +43,26 @@ class Solution:
 l1= Solution()
 print(l1.letterCombinations("78"))
 
+
+# better way of writing the above code
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        keypad= {"2":"abc", "3":"def", "4":"ghi", "5":"jkl", "6":"mno", "7":"pqrs", "8":"tuv", "9":"wxyz"}   # made key as string as input is given in string only
+        if not digits:
+            return []
+        return self.permutations(digits,"",keypad)
+
+    def permutations(self,digits,ans,keypad):
+        if not digits:
+                local= [ans]
+                return local
+        res= []
+        letters= keypad[digits[0]]
+        for i in range(len(letters)):
+            res+= self.permutations(digits[1:],ans+ letters[i],keypad)
+        return res
+
+
 # to count the no of possible combinations
 def PadCount(str1, ans):
     count= 0
@@ -65,4 +85,3 @@ print(PadCount("78",""))
 
 
 # a lot of more concise soln in 'coding channel' have to look on that later
-  

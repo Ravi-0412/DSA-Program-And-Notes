@@ -27,13 +27,14 @@ majority_element()
 
 
 # Leetcode solution: 2nd method(Moore’s Voting Algorithm)
-# it just give the element that has occured most no of times if fre of that ele> middle(not the total frequency of that element )
+# it gives the majority ele i.e that has occured more than n/2 times
 # by balancing the count i.e after seeing any other element it 
-# decreases the count if count is zero and  'm' is
-# not equal to the current element
+# decreases the count if count is zero and  'm' is not equal to the current element
+# at alst 'm' will give the majority element
 
 
-# note: only valid for majority ele if they occur for sure
+
+# note: only valid for majority ele if they occur for sure. will not give the ele which has occured maximum no of times
 # if the max_fre ele occur at the start then count will get decrement to '0' later and 'm' will have different ele at last
 # then will give incorrect ans 
 import math
@@ -52,12 +53,7 @@ class Solution:
                     cnt+= 1
                 else:  # else decrease the count by 1
                     cnt-= 1
-# now check the no of occurences of the elemnet that has occured most no of times
-# if greater than middle then 'm' is majority element
-# else no majority element exist
-        x= nums.count(m)
-        if x> middle:
-            return m
+        return m
                     
 
 

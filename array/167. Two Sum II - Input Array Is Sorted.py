@@ -27,7 +27,7 @@ class Solution:
             # in this case our ans will lie after start since array is sorted
             elif numbers[start]+ numbers[end] < target:
                 start+= 1
-            else:
+            else:  # we found the target
                 return start+1, end+1
 
 

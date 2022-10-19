@@ -80,111 +80,43 @@ class LinkedList:
         pre.next= current.next # make next of pre point to next node after index value
         # current.next= None  # make the next of index as ' None'    # no need to even write this
 
-    
-    # swapping kth and (k+1)th node from end of the link list by swapping the data
-    # count will give the total no of nodes-1
-    # def swap_two_node_last_values(self,k):
-    #     first,second,third= self.head, self.head,self.head
-    #     count= 0   # count will give the total no of nodes-1
-    #     while first.next:
-    #         count+= 1
-    #         first= first.next
-    #         if count>=k:
-    #             third= second
-    #             second= second.next
-    #     # now second will point to the kth element from the last
-    #     # third will point to (k+1)th node from the end i.e one ele before 'second' from start
-    #     # after this swap the data of both
-    #     if count <k:
-    #         print("swapping not possible in this case")
-    #     else:
-    #         second.data,third.data= third.data, second.data
-
-
-    # #swapping kth and (k+1)th node from end of the linklist list by changing the links not by changing the data
-    # #same logic can be applied to swapping any two given nodes of at any position
-    # #just first find the position of nodes and update the pointers 
-    # #accordinbg to the cases
-    def swap_two_node_last_links(self,k):
-        first,curr_x,pre_y, curr_y= self.head,self.head,None,None
-        count= 0
-        while first.next:
-            first= first.next
-            count+= 1
-            if count>=k:
-                pre_y= curr_y
-                curr_y= curr_x
-                curr_x= curr_x.next
-        # now curr_x will point to the kth element from the last
-        # curr_y  will point to (k+1)th node from the end
-        # pre_y will point to the (k+2)th node from the end
-        
-        # if k >= no of elements 
-        if count <k:
-            print("swapping not possible in this case")
-        # else update the pointers
-        # case 1: there exist only two elements and (k+1)th= curr_y 
-        # is a head node and kth is a last node
-        elif curr_y== self.head and curr_x.next==None:
-            self.head= curr_x
-            curr_x.next= curr_y
-            curr_y.next= None
-        #case 2: when kth is a last node having elemenst greater than 2
-        elif curr_x.next== None:
-            curr_x.next= curr_y
-            pre_y.next= curr_x
-            curr_y.next= None
-        # case 3: when (k+1)th node is first node(head) and kth node is 
-        # not the last node(an internal node)
-        elif curr_y== self.head and curr_x.next!= None:
-            temp= curr_x.next
-            curr_x.next= self.head
-            curr_y.next= temp
-            self.head= curr_x
-        # case 4: when both are internal nodes
-        else:
-            temp= curr_x.next
-            curr_x.next= curr_y
-            curr_y.next= temp
-            pre_y.next= curr_x
 
 
 # method 2(best one):
 # swapping kth and (k+1)th node from end of the linklist list by changing the links not by changing the data
 # logic: create a dummy node to handle the corner cases like above one
-# case 1, case 2, case 3
-#     def swap_two_node_last_links1(self,k):
-#         dummy= Node(0)
-#         dummy.next= self.head
-#         first,curr_x,pre_y, curr_y= self.head,self.head,dummy,dummy
-#         count= 0
-#         while first.next:
-#             first= first.next
-#             count+= 1
-#             if count>=k:
-#                 pre_y= curr_y
-#                 curr_y= curr_x
-#                 curr_x= curr_x.next
-#         if count <k:
-#             print("swapping not possible in this case")
-#         else:
-#             pre_y.next= curr_x
-#             curr_y.next= curr_x.next
-#             curr_x.next= curr_y
+    def swap_two_node_last_links(self,k):
+        dummy= Node(0)
+        dummy.next= self.head
+        first,second,pre_sec= dummy, dummy,None
+        count= 0
+        # second will point to (k+1)th ele from last and pre_sec will point to one node before second 
+        for i in range(k):
+            first= first.next
+            count+= 1
+        print(first.data,second.data)
+        while first.next:
+            pre_sec= second
+            second= second.next
+            first= first.next
+            count+= 1
+        print(first.data,second.data)
+        
+        if count<= k:
+            print("can't possible ")
+            return
+        temp= second.next
+        second.next= second.next.next
+        temp.next= second
+        pre_sec.next= temp
 
-#         # for getting the actual link list after swap
-#         # start printing from dummy.next beacuse in this 
-#         # approach we are not changing the head
-#         llstr = ''
-#         current= dummy.next
-#         while current:
-#             llstr+= current.data + "-->"
-#             current= current.next
-#         print(llstr)
-
-
-
-
+        
+        llstr = ''
+        current= dummy.next
+        while current:
+            llstr+= str(current.data) + "-->"
+            current= current.next
+        print(llstr)
 
 
 if __name__ == "__main__":
@@ -202,11 +134,11 @@ if __name__ == "__main__":
     l1.show()
     # l1.swap_two_node_last_values(2)
     # l1.show()
-    l1.swap_two_node_last_links(2)
+    l1.swap_two_node_last_links(1)
     l1.show()
     # l1.swap_two_node_last_links1(7)
-    l1.remove_at(2)
-    l1.show()
+    # l1.remove_at(2)
+    # l1.show()
     # l1.get_length()
 
 

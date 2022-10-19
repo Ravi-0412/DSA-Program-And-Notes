@@ -18,4 +18,14 @@ class Solution:
         return ans
 
 
-# method2: Another way of writing the recursive function
+# concise way of writing the above code
+class Solution:
+    def numberOfSteps(self, num: int) -> int:
+        if num==0:
+            return 0
+        count= 1
+        if num%2== 0:
+            count+= self.numberOfSteps(num//2)
+        else:
+            count+= self.numberOfSteps(num-1)
+        return count

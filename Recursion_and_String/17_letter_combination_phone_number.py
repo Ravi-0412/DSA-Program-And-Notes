@@ -1,4 +1,5 @@
 # method 1: 
+# time: O(4^n) 
 def PhonePad(str1,ans):
     pad= [" ", " ", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv","wxyz"]
     if not str1:
@@ -45,13 +46,13 @@ print(l1.letterCombinations("78"))
 
 
 # better way of writing the above code
+# mine
 class Solution:
     def letterCombinations(self, digits: str) -> List[str]:
         keypad= {"2":"abc", "3":"def", "4":"ghi", "5":"jkl", "6":"mno", "7":"pqrs", "8":"tuv", "9":"wxyz"}   # made key as string as input is given in string only
         if not digits:
             return []
         return self.permutations(digits,"",keypad)
-
     def permutations(self,digits,ans,keypad):
         if not digits:
                 local= [ans]

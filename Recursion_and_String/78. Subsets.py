@@ -125,44 +125,46 @@
 #         return outer
 
 
-# have to see this later(Kunal kushwala permuation video at last)
+
 # the above method won't work if list contain duplicate elements
 # if duplicates are there then there will be also duplicate subsets
 
 # in case of duplicates elements,add the element only to the newly 
-# created subsets not to the existing subsets also like above
-# and for this to work properly duplicate elements must be together
+# created subsets of previous step also because pre_ele  were already added to the old subsets
+
+# and for this to work properly duplicate elements must be together then only we can know which is newly created subsets for pre ele
 # beacuse in case duplicates doesn't come together then you will not find 
 # at what level that ele had come before 
 
-# so solve the duplicates appearing more than once at different positions
-# just sort the array then apply the this method
-
+# so solve the duplicates appearing more than once at different positions and to bring all duplicates together
+# just sort the array then apply this method
 
 # code: if set conatins duplicates
 
 def subset(arr):
     outer= [[]]
     start,end= 0,0  
-    # 'start' will tell from where we have to start coping 
-    # 'end' will contain the index of last subset that was already in the outer 
-    # so if we add '1' to end then we will know that from where we have to start copying 
-    # and adding if duplicate comes otherwise we will copy from '0' till n-1
+    # 'start' will tell from where we have to start copying i.e start index of pre newly created subset
+    # 'end' will contain the last index of pre newly created subset i.e till where we have to copy and it will be always 'len(outer)-1'
+    # so if we add '1' to end then we will know that from where we have to start copying if duplicates comes
+    # otherwise we will copy from '0' till n-1
 
     arr.sort()   # first sort the array so that all duplicates come together
     for i in range(len(arr)):
-        start=0  # will start copy from index '0' only in case no duplicates 
-        if(i>0 and arr[i-1]==arr[i]):  # if duplicates
-            start= end+1              # will copy from previous newly added set
-        end= len(outer) -1     # will be equal to 
+        start=0  # will start copy from index '0' only in case of no duplicates 
+        if(i>0 and arr[i-1]==arr[i]):  # if duplicates comes then we have to add duplicate from end+=1
+            start= end+1            
+        end= len(outer) -1   # it will be always this only    
         for j in range(start,len(outer)):
             internal= outer[j].copy()  
             internal.append(arr[i])       
             outer.append(internal)   
     return outer
 
-arr= [1,2,3,2]
+# arr= [1,2,3,2]
 # arr= [1,2,2]
+arr= [1,1,2,2]
+# arr= [10,1,2,7,6,1,5]
 print(subset(arr))
 
 

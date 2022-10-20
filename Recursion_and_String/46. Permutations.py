@@ -1,7 +1,8 @@
 # logic: just we are putting the upcoming letter at all the gap formed by
 # the already stored letter in answer
 # Time Complexity: O(n*n!) Note that there are n! permutations and it 
-# requires O(n) time to print a permutation.
+# requires O(n) time to print a permutation or put into any data structure 
+# space: O(n!) for storing each of permutation
 def permutations(given, ans):
     if not given: # if given string is empty
         print(ans)
@@ -21,6 +22,8 @@ def permutations(given, ans):
 
 # the above logic will not remove duplicates as we are not checking 
 # anything before filling we are just filling all the possible gaps
+
+
 
 
 # storing the results into a list
@@ -64,8 +67,8 @@ def permutations(given, ans):
         count+= permutations(given[1:], left + ch + right)        
     return count
 
-print(permutations("abc", "")) 
-print(permutations("abcd", "")) 
+# print(permutations("abc", "")) 
+# print(permutations("abcd", "")) 
 # print(permutations("aba", ""))  
 
 
@@ -101,4 +104,28 @@ class Solution:
 #             left,right= p[:i], p[i:]
 #             ans+= self.helper(left + ch+ right, up[1:])   # wrong will print many empty list also inside the ans
 #         return ans
+
+
+
+# method 2:
+# another method and easy one
+# for every position we have 'n' choices. 
+# run a loop to check whether any ele has been added or not,for this 'n' choices.  for this take set 'included'
+# if any ele not in included then add that ele to the ans else ignore
+def permutations2(arr,ans,included):
+    if len(ans)== len(arr):  # measn we have got one of the permutations
+        print(ans)
+        return
+    for i in range(len(arr)):
+        if arr[i] not in included:
+            included.add(arr[i])
+            ans.append(arr[i])
+            permutations2(arr,ans,included)
+            # while bachtracking remove arr[i]
+            included.remove(arr[i]) 
+            ans.remove(arr[i])
+
+arr= [1,2,3]
+included= set()
+permutations2(arr,[],included)
 

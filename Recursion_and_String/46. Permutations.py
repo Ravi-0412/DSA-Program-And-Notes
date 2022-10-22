@@ -121,11 +121,24 @@ def permutations2(arr,ans,included):
             included.add(arr[i])
             ans.append(arr[i])
             permutations2(arr,ans,included)
-            # while bachtracking remove arr[i]
+            # while backtracking remove arr[i]
             included.remove(arr[i]) 
             ans.remove(arr[i])
 
 arr= [1,2,3]
 included= set()
-permutations2(arr,[],included)
+# permutations2(arr,[],included)
 
+
+# method 3:
+def permutations3(ind,arr,ans):
+    if ind== len(arr):
+        print(arr)
+        return 
+    for i in range(ind,len(arr)):
+        arr[i],arr[ind]= arr[ind],arr[i]
+        permutations3(i+1,arr,ans)
+        arr[i],arr[ind]= arr[ind],arr[i]
+
+arr= [1,2,3]
+permutations3(0,arr)

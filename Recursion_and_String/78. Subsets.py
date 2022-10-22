@@ -52,6 +52,30 @@
 #         return left+right
 
 
+# method 2: more concise and easier way of above logic
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        res= []
+        subset= []
+        def dfs(i):
+            if i>=len(nums):
+                res.append(subset)  # if you write this then will print very subset as empty only as we are updating the subset always i.e 
+                # adding and poping so subset will be 'empty' only after the all calls end so getting all subset as empty
+                res.append(subset.copy())     # so do deep copy
+                return
+            # when we include the curr ele in subset
+            subset.append(nums[i])
+            dfs(i+1)
+            # when we don't include the curr ele in subset
+            subset.pop()
+            dfs(i+1)        
+        # call the dfs with starting index '0'
+        dfs(0)
+        return res
+
+
+# iterative way:
+
 # logic: Accept and reject is happening with 'ans so far'
 # for each new number, 
 # we can either pick it or not pick it. 

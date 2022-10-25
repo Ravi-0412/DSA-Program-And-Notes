@@ -1,7 +1,9 @@
 # Q)find the no of possible ways to put the Queens
 # page: 21
-# in this we are placing row wise
-# so we only need to check upper left diagonal, upper right diagonal and vertical
+# in this we are placing row wise and once we got any safe place in a row, no need to check further col in that row
+# as two Queens can't be in the same row
+
+# so we only need to check upper left diagonal, upper right diagonal and vertical up
 # for whether Queen is safe orr not at that place
 
 def NQueens(board,row):  # since we are checking from starting for each row, no need to write col
@@ -20,7 +22,7 @@ def NQueens(board,row):  # since we are checking from starting for each row, no 
     # after placing check whether that position is safe or not 
     # if safe mark that position as: 'True'
 
-    for col in range(len(board)):   # checking for each col 
+    for col in range(len(board)):   # checking for each col in that row
         if isSafe(board,row,col):  # means safe so place the Queen and mark that position as True
             board[row][col]= 'Q'
             # after placing(if not possible to place in given row) check for 
@@ -118,7 +120,7 @@ print(NQueens(board,0))
 #             row= ""  # will store the content of row by row of 'board'
 #             for j in range(len(board[0])):
 #                 row+= board[i][j]
-#             new_board.append(row)  # will 
+#             new_board.append(row)  
 #         all_board.append(new_board)
 
 #     def isSafe(self,board,row,col):    

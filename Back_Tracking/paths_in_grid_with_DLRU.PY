@@ -35,7 +35,7 @@ maze= [[True,True,True],[True,False,True],[True,True,True]]  # false means at th
 # print(Paths("",maze,0,0))                                                            # so you cant take that path
 
 
-# Q)   print the path in matrix for same Q i.e:
+# Q)   print all the separate path in matrix for same Q i.e:
 # mark the no 1,2,3,4.... as you traverse the path to reach the destination
 def Paths_Matrix(ans, maze, row, col,matrix,step):  # step will increase in each rec call
     count=0

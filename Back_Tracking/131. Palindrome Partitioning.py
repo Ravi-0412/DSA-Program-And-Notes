@@ -14,6 +14,6 @@ class Solution:
             if s1==s1[::-1]:
                 part.append(s1)
                 self.PAlindromePartition(s[i+1:],part,ans)
-                # for next starting partition pop the ele that you added i.e backtracking
+                # for next starting partition pop the ele that you added so that it add the fresh new palindrome i.e do backtracking
                 part.pop()
 

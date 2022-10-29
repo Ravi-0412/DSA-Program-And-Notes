@@ -4,7 +4,7 @@
 # space: O(n) recursive depth + O(n) for storing ans= O(n)
 class Solution:
     def wordBreak(self, dict, s):
-        ans= []   # not storing in string because string is immutable thats why it will be add the matched sequence in  the already found sequnence only
+        ans= []   # not storing in string because string is immutable thats why we won't be able to add the current matched word by deleting the last added matched word 
         return self.helper(s,dict,ans)
     
     def helper(self,s,dict,ans):
@@ -28,3 +28,26 @@ dict= { "i", "like", "sam", "sung", "samsung", "mobile", "ice", "and", "cream", 
 # s= "ilikesamsungmobile"
 s= "ilikeicecreamandmango"
 w.wordBreak(dict,s)
+
+
+# this submitted on leetcode, same approach
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        ans= []  # will store the final ans
+        seg= []  # will store the matching segment
+        self.helper(s, wordDict,seg,ans)
+        return ans
+    
+    def helper(self,s,dict,seg, ans):
+        if not s:
+            # listToStr = reduce(lambda a, b : a+ " " +str(b), seg) # shorter way. was not able to do by join so used this otherwise iterate and store
+            listToStr= " ".join(str(e) for e in seg)   # or do like this
+            ans.append(listToStr)
+            return
+        for i in range(1,len(s)+1):
+            if s[:i] in dict:
+                seg.append(s[:i])
+                self.helper(s[i:],dict,seg,ans)
+                # now backtrack so that it removes the current mapped string and found the new one
+                seg.pop()
+

@@ -1,4 +1,4 @@
-# Q) You are allowed to move left, right, up, down 
+# Q) You are allowed to move left, right, up, down. False means 'obstacle is there' and True means 'no obstacle'
 # will count and print the payth as well
 # page: 19
 # same approach if obstacles are also there
@@ -11,8 +11,7 @@ def Paths(ans, maze, row, col):
         return 0
     # if not false, make it 'false' 
     # since i am considering this cell for my paths
-    maze[row][col]= False
-
+    maze[row][col]= False  # made it false so again we don't repeat this cell in same path
     if row< len(maze)-1:  # then only you can go down
         count+= Paths(ans+ 'D', maze, row+1, col)
     if col< len(maze[0])-1:  # then only you can go right

@@ -25,7 +25,7 @@ class Solution:
                     color[nei]= 1^color[curr]  # just change the color of its adjacent node, above taken '1' of source so here we have to take different so xor with '1'(above taken) 
                     # for this we used xor operation with 1(to get the diff one , xor with 0 will result into the same color)
                     Q.append(nei)  # in DFS instead of this line we call the DFS gain and everything is same only
-                elif color[nei]== color[curr]:
+                elif color[nei]== color[curr]: # if colored and have same color then not bipartite 
                     return False
         # return True  # no need of this
 
@@ -45,7 +45,7 @@ class Solution:
 
     def DfsCheck(self, graph, src, color):
         for u in graph[src]:
-            if color[u]== -1:
+            if color[u]== -1:  # means not visited
                 color[u]= 1^color[src]
                 if self.DfsCheck(graph,u,color)== False:
                     return False

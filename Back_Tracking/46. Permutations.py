@@ -142,3 +142,23 @@ def permutations3(ind,arr,ans):
 
 arr= [1,2,3]
 permutations3(0,arr)
+
+
+# method 4: 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+def permutations(str1,ans):
+    if len(str1)==0:  # mens you have got one of the ans
+        print(ans)
+        return 1
+    count= 0
+    for i in range(len(str1)): 
+        curr= str1[i]  # add one char to the 1st position one by one each
+                       # and call the fun for the left string to fill the space
+        left= str1[0:i] + str1[i+1:]  # will contain the remaining str 
+                                      # excluding that we have added till now
+                                      # i.e remove the string at ith index
+        count+= permutations(left,ans+curr)   # agai call the call for the remaining string
+    return count
+
+print(permutations("abc", ""))
+# print(permutations("abcd", ""))

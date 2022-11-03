@@ -21,35 +21,76 @@ class Solution:
             count+= Solution().Paths(ans+ 'R', maze, row, col+1)
         return count
 
-
-# By memoization
-# Don't know why it's not working
+# memoization
 class Solution:
     def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
-        m, n= len(obstacleGrid) -1, len(obstacleGrid[0]) -1
+        if obstacleGrid[len(obstacleGrid)-1][len(obstacleGrid[0])-1]== 1:   # if there is obstacle at destination
+            return 0
+        m,n= len(obstacleGrid), len(obstacleGrid[0])
         dp= [[-1 for j in range(n)] for i in range(m)]
-        dp[0][0]= 1 if obstacleGrid[0][0]== 0 else 0
-        return self.Paths(obstacleGrid, m-1, n-1, dp)  # we are starting from bottom-right(m-1, n-1) and trying to reach the starting grid(0,0)
+        return self.helper(0,0,obstacleGrid,dp)
+    
+    def helper(self,r,c,grid,dp):
+        if r>= len(grid) or c>= len(grid[0]):
+            return 0
+        if r== len(grid)-1 and c== len(grid[0])-1 :  #if reaches the end point 
+            return 1
+        if grid[r][c]== 1:  # if obstacle at that cell then simply return 
+            return 0
+            
+        if r<= len(grid)-1 and c<= len(grid[0])-1 and dp[r][c]!= -1:
+            return dp[r][c]
+        down,right= 0,0
+        if r<= len(grid)-1:
+            down+= self.helper(r+1,c,grid,dp)
+        if c<= len(grid[0])-1:
+            right+= self.helper(r,c+1,grid,dp)
+        dp[r][c]= down + right
+        return dp[r][c]
         
-    def Paths(self, maze, m, n, dp):
-        # if n==0 and m==0:  # since we are starting from m-1 and n-1 so this means we are in the destination row or destination col 
-        #     if maze[m][n]==1:  # and there will be only one path to reach 0,0 after this either yougo left only or up on
-        #         dp[m][n]
+
+# other way of writing memoization
+class Solution:
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+        if obstacleGrid[len(obstacleGrid)-1][len(obstacleGrid[0])-1]== 1:   # if there is obstacle at destination
+            return 0
+        m,n= len(obstacleGrid), len(obstacleGrid[0])
+        dp= [[-1 for j in range(n)] for i in range(m)]
+        return self.helper(0,0,obstacleGrid,dp)
+    
+    def helper(self,r,c,grid,dp):
+        if r>= len(grid) or c>= len(grid[0]):
+            return 0
+        if r== len(grid)-1 and c== len(grid[0])-1 :  #if reaches the end point 
+            return 1
+        if grid[r][c]== 1:  # if obstacle at that cell then simply return 
+            return 0       
+        if dp[r][c]!= -1:
+            return dp[r][c]
+        dp[r][c]= self.helper(r+1,c,grid,dp) + self.helper(r,c+1,grid,dp)
+        return dp[r][c]
+
+# tabulation:
+class Solution:
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+        m,n= len(obstacleGrid), len(obstacleGrid[0])
+        dp= [[0 for j in range(n)] for i in range(m)]
+        # initialise with proper base cases
         
-
-
-
-
-
-
-
-
-
-
-
-            ``
-                        dp[i][j] += dp[i-1][j]
-                    if j >0:
-                        dp[i][j] += dp[i][j-1]
-        return dp[-1][-1]
-
+        # going from (m-1,n-1) to (0,0) so we have to check at (0,0)
+        if obstacleGrid[0][0]!= 1:
+            dp[0][0]= 1
+        # initialisng the 1st row. after reaching the 1st row, paths will depend on the pre row cell( dp[0][i-1]) if no obstacle at that cell
+        for i in range(1,n):
+            if obstacleGrid[0][i]!= 1:
+                dp[0][i]= dp[0][i-1]
+        # initialisng the 1st col. after reaching the 1st col, paths will depend on the pre col cell( dp[i-1][0]) if no obstacle at that cell
+        for i in range(1,m):
+            if obstacleGrid[i][0]!= 1:
+                dp[i][0]= dp[i-1][0]
+           
+        for i in range(1,m):
+            for j in range(1,n):
+                if obstacleGrid[i][j]!= 1:  # if not obstacle
+                    dp[i][j]= dp[i-1][j] + dp[i][j-1]
+        return dp[m-1][n-1]

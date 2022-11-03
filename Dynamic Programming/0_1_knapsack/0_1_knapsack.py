@@ -2,9 +2,9 @@
 def knapSack(N, W, val, wt):
     if N==0 or W==0:
         return 0
-    if wt[N-1]<= W:
+    if wt[N-1]<= W: # we have two choices either to take this item or not
         return max(val[N-1]+ knapSack(N-1,W- wt[N-1],val,wt), knapSack(N-1,W,val, wt))
-    else:
+    else:  # only one option i.e we can't take this ele
         return knapSack(N-1,W,val, wt) 
 
 N = 3
@@ -36,7 +36,7 @@ class Solution:
         return dp[n][W]   # last ele of dp matrix will give the ans
 
 
-# another method: (By Bottom up approach)
+# another method: Tabulation (By Bottom up approach)
 class Solution:
     #Function to return max value that can be put in knapsack of capacity W.
     def knapSack(self,W, wt, val, n):

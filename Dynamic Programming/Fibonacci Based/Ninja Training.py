@@ -1,10 +1,12 @@
 # write the logic in notes for all steps in detail(VVI)
+# notes: page 152
 def ninjaTraining(n: int, points: List[List[int]]) -> int:
     days= len(points)-1
     return Reward(days,3,points)
 
 def Reward(day,last,points):
     maxPoints= 0
+    
     if day==0:
         for task in range(3):
             if task!= last:

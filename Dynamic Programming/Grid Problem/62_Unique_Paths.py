@@ -16,6 +16,12 @@
 #         count+= Solution().Paths(p1,p2+1,m,n-1)   # when you choose down
 #         return count
 
+# shorter one
+def ways(r,c,n,m):
+    if r==m or c==n:
+        return 1
+    return ways(r,c+1,m,n) + ways(r+1,c,m,n)   # right or down
+
 
 # # Q)Print all the paths
 # # def Paths(ans,m,n):      

@@ -2,6 +2,8 @@
 # # correct only but showing time limit exceed for bigger matrix
 # # try again later by DP and Back Tracking
 # # you can remove the variable p1,p2 also ..just for understanding purpose
+# time: O(2^(m*n)) since for every cell there is two option
+# space: O(m+n)  Recursion depth
 # # page n: 14
 # class Solution:
 #     def uniquePaths(self, m: int, n: int) -> int:
@@ -135,6 +137,7 @@ def ways(r,c,n,m):
 #         return dp[0][0]
 
 # # if you start from (0,0) and want to go (m-1, n-1)
+# bottom up Approach
 # class Solution:
 #     def uniquePaths(self, m: int, n: int) -> int:
 #         dp= [[1 for j in range(n)] for i in range(m)]
@@ -151,9 +154,9 @@ class Solution:
 
         for i in range(m):
             for j in range(n):
-                if i >0:
+                if i >0:  # if we are allowed to go down
                     dp[i][j] += dp[i-1][j]
-                if j >0:
+                if j >0:  # if we are allowed to go right
                     dp[i][j] += dp[i][j-1]
         return dp[-1][-1]
 
@@ -174,3 +177,19 @@ class Solution:
         return dp[m][n]
 ob= Solution()
 print(ob.uniquePaths(3,3))
+
+
+# optimising space complexity
+# time: O(m*n), space: O(n)
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        # calculate the values row by row
+        # first initialise with base case or fill the value in 1st row
+        pre= [1 for i in range(n)]   # after reaching 1st row you have only one choice 
+        for i in range(1,m):
+            curr= [0]*n    # will store the ans of the current row
+            for j in range(n):  # for each row, we are calculating the value from the pre row
+                curr[j]= pre[j] + curr[j-1] if j>=1 else pre[j]   # pre row val + curr_row pre col value.. pre is storing the values of pre row only so we only need to use that
+            pre= curr.copy()  
+        return pre[n-1]
+

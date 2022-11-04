@@ -55,3 +55,4 @@ class Solution:
         dp[row][col]= min(left,up)
         return dp[row][col]
 
+# same way we you can optimise space like pre Q: 62,63

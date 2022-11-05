@@ -1,10 +1,10 @@
 # method 1: Memoization
-class Solution:
-    def change(self, amount: int, coins: List[int]) -> int:
-        # just exactly same as ' count no of subsets with a given sum'
+# logic:  # just exactly same as ' count no of subsets with a given sum'
         # just write the logic of unbounded kanpsack when we include any else:
         # here we don't need to make the weight array like 'cutting rod problem' 
         # acc to the q we will increase/ decrease the no of variable
+class Solution:
+    def change(self, amount: int, coins: List[int]) -> int:
         N= len(coins)
         dp= [[-1 for i in range(amount +1)] for i in range(N +1)]   
         return self.helper(N, coins, amount, dp)

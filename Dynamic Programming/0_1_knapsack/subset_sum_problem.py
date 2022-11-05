@@ -1,3 +1,18 @@
+# method 1: Recursion
+class Solution:
+    def isSubsetSum (self, N, arr, sum):
+        return self.helper(N, arr, sum)
+    def helper(self, n, arr, sum):
+        if sum== 0:
+            return True
+        if n== 0:  # means n== 0 and sum != 0
+            return False
+        if arr[n-1]> sum:
+            return self.helper(n-1,arr,sum)
+        else:
+            return self.helper(n-1,arr,sum- arr[n-1]) or self.helper(n-1,arr,sum)
+
+
 # memoized method:
 
 class Solution:
@@ -20,7 +35,7 @@ class Solution:
         return dp[n][sum]
 
 
-# method 2: By Bottom up  Approach
+# method 3: By Bottom up  Approach
 class Solution:
     def isSubsetSum (self, N, arr, sum):
         # 1st initialse the matrix properly
@@ -40,6 +55,7 @@ class Solution:
                     dp[i][j]= dp[i-1][j-arr[i-1]] or dp[i-1][j]
         return dp[N][sum]        
 
+# method 4: optimising space complexity to O(n)
 
 # another way(from here striver's video)
 # method 1: By recursion, time: O(2^n), space= O(n)

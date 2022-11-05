@@ -20,9 +20,7 @@ class Solution:
 class Solution:
     def knapSack(self, N, W, val, wt):
         dp=[[-1 for j in range(W + 1)] for i in range(N +1)]  # initialising the answer matrix  
-        ans= self.helper(N,W,val,wt,dp)
-        # print(dp)
-        return ans
+        return self.helper(N,W,val,wt,dp)
     def helper(self,N,W,val,wt,dp):
         if N==0 or W==0:
             return 0
@@ -46,3 +44,5 @@ class Solution:
                 else:
                     dp[i][j]= dp[i-1][j]
         return dp[N][W]
+
+# method 4: space optimising to O(n)

@@ -1,4 +1,4 @@
-# Q: count no of subset with a given difference
+# Q: count no of subsets who 
 # method 1: 
 # will work properly for all cases in which value of ele will be greater than zero may not for value of ele= 0
 def NoOfSubsets(N, arr, sum):

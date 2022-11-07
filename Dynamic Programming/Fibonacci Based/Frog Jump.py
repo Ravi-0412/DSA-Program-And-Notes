@@ -4,11 +4,9 @@
 def frogJump(n: int, heights: List[int]) -> int:
     if n==1:  # means we have reached the destination so simply return '0'
         return 0
-    if n==2: # only we have to go one step 
+    if n==2: # only we have to go one step. wrote base case for n== 2 so that index doesn't go out of bound in 2nd recursion call
         return abs(heights[1] - heights[0])
-    mn= 9999999
-    mn= min(abs(heights[n-1]-heights[n-2]) + frogJump(n-1,heights),  abs(heights[n-1]-heights[n-3]) + frogJump(n-2,heights))
-    return mn
+    return min(abs(heights[n-1]-heights[n-2]) + frogJump(n-1,heights),  abs(heights[n-1]-heights[n-3]) + frogJump(n-2,heights))
 
 
 # method 2: memoization (Top Down )
@@ -23,7 +21,6 @@ def helper(n,heights,dp):
         return abs(heights[1] - heights[0])
     if dp[n-1]!= -1:
         return dp[n-1]
-    dp[n-1]= 9999999  # as indexing is starting from 1
     dp[n-1]= min(abs(heights[n-1]-heights[n-2]) + helper(n-1,heights,dp),  abs(heights[n-1]-heights[n-3]) + helper(n-2,heights,dp))
     return dp[n-1]
 

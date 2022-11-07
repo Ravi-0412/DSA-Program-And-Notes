@@ -5,7 +5,7 @@ class Solution:
     def isSubsequence(self, s: str, t: str) -> bool:
         x,y= len(s), len(t)
         lcs_length= self.lcs(x,y,s,t)
-        if lcs_length== x:
+        if lcs_length== x:  # check if length of lcs= len(substring)
             return True
         return False
     def lcs(self,x,y,s1,s2):

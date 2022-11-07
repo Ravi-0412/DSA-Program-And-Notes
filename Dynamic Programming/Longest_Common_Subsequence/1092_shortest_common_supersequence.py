@@ -1,6 +1,8 @@
+# shortest Common Supersequence will contain all the string in order except the lcs(we have to minus lcs to avoid its repitition) i.e every char we have to add only one
+# and lcs will be common in both so write lcs only one time 
 # will print length of shortest common supersequence
-# logic: lcs will be common in both the string for sure
-# so just add the length of given string and minus
+# logic: lcs will be common in both the string for sure 
+# so just add the length of given strings and minus
 # the length of the lcs to get the 'length of shortest common supersequence'
 
 
@@ -40,14 +42,15 @@ class Solution:
             if str1[i-1]== str2[j-1]:
                 ans= str1[i-1] + ans
                 i, j= i-1, j-1
-            elif dp[i][j-1]> dp[i-1][j]:  # in equal case only writing one of the string
+            # in equal case only writing one of the string , thw path we had taken to reach the curr cell
+            elif dp[i][j-1]> dp[i-1][j]:  
                     ans= str2[j-1] + ans
                     j-= 1
             # and in unequal cases only writing everytime in direction we will move
             else:
                 ans= str1[i-1] + ans
                 i-= 1
-        # now write the remaining string if left any
+        # now write the remaining string if left any as we have to include all the ele 
         while(i>0):
             ans= str1[i-1] + ans
             i-= 1

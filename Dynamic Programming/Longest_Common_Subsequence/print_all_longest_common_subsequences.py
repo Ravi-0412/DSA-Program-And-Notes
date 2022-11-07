@@ -1,4 +1,47 @@
-# will print all possible distinct subsequenes
+#1st method: will print any one possible longest subsequences
+# just go from bottom right to top left and just take the pre path you had taken to reach the curr cell and if the char is equal then include into the ans
+def FindLcs(m,n,s1,s2):
+    dp= [[0 for j in range(n+1)] for i in range(m+1)]  # initialised with base cases
+    length= lcs(m,n,s1,s2,dp)
+    print("length of longest commom subsequence: ",length)
+    return PrintLcs(m,n,s1,s2,dp)
+    
+def PrintLcs(x,y,s1,s2,dp):
+    ans= ""
+    i ,j = x, y
+    while(i>0 and j>0):
+        if s1[i-1]== s2[j-1]:
+            ans= s1[i-1] + ans
+            # in case of equal you must have taken the diagoanl ele so decr 'i' and 'j' by 1
+            i-= 1
+            j-= 1
+        # if char not equal then we must have taken the max value of left or right up
+        # if left > right up take the left one   
+        elif dp[i][j-1]>= dp[i-1][j]:  
+            j-= 1
+        # if right up > left, take the left one 
+        else:
+            i-= 1
+    return ans   
+    
+    
+def lcs(x,y,s1,s2,dp):
+    for i in range(1,x+1):
+        for j in range(1,y+1):
+            if s1[i-1]== s2[j-1]:
+                dp[i][j]= 1+ dp[i-1][j-1]
+            else:
+                dp[i][j]= max(dp[i-1][j], dp[i][j-1])
+    return dp[x][y]
+    
+s1= "abcbdab"
+s2= "bdcaba"
+x,y= len(s1), len(s2)
+# print(FindLcs(x,y,s1,s2))
+
+
+# method 2:To print all possible distinct subsequences
+# have to understand this properly 
 class Solution:
     def __init__(self,x,y):
         self.x, self.y= x, y    
@@ -34,20 +77,20 @@ class Solution:
                 # merge two sets in s to get added in equal to condition
                 # because all the smaller subsequences will have to get added in equal to condition
                 for ele in temp:
-                    s.add(ele)   # this all smaller subsequences will get added as
+                    s.add(ele)   # all smaller subsequences will get added as
                                  # diff ele in set 
                                  # when equal to condition will satisfy,this all ele of sets
                                  # will get added to the char at equal to condition one by one
         return s
 
-# s1= "qpqrr"
-# s2= "pqprqrp"
+s1= "qpqrr"
+s2= "pqprqrp"
 # s1= "abcbdab"
 # s2= "bdcaba"
 # s1= "abc"
 # s2= "acb"
-s1= "dcbcf"
-s2= "abcdaf"
+# s1= "dcbcf"
+# s2= "abcdaf"
 x,y= len(s1), len(s2)
 ob= Solution(x,y)
 print("length of the longest subsequences is: ",ob.lcs(x,y,s1,s2))
@@ -56,41 +99,3 @@ s= ob.FindLcs(x,y,s1,s2)
 for i in s:
     print(i)
 
-
-
-# 2nd method: but will print only one possible longest subsequences
-s1= "abcbdab"
-s2= "bdcaba"    
-x,y= len(s1), len(s2)
-
-dp= [[0 for j in range(y+1)] for i in range(x+1)]
-def lcs(x,y,s1,s2):
-    for i in range(1,x+1):
-        for j in range(1,y+1):
-            if s1[i-1]== s2[j-1]:
-                dp[i][j]= 1+ dp[i-1][j-1]
-            else:
-                dp[i][j]= max(dp[i-1][j], dp[i][j-1])
-    return dp[x][y]
-
-def FindLcs(x,y,s1,s2):
-    ans= ""
-    # if x==0 or y==0:
-    #     return ans
-    i ,j = x, y
-    while(i>0 and j>0):
-        if s1[i-1]== s2[j-1]:
-            ans= s1[i-1] + ans
-            i-= 1
-            j-= 1
-            
-        elif dp[i][j-1]>= dp[i-1][j]:
-            j-= 1
-        else:
-            i-= 1
-    return ans
-        
-    
-print(lcs(x,y,s1,s2))
-print(FindLcs(x,y,s1,s2))
-# print(dp)

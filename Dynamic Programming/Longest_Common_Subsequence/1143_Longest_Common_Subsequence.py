@@ -1,19 +1,15 @@
 # method 1: Recursive way
 class Solution:
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
-        ans= 0
         m, n= len(text1), len(text2)
         return self.LCS(m, n, text1, text2)
     def LCS(self, m, n, s1, s2):
-        ans= 0
         if m==0 or n==0:
             return 0
         elif s1[m -1] == s2[n -1]:
-            SmallAns= 1+ self.LCS(m-1, n-1, s1, s2)
-            ans= ans+ SmallAns
+            return 1+ self.LCS(m-1, n-1, s1, s2)
         else: # s1[m -1] == s2[n -1]
-            SmallAns= max (self.LCS(m, n-1, s1, s2), self.LCS(m-1, n, s1, s2))
-            ans= ans+ SmallAns
+            return max (self.LCS(m, n-1, s1, s2), self.LCS(m-1, n, s1, s2))SmallAns
         return ans
 
 # method 2: memoization
@@ -48,3 +44,6 @@ class Solution:
                 else:
                     dp[i][j]= max(dp[i-1][j], dp[i][j-1])
         return dp[x][y]
+
+# method 4: optimise the space
+

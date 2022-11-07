@@ -1,4 +1,4 @@
-# method 1: Memoization
+# method 2: Memoization
 # logic:  # just exactly same as ' count no of subsets with a given sum'
         # just write the logic of unbounded kanpsack when we include any else:
         # here we don't need to make the weight array like 'cutting rod problem' 
@@ -9,9 +9,9 @@ class Solution:
         dp= [[-1 for i in range(amount +1)] for i in range(N +1)]   
         return self.helper(N, coins, amount, dp)
     def helper(self, n, arr, sum, dp):
-        if sum== 0:
+        if sum== 0:  # we have to find the ways so first check 'if sum==0'
             return 1
-        if n== 0:
+        if n== 0:   # means sum!= 0 and n==0
             return 0
         if dp[n][sum] != -1: 
             return dp[n][sum]

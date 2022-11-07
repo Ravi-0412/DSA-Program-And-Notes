@@ -15,10 +15,10 @@ class Solution:
             return n
         return self.climbStairs(n-1) + self.climbStairs(n-2)  # ways(n)= ways(n-1) + ways(n-2)
 
-# or you can write like this
+# or you can write like this. Better one
 class Solution:
     def climbStairs(self, n: int) -> int:
-        if n<=1: # after reaching here only we can say that steps that we had taken will lead to destination
+        if n<=1: # after reaching here only we can say that steps that we had taken will lead to destination. so it is one of the ways
             return 1  # only difference from fibonacci.. if n== 0 also then it means you have taken one step then only you have reached '0'. so return 1 instead of 'n'
         return self.climbStairs(n-1) + self.climbStairs(n-2)
 

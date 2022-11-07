@@ -1,3 +1,43 @@
+# logic: since we only need consecutive so if there is match then take the pre value 
+# otherwise(if not match), make it zero . 
+# but at last it may not give the final ans as in between we are making the value as zero also.
+# ans will be the max of whole 2d Dp. so for this keep storing the ans in nay other variable say 'final'
+
+# method 1: Recursion
+# tried a lot by taking count varible inside it but didn't able to solve . problem was in 'not matching case'
+class Solution:
+    def longestCommonSubstr(self, S1, S2, n, m):
+        return self.lcs(S1,S2,n,m,0)
+    
+    def lcs(self,s1,s2,n,m,count):
+        if n== 0 or m== 0:
+            return count   # instead of zero
+        if s1[n-1]== s2[m-1]:
+            count= self.lcs(s1,s2,n-1,m-1,count+1)   # incr the count by '1'
+        else:
+            count= max(count,max(self.lcs(s1,s2,n,m-1,0),self.lcs(s1,s2,n-1,m,0)))  # make the count= 0 in function
+        return count  # return the count value at current function call
+
+# method 2: memoization
+# not able to write the memoised version, have to ask someone
+# giving wrong ans
+class Solution:
+    def longestCommonSubstr(self, S1, S2, n, m):
+        dp= [[-1 for j in range(m+1)] for i in range(n+1)]
+        return self.lcs(S1,S2,n,m,0,dp)
+    
+    def lcs(self,s1,s2,n,m,count,dp):
+        if n== 0 or m== 0:
+            return count
+        if dp[n][m]!= -1:
+            return dp[n][m]
+        if s1[n-1]== s2[m-1]:
+            count= self.lcs(s1,s2,n-1,m-1,count+1,dp)   # incr the count by '1'
+            dp[n][m]= count
+        else:
+            count= max(count,max(self.lcs(s1,s2,n,m-1,0,dp),self.lcs(s1,s2,n-1,m,0,dp)))  # make the count= 0 in function
+            dp[n][m]= count
+        return count
 
 
 # method 3:

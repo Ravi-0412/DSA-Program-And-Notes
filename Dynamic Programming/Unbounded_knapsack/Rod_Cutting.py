@@ -1,3 +1,5 @@
+# logic: here length will behave as 'weight' and total length as 'capacity'
+# other everything is same as unbounded Knapsack
 # method 1: memoization
 class Solution:
     def cutRod(self, price, n):

@@ -1,3 +1,4 @@
+# Note: if only deletion is allowed , then for making both string same . Make both equal to lcs(here longest palindromic subsequence )
 # just find the length of longest palindromic subsequence and
 # subtract this from the length of the string as these are extra char 
 # beyond longest palindromic sequence so we have to delete this only

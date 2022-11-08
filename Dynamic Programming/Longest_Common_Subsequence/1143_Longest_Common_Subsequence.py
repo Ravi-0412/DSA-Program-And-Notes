@@ -9,8 +9,7 @@ class Solution:
         elif s1[m -1] == s2[n -1]:
             return 1+ self.LCS(m-1, n-1, s1, s2)
         else: # s1[m -1] == s2[n -1]
-            return max (self.LCS(m, n-1, s1, s2), self.LCS(m-1, n, s1, s2))SmallAns
-        return ans
+            return max (self.LCS(m, n-1, s1, s2), self.LCS(m-1, n, s1, s2))
 
 # method 2: memoization
 class Solution:

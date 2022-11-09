@@ -91,14 +91,42 @@ class Solution:
 
 
 # if you traverse from starting left to right
-# write this logic in notes
+# write this logic in notes with printing the LIS, counting the number of LIS in detail
+# for every ele, we have two choices either include that into 'subse' or not include to the pre_answers
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
         LIS= [1]* len(nums)   # LIS[i] indicates that LIS that end at index 'i' from start. for each index at least ele at curr index will be get included so initialised with '1'
         for i in range(len(nums)):  # calculating for each index one by one
             for j in range(i):     # take the values from all the pre index till now 
-                if nums[j] < nums[i]: 
+                if nums[j] < nums[i]: # include the element
                     LIS[i]= max(LIS[i], 1+ LIS[j])   # if follows the rule then incr the LIS by one 
         return max(LIS)
 
+# another way of writing above code
+class Solution:  
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        LIS= [1]* len(nums)   
+        for i in range(len(nums)):  # calculating for each index one by one
+            for j in range(i):     # take the values from all the pre index till now 
+                if nums[j] < nums[i] and LIS[i] < 1+ LIS[j]: # include the element # if follows the rule then incr the LIS by one
+                    LIS[i]= 1+ LIS[j]    
+        return max(LIS)
 
+
+# better one: using binary search to find the proper position of curr index in case not follows the pattern and removing the curr ele at that index in 'sub'
+# time: O(n*logn)
+# space: O(n)
+# bisect function: https://www.geeksforgeeks.org/bisect-algorithm-functions-in-python/
+# logic: https://leetcode.com/problems/longest-increasing-subsequence/discuss/1326308/C%2B%2BPython-DP-Binary-Search-BIT-Solutions-Picture-explain-O(NlogN)
+# here 'sub' will not give the one of the LIS but it will give the correct ans for LIS
+import bisect
+class Solution:  
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        sub= []
+        for num in nums:
+            if not sub or sub[-1] < num:
+                sub.append(num)
+            else: # find the position of num in sub and replace that ind with num
+                idx= bisect.bisect_left(sub, num)  # simply bisect_left(sub,num)
+                sub[idx]= num
+        return len(sub)

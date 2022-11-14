@@ -21,7 +21,7 @@ class Solution:
 
         ans= []
         if len(s)==1:
-            new_list= []
+            new_list= [s[0]]
             new_list.append(s[-1])
             return new_list
         smallAns= Solution().reverseString(s[1:])  # lo bhai tm baki sb reverse kar dena
@@ -53,13 +53,18 @@ arr= ["h","e","l","l","o"]
 def StringReverse(str1):
         ans= ""
         if len(str1)==1:
-            local_ans= ""
-            local_ans+= str1[0]
-            return local_ans
+            return str1[0]
         smallAns= StringReverse(str1[1:])
-        ans+= smallAns
-        ans+= str1[0]
+        ans+= smallAns + str1[0]
         return ans
 
 print(StringReverse("hello"))
 print(StringReverse("raushn"))
+
+
+# other way , pyhton new concept
+class Solution:
+    def reverseString(self, s: List[str]) -> None:
+        s[:]= s[::-1]
+# s[:] = s[::-1] is required NOT s = s[::-1] because you have to edit the list inplace.  # 2nd case will print the same string
+# s[:] = is editing the actual memory bytes s points to,    and s = points the variable name s to other bytes in the memory.

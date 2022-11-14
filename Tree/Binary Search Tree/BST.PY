@@ -70,6 +70,8 @@ class BST:
         print(root.data,end=" ")
         self.InorderRecursive(root.right)  
 
+    # easier one 
+
     # def InorderIterative(self,root):
     #     if root== None:
     #         return 

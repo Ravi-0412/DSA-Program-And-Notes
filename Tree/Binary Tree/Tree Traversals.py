@@ -58,7 +58,8 @@ def InorderRecursive(self,root):
     print(root.data,end=" ")
     self.InorderRecursive(root.right)  
 
-# easier one 
+# easier one. just the conversion of iterative form when we start from root.left
+# logic: just keep on going left and when left is none then pop the last added one(just same as recursive code, think little)
 # def InorderIterative(self,root):
 #     if root== None:
 #         return 
@@ -76,7 +77,11 @@ def InorderRecursive(self,root):
 #             stack.append(curr.left)
 #             curr= curr.left
     
-# another concise way of iterative approach of inorder traversal
+
+# another concise way of iterative approach of inorder traversal. 
+# just the conversion if we start from root 
+# logic: if root is not None we append and move to the left 
+# if none then we print the last added ele into the stack and move to right
 def InorderIterative(self,root):
     if root== None:
         return 
@@ -88,12 +93,12 @@ def InorderIterative(self,root):
             stack.append(curr)
             curr= curr.left
         # if no left child then we have to print the stack top and append the 'poped.right'
-        elif stack:
+        else:
+            if not stack:
+                break
             temp= stack.pop()
             print(temp.data, end=" ")
             curr= temp.right
-        else:
-            break
 
 def PostorderRecursive(self,root):
     if root== None:
@@ -113,24 +118,27 @@ class Solution:
             return [root.val]
         return l + r + [root.val]     # just the meaning of postorder
     
+# just same as preorder
+# only diff append the left one first then right one as ans will be in reverse order then only right will first get added into the ans(after poping)
+# and when we will reverse it we will get in the form (left,right,root)
 
-def postorderIterative1(self, root):
-    stack, ans= [], []
-    if root== None:
-        return root
-    stack.append(root)
-    while stack:
-        curr= stack.pop()
-        ans.append(curr.data)
-        if curr.left:
-            stack.append(curr.left)
-        if curr.right:
-            stack.append(curr.right)
-    # now print the 'ans' in the reverse order
-    while ans:
-        print(ans.pop(),end= " ")
-    
-# using only single stack(try later)
+class Solution:
+    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        if root== None:
+            return 
+        stack, ans= [], []
+        stack.append(root)
+        while stack:
+            curr= stack.pop()
+            ans.append(curr.val)
+            if curr.left:
+                stack.append(curr.left)
+            if curr.right:
+                stack.append(curr.right)
+        return ans[::-1]
+
+
+# using only single stack(try later) by understanding properly
 def PostorderIterative(self,root):
     if root== None:
         return 

@@ -1,5 +1,5 @@
 # i was trying to do by 'union-find' but not able to do in case of more than one components 
-# cycle is getting detected easily but for checking we have to use bfs or dfs. not able to do this by 'union find'
+# cycle is getting detected easily but for checking the single component we have to use bfs or dfs. not able to do this by 'union find'
 # hav edto ask someone 
 
 class Solution:

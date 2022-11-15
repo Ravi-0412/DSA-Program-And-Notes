@@ -15,7 +15,7 @@
 
 # if you do by finding the indegree like BFS then that will always give the correct ans as that is the basic of tolopogical sort
 
-# Note: this method will only work if no cycle.. for cycle detecting and then printing see the below method that i submitted in Q "210. Course Schedule II"
+# Note: this method will only work if no cycle.. for cycle detecting and then printing see the below method that i submitted in Q "269 Alien dictionary"
 # or we can also modify in this like we can use two visited array like we did in cycle detection Q
 
 # from collections import defaultdict
@@ -99,8 +99,8 @@ class Graph:
         Q, ans= [], []
         # find the node with indegree '0' as this node will come 1st in the topological order
         # i.e it will be the source node and after that apply the BFS
-        for i in range(self.V):   # for more than one component, make a separate function for bfs and call bfs inside the for loop like always
-            if self.indegree[i]==0: 
+        for i in range(self.V):   # will also work for more than one component
+            if self.indegree[i]==0:  # this will put node with indegree '0' of all component into the 'Q' and will check for each component
                 Q.append(i)
 
         count= 0  # will count the no of times node is added in the ans

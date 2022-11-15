@@ -70,7 +70,7 @@ class Solution:
             p= parent[n]
             # path compression so that you can directly go to the root parent of each node
             while p!= parent[p]:  # root node will be parent of itself , means we have found the root parent
-                parent[p]= parent[parent[p]]  # for checking the next level node(grandparent) in next cycle
+                # parent[p]= parent[parent[p]]  # for checking the next level node(grandparent) in next cycle . no need of this
                 p= parent[p]
             return p
 

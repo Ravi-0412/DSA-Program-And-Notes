@@ -45,7 +45,7 @@ class Solution:
     
         # heapify the edges so that minimum weight edge come at first index
         heapq.heapify(edges)
-        remaining_node= V-1     # as for connecting 'v' node we have to add only 'v-1' vertex
+        remaining_node= V-1     # as for connecting 'v' node we have to add only 'v-1' edges
         djs= DisJointSet(V)
         # now take the edge one by one from min heap and add it to the mst if doesn't form a cycle
         while edges and remaining_node!= 0 :

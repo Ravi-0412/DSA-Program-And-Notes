@@ -5,15 +5,6 @@
 class Solution:
     def minCostConnectPoints(self, points: List[List[int]]) -> int:
         adj= defaultdict(list)
-        # for i in range(len(points)):
-        #     for j in range(len(points)):
-        #         if i==j:
-        #             continue
-        #         x_diff= abs(points[i][0]- points[j][0])
-        #         y_diff= abs(points[i][1]- points[j][1])
-        #         distance= x_diff + y_diff
-        #         adj[i].append((j,distance))
-        
         # simpler and more readable way of making adjacency list
         for i in range(len(points)):
             x1,y1= points[i]

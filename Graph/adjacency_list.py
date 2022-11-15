@@ -10,7 +10,7 @@ class Graph:
         self.graph= [None]*size   # creating array of pointers
     
     def add_edge(self,s,d):  # s: source, d: destination
-        # we are appending using insert first i.e we are inserting the destination first
+        # we are appending using insert first 
         # adding destination to source
         node= Node(d)
         node.next= self.graph[s]

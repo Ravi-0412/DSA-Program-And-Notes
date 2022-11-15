@@ -9,7 +9,7 @@ class Solution:
         for u,v,w in times:
             edges[u].append((v,w))
         distance= [9999999]*(n+1)
-        distance[k]= distance[0]= 0   # will conatin the distance of source to all other vertices..Vertices are labelled from 1 so made dis[0]= 0 also
+        distance[k]= distance[0]= 0   # will conatin the distance of source to all other vertices
         minHeap= [(0,k)]  # first ele should be weight as it will create the heap using 1st ele always
         visited= set()  # better use an array since searching in set will take O(n) for each time..visited tells whether that node has been relaxed or not
         while minHeap:
@@ -17,15 +17,11 @@ class Solution:
             if n1 in visited:
                 continue
             visited.add(n1)
+            distance[n1]= w1
             for n2, w2 in edges[n1]:
                 if n2 not in visited:
-                    if distance[n2] > w1+ w2:
-                        distance[n2]= w1+w2
-                    # when we push more than one ele in heap, 
-                    # it create the min/max heap acc to the 1st ele(1st pushed ele)
-                    heapq.heappush(minHeap,(distance[n2], n2))  
-        return max(distance) if len(visited)== n else -1   # if len(visited)== n means every node is reachable by the source
-    
+                    heapq.heappush(minHeap,(w1+w2, n2))  
+        return max(distance) if len(visited)== n else -1
 
 
 # another way of writing above code and my mistakes
@@ -43,7 +39,7 @@ class Solution:
                 continue
             # if not visited, add to visited set and visit all its nodes and update the weight
             visited.add(n1)
-            min_time= max(min_time, w1)
+            min_time= max(min_time, w1)   # will take max of all the node times 
             for n2,w2 in adj[n1]:
                 if n2 not in visited:
                     heapq.heappush(minHeap,(w1+ w2, n2))   # add in heap by adding the weight of its parent also

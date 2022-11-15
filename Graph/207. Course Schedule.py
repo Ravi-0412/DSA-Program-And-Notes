@@ -1,5 +1,6 @@
 # just the topological sorting
 # how to reach think about topo sort: since it is asking for ordering sequence then only think come into mind is toposort
+# if no cycle then it is possible 
 
 # method1: using Bfs
 class Solution:
@@ -42,7 +43,7 @@ class Solution:
 
 
 # # method 2: Dfs (already done in topological sorting)
-# # very better solution
+# # very better solution: used only one array 
 # class Solution:
 #     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
 #         AdjList= defaultdict(list)
@@ -56,6 +57,8 @@ class Solution:
 #                 return []
 #         return stack[::-1]
         
+
+# false: means cycle 
 #     def FindTopoSort(self, adj,src, stack,visited):
 #         # base case for checking whether we have visited all the adjacent node.. if visited then check on another node
 #         if visited[src]== 1:   # been visited and added to the stack(ans). so simply return true so that it can check for next node without repeating the work

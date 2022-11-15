@@ -5,7 +5,7 @@
 # at last find the cell that can reach both and add them into the ans
 
 # very better logic as we are going from ocean to the cell then for next adjacent node, 
-# we will have to check with height of preCell , if height greater than preCell then the curr cell and also reach the respective ocean
+# we will have to check with height of preCell only, if height greater than preCell then the curr cell and also reach the respective ocean
 # exactly  same as "No of island", only change in height checking condition
 
 # time: O(m*n), space: O(m*n)

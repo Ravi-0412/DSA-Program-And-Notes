@@ -10,15 +10,15 @@
 
 # submitted on coding ninja and lintcode
 
-# no ned to make visited set , grid will behave as visited set automatically when we will check the value.. if value is changes then viisted else not
-# but it is always better to don't chnage the data given to you in terms of industry point of view
+# no ned to make visited set , grid will behave as visited set automatically when we will check the value.. if value is changes then visited else not
+# but it is always better to don't change the data given to you in terms of industry point of view
 def wallsAndGates(a, n, m): 
     row,col= n,m
     q= deque()
     distance= 0
 
     for r in range(row):
-        for c in range(col):
+        for c in range(col):  # appending all the gates into the 'Q'
             if a[r][c]== 0:
                 q.append((r,c))
 

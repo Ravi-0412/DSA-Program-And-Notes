@@ -5,7 +5,7 @@ class Solution:
     def findItinerary(self, tickets: List[List[str]]) -> List[str]:
         dept_to_dest= collections.defaultdict(list)
         # to get the edges in ascending order just sort the edges in descending order
-        # now add the adjacent vertices into hashmap. Edges bigger in lexographic order will come first so we can take the last one just by poping 
+        # now add the adjacent vertices into hashmap. Edges bigger in lexographic order will come first so we can take the last one just by poping and that will be lexographically small
         for dept,dest in sorted(tickets,reverse= True):
             dept_to_dest[dept].append(dest)
         route= []

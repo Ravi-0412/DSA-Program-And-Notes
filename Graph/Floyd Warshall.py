@@ -1,5 +1,8 @@
 # logic: go via every node one by one
 # in this algo, we store the graph in adjacency matrix rather than adjacency list
+# for detecting negative weight cycle, check the distance of any node from itself, if negative it means 'negative weight cycle' exist 
+# since it should be always zero only but it has decreased and becomes negative
+
 # submitted on gfg
 class Solution:
     def shortest_distance(self, matrix):

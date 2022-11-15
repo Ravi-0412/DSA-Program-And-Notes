@@ -6,7 +6,7 @@ def BellmanFord(src,edges,n):
     for i in range(n-1):
         tempDistance= distance.copy()
         for s,d,w in edges:
-            if distance[s]==999999:
+            if distance[s]==999999:  # first check if we have reached the source till now or not
                 continue
             if tempDistance[d]> distance[s] +w:
                 tempDistance[d]= distance[s] + w
@@ -14,7 +14,7 @@ def BellmanFord(src,edges,n):
     
     # now to check the negative cycle
     for s,d,w in edges:
-        if distance[s]!= 999999 and distance[d] > distance[s] + w:
+        if distance[s]!= 999999 and distance[d] > distance[s] + w:  # first check if we have reached the source
             print("negative weight cycle is there")
             return
     print(distance)

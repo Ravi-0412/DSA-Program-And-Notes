@@ -10,6 +10,7 @@
 # and this instead of putting the elevation in minHeap with coordinates, we will put the max(elevation till now)
 #  i.e max(pre poped and current_cell elevation)
 
+# this q is simply asking to return minimum of all the paths possible i.e (min(max of all possible paths))
 
 # time: n^2*logn (Dijkastra Algo)
 # minHeap contains at most n^2 elements, pop time complexity each time is is O(logn^2) = O(2*logn), At most we will pop n^2 times
@@ -32,6 +33,6 @@ class Solution:
                 r, c= r1 +r2, c1+ c2
                 if 0<=r<row and 0<=c<col and (r,c) not in visited:
                     visited.add((r,c))
-                    max_for_curr_path= max(time, grid[r][c])   # put the max val as we can only reach (r,c) with this time only, not in time less than this
-                    heapq.heappush(minHeap,(max_for_curr_path,(r,c)))
+                    max_till_now= max(time, grid[r][c])   # put the max val as we can only reach (r,c) with this time only, not in time less than this
+                    heapq.heappush(minHeap,(max_till_now,(r,c)))
 

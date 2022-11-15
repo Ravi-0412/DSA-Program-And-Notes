@@ -3,7 +3,7 @@
 
 # later:  i thought in totally correct way only ,how to do and what to apply like: DFS you can't apply here 
 # and bfs you will have to store all the rotten oranges at once in the queue, next all adjacent rotten oranges at once and so on 
-# and also you need to call BFS only once time as all the oranges that can got rotten will be become rotten as we are pushing all the rotten oranges at once that time
+# and also you need to call BFS only once time as all the oranges that can got rotten(connected one) will be become rotten as we are pushing all the rotten oranges at once that time
 # simple way: just find the oranges that can got rotten in time=1 , time=2 and so on
 
 # here better to do in same function rather than making separate function for BFS as we have to run the function only one time
@@ -41,5 +41,5 @@ class Solution:
                         fresh-= 1
                         q.append((r,c))
 
-        return time if fresh==0 else -1
+        return time if fresh==0 else -1  # if no fresh oranges is left
 

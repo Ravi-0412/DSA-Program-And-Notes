@@ -1,5 +1,8 @@
 # So, all this problem is asking us to do, is find a shortest path from our start word to end word using only word inside our list.
-# Now any time you think, find the shortest sequence you should immediately think, alright i need to use some shortest path algorithm like Breadth-First-Search
+# Now any time you think, find the shortest sequence you should immediately think, always i need to use some shortest path algorithm like Breadth-First-Search or dijkastra
+# logic: beginword will be at level '0' and now just keep all the words which can be formed by changing one char at level 1 ,
+#  word which can be formed by changing two char at level 2 and so on.
+# for this type of Q we always use multisource BFS(didi in many problem before)
 
 # Time Complexity :- BigO(M^2 * N), where M is size of dequeued word & N is size of our word list
 # Space Complexity :- BigO(M * N) where M is no. of character that we had in our string & N is the size of our wordList.
@@ -24,7 +27,7 @@ class Solution:
                 
         # now do bfs from beginWord and store all the words that can be formed by changing one character in the 'beginWord'
         # all those words will be at level 1 from the "beginWord" and so on do for level word till 'Q' becomes empty
-        visited= set()
+        visited= set()  # have to use this since one word can be added many times in the 'Q' 
         Q= collections.deque()
         ans= 0
         Q.append(beginWord)
@@ -35,6 +38,7 @@ class Solution:
                 word= Q.popleft()
                 if word== endWord:
                     return ans     # if there will be any sequnce then it will return from here itself as we have already handled the corner case if 'endWord' is not present
+                # now find the pattern that the curr 'word' can make and append those words that can make that pattern
                 for i in range(len(word)):
                     pattern= word[:i] + "*" + word[i+1:]
                     # add all the nei(adjacent) to this word, for this find out the word which is present in the dic w.r.t to all the pattern that this word can generate

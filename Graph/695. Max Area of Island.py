@@ -41,7 +41,7 @@ class Solution:
         row,col= len(grid), len(grid[0])
         visited= set()
         island= 0
-        maxArea= 0  # since variable we can't change in insider function so storing in list
+        maxArea= 0  
         
         # if you write function inside a function then you can't acess the immutable objects, you can only acess the mutable objects of the main function
         def BFS(r,c):

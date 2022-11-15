@@ -63,7 +63,7 @@ print(g.isCycle(9,g.AdjList))
 
 
 # another way using dfs: this submitted in Q "269 Alien dictionary"
-
+# understand the logic properly and do here 
 
 
 # method 2: using BFS(kahn's Algorithm)

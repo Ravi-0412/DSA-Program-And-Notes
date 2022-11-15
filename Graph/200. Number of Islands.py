@@ -26,10 +26,10 @@ class Solution:
                     visited.add((r1,c1+1))
                     Q.append((r1,c1+1))             
         
+        # start reading from here
         for r in range(row):
             for c in range(col):
                 if grid[r][c]== "1" and (r,c) not in visited: 
-                    print("ans: ",r,c)
                     island+= 1
                     visited.add((r,c))
                     BFS(r,c)
@@ -66,40 +66,18 @@ class Solution:
         return island
 
 # method 2: using DFS
-# my mistake: i was not able to write the base condition
-class Solution:
-    def numIslands(self, grid: List[List[str]]) -> int:
-        row,col= len(grid), len(grid[0])
-        visited= set()
-        island= 0
-        
-        def DFS(r,c):
-            # base condition
-            if r<0 or r>=row or c<0 or c>=col or (r,c) in visited or grid[r][c]== "0":
-                return
-            visited.add((r,c))
-            directions= [[-1,0],[1,0],[0,-1],[0,1]]
-            for dr,dc in directions:
-                r1,c1= r+dr, c+dc
-                DFS(r1,c1)           
-        
-        for r in range(row):
-            for c in range(col):
-                if grid[r][c]== "1" and (r,c) not in visited: 
-                    island+= 1
-                    DFS(r,c)
-        return island
 
 # for saving the space which is going in O(n*m), just make the changes just after visiting any grid like we had done in 'IsGraphBipartite'
-# like this 
+# no need of extra visited set
+# always remember for counting q, in base case there will one condition of returning '0' and one in general
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
         row,col= len(grid), len(grid[0])
         island= 0
         
         def DFS(r,c):
-            if r<0 or r>=row or c<0 or c>=col or grid[r][c]!= "1":
-                return
+            if r<0 or r>=row or c<0 or c>=col or grid[r][c]!= "1":  # write all invalid condition together and return '0' in count(if you are adding the ans somewhere) or simply return 
+                return 
             grid[r][c]= "visited"  # put any special symbol
             directions= [[-1,0],[1,0],[0,-1],[0,1]]
             for dr,dc in directions:

@@ -39,124 +39,6 @@ class BST:
             self.SearchKey(root.left, key)
         else:
             self.SearchKey(root.right, key)
-        
-    # traversals
-    def PreorderRecursive(self,root):
-        if root== None:
-            return
-        print(root.data,end=" ")
-        self.PreorderRecursive(root.left)
-        self.PreorderRecursive(root.right)
-    
-    def PreorderIterative(self,root):
-        if root== None:
-            return 
-        stack= []
-        stack.append(root)
-        while stack:
-            curr= stack.pop()
-            print(curr.data, end=" ")
-            if curr.right: # first push the right subtree in the stack as we have to 
-                           # print 'left' side first and stack is LIFO
-                stack.append(curr.right)
-            if curr.left:
-                stack.append(curr.left)
-
-
-    def InorderRecursive(self,root):
-        if root== None:
-            return
-        self.InorderRecursive(root.left)
-        print(root.data,end=" ")
-        self.InorderRecursive(root.right)  
-
-    # easier one 
-
-    # def InorderIterative(self,root):
-    #     if root== None:
-    #         return 
-    #     stack= []
-    #     stack.append(root)
-    #     curr= root
-    #     while stack :
-    #         if curr.left== None:
-    #             temp= stack.pop()
-    #             print(temp.data, end=" ")
-    #             if temp.right:
-    #                 curr= temp.right
-    #                 stack.append(temp.right)
-    #         if curr.left:
-    #             stack.append(curr.left)
-    #             curr= curr.left
-    
-    # another concise way of iterative approach of inorder traversal
-    def InorderIterative(self,root):
-        if root== None:
-            return 
-        stack= []
-        curr= root
-        while True:
-            # reach the left bottom most node
-            if curr:
-                stack.append(curr)
-                curr= curr.left
-            # if no left child then we have to print the stack top and append the 'poped.right'
-            elif stack:
-                temp= stack.pop()
-                print(temp.data, end=" ")
-                curr= temp.right
-            else:
-                break
-
-    def PostorderRecursive(self,root):
-        if root== None:
-            return
-        self.InorderRecursive(root.left) 
-        self.InorderRecursive(root.right)
-        print(root.data,end=" ")
-    
-
-    def postorderIterative1(self, root):
-        stack, ans= [], []
-        if root== None:
-            return root
-        stack.append(root)
-        while stack:
-            curr= stack.pop()
-            ans.append(curr.data)
-            if curr.left:
-                stack.append(curr.left)
-            if curr.right:
-                stack.append(curr.right)
-        # now print the 'ans' in the reverse order
-        while ans:
-            print(ans.pop(),end= " ")
-    
-    # using only single stack(try later)
-    def PostorderIterative(self,root):
-        if root== None:
-            return 
-        stack= []
-        stack.append(root)
-        curr, pre= root, None
-        while stack :
-            if curr.left== None:         
-                if curr.right:
-                    stack.append(curr.right)
-                    pre= curr
-                    curr= curr.right
-                else: # means curr.left== None and curr.right== None
-                    # print("pre data " ,pre.data)
-                    temp= stack.pop()
-                    print(temp.data, end=" ")
-                    curr= pre.right
-                    stack.append(curr)
-                    pre= None
-                    # print("curr data", curr.data)
-            if curr.left:
-                stack.append(curr.left)
-                pre= curr
-                curr= curr.left
 
     def deleteNode(self, root, key):
         if root== None:
@@ -245,27 +127,8 @@ for ele in arr:
 # b.SearchKey(root,20)
 # b.SearchKey(root,13)
 
-# print("Preorder traversal Recursive is: ")
-# b.PreorderRecursive(root)
-# print()
-# print("Preorder traversal Iterative is: ")
-# b.PreorderIterative(root)
-# print()
-
-# print("inorder traversal recursive is: ")
-# b.InorderRecursive(root)
-# print()
-# print("inorder traversal Iterative is: ")
-# b.InorderIterative(root)
-# print()
 
 
-# print("Postorder traversal Recursive is: ")
-# b.PostorderRecursive(root)
-# print()
-# print("Postorder traversal Iterative is: ")
-# b.postorderIterative1(root)
-# print()
 
 # b.deleteNode(root,24)
 print("inorder traversal Iterative is: ")

@@ -31,6 +31,7 @@ def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         return ans
 
 # very concise way of same method
+# better one
 def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         if not root: return root
         q, ans, direction= deque([root]), [], 1
@@ -46,37 +47,3 @@ def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         return ans
 
 
-# method 2: using 2 stack
-# odd stack will hold the odd level ele and even stack will hold the even level ele
-# but push in stack according to the order in which you have to print
-# in odd level you have to print right to left, so append in odd stack
-# right first then left as you are using stack and 
-# for even level just opposite
-# and other things are totally same
-def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
-        stack_odd, stack_even, ans, level= [], [], [], 1
-        if not root:
-            return root
-        stack_odd.append(root)
-        level+= 1
-        while stack_odd or stack_even:
-            level_wise= []
-            if level%2!= 0:
-                while stack_even:
-                    curr= stack_even.pop()
-                    level_wise.append(curr.val)
-                    if curr.right:
-                        stack_odd.append(curr.right)
-                    if curr.left:
-                        stack_odd.append(curr.left)
-            else:
-                while stack_odd:
-                    curr= stack_odd.pop()
-                    level_wise.append(curr.val)
-                    if curr.left:
-                        stack_even.append(curr.left)
-                    if curr.right:
-                        stack_even.append(curr.right)
-            level+= 1
-            ans.append(level_wise)
-        return ans

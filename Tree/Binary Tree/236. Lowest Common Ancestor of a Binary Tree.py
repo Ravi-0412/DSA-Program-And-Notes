@@ -36,7 +36,7 @@ class Solution:
 
 
 
-# 2nd method: optimising the space complexity
+# 2nd method: optimising the space complexity to O(1)
 # here we are sure that both the nodes are present in the tree so we can utilise this 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
@@ -53,7 +53,9 @@ class Solution:
         # if left_search is not None and right is  None  at last then left subtree conatins both the nodes
         if right_search== None:
             return left_search
-        # if both left_search is either None or not None, in both case return the root
-        # if both node is not None then that node will be the ans
-        # if both node is None then it will forward to the other function 
+        # if both is None None then that None will be automatically get returned in any of the above if condition
+        
+        # so now condition left is both left_search and right_search is not None, an if both is not none then it means
+        # both node 'p' and 'q' have path from this node 
+        # i.e we have found the ans so simply return the node
         return root 

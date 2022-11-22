@@ -9,7 +9,7 @@
 #     win= []
 #     i,j= 0,0
 #     while(j<N):
-#         if A[j]<0:  # append in 'win'
+#         if A[j]<0:  # appj in 'win'
 #             win.append(A[j])
 #         if j-i+1< K:    # incr 'j' only
 #             j+= 1
@@ -23,34 +23,35 @@
 #             j+= 1
 #             i+= 1
 
+
+# just little concise way of above
 def printFirstNegativeInteger( A, N, K):
     win= []
-    start,end= 0,0
-    while end <N:
-        if A[end]<0:  # append in 'win' 
-            win.append(A[end])
-            
-        if A[j]<0:  
+    i,j= 0,0
+    while j <N:
+        if A[j]<0:  # appj in 'win' 
             win.append(A[j])
-        if j-i+1< K:    # incr 'j' only
-            j+= 1
-        elif j-i+1== K:    # means you have reached the req win size
+            
+        if j+1>= K:    # means you have reached the req win size
             if not win:     # if win empty
                 print(0, end=" ")
             else:       # if win not empty
                 print(win[0], end=" ")
-                if A[i]<0:   # check for ele at 'i' index before moving to next win
+                if A[i]<0:   # then remove ele of 'i' index from win i.e first ele from win
+                            # tabhi remove kar sakte h jb 'i'th index ele negative ho like jb property ko follow kar rh ahoga tabhi remove karenge n
                     win.pop(0)
-            j+= 1
             i+= 1
+        j+= 1
 
-# N = 5
-# A = [-8, 2, 3, -6, 10]
-# K = 2
-# N = 8
-# A = [12, -1, -7, 8, -15, 30, 16, 28]
-# K = 3
-A = [5, -2, 3, 4, -5]
+N = 5
+A = [-8, 2, 3, -6, 10]
 K = 2
-N= len(A)
+
+N = 8
+A = [12, -1, -7, 8, -15, 30, 16, 28]
+K = 3
+
+# A = [5, -2, 3, 4, -5]
+# K = 2
+# N= len(A)
 printFirstNegativeInteger(A, N, K)

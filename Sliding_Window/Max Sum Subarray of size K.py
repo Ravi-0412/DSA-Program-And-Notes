@@ -21,11 +21,12 @@ class Solution:
 
 
 # little concise way of writing the above code
+# once you reach that window size, just keep updating your ans and remove the ele at 'i'th index from sum and incr 'i'
 def maximumSumSubarray (self,K,Arr,N):
         i,j,sum1,max_sum= 0,0,0,-9999999999
         while j<N:
             sum1+= Arr[j]
-            if j>=K-1:
+            if j+1>=K:
                 max_sum= max(sum1, max_sum)
                 sum1-= Arr[i]
                 i+= 1

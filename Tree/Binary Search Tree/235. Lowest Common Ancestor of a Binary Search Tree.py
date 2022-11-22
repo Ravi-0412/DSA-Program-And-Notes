@@ -1,5 +1,9 @@
+# Binary tree method can be applied here 
+# but better to use the BST property and do 
+# In Binary tree there is no way we can decide about both the nodes like in which subtree they will lie
+
 # just traverse till you find both the nodes in different subtree
-# as asson as you will find the nodes in different subtree that will be the ans 
+# as soon as you will find the nodes in different subtree that will be the ans 
 # as the current node will be the parent for both
 
 class Solution:

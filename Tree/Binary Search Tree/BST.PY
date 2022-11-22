@@ -30,15 +30,16 @@ class BST:
         return self.SearchMax(root.right)
     
     def SearchKey(self,root, key):
-        if root== None:
+        if root== None:   # if reached None
             print("{} is not present or tree is empty".format(key))
             return
         if root.data== key:
-            print("{} is present at node address {}".format(key,root))
+            # print("{} is present at node address {}".format(key,root))
+            return root
         elif key< root.data:
-            self.SearchKey(root.left, key)
+            return self.SearchKey(root.left, key)
         else:
-            self.SearchKey(root.right, key)
+            return self.SearchKey(root.right, key)
 
     def deleteNode(self, root, key):
         if root== None:

@@ -82,23 +82,25 @@ def InorderRecursive(self,root):
 # just the conversion if we start from root 
 # logic: if root is not None we append and move to the left 
 # if none then we print the last added ele into the stack and move to right
+
+# better one. This will help in solving a lot of problem of BST
+#  by just adding few lines or modifying few lines 
 def InorderIterative(self,root):
     if root== None:
         return 
-    stack= []
-    curr= root
-    while True:
-        # reach the left bottom most node
-        if curr:
-            stack.append(curr)
-            curr= curr.left
-        # if no left child then we have to print the stack top and append the 'poped.right'
-        else:
-            if not stack:
-                break
-            temp= stack.pop()
-            print(temp.data, end=" ")
-            curr= temp.right
+    stack, ans= [], []
+    while stack or root:
+        while root:  # keep going left 
+            stack.append(root)
+            root= root.left
+        # if None, it means no left child then print the stack top and append the 'poped.right'
+        # it means we have reached the leftmost node 
+        curr= stack.pop()
+        ans.append(curr.val)
+        root= curr.right
+    return ans
+
+
 
 def PostorderRecursive(self,root):
     if root== None:

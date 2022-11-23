@@ -31,3 +31,7 @@ class Solution:
         return -1 if max_length==0 else max_length
     
 
+# note in this there is no need to update 'i' once you reaches 'j-i+1==k or j+>=k" 
+# since we have to find longest then better we will increase the window size as much as possible
+# that's why we didn't write the condition like "if j+1>=k" like fixed size window
+# here window is variable so we update once reach the condition and update the window not like fixed size sliding window

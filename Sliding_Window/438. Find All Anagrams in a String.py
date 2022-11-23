@@ -1,4 +1,5 @@
 # submitted on leetcode
+# anargam: is same like permutation only like if you find nay of the permutation tehn add the starting index of that per in ans
 # how sliding window: har window size of len(p), chance h ki hmko ans mile
 
 # logic: just store the count of each char of 'p' in dictionary
@@ -20,7 +21,7 @@ class Solution:
 	   # print(hashmap)    
         while(j<len(s)):
 	        if s[j] in hashmap:
-	            hashmap[s[j]] -= 1
+	            hashmap[s[j]] -= 1   # this may go negative also means we have seen extra s[j] tahn required and this will help in upcoming window
 	            if hashmap[s[j]]== 0:   # koi char gar jitn abar chahiye mil gya ho
 	                count-= 1
 	        if j+1>= len(p):     # or j-i+1== len(p)

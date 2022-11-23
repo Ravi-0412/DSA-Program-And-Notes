@@ -1,6 +1,9 @@
-# just same logic as 'count the subarry with sum==k for positive no"
+# just same logic as 'count the subarry with sum==k for positive no" as no chance for becoming len(hashamp) < k once it has become equal to 'k' like positiev number
 # window size should contain exactly k unique char no matter what your window size is
 
+# longest ke liye jitna se jitna char repeat karne chahiye
+
+# time: O(n)= space
 class Solution:
     def longestKSubstr(self, s, k):
         hashmap,max_length,i,j,n= {},0,0,0,len(s)
@@ -11,9 +14,9 @@ class Solution:
             hashmap[s[j]]= 1+ hashmap.get(s[j],0)  # if char is presnt then incr the count otherwise append that char with count=1
             if len(hashmap)== k: # means you have found one of the ans ,check for max_length
                 max_length= max(max_length,j-i+1)
-            elif len(hashmap)> k:  # means there is more than k distinct ele present in the hashmap and also in the window
+            elif len(hashmap)> k:  # means there is more than k distinct ele present in the hashmap and so bring the len(hasmap)==k taki unique char ka count= k ho jaye
                 # start decr the count of char from ith position till no of distinct char in hashmap becomes < k
-                while len(hashmap)> k:
+                while len(hashmap)> k:  # because char at 'ith' index can be present more than one times
                     hashmap[s[i]]-= 1
                     # while decr the count,if count of any char becomes zero then pop that char
                     # as even count will become zero , char will be still there in the hashmap

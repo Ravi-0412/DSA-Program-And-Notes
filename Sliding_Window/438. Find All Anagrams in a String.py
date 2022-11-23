@@ -9,8 +9,8 @@
 # when 'j+1' reaches the len(p), there might be possiblity that window formed till now from 'i to j' in 's' may be part of 'anagram'
 # so add index 'i' to the ans
 
-# count: btayega ki tmhare pass kitne letter bache h jo or chahiye 'anagram' ke liye in proper no of occurence
-# count will be xero only when occurence of all ele in hashmap or say 'p' has become zero i.e means we have found all char in 'p' with no of times they are 'p' in string 's'
+# count: btayega ki tmhare pass kitne letter bache h jo or chahiye 'anagram' ke liye in proper no of occurence. count will tell the number of unique char that you need 
+# count will be zero only when occurence of all ele in hashmap or say 'p' has become zero i.e means we have found all char in 'p' with no of times they are 'p' in string 's'
 class Solution:
     def findAnagrams(self, s: str, p: str) -> List[int]:
         i,j,hashmap= 0,0,{}
@@ -29,7 +29,8 @@ class Solution:
 				# for sliding the window, first check if condition satisfaying char is present at char 'i' like what we are searching for is present at 'i'
 	            if s[i] in hashmap:
 	                hashmap[s[i]]+= 1  # matlab is char ko itna bar hmko khojna hoga kyonki ab wo window me nhi h. actualy me hm 'i'th char ko window se nikla rhe h
-	                if hashmap[s[i]]== 1:  # matlab tmhare abhi letter bache h jo khojna h
+	                if hashmap[s[i]]== 1:  # matlab ek ans wala char bahar hua h isliye hmko wo bhi khojna hoga and 
+						# if removed char already present h window me i.e hashmap[s[i]] > 1 then hmko ans already present char h usse bhi mil sakta h isliye count nhi badhana h us case me
 	                    count+= 1
 	            i+= 1
 	        j+= 1

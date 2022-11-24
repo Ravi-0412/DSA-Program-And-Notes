@@ -3,9 +3,11 @@
 # compression is only possible if any char is present extra time in window than the required
 
 # differences from "find anargam"
-# here no necessary to increase the 'i' always after j-i+1== len(t) as here the char in 't' may be continous. 
-# so first find any window that contain all of 't' in exact number then try to shrink the window if possible, 
-# while shrinking the window only incr 'i' otherwise don't incr 'i' i.e first reach the count==0 then only try to incr the 'i' if shrinking is possible
+# here no necessary to increase the 'i' always after j-i+1== len(t) as here the char in 't' may not be continous. 
+# so first find any window that contain all of 't' in exact number(first find any possible ans) then try to shrink the window if possible.
+
+# while shrinking the window only incr 'i' if we can get better ans otherwise don't incr 'i' 
+# i.e first reach the count==0 then only try to incr the 'i' if shrinking is possible
 # in "find anargam" all the char should be continous so we will always have to incr 'i' after j-i+1== len(t)
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
@@ -21,13 +23,14 @@ class Solution:
 	            hashmap[s[j]] -= 1
 	            if hashmap[s[j]]== 0:   # koi char gar jitn abar chahiye mil gya ho
 	                count-= 1
-            while count== 0:
+            while count== 0:  # in case if count becomes zero
+                # first check if shrinking is possible then update the ans 
                 if minLen > j-i+1:   # means got new better ans
                     minLen= j-i+1
                     ans= s[i:j+1]
-                if s[i] in hashmap:
+                if s[i] in hashmap:   # then we have to search this char again in upcoming wind 
                     hashmap[s[i]]+= 1
-                    if hashmap[s[i]]== 1:
+                    if hashmap[s[i]]== 1:  # not necessary that it will become equal to '1' after incr as this can be negative also  
                         count+= 1 
                 i+= 1
             j+= 1

@@ -61,6 +61,7 @@ class Solution:
                             # which we can add to get the final ans. for '0' , one way is always possible
         for n in nums:
             curr_sum+= n
+            # prefix_sum[curr_sum]= 1+ prefix_sum.get(curr_sum, 0)  
             diff= curr_sum - k  # find the difference
             ans+= prefix_sum.get(diff, 0)  # if diff is present in prefix_sum then it means sum is possible when we remove this extra sum "diff"
                                             # then add with the value of 'diff' as these many times sum= k will be possible and if not present then add 0
@@ -81,7 +82,9 @@ class Solution:
         prefix_sum= {}
         for i in range(len(nums)):
             curr_sum+= nums[i]
-            if curr_sum== k:    # this will give error because extra sum is 'k and there can be diff ways to form '0'
+            # prefix_sum[curr_sum]= 1 + prefix_sum.get(curr_sum, 0)  # writing here will give the incorrect ans as it will make the sum possible
+                            #  which might not be possible with given values e.g :[1], sum= 0
+            if curr_sum== k:    # this will give error because extra sum is '0' and there can be diff ways to form '0'
                 ans+= 1
             elif (curr_sum-k) in prefix_sum:
                 ans+= prefix_sum[curr_sum-k]

@@ -9,10 +9,10 @@ class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
         hashmap,max_length,i,j,n= {},0,0,0,len(s)
         while j<n:
-            hashmap[s[j]]= 1+ hashmap.get(s[j],0)
-            if len(hashmap)== j-i+1:
+            hashmap[s[j]]= 1+ hashmap.get(s[j],0)    # simply adding without count will give incorrect ans as no can repeat and hashamp doesn't store duplicates
+            if len(hashmap)== j-i+1:  # then it means all char in window is unique
                 max_length= max(max_length,j-i+1)
-            elif len(hashmap)< j-i+1:
+            elif len(hashmap)< j-i+1:   # it can only happen if window contain duplicate char
                 while len(hashmap)< j-i+1:
                     hashmap[s[i]]-= 1
                     if hashmap[s[i]]== 0:

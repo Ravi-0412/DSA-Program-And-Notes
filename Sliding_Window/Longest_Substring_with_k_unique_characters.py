@@ -1,6 +1,9 @@
 # just same logic as 'count the subarry with sum==k for positive no" as no chance for becoming len(hashamp) < k once it has become equal to 'k' like positiev number
 # window size should contain exactly k unique char no matter what your window size is
 
+# note VVI: whenever you have to handle the unique or distinct thing or ypu have to store something that you will need later
+# then first thing should come into mind is hashmap.
+
 # longest ke liye jitna se jitna char repeat karne chahiye
 
 # time: O(n)= space
@@ -33,5 +36,6 @@ class Solution:
 
 # note in this there is no need to update 'i' once you reaches 'j-i+1==k or j+>=k" 
 # since we have to find longest then better we will increase the window size as much as possible
+# in variable size sliding window, we only operate on 'i' when we encounter an invalid condition
 # that's why we didn't write the condition like "if j+1>=k" like fixed size window
 # here window is variable so we update once reach the condition and update the window not like fixed size sliding window

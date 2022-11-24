@@ -2,6 +2,8 @@
 # this approach will work for both positive and negative number
 # VVVI: analyse this and pre same problem properly
 
+# isme hm invalid case like 'curr_sum>k' check nhi kar rhe kyonki aage number negative aake sum ko reduce kar sakta h
+# isliye yahan hm koi ele ko remove nhi kar sakte.. so bina two pointer ke karna easy rhega
 class Solution:
     def lenOfLongSubarr (self, A, N, K) : 
         # just same logic as no of subarray with given sum 'k'
@@ -31,9 +33,9 @@ def lenOfLongSubarr(A, N, K):
     maxLen = -sys.maxsize -1
     while j < N:
         sum += A[j]
-        if sum == K:
+        if sum == K: # condition is valid
             maxLen = max(maxLen, j - i + 1)
-        elif sum > K:   # pop ele i.e subtract the 'ith' index ele from sum till it becomes smaller than  'k'
+        elif sum > K: # if condition is invalid then pop ele i.e subtract the 'ith' index ele from sum till it becomes smaller than  'k'
             while (sum > K):
                 sum -= A[i]
                 i += 1
@@ -42,4 +44,20 @@ def lenOfLongSubarr(A, N, K):
         j += 1
     return maxLen
 
+
+# Note VVVI: ek cheez Variable size sliding window me hmesha yaad rakho
+# 1)agar koi ele ans wala condition ko follow kar rha h tb include karte raho ya ans ke anusar(liye) 
+# curr index wala ele here 'j' me operation karte raho..and
+
+# 2) then check karo for two cases:
+# i) check for valid condition i.e if condition is valid. agar jo chahiye wo condition reach kar gya ho
+# then ans ko update karo 
+
+# ii) elif check for proper invalid condition acc to Q i.e if condition is invalid
+# then pre index say 'i' pe tab tak operate karo(or do the process to remove pre index 'i'th ele)
+# jb tak condition valid n ho jaye(use while loop with sam elif condition) and while trying to making condition valid. 
+# you may come across valid case also inside this so,every time you operate on pre index 'i'
+# then keep checking for valid case also , if found add that to ans.. That's it
+
+# yhi do case bnega isme
 

@@ -4,7 +4,7 @@
 # for this there is two approach:
 # 1) make a dictionary of 26 letters of alphabet and every time(for each window) find the max frequency of a char from dictioinary
 # and do the same thing done in code
-# time: O(n)
+# time: O(26*n)
 
 # 2) just keep a varibale 'maxFreq' to count the max freq till now
 # but here  keep an eye one thing that if maxfreq ele is at 'i'th index and suppose window is invalid then we will decr the freq of char at 'i'th index
@@ -23,7 +23,7 @@ class Solution:
             wind_size= j-i+1
             if wind_size- maxFreq > k:   # if window is not valid then only incr the 'i' as we have to find the longest one. using while loop will give the incorrect ans 
                                         # as may be after decr the freq of one char we can get the valid window
-                FreqCount[s[i]]-= 1
+                FreqCount[s[i]]-= 1     # in this no need top pop if freq becomes equal to zero as len(dic) will not matter here, there freq will matter only
                 i+= 1
             else:  # valid 
                 maxLength= max(maxLength, wind_size)

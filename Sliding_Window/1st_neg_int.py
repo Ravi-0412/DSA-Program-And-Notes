@@ -25,6 +25,7 @@
 
 
 # just little concise way of above
+
 def printFirstNegativeInteger( A, N, K):
     win= []
     i,j= 0,0
@@ -55,3 +56,13 @@ K = 3
 # K = 2
 # N= len(A)
 printFirstNegativeInteger(A, N, K)
+
+
+# Note VVVI: ek cheez fixed sliding window me hmesha yaad rakho
+# 1)agar koi ele ans wala condition ko follow kar rha h tb include karte raho ya ans ke anusar(liye) 
+# curr index wala ele here 'j' me operation karte raho..and
+
+# 2) then check karo required window size reach hua h? jb window reach kar jaye to 
+# ans update karo and inside this agar pre index wala ele here 'i' 
+# agar condition ko follow kar rha ho tb remove kar do ya jo bhi ans ke anusar karna ho 'i'th index wale ele pe operation karo
+# yhi do case bnega isme 

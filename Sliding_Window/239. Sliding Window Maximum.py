@@ -31,5 +31,12 @@ class Solution:
             j+= 1
         return ans
 
+# note VVI: whenver you have to store like the 'nextGreaterRight', 'nextGreaterLeft' or anything like this
+# here also we have to store the maximum for every window
+# in all these problems, first decide where we will keep the ans like at start of the res array or at last of the res array
+# then try to remove the ele from opposite side(start->end, end->start) if curr ele is better condidate
 
+# In this Q, we are storing at first and checking and removing from last if curr ele is better condidate
+# for this Q: agar curr ele chota h last wala se to wo ans ho sakta h upcoming window ke liye, tb usko add kar do deque me
+# and agar pop karte karte deque empty ho gya , matlab curr ele hi best h and gar nhi hua to curr ele may be upcomimng window ke liye ans ho sakta h
 

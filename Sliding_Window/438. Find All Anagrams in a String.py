@@ -1,11 +1,12 @@
 # submitted on leetcode
-# anargam: is same like permutation only like if you find nay of the permutation tehn add the starting index of that per in ans
+# anargam: is same like permutation only . meaning: har char hmko proper quantitity me chahiye that's it and same what permutation means
 # how sliding window: har window size of len(p), chance h ki hmko ans mile
 
 # logic: just store the count of each char of 'p' in dictionary
 # jb koi letter mile jo hashmap me h , it means that letter is part of 'p' then decrement the count of that letter in dic by 1
 # if count of that letter becomes zero means you have seen that letter in 's' the no of times that is present in 'p'
 # in this case decr count by 1
+# actually me count 'no of distinct char' bta rha.
 
 # when 'j+1' reaches the len(p), there might be possiblity that window formed till now from 'i to j' in 's' may be part of 'anagram'
 # so add index 'i' to the ans
@@ -21,7 +22,7 @@ class Solution:
 	   # print(hashmap)    
         while(j<len(s)):
 	        if s[j] in hashmap:
-	            hashmap[s[j]] -= 1   # this may go negative also means we have seen extra s[j] tahn required and this will help in upcoming window
+	            hashmap[s[j]] -= 1   # this may go negative also means we have seen extra s[j] than required and this will help in upcoming window since we will have already these ele present
 	            if hashmap[s[j]]== 0:   # koi char gar jitn abar chahiye mil gya ho
 	                count-= 1
 	        if j+1>= len(p):     # or j-i+1== len(p)
@@ -38,7 +39,5 @@ class Solution:
         return ans  
 
 
-
-
-# note: if you will simply check the length of hashmap at "j+1>= len(p)", then it will not work if char will be repeated in 'p' 
-# since you will deleting the char in hash at 'i'th index in this approach
+# Note: ye fixed sliding window isliye h ki hmko har char proper quantity me chahiye together i.e hmko char window size= len(p)
+# me ans check karna hoga 

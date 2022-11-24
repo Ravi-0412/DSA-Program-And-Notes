@@ -1,8 +1,8 @@
 # just calculate the water trap at for each heights
-# water trap for each heights= levels[i]- heights[i]  (have to sub heights[i] for cal water trap above each height)
-# and levels[i]= min(left_greatest[i], right_greatest[i]) as any heights can't store water above this level
+# water trap for each heights= levels[i]- heights[i]  (have to subtract heights[i] for cal water trap above each height)
+# and levels[i]= min(left_greatest[i], right_greatest[i]). Har level apne upper itna water store kar sakta..simple way to think of this q
 # summation of all the water trap will be as width of each height= 1
-# time: O(1)
+# time: O(n)= space
 
 class Solution:
     def trap(self, height: List[int]) -> int:
@@ -33,6 +33,35 @@ class Solution:
             right[i]= max(right[i+1],height[i])
         return right
 
-# We can solve within one function itself, just use the for loop
-# think of other concise and space: o(1) solution
-# other methods in pass and concise one have to see later from gf and leetcode discussion link
+
+
+# method 2: optimising the space to O(1), just same logic only
+# very nicee logic: may be very helpful in other problems also
+
+# logic: we need GreatestLeft and GreatestRight for each level
+# so we can keep two pointer left and right for this 
+# keep two variable for storing maxLeft and maxRight
+# VVI: when you are standing at any level then you might think we know about maxLeft or maxRight only 
+# but it is not necessary that right pointer wil be GreatestRight or left pointer will be Greatestleft
+# yeah that's correct that right pointer may not give the GreatestRight and sam efor left but we need only min(maxLeft, maxRight) and
+# if maxLeft is smaller than ele at right pointer then it must be lesser than the GreatestRight and same for right.. so we don't need to care about that 
+
+# soo nicee logic.. keep this in mind
+# https://www.youtube.com/watch?v=ZI2z5pq0TqA
+class Solution:
+    def trap(self, height: List[int]) -> int: 
+        if not height: return 0
+        l,r, n= 0, len(height)-1, len(height)
+        maxLeft, maxRight= height[0], height[n-1]
+        ans= 0
+        while l <r:
+            # shift the minimum pointer and find the ans at minimum pointer
+            if maxLeft > maxRight:  # then at 'r' it can store max water according to its maxRight minimum one
+                r-= 1
+                maxRight= max(maxRight, height[r])
+                ans+= maxRight- height[r]
+            else:  # then at 'l' it can store max water according to its maxLeft minimum one
+                l+= 1
+                maxLeft= max(maxLeft, height[l])
+                ans+= maxLeft- height[l]
+        return ans

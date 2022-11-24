@@ -1,5 +1,6 @@
-# to avoid duplicates best way i sort the array like we used to do in permutation ans combination problem
-# and for every ele apply two sum if its not duplicate
+# to avoid duplicates , to bring all the duplicates together so that we can easily check for duplicates
+# and best way to bring same el together is just sort the array like we used to do in permutation ans combination problems.
+# and for every ele apply two sum if its not duplicate. and since sortes so we can use two pointer approach for Two sum.
 # in when you find and then incr either only start or end pointer to avoid duplicates in the ans
 # time: O(n^2)
 

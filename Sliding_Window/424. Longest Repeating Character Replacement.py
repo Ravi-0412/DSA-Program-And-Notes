@@ -11,9 +11,9 @@
 # but there is no need to decr the maxFreq as after any window is invalid then you are decreasing the window size by incr 'i' and 
 # if you will decr the max frequency also then your ans will not get updated as valid window is when: wind_size- maxFreq <=k 
 #  so when you are incr window size you will want maxfreq to increase for new ans
-
 # you will only get new ans when maxFreq will increase..That's why there is no need to decr teh maxFreq in invalid acse if maxFreq ele at 'i'th index
 
+# Note: keep the above thing in mind, can be helpful in other problems also
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
         i, j, FreqCount, maxFreq, maxLength= 0, 0, {}, 0, 0

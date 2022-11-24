@@ -20,7 +20,7 @@
 
 
 # 3rd method: time= o(n) ,space= o(1)
-# logic: try to bringt the even ele at first and odd ele at last
+# logic: try to bring the even ele at first and odd ele at last
 # traverse the array and if you find odd ele then from last find the position of 1st even ele
 # and then swap nums[start] and nums[end] and so on
 class Solution:
@@ -31,7 +31,7 @@ class Solution:
         while(start <end):
             if(nums[start]%2!= 0):      # if odd swap ele at start and end index
                 nums[start], nums[end]= nums[end], nums[start]
-                end-= 1  # in this case don't incr 'start' as after swapping 'start'  may get the even ele also
+                end-= 1  # in this case don't incr 'start' as after swapping 'start'  may get the even odd also as we are swapping without checking the ele at 'end'
             else:
                 start+= 1   # in this case don't decr 'end ' 
         return nums

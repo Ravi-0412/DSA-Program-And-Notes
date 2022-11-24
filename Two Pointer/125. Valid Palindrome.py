@@ -6,16 +6,19 @@
 # lies between ascii value of 'A-Z' or 'a-z' or '0-9' using ord(char)-> this gives the ascii value
 
 # method 2: 
+# palindrome means aage piche dono se same
+# isliye ek pointer start pe rakho and ek end pe check karo dono index pe ele same h ki nhi agar alphanumeric h tb
 def isPalindrome(self, s):
     l, r = 0, len(s)-1
     while l < r:
-        while l < r and not s[l].isalnum():
+        while l < r and not s[l].isalnum():  # first make 'l' point to any aplhanumeric
             l += 1
-        while l <r and not s[r].isalnum():
+        while l <r and not s[r].isalnum():   # first make 'r' point to any aplhanumeric
             r -= 1
         if s[l].lower() != s[r].lower():
             return False
-        l +=1; r -= 1
+        l +=1
+        r -= 1
     return True
 
 

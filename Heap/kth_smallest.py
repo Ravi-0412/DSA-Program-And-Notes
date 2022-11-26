@@ -29,7 +29,6 @@ def KthSmallest(arr,k):
 arr = [7,4,6,3,9,1]
 print(KthSmallest(arr,3))
 
-    
 
 
 

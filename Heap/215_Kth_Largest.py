@@ -23,6 +23,9 @@ class Solution:
         # ele will be greater than or equal to the 1st ele
         return heap[0]
 
+# to find the 'k' largest else:
+# just return the heap. this will only contain the 'k' largest ele as we have poped all the smaller ele
+
 
 # better one than all: Using Quick Select
 # time: O(n)

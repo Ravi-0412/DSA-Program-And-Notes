@@ -1,26 +1,38 @@
 # time: O(nlogk)
-# some cases not passing
+# my mistakes: i was not able to handle the case when diff is equal
+# and we have to return in sorted order-> this not said in Q but we have to return like this only
 import heapq
 def KClosest(arr,n,x,k):
-    heap,arr_diff= [], []
-    # insert a tuple with abs diff of 'x and arr[i]' with the arr[i]
-    for i in range(n):
-        diff= abs(x- arr[i])    # taking diff of each ele
-        arr_diff.append((-diff, arr[i]))  # to create max heap just change the sign of all numbers 
-                                          # before inserting and after poping
-    print(arr_diff)
-    for i in range(n-1,-1,-1):
-        heapq.heappush(heap, arr_diff[i])   # this will create a max heap with key of tuple for ele which is 'diff'
-                                            # jiska distance kam hoga wahi closest 'k' ele hoga
-                                            # heap me sorting 1st index wala ke anusar hoga agar ek se jyada ele ek bar me insert karte h to
+    heap= []
+    for i in range(len(arr)-1,-1,-1):
+        diff= abs((x- arr[i]))
+        heapq.heappush(heap, (-diff, arr[i]))
         if len(heap)> k:
             heapq.heappop(heap)
-    print(heap)
-    # now you will left with k smallest and that will be your ans
-    # just print in reverse order the value of array to get the ans in sorted format
-    print("{} closest number is: ".format(k))
-    for i in range(len(heap)-1,-1,-1):
-        print(heap[i][1], end= " ")
+    for i in range(len(heap)):
+        temp= heapq.heappop(heap)
+        print(temp[1], end= " ")
+
+
+# correct one
+# Note: when we pass more than one parameter in heap then it will make the heap acc to first para only
+# if in case the first para is equal then it will make acc to the 2nd para and so on
+
+# so to bring the small house no in case of match, add the num with negative sign
+class Solution:
+    def Kclosest(self, arr, n, x, k):
+        from heapq import heapify,heappush,heappop
+        heap=[]
+        for i in arr:
+            heapq.heappush(heap,(-abs(x-i),-i))   # to handle when distance(diff) is equal
+            if len(heap)>k:
+                heapq.heappop(heap)
+        ans=[]
+        for ele in heap:
+            # print(-(i[1]),end=" ")
+            ans.append(-ele[1])
+        return sorted(ans)
+
 
 # arr= [10, 2, 14, 4, 7, 6]
 arr= [-21, 21, 4, -12, 20]

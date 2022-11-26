@@ -14,7 +14,7 @@ def Heapify(arr,n,i):   # 'i': index of root node of the subtree
 
 def Build_Min_Heap(arr):
     k= int(len(arr)/2) - 1      # loop goes only upto (n/2 -1) because after this
-                                # position there will be no child of any element
+                                # position there will be no child of any element in complete Binary Tree
     for i in range(k,-1,-1):
         Heapify(arr,len(arr),i)
     print("min heap is: ", arr)
@@ -50,3 +50,5 @@ arr= [100,50,20,1,3,10,5,1,1,1]
 Heap_Sort(arr)
 print("sorted array in descending order: ", arr)
 # Build_Min_Heap(arr)  # for operations on max heap
+
+

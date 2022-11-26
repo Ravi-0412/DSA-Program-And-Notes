@@ -93,24 +93,24 @@ class Solution:
         if len(nums) <2:
             return 0
         
-        prev = nums[0]   # it will store the largest ele till now
+        prev = nums[0]   # it will store the largest pre ele till now
         end = 0
 		# find the largest index not in place from starting to find the 'end'
         for i in range(1,len(nums)):
-            if nums[i] < prev:
+            if nums[i] < prev:  # agar largest till now bhi bda ho jaye curr ele se
                 end = i
-            else:
+            else:  # means in order
                 prev = nums[i]
 
         start = len(nums) - 1
         prev = nums[start]   # it will store the max ele till now from end
 		# find the smallest index not in place from last to find the 'start'
         for i in range(len(nums)-2, -1, -1):
-            if prev < nums[i]:
+            if prev < nums[i]:  # agar largest till now bhi chhota ho jaye curr ele se
                 start = i
-            else:
+            else:  # means in order
                 prev = nums[i]
         if end != 0:
             return end - start + 1
-        else: 
+        else: # means array is sorted
             return 0

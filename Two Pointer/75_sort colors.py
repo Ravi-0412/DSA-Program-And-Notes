@@ -32,8 +32,9 @@ class Solution:
 class Solution:
     def sortColors(self, nums: List[int]) -> None:
         # it can't be done by two pointer so we have to take another pointer also for 
-        # handling the cases like after swapping if low points to 1 and there is more '0' 
-        # in the middle, this type of cases can't be handled by the two pointer e.g :[2,0,2,1,1,1,0,1,1]
+        # handling the cases like after swapping if low points to 1 and there is more '0' in the middle
+        # this type of cases can't be handled by the two pointer e.g :[2,0,2,1,1,1,0,1,1]
+
         # current will max point till the last '1', the main aim of curr is to put '0' at 
         # start and '2' at the end  and '1' at the mid so 'curr' will never go beyond the 'high'
         current,low=0,0
@@ -57,4 +58,6 @@ class Solution:
                 # don't move the current since after swapping in this
                 # cases current can contain 1 also
         return nums
+
+# Note: keep this logic in mind, may be helpful in other problems also
 

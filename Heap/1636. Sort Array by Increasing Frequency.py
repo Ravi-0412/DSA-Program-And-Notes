@@ -10,19 +10,16 @@ class Solution:
         heap= []  
         # create a min heap with freq , key 
         for k,v in count.items():
-            heapq.heappush(heap,(v,k))
-        print(heap)
+            heapq.heappush(heap,(v,-1*k))   # added the num with negative sign to bring the num with larger value first in case of equal frequency
         # now add the ele into ans arr as many times they have occured(equal to their freq)
         ans= []
         while(len(heap)):
             temp = heapq.heappop(heap)
             for i in range(temp[0]):     # temp[0] will contain the fre of the ele
-                ans.append(temp[1])      # temp[1] will contain the ele
+                ans.append(-1*temp[1])      # temp[1] will contain the ele
         return ans
 
-
-# method 2 :(try to understnd the method given in dicussion, link is there in xl file)
-
+# method 2: can be optimised to O(n) using bucket sort
 
 
 # another method: try to understand

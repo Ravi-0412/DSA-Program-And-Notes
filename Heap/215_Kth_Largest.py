@@ -28,7 +28,7 @@ class Solution:
 
 
 # better one than all: Using Quick Select
-# time: O(n)
+# time: O(n) average
 
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
@@ -37,6 +37,7 @@ class Solution:
         index= self.QuickSelect(nums,k,l,r)
         return nums[index]
     
+    # just find the index of pivot, if equal to 'k' then that will be our ans
     def QuickSelect(self,nums,k,l,r):
         pivot= nums[r]   # selecting the last ele as pivot
         p= l   # position where we will place in case ele is smaller than or equal to pivot 
@@ -46,6 +47,7 @@ class Solution:
             if nums[i]<= pivot:  # means this ele should come before pivot index 
                 nums[p], nums[i]= nums[i], nums[p]
                 p+= 1    # next time if above condition follows then we will place the ele at this index
+        
         # now every ele on left of p will less than or equal to the pivot
         # means 'p' will pointing to the ele greater than the pivot
         # so swap 'p' with 'r' for proper position of pivot

@@ -12,13 +12,14 @@ class Solution:
         cost= 0
         heapq.heapify(arr)   # first make a min heap
         # now start taking the smaller two length and cal the cost
-        while len(arr)>=2:  
+        while len(arr)>=2:   # go till length of rod becomes = 1
             first= heapq.heappop(arr)  # pick the 1st smallest ele
             sec= heapq.heappop(arr)    # pick the 1st smallest ele
             curr_min= first+sec        # cost of conne the curr two rod of smaller length
             cost+= curr_min            # update the cost
             heapq.heappush(arr,curr_min)    # now push the cost of two picked one into heap 
-                                            # as there can be other min possible with these picked one
+                                            # as we have to connect all the rods into one connected rod so put the
+                                            # connected one so that other rod also get connected to this one till the form one connected rod
         return cost
 
 

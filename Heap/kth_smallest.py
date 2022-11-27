@@ -17,6 +17,9 @@ print(arr[k-1])
 
 
 # third method: use max heap
+# python has only inbuilt function for minHeap so for implementing maxHeap using minHeap
+# just add/remove the number in/from the minheap switching its sign(multiply by '-1') 
+# time: O(n*logk)
 import heapq
 def KthSmallest(arr,k):
     heap= []
@@ -28,6 +31,10 @@ def KthSmallest(arr,k):
 
 arr = [7,4,6,3,9,1]
 print(KthSmallest(arr,3))
+
+
+# method 4: try to do by Quick Select
+
 
 
 

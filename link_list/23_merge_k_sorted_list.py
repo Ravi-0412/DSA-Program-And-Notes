@@ -3,7 +3,7 @@
 
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-        # if len(lists)== or len(lists)==1:
+        # if len(lists)== 0 or len(lists)==1:
             # return lists   # here i was making mistake since we have to return as linked list but here it will return in form of array
         if lists== [[]] or lists== []:
             return None   
@@ -27,7 +27,7 @@ class Solution:
 
 # method 2:
 # time: O(n*logk), k= no of given lists and n is the no of nodes inside each list
-# logic: it is just like given 'k' of elements and merge them into one
+# logic: it is just like given 'k'  elements and merge them into one
 # take two list consecutively and merge them till  end
 # after that you will left with k/2 lists , now repeat the same step just like we do for merge sort
 # finally you will get the one sorted lists 

@@ -1,5 +1,6 @@
-def Heapify(arr,n,i):   # 'i': index of root node of the subtree
-    smallest= i  # intialise smallest as root(parent)
+# Root to leaf
+def Heapify(arr,n,i):   # 'i': index of root node of the subtree, n: no of ele till we have to traverse
+    smallest= i  # intialise smallest as root(parent). using '0' based indexing
     l= 2*i +1   # left child postion of root
     r= 2*i +2   # right child position of root
     if(l<n and arr[l]<arr[smallest]):
@@ -12,6 +13,7 @@ def Heapify(arr,n,i):   # 'i': index of root node of the subtree
         arr[smallest], arr[i]= arr[i], arr[smallest]
         Heapify(arr,n,smallest)  # again call heapify after each swap to maintain property of max heap
 
+# bottom up
 def Build_Min_Heap(arr):
     k= int(len(arr)/2) - 1      # loop goes only upto (n/2 -1) because after this
                                 # position there will be no child of any element in complete Binary Tree
@@ -34,10 +36,12 @@ def Build_Min_Heap(arr):
 #         Heapify(arr,i,0)
 
 
-# # for sorting the array    
+# # for sorting the array in descending order
 def Heap_Sort(arr):
     n= len(arr)
     Build_Min_Heap(arr)
+    # heapq.heapify(arr)  # this is not allowed here, have to implement from basic
+
     # one by one extract(delete) an element from the heap
     for i in range(n-1,0,-1):
         # move the current root to the last

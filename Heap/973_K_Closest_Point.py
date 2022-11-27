@@ -1,5 +1,5 @@
 # time: O(nlogk)
-# just same logic as k closest pointsto x
+# just same logic as k closest points to x
 import math
 import heapq
 class Solution:
@@ -28,15 +28,6 @@ class Solution:
                 heapq.heappop(heap)
         return [(x,y) for (dist,x,y) in heap]
 
-# one more way to write
-heap = []
-for point in points:
-    dist = point[0] * point[0] + point[1] * point[1]
-    heapq.heappush(heap, (-dist, point))
-    if len(heap) > K:
-        heapq.heappop(heap)
-
-return [tuple[1] for tuple in heap]
-
 
 # try later by quicksort method 
+# https://leetcode.com/problems/k-closest-points-to-origin/discuss/219442/Python-with-quicksort-algorithm

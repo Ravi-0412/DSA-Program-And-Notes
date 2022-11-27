@@ -1,4 +1,16 @@
-# just mkae min heap with fre of each ele
+# method 1: Sort based on frequency
+# time: O(n*logn)
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        hashmap, heap= {}, []
+        # hashmap will map each ele with their respective frequency
+        for num in nums:
+            hashmap[num]= 1 + hashmap.get(num, 0)
+        arr= sorted(hashmap, key= hashmap.get, reverse= True) # will sort the hashmap based on freq(value of hashmap) i.e key that we had provided 
+                                                                # and will store the key wrt each value
+        return arr[:k]
+
+# just make min heap with fre of each ele
 # time: O(nlogk)
 import heapq
 class Solution:
@@ -6,16 +18,15 @@ class Solution:
         hashmap, heap= {}, []
         # hashmap will map each ele with their respective frequency
         for num in nums:
-            if num not in hashmap:
-                hashmap[num]= 1
-            else:
-                hashmap[num]+= 1
+            hashmap[num]= 1 + hashmap.get(num, 0)
+            
         # now make a min heap with freq as first ele and key of dict as second ele
         # when we push more than one ele in heap, it create the min/max heap acc to the 1st ele(1st pushed ele)
         for ele in hashmap:
             heapq.heappush(heap, (hashmap[ele],ele))  # value and key is pushed
             if len(heap)>k:
                 heapq.heappop(heap)
+                
         # now you will be left with fre of k top ele with their key
         # now print the key of each remaiing ele in heap
         ans= []

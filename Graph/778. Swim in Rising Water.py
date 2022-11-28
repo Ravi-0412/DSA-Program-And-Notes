@@ -32,7 +32,7 @@ class Solution:
             for r2,c2 in directions:
                 r, c= r1 +r2, c1+ c2
                 if 0<=r<row and 0<=c<col and (r,c) not in visited:
-                    visited.add((r,c))
+                    visited.add((r,c))  # mark visite here only as there can't be any more optimal path possible for (r,c)
                     max_till_now= max(time, grid[r][c])   # put the max val as we can only reach (r,c) with this time only, not in time less than this
                     heapq.heappush(minHeap,(max_till_now,(r,c)))
 

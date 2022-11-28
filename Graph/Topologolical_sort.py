@@ -146,7 +146,8 @@ g.Indegree_count()
 g.FindTopoSort()
 
 
-
+# Note VVI: whenever you have to find the order of distinct elements, given some relation between them(or dependency)
+# must think of topological sort 
 
 
 

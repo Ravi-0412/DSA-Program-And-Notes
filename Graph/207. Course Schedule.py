@@ -1,5 +1,7 @@
 # just the topological sorting
-# how to reach think about topo sort: since it is asking for ordering sequence then only think come into mind is toposort
+# how to reach think about topo sort?: we can only finish all the courses if there exist any order for completing all the courses
+# and order is only possible when we will make a directed graph between the dependency given and graph should have no cycle.
+# # and for finding any ordering checking with checking cycle , only thing comes into mind is 'Topological Sort'  
 # if no cycle then it is possible 
 
 # method1: using Bfs

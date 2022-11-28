@@ -45,3 +45,5 @@ g= Graph(8)
 # g.BFS(adj, 0, 7)
 g.BFS(adj, 2, 6)
 
+
+# method 2: use multisource bfs

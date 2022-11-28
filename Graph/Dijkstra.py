@@ -12,7 +12,7 @@ def ShortestPath(adj,n, src):
     minHeap= [(0,src)]  # first ele should be weight as it will create the heap using 1st ele always
     visited= set()  
     while minHeap:
-        w1,n1= heapq.heappop(minHeap)    # it means for this node, we have got the optimal ans so we will relax all the nodes to this node
+        w1,n1= heapq.heappop(minHeap)    # it means for this node, we have got the optimal ans so we will relax all the nodes to this node and mark this node as visited
         if n1 in visited:    # since we are marking any node visited only we have relaxed all the outgoing edge through that vertex
                             #  so there can be many instances of same node in the minHeap and once we have releaxed all the edges through that node 
                             # then, no need to relax all the edged through that node again anymore so simply skip

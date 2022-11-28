@@ -37,14 +37,14 @@ class Solution:
         def iscycle(c):
             if c in visited:
                 return visited[c]    # True means cycle, false means to skip
-            visited[c]= True
+            visited[c]= True  # mark that it is visited in current cycle
             for nei in dic[c]:
                 if iscycle(nei):
                     return True
             visited[c]= False      # means we have visited this node as well as all its adjacent node
             ans.append(c)
             
-        # here you can call dfs on any char 
+        # calling dfs
         for c in dic:
             if iscycle(c):
                 return ""

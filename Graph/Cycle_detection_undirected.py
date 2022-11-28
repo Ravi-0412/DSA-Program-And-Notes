@@ -40,11 +40,11 @@ class Graph:
     def isCycle(self,n, adj):
         for i in range(n):
             if self.visited[i]== False:
-                self.visited[i]= True
+                self.visited[i]= True  
                 if self.BFS(adj,i):
                     return True
         # if no component has cycle then return False     
-        return False
+        return False   
 
     
 g= Graph(11)

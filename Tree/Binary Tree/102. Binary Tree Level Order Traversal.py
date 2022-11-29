@@ -2,7 +2,7 @@
 # time: O(n)
 
 def levelOrder(self,root ):
-        Q= [root]
+        Q= [root]   #  use deque to reduce time complexity 
         ans= []
         while Q:
             curr= Q.pop(0)

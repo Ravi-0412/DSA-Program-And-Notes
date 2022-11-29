@@ -1,6 +1,7 @@
 # # just totally same as vertical order traversal(copied that code only)
 
-# logic: you have to print the 1st node at each horizonatl level that's from top(minimum y_coor from root) that's it 
+# logic: root pe baith jao and h jo node tmko dikhe usko print karna h..tm sirf har horizonaty sirf ek hi node top wala hi dekh paoge.
+# you have to print the 1st node at each horizonatl level that's from top(minimum y_coor from root) that's it. 
 # since remaining node at same horizontal level won't be visible when seen from top
 
 # or you can say for each horizonatal level take the only ele with minimum y coordinate
@@ -33,6 +34,7 @@ class Solution:
             dfs(root.right, lvl_h+1, lvl_v+1)
         
         dfs(root,0,0)   # just a traversla can say preorder
+        
         for hori in range(min_h[0], max_h[0]+ 1):
             for key, val in sorted(dic[hori]):    # this will sort all the node at each hori level acc to the y_coordinate 
                 print(val,end=" ")  # only you have to print the 1st node at each hori level(i,e with minimum y coordinate) 

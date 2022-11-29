@@ -8,7 +8,7 @@
 # logic: after you see any node, add them into path
 # when you find any leaf node add the path into the ans and delete the last added in path(this will delete the left or right child which is root)
 # now traverse to other child and 
-# after you have visited both the child then simply pop the curr root as this root can't be part of our ans
+# after you have visited both the child then simply pop the curr root as this root can't be part of our ans for next root 
 class Solution:
     def binaryTreePaths(self, root: Optional[TreeNode]) -> List[str]:
         ans,path= [], []
@@ -50,6 +50,7 @@ class Solution:
 
 # better one
 # instead of storing the paths in list, we can store in string then we don't have to use backtracking
+# as string doesn't get modified automatically like list
 # this approach make the q easier one
 class Solution:
     def binaryTreePaths(self, root):

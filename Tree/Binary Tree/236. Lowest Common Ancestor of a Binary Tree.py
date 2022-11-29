@@ -53,7 +53,7 @@ class Solution:
         # if left_search is not None and right is  None  at last then left subtree conatins both the nodes
         if right_search== None:
             return left_search
-        # if both is None None then that None will be automatically get returned in any of the above if condition
+        # if both is None then that None will be automatically get returned in any of the above if condition
         
         # so now condition left is both left_search and right_search is not None, an if both is not none then it means
         # both node 'p' and 'q' have path from this node 

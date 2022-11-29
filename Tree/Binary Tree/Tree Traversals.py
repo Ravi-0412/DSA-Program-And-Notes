@@ -5,36 +5,6 @@ def PreorderRecursive(self,root):
         self.PreorderRecursive(root.left)
         self.PreorderRecursive(root.right)
 
-# do by recursive inside the given function only and store the ans in a list(Leetcode q)
-# do later like this
-# https://leetcode.com/problems/binary-tree-preorder-traversal/discuss/164175/Python-solution
-
-# for returning the nas into list inside the given fn onlty, somehow we will have to replace the print statement by any condition
-class Solution:
-    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-        if root== None:
-            return []
-        elif root.left==None and root.right== None:
-            return [root.val]
-        l= self.preorderTraversal(root.left)
-        r= self.preorderTraversal(root.right)
-        return [root.val] + l+ r      # just the meaning of preorder
-
-
-# recursive way: returning the ans in a list inside same function 
-class Solution:
-    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-        if root== None:
-            return []
-        l= self.inorderTraversal(root.left)
-        # if root.right== None:   # this will give the wrong ans as after processing the left part if it comes then 
-                                    # pre all value will not get stored in the ans
-        #     return [root.val]
-        if root.left== None and root.right== None:
-            return [root.val]
-        r= self.inorderTraversal(root.right)
-        return l+ [root.val] + r        # just the meaning of inorder
-
 # iterative way 
 def PreorderIterative(self,root):
     if root== None:
@@ -50,6 +20,22 @@ def PreorderIterative(self,root):
         if curr.left:
             stack.append(curr.left)
 
+# do by recursive inside the given function only and store the ans in a list(Leetcode q)
+# do later like this
+# https://leetcode.com/problems/binary-tree-preorder-traversal/discuss/164175/Python-solution
+
+# for returning the ans into list inside the given fn only, somehow we will have to replace the print statement by any condition
+class Solution:
+    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        if root== None: # it will reach this condition in case of one child
+            return []
+        elif root.left==None and root.right== None:  # if leaf node
+            return [root.val]
+        l= self.preorderTraversal(root.left)
+        r= self.preorderTraversal(root.right)
+        return [root.val] + l+ r      # just the meaning of preorder
+
+
 
 def InorderRecursive(self,root):
     if root== None:
@@ -58,6 +44,19 @@ def InorderRecursive(self,root):
     print(root.data,end=" ")
     self.InorderRecursive(root.right)  
 
+# recursive way: returning the ans in a list inside same function 
+# just same as preorder,only change of meaning
+class Solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        if root== None:
+            return []
+        l= self.inorderTraversal(root.left)
+        if root.left== None and root.right== None:
+            return [root.val]
+        r= self.inorderTraversal(root.right)
+        return l+ [root.val] + r        # just the meaning of inorder
+
+# iterative one
 # easier one. just the conversion of iterative form when we start from root.left
 # logic: just keep on going left and when left is none then pop the last added one(just same as recursive code, think little)
 # def InorderIterative(self,root):
@@ -76,7 +75,7 @@ def InorderRecursive(self,root):
 #         if curr.left:
 #             stack.append(curr.left)
 #             curr= curr.left
-    
+
 
 # another concise way of iterative approach of inorder traversal. 
 # just the conversion if we start from root 
@@ -140,30 +139,3 @@ class Solution:
         return ans[::-1]
 
 
-# using only single stack(try later) by understanding properly
-def PostorderIterative(self,root):
-    if root== None:
-        return 
-    stack= []
-    stack.append(root)
-    curr, pre= root, None
-    while stack :
-        if curr.left== None:         
-            if curr.right:
-                stack.append(curr.right)
-                pre= curr
-                curr= curr.right
-            else: # means curr.left== None and curr.right== None
-                # print("pre data " ,pre.data)
-                temp= stack.pop()
-                print(temp.data, end=" ")
-                curr= pre.right
-                stack.append(curr)
-                pre= None
-                # print("curr data", curr.data)
-        if curr.left:
-            stack.append(curr.left)
-            pre= curr
-            curr= curr.left
-
-            

@@ -1,4 +1,4 @@
-# you will go and keep updating from root then it will not work since after updating at start
+# if you will go and keep updating from root then it will not work since after updating at start
 # any root may have more data values than sum of children(as children will get updated also to maintain the property) and decrement is not allowed
 
 # so start updating from bottom to top

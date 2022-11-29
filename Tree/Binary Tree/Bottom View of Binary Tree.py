@@ -10,10 +10,12 @@
 class Solution:
     def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
         min_h, max_h= [0], [0]  # minimum horizonatl level and maximum horizontal level
-        dic= collections.defaultdict(list)  # will store the (vertical_level,node) as value with horizontal_level as key
+        dic= collections.defaultdict(list)  # will store the (vertical_level,node) as value with horizontal_level as key.
         # since we have to print horizontally(from x_axis to max x_axis) so made horizonatl_level as key 
-        # and since case of same x and y coordinate we have to take the node with minimum value first so we are also storing the vertical_level with node node in the dic
-        # so before adding any value to the ans sort the each key pair by vertical_level then add in case of same vertical_level , node with smaller values will come first
+        # and since case of same x and y coordinate we have to take the node with minimum value first 
+        # so we are also storing the vertical_level with node node in the dic.
+        # so before adding any value to the ans sort the each key pair by vertical_level 
+        # then add in case of same vertical_level , node with smaller values will come first.
         def dfs(root, lvl_h, lvl_v):  # level horizontal, level vertical
             if root== None:
                 return
@@ -24,6 +26,7 @@ class Solution:
             dfs(root.right, lvl_h+1, lvl_v+1)
         
         dfs(root,0,0)   # just a traversla can say preorder
+
         for hori in range(min_h[0], max_h[0]+ 1):
             for key, val in sorted(dic[hori],reverse= True):    # sorted the value in reverse order to bring nodes with maximum y coor first
                 print(val,end=" ")

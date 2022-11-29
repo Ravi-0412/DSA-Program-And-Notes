@@ -12,5 +12,6 @@ class Solution:
         # if any of them is None then both should be None
         if root1== None or root2== None:
             return root1==root2    
-        return (root1.data==root2.data) and self.isMirror(root1.left, root2.right) and self.isMirror(root1.right, root2.left)  # here the diff from "identical trees"
+        return (root1.data==root2.data) and self.isMirror(root1.left, root2.right) and self.isMirror(root1.right, root2.left)  
+                    # here the diff from "identical trees"
 

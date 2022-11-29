@@ -1,14 +1,26 @@
-# when you will append any new node then it always will get added with num= 1
-# and for any just the one next child that comes in meaning of that traversal after printing the root like:
+# when you will append any new child node then it always will get added with num= 1
+# and for node just check the one next child that comes in meaning of that traversal after printing the root like:
 # for preorder next will be 'left', for inorder next will be 'right' and for postorder next will be nothing
 
+# after updating num after add the poped node into the stack with updated num  and check for next child that comes in meaning of that traversal
+# if child then add its child with num= num+1   
+
+# VVI: basically 'num' means the curr node will be added '3-num' times more including all the ans
+# since any node can be added max '3' times including all the three traversal.(as it has to come one time in each traversal)
+# so for any node if num= 1 means this node has been added '1' time and '3-1' times it will be  added more
+
+# and according to the print statement position(that's what num mean) we decide in what traversal we have to add that node at present time
+# like for preorder(root,left,right), print statement comes first. so we have to add any node in ans when num==1 and so on
+
+# stack will be initialised with (root,1), where num= 1
 class Solution:
     def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         pre, inorder,post,stack= [],[],[],[(root,1)]
         while stack:
-            curr, num= stack.pop()
+            curr, num= stack.pop()  # every time pop first and check the value of num
             # preorder
-            if num== 1:  # add in preorder and make num= 2and then again append curr in stack with updated num
+            if num== 1:  # add in preorder and make num= 2(incr by 1 since it has child remaining in it's meaning) 
+                        # and then again append curr in stack with updated num
                 pre.append(curr.val)
                 num= 2
                 stack.append((curr,num))

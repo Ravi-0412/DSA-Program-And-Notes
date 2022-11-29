@@ -48,7 +48,8 @@ def helper(self,root,key,ans):
     return False
 
 
-# for printing the depth of a node from a root
+# Q: for printing the depth of a node from a root
+
 # just same logic as above
 # if node is found then incr the ansa by 1 instead of True and if root== None return 0 instead of False
 # True->+1 then return , False->return 0.. append ->+1 in the ans, False->return 0

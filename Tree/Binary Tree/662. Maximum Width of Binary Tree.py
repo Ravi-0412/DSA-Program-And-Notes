@@ -1,6 +1,6 @@
 # my mistaek: i didn't get the q properly
 
-# logic: just you have to find the max depth at each level
+# logic: just you have to find the max width at each level
 # for this we can number all the node using array notation of tree
 # width at each level= num(right most node i.e last node at that level)- num(leftmost node i.e first node) + 1
 # take max of all width
@@ -13,7 +13,7 @@ class Solution:
         ans= 0
         while q:
             # keep updating the max at each level
-            ans= max(ans,q[-1][1]- q[0][1] + 1)     # max width at each level= num(right most node i.e last node at that level)- num(leftmost node i.e first node) + 1
+            ans= max(ans,q[-1][1]- q[0][1] + 1) # max width at each level= num(right most node i.e last node at that level)- num(leftmost node i.e first node) + 1
             for i in range(len(q)):
                 node, num= q.popleft()
                 if node.left: q.append((node.left,   2*num +1))     # left node will at 2*i+1 in '0' based indexing

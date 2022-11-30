@@ -38,7 +38,7 @@ class BSTIterator:
 
 # reducing the space complexity to O(H)
 # first push all the left ele of root i.e inorder traversal rule
-# for 'next' just pop the node and push its right
+# for 'next' just pop the node and push its right. like we do in inorder iterative traversal.
 
 # here we only pushing all the left node not all the nodes initially and when 'next' is called
 # this will make sure that space complexity doesn't go beyond O(H)
@@ -59,7 +59,7 @@ class BSTIterator:
         return self.stack!= []
     
     def PushLeft(self, root):
-        # push everything that comes on the left of root
+        # push everything that comes on the left of root including root
         curr= root
         while curr:
             self.stack.append(curr)
@@ -69,9 +69,7 @@ class BSTIterator:
 # just count the no of function call for 'next' function for 1st one 
 
 # for 2nd Q: store the poped node and check if its value is already present in the hashmap
-# if present means sum exists alse add into the hashmap
-
-
+# if present means sum exists alse add into the hashmap.
 
 # for getting the 'prev' just push all the right ele first and for any node you pop
 # just the opposite of inorder i.e Right,Root,Left

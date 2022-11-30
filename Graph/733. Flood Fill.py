@@ -1,6 +1,6 @@
 # my mistake: i didn't understand the Q properly. please read every Q properly first. Don't blindly go to solve after reading half of the Q.
 # note: i am making this mistake in almost Q and one of the main reason for Q takes a lot of time to solve.
-# First read match the input vs output for few test cases an dthen only go to find algorithm and then at alst code.
+# First read match the input vs output for few test cases an dthen only go to find algorithm and then at last code.
 
 class Solution:
     def floodFill(self, image: List[List[int]], sr: int, sc: int, color: int) -> List[List[int]]:

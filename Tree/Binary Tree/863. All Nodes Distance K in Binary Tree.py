@@ -35,8 +35,7 @@ class Solution:
             
     def BFS(self, graph, target, K, visited):     # multisource bfs 
         distance= 0
-        # q= collections.deque()
-        empty= []
+        # q= collections.deque()  # not working don't know why
         q= [target.val]     # added the target 
         # q will contain the all the nodes level wise
         visited.add(target.val)

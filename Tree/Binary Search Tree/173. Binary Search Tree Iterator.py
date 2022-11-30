@@ -10,19 +10,15 @@ class BSTIterator:
     
     def __init__(self, root: Optional[TreeNode]):
         self.inorder= self.InorderIterative(root)
-        
 
     def next(self) -> int:
         return self.inorder.pop()
-        
 
     def hasNext(self) -> bool:
         if self.inorder:
             return True
         return False
-            
-    
-    
+
     def InorderIterative(self,root):
         if root== None:
             return 
@@ -40,13 +36,13 @@ class BSTIterator:
                             # so did like this to avoid the time complexity of pop()
 
 
-# reducing the space complexity to O(n)
+# reducing the space complexity to O(H)
 # first push all the left ele of root i.e inorder traversal rule
 # for 'next' just pop the node and push its right
 
 # here we only pushing all the left node not all the nodes initially and when 'next' is called
 # this will make sure that space complexity doesn't go beyond O(H)
-# space: O(n)
+# space: O(H)
 # time: O(1) average case. we are pushing 'n' ele and we are calling 'next' function 'n' times
 
 class BSTIterator:

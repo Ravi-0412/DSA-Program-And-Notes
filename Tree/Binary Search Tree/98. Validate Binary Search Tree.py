@@ -43,9 +43,9 @@ class Solution:
 
 # but the abive logic can be implement without any extra space
 # write the iterative inorder traversal 
-# like when we pop any ele just check its value with the pre element
+# like when we pop any ele just check its value with the pre element.
 # poped ele must be greater than the pre element as in case of inorder traversal 
-# element should be in ascending 
+# element should be in ascending. 
 class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
         if root== None:

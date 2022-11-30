@@ -61,6 +61,6 @@ class Solution:
 
 # method 3: in one pass (GFG method 3)
 # since we are finding the lca and during finding lca we will automatically find the two given nodes also
-# so that time we can calculate the distance of both the nodes
+# so that time we can calculate the distance of both the nodes.
 # and when we will find the LCA, we will simply return the sum of distance of both the nodes(since distance and lca will bottom up only)
 # Do this by later (VVI)

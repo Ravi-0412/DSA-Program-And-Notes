@@ -1,3 +1,7 @@
+# method 1: using Insertion sort
+# time complexity: O(N*K) as inner loop will run only 'k' times
+
+
 # just like 'finding kth largest' 
 # to get the first smallest ele , you have only to traverse till 'k+1' ele of the array
 # as these ele can go till point only 

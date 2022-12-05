@@ -34,6 +34,16 @@ print(KthSmallest(arr,3))
 
 
 # method 4: try to do by Quick Select
+# https://www.geeksforgeeks.org/quickselect-algorithm/
+# def KthSmallest(arr,l,r,k):
+#     # if 'k' is smaller than no of elements in the array
+#     if k>0 and 
+
+
+arr = [7,4,6,3,9,1]
+n= len(arr)
+print(KthSmallest(arr,0,n-1,3))
+
 
 
 

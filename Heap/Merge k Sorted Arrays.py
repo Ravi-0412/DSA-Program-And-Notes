@@ -1,0 +1,19 @@
+
+# time: O(n*logk), n= total no of elements
+import heapq
+class Solution:
+    def mergeKArrays(self, arr, K):
+        heap, ans= [], []
+        # put the 1st ele of all the arrays in the heap with the array number and index
+        for i in range(len(arr)):
+            heapq.heappush(heap,(arr[i][0], i, 0))  # pushing the 1st ele of 'i'th arr
+        
+        # now to merge the array, just pop one ele from the heap and that will be minium at present
+        while heap:
+            val, arr_num, ind= heapq.heappop(heap)
+            ans.append(val)
+            # now add the next ele of the curr arr
+            if ind+ 1 < len(arr[arr_num]):
+                heapq.heappush(heap, (arr[arr_num][ind+1], arr_num, ind+1))
+        return ans
+

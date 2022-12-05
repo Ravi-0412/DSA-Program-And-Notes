@@ -6,7 +6,7 @@
 # lies between ascii value of 'A-Z' or 'a-z' or '0-9' using ord(char)-> this gives the ascii value
 
 # method 2: 
-# palindrome means aage piche dono se same
+# palindrome means age piche dono se same
 # isliye ek pointer start pe rakho and ek end pe check karo dono index pe ele same h ki nhi agar alphanumeric h tb
 def isPalindrome(self, s):
     l, r = 0, len(s)-1

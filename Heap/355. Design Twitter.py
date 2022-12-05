@@ -31,6 +31,8 @@
 # time: O(10*logk)   # k : no of person a user is following
 # 10 times we have to heapify 
 
+import heapq
+from collections import defaultdict
 class Twitter:   
     def __init__(self):
         self.time= 0

@@ -28,7 +28,7 @@ class Solution:
 
 
 # better one than all: Using Quick Select
-# time: O(n) average
+# time: O(n) average, worst: O(n^2)
 
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:

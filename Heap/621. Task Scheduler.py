@@ -1,6 +1,6 @@
 # you just have to minimise the idle time and for this
 # process the most frequent one first as this will give more time to not be idle because
-# if you process the less frequent char first then at last a lot of most frequent char will left and you have to wait
+# if you process the less frequent char first then at last a lot of most frequent char will left and you have to wait.
 # So from here we can think of using maxheap based on freq of each char
 
 # most frequent task to ek bar pick karne pe uskla count decr karke phir se add karna hoga next time most freq find karne ke liye

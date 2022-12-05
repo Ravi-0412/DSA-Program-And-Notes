@@ -30,3 +30,20 @@ class Solution:
                 ans+= temp
             if len(heap)== K1:
                 return ans
+
+
+# another way of writing the above code
+import heapq
+class Solution:
+    def sumBetweenTwoKth(self, A, N, K1, K2):
+        heap= []
+        for i in range(N):
+            heapq.heappush(heap, -1*A[i])
+            if len(heap)> K2-1:
+                heapq.heappop(heap)
+        ans= 0
+        while heap:
+            if len(heap)== K1: # because after poping in above 'for' it may reach to 'k1' also
+                return ans
+            temp = -1*heapq.heappop(heap)
+            ans+= temp

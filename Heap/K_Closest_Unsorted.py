@@ -15,8 +15,8 @@ def KClosest(arr,n,x,k):
 
 
 # correct one
-# Note: when we pass more than one parameter in heap then it will make the heap acc to first para only
-# if in case the first para is equal then it will make acc to the 2nd para and so on
+# Note: when we pass more than one parameter in heap then it will make the heap acc to first para only.
+# If in case the first para is equal then it will make acc to the 2nd para and so on
 
 # so to bring the small house no in case of match, add the num with negative sign
 class Solution:

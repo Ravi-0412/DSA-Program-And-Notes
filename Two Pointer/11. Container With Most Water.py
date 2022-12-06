@@ -19,18 +19,15 @@ class Solution:
         while l<r :
             curr_Area= (r-l) * min(height[r], height[l])
             maxArea= max(maxArea, curr_Area)
-            if height[l] > height[r]:   # move which is smaller since we are decreasing the width so we will try to move the smaller
+            if height[l] > height[r]:   # move which is smaller since we are decreasing the width so we will try to move the smaller to get the bigger height.
                 r-= 1
-            # elif height[l] < height[r]:
-            #     l+= 1
-            # else:  # can move nay of one
-            #     l+= 1
-
             else:  # can write above two into one
                 l+= 1
         return maxArea
 
-# logic behind moving 'l' and 'r': simple thought we have to move so that we can get larger area
+# logic behind moving 'l' and 'r': simple thought we have to move so that we can get larger area.
+# here not only height will matter, width will also matter. so for width, we may think of two pointer approach.
+
 # when ai < aj, if we move j to the left:
 # 1. the length on x-axis will definitly decrease
 # 2. if a(j-1) > ai, the area will be ai * length on x-axis which is smaller than original area

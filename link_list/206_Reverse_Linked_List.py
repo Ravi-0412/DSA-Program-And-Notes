@@ -1,6 +1,6 @@
 # method 1: Since we have to reverse, so stack should come into mind
 # just push the node into the stack and then start poping
-#  and keep making the updating the pointer
+#  and keep  updating the pointer
 
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
@@ -41,18 +41,19 @@ class Solution:
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]: 
         pre,curr= None, head
-        return self.ReverseByRecursion(pre,curr)
+        return self.ReverseByRecursion(pre,curr)  
     #  at last current will point to None and
     # pre will point to last node
     # so make head point to pre
     # now it will start reversing the pointer like: current.next= pre
     # will execute in backward direction till first call
     def ReverseByRecursion(self,pre, current):  # whatever you will pass as current, from current  it will reverse till last
-            if current== None:  # now we have to move the direction so make head point to pre as pre will be pointing to the last ele           
+            if current== None:  # now we have to change the direction so make head point to pre as pre will be pointing to the last ele           
                 self.head= pre                  
             else:
                 self.ReverseByRecursion(current, current.next)  # this is breaking into small subproblem
-                current.next= pre  # why this is not giving a cycle
+                current.next= pre  
+                # pre.next= None # no need of this as while traversing back link will get broken automatically 
             return self.head
 
 
@@ -68,13 +69,20 @@ class Solution:
         else:
             # Solution().ReverseByRecursion(current,current.next)  # this will return none at last since we are 
                                                                     # not storing the updated value of 'headreverse' 
-            headreverse = Solution().ReverseByRecursion(curr,curr.next)  # keep storing the result into headreverse
-            curr.next= pre  # why this not giving a cycle
+            headreverse = self.ReverseByRecursion(curr,curr.next)  # keep storing the result into headreverse
+            curr.next= pre  
         return headreverse  # at last return head reverse
 
 
-# method 4: try by another approach by storing the ans and using only one parameter in recursive function(Neetcode solution )
-
+# method 4: using only one parameter
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if not head or not head.next:  # if there is no node or only one node. start reversing after you reach the last node
+            return head
+        reverseHead= self.reverseList(head.next)
+        head.next.next= head
+        head.next= None  # this we have to write for the 1st node. other next will automatically become None
+        return reverseHead
 
 
 # mistakes
@@ -84,7 +92,7 @@ class Solution:
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         pre,curr= None, head
-        return self.helper(head,pre,curr)
+        return self.helper(pre,curr)
     def helper(self,pre,curr):
         if curr==None:
             head= pre   # if we write self.head then it's giving correct ans

@@ -33,7 +33,8 @@ class Solution:
                     return slow
             print("no cycle")
 
-#  https://leetcode.com/problems/linked-list-cycle-ii/discuss/1701055/JavaC%2B%2BPython-best-explanation-ever-happen's-for-this-problem   
+# https://leetcode.com/problems/linked-list-cycle-ii/discuss/1701055/JavaC%2B%2BPython-best-explanation-ever-happen's-for-this-problem   
+# https://leetcode.com/problems/find-the-duplicate-number/solutions/650942/proof-of-floyds-cycle-detection-algorithm-find-the-duplicate-number/
     
     
     

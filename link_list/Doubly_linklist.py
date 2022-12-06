@@ -2,8 +2,8 @@
 class Node:
     def __init__(self,data, pre= None, next= None):
         # when we dont pass any of the para it will take the default value
-        self.data= data
         self.pre= pre
+        self.data= data
         self.next= next
 
 class LinkList:

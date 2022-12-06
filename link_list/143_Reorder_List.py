@@ -28,7 +28,7 @@ class Solution:
         return head
 
 
-# another method:
+# another method: better one, have to do only by this
 # steps: 1) reverse the ele after middle to end 
 # 2) now merge the two list 
 # time:O(n), space:O(1)
@@ -58,4 +58,34 @@ class Solution:
             temp1, temp2= curr1.next, curr2.next
             curr1.next, curr2.next= curr2, temp1
             curr1, curr2= temp1, temp2
+        return head
+
+
+# another way of doing the same logic
+class Solution:
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        if head.next== None or head.next.next== None:
+            return head
+        slow, fast= head, head
+        # finding the middle element. in case of even find the 1st middle instead of 2nd
+        while fast and fast.next and fast.next.next:
+            slow= slow.next
+            fast= fast.next.next 
+        second= slow.next   # this will point to 1st ele after the middle
+        slow.next= None
+        
+        # now reverse from 1st ele after middle to last
+        pre= None
+        while second:
+            nextNode= second.next
+            second.next= pre
+            pre= second
+            second= nextNode
+            
+        # now merge the two list
+        curr1, curr2= head, pre
+        while curr1 and curr2:
+            temp= curr1.next
+            curr1.next= curr2
+            curr1, curr2= curr2, temp   # swap the pointer
         return head

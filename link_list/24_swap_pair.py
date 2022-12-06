@@ -21,7 +21,7 @@ class Solution:
                 pre.next= curr_even
                 curr_odd.next= curr_even.next
                 curr_even.next= curr_odd
-                # now change the even and odd pointer to the rightmost swapped ele till now
+                # now change the even and odd pointer to the rightmost swapped ele till now, to check for next pair
                 curr_even= curr_odd
                 curr_odd= curr_even
         return dummy.next

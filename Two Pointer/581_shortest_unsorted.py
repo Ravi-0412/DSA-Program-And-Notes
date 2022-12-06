@@ -97,7 +97,7 @@ class Solution:
         end = 0
 		# find the largest index not in place from starting to find the 'end'
         for i in range(1,len(nums)):
-            if nums[i] < prev:  # agar largest till now bhi bda ho jaye curr ele se
+            if nums[i] < prev:  # if inordered. agar largest till now bhi bda ho jaye curr ele se
                 end = i
             else:  # means in order
                 prev = nums[i]
@@ -106,7 +106,7 @@ class Solution:
         prev = nums[start]   # it will store the max ele till now from end
 		# find the smallest index not in place from last to find the 'start'
         for i in range(len(nums)-2, -1, -1):
-            if prev < nums[i]:  # agar largest till now bhi chhota ho jaye curr ele se
+            if prev < nums[i]:  # if inordered. agar largest till now bhi chhota ho jaye curr ele se
                 start = i
             else:  # means in order
                 prev = nums[i]

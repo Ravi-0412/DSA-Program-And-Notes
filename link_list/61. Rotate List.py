@@ -4,7 +4,7 @@
 # 1st_node after rotation bna dena h
 
 # finally what we have to do:
-# 1) find the last node ane length togetehr in one traversal 2) find the next node after 'n-k' node
+# 1) find the last node and length togetehr in one traversal 2) find the next node after 'n-k' node
 # 3) store the next node after 'n-k' node say in 'head_node_after_rotation' and make next of 'n-k' as None and return 'the head_node_after_rotation' 
 # time: O(n), space: O(1)
 # very good one
@@ -40,6 +40,11 @@ class Solution:
         last_node.next= head
         return head_node_after_rotation
 
+
+# VVI: simpler way of doing above logic
+# just find the kth node from end like we used to find.  this will be the head of the linklist after rotation 
+# keep a pointer 'pre' that will point to one node before kth node from end. (just like finding kth and k+1 th node from end)
+# make pre.next= None and last.next = head and make head = kth node from end and return head
 
 # 2nd method : like array
 # step: 1) starting till 'n-k' tak reverse karo then

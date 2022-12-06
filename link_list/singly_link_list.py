@@ -16,6 +16,7 @@ class LinkedList:
     def __init__(self):
         self.head= None  # initialsing LinkedList object 'head' to None intially
                          # 'head' will always point to the first node
+        self.successor= None   # global variable for reversing first n node
     def isempty(self):
         if self.head== None:
             return True
@@ -118,6 +119,15 @@ class LinkedList:
             current= current.next
         print(llstr)
 
+    def ReverseN(self, head, n):
+        if n==1:
+            self.successor= head.next   # storing the first node after 'n' into successor
+            return head
+        reverseHead= self.ReverseN(head.next, n-1)
+        head.next.next= head
+        head.next= self.successor   # at last first node(head) will point to the first node after 'n'
+        return reverseHead
+
 
 if __name__ == "__main__":
     l1= LinkedList()
@@ -127,19 +137,21 @@ if __name__ == "__main__":
     # l1.insert_last(23)
     # test cases for swapping function
     # arr= ['mango','apple','banana','grapes','orange','pineapple','potato','onion']
-    arr= [1,2,3,4,5]
+    arr= [1,2,3,4,5,6,7]
     # arr= [1,2]
     # arr= [1,2,3]
     l1.insert_values(arr)
     l1.show()
     # l1.swap_two_node_last_values(2)
     # l1.show()
-    l1.swap_two_node_last_links(1)
-    l1.show()
+    # l1.swap_two_node_last_links(1)
+    # l1.show()
     # l1.swap_two_node_last_links1(7)
     # l1.remove_at(2)
     # l1.show()
     # l1.get_length()
+    l1.ReverseN(l1.head,5)
+    l1.show()
 
 
 

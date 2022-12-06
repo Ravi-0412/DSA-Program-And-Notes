@@ -94,13 +94,11 @@ class Solution:
         fast, slow= head, head
         # while slow: # will generate error as in this case slow might not be None 
                     # but fast.next or fast.next.next may be null
-        while slow and fast.next and fast.next.next :  # these condition and condition sequence has been written keeping 'no cycle' and empty list 
-                                                        # as for cycle all will be valid only
+        while fast and fast.next : # fast for no node and fast.next for incr the fast two times
             slow= slow.next
             fast= fast.next.next
             if slow== fast:
                 return True
-                break
         return False
 
 

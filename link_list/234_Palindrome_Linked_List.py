@@ -39,11 +39,7 @@ class Solution:
 
 # method 2: Time- o(n), space- o(1)  (submitted on leetcode)
 
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
+
 class Solution:
     def isPalindrome(self, head: Optional[ListNode]) -> bool:
         # first find the middle element
@@ -126,22 +122,3 @@ class Solution:
             current= current.next
         return str1== str1[::-1]
 
-
-# method 4: just traverse the list and write the no from both side
-# i.e from left as well as right side 
-# just same as we write the no from left and right
-# way to write from right_side and left_side when you are seeing the ele from left side:
-# right side= i*current.val + right_val and incr 'i in multiple of given base
-# left side= left_val*base + current.val
-
-# will only work for integers(also for very long input showing time limit exceeded on leetcode)
-
-class Solution:
-    def isPalindrome(self, head: Optional[ListNode]) -> bool:
-        i, right_val, left_val,current= 1,0,0, head
-        while current:
-            right_val= i*current.val + right_val   # writing from right side
-            left_val= left_val*10 + current.val    # writing from left side
-            i= i*10
-            current= current.next
-        return right_val== left_val

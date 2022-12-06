@@ -27,7 +27,7 @@ def swap_two_node_last_values(self,k):
     # now second will point to the kth element from the last
     # third will point to (k+1)th node from the end i.e one ele before 'second' from start
     # after this swap the data of both
-    if count <k:
+    if count <k:  # value of k should be less than the no of elements in the list
         print("swapping not possible in this case")
     else:
         second.data,third.data= third.data, second.data

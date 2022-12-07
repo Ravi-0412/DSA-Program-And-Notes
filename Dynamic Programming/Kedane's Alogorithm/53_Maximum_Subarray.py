@@ -12,12 +12,14 @@ def maxSubArray(self, nums: List[int]) -> int:
     return max_sum
 
 
+# logic: har ele ke pass 2 choice, either curr_sum me include ho jaye ya khud curr_sum ban jaye. that's it.
+
 # 2nd method: 
 # Time: O(n)
 # logic: To calculate sum(0,i), 
 # you have 2 choices: either adding sum(0,i-1) to a[i], or not. 
-# If sum(0,i-1) is negative, adding it to a[i] will only make a 
-# smaller sum, so we add only if it's non-negative.
+# If sum(0,i-1) is negative , adding it to a[i] will only make a 
+# smaller sum, so we add only if it is positive 
 def maxSubArraySum(self,arr,N):
         max_so_far, max_ending_here= arr[0], arr[0]
         # max_ending here will give the max_sum till that index(after conidering all the ele max_sum possible till that index)
@@ -37,20 +39,18 @@ def maxSubArraySum(self,arr,N):
 def maxSubArray(self, nums: List[int]) -> int:
         max_sum, curr_sum= nums[0], 0
         for n in nums:
-            # curr_sum is negative then make curr_sum= 0 then add the element
+            # curr_sum is negative then make curr_sum= curr_ele
             if curr_sum <0:
-                curr_sum= 0
-            curr_sum+= n 
-            # if even all no is negative then max_sum will store the
-            # least negative no(in step: curr_sum+= n) and at last it will return that number
-            
+                curr_sum= n
+            else: # otherwise add the curr ele to the curr_sum
+                curr_sum+= n
             # update the max_sum
             max_sum= max(max_sum, curr_sum)
         return max_sum
 
 
 # method 4: By DP
-# exactly same approach as method 1.
+# exactly same approach as method 2.
 # just instead of storing into variable we stored the max_ending_here in an array 'dp'
 def maxSubArray(self, nums: List[int]) -> int:
         n, max_sum= len(nums), nums[0]
@@ -62,17 +62,6 @@ def maxSubArray(self, nums: List[int]) -> int:
         return max_sum
 
 
-# this i did as revision time on 11/07/2021
-# just same logic as method 3 and 4 even 2 is same only
-class Solution:
-    def maxSubArray(self, nums: List[int]) -> int:
-        curr_sum, max_sum= 0, -9999999999
-        for num in nums:
-            if curr_sum< 0 and curr_sum< num:  # if curr sum is negative and less than current ele then make curr_sum= curr_element as thsi will only lead to max_sum
-                curr_sum= num 
-            else: 
-                curr_sum+= num
-            max_sum= max(curr_sum, max_sum) 
-        return max_sum
+
 
 

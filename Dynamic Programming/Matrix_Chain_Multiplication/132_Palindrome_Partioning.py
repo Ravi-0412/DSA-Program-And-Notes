@@ -1,74 +1,136 @@
-# method 1: by memoization(Bottom up DP)
-# tried on GFG , giving TLE
+# mine logic: if given string is palindrome simply return '0'
+# partition it at all index by calling the function again and again.
+
+# but TLE all the three methods.
+
+# method 1: 
 class Solution:
-    def palindromicPartition(self, string):
-        n, i, j= len(string), 0, len(string) -1
-        dp= [[-1 for l in range(n +1)] for k in range(n + 1)]
-        mn= 99999
-        return self.helper(string, i, j, dp, mn)
+    def minCut(self, s: str) -> int:
+        n= len(s)
+        i, j= 0, n-1
+        return self.helper(s, i, j)
     
-    def helper(self, s, start, end, dp, mn):
-        if start >= end:  # if equal means single char so no need to cut anymore
+    def helper(self, s, i, j):
+        if i== j:  # if equal means single char so no need to cut anymore
             return 0
-        # if s[start: end+1]== s[start:end: -1]:  # means string is palindrome from start to end
-        #     return 0
-        s1= s[start: end+1]
-        if s1== s1[::-1]:
+        s1= s[i: j+1]
+        if s1== s1[::-1]: # if string between 'i' to 'j' is already palindrome
             return 0
-        if dp[start][end] != -1:
-            return dp[start][end]
-        for k in range(start, end):
-            SmallAns= self.helper(s, start, k, dp, mn) + self.helper(s, k+1, end, dp, mn) + 1
+        # if not palindrome try to partition it at all possible index
+        mn= 9999
+        for k in range(i, j):
+            SmallAns= self.helper(s, i, k) + self.helper(s, k+1, j) + 1
             mn= min(mn, SmallAns)
-            dp[start][end]= mn
         return mn
+        
 
-
-# METHOD 2 : tried by optimising the subproblem also but still giving TLE
-# in this we checked whether the subproblem we are calling is already solved or not
+# method 2: memoization 
+# this also giving TLE
 class Solution:
-    def palindromicPartition(self, string):
-        n, i, j= len(string), 0, len(string) -1
-        dp= [[-1 for l in range(n +1)] for k in range(n + 1)]
-        mn= 99999
-        return self.helper(string, i, j, dp, mn)
+    def minCut(self, s: str) -> int:
+        n= len(s)
+        i, j= 0, n-1
+        dp= [[-1 for j in range(n)] for i in range(n)]
+        return self.helper(s, i, j, dp)
     
-    def helper(self, s, start, end, dp, mn):
-        if start >= end:  # if equal means single char so no need to cut anymore
+    def helper(self, s, i, j, dp):
+        if i== j:  # if equal means single char so no need to cut anymore
             return 0
-        # if s[start: end+1]== s[end:start-1: -1]:  # means string is palindrome from start to end
-        #     return 0
-        s1= s[start: end+1]
-        if s1== s1[::-1]:
+        s1= s[i: j+1]  
+        if s1== s1[::-1]:  # if string between 'i' to 'j' is already palindrome
             return 0
-        if dp[start][end] != -1:
-            return dp[start][end]
-        for k in range(start, end):
-            left, right= 0, 0
-            s2= s[start: k+1]
-            s3= s[k+1: end +1]
-            if dp[start][k]!= -1:
-                left= dp[start][k]
-            elif s2== s2[::-1]:
-                left= 0
-                dp[start][k]= left
-            else:
-                left= self.helper(s, start, k, dp, mn)
-                dp[start][k]= left
-            if dp[k+1][end]!= -1:
-                right= dp[k+1][end]
-            elif s3== s3[::-1]:
-                right= 0
-                dp[k+1][end]= right
-            else:
-                right= self.helper(s, k+1, end, dp, mn)
-                dp[k+1][end]= right
-                
-            SmallAns= left + right + 1
+        if dp[i][j]!= -1:
+            return dp[i][j]
+        mn= 9999   # maximum no of partition can be 'n-1' when all ele are distinct
+        for k in range(i, j):
+            SmallAns= self.helper(s, i, k, dp) + self.helper(s, k+1, j, dp) + 1
             mn= min(mn, SmallAns)
-            dp[start][end]= mn
-        return mn
+            dp[i][j]= mn
+        return dp[i][j]
 
 
+# method 3: Tabulation
+class Solution:
+    def minCut(self, s: str) -> int:
+        n= len(s)
+        i, j= 0, n-1
+        dp= [[0 for j in range(n)] for i in range(n)]   # automatically initialised with base case
+        for i in range(n-2, -1, -1):
+            for j in range(i+1, n):
+                s1= s[i: j+1]
+                if s1== s1[::-1]:
+                    dp[i][j]= 0
+                    continue
+                mn= 9999999999
+                for k in range(i, j):
+                    SmallAns= dp[i][k] + dp[k+1][j] + 1
+                    mn= min(mn, SmallAns)
+                dp[i][j]= mn
+        return dp[0][n-1]
 
-# Also try to understand the 'Striver code and logic'
+
+# another Approach: Front partitioning
+# logic: you can only partition at any index if string till that index is palindrome.
+# in this we only need to pass one parameter, for checking palindrome at each index.
+
+# method 1: Recursion
+class Solution:
+    def minCut(self, s: str) -> int:
+        n, i= len(s), 0
+        ans= self.helper(s, i) -1  # since even after end index our function is doing partition and adding '+1'. so we have to subtract that '1'.
+        return ans
+    
+    def helper(self, s, i):
+        if i== len(s):
+            return 0
+        mincost= 9999
+        for j in range(i, len(s)):
+            temp= s[i: j+1]   # keep on adding one string at a time and if it is palindrom then partition after that index.
+            if temp== temp[::-1]:
+                smallAns= 1 + self.helper(s, j+1)
+                mincost= min(mincost, smallAns)
+        return mincost
+
+
+# method 2: Memoization(Accepted)
+# for time complexity: see the no of variable changing(say m) and no of 'for' loop (say p)
+# time: O(n^(m+p)). actual one will depend on range of changing variables and no of for loops.
+# better one: time= O(n*r1*r2*....).  r1, r2,....: are size of variable changing in function as well as inside the for loop.
+
+# here : time: O(n^2) as both the variable changing in function as well as variable inside the for loop is O(n)
+class Solution:
+    def minCut(self, s: str) -> int:
+        n, i= len(s), 0
+        dp = [-1 for i in range(n+1)]   # 'i' going from '0' to 'n'(base case)
+        ans= self.helper(s, i, dp) -1  # since even after end index our function is doing partition and adding '+1'. so we have to subtract that '1'.
+        return ans
+    
+    def helper(self, s, i, dp):
+        if i== len(s):
+            return 0
+        if dp[i]!= -1:
+            return dp[i]
+        mincost= 9999
+        for j in range(i, len(s)):
+            temp= s[i: j+1]   # keep on adding one string at a time and if it is palindrom then partition after that index.
+            if temp== temp[::-1]:
+                smallAns= 1 + self.helper(s, j+1, dp)
+                mincost= min(mincost, smallAns)
+                dp[i]= mincost
+        return dp[i]
+
+
+# Tabulation
+class Solution:
+    def minCut(self, s: str) -> int:
+        n, i= len(s), 0
+        dp = [0 for i in range(n+1)]
+        for i in range(n-1, -1, -1):
+            mincost= 9999
+            for j in range(i, len(s)):
+                temp= s[i: j+1]   # keep on adding one string at a time and if it is palindrom then partition after that index.
+                if temp== temp[::-1]:
+                    smallAns= 1 + dp[j+1]
+                    mincost= min(mincost, smallAns)
+            dp[i]= mincost
+        return dp[0] -1

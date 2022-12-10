@@ -4,11 +4,12 @@
 # space: O(n) recursive depth + O(n) for storing ans= O(n)
 class Solution:
     def wordBreak(self, dict, s):
-        ans= []   # not storing in string because string is immutable thats why we won't be able to add the current matched word by deleting the last added matched word 
+        ans= []   # not storing in string because string is immutable
+        #  thats why we won't be able to add the current matched word by deleting the last added matched word 
         return self.helper(s,dict,ans)
     
     def helper(self,s,dict,ans):
-        if not s:
+        if not s:  # reached beyond lenth of string , so you will get one of the possibel ans
             print(" ".join(ans))
             return
         for i in range(1,len(s)+1):
@@ -19,18 +20,23 @@ class Solution:
                 ans.pop()
 
 w= Solution()
-# s = "catsanddog"
+s = "catsanddog"
 # # s= "catsandog"
-# dict = {"cats", "cat", "and", "sand", "dog"}
+dict = {"cats", "cat", "and", "sand", "dog"}
 
 # test case 2
-dict= { "i", "like", "sam", "sung", "samsung", "mobile", "ice", "and", "cream", "icecream", "man", "go", "mango"}
+# dict= { "i", "like", "sam", "sung", "samsung", "mobile", "ice", "and", "cream", "icecream", "man", "go", "mango"}
 # s= "ilikesamsungmobile"
-s= "ilikeicecreamandmango"
+# s= "ilikeicecreamandmango"
+
+# test case 3
+# s = "leetcode"
+# dict = {"leet","code"}
 w.wordBreak(dict,s)
 
 
 # this submitted on leetcode, same approach
+# just printing into above case just we have to store in a list ans we got one by one.
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
         ans= []  # will store the final ans
@@ -40,7 +46,8 @@ class Solution:
     
     def helper(self,s,dict,seg, ans):
         if not s:
-            # listToStr = reduce(lambda a, b : a+ " " +str(b), seg) # shorter way. was not able to do by join so used this otherwise iterate and store
+            # listToStr = reduce(lambda a, b : a+ " " +str(b), seg) # shorter way. 
+                        # was not able to do by join so used this otherwise iterate and store
             listToStr= " ".join(str(e) for e in seg)   # or do like this
             ans.append(listToStr)
             return

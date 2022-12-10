@@ -1,5 +1,7 @@
 # Recursive way
-
+# we are breaking when we see any operator(before that).
+# since expression can give 'True' even when we will get "False" also.
+# so para 'i' and 'j' is not sufficient, we need one more para like what we want i.e eithher 'True' or 'False'. 
 class Solution:
     def countWays(self, N, S):
         i, j= 0, N-1

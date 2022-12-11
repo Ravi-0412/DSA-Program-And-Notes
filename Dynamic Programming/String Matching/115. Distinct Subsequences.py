@@ -1,6 +1,6 @@
-# in string matching you will come across only two cases i.e matched and not matched always 
-# for base case in string matching algo, base cases willbe when :
-# 1) when first string becomes empty(1st index becomes=0) and when 2nd string becomes empty(2nd index becomes zero)  
+# in string matching you will come across only two cases i.e 'matched' and 'not matched' always 
+# for base case in string matching algo, base cases will be when :
+# 1) when 2nd string becomes empty(2nd index becomes zero) 2) when first string becomes empty(1st index becomes=0) and  
 
 # easy only just slight modifiction in lcs
 # modification: 1) in case of char matches then we have two choices either include that char into the ans or 

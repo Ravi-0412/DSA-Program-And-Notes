@@ -13,7 +13,7 @@
 class Solution:
     def minDistance(self, word1: str, word2: str) -> int:
         m, n= len(word1), len(word2)
-        return self.helper(m, n, word1, word2)  # this means min operations required to convert sord1[0...m-1] to word2[0....n-1]
+        return self.helper(m, n, word1, word2)  # this means min operations required to convert word1[0...m-1] to word2[0....n-1]
     
     def helper(self,m,n,s,t):
         if n== 0:
@@ -24,9 +24,10 @@ class Solution:
             return n
         if s[m-1]== t[n-1]: # matched then nothing to do , zero cost
             return self.helper(m-1, n-1, s, t)
-        # if not matched then we have three option either insert the same char of word2 in word1, in this case no need of move ahead in word1 only move ahead in word2
-        # or delete the char in word1 and move ahead in word1 being at same position in word2
-        # or replace the char in word1 by char of word2, in this case move ahead in word1 and word2 both
+        # if not matched then we have three option 1) either insert the same char of word2 in word1,
+        #  in this case no need of move ahead in word1 only move ahead in word2 because curr char of word 1 can be be the next char of word2.
+        # 2) delete the char in word1 and move ahead in word1 being at same position in word2
+        # 3) replace the char in word1 by char of word2, in this case move ahead in word1 and word2 both
         return min(1+ self.helper(m, n-1, s, t), 1+ self.helper(m-1, n, s, t), 1+ self.helper(m-1, n-1, s, t))
         # return  1+ min(self.helper(m, n-1, s, t), 1+ self.helper(m-1, n, s, t), 1+ self.helper(m-1, n-1, s, t)) better one
 

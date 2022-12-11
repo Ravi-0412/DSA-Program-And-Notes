@@ -7,26 +7,30 @@ class Solution:
         return self.helper(m, n, s, p)
     
     def helper(self, m, n, s, p):
-        # if string 2nd(pattern) get exhausted
-        
+        # if string 2nd(pattern) get exhausted and 
         # 1st also get exhausted then return True
-        if n== 0 and m== 0:
-            return True
-        if n== 0 and m!= 0:
-            return False
+
+        # if n== 0 and m== 0:
+        #     return True
+        # if n== 0 and m!= 0:
+        #     return False
+        if n== 0:     # simplest one
+            return m== 0
         
         # if 1st string get exhausted
         # then if all remainig char in 'p' is all "*" then return True else False
-        if m==0:
+        if m==0:  # i was only checking once like 'return p[i]== "x"
             for i in range(n-1,-1,-1):
                 if p[i]!= '*':
                     return False
             return True
         
-        if s[m-1]== p[n-1] or p[n-1]== '?':
+        if s[m-1]== p[n-1] or p[n-1]== '?':  # incr both indexes by '1'
             if self.helper(m-1, n-1, s, p):
                 return True
-        elif p[n-1]== '*':
+        # when p[n-1]=="*", we have two choices 1)matching zero char with "*", move in pattern without keeping string index same
+        # or match one or more char with "*", decr string index and keep pattern index same.
+        elif p[n-1]== '*':  
             if self.helper(m, n-1, s, p) or self.helper(m-1, n, s, p):
                 return True
         return False
@@ -38,8 +42,7 @@ class Solution:
         return self.helper(m, n, s, p)
     
     def helper(self, m, n, s, p):
-        # if string 2nd(pattern) get exhausted
-        
+        # if string 2nd(pattern) get exhausted and
         # 1st also get exhausted then return True
         if n== 0 and m== 0:
             return True

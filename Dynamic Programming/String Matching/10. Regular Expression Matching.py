@@ -117,7 +117,7 @@ class Solution:
         dp[i][j]= False
         return dp[i][j]
 
-# Tabbulation
+# Tabulation
 # will do later
 
 

@@ -8,6 +8,9 @@
 # 2) in case doesn't matches then search for char in 's' at different index i.e doesn't decr the index of 't' 
 # as we have to find the no of subsequences that's it
 
+# Note: instead of using indexes we can also do by slicing like i used to do seeing the Q.
+# and in case of slicing use dictionary to memoise the solution.
+
 # time: O(2^m *2^n)
 class Solution:
     def numDistinct(self, s: str, t: str) -> int:

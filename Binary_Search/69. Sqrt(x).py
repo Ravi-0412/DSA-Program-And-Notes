@@ -10,19 +10,37 @@
 
 
 #method2: time- O(logn)
-# for perfect square number
+# using template '2'
+# for perfect square only 
+class Solution:
+    def sqrt(self, x: int) -> int:
+        low, up= 0, x
+        while low< up:
+            mid= low+ (up-low)//2
+            print(low, up, mid)
+            if(mid*mid>= x):  
+                up= mid
+            else:
+                low= mid+1
+        return low
 
-# def square_root(n):
-#     start,end= 1,n
-#     while(start<=end):
-#         mid= start+ (end-start)//2
-#         if mid*mid==n:
-#             return mid
-#         elif mid*mid>n:
-#             end= mid-1
-#         else:
-#             start= mid+1
-# print(square_root(36))
+# But here if ele is not perfect square then also we have to return the just smaller one(floor only) which is not a fixed number like '-1' 
+# or something fixed that we have to return in case if not present.
+# so we use the template 1 instead of template 2.
+# submitted on lintcode
+class Solution:
+    def sqrt(self, x: int) -> int:
+        low, up= 0, x
+        while low<=up:
+            mid= low+ (up-low)//2
+            print(low, up, mid)
+            if mid*mid== x:
+                return mid
+            elif mid*mid> x:  
+                up= mid- 1
+            else:
+                low= mid+1
+        return up
 
 
 # if you want to get the decimal places also
@@ -57,7 +75,6 @@ def square_root(n,precision):
 n= int(input("enter the no ou want to find square root: "))
 precision= int(input("enter the no of decimal places : "))
 print(square_root(n,precision))
-
 
 
 

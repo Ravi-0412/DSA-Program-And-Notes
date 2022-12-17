@@ -46,6 +46,8 @@ class Solution:
 # if you want to get the decimal places also
 #time complexity nearly equal= o(logn) as  time complexity of precision 
 # will be very less as compared to 'logn'
+
+# first find the integral value.
 def square_root(n,precision):
     start,end,root= 0,n, 0.0  # root will store the square root
     while(start<=end):

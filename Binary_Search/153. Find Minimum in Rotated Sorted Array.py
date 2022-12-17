@@ -14,7 +14,7 @@ class Solution:
             if nums[i]>nums[(i+1)%n]:
                 return nums[(i+1)%n]
 
-# 2nd method : Best one
+# 2nd method : Best one(Template 2)
 # minimum and maximum element will always in unsorted part
 # and there will be only one sorted and unsorted part i.e 1) if left to mid is unsorted then mid to right will be unsorted (<=>)
 # 2) if right to mid is unsorted then left to mid must be sorted(<=>)

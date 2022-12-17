@@ -8,8 +8,8 @@
 # 'up' hmesha '>= target' me update hoga and low '<=' target me update hoga, kyonki hmlog ko size hmesha decrease karna h.
 
 # Template 1:
-# Note: use this template in case if elements are not present in and in case of not present also  we have to return some valid number, and
-# if present simply then simply we will get the ans inside the while loop.
+# Note: use this template in case if elements are not present  we have to return some valid number, and
+# if present  then simply we will get the ans inside the while loop.
 # e.g: Q like: 1) find ceil and floor of a number in sorted array  2) find square root of a number  
 # 3) Find 1st bad version 4) 744. Find Smallest Letter Greater Than Target 5) 35. Search Insert Position
 
@@ -38,7 +38,7 @@ def binary_search(arr,key):
 
 # another way:
 # here after while loop will break then 'low' and 'high' will become equal.
-# so any one of them will point to 'key' if key is present.
+# so any one of them will point to 'key' if key is present. After while loop both will point to the same thing.
 
 # Template 2: 
 # use this template when we are asked to return ans if present else simply return '-1'
@@ -93,7 +93,7 @@ def binary_search(arr,key):
             low= mid
         else:
             up= mid-1
-    return up if arr[up]== key else -1
+    return low if arr[low]== key else -1
     
 arr= [10, 10,20, 30, 50, 60, 80, 110, 110, 130, 140, 170]
 key= 10
@@ -124,6 +124,7 @@ print(binary_search(arr, key))
 
 
 # another concise way of above method(merge two if into one if)
+# agar mil bhi jaye to 'low' ko aage badhate rhna h . isliye start wale condition me equal to lga do.
 # template 1 only
 def binary_search(nums,target):
     start= 0
@@ -144,6 +145,7 @@ key= 10
 print(binary_search(arr, key))
 
 # Q: To find the 1st index of any target element
+# agar mil bhi jaye to 'up' ko  ghatate(decrease) karte rhna h . isliye start wale condition me equal to lga do.
 def binary_search(arr,key):
     n= len(arr)
     low=0

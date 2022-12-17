@@ -52,45 +52,39 @@ class Solution:
         return -1
 
 
-# method2: By recursion
+# method2: By recursion(Template 2)
 #logic: just finding the sorted part and checking whether ele lies 
-# in this or not .. if lies then call the binary search  as we can directly apply binary search in sorted part only
+# in this or not .. if lies then call the binary search  as we can directly apply binary search in sorted part only.
+
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        return self.search1(nums,target,0,len(nums)-1)
+    
+    def search1(self,arr, target, low, high):
+        start, end= low, high
+        while(start<end):
+            mid= start + (end-start)//2
+            if arr[start] <= arr[mid]: # means array is sorted from start to mid
+            # so we can check if target exist bw start and mid
+            # if it exists then we can apply binary search directly
+
+                if arr[start] <=target<=arr[mid]:
+                    return self.search1(arr, target,start, mid)
+                else: # if not present then check in other part
+                    return self.search1(arr, target,mid+1,end)
+
+            # if above part is not sorted then it other part from mid+1 to end must be sorted
+            # check if target lies in this range        
+            else: 
+                if arr[mid+1] <=target<=arr[end]:  # if lies call binary search
+                    return self.search1(arr, target,mid+1,end)
+                # if not lies from 'mid+1' to end then it must be before it
+                else:
+                    return self.search1(arr, target,start,mid)
+        return start if arr[start]== target else -1
 
 
-def search(arr, target, low, high):
-    start, end= low, high
-    while(start<end):
-        mid= start + (end-start)//2
-        if arr[mid]== target:
-            return mid
 
-        elif arr[start] <= arr[mid]: # means array is sorted from start to mid
-        # so we can check if target exist bw start and mid
-        # if it exists then we can apply binary search directly
-
-            if arr[start] <=target<=arr[mid]:
-                return search(arr, target,start, mid)
-            else: # if not present then check in other part
-                return search(arr, target,mid+1,end)
-
-        # if above part is not sorted then it other part from mid+1 to end must be sorted
-        # check if target lies in this range        
-        else: 
-            if arr[mid+1] <=target<=arr[end]:  # if lies call binary search
-                return search(arr, target,mid+1,end)
-            # if not lies from 'mid+1' to end then it must be before it
-            else:
-                return search(arr, target,start,mid)
-    return -1
-
-# arr = [4, 5, 6, 7, 8, 9, 1, 2, 3]
-arr= [5,6,1,2,3,4]
-key =  3
-i = search(arr, key, 0, len(arr)-1)
-if i != -1:
-    print ("Index: % d"% i)
-else:
-    print ("Key not found")
 
 
 

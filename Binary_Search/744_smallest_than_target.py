@@ -1,5 +1,5 @@
 # exactly same as binary search
-# just like we find the ceiling only case here in case of equal to you have to continue searching on right side(low= mid+1)
+# just like we find the last position of an element.
 class Solution:
     def nextGreatestLetter(self,letters, target):
         n= len(letters)

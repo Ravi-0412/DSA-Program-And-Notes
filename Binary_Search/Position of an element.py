@@ -1,7 +1,6 @@
-# since we dont know the size so using binary search after finding 
-# length is not a good approach
+# since we dont know the size so using binary search after finding length is not a good approach.
 # but if we can find that target ele exist bw any two index
-# then we can apply binary search bw those index
+# then we can apply binary search bw those index.
 # so,now problem reduces to find the range in which the target ele exist
 # for finding the range we can move in chunk like first size of 2
 # then 4, then 8 ....
@@ -35,19 +34,16 @@ def FindRange(arr, target):
 def BinarySearch(arr,key,start,end):
     low= start
     up= end
-    print(low,up)
     while(low<= up):
         mid= (low+up)//2
         if arr[mid]== key:
-            print(mid)
             return mid
         elif(arr[mid]> key):
             up= mid-1
         else:
             low= mid+1
 arr = [3, 5, 7, 9, 10, 90, 100, 130, 140, 160, 170]
-position= FindRange(arr,10)
-print("{} is present at index {}:".format(10,position))
+print(FindRange(arr,10))
 
 
 

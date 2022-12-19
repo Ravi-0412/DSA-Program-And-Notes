@@ -26,8 +26,9 @@
 
 # just little concise way of above
 
+from collections import deque
 def printFirstNegativeInteger( A, N, K):
-    win= []
+    win= deque()
     i,j= 0,0
     while j <N:
         if A[j]<0:  # appj in 'win' 
@@ -40,7 +41,7 @@ def printFirstNegativeInteger( A, N, K):
                 print(win[0], end=" ")
                 if A[i]<0:   # then remove ele of 'i' index from win i.e first ele from win
                             # tabhi remove kar sakte h jb 'i'th index ele negative ho like jb property ko follow kar rh ahoga tabhi remove karenge n
-                    win.pop(0)
+                    win.popleft()
             i+= 1
         j+= 1
 
@@ -48,9 +49,9 @@ N = 5
 A = [-8, 2, 3, -6, 10]
 K = 2
 
-N = 8
-A = [12, -1, -7, 8, -15, 30, 16, 28]
-K = 3
+# N = 8
+# A = [12, -1, -7, 8, -15, 30, 16, 28]
+# K = 3
 
 # A = [5, -2, 3, 4, -5]
 # K = 2
@@ -66,3 +67,4 @@ printFirstNegativeInteger(A, N, K)
 # ans update karo and inside this agar pre index wala ele here 'i' 
 # agar condition ko follow kar rha ho tb remove kar do ya jo bhi ans ke anusar karna ho 'i'th index wale ele pe operation karo
 # yhi do case bnega isme 
+# 'i' ko incr kar do.

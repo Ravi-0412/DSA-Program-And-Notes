@@ -55,7 +55,7 @@ def lenOfLongSubarr(A, N, K):
 
 # ii) elif check for proper invalid condition acc to Q i.e if condition is invalid
 # then pre index say 'i' pe tab tak operate karo(or do the process to remove pre index 'i'th ele)
-# jb tak condition valid n ho jaye(use while loop with sam elif condition) and while trying to making condition valid. 
+# jb tak condition valid n ho jaye(use while loop with same elif condition) and while trying to making condition valid. 
 # you may come across valid case also inside this so,every time you operate on pre index 'i'
 # then keep checking for valid case also , if found add that to ans.. That's it
 

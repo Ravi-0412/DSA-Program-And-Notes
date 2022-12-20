@@ -1,7 +1,6 @@
 # method 1: Brute force
 # using heap
 # time: O(n^2 *log(n^2))
-
 import heapq
 class Solution:
     def kthSmallest(self, matrix: List[List[int]], k: int) -> int:

@@ -40,5 +40,10 @@ class Solution(object):
                 end= mid
         return start
 
+# i was thinking since we are finding the mid and updating the start and mid acc to the mid.
+# but mid may not be the ele in the matrix but since we are finding the count acc to the ele of matrix.
+# so after while loop ans will be the ele that will be in matrix itself.
+# after every valid(>=) equal to case, it will go closer and closer to the the ele present in the matrix for the ans.
+
 # also try to understand the O(n) approach and do it later
 # https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/discuss/85170/O(n)-from-paper.-Yes-O(rows)

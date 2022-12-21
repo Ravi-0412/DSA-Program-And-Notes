@@ -76,13 +76,14 @@ print(binary_search(arr, key))
 # here after while loop will break then 'low' and 'high' will become equal.
 # so any one of them will point to 'key' if key is present.
 
-# Template 3:  same as Template 2
+# Template 3:  same as Template 2()
 
 # in case of duplicate elements, it will give the last index where ele is present.
 # because even after finding the ans, we are continuing our checking and increasing the mid(increasing the low).
 # but doesn't work always to get the last index. may get TLE also . e.g" [10,10], key= 10
 # so avoid this template to find the last index. 
 
+# note: don't use this template. try to solve Q using template 1 and template 2
 def binary_search(arr,key):
     n= len(arr)
     low=0

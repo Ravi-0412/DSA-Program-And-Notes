@@ -17,25 +17,26 @@
 # so time: O(n*m) only
 
 # but when we traverse from top right then in unequal case we will have only one choice.
-# key greater then check in next row and if smaller check in pre col
+# key greater then check in next row and if smaller check in pre col.
 
 class Solution:
     def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
         row, col= len(matrix), len(matrix[0])
-        i, j= 0 , col -1
-        while i< row and j >=0:  # 'i' will always go down(max till row-1) and 'j' will always go left max till '0'
+        down, left= 0 , col -1
+        while down< row and left >=0:  # 'i' will always go down(max till row-1) and 'j' will always go left max till '0'
             # if found then return True
-            if matrix[i][j]== target:
+            if matrix[down][left]== target:
                 return True
-            elif matrix[i][j] > target: # it means target will be present on the previous col
+            elif matrix[down][left] > target: # it means target will be present on the previous col
                                         # as all col is also sorted and we need to search the ele 
                                         # lesser than current one
-                j-= 1
-            elif matrix[i][j] < target:  # it means target will be present on the next rows
+                left-= 1
+            elif matrix[down][left] < target:  # it means target will be present on the next rows
                                         # as all row  is also sorted and we need to search the 
                                         # ele greater than current one
-                i+= 1
+                down+= 1
         return False
+
 
 # 4th method: you can also start searching from bottom-left point
 # and change the variable accordingly

@@ -62,7 +62,7 @@ class Solution:
     
     def search1(self,arr, target, low, high):
         start, end= low, high
-        while(start<end):
+        while start<end:
             mid= start + (end-start)//2
             if arr[start] <= arr[mid]: # means array is sorted from start to mid
             # so we can check if target exist bw start and mid

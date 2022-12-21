@@ -28,7 +28,7 @@ class Solution(object):
             for row in range(len(matrix)):
                 if col>= 0 and matrix[row][col]> m:  # just doing opposite 
                     col-= 1
-                cnt+= col + 1
+                cnt+= col + 1   # after each col this will be the no of ele smaller than 'm'
             return cnt
         
         while start < end:
@@ -40,5 +40,5 @@ class Solution(object):
                 end= mid
         return start
 
-# also try to understand the O(n) approach anddo it later
+# also try to understand the O(n) approach and do it later
 # https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/discuss/85170/O(n)-from-paper.-Yes-O(rows)

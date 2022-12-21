@@ -12,7 +12,6 @@ class Solution:
             else:
                 right= self.BinarySearch_descending(mountain_arr,target,peak+1,last_index)
                 return right
-            return -1
 
         def peakIndexInMountainArray(self,mountain_arr):
             start= 0
@@ -27,10 +26,6 @@ class Solution:
                     start= mid +1
                 else:  #  peak(maximum ele) will be on left side of mid including mid
                     end= mid
-            # after loop will fail then start= end and both will be
-            # pointing to the maximum ele in the array
-            # both are always trying to find max element in the array
-            # which is our ans
             return start
         
         # searching in the left side of the peak including peak

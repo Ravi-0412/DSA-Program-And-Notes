@@ -2,7 +2,7 @@
 # the best thing about this q is binary search is applicable even array is unsorted
 
 # you can reduce this problem into: Divide the given array into 'm' subarrays such that 
-# 'max sum of the splitted subarrays will be minimum' OR  'sum of diff of subarrays will be minimum'.
+# 1)'max sum of the splitted subarrays will be minimum' OR 2) 'sum of absolute diff of subarrays will be minimum'.
 
 # how binary search?: just like we did in '378. k smallest element'. 
 # we can find mid and check it is valid to allocate pages acc to the mid if valid then we will find the next smaller
@@ -37,7 +37,7 @@ class Solution:
         for i in range(N):
             sum+= A[i]
             if sum > max_page:  # in this case we will increase the no of student
-                                # and start allocating the books to the new student
+                                # and start allocating the books to the new student.
                 student+= 1
                 sum= A[i]
         # and at last we we will compare the no of students with M(# student given in the Q)

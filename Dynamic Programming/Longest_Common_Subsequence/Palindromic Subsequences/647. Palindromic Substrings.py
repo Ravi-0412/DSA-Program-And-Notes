@@ -11,15 +11,13 @@ class Solution:
             # checking for odd length palindrome that can be formed at index 'i'
             l, r= i, i
             while l>= 0 and r < n and s[l]== s[r]:
-                count+= 1
-                curr_len= r-l + 1
+                count+= 1    
                 l-= 1
                 r+= 1
             # checking for even len palindrome that can be formed at index 'i'
             l,r= i, i+1
             while l>= 0 and r < n and s[l]== s[r]:
                 count+= 1
-                curr_len= r-l + 1
                 l-= 1
                 r+= 1
         return count

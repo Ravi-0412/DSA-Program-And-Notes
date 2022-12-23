@@ -1,0 +1,21 @@
+# Brute force: Take xor of all the number. This will give the ans directly.
+# Time: O(n)
+
+
+# method 2: Binary Search
+# logic: in correct part, 1st instance of any ele will occur at even index and 2nd instance will ocuur at odd index.
+# so first check if this pattern is getting followed till 'mid' or not.and then move accordingly.
+class Solution:
+    def singleNonDuplicate(self, nums: List[int]) -> int:
+        low, up= 0, len(nums) -1
+        while low<up:
+            mid= low + (up-low)//2
+            # find the matching index of mid ele.
+            # if any of these condition is true then till now they are following the right pattern.
+             # if first instance is at even index and there is match. so search in next half.
+            if (mid % 2==0 and nums[mid]== nums[mid+1]) or mid % 2 ==1 and nums[mid]== nums[mid-1]: 
+                low= mid +1
+            else:  # mid can also be the ans
+                up= mid
+        return nums[low]
+

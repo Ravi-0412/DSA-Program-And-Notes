@@ -103,6 +103,12 @@ key= 10
 
 # to find the last index. basic one.
 # template 1 only 
+
+# Note VVI: agar hmko or bda khojna ho to yhi template use karo "while start<= end" and 
+#  ek 'ans' variable leke update karte raho possible ans me and last me 'ans' ko return kar do.
+# "while low<up" galat  de deta h, is wale me most of the case me.
+
+# NOte VVI: agar or chota hi khojna ho to template 2 lagao aankh moon ke. kabhi fail nhi hoga.
 def binary_search(nums,target):
     ans= -1
     start= 0
@@ -161,3 +167,10 @@ def binary_search(arr,key):
     # to the required ans(due to '>=' condition with up).
     # 'up' will point to the greatest number smaller than the target.
     return low
+
+
+# Note VVI: Array sorted ho ya unsorted ho, agar tm condition check karke agar decide kar pa rhe ho ki kon sa side move karna h
+# then apply Binary Search. 
+# like agar ye condition agar follow kar rha then is side check karna h agar nhi kar rha to dusre side check karna h..
+# then must apply Binary Search.
+

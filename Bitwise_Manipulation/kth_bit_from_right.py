@@ -1,9 +1,9 @@
 # logic: '&' with '1' gives that bit , or 
-# and with all '1' gives that number itself
+# '&' with all '1' gives that number itself(or with all zero also give the number itself).
 
-# so if we can somehow get '1' at kth position and '0' at all other position 
+# so if we can somehow get '1' at kth position and '0' at other remaining position. 
 
-# we can get '1' at kth position by left shifting '1' 'k-1' times
+# we can get '1' at kth position by left shifting '1' 'k-1' times then, 
 # we can get 1 at kth position and '0' at other positions
 
 # till here we will get the bit at kth position but there will be
@@ -26,4 +26,8 @@ def kth_bit(n,k):
 print(kth_bit(13,3))
 print(kth_bit(14,3))
 print(kth_bit(32,4))
+
+
+# method 2: Right shift the number 'k-1' times then the kth bit wil come at rightmost side.
+# Now return 0 if number is even else 1 OR simply return this curr number by taking '&' with '1'.
 

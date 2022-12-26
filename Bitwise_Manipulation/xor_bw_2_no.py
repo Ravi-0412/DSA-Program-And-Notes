@@ -1,6 +1,6 @@
 # xor bw two no: 'a' and 'b
 # equal to= f(b)^ f(a-1)
-# take xor till zero to b and after to remove the
+# take xor till zero to b and after that  to remove the
 # xor result of extra no i.e till 0 to 'a-1'
 # again take (xor of zero till 'a-1' with zero till 'b')
 # as xor of same no = 0 and since we are taking xor of extra

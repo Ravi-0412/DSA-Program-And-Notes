@@ -14,7 +14,7 @@
 #     while(n>0):
 #         if n&1==1:     # to get the last bit
 #             ans*= base  # update the ans 
-#         base*= base     # update the base for each iteration
+#         base*= base     # update the base for each iteration(1,2,4,...) # so multiplying base with base rather than 'base= base*x' as we only updating ans when we get '1' .
 #         n>>= 1         # shift power right by 1 to get the next last bit for next iteration
 #     return ans
 # print(power(3,4))

@@ -14,6 +14,6 @@ class Solution:
                     temp.append(nums[j])
             ans.append(temp)
         return ans
-
+#
 
 # a lot of approaches also there in recusrion topic for this Q

@@ -7,6 +7,8 @@
 
 # for this ,only thing come into mind is to find the two's complement amd then take '&' and then take log
 
+# Note: when we write '-' before any number then that will get converted to 2's complement of the given no.
+# and '~' gives one's complement.
 class Solution:
     def getFirstSetBit(self,n):
         count= 0
@@ -19,6 +21,7 @@ class Solution:
         return 0
 
         # return int(math.log2(n & -n)) + 1 if n!=0 else 0      # best and concise
+        # just the logic we find the two's complement i.e start from right and after you see first one then just change 0->1 and 1->0
 
 
 # another way of writing 1st method:

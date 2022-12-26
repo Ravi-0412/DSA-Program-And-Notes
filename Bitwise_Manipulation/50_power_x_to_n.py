@@ -1,7 +1,8 @@
 # logic: think of binary form of given 'power'
 # and whenever  its bit is equal to 1, update the ans
 # as presence of 1 in binary represents 2^0,2^1,2^2.....
-# and update the base each tim(base=base*base) till you traverse the whole digit of power
+# and update the base each time(base=base*base) till you traverse the whole digit of power.
+
 
 # just we are spliting the powers into sum of powers of 2 
 # like: 6(110)= 2+4, 5(101)= 4+1
@@ -51,37 +52,13 @@ print(power(2,-4))
 # time: O(logn)
 class Solution:
     def myPow(self, x: float, n: int) -> float:
-        if n<0:  #first check for -ve power, if -ve make it positive and change 'x'
-            x=1/x
+        if n < 0:
+            x= 1/x
             n= -n
-        ans= 1
-        if n==0:        # base condition
-            return 1   
-        elif n%2==1:  # if n is odd 
-            smallAns= Solution().myPow(x,n//2)
-            ans= x* smallAns* smallAns
-        else:  # if n is even
-            smallAns= Solution().myPow(x,n//2)
-            ans= smallAns* smallAns
-        return ans
+        if n== 0:
+            return 1
+        elif n %2==0:
+            return self.myPow(x, n//2) * self.myPow(x, n//2) 
+        else:
+            return x * self.myPow(x, n//2) * self.myPow(x, n//2)
 
-
-        # and writing the above logic in other form will given the time out
-
-        # if n < 0:
-        #     x= 1/x
-        #     n= -n
-        # if n== 0:
-        #     return 1
-        # return self.myPow(x, n//2) * self.myPow(x, n//2) if n% 2==0 else x * self.myPow(x, n//2) * self.myPow(x, n//2)
-        
-        
-        # if n < 0:
-        #     x= 1/x
-        #     n= -n
-        # if n== 0:
-        #     return 1
-        # elif n %2==0:
-        #     return self.myPow(x, n//2) * self.myPow(x, n//2) 
-        # else:
-        #     return x * self.myPow(x, n//2) * self.myPow(x, n//2)

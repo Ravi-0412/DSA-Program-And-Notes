@@ -22,24 +22,24 @@ class Solution:
 
 
 # method2- Time:O(n)
-# instead of directly finding xor and then calculating the no of set bit 
-# we are just going by the very basic of xor operation
+# instead of directly finding xor and then calculating the no of set bit, 
+# we are just going by the very basic of xor operation.
 #logic: the idea is the basic of how we calculate the XOR
 # and how xor gives the output '1'
 # xor gives the output '1' for each position when bit differs to each other
-# nd thats also the hamming distance meaning
+# and thats also the hamming distance meaning.
 # we are doing same, we are just calculating the no of set bit of all given
-# numbers for each bit one by one
+# numbers for each bit position one by one.
 
 # and hamming distance for each bit position= (no of 1's)*(no of 0's) at that position. we calculate in the same way for two no
 # no of 0's will be equal= len(nums)-(no of 1's at that bit position)
-# so calculate the hamming distance for each bit and add all to get the ans
+# so calculate the hamming distance for each bit and add all to get the ans.
 
 class Solution:
     def totalHammingDistance(self, nums: List[int]) -> int:
         n,result = len(nums), 0
         for i in range(32):  # as maximum no of bits allowed is 32
-            set_bit= 0  # will count the no of set bits at each bit position
+            set_bit= 0  # will count the no of set bits at each bit position.
             # to get the last bit of each ele in each iteration right shift by 'i'
             # after that 'i'th bit will come at right most and then take '&' 
             # check whether that bit is '1' or '0'

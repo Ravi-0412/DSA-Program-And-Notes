@@ -6,12 +6,9 @@
 
 class Solution:
     def reverseString(self, s: list[str]) -> None:
-        """
-        Do not return anything, modify s in-place instead.
-        """
         # mid= len(s)//2
         # n= len(s)
-        # for i in range(mid):
+        # for i in range(mid):  # reverse till mid
         #     s[i],s[n-i-1]= s[n-i-1], s[i]
 
         # return s[::-1]  # or one line ans
@@ -19,15 +16,6 @@ class Solution:
         #another method by recursion
         #time- O(n^2) ,Space- O(n)
 
-        ans= []
-        if len(s)==1:
-            new_list= [s[0]]
-            new_list.append(s[-1])
-            return new_list
-        smallAns= Solution().reverseString(s[1:])  # lo bhai tm baki sb reverse kar dena
-        ans+= smallAns # phir apna reversed wala add karne ke bad 
-        ans.append(s[0])  # hmko add kar dena
-        return ans
 
 
 arr= ["h","e","l","l","o"]

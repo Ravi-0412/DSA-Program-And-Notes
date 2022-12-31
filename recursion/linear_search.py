@@ -94,14 +94,13 @@ arr= [2,4,5,7,4,9,4,10,15,22,4]
 print(LinearSearch5(arr,4,0))
 # print(LinearSearch5(arr,18,0))
 
-
+# better and concise than all other
 def search(arr,target,index):
     ans= []
     if index >= len(arr): 
         return ans
     if arr[index] == target:
         ans.append(index)
-    smallAns = search(arr,target,index+1)
-    return ans + smallAns 
+    return ans + search(arr,target,index+1)
 arr= [2,4,5,7,4,9,4,10,15,22,4]
-# print(search(arr,4,0))
+print(search(arr,4,0))

@@ -36,4 +36,4 @@ class Solution:
     def isPowerOfTwo(self, n: int) -> bool:
         # return n > 0 & (n == 1 | (n%2 == 0 & self.isPowerOfTwo(n/2)))  # true
         # return (n> 0 and n==1) or (n % 2 == 0 and self.isPowerOfTwo(n//2))   # will lead to infinite loop for n=0
-        return n>0 and (n==1 or (n % 2 == 0 and self.isPowerOfTwo(n//2)))      # n zero se bda hona chahiye aur (n '1' hona chahiye aur n even hona chahiye )
+        return n>0 and (n==1 or (n % 2 == 0 and self.isPowerOfTwo(n//2)))      # n zero se bda hona chahiye aur (n '1' hona chahiye ya n even hona chahiye )

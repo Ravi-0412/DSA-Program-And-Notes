@@ -3,7 +3,7 @@
 
 # and for reset we use 'AND' with '0'. 
 
-# matlab kisi tarah se hmko '1' kth position pe lake gievn number ke saath '|' le lena h.
+# matlab kisi tarah se hmko '1' kth position pe lake given number ke saath '|' le lena h.
 
 # for getting one at kth position do left shift '1'
 # 'k' time(if last bit start from zero)

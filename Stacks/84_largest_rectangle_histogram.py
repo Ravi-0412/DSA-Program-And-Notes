@@ -60,7 +60,7 @@ class Solution:
                 topOfStack= stack.pop()
                 currArea= heights[topOfStack] *((index- stack[-1]-1) if stack else index)  
                 maxArea= max(currArea, maxArea)
-        while stack:  # agar abhi bhi stack empty h iska matlab ki stack me sb incresing order me ele h
+        while stack:  # agar abhi bhi stack empty nhi h iska matlab ki stack me sb incresing order me ele h
                       # means all can go before index in right side and before  stack[-1] into the left if stack is not empty after poping 
                       # and in case empty means in left it can go till zero 
             topOfStack= stack.pop()
@@ -70,7 +70,7 @@ class Solution:
 
 
 # method 3, time: O(n)
-# have to realise it properly once again, not getting why doing like this
+# have to realise it properly once again, not getting why doing like this. will see this later
 # very concise one of above method 
 # https://leetcode.com/problems/largest-rectangle-in-histogram/discuss/995249/Python-increasing-stack-explained
 # whenever you see any ele greater than equal on the stack to the current index

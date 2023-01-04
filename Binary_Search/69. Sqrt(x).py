@@ -25,12 +25,12 @@ class Solution:
         return low
 
 # But here if ele is not perfect square then also we have to return the just smaller one(floor only) which is not a fixed number like '-1' 
-# or something fixed that we have to return in case if not present.
+# or something NOT fixed that we have to return in case if not present.
 # so we use the template 1 instead of template 2.
 # submitted on lintcode
 class Solution:
     def sqrt(self, x: int) -> int:
-        low, up= 0, x
+        low, up= 0, x  # up!= x//2. because this will not work for x==1.
         while low<=up:
             mid= low+ (up-low)//2
             print(low, up, mid)
@@ -66,7 +66,7 @@ def square_root(n,precision):
     # and inc by 1/10 for 1st loop and 1/100 for 2nd for loop and so on
     incr= 0.1  # for getting 1st precision we have to incr by 0.1
     for i in range(precision):
-        while(root*root<=n):
+        while(root*root<=n):  # less than will give incorrect ans
             root+= incr
         # to get the actual value of root subtract by 'incr' 
         root-= incr

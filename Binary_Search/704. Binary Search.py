@@ -36,11 +36,10 @@ def binary_search(arr,key):
 # print(binary_search(arr, key))
 
 
-# another way:
+# Template 2: 
 # here after while loop will break then 'low' and 'high' will become equal.
 # so any one of them will point to 'key' if key is present. After while loop both will point to the same thing.
 
-# Template 2: 
 # use this template when we are asked to return ans if present else simply return '-1'
 # (or something fixed value given to return in case if not present) or given ans exist for sure.
 # here we make decision after while loop only. 
@@ -83,7 +82,7 @@ print(binary_search(arr, key))
 # but doesn't work always to get the last index. may get TLE also . e.g" [10,10], key= 10
 # so avoid this template to find the last index. 
 
-# note: don't use this template. try to solve Q using template 1 and template 2
+# note: don't use this template. try to solve Q using template 1 and template 2 only.
 def binary_search(arr,key):
     n= len(arr)
     low=0
@@ -106,7 +105,7 @@ key= 10
 
 # Note VVI: agar hmko or bda khojna ho to yhi template use karo "while start<= end" and 
 #  ek 'ans' variable leke update karte raho possible ans me and last me 'ans' ko return kar do.
-# "while low<up" galat  de deta h, is wale me most of the case me.
+# "while low<up" galat  ans de deta h, mostly case me.
 
 # NOte VVI: agar or chota hi khojna ho to template 2 lagao aankh moon ke. kabhi fail nhi hoga.
 def binary_search(nums,target):
@@ -142,7 +141,7 @@ def binary_search(nums,target):
             start= mid+1  # for finding larger index. means we have to find beyond mid
         else:
             end= mid-1
-    # after while loop, end will point to the last index of target
+    # after while loop, end will point to the last index of target.
     # (as before while loop exit start had last index value since equal to(<=) condition with 'start') and
     # 'start' will point to the smallest greater ele than the target
     return end  

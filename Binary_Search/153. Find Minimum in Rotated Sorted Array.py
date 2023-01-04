@@ -19,6 +19,8 @@ class Solution:
 # and there will be only one sorted and unsorted part i.e 1) if left to mid is unsorted then mid to right will be unsorted (<=>)
 # 2) if right to mid is unsorted then left to mid must be sorted(<=>)
 
+# check condition that guarantee both the sorted and unsorted part and change pointer accordingly.
+
 class Solution:
     def findMin(self, nums: List[int]) -> int:              
         left, right = 0, len(nums)-1
@@ -81,7 +83,6 @@ class Solution:
     
             # here means nums[start...mid] is not unsorted 
             # then min will lie beyond mid  as min or max will always lie in unsorted part    ##* my mistake(again and again) :
-
             #  as array can be already sorted then it will not work
             # or if array become sorted from start to mid after changing start
         

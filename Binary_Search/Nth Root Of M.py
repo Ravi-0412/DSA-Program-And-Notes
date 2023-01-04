@@ -1,4 +1,4 @@
-# submitted on codeStudio but given incorrect for one test case(6th decimal place incorrect only)
+# submitted on codeStudio but give incorrect ans for one test case(6th decimal place incorrect only)
 
 def findNthRootOfM(n,m):
     low, up= 1, m
@@ -17,3 +17,4 @@ def multiply(number, n):
         ans*= number
     return ans
 
+# can use the same logic to find the square root of a number with decimal places.

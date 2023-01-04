@@ -1,12 +1,12 @@
 def FindIndex(arr):
-    i, found= 0, 0
-    while True:
-        if arr[2**i]<= 1<=arr[2**(i+1)]:
-            found= 1
-        if found== 1:
-            return BinarySearch(arr, 1, 2**i, 2**(i+1)-1)
-        else:
-            i+= 1
+    i= 0
+    while(arr[2**(i+1)]< 1): # means target not lie in this range
+                             # so now incr the range in pow of tw
+        i+= 1
+    # when while loop will fail means we have found the range
+    # so now apply binary search in this range to find the position
+    position= BinarySearch(arr, 1, 2**i -1, 2**(i+1))   # start= 2**i -1 to handle the case when ele is present at zero index.
+    return position
 
 
 def BinarySearch(arr,key,start,end):
@@ -20,7 +20,7 @@ def BinarySearch(arr,key,start,end):
     return low
 
 arr = [0, 0, 0, 0, 0,0,1,1,1,1]
-# arr=  [1, 1, 1, 1,, 1, 1]
+arr=  [1, 1, 1, 1, 1, 1]
 print(FindIndex(arr))
     
 

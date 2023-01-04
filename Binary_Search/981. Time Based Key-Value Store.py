@@ -19,4 +19,4 @@ class TimeMap:
                 end=  mid-1
             else:
                 start= mid +1
-        return self.hashmap[key][end][0] if end>=0 else  ""
+        return self.hashmap[key][end][0] if end>=0 else  ""  # if return "" then it means this timestamp is smallest one and doesn't exist also.

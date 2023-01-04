@@ -19,7 +19,7 @@ class Solution:
                 high= mid-1
         return letters[(low)%n]   # taking modulus to handle the case when ans doesn't exist.
                                   # in this case low will be= n and we have to return the 0th index letter only and 
-                                  # if exist then low will giev the ans directly.
+                                  # if exist then low will give the ans directly.
 
 
 

@@ -14,32 +14,7 @@ class Solution:
             if nums[i]>nums[(i+1)%n]:
                 return nums[(i+1)%n]
 
-# 2nd method : Best one(Template 2)
-# minimum and maximum element will always in unsorted part
-# and there will be only one sorted and unsorted part i.e 1) if left to mid is unsorted then mid to right will be unsorted (<=>)
-# 2) if right to mid is unsorted then left to mid must be sorted(<=>)
-
-# check condition that guarantee both the sorted and unsorted part and change pointer accordingly.
-
-class Solution:
-    def findMin(self, nums: List[int]) -> int:              
-        left, right = 0, len(nums)-1
-        while left < right:
-            mid = (left + right) // 2
-            if nums[mid] > nums[right]:   # means array from 'mid' to 'right' is unsorted
-                left = mid + 1            # so minimum will lie in this part only i.e beyond mid
-
-            else:      
-            # here it will guarantee that array from 
-            # mid to right is sorted and start to mid is unsorted and mid can also be minimum
-                right = mid
-        # after loop will fail , start and end will point to 
-        # the same ele and that will be the minimum ele
-        # because both are merging towards the index of min ele in each iteration
-        return nums[left]
-
-
-# very basic
+# method 2: very basic
 def findMin(self, arr):
     start, end, n= 0, len(arr)-1, len(arr)
     while start<= end:
@@ -64,6 +39,34 @@ def findMin(self, arr):
         # so in this case simply return nums[0]
         else:
             return arr[0]
+
+
+# 3rd method : Best one(Template 2)
+# minimum and maximum element will always in unsorted part
+# and there will be only one sorted and unsorted part i.e 1) if left to mid is unsorted then mid to right will be unsorted (<=>)
+# 2) if right to mid is unsorted then left to mid must be sorted(<=>)
+
+# check condition that guarantee both the sorted and unsorted part and change pointer accordingly.
+
+class Solution:
+    def findMin(self, nums: List[int]) -> int:              
+        left, right = 0, len(nums)-1
+        while left < right:
+            mid = (left + right) // 2
+            if nums[mid] > nums[right]:   # means array from 'mid' to 'right' is unsorted
+                left = mid + 1            # so minimum will lie in this part only i.e beyond mid
+
+            else:      
+            # here it will guarantee that array from 
+            # mid to right is sorted and start to mid is unsorted and mid can also be minimum
+                right = mid
+        # after loop will fail , start and end will point to 
+        # the same ele and that will be the minimum ele
+        # because both are merging towards the index of min ele in each iteration
+        return nums[left]
+
+
+
 
 
 # below method will give the incorrect result

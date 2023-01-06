@@ -58,37 +58,23 @@ class Solution:
 
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
-        return self.search1(nums,target,0,len(nums)-1)
-    
-    def search1(self,arr, target, low, high):
-        start, end= low, high
-        while start<end:
+        start, end= 0, len(nums) -1 
+        while(start<end):
             mid= start + (end-start)//2
-            if arr[start] <= arr[mid]: # means array is sorted from start to mid
+            if nums[start] <= nums[mid]: # means array is sorted from start to mid
             # so we can check if target exist bw start and mid
             # if it exists then we can apply binary search directly
-
-                if arr[start] <=target<=arr[mid]:
-                    return self.search1(arr, target,start, mid)
+                if nums[start] <=target<=nums[mid]:
+                    end= mid
                 else: # if not present then check in other part
-                    return self.search1(arr, target,mid+1,end)
+                    start= mid + 1
 
             # if above part is not sorted then it other part from mid+1 to end must be sorted
             # check if target lies in this range        
             else: 
-                if arr[mid+1] <=target<=arr[end]:  # if lies call binary search
-                    return self.search1(arr, target,mid+1,end)
+                if nums[mid+1] <=target<=nums[end]:  # if lies call binary search
+                    start= mid + 1
                 # if not lies from 'mid+1' to end then it must be before it
                 else:
-                    return self.search1(arr, target,start,mid)
-        return start if arr[start]== target else -1
-
-
-
-
-
-
-
-        
-
-        
+                    end= mid
+        return start if nums[start]== target else -1

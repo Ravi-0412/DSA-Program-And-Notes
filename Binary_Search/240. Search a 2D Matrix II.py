@@ -12,7 +12,7 @@
 # Time: O(m+n)
 
 # why we are not checking from (0,0)?
-# ans: because every time we will not find th ele i.e both the smaller and greater than case, we will have two choice.
+# ans: because every time we will not find the ele i.e for both the smaller and greater than case, we will have two choice for each.
 # in this way we will have to traverse the each cell exactly one time.
 # so time: O(n*m) only
 

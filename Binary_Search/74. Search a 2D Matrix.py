@@ -1,5 +1,7 @@
 # difference between this Q and "240. search in 2D matrix" is that 
 # here all elements will be surely in ascending order combining whole as row wise or column wise.
+# ' Q. 240' only guarantee the row and col are sorted not whole ele is sorted either row wise or col wise.
+# but this Q guaraantee both.
 
 # so we can first find in which row element lies by comparing the 1st and last ele of that row.
 # and then we can apply the binary search on that row.
@@ -27,9 +29,9 @@ class Solution:
 
 # method 2: little more optimised
 # instead of searching in which row target lies linearly, we can use binary search.
-# time: O(log*m + log*n)
+# time: O(log*m + log*n)= O(log m*n)
 class Solution:
-    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:``
         row, col= len(matrix), len(matrix[0])
         start, end= 0, row-1
         # finding the row in which our target belong using binary search.

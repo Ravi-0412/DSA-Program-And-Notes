@@ -20,7 +20,7 @@ def nextLargerElement(arr,n):
         print(ans[i], end=" ")
 
 arr= [0,1,8,3,2,4,6,7]
-nextLargerElement(arr,8)
+# nextLargerElement(arr,8)
 
 
 # program for next greater left
@@ -41,7 +41,8 @@ def nextGreaterLeft(arr):
             ans.append(stack[-1])
             stack.append(arr[i])
     return ans
-arr= [0,1,8,3,2,4,6,7]
+# arr= [0,1,8,3,2,4,6,7]
+arr= [100, 80, 60, 70, 60, 75, 85]
 print(nextGreaterLeft(arr))
 
 
@@ -60,7 +61,7 @@ def nextSmallerLeft(arr):
             stack.append(arr[i])
     return ans
 arr= [2,5,8,3,2,4,1,7]
-print(nextSmallerLeft(arr))
+# print(nextSmallerLeft(arr))
 
 
 # Next smaller right program
@@ -79,5 +80,5 @@ def nextSmallerRight(arr):
     result= ans[::-1]
     return result
 arr= [2,5,8,3,2,4,1,7]
-print(nextSmallerRight(arr))
+# print(nextSmallerRight(arr))
 

@@ -29,7 +29,7 @@ class Solution:
         # 2) delete the char in word1 and move ahead in word1 being at same position in word2
         # 3) replace the char in word1 by char of word2, in this case move ahead in word1 and word2 both
         return min(1+ self.helper(m, n-1, s, t), 1+ self.helper(m-1, n, s, t), 1+ self.helper(m-1, n-1, s, t))
-        # return  1+ min(self.helper(m, n-1, s, t), 1+ self.helper(m-1, n, s, t), 1+ self.helper(m-1, n-1, s, t)) better one
+        # return  1+ min(self.helper(m, n-1, s, t), self.helper(m-1, n, s, t), self.helper(m-1, n-1, s, t)) better one
 
 # method 2: memoization
 # Time Complexity: O(m*n) 

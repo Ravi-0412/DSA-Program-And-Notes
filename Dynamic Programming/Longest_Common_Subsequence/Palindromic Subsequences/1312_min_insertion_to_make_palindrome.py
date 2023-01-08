@@ -4,7 +4,7 @@
 # only to make the whole string palindrome
 # that will be the ans
 
-# ans will be same for deletion and insertion to make a string palindrome
+# ans will be same for only deletion OR only insertion to make a string palindrome.
 class Solution:
     def minInsertions(self, s: str) -> int:
         s1= s[::-1]

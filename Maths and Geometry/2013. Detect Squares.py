@@ -11,7 +11,7 @@ class DetectSquares:
         self.points.append(point)
         
     def count(self, point: List[int]) -> int:
-        res= 0
+        res= 0 
         px, py= point
         # find if there any diagonal exist for this point.
         # diagonal will be only present if abs(px -x)== abs(py -y)

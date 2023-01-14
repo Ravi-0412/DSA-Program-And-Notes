@@ -26,10 +26,11 @@ def majority_element():
 majority_element()
 
 
-# Leetcode solution: 2nd method(Moore’s Voting Algorithm)
+# Leetcode solution: 2nd method(Moore’s Voting Algorithm): 
+# basic meaning: just cancel each other vote.
 # it gives the majority ele i.e that has occured more than n/2 times
-# by balancing the count i.e after seeing any other element it 
-# decreases the count if count is zero and  'm' is not equal to the current element
+# by balancing the count i.e after seeing any other element, it 
+# decreases the count if count is zero and  'm' is not equal to the current element.
 # at alst 'm' will give the majority element
 
 

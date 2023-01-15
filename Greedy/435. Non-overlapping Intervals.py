@@ -3,8 +3,8 @@
 
 # for intervlas problems, draw the intervals on the number line and see.
 
-# logic: onec you find any overlapping intervals, just delete the one having larger end value.
-# greddy about:  always pick the interval with the earliest end time
+# logic: once you find any overlapping intervals, just delete the one having larger end value.
+# greddy about:  always pick the interval with the earliest end time as we an start the upcoming interval earlier and faster.
 class Solution:
     def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
         intervals.sort()

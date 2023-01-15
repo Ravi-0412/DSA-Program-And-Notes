@@ -1,8 +1,10 @@
-# it basically asking what is the maximum no of overlapping meetings at any gievn point of time.
+# it basically asking what is the 'maximum no of overlapping meetings at any given point of time'.
+# Also this problem can be reduced to : 'Divide the intervals into minimum no of different parts 
+# such that no two intervals in respective parts are overlapping. Find the no of parts.'.
 
 # Brute Force: O(n^2)
 # just sort and check the current meeting start time with the end of all the meetings before.
-# if none of previous meeting has ended, inct the count by '1'.
+# if none of previous meeting has ended, incr the count by '1' because we will have to arrange the current meeting in different conference room.'
 # at last return the count
 
 # method 2: O(n*logn)

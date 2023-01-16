@@ -53,7 +53,7 @@ class Solution:
         return dp(0)
 
 
-# memoisation. just added the '@lru_cache(None)'.
+# memoisation. just added the '@lru_cache(None)' before function call.
 from collections import bisect_left
 class Solution:
     def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:

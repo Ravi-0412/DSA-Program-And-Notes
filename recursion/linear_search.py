@@ -4,8 +4,7 @@ def LinearSearch1(arr,target,index):  # index tells from where we have to search
         return -1
     if arr[index]== target:
         return index
-    else:
-        return LinearSearch1(arr,target,index+1)
+    return LinearSearch1(arr,target,index+1)
 
 arr= [2,4,5,7,9,10,15,22]
 # print(LinearSearch1(arr,15,0))
@@ -46,23 +45,6 @@ arr= [2,4,5,7,4,9,4,10,15,22,4]
 indexes= []
 # print(LinearSearch3(arr,4,0,indexes))
 # print(LinearSearch3(arr,18,0,indexes))
-
-
-# other method of above Q
-def LinearSearch4(arr,target,index,list1):  # index tells from where we have to search
-    if index== len(arr): # as we have traversed the whole array 
-        pass
-    elif arr[index]== target: # if ele is found add in the list and again seasrch for further indexes
-        list1.append(index)  
-        LinearSearch4(arr,target,index+1,list1) # search for next indices 
-    else:
-        LinearSearch4(arr,target,index+1,list1) # search for next indices 
-    return list1
-
-arr= [2,4,5,7,4,9,4,10,15,22,4]
-indexes= []
-# # print(LinearSearch(arr,4,0,indexes))
-# print(LinearSearch(arr,18,0,indexes))
 
 
 #Do the same above Q but dont take list as argument, make list inside the function body itself

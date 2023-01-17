@@ -23,6 +23,7 @@
 
 
 # recursive way 
+
 def show(n):
     if n>5:   # base condition: where the recursion will stop
         return  # no base condition will give "stackoverflow error["
@@ -33,18 +34,28 @@ show(1)
 
 
 
-# increasing order from 1 to n
+# increasing order from 1 to n.
+# Note: pass kiye h 'n' input me but ans chahiye hmko reverse order me i.e from '1 to n', 
+# isliye jb fn call return hoga sbse lowest ke liye tb print karbana start karenge like phle function ko call karna h then print karbana h.
+
+# Pattern 2
 def show(n):
     if n==1:
         print(n)
         return 
     show(n-1)
     print(n)
+    # return   # whether you write this or not, 
+               # after doing all operation it will automatically return to the fn which has called it if there is no return statement.
+               # and even if there is return statement ,it will automatially return to the fn which has called it.
 
 show(10)
 
-
 # decreasing order
+# # Note: pass kiye h 'n' input me and ans chahiye hmko same order me i.e from 'n to 1', 
+# isliye phle print karbana h then fn to call karna h.
+
+# Pattern 2.
 def show(n):
     if n==1:
         print(n)
@@ -56,6 +67,7 @@ show(10)
 
 
 #find factorial
+# Pattern 2.
 def fact(n):
     if(n==1):
         return 1
@@ -64,6 +76,7 @@ def fact(n):
 print(fact(5)) 
 
 # find nth fibonacii number
+# Patetrn 1.
 def fibonacii(n):
     if n==0 or n==1:
         return n
@@ -82,6 +95,7 @@ def fibonacii(n):
 
 
 #  sum of 1st n natural number: By recursion
+# pattern 2
 def sum(n):
     if n==1:
         return 1
@@ -94,6 +108,7 @@ def sum(n):
 
 
 #2nd method
+# Note: Jahan pe bhi hmko 'smallAns' ko include karna pad rha ho current ans me, wahan direct return kar do sbko combine karke in same order.
 def sum1(n):
     ans= 0
     if n==0:
@@ -105,6 +120,9 @@ print(sum1(5))
 
 
 # reverse an array
+# Pattern 2
+
+# can do by passing a single variable also.
 def reverse(arr,i,n):
     if i>= n:  # both will meet at middle only and after mid no need to check
         return
@@ -130,9 +148,21 @@ def SumDigit(n):
 
 # print(SumDigit(234))
 
-# 2nd method:
+# method 2:
+def SumDigit(n):
+    if n==0:   # or if n%10== n 
+        return 0
+    ans= 0
+    r= n%10
+    q= int(n/10)
+    ans+= r+ SumDigit(q)
+    return ans
+
+print(SumDigit(234))
+
+# 3rd method:
+# Pattern 2.
 def SumDigit1(n):
-    sum,r,q= 0,0,0
     if n< 10:   # or if n%10== n 
         return n
     return n%10 + SumDigit1(n//10)
@@ -153,8 +183,7 @@ def palindrome(s,i,n):
 palindrome("malayalam",0,8)
 
 
-
-
+# Note: Recursive function hmesha last valid input ya first invalid input pe aake rukega.
 
 
 

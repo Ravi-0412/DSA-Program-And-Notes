@@ -1,3 +1,17 @@
+# method 1: but giving recursion depth exceeded.
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if n<0: 
+            x=1/x
+            n= -n
+        if n==1:   # base case
+            return x
+        elif n%2==1:  # if power is odd.
+            return x* self.myPow(x,n//2) *self.myPow(x,n//2)
+        else:
+            return self.myPow(x,n//2) * self.myPow(x,n//2)
+
+# we have to minimise the repeatitive recursion call in above method or we can use DP.
 # time: O(logn)
 class Solution:
     def myPow(self, x: float, n: int) -> float:
@@ -8,15 +22,16 @@ class Solution:
         if n==0: 
             return 1
         elif n%2==1:
-            smallAns= Solution().myPow(x,n//2)
+            smallAns= self.myPow(x,n//2)
             ans= x* smallAns* smallAns
         else:
-            smallAns= Solution().myPow(x,n//2)
+            smallAns= self.myPow(x,n//2)
             ans= smallAns* smallAns
         return ans
 
 
 # 2nd method- time: O(logn)
+
 class Solution:
     def myPow(self, x: float, n: int) -> float:
         if n<0:
@@ -33,14 +48,3 @@ class Solution:
             i = int(i/2)          # right shift means dividing by 2 only  
         return ans
 
-# 3rd method: for positive number only
-# time- O(n^2)
-def power_n(x,n):
-    ans= ""
-    if n==0:   # base condition
-        return 1
-    smallAns= power_n(x,n-1)
-    ans= x* smallAns
-    return ans
-
-print(power_n(5,4))

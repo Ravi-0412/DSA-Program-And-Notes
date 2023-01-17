@@ -30,8 +30,7 @@ def reverse(arr,start,end):
     if start== end:
         return arr
     arr[start], arr[end]= arr[end], arr[start]
-    start,end= start+1, end-1
-    return reverse(arr,start,end)
+    return reverse(arr,start+1,end-1)
 
 arr= ["h","e","l","l","o"]
 # print(reverse(arr,0,len(arr)-1))

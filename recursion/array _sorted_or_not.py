@@ -48,12 +48,14 @@ print(sortedOrNot(arr,0,len(arr)-1))
 
 
 # another method: best one
-def sorted(arr,n):
-    if n==1:
+def sorted(arr):
+    if len(arr)==1:
         return True
-    return arr[0]<=arr[1] and sorted(arr[1:],n-1)
+    return arr[0]<=arr[1] and sorted(arr[1:])
 
 # arr1= [2,4,4,5,6,7]
-# # arr1= [1,5,3,9,10,54]
-# print(sorted(arr1,6))
+# arr1= [1,5,3,9,10,54]
+# print(sorted(arr1))
+
+
 

@@ -15,4 +15,6 @@ print(ReplacePi("pippxxppiixipi"))
 print(ReplacePi("pippppiiiipi"))
 
 
+# you can use the same logic as 'Q no: 1910'.
+
 

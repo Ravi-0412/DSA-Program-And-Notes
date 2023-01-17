@@ -59,7 +59,7 @@ class Solution:
         return self.check(s, ind+1, openCount)    # if only either '(' or ')' comes at current index.
 
 # optimising the above solution
-# time= space= O(n)
+# time= space= O(n^2)
 class Solution:
     def checkValidString(self, s: str) -> bool:
         openCount= 0  # count the no of open paranthesis

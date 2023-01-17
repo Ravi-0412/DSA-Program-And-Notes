@@ -7,7 +7,7 @@ class Solution:
         # if no is even
         if num%2==0:
             ans+= 1
-            num= num/2
+            num= num//2
             smallAns= Solution().numberOfSteps(num)
             ans+= smallAns
         else: # if no is odd
@@ -23,9 +23,7 @@ class Solution:
     def numberOfSteps(self, num: int) -> int:
         if num==0:
             return 0
-        count= 1
-        if num%2== 0:
-            count+= self.numberOfSteps(num//2)
+        if num%2== 0:  # if even
+            return 1+ self.numberOfSteps(num//2)
         else:
-            count+= self.numberOfSteps(num-1)
-        return count
+            return 1+ self.numberOfSteps(num-1)

@@ -34,9 +34,9 @@ print(MoveRecursion("geekxsforgexxeksxx","",0))
 def MoveRecursion2(str1,ans):
     if len(str1)==0:
         return
-    if str1[0]!='x':
+    if str1[0]!='x':    # if not 'x' then simply print
         print(str1[0],end= "")
-    MoveRecursion2(str1[1:],ans)
+    MoveRecursion2(str1[1:],ans)   # else call fn for next index
     if str1[0]=='x':   # if you dont write this then will print everything again
                        # that has been printed in all the above fn calls
         print(str1[0],end= "")

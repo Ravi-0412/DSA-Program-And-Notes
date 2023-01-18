@@ -5,6 +5,7 @@
 # time: O(2^t *k), t= target , k= length of every subsequence(for printing/putting each subsequence into another data structure)
 # every ele will have t possibility in worst case i.e let target= 10 and 1st ele =1 
 # space: O(k*x), k: average length of subset and x: no of combinations(ans) without recursive space
+
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
         res= []
@@ -12,9 +13,10 @@ class Solution:
         return res
     
     def SubsequenceSum(self,arr,k,path,res):
-        if not arr:
-            if k==0:
-                res.append(path)
+        if k== 0:
+            res.append(path)
+            return
+        if not arr:  # not writing this will give error 'index out of bound' since we are not giving any base for index==n or 'not arr'
             return
         # if we include the current ele, then add arr[ind] into the ans
         if arr[0]<=k:   # i was skipping this condition. my mistake

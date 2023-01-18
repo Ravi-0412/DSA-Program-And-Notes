@@ -2,7 +2,7 @@
 # time: O(4^n) 
 def PhonePad(str1,ans):
     pad= [" ", " ", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv","wxyz"]
-    if not str1:
+    if not str1:  # we get one of the ans.
         print(ans,end=" ")
         return
     # convert the char integer into integer i.e '2' into 2
@@ -45,7 +45,7 @@ l1= Solution()
 print(l1.letterCombinations("78"))
 
 
-# better way of writing the above code
+# better way of writing the above code. Do like this only.
 # mine
 class Solution:
     def letterCombinations(self, digits: str) -> List[str]:
@@ -55,8 +55,8 @@ class Solution:
         return self.permutations(digits,"",keypad)
     def permutations(self,digits,ans,keypad):
         if not digits:
-                local= [ans]
-                return local
+            local= [ans]
+            return local
         res= []
         letters= keypad[digits[0]]
         for i in range(len(letters)):

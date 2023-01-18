@@ -38,6 +38,7 @@ class Solution:
             return self.check(s, ind+1, openCount +1) or self.check(s, ind+1, openCount -1) or self.check(s, ind+1, openCount)
 
 # OR 
+# in both of the solution(above and this one, remove the condition for '*'. it will become the recursive sol for  '(' and ')' only.)
 class Solution:
     def checkValidString(self, s: str) -> bool:
         openCount= 0  # count the no of open paranthesis
@@ -66,6 +67,7 @@ class Solution:
         dp= [[-1 for i in range(len(s) +1)]for i in range(len(s) +1)]
         return self.check(s, 0, openCount, dp)  # '0': start index from where we have to check.
     
+    # @lru_cache(None)   # or simply write this one line to memoise. but not a good way. 
     def check(self, s, ind, openCount, dp):
         if openCount< 0:
             return False
@@ -103,7 +105,7 @@ class Solution:
 
             if openMax < 0:
                 return False
-            openMin= max(openMin, 0)    # openMin can't be negative.
+            openMin= max(openMin, 0)    # openMin can't be negative.(if negative make= 0)
         return openMin== 0    # we are not waiting for anymore ')'.
 
 

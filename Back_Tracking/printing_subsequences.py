@@ -10,7 +10,7 @@
 # this will print alll subset inside a list separately
 # all subsequence are subset but reverse is not true
 def PrintSubsequence(ind,arr,ans,n):
-    if ind>= n:
+    if ind>= n:  # means we have found one of the ans.
         print(ans)
         return
     # if we include the current ele
@@ -22,13 +22,18 @@ def PrintSubsequence(ind,arr,ans,n):
     ans.pop()
     PrintSubsequence(ind+1,arr,ans,n)
 
-# arr= [1,2,3]
-# ans= []
-# print("possible subsequences or subset is: ")
-# PrintSubsequence(0,arr,ans,3)
+arr= [1,2,3]
+ans= []
+print("possible subsequences or subset is: ")
+PrintSubsequence(0,arr,ans,3)
 
 
-# another way of writing 
+# another way of writing .
+# here we are modifying the 'ans' array using '+' that's why no need to pop() like above one. (just same as string).
+# Note: modifying array by '+' doesn't change the curr array, just change the array in calling function position just like 
+# we do 'append' and 'pop' while traversing back.
+
+# if you modify by append then you have to pop first then call the fn otherwise, you will get incorrect ans.
 def PrintSubsequence1(ind,arr,ans,n):
     if ind>= n:
         print(ans)
@@ -42,7 +47,7 @@ def PrintSubsequence1(ind,arr,ans,n):
 
 arr= [1,2,3]
 ans= []
-print("possible subsequences or subset is: ")
+# print("possible subsequences or subset is: ")
 # PrintSubsequence1(0,arr,ans,3)
 
 # another way of writing the above code
@@ -56,8 +61,6 @@ def PrintSubsequence2(arr,ans):
     PrintSubsequence2(arr[1:],ans)
 
 arr= [1,2,1]
-print("possible subsequences or subset is: ")
+# print("possible subsequences or subset is: ")
 # PrintSubsequence2(arr,[])
-
-
 

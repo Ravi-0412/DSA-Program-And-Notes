@@ -15,3 +15,25 @@ class Solution:
                 inner.append(nums[i])
                 ans.append(inner)
         return ans
+
+
+# recursive way: way better and logical
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        nums.sort()
+        res= []
+        
+        def dfs(i, subset):   # just backtracking
+            if i== len(nums):
+                res.append(subset)
+                return
+            # when you include the curr index ele.
+            dfs(i+1, subset + [nums[i]])
+            # when you don't include the curr index ele. But when you don't include the curr index,
+            # you have to skip all the duplicates of curr ele to avoid duplicate in the ans.
+            while i+1 < len(nums) and nums[i+1]== nums[i]:
+                i+= 1
+            dfs(i+1, subset)
+
+        dfs(0, [])  
+        return res

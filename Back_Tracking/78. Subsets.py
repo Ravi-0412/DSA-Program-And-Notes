@@ -1,6 +1,6 @@
 # Q: find all the subsets of given string
 # logic: just make the recursion tree by including the first letetr 
-# and 'not including' the 1st letter 
+# and 'not including' the 1st letter .
 # and whenever you will find the given string empty then that will be our one of the subset
 # must draw recursion tree, it very easy to understand and the basic of DP
 
@@ -19,24 +19,6 @@
 
 
 # 2nd method: to store the result into an list
-# you have to pass the list inside the function not as parameter
-
-# def subset(str1,ans):
-#     if not str1:  # if empty then that will be one of the subset so,print it
-#         new_ans= []
-#         new_ans.append(ans)
-#         return new_ans
-#     leftAns= subset(str1[1:], ans + str1[0])  # when you include the current character
-#     rightAns= subset(str1[1:], ans)   # when you don't include the current character
-#     return leftAns + rightAns     # both are type of list so just add them and return
-
-# # str1= input("enter any string: ")
-# ans= ""
-# # print("all the subsets of given string are: ")
-# # subset(str1,ans)
-# print(subset("abc",ans))
-
-
 
 # leetcode Q:  returns  a list of list of all the subsets(leetcode Q) 
 # very better one,just applied the above logic
@@ -45,8 +27,7 @@
 #         return self.helper(0,nums,[])
 #     def helper(self,ind,arr,ans):
 #         if ind== len(arr):
-#             local= [ans]   # since we have to in list of list
-#             return local
+#             return [ans]
 #         left= self.helper(ind+1,arr,ans+ [arr[ind]])
 #         right= self.helper(ind+1,arr,ans)
 #         return left+right
@@ -59,7 +40,7 @@ class Solution:
         subset= []
         def dfs(i):
             if i>=len(nums):
-                res.append(subset)  # if you write this then will print very subset as empty only as we are updating the subset always i.e 
+                # res.append(subset)  # if you write this then will print very subset as empty only as we are updating the subset always i.e 
                 # adding and poping so subset will be 'empty' only after the all calls end so getting all subset as empty
                 res.append(subset.copy())     # so do deep copy
                 return
@@ -71,6 +52,24 @@ class Solution:
             dfs(i+1)        
         # call the dfs with starting index '0'
         dfs(0)
+        return res
+
+# another way of writing the above code.
+# very concise and useful way.
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        res= []
+        
+        def dfs(i, subset):   # just backtracking
+            if i== len(nums):
+                res.append(subset)
+                return
+            # when you include the curr index ele.
+            dfs(i+1, subset + [nums[i]])
+            # when you don't include the curr index ele.
+            dfs(i+1, subset)
+
+        dfs(0, [])  
         return res
 
 
@@ -154,7 +153,7 @@ class Solution:
 # if duplicates are there then there will be also duplicate subsets
 
 # in case of duplicates elements,add the element only to the newly 
-# created subsets of previous step also because pre_ele  were already added to the old subsets
+# created subsets of previous step  because pre_ele  were already added to the old subsets
 
 # and for this to work properly duplicate elements must be together then only we can know which is newly created subsets for pre ele
 # beacuse in case duplicates doesn't come together then you will not find 
@@ -164,7 +163,7 @@ class Solution:
 # just sort the array then apply this method
 
 # code: if set conatins duplicates
-
+# will undestand and will do it later.
 def subset(arr):
     outer= [[]]
     start,end= 0,0  

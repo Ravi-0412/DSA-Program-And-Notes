@@ -1,5 +1,5 @@
 # Q) You are allowed to move left, right, up, down. False means 'obstacle is there' and True means 'no obstacle'
-# will count and print the payth as well
+# will count and print the path as well
 # page: 19
 # same approach if obstacles are also there
 def Paths(ans, maze, row, col):
@@ -27,17 +27,47 @@ def Paths(ans, maze, row, col):
     maze[row][col]= True
     return count
 
+# maze= [[True,True,True],[True,True,True],[True,True,True]]
+# print(Paths("",maze,0,0))
+
+# maze= [[True,True,True],[True,False,True],[True,True,True]]  # false means at that point there is obstacles
+# print(Paths("",maze,0,0))                                                            # so you cant take that path
+
+
+# concise way of writing the above code.
+# writing all the invalid case as base case.
+def Paths(ans, maze, row, col):
+    count= 0
+    if row== len(maze)-1 and col== len(maze[0])-1:  # corner most will be only the base condition in this case
+            print(ans)
+            return 1
+    
+    if row < 0 or row>= len(maze) or col < 0 or col>= len(maze[0]) or maze[row][col]== False: # if false then simply return
+        return 0
+    # if not false, make it 'false' 
+    # since i am considering this cell for my paths
+    maze[row][col]= False  # made it false so again we don't repeat this cell in same path
+    count+= Paths(ans+ 'D', maze, row+1, col)   # Down
+    count+= Paths(ans+ 'R', maze, row, col+1)   # Right
+    count+= Paths(ans+ 'U', maze, row-1, col)   # up
+    count+= Paths(ans+ 'L', maze, row, col-1)   # left
+
+    # since now the function is returning back so restore the changes made by the this
+    # function call while going down
+
+    maze[row][col]= True
+    return count
+
 maze= [[True,True,True],[True,True,True],[True,True,True]]
 # print(Paths("",maze,0,0))
 
 maze= [[True,True,True],[True,False,True],[True,True,True]]  # false means at that point there is obstacles
-# print(Paths("",maze,0,0))                                                            # so you cant take that path
+# print(Paths("",maze,0,0))  
 
 
-# Q)   print all the separate path in matrix for same Q i.e:
+# Q)   print all the separate path in a matrix for same Q i.e:
 # mark the no 1,2,3,4.... as you traverse the path to reach the destination
 def Paths_Matrix(ans, maze, row, col,matrix,step):  # step will increase in each rec call
-    count=0
     if row== len(maze)-1 and col== len(maze[0])-1:  # after reaching the base condition just print the matrix
         matrix[row][col]= step  # last step will be also a step
         for num in matrix:

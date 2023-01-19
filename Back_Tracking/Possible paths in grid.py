@@ -18,7 +18,8 @@ def ways1(m,n):
 
 
 # Now print all the paths also
-# in case of string you don't have to push or pop like array because string is immutable i.e it can't be changed auto when you will change in nay other function call
+# in case of string you don't have to push or pop like array because string is immutable i.e 
+# it can't be changed auto when you will change in nay other function call.
 def ways2(r,c,m,n,path):
     if r==m and c==n:
         print(path)
@@ -30,9 +31,22 @@ def ways2(r,c,m,n,path):
         down= ways2(r+1,c,m,n,path+"D")     # D: down
     return right + down
 
-print("path :")
-print("path no of ways: ",ways2(0,0,2,2,""))
+# print("path :")
+# print("path no of ways: ",ways2(0,0,2,2,""))
 
+
+# concise way of writing the above code.
+# write all the invalid cases as base case then after that simply call the next function.
+def ways2(r,c,m,n,path):
+    if r==m and c==n:
+        print(path)
+        return 1  # telling the no of ways
+    if r >m or c > n:  # invalid case
+        return 0
+    return ways2(r,c+1,m,n,path+"R") + ways2(r+1,c,m,n,path+"D")   # Right and Down
+
+# print("path :")
+# print("path no of ways: ",ways2(0,0,2,2,""))
 
 # my mistakes
 def ways2(r,c,m,n,path):
@@ -47,29 +61,8 @@ def ways2(r,c,m,n,path):
     down= ways2(r+1,c,m,n,path)  
     return right + down
 
-print("path :")
-print("path no of ways: ",ways2(0,0,2,2,[]))
-
-
-# not able to do by storing the path in list
-# tried a lot. have to ask someone
-def ways2(r,c,m,n,path):
-    if r==m and c==n:
-        print("".join(path.copy()))
-        return 1
-    right,down= 0,0
-    if c<=m:
-        path.append('R')
-        right= ways2(r,c+1,m,n,path)
-    # path.pop()  # this i got by dry run that it won't work 
-    if r<=n:
-        path.append('D')
-        down= ways2(r+1,c,m,n,path)  
-    return right + down
-
-print("path :")
-print("path no of ways: ",ways2(0,0,1,1,[]))
-
+# print("path :")
+# print("path no of ways: ",ways2(0,0,2,2,[]))
 
 # Q: you are allowed to go diagonally also
 def ways4(r,c,m,n,path):
@@ -84,3 +77,20 @@ def ways4(r,c,m,n,path):
     if r<=m:
         down= ways4(r+1,c,m,n,path+"V")       # V: vertical
     return diagonal+ right + down
+
+# print("path :")
+# print("path no of ways: ",ways4(0,0,2,2,""))
+# print("path no of ways: ",ways4(0,0,1,1,""))
+
+# concise way of writing above code.
+def ways4(r,c,m,n,path):
+    if r==m and c==n:
+        print(path)
+        return 1
+    if r > m or c > n:
+        return 0
+    return ways4(r+1,c+1,m,n,path+"D")  + ways4(r,c+1,m,n,path+"H") + ways4(r+1,c,m,n,path+"V") # Diagonal, Horizontal, Verical
+
+print("path :")
+print("path no of ways: ",ways4(0,0,2,2,""))
+# print("path no of ways: ",ways4(0,0,1,1,""))

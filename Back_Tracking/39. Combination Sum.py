@@ -1,4 +1,4 @@
-# just same as we did in "subsequnce with given some". only difference is
+# just same as we did in "subsequnce with given some" . only difference is
 # here in case arr[0]<=k i.e when we are including that index don't increment that index as we can include any ele any no of times
 # this we already did in "coin change problem" also
 
@@ -6,6 +6,7 @@
 # every ele will have t possibility in worst case i.e let target= 10 and 1st ele =1 
 # space: O(k*x), k: average length of subset and x: no of combinations(ans) without recursive space
 
+# same as subset.
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
         res= []

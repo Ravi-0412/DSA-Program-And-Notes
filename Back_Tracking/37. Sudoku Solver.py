@@ -1,27 +1,28 @@
+# easy solution only.
+# just write the logic into code.
+# The time complexity should be 9 ^ m (m represents the number of blanks to be filled in), since each blank can have 9 choices.
+
 class Solution:
     def solveSudoku(self, board: List[List[str]]) -> None:
-        row,col= -1,-1
-        emptyLeft= True  # will check whether any empty space is present or not
-        # first find the empty cell
-        for i in range(len(board)):
-            for j in range(len(board[0])):
-                if board[i][j]== '.':
-                    row,col= i,j
-                    emptyLeft= False
-                    break
-            if emptyLeft== False:  # means we have found one empty cell in any row
-                break
-        if emptyLeft== True:   # means no empty cell available i.e sudoku is already solved
-            return True   
-        
-        for num in range(1,10):
-            if self.isSafe(board,row,col,str(num)):
-                board[row][col]= str(num)
-                if self.solveSudoku(board):   # means sudoku is solved 
-                    return True
-                else:  #backtrack
-                    board[row][col]= '.'  
-        return False
+        # first find the empty space
+        for r in range(len(board)):
+            for c in range(len(board[0])):
+                if board[r][c]== '.':   # means there some empty space to fill
+                    # Try all possible number from '1' to '9' to fill this empty cell.
+                    for num in range(1, 10):
+                        if self.isSafe(board, r, c, str(num)):  # then fill the board at (r,c) with this num
+                            board[r][c]= str(num)
+                            # Again check after filling this curr empty cell with this 'num', if we are able to make a valid sudoku
+                            if self.solveSudoku(board):
+                                return True
+                            # if filling with this num at curr empty cell doesn't lead to a valid sudoku, reset the changes made.
+                            else:
+                                board[r][c]= '.'
+                    # if we are not able to fill this place with any of the num from '1' to '9', then return False
+                    # Now it will backtrack and will try to change the num at empty places after which this function was called
+                    return False
+        # If there is no empty space left i.e sudoku is fully filled 
+        return True
     
     def isSafe(self,board,row,col,num):
         # checking whether the number is present in the that row or not
@@ -43,5 +44,9 @@ class Solution:
         
         # if none of the above return False means we can place that number in that empty cell
         return True
-    
-        
+
+
+# 
+
+
+

@@ -1,6 +1,6 @@
 # Q)find the no of possible ways to put the Queens
 # page: 21
-# in this we are placing row wise and once we got any safe place in a row, no need to check further col in that row
+# in this we are placing row wise and once we got any safe place in a row, no need to check further col in that row.
 # as two Queens can't be in the same row
 
 # so we only need to check upper left diagonal, upper right diagonal and vertical up
@@ -95,54 +95,54 @@ print(NQueens(board,0))
 # so we only need to check lower left diagonal, upper left diagonal and horizonatl
 # for whether Queen is safe orr not at that place
 
-# class Solution:
-#     def solveNQueens(self, n: int) -> List[List[str]]:
-#         all_board= []  # create to store the result. later we will append the ans array in this
-#         board= [['.' for j in range(n)]for i in range(n)]   # created inputs board
-#         self.helper(all_board,board,0)  # we will put col wise
-#                                         # starting from zero(row will always start from zero)
-#         return all_board
+class Solution:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        all_board= []  # create to store the result. later we will append the ans array in this
+        board= [['.' for j in range(n)] for i in range(n)]   # created inputs board
+        self.helper(all_board,board,0)  # we will put col wise
+                                        # starting from zero(row will always start from zero)
+        return all_board
     
-#     def helper(self,all_board,board,col):
-#         if col== len(board):
-#             self.saveBoard(all_board, board)
-#             return 
+    def helper(self,all_board,board,col):
+        if col== len(board):
+            self.saveBoard(all_board, board)
+            return 
         
-#         for row in range(len(board)):
-#             if self.isSafe(board,row,col):
-#                 board[row][col]= 'Q'
-#                 Solution().helper(all_board,board,col+1)
-#                 board[row][col]= '.'
+        for row in range(len(board)):
+            if self.isSafe(board,row,col):
+                board[row][col]= 'Q'
+                Solution().helper(all_board,board,col+1)
+                board[row][col]= '.'
 
-#     def saveBoard(self,all_board, board):
-#         new_board= []  # will contain the all the ele of board row by row in single array
-#         for i in range(len(board)):
-#             row= ""  # will store the content of row by row of 'board'
-#             for j in range(len(board[0])):
-#                 row+= board[i][j]
-#             new_board.append(row)  
-#         all_board.append(new_board)
+    def saveBoard(self,all_board, board):
+        new_board= []  # will contain all the ele of board row by row in single array
+        for i in range(len(board)):
+            row= ""  # will store the content of row by row of 'board'
+            for j in range(len(board[0])):
+                row+= board[i][j]
+            new_board.append(row)  
+        all_board.append(new_board)
 
-#     def isSafe(self,board,row,col):    
-#         # checking the horizontal line where we want to place
-#         for i in range(len(board)):
-#             if board[row][i]=='Q':  # if any position is true means you cant place Queen is there
-#                 return False
+    def isSafe(self,board,row,col):    
+        # checking the horizontal line where we want to place
+        for i in range(len(board)):
+            if board[row][i]=='Q':  # if any position is true means you cant place Queen is there
+                return False
     
-#         # checking the upper left diagonal
-#         r,c= row,col
-#         while(r>=0 and c>=0):
-#             if board[r][c]== 'Q':  # if true 
-#                 return False
-#             r,c= r-1,c-1
+        # checking the upper left diagonal
+        r,c= row,col
+        while(r>=0 and c>=0):
+            if board[r][c]== 'Q':  # if true 
+                return False
+            r,c= r-1,c-1
     
-#         # checking the lower left diagonal
-#         r,c= row,col
-#         while(r<len(board) and c>=0):
-#             if board[r][c]== 'Q':  # if true 
-#                 return False
-#             r,c= r+1,c-1
+        # checking the lower left diagonal
+        r,c= row,col
+        while(r<len(board) and c>=0):
+            if board[r][c]== 'Q':  # if true 
+                return False
+            r,c= r+1,c-1
                     
-#         # if any of these are false means you cant place Queen at that position
-#         # you are here means all are position is safe so simply return True
-#         return True
+        # if any of these are false means you can't place Queen at that position
+        # you are here means all are position is safe so simply return True
+        return True

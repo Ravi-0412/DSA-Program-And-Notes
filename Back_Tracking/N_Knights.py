@@ -10,7 +10,7 @@ def Knights(board, row, col, targets):
         return 1
 
     # start placing the Knights in each row and each col
-    # if col reaches the len(board), start checking from next row
+    # if col reaches the len(board[0]), start checking from next row
     if col== len(board[0]):   
         Knights(board,row+1,0,targets)
         return 
@@ -72,7 +72,7 @@ def isSafe(board,row,col):
     if isValid(board,row+1,col+2):
         if board[row+1][col+2]== 'K':
             return False
-
+            
     return True
 
 def Display(board):

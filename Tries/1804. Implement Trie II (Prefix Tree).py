@@ -17,6 +17,7 @@ class Trie:
         
     def insert(self, word):
         cur= self.root
+        cur.prefix_count+= 1  # start giving values from root itself.
         for c in word:
             if c not in cur.children:
                 # insert 'c' into chilren and make 'c' point to a TrieNode and move curr to next child(just added one)
@@ -39,6 +40,7 @@ class Trie:
     # for erasing the word, just decr the count of each prefix and count of word itself.
     def erase(self, word):
         cur= self.root
+        cur.prefix_count-= 1
         for c in word:
             cur= cur.children[c]
             cur.prefix_count-= 1

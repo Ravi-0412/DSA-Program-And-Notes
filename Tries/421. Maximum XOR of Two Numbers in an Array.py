@@ -48,3 +48,7 @@ class Solution:
 
 
 # https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/solutions/171747/python-o-n-solution-easily-explained/?orderBy=most_votes
+
+
+
+# most effective solution in Bit Manipulation.

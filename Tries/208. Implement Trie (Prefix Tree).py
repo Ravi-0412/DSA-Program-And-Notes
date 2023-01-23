@@ -40,3 +40,11 @@ class Trie:
         return True
 
 
+# Note: we can use trie where we are sure that every ele or every word will be made only from a fixed thing like number or letter.
+# so that there is no need to create or check from scratch for every ele.
+
+# 1) every word can be made only from letters 'a-z' i.e every ele in word will start from 'a-z' only. will have characters only from 'a-z'.
+# 2) Every number when treated as Binary will have bit only '0' and '1'.
+# 3) used in creating / searching word in dictionary
+# 4) used to predict the possible word based on few typed words. e.g: Google Search Engine.
+# 5) used to fine the word 'starting with', 'Ending With' etc with a given substring.

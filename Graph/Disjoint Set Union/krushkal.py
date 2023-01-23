@@ -1,4 +1,4 @@
-# logic: we have to take the minimum edge first and include this in mst if after adding this edge, it doesn't form a cycle
+# logic: we have to take the minimum edge first and include this in mst if after adding this edge, it doesn't form a cycle.
 # for take the minimum one always, we can either sort or use the minHeap and 
 # for checking whether adding an edge will lead to a cycle or not, then only thing come into mind is 'union-find' and 'path compression' method
 

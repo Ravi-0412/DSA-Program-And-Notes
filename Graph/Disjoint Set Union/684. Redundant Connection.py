@@ -33,44 +33,24 @@ class Solution:
         return ans
 
 
-# the problem that was occuring in above solution is solved by 'union-find' and path compression method
-# Note: this Q was made on this approach only like we have to find the last input in case of more than one ans and this approach we will get that only
-# https://www.youtube.com/watch?v=FXWRE67PLL0&t=945s   # for this q 
-
-# for better understanding the 'union find'. general and better one.. 
-# https://www.youtube.com/watch?v=3gbO7FDYNFQ&t=306s
-
-# logic: we have to find which edge(two node), we can't do union that's all
-
-# every node will be parent of itself at start and rank of all will be '0' initially
-
-# for union(merging the two into one): union tells whether we can connect two node or not by an edge. if not then it means connecting these two node(given edge) will lead to cycle
-# logic for union: find the root parent of both the node and attach the node with smaller rank to the node with larger rank 
-# and make parent_larger_rank= parent[node_with_smaller_rank]
-
-# when attaching the node, only increment the rank by '1'  for parent node(to which we are attaching) if rank of both the parent node is equal otherwise don't incr 
-# increment in rank by '1' means increment in height by '1'
-# and icreasing the rank always will increase the height of tree  and will lead to high time complexity
-
-# to find whether two node belong to the same component or not, just find the parent of both
-# if parent of both is equal then they belong to same component otherwise not
-# this one is the basic to check whether adding any edge will lead to the cycle or not
-# if we want to add an edge between two node belonging to same component(having same root parent) then adding that edge will lead to the cycle
+# using Disjoint Set union.
+# This Q was based on this logic only.
+# whenver we find any two node for which union is not possible then return those node & that will be our ans.
 
 # time for union: O(4 alpha) nearly = O(1), space: O(n)
+# time for find Parent= O(4* alpha)
 class Solution:
     def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
         parent= [i for i in range(len(edges)+1)]  # node starting from '1' to 'n' but starting from  '0' for easier calculation(direct geeting the value from node number)
-                # will ontain the value of root parent at last for each node
+                # will ontain the value of root parent for each node
         rank= [0] *(len(edges)+1)  # initally rank of all will be '0' since all are at height '0' (single node)
         
         # finding the root parent and the 1st level parent
-        # for root level parent, compress the path till parent[p]!= p as root will parent as root only
+        # for root level parent, compress the path till parent[p]!= p as root will parent as root only.
         def find(n):
             p= parent[n]
             # path compression so that you can directly go to the root parent of each node
             while p!= parent[p]:  # root node will be parent of itself , means we have found the root parent
-                # parent[p]= parent[parent[p]]  # for checking the next level node(grandparent) in next cycle . no need of this
                 p= parent[p]
             return p
 
@@ -80,14 +60,14 @@ class Solution:
         #         return n
         #     find(parent[n])
         
-        def union(n1,n2):
+        def union(n1,n2):  
             p1,p2= find(n1), find(n2)
             if p1== p2:             # means both have same root parent then adding this edge will lead to a cycle 
                                     # also acc to Q we have to return the ans coming at last in input so this will be our ans only
                 return False        # will check this condition while adding any edge to the graph
             
             if rank[p1]> rank[p2]:
-                parent[p2]= p1
+                parent[p2]= p1    # changing the root parent only.
                 
             else:
                 parent[p1]= p2
@@ -98,6 +78,6 @@ class Solution:
         
         # code starts from here
         for n1,n2 in edges:
-            if union(n1,n2)== False:
+            if union(n1,n2)== False:   # if you find any edge for which we can't do umio simply return that.
                 return [n1,n2]
 

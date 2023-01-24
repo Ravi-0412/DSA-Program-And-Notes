@@ -53,10 +53,9 @@
 
 class DSU:
     def __init__(self, n):
-        self.v= n
-        self.rank=    [0 for i in range(n +1)]  # using '1' based indexing. we directly want to get ans by node number.
-        self.parent=  [i for i in range(n+1)]
-        self.size=    [1 for i in range(n+ 1)]   # will give thesize of each parent component.
+        self.rank=    [0 for i in range(n)]  # using '1' based indexing. we directly want to get ans by node number.
+        self.parent=  [i for i in range(n)]
+        self.size=    [1 for i in range(n)]   # will give thesize of each parent component.
             # initially size of all be '1'(node itself).
     
     def findUPar(self, n):   # finding the ultimate parent
@@ -92,39 +91,40 @@ class DSU:
                     self.rank[p1]+= 1
 
 d= DSU(7)
+# d.unionByRank(0, 1)
 # d.unionByRank(1, 2)
-# d.unionByRank(2, 3)
-# d.unionByRank(4, 5)
-# d.unionByRank(6, 7)
+# d.unionByRank(3, 4)
 # d.unionByRank(5, 6)
-# # d.unionByRank(3, 7)
-# # check if '3' and '7' belong to the same component. by commenting and uncommenting the above line.
-# if d.findUPar(3)== d.findUPar(7):
-#     print("3 and 7 belong to same component")
+# d.unionByRank(4, 5)
+# d.unionByRank(2, 6)
+# # check if '2' and '6' belong to the same component. by commenting and uncommenting the above line.
+# if d.findUPar(2)== d.findUPar(6):
+#     print("2 and 6 belong to same component")
 # else:
-#     print("3 and 7 not belong to same component")
+#     print("2 and 6 not belong to same component")
 
 # doing by 'unionBy size'.
-d.unionByRank(1, 2)
-d.unionByRank(2, 3)
-d.unionByRank(4, 5)
-d.unionByRank(6, 7)
-d.unionByRank(5, 6)
-# d.unionByRank(3, 7)
-# check if '3' and '7' belong to the same component. by commenting and uncommenting the above line.
-if d.findUPar(3)== d.findUPar(7):
-    print("3 and 7 belong to same component")
+d.unionBySize(0, 1)
+d.unionBySize(1, 2)
+d.unionBySize(3, 4)
+d.unionBySize(5, 6)
+d.unionBySize(4, 5)
+# d.unionBySize(2, 6)
+# check if '2' and '6' belong to the same component. by commenting and uncommenting the above line.
+if d.findUPar(2)== d.findUPar(6):
+    print("2 and 6 belong to same component")
 else:
-    print("3 and 7 not belong to same component")
+    print("2 and 6 not belong to same component")
+print(d.size)
+print(d.parent)
 
 
 # Template to use in Qs.
 
 class DSU:
     def __init__(self, n):
-        self.v= n
-        self.parent=  [i for i in range(n+1)]
-        self.size=    [1 for i in range(n+ 1)]   
+        self.parent=  [i for i in range(n)]
+        self.size=    [1 for i in range(n)]   
     
     def findUPar(self, n):   
         if n== self.parent[n]:   
@@ -136,17 +136,33 @@ class DSU:
         p1, p2= self.findUPar(n1), self.findUPar(n2)
         if p1== p2:   # we can't do union since they belong to the same component.
             # return
-            return False
+            # return False
+            return 0
         if self.size[p1] < self.size[p2]:
             self.parent[p1]= p2  
             self.size[p2]+= self.size[p1]   
         else :   # rank[p1]>= rank[p2]
             self.parent[p2]= p1   
             self.size[p1]+= self.size[p2]
+        # return True
+        # return 1
 
 
+# Note: every time we will get our ans while doing 'union' only. so you might have to modify little bit'union' function to get the ans.
+# like 1) you may have to simply return or you have to return '0' in case we can't do union  2) you may have to return True or return '1' 
+# in case union is possible.  3) may be in little other way according to the Q.
+
+# Note: in every Q, first convert the union you want to do in an integer because we have to find parent and all and 
+# they can be found out using index only.
+
+# Note: if given something which changes dynamically and we have to find and after each operation and if we have to combine them,
+#  then must try of 'disjoint set'.
 
 # Application of DSU:
 # 1) used to detect cycle in undirected or directed graph.
 # 2) Find the no of connected components.
 # 3) Helps in connecting the components into one by 'union'.
+# 4) when we have to connect something based on some property & have to find ans from them then, must think of union find.
+
+# Note: while doing union, must pass an integer value only. If given in any other thing like string or coordinates or matrix form
+# first try to convert them into an integer. Because for finding parent and size we need only number.

@@ -1,7 +1,10 @@
-#link:  https://www.youtube.com/watch?v=V8qIqJxCioo (Kosaraju Algorithm)
+# (Kosaraju Algorithm)
+
 # logic steps: 1) sort all nodes in order of largest finishing time using Topo Sort logic, time: O(n + E)
-# 2) Transpose the graph so that the path got disconnected to reach any other components, time: O(n + E)
-# transposing the graph means changing the direrction of the path 
+# 2) Transpose the graph .time: O(n + E)
+# transposing the graph means changing the direrction of the path . 
+# Reason for transposing: Nodes having path one way betwen them , we will not able to reach other if we start from one node in order of last finising time.
+# we will only reach the nodes which was connected bidirectionally after transposing( and when we will start from largest finishing time).
 # 3) Call DFS acc to the largest finishing time got in step 1 on the transposed graph, time: O(n +E)
 # Space : O(n)
 

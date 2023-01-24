@@ -10,8 +10,8 @@
 class DSU:
     def __init__(self, n):
         self.v= n
-        self.parent=  [i for i in range(n+1)]
-        self.size=    [1 for i in range(n+ 1)]   
+        self.parent=  [i for i in range(n)]
+        self.size=    [1 for i in range(n)]   
     
     def findUPar(self, n):   
         if n== self.parent[n]:   
@@ -68,7 +68,6 @@ class Solution:
                 merged_account.append(mail)
             ans.append(merged_account)
         return ans
-
 
 
 # Later try by DFS also.

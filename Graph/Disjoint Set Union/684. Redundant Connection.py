@@ -54,11 +54,6 @@ class Solution:
                 p= parent[p]
             return p
 
-        # Recursive way to find the parent
-        # def find(n):
-        #     if n== parent[n]:
-        #         return n
-        #     find(parent[n])
         
         def union(n1,n2):  
             p1,p2= find(n1), find(n2)

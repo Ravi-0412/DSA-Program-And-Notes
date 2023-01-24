@@ -1,43 +1,7 @@
-# METHOD 1: USING bfs
 # just you have to find the no of distinct connected components containing consecutive one's
-class Solution:
-    def numIslands(self, grid: List[List[str]]) -> int:
-        row,col= len(grid), len(grid[0])
-        visited= set()
-        island= 0
-        
-        def BFS(r,c):
-            Q= collections.deque()
-            Q.append((r,c))
-            while Q:
-                r1,c1= Q.popleft()
-                # now check for all allowed directions we can visit from that grid 
-                # 4 possible direction: up,down,left,right
-                if r1 -1 >=0 and (r1-1,c1) not in visited and grid[r1-1][c1]== "1":
-                    visited.add((r1-1,c1))
-                    Q.append((r1-1,c1))
-                if r1 +1 <row and (r1+1,c1) not in visited and grid[r1+1][c1]== "1":
-                    visited.add((r1+1,c1))
-                    Q.append((r1+1,c1))
-                if c1 -1 >=0 and (r1,c1-1) not in visited and grid[r1][c1-1]== "1":
-                    visited.add((r1,c1-1))
-                    Q.append((r1,c1-1))
-                if c1 +1 <col and (r1,c1+1) not in visited and grid[r1][c1+1]== "1":
-                    visited.add((r1,c1+1))
-                    Q.append((r1,c1+1))             
-        
-        # start reading from here
-        for r in range(row):
-            for c in range(col):
-                if grid[r][c]== "1" and (r,c) not in visited: 
-                    island+= 1
-                    visited.add((r,c))
-                    BFS(r,c)
-        return island
-
-
 
 # simple and concise way of writing the above code
+# using Bfs
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
         row,col= len(grid), len(grid[0])
@@ -91,6 +55,8 @@ class Solution:
                     island+= 1
                     DFS(r,c)
         return island
+
+
 
 
 

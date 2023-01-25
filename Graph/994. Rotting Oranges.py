@@ -39,7 +39,7 @@ class Solution:
                     if 0<=r<row and 0<=c<col and  grid[r][c]==1:
                         grid[r][c]= 2
                         fresh-= 1
-                        q.append((r,c))
+                        q.append((r,c))  # now from this cell we have to check next time.
 
         return time if fresh==0 else -1  # if no fresh oranges is left
 

@@ -4,16 +4,17 @@
 
 # why came with DFS? 
 # Ans: as DFS go deeper and deeper and we need to print the node with lesser outorder vertices first
-# means stop at node with no adjacent node(no outgoing vertices as DAG will must contain at least one vertex with outgoing edge = 0 and incoming edge =0)
+# means stop at node with no adjacent node(no outgoing vertices as DAG will must contain,
+#  at least one vertex with outgoing edge = 0 and incoming edge =0).
 
 # i.e we have to print the vertex with no outgoing edge at last and that can be done 
-# while traversing back in case of DFS
+# while traversing back in case of DFS.
 
 # Note(VVI) for dfs method: here you are putting the node in the ans(stack), while traversing back that's why it's giving correct ans always
-# but if we put the node at start itself in the ans like when you are calling the dfs for that node then it will not give the corect ans always...keep this in mind
-# if you do like this graph like test case 2 will not work
+# but if we put the node at start itself in the ans like when you are calling the dfs for that node then it will not give the corect ans always...
+# keep this in mind.. if you do like this graph like test case 2 will not work
 
-# if you do by finding the indegree like BFS then that will always give the correct ans as that is the basic of tolopogical sort
+# if you do by finding the indegree like BFS then that will always give the correct ans as that is the basic of tolopogical sort.
 
 # Note: this method will only work if no cycle.. for cycle detecting and then printing see the below method that i submitted in Q "269 Alien dictionary"
 # or we can also modify in this like we can use two visited array like we did in cycle detection Q
@@ -113,8 +114,8 @@ class Graph:
                 self.indegree[j]-= 1
                 if self.indegree[j]== 0:  # after decreasing if any node has indegree == 0 then put in the Q
                     Q.append(j)
-
-        if count!= self.V:  # for checking the cycle in directed graph using BFS
+        # note: count will be less than '1'.
+        if count!= self.V:  # for checking the cycle in directed graph using BFS .. 
             print("there exist a cycle in the graph")
         else:
             print(ans)

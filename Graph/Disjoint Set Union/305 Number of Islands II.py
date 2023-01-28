@@ -1,13 +1,16 @@
 # my mistake: I thought correct but made some minor mistakes like:
 # 1.1)  i was thinking that count will increase always..(what the fuck)..
 # if we are putting the nodes in between all land then it will decrease a lot suddenly.
-# it may increase or decrease, it depends on posotion we are inserting.
+# it may increase or decrease, it depends on position we are inserting.
 
 # 1.2) was checking if in any of four direction we can merge.And for all combined together i was decr the count by '1'.
 # but in every possible direction if we can merge then we should decr the count by '1'.
 
 # 2) cell could have repeat in the ans, but i was not considering that.
 # 3) was changing the land value(input) to '1' at start itself.
+
+# Difference from 'No of island 1': Here we are checking in all four directions since all four directions can have component in itself.
+# And  we have to merge all that.
 
 class DSU:
     def __init__(self, n):

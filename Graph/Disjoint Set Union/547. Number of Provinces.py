@@ -1,4 +1,4 @@
-# just we have to find the 'no of connected components'.
+# just we have to find the 'no of connected components' cell value= 1.
 # we can use either Bfs or dfs for this.
 
 # By DSU.
@@ -9,8 +9,9 @@
 
 # Reason: Every component will have same parent for each ele in that component.
 
-# Note VVI: every one that will be adjacent to each other and cell which we are seeing for first time, will form the union with each other
-# combining into one component.
+# Note VVI: jahan jahan '1' h usko union karne ka prayas karo, agar indirectly connecte hoga ek dusre to ek component form lega.
+# agar nhi hoga then alag component form karega.
+# Then at last count no of component i.e distinct parent ka no count karo wahi ans hoga.
 
 # how to do union : Try to bring all the connected nodes(value==1) into one component.
 # if we can't do union of nay two node their parent node will differ and will go into other component.
@@ -26,11 +27,8 @@ class DSU:
     def findUPar(self, n):   # finding the ultimate parent
         if n== self.parent[n]:   # Root parent will be the parent of itself. so continue till we find that.
             return n
-        # return self.parent[n]= self.findUPar(self.parent[n])    # this will assign the root parent of every node coming in that ultimate root.
-                                                #    This is called path compression.
         self.parent[n]= self.findUPar(self.parent[n])   # writing above in same link is giving error
         return self.parent[n]
-        # return self.findUPar(self.parent[n])   # This will only give the parent node, will not assign.
     
     def unionBySize(self, n1, n2):
         p1, p2= self.findUPar(n1), self.findUPar(n2)

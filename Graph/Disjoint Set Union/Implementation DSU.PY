@@ -11,13 +11,11 @@
 # so we can only do union of two node if they belong to different component for avoiding cycle.
 
 
-#  and rank of all will be '0' initially
-
 # for union(merging the two into one): union tells whether we can connect two node or not by an edge.
 #  if not then it means connecting these two node(given edge) will lead to cycle.
 # logic for union: first find the root parent(ultimate parent) of both the node.
 # if parent is different then it means they belong to different component and we can do the union otherwise not.
-# then for doing uion just use any of ways i.e rank or size.
+# then for doing union just use any of ways i.e rank or size.
 
 # There are two ways we can do union:
 # a) 'union by Rank':
@@ -41,11 +39,11 @@
 
 # Note: After finding the root parent of each node, ultimate parent of both nodes are get attached to each other. not the two given node.
 
-# Q) why we are calling 'findParent' to find the ultimate parent to find parent of each node.
+# Q) why we are calling 'findParent' to find the ultimate parent of each node.
 #  why are we don't directly finding the parent from parent array?
 # Ans: when we combine two node from different component then we are not able to update the 
-# remaining nodes of 'node having lesser size/rank' to new ultimate. only the ultimate parent of 'smaller size' get updated to new parent.
-# Also while parent only the nodes that belong to that component, there parent get updated.
+# remaining nodes of 'node having lesser size/rank' to new ultimate parent. 
+# Also while finding parent only the nodes that belong to that component, there parent get updated.
 
 
 # time for union: O(4 alpha) nearly = O(1), space: O(n)
@@ -126,13 +124,13 @@ class DSU:
         self.parent=  [i for i in range(n)]
         self.size=    [1 for i in range(n)]   
     
-    def findUPar(self, n):   
+    def findParent(self, n):   
         if n== self.parent[n]:   
             return n
-        self.parent[n]= self.findUPar(self.parent[n])   
+        self.parent[n]= self.findParent(self.parent[n])   
         return self.parent[n]
     
-    def unionBySize(self, n1, n2):
+    def union(self, n1, n2):  
         p1, p2= self.findUPar(n1), self.findUPar(n2)
         if p1== p2:   # we can't do union since they belong to the same component.
             # return

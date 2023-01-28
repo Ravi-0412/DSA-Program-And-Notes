@@ -29,7 +29,7 @@ class DSU:
 class Solution:
     def removeStones(self, stones: List[List[int]]) -> int:
         n= len(stones)
-        dsu= DSU(n)
+        dsu= DSU(n)    # passing 'n' only as we have to check only 'n' stones. so no need to take dimension and all.
         # first form components from stone.
         for i in range(n):
             x1, y1= stones[i]

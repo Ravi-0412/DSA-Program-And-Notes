@@ -4,7 +4,7 @@
 # m= rows, n= cols
 # What differences from 'No of provinces'?
 # Ans: Here there can be more than 'm'(rows) island, infact there can be max nearly (m*n)//2 island.(nearly half of all cell).
-# so here we will make parent and size array of size (m*n) itself.
+# so here we will make parent and size array of size (m*n) itself. But there was only 'n' city.
 # Also in that Q. we have to combine cities (i,j) into one so was passing (i, j) in union function.
 # But here we have to combine all cell so we have to the pass the cell index in terms of 'i' and 'j'. 
 # But we can't do because for finding parent we have to pass as a integer only. So converted all cell into an integer.
@@ -14,6 +14,13 @@
 
 # logic: wherever there is '1', treat them all as independent island initially.
 # and later if we can combine those with its neighbour and keep reducing the count by '1'.
+
+# Note: reducing the count by '1' in both the direction we we can merge two.
+# but count will reduce in total '1' only i.e '1' for curent node(since we increased the count auto for each node) and '1' if it will get merged to  any of two.
+
+
+# Note : we are checking only in two directions(where we will not check next time), && if we check in all four directions then will get 
+# incorrect ans because value checked will get repeated.
 
 class DSU:
     def __init__(self, n):

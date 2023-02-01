@@ -42,8 +42,9 @@ def ShortestPath1(adj,n, src):
     visited= set()  
     while minHeap:
         w1,n1= heapq.heappop(minHeap)    # it means for this node, we have got the optimal ans so we will relax all the nodes to this node
-        if n1 in visited:    # since we are marking any node visited only we have relaxed all the outgoing edge through that vertex
-                            #  so there can be many instances of same node in the minHeap and once we have releaxed all the edges through that node 
+        if n1 in visited:    # since we are marking any node visited only we are going to visited all the outgoing edge through this vertex.
+                            #  so there can be many instances of same node in the minHeap with diff weight and once we have releaxed all
+                            #  the edges through that node 
                             # then, no need to relax all the edged through that node again anymore so simply skip
             continue
         distance[n1]= w1  # poped one means we have found minimum distance of that

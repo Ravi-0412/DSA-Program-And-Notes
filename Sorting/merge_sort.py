@@ -1,5 +1,5 @@
 def merge_sort(arr,low,up):
-    if(low<up): 
+    if(low<up):   # to check if there is more than one element.
         mid= int(low+ (up-low)/2)
         merge_sort(arr,low,mid)
         merge_sort(arr,mid+1,up)

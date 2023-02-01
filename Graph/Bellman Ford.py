@@ -1,4 +1,5 @@
 # time- O(N*E) as each edge will get relaxed 'n' times, E= no of edges, N= no of vertices
+# learn the tehory from GATE Notes.
 def BellmanFord(src,edges,n):
     distance= [999999]*n
     distance[src]= 0

@@ -28,11 +28,12 @@ class Solution:
             time, (r1,c1)= heapq.heappop(minHeap)
             if r1== row-1 and c1== col-1:   # you reached the destination
                 return time
+            # visited.add((r1, c1))   # marking here will lead to TLE and wrong ans.
             directions= [[-1,0],[1,0],[0,-1],[0,1]] 
             for r2,c2 in directions:
                 r, c= r1 +r2, c1+ c2
                 if 0<=r<row and 0<=c<col and (r,c) not in visited:
-                    visited.add((r,c))  # mark visite here only as there can't be any more optimal path possible for (r,c)
+                    visited.add((r,c))  # mark visite here only as there can't be any more optimal path possible for (r,c) because we have to include the curr cell value also.
                     max_till_now= max(time, grid[r][c])   # put the max val as we can only reach (r,c) with this time only, not in time less than this
                     heapq.heappush(minHeap,(max_till_now,(r,c)))
 

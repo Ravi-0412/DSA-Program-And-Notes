@@ -1,5 +1,4 @@
-# 1st method: using hashmap like as usual for all probelms of this type
-
+# 1st method: using hashmap like as usual for all probelms of this type.
 
 class Solution:
     def twoSum(self, numbers: List[int], target: int) -> List[int]:

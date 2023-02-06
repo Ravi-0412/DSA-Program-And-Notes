@@ -7,7 +7,7 @@
 class Solution:
     def lenOfLongSubarr (self, A, N, K) : 
         # just same logic as no of subarray with given sum 'k'
-        prefix_sum= {}  
+        prefix_sum= {}    # will store the extra sum(may be negative or positive).
         max_length,curr_sum= 0, 0
         for i in range(N):
             curr_sum+= A[i]

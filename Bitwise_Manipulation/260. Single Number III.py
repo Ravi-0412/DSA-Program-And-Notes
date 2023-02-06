@@ -1,5 +1,5 @@
 # time: O(n)
-https://leetcode.com/problems/single-number-iii/solutions/68900/accepted-c-java-o-n-time-o-1-space-easy-solution-with-detail-explanations/
+# https://leetcode.com/problems/single-number-iii/solutions/68900/accepted-c-java-o-n-time-o-1-space-easy-solution-with-detail-explanations/
 # Read comment by "KaiPeng21' in above post along with original post
 
 class Solution:
@@ -9,16 +9,16 @@ class Solution:
             x1^= num
         # x1 will contain the xor of two number which is not repeating
         # now we have to find the two non repeating no.
-        rightmost_set_bit= x1 & (-x1)  # at this position of set bit the no of ele with bit set must be odd and no ele with bit not set must be also odd only
+        rightmost_set_bit= x1 & (-x1)  # at this position of set bit the no of ele with bit set must be odd and no ele with bit not set must be also odd only.
         
         # using this set bit at rightmost position we can divide the array into two parts and these two no should lie in these parts only.
         # both the non repeating no will lie in diff part as both of their bit can't be set at that position and xor in both the diff gr will the ans
         num1,num2= 0,0
         for i in range(len(nums)):
-            # 1st: if bit set then and will be >0 (and no of such number will be odd only) 
+            # 1st: if bit set then and num will be >0 (and no of such number will be odd only) 
             if rightmost_set_bit & nums[i]: 
                 num1^= nums[i]
-            else:  # 2nd: if bit not set then and will be ==0 (and no of such number will be odd only)
+            else:  # 2nd: if bit not set then and num will be ==0 (and no of such number will be odd only)
                 num2^= nums[i]
         return [num1,num2]
 

@@ -13,6 +13,18 @@ class Solution:
                 return False
         return openCount== 0
 
+# can do the same logic by Recursion also.
+def isValid(self, i, s, open):
+        if i== len(s):
+            return open== 0
+        if s[i]== '(':
+            open+= 1
+        else:
+            open-= 1
+            if open < 0:
+                return False
+        return self.isValid(i+1, s, open)
+
 
 # actual Q
 # method 1: by Recursion(TLE)

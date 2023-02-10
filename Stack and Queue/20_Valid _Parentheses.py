@@ -29,14 +29,14 @@ class Solution:
 
 
 # method 2: concise one
-#User function Template for python3
+#User function Template for python3.
+# logic: push closing braces of the current braces after seeing the opening braces
+# and when you encouter the closed parenthesis check the ele on top of stack
+# if same as current char then continue the loop
+# at last check for empty stack.
 class Solution:
     def valid(self, s): 
         stack= [0] # initialising to check whether stack is empty or not 
-        # logic: push closing braces of the current braces after seeing the opening braces
-        # and when you encouter the closed parenthesis check the ele on top of stack
-        # if same as current char then continue the loop
-        # at last check for empty stack
         for i in range(len(s)):
             if s[i]== '(':
                 stack.append(')')

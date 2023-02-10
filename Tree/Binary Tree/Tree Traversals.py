@@ -21,7 +21,6 @@ def PreorderIterative(self,root):
             stack.append(curr.left)
 
 # do by recursive inside the given function only and store the ans in a list(Leetcode q)
-# do later like this
 # https://leetcode.com/problems/binary-tree-preorder-traversal/discuss/164175/Python-solution
 
 # for returning the ans into list inside the given fn only, somehow we will have to replace the print statement by any condition
@@ -78,7 +77,7 @@ class Solution:
 
 
 # another concise way of iterative approach of inorder traversal. 
-# just the conversion if we start from root 
+# just the conversion if we start from root. 
 # logic: if root is not None we append and move to the left 
 # if none then we print the last added ele into the stack and move to right
 

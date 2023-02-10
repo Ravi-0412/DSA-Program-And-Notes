@@ -2,7 +2,7 @@
 # and for node just check the one next child that comes in meaning of that traversal after printing the root like:
 # for preorder next will be 'left', for inorder next will be 'right' and for postorder next will be nothing
 
-# after updating num after add the poped node into the stack with updated num  and check for next child that comes in meaning of that traversal
+# after updating num, add the poped node into the stack with updated num  and check for next child that comes in meaning of that traversal
 # if child then add its child with num= num+1   
 
 # VVI: basically 'num' means the curr node will be added '3-num' times more including all the ans

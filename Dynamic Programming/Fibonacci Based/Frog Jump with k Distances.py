@@ -8,9 +8,17 @@ def frogJump(n, heights,k) :
     #     return abs(heights[1] - heights[0])
     mn= 9999999
     for i in range(1,k+1):
-        if n-i >=1
-    mn= min(abs(heights[n-1]-heights[n-i-1]) + frogJump(n-i,heights))   # height idexing is strating from '0' but stair count from 1
+        if n-i >=1:
+            mn= min(mn, abs(heights[n-1]-heights[n-i-1]) + frogJump(n-i,heights, k))   # height idexing is starting from '0' but stair count from 1
     return mn
+
+# heights= [10,30,40,50,20]
+heights= [10,20,10]
+n= len(heights)
+# print(frogJump(n, heights,3))
+
+print(frogJump(n, heights,1))
+
 
 # memoization
 # time: O(n*k)

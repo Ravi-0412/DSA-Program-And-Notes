@@ -46,7 +46,7 @@ def Paths(ans, maze, row, col):
         return 0
     # if not false, make it 'false' 
     # since i am considering this cell for my paths
-    maze[row][col]= False  # made it false so again we don't repeat this cell in same path
+    maze[row][col]= False  # made it false so again we don't repeat this cell in same path i.e it's child shouldn't take this cell at any point of time.
     count+= Paths(ans+ 'D', maze, row+1, col)   # Down
     count+= Paths(ans+ 'R', maze, row, col+1)   # Right
     count+= Paths(ans+ 'U', maze, row-1, col)   # up

@@ -38,7 +38,7 @@ class Solution:
         return self.helper(n,dp)
     
     def helper(self,n,dp):
-        if n<=1:
+        if n<=1:   # for base case value= -1 only since we are not updating in that but we will get correct ans
             return 1   
         if dp[n]!= -1:   
             return dp[n]

@@ -27,7 +27,7 @@ def helper(n,heights,dp):
 
 # method 3: Tabulation bottom up
 def frogJump(n: int, heights: List[int]) -> int:
-    dp = [0]*n # at stair '0' energy lost= 0 
+    dp = [0]*n # at stair '1' energy lost= 0 
     dp[1]= abs(heights[1] - heights[0])  # height 2 to height 1
     for i in range(3,n+1): # from stair 3 to stair n
         dp[i-1]= min(abs(heights[i-1]-heights[i-2]) + dp[i-2],  abs(heights[i-1]-heights[i-3]) + dp[i-3])

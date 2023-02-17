@@ -1,21 +1,11 @@
-# you are allowed to move right and down only
-def ways(r,c,n,m):
-    if r==m or c==n:
-        return 1
-    return ways(r,c+1,m,n) + ways(r+1,c,m,n)   # right or down
+# for count ways
+# Q no: 62 leetcode
 
-# print(ways(0,0,2,2))   # to reach from (0,0) to (n,m)
-
-# method 2:  you can do in reverse way like n,m to 0,0
-# in this case you can take only left or up
-def ways1(m,n):
-    if n==0 or m==0:
-        return 1
-    return ways1(m,n-1) + ways1(m-1,n)  # left or up
-
-# print(ways1(2,2))
-# print(ways1(1,2))
-
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        if m== 1 or n== 1:
+            return 1
+        return self.uniquePaths(m, n-1) + self.uniquePaths(m-1, n)
 
 # Now print all the paths also
 # in case of string you don't have to push or pop like array because string is immutable i.e 

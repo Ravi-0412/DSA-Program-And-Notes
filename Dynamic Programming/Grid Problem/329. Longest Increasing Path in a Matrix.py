@@ -5,6 +5,7 @@
 class Solution:
     def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
         ans= 1  # each grid will contibute so automatically it will be '1'.
+        # checking ans from every cell.
         for r in range(len(matrix)):
             for c in range(len(matrix[0])):
                 ans= max(ans, self.dfs(r, c,-1, matrix))
@@ -18,7 +19,7 @@ class Solution:
             # if out of order then simply skip.
             if row< 0 or row>= len(mat) or col< 0 or col >= len(mat[0]) or mat[row][col] <= mat[r][c]:  
                 continue        
-            # count+= 1 + self.dfs(row, col, mat[row][col], mat)   # it adding the pre count values also that wh getting error
+            # count+= 1 + self.dfs(row, col, mat[row][col], mat)   # it adding the pre count values also that why getting error
             count= 1 + self.dfs(row, col, mat[row][col], mat)     # incr count by 1 and call the valid function
             ans= max(ans, count)
         return ans

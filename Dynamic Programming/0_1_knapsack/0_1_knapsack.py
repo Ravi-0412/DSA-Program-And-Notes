@@ -12,7 +12,7 @@ def knapSack(N, W, val, wt):
         return 0
     if wt[N-1]<= W: # we have two choices either to take this item or not
         return max(val[N-1]+ knapSack(N-1,W- wt[N-1],val,wt), knapSack(N-1,W,val, wt))
-    else:  # only one option i.e we can't take this ele
+    else:  # only one option i.e we can't take this ele. Move to next ele.
         return knapSack(N-1,W,val, wt) 
 
 N = 3
@@ -49,7 +49,7 @@ class Solution:
 class Solution:
     #Function to return max value that can be put in knapsack of capacity W.
     def knapSack(self,W, wt, val, n):
-        dp= [[0 for j in range(W+1)]for i in range(n+1)]  # already base case is filled for this Q after initialising with zero
+        dp= [[0 for j in range(W+1)] for i in range(n+1)]  # already base case is filled for this Q after initialising with zero
         # start filing from dp[1,1] to last
         for i in range(1,n+1):  # n= no of total objects, i= object till 'i' we are considering
             for j in range(1,W+1):  # W= no of total bags, j: bags we are considering at present

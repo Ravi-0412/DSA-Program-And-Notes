@@ -1,21 +1,21 @@
 # Q says they will always stay inside the grid and has to pick maximum no of chocolate, this means
 # take max of all cases when they reach the last row
 
-# 1st method: call the function separately for Alice and Bob and remove the common node visited by them
-# but this is not a good approach
+# 1st method: call the function separately for Alice and Bob and remove the common node visited by them.
+# indirectly finding the max chocolates that Alice can pick and max chocolate that Bob can pick and then remove the common cell visited by them.
 
-# Q: fixed starting point and variable ending point. so better go from bottom to top(i.e start from fixed points)
+# Q: fixed starting point and variable ending point. so better go from top to bottom(i.e start from fixed points)
 # if variable starting point and variable ending point. Then either go 'top to down' or 'bottom to top'
 
 # method 2: Start path for Bob and Alice together
-# both will reach the destination simultaneously i.e last row(they mightland on different col on last row but after reaching last row, we will get one of the ans)
+# both will reach the destination simultaneously i.e last row(they might land on different col on last row but after reaching last row, we will get one of the ans)
 # because both are always going one row ahead in every step they take
 
 # time complexity= O(3^n * 3^n)  # in each row both Alice and Bob has three choices
 # space: O(n)
 # submitted on coding ninjas. correct but giving TLE
 def maximumChocolates(r: int, c: int, grid: List[List[int]]) -> int:
-    return helper(0,0,c-1,grid)   # similar to helper(0,0,0,c-1)  # first two para is starting point of                                 for Alice and last two for Bob bu they will always move to the same                                 row so we can right the row only one time
+    return helper(0,0,c-1,grid)   # similar to helper(0,0,0,c-1)  # first two para is starting point for Alice and last two for Bob but they will always move to the same row.
 
 def helper(r,c1,c2,mat):
     if c1<0 or c1>= len(mat[0]) or c2<0 or c2>= len(mat[0]) : # out of bound cases and False cases
@@ -30,7 +30,7 @@ def helper(r,c1,c2,mat):
         return mat[r][c1] + mat[r][c2]
  
     maxChocolates= 0
-    # since they are moving simulataneously, for every one move of Alice Bob will have three options i.e in total         there will be 3*3 different choices
+    # since they are moving simulataneously, for every one move of Alice Bob will have three options i.e in total there will be 3*3 different choices
     path= [-1,0,1]  # either they can go left diagonal, or down or right diagonal
     for Alice_col in range(3):  # there are three possible path
         for Bob_col in range(3):
@@ -112,6 +112,8 @@ def maximumChocolates(r: int, c: int, grid: List[List[int]]) -> int:
                 dp[row][c1][c2]= maxChocolates
                                                                
     return dp[0][0][c-1]   # Alice started at (0,0) and Bob started at (0,m-1) so return dp[0][0][c-1]   .. This is the way we return the ans at last in tabulation
+                            # return the dp value for which we have called the recursive function.
+                            
 
 
 

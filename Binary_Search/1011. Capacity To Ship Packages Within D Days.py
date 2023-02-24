@@ -1,5 +1,7 @@
-# just copy pasted the logic of 'Allocate minimum no of pages'.
+# Brute force : O(k*n)
 
+# just copy pasted the logic of 'Allocate minimum no of pages'.
+# time: O(k* 2*logn), space= O(n)
 class Solution:
     def shipWithinDays(self, weights: List[int], days: int) -> int:
         N, M= len(weights), days

@@ -1,4 +1,4 @@
-# Q: count no of subsets who 
+
 # method 1: 
 # will work properly for all cases in which value of ele will be greater than zero may not for value of ele= 0
 def NoOfSubsets(N, arr, sum):
@@ -47,7 +47,7 @@ class Solution:
     def helper(self, ind, arr, sum, dp):
         if ind== 0:
             if sum== 0 and arr[0]== 0:
-                return 2
+                return 2    # either take or notTake
             if sum==0 or sum== arr[0]: # in actual sum== 0 and arr[0] != 0 or sum== arr[0]
                 return 1
             else:

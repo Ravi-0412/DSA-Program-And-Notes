@@ -1,5 +1,5 @@
 # Q: You have to count the no of subsets such that their
-# diff in sum is minimum among all the subsets sum difference
+# diff in sum is minimum among all the subsets sum difference.
 
 # submitted on GFG
 class Solution:

@@ -41,4 +41,21 @@ class Solution:
         return min_diff
 
 
+# method 2: question reduces to find closest sum (sum of numbers) to (SUM/2).
+# for finding closest sum to sum(arr)/2. we can do like.
+# https://leetcode.com/problems/last-stone-weight-ii/solutions/653550/trying-to-explain-a-bit-logic-behind-trick/
+
+# submitted on gfg.
+class Solution:
+    def minDifference(self, arr, n):
+	    total= sum(arr)
+        mid= total//2   # we have to find the closest sum possible for 'mid_sum'.
+        dp= [[0 for j in range(mid +1)] for i in range(n+1)]
+        for i in range(1, n+1):
+            for j in range(1, mid+1):
+                if arr[i-1] > j:  # when we have no choice to  include the curr ele.
+                    dp[i][j]= dp[i-1][j]
+                else:   # when we have choice to include the curr ele or not.
+                    dp[i][j]= max(dp[i-1][j], dp[i-1][j- arr[i-1]] + arr[i-1])   # we have to find the closest sum so taking max.
+        return abs(total- 2*dp[n][mid])    # ans will be equal to this one.   (some maths done in notes).
 

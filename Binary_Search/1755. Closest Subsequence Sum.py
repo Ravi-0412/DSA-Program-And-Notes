@@ -54,3 +54,5 @@ class Solution:
                 res= min(res, abs(new_goal - sum2[i-1]))
         
         return res
+
+# Note: can apply DP also but memory will go out of bound.

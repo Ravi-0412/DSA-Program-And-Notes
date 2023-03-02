@@ -46,7 +46,7 @@ class Solution:
                     arr2[i - n], arr2[j - n] = arr2[j - n], arr2[i - n]
                 i+= 1
                 j += 1
-            if gap== 1:   # this i was missing . since we have to take ceil value and if gap== 1 thenceil will also= 1 leading to infinit loop.
+            if gap== 1:   # this i was missing . since we have to take ceil value and if gap== 1 then ceil will also= 1 leading to infinit loop.
                 gap= 0
             else:
                 gap = ceil((gap)/ 2)

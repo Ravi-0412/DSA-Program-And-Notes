@@ -27,7 +27,8 @@ class Solution:
 # other methods: good ones
 # in this we are tracking the pre_ind also to which we are adding the curr ele if it follows the sequence
 # pre_ind denotes the last index included in LIS
-# in case of pick and non_pick always write the pick case and non_pick case separately if there are some condition involved before including or not_including any ele
+# in case of pick and non_pick always write the pick case and non_pick case separately 
+# if there are some condition involved before including or not_including any ele.
 # time: O(n^2)
 # space: O(n)
 class Solution:
@@ -36,12 +37,12 @@ class Solution:
     def helper(self, ind, pre_ind, arr):
         if ind== len(arr):
             return 0
-        # if we not include
-        ans= 0+ self.helper(ind +1, pre_ind, arr)
-        # when we include
-        if pre_ind== -1 or arr[ind] > arr[pre_ind]: 
-            ans= max(ans, 1+ self.helper(ind +1, ind, arr))
-        return ans
+        take= 0
+        notTake= self.helper(ind +1, pre_ind, arr)  # if we not include
+        # when we include but we can only include in following condition only.
+        if pre_ind== -1 or arr[ind] > arr[pre_ind]:  # when can only include if strictly increasing
+            take= 1+ self.helper(ind +1, ind, arr)
+        return max(take, notTake)
 
 
 # memoizing the above method
@@ -52,39 +53,56 @@ class Solution:
 class Solution:
     #Function to find length of longest increasing subsequence.
     def longestSubsequence(self,a,n):
-        dp= [[-1 for j in range(n+1)] for i in range(n)]   # ind*pre_ind
+        dp= [[-1 for j in range(n+1)] for i in range(n +1)]   # dp[i][j] denotes max LIS starting from i when 'j' is the index of previous picked element.
         return self.helper(0, -1, a, dp)
     def helper(self, ind, pre_ind, arr, dp):
         if ind== len(arr):
             return 0
         if dp[ind][pre_ind +1]!= -1:
             return dp[ind][pre_ind+1]
-        ans= 0+ self.helper(ind +1, pre_ind, arr, dp)
+        take= 0
+        notTake= self.helper(ind +1, pre_ind, arr, dp)
         if pre_ind== -1 or arr[ind] > arr[pre_ind]:
-            ans= max(ans, 1+ self.helper(ind +1, ind, arr, dp))
-        dp[ind][pre_ind+1]= ans
+            take= 1+ self.helper(ind +1, ind, arr, dp)
+        dp[ind][pre_ind+1]= max(take, notTake)
         return dp[ind][pre_ind+1]
 
 
-# converting to Tabulation: Top down 
-# little twist here
-# pre_ind will always start from 'ind+1' and will go till 'len(nums)'
-# not able to convert above logic into tabulation.(not able to understand the striver logic, this time conversion is very diff as before) have to ask someone
-
+# converting to Tabulation VVI: Top down 
+# little twist here: different from general pattern.
+# Rules: 1) write the base case
+# 2) convert the indices into for loop by seeing the starting and ending point of indices.
+# Here 'ind' will go from 'n-1' to '0'. 
+# And 'pre_ind' will go from 'n-1' to '-1' but it can't be equal to ind , it will be always less than the 'ind'..So it will from 'ind-1' to '-1'.
+# 3) copy paste the recurrence do coordinate shift of '1' in case of 'pre_ind'. That's it.
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        n= len(nums)
+        dp= [[0 for j in range(n+1)] for i in range(n +1)]   
+        for ind in range(n-1, -1, -1):
+            for pre_ind in range(ind -1, -2, -1):
+                take= 0
+                notTake= dp[ind +1][pre_ind +1]
+                if pre_ind== -1 or nums[ind] > nums[pre_ind]:
+                    take= 1+ dp[ind+ 1][ind +1]
+                dp[ind][pre_ind +1]= max(take, notTake)
+        return dp[0][0]   # return the dp for which you had called the recursive function. 
 
 
 # other way (neetcode): 
 # method 2: submitted on leetcode
-# logic: traverse the array from right to left 
-# e.g: LIS[2] means nums[2] will get appened(+1) to the LIS of any of the previous LIS(i.e if all the ele of of any of the LIS will be grater than nums[2] then we will add +1)     
-# very better one                                                       
+# logic: traverse the array from right to left . just the conversion of above logic and optimising the space to O(n).
+# e.g: LIS[2] means nums[2] will get appened(+1) to the LIS of any of the LIS ahead of it(i.e if all the ele of of any of the LIS will be grater than nums[2] then we will add +1)     
+# very better one    
+# # time: O(n^2)                                                   
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
         LIS= [1]* len(nums)   # LIS[i] indicates that LIS that end at index 'i' from last
+        # and for 'i'th index we have to merge this ele with any of the ans after it. so we will check for all ele after this.
         # traversing in reverse order and only storing 
         for i in range(len(nums)-1, -1, -1):
             for j in range(i+1, len(nums)):
-                if nums[j] > nums[i]: # LIS[i] will get updated each time
+                if nums[j] > nums[i]: # checking whether this ele at 'j' can get added to LIS at 'i'.
                     LIS[i]= max(LIS[i], 1+ LIS[j])
         # at last return the maximum in LIS
         return max(LIS)
@@ -98,7 +116,7 @@ class Solution:
         LIS= [1]* len(nums)   # LIS[i] indicates that LIS that end at index 'i' from start. for each index at least ele at curr index will be get included so initialised with '1'
         for i in range(len(nums)):  # calculating for each index one by one
             for j in range(i):     # take the values from all the pre index till now 
-                if nums[j] < nums[i]: # include the element
+                if nums[j] < nums[i]: # include the element. # checking whether this ele at 'j' can get added to LIS at 'i'.
                     LIS[i]= max(LIS[i], 1+ LIS[j])   # if follows the rule then incr the LIS by one 
         return max(LIS)
 
@@ -113,20 +131,36 @@ class Solution:
         return max(LIS)
 
 
-# better one: using binary search to find the proper position of curr index in case not follows the pattern and removing the curr ele at that index in 'sub'
+# best one: using binary search to find the proper position of curr index in case not follows the pattern and removing the curr ele at that index in 'sub'
 # time: O(n*logn)
 # space: O(n)
 # bisect function: https://www.geeksforgeeks.org/bisect-algorithm-functions-in-python/
-# logic: https://leetcode.com/problems/longest-increasing-subsequence/discuss/1326308/C%2B%2BPython-DP-Binary-Search-BIT-Solutions-Picture-explain-O(NlogN)
-# here 'sub' will not give the one of the LIS but it will give the correct ans for LIS
+# logic: https://leetcode.com/problems/longest-increasing-subsequence/discuss/1326308/C%2B%2BPython-DP-Binary-Search-BIT-Solutions-Picture-explain-O(NlogN).
+# vvi: https://leetcode.com/problems/longest-increasing-subsequence/solutions/1326552/optimization-from-brute-force-to-dynamic-programming-explained/
+
+# logic: we will compare end element of sub with element under iteration 'num'. If 'num' is bigger than last ele of sub, we just extend our list. 
+# Otherwise, we will simply apply binary search to find the smallest element >= num and replace it.
+
+# Note vvi: 'sub' will not give the one of the LIS but it will give the correct ans for LIS.
+
+# why this logic is giving correct ans?
+# Ans: Replace karenge tb length to wahi rhega but smaller ele se replace karne pe next ele ka append hone ka chance increase kar jayega.
+# kyonki chota se replace kar rhe. e.g: [2, 8] next ele is '3'. after replacing => [2,3] ab agar next elements '3' se large hua to append kar denge directly,
+#  but agar [2,8] hota tb sirf '8' se bda wale ko hi append kar pate. 
+# Append kitna jayda ho rha last me wahi mera length ko increase karega..
+
 import bisect
 class Solution:  
     def lengthOfLIS(self, nums: List[int]) -> int:
-        sub= []
+        sub= []  # will store the ele in strictly increasing order only.
         for num in nums:
             if not sub or sub[-1] < num:
                 sub.append(num)
             else: # find the position of num in sub and replace that ind with num
-                idx= bisect.bisect_left(sub, num)  # simply bisect_left(sub,num)
-                sub[idx]= num
+                idx= bisect.bisect_left(sub, num)  # simply bisect_left(sub,num). 
+                sub[idx]= num  # no neeed to check if 'idx'>= len(sub) because this case is already handled in above 'if' condition.
         return len(sub)
+
+
+# try to understand this approach also.
+# https://leetcode.com/problems/longest-increasing-subsequence/solutions/74824/JavaPython-Binary-search-O(nlogn)-time-with-explanation/comments/206357/

@@ -1,27 +1,6 @@
-# tried a lot with dp, optimisng from two variable change(n^3) to one variable  change(n^2) but got TLE.
 
-# with two variable, changing the target also.
-# memoised this but TLE only
-class Solution:
-    def canJump(self, nums: List[int]) -> bool:
-        n= len(nums)
-        return self.helper(0, n-1, nums)
-    
-    def helper(self, ind, target, nums):
-        if target>0 and ind>= len(nums)-1:
-            return False
-        if target== 0 and ind== len(nums)-1:
-            return True
-        if nums[ind]== 0 and target > 0:  
-            return False
-        ans= False
-        # if any of ways return True then return True
-        for i in range(1, nums[ind] + 1):
-            ans= ans or self.helper(ind + i, target- i, nums)
-        return ans
-
-
-# with one variable change
+# memoising :
+# time: O(n^2)
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
         n= len(nums)
@@ -29,7 +8,7 @@ class Solution:
         return self.helper(0, n-1, nums, dp)
     
     def helper(self, ind, target, nums, dp):
-        if nums[ind]>= target- ind:   # if diff of nums[ind] and target is <=0.
+        if nums[ind]>= target- ind:   # if diff of nums[ind] and target is <=0. means we can reach our target.
             return True
         if nums[ind]== 0 and target > 0:
             return False
@@ -61,3 +40,32 @@ class Solution:
                 target= i
         return target== 0
 
+# more better:
+# logic: tmko bs last point pe pahunch jana h steps leke.
+# bs step lene se phle dhyan me rakhna h ki at least us index tak pahunche h ki nhi jahan se hm next step lenge.
+# agar us index pe pahunch chuke h then reached= i + nums[i] ho jayega agar pre reached se bda hua to nhi to pre reached hi rah jayega.
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        n, target= len(nums), len(nums) -1
+        reached= 0
+        for i in range(len(nums)):
+            if reached < i:  # frog must be at least at 'i' th position to utilise the step of next index 'i'th index
+                return False
+            reached= max(i + nums[i], reached)
+            # if reached <= i:   # writing here with "=" is giving wrong ans for case: [0]
+            #     return False   # after adding 'i'th index value frog should must be at least at 'i+1' th position to utilise the step of next index 'i+1'.
+        return True
+
+
+# to stop even before like when we have reached the target already.
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        n, target= len(nums), len(nums) -1
+        reached= 0
+        for i in range(len(nums)):
+            if reached < i:  # frog must be at least at 'i' th position to utilise the step of next index 'i'th index
+                return False
+            reached= max(i + nums[i], reached)
+            if reached >= target:  # we have reached the target
+                return True
+        # return True      # no need of this.

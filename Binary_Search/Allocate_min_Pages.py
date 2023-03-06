@@ -1,4 +1,4 @@
-# Time: O(log(sum(arr)- min(arr)))
+# Time: O(n *log(sum(arr)- min(arr)))
 # the best thing about this q is binary search is applicable even array is unsorted
 
 # you can reduce this problem into: Divide the given array into 'm' subarrays such that 
@@ -48,6 +48,12 @@ class Solution:
         # and at last we we will compare the no of students with M(# student given in the Q)
         # if < M means allocation is possible otherwise not possible
         return False if student > M else True
+
+# vvi Note: This type of logic is applied in Q asking minimise the max i.e min(max of all possible ans or distribution etc.) OR
+# maximise the minimum i.e max(min of all possible ans) given some number 'k' or 'm' or both.
+# And when we have to make distribution/parts for consecutive ele (applied in non-consecutive also sometime).
+
+
 
 
 # tried to find the pages allocated also but not getting correct ans. will do it later.

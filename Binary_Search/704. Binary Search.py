@@ -131,7 +131,8 @@ print(binary_search(arr, key))
 
 # another concise way of above method(merge two if into one if)
 # agar mil bhi jaye to 'low' ko aage badhate rhna h . isliye start wale condition me equal to lga do.
-# template 1 only
+# template 1 only. yhi template to use karna h ans milne ke bad bhi or bhi bda answer khojne ke liye.
+# vvi: This template used in Q like: "Aggressive cows", ""
 def binary_search(nums,target):
     start= 0
     end= len(nums)-1

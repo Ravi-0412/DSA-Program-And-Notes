@@ -1,5 +1,9 @@
 # logic: same logic as "Allocate minimum no of pages".
 # Only Diff is that here we have to maximise rather than minimising.
+# for maximising we use the pattern of dinding the "last index of an ele".
+# i.e use start <=end in while loop and at last we return 'end.
+
+# we need to divide into 'k+1' pieces. And we can only give consecutive chunks to one people.
 
 # Meaning of isPossible(minSweetness) function?
 # Ans: if myself take minSweetness as 'mid' then can we give total sweetness >= 'mid' as some of chunks to each of my friends and me also i.e in 'k+1' parts?
@@ -27,4 +31,3 @@ class Solution:
                 chunks+= 1
                 sum= 0
         return chunks >= M
-    

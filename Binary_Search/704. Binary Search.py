@@ -66,6 +66,28 @@ key= 10
 print(binary_search(arr, key))
 
 
+# another form of template 2.
+# note: use this when we have to work on <= condition and (mid and condition is acting in opposite fashion). like incr mid will decraese the condition statement value and vice versa.
+# used in Q "1283. Find the Smallest Divisor Given a Threshold".
+class Solution:
+    def smallestDivisor(self, nums: List[int], threshold: int) -> int:
+
+        def isSum(mid):
+            sum= 0
+            for n in nums:
+                sum+= math.ceil(n/mid)
+            return sum
+
+        start, end= 1, max(nums)
+        while start < end:
+            mid= start + (end - start)//2
+            if isSum(mid) <= threshold:  # max we need to search till here only. search for even more less
+                end= mid
+            else:  # if isSum(mid) > threshold  => then we need to increase our 'mid' since we have to decr the total sum. And incr the mid will lower the sum and vice versa.
+                start= mid + 1
+        return start
+
+
 # Note: every binary search problem can be solved using these two(1 and 2) template with exact one or with slight modification 
 # in while loop condidtion or in 'if' condition or both.
 # after each Q, find out which template we can use and what modification we have to make acc to the Q.
@@ -169,8 +191,10 @@ def binary_search(arr,key):
     return low
 
 
-# Note VVI: Array sorted ho ya unsorted ho, agar tm condition check karke agar decide kar pa rhe ho ki kon sa side move karna h
-# then apply Binary Search. 
+# Note VVI: Array sorted ho ya unsorted ho, agar tm dekh pa rhe ki ans is given range me lie karega and 
+# condition check karke agar decide kar pa rhe ho ki kon sa side move karna h.
+# then apply Binary Search, no matter array is sorted or not.
+
 # like agar ye condition agar follow kar rha then is side check karna h agar nhi kar rha to dusre side check karna h..
 # then must apply Binary Search.
 

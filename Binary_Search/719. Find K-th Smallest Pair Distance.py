@@ -11,7 +11,7 @@
 # time: O(n*log(A)). A= max(nums)- min(nums)
 class Solution:
     def smallestDistancePair(self, nums: List[int], k: int) -> int:
-        nums.sort()  # to calculate the no of  absolute difference in less than a given 'num' in  O(n) rather than o(n^2) in unsorted array.
+        nums.sort()  # to calculate the no of  pairs having absolute difference  less than a given 'num' in  O(n) rather than o(n^2) in unsorted array.
         n= len(nums)
 
         # uses the two pointer approach.

@@ -11,9 +11,35 @@ class Solution:
                 if len(heap)> k:
                     heapq.heappop(heap)
         return -1*heap[0]
+    
+# methopd 2: VVI (very good approach)
+# modifyong heap and using the sorted rows and columns benefit.
+# logic: Since each of the rows in matrix are already sorted, we can understand the problem as finding the kth smallest element from amongst M sorted rows.
+# We start the pointers to point to the beginning of each rows, then we iterate k times, 
+# for each time ith, the top of the minHeap is the ith smallest element in the matrix. 
+# We pop the top from the minHeap then add the next element which has the same row with that top to the minHeap.
+
+# Time: O(m* log(min(k, m)) + O(k*logk))
+# Space: O(K)
+class Solution(object):
+    def kthSmallest(self, matrix, k):
+        m, n= len(matrix), len(matrix[0])
+        minHeap= []
+        # insert first values of all rows i.e values of 1st col.
+        for r in range(min(k, m)):  # max this much we will have to visit to get the ans.
+            heapq.heappush(minHeap, (matrix[r][0], r, 0))   # every smaller ele will be connected to these ele only.
+        
+        # now start poping and add the next smaller ele w.r.t poped ele and that will be in the next col of same row.
+        while k > 1 :  # pop the first 'k-1' smallest ele 
+            num, r, c= heapq.heappop(minHeap)
+            k-= 1
+            if c + 1 < n:
+                heapq.heappush(minHeap, (matrix[r][c+1], r, c+1))  # next smaller ele will next to this poped ele or will be already in the heap.
+        return minHeap[0][0]
 
 
-# method 2: using binary search
+
+# method 3: using binary search (more optimised)
 # time: O(n*log(A)), A= difference between minimum value and maximum value in the matrix.
 # https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/discuss/1321862/Python-Binary-search-solution-explained
 # logic explanation: 

@@ -1,7 +1,8 @@
 # smallest ele will at the start only but can form from any combination.
-# for any ele we will pop there are two possibility and while incr the pointers we can get the duplicates also,
+# for any ele we will pop there are two possibility and while incr the pointers we can get the duplicates also.
+# like we can get same value as (i, j+1) from (i+1, j)  and vice versa also. so we will get wrong ans.
 #  so we are marking the ele already visited
-# time: O(m+n)*log(m+n)= O(n*logn)
+# time: O(k*log(m+n))
 
 import heapq
 class Solution:

@@ -5,18 +5,18 @@
 
 # checking a number prime or not
 
-# import math
-# def isprime(n):
-#     if n==2:
-#         return True
-#     root= int(math.sqrt(n))
-#     i= 2
-#     while(i<=root):  # check from 2 to root of that number  
-#     # or while(i*i<=n):   # if you don't want to find the square root of the num
-#         if n%i==0:
-#             return False
-#         i+= 1
-#     return True
+import math
+def isprime(n):
+    if n==2:
+        return True
+    root= int(math.sqrt(n))
+    i= 2
+    while(i<=root):  # check from 2 to root of that number  
+    # or while(i*i<=n):   # if you don't want to find the square root of the num
+        if n%i==0:
+            return False
+        i+= 1
+    return True
 
 
 # for to check in a range, if any number is not prime then

@@ -28,6 +28,10 @@ class Solution:
 # main part: the kth picked balloon we will burst at last so that it's left and right balloons can get this 'k' easily.
 # so when they will return the value, the next uburst left and right of 'kth' balloon will be 'i-1' and 'j+1' as all from 'i' to 'j' will get burst except 'k' in bottom up.
 # so cost of bursting kth balloon will be : nums[i-1]*nums[k]*nums[j+1].
+# vvi: After dividing the problem at 'k', nums[k] will get multiplied in both the parts i.e for left one  as 'j+1' and for right one 'i-1' .
+# Do this on pen and paper or read the explanation in the link(sheet). 
+# logically also it shoule be get multiplied to both onl;y since it is adjacent to both and we are bursting this at last only.
+
 # Due to this post i solved this problem: https://leetcode.com/problems/burst-balloons/solutions/892552/for-those-who-are-not-able-to-understand-any-solution-with-diagram/
 class Solution:
     def maxCoins(self, nums: List[int]) -> int:
@@ -94,3 +98,29 @@ class Solution:
                 dp[i][j]= mx
         return dp[1][n-2]
 
+
+
+# vvi: my mistake and analysation of mistake.
+# i was trying do bring into same format as MCM but it will give error.
+# reason: [1,5,8,1]  # after adding '1' at first and last. suppose we divide at k= 2 then in left part (1,1) and right (3,3).
+# and left part will return here '0' but in actual '5' should have multiplied with '8'. sinc '8' will burst afetr '5' only.
+# That's why got error.
+
+# when we have include the ele like this which are not in the curr index then start from last valid index (for j) and in base case i>j.
+class Solution:
+    def maxCoins(self, nums: List[int]) -> int:
+        nums.insert(0,1)  # to get the left of  first balloons
+        nums.append(1)    # to get the right of last  balloons
+        n= len(nums)
+        i, j= 1, n-1  # j is passed as last valid so if i==j then still we have to call the rec fn. now both the end is valid
+        return self.helper(nums, i, j)
+    
+    def helper(self, nums, i , j):
+        if i>=j:  # since 'j' was last valid instead of first invalid so base case will change like this(go one step further)
+            return 0
+        mx= -9999999999
+        for k in range(i, j):  # 'j' in inclusive now(last valid)
+            tempAns= self.helper(nums, i, k-1) + self.helper(nums, k+1, j) + nums[i-1]*nums[k]*nums[j]
+            # print(tempAns, k, i, j)
+            mx= max(mx, tempAns)
+        return mx

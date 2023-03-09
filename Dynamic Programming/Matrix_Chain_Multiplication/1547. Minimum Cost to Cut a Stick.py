@@ -1,10 +1,11 @@
 # 1st method: Recursive
-# logic in notes: 122,123
+# logic in notes: 123,124
 class Solution:
     def minCost(self, n: int, cuts: List[int]) -> int:
+        # we can cur at any of th egiven position in cuts so there must be something on leftmost and rightmost side to calculate the length that's why appedning these number.
         cuts.insert(0,0)
         cuts.append(n)
-        cuts.sort()  # agla kon sa length pe cut karna h usko pta karne ke liye sort karna hoga
+        cuts.sort()  # agla kon sa length pe cut karna h har part me, usko pta karne ke liye sort karna hoga
         l= len(cuts)
         return self.helper(cuts, 1, l-1)
     

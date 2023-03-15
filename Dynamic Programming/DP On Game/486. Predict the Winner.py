@@ -9,6 +9,26 @@
 
 # https://leetcode.com/problems/predict-the-winner/solutions/155217/from-brute-force-to-top-down-dp/
 
+# How to approach?
+# Ans: just find the max number of score player1 can make when both player plays optimally.
+# At last compare this score with score of player2. score of player2= sum(nums)- player1_score.
+
+# logic to find the max score of player1:
+
+# currently 1st with choosable i, j,
+#         1.if 1st picks nums[i], 2nd can pick either ends of nums[i + 1, j]
+#             a.if 2nd picks nums[i + 1], 1st can pick either ends of nums[i + 2, j]
+#             b.if 2nd picks nums[j], 1st can pick either ends of nums[i + 1, j - 1]
+#             since 2nd plays to maximize his score, 1st can get nums[i] + min(1.a, 1.b)
+						
+#         2.if 1st picks nums[j], 2nd can pick either ends of nums[i, j - 1]
+#             a.if 2nd picks nums[i], 1st can pick either ends of nums[i + 1, j - 1];
+#             b.if 2nd picks nums[j - 1], 1st can pick either ends of nums[i, j - 2];
+#             since 2nd plays to maximize his score, 1st can get nums[j] + min(2.a, 2.b)
+        
+#         since the 1st plays to maximize his score, 1st can get max(nums[i] + min(1.a, 1.b), nums[j] + min(2.a, 2.b))
+
+
 class Solution:
     def PredictTheWinner(self, nums: List[int]) -> bool:
         n= len(nums)
@@ -25,6 +45,7 @@ class Solution:
 
 
 # memoisation:
+# time: O(n^2)= space
 class Solution:
     def PredictTheWinner(self, nums: List[int]) -> bool:
         n= len(nums)

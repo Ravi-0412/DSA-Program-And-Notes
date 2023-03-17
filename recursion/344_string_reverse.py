@@ -18,8 +18,8 @@ class Solution:
 
 
 
-arr= ["h","e","l","l","o"]
-l1= Solution()
+# arr= ["h","e","l","l","o"]
+# l1= Solution()
 # print(l1.reverseString(arr))
 
 
@@ -32,7 +32,7 @@ def reverse(arr,start,end):
     arr[start], arr[end]= arr[end], arr[start]
     return reverse(arr,start+1,end-1)
 
-arr= ["h","e","l","l","o"]
+# arr= ["h","e","l","l","o"]
 # print(reverse(arr,0,len(arr)-1))
 
 

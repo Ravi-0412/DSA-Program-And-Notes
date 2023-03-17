@@ -22,6 +22,8 @@ class Solution:
 
 
 # Tabulation
+# Note vvi if m==n then : when you will make all sub-problems (n*n) as matrix and put the value then you will find find the ans matrix is a transpose matrix.
+
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
         dp= [[0 for j in range(n+1)] for i in range(m+1)]

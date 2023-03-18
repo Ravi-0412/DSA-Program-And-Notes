@@ -3,15 +3,15 @@
 
 class Solution:
     def matrixMultiplication(self, N, arr):
-        i,j= 1, N-1  # we can only subdivide before 'n-1' so took j= 'n-1'
-        return self.MCM(arr,i,j)
+        i,j= 1, N-1  # we can only subdivide before 'n-1' so took j= 'n-1'. can put braces from first matrix to 'one before last matrix)
+        return self.MCM(arr,i,j)  # calculating the minimum multiplication from 'i'th matrix to 'j'th matrix.
     def MCM(self,arr,start,end):
-        if start>= end:
+        if start>= end:  # only one matrix remaining. "==" will also work.
             return 0
         mn= 99999999999
         for k in range(start,end):
-            tempAns= self.MCM(arr,start,k) + self.MCM(arr,k+1,end) + arr[start-1]*arr[k]*arr[end]
-            mn= min(mn,tempAns)
+            tempAns= self.MCM(arr,start,k) + self.MCM(arr,k+1,end) + arr[start-1]*arr[k]*arr[end]   # will store all possible ans
+            mn= min(mn,tempAns)   # take minimum of all ans.
         return mn
 
 # method 2: memoization
@@ -43,7 +43,7 @@ class Solution:
     def matrixMultiplication(self, N, arr):
         dp= [[0 for j in range(N)] for i in range(N)]   # automatically get initialised with base for 'dp[i][i]= 0' 
                                                         # when both 'i' and 'j' will be equal
-        for start in range(N-2,0,-1):  # from last valid one to first valid one
+        for start in range(N-2,0,-1):  # from last valid one to first valid one. n-2 to '1'.
             for end in range(start+1,N):  # 'end' must be always right of 'start' so started with 'start+1'. as for valid one 'end' must be greater than 'start' and first invlaid one= 'n-1'.
                 # now just copy paste the recurrence
                 mn= 99999999999 

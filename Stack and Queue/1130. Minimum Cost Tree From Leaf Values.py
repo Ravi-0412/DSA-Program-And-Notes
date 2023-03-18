@@ -44,15 +44,18 @@ class Solution:
 # means greedy way it's not working anyway.
 # what we have to do?
 # Ans: we have to maximise the value of particular non-leaf nodes but we have to minimise the overall sum of values of non-leaf nodes.
-# so we have to chekc evry possibilty like any node can go to left and right side respectively.
+# so we have to check every possibilty like any node can go to left and right side respectively.
 # means we can divide from every node.
 
 # so we have to try every possibilty.
 # MCM type pattern.
+
+# tree will from from top to bottom.
 class Solution:
     def mctFromLeafValues(self, arr: List[int]) -> int:
         n= len(arr)
         maxInRange= collections.defaultdict(int)
+        # finding the max value in range (i, j). Time: O(n^2).
         for i in range(n):
             maxInRange[(i, i)]= arr[i]
             for j in range(i+1, n):
@@ -63,10 +66,9 @@ class Solution:
                 return 0
             ans= float('inf')
             for k in range(i, j):  # there must be at least one node left on right side so going till ;j-1' only.
-                tempAns= maxInRange[(i,k)]*maxInRange[(k+1, j)] + minCost(i, k) + minCost(k+1, j)
-                ans= min(ans, tempAns)
-            return ans
-
+                tempAns= maxInRange[(i,k)]*maxInRange[(k+1, j)] + minCost(i, k) + minCost(k+1, j)   # maximising the value of particular node i.e it is finding all the possible way sum.
+                ans= min(ans, tempAns)   # minimising overall sum i.e taking the minimum of all possible way.
+            return ans 
 
         return minCost(0, n-1)
 
@@ -106,4 +108,21 @@ class Solution:
             i= arr.index(min(arr))  # our minium ele in array is at this index only.
             ans+= arr[i] * min(arr[i-1: i] + arr[i+1: i+2])
             arr.pop(i)  # keep removing the minimum ele
+        return ans
+
+
+# best one : using stack
+class Solution:
+    def mctFromLeafValues(self, arr: List[int]) -> int:
+        ans= 0
+        stack= [float('inf')]  # to handle the base case
+        for num in arr:
+            # when you get any smaller ele then keep on poping since we have to minimse the ans
+            while stack[-1] <= num: 
+                mid= stack.pop()    # this will be the middle ele and we have to take min of its left and right
+                ans+= mid * min(stack[-1], num)    # stack[-1] will be on left side of mid and num will be on right side of mid and we have to take minimum of both.
+            stack.append(num)   # every ele we have to append in stack
+        # Now pop ele from stack till only 2 ele is left (one 'inf' one and one the greatest ele of the array)
+        while len(stack) > 2:
+            ans+= stack.pop() * stack[-1]   # minimum will be on top.
         return ans

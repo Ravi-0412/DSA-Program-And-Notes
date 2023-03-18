@@ -5,6 +5,8 @@
 # method 1: using stack
 # hm har ek ABC ka score stack me rakh rahe and last me sum of stack value return kar rhe.  A,B,C : nested paranthesis.
 
+# jaise hi hmko ')' dikh rha h, usi samay hm uske liye value find karke add me dal de rhe. isse sbse internal ka stack me ja rha then external ke liye hm sbko add kar denge to ans aa jayega.
+
 # vvi: in case of nested paranthesis we have to keep track of score of internal paranthesis.
 # so we will put number instead of  braces.
 # when we will see '(', push '0' into the stack when you see ')' add all value till you see '0' (indirectly we are searching for next '(' on left for which we will evaluate now).
@@ -39,6 +41,9 @@ class Solution:
 # But here we are calculating the score at once acc to the depth so doing power of '2'. 
 # https://leetcode.com/problems/score-of-parentheses/solutions/1856699/c-beats-100-omg-o-1-space-explained/
 
+# Diff from above method :
+# Ans: upper wale me har ke ')' milne pe score find kar rhe, yahan ek hi bar kar rhe pure depth ka.
+
 # time: O(n), space: O(1).
 
 class Solution:
@@ -50,7 +55,7 @@ class Solution:
                 depth+= 1
             else:
                 depth-= 1   
-                if pre== '(':   # if pre= ')'' then we have alrady calculated the ans for this since in this we are calculating at once.
+                if pre== '(':   # means we have not calculated for this depth. if pre= ')'' then we have alrady calculated the ans for this since in this we are calculating at once.
                     ans+= 2**depth
             pre= c
         return ans

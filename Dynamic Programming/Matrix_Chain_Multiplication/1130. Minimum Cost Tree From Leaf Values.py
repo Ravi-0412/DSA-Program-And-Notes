@@ -99,6 +99,18 @@ class Solution:
 # other optimised way
 # method 2: 
 # time: O(n^2), space: O(n)
+# vvi: Here tree is being build from bottom to up(root).
+
+# note: we will try to put the larger value leaf node closer to root so that that value is not counted in upper level.
+
+# logic: when we build each level of the binary tree, it is the max left leaf node and max right lead node that are being used,
+#  so we would like to put big leaf nodes close to the root. Otherwise, taking the leaf node with max value in the array as an example,
+#  if its level is deep, for each level above it, its value will be used to calculate the non-leaf node value, which will result in a big total sum.
+
+#  the greedy approach is to find the smallest value in the array, use it and its smaller neighbor to build a non-leaf node,
+#  then we can safely delete it from the array since it has a smaller value than its neightbor so it will never be used again.
+#  Repeat this process until there is only one node left in the array (which means we cannot build a new level any more). 
+
 class Solution:
     def mctFromLeafValues(self, arr: List[int]) -> int:
         ans= 0
@@ -106,4 +118,33 @@ class Solution:
             i= arr.index(min(arr))  # our minium ele in array is at this index only.
             ans+= arr[i] * min(arr[i-1: i] + arr[i+1: i+2])
             arr.pop(i)  # keep removing the minimum ele
+        return ans
+
+
+# best one : using stack
+# just the optimisation of above logic.
+# logic: Just find the next greater element in the array, on the left and one right.
+# vvi: https://leetcode.com/problems/minimum-cost-tree-from-leaf-values/solutions/478708/rz-summary-of-all-the-solutions-i-have-learned-from-discuss-in-python/
+
+# why stack ?
+# In the above approach, every time we delete the current minimum value, we need to start over and find the next smallest value again,
+#  so repeated operations are more or less involved. To further accelerate it, one observation is that for each leaf node in the array,
+#  when it becomes the minimum value in the remaining array,
+#  its left and right neighbors will be the first bigger value in the original array to its left and right. This observation is a clue of a possible monotonic stack solution
+
+# time= space= O(n^2).
+class Solution:
+    def mctFromLeafValues(self, arr: List[int]) -> int:
+        ans= 0
+        stack= [float('inf')]  # to handle the base case. stack will store ele in decreasing order.
+        for num in arr:
+            # when you get any smaller ele in stack then keep on poping since we have to minimse the ans
+            while stack[-1] <= num:  # means top of stack is minimum till you so pop it and search for next greater tahn this ele i.e 'min of its neighbour'.
+                mid= stack.pop()    # this will be the minimum ele and we have to take min of its left and right
+                ans+= mid * min(stack[-1], num)    # stack[-1] will be on left side and num will be on right side  and we have to take minimum of both.
+            stack.append(num)   # every ele we have to append in stack since it can be the next greater after poping any ele later.
+
+        # Now pop ele from stack till only 2 ele is left (one 'inf' one and one the greatest ele of the array)
+        while len(stack) > 2:  # minimum ele will on top of stack since stack is storing ele in decreasing order.
+            ans+= stack.pop() * stack[-1]   # minimum will be on top.
         return ans

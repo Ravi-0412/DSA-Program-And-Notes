@@ -31,14 +31,18 @@ class Solution:
 
 # method 4: 
 # time: O(n)
-# Q. How to come up with this and logic?
+# Q. How to come up with this logic?
 # Ans: Just given the preorder, draw the BST on paper and analyse how you are putting the nodes and which Data Structure we can use to get BST directly from preorder.
 
 # Q. why we are directly adding when num is samller and poping before adding when num is greater?
-# Ans: if smaller means that must be the left child since if it is smaller than that be the left child only and also that will be directly connected to the top of stack.
-# Because we are doing acc to the preorder.
+# Ans: if smaller means that must be the left child of the just previous ele in stack , 
+# Because we are doing acc to the preorder and in preorder we will move to left after root and it is BST so smaller ele will be on left.(root, left right,)
 # vvi: until we find any ele greater than top of stack, all those num will be go as left child only(like skew tree).
-# And we will find any ele greater then we will search for the node to which 'num' will be the right child.
+# And we will find any ele greater then we will search for the node to which 'num' will be the right child.  (now direction of tree will change).
+# i.e we will find the last smaller ele from the current num. 'num' will be the right child of that ele.
+
+# That's why we are using stack.
+
 class Solution:
     def bstFromPreorder(self, preorder: List[int]) -> Optional[TreeNode]:
         root=  TreeNode(preorder[0])  # first ele will be the root only.
@@ -47,7 +51,8 @@ class Solution:
             node= TreeNode(num)
             if num < stack[-1].val:  # means num will be the left child
                 stack[-1].left= node
-            else: # num will be the right child. But 'num' must be right to the just smaller ele than himself. so pop until you find any greater ele than 'num'.
+            else: # Finding the last smaller ele than 'num' in stack for which 'num' can be the right child.
+                #  so pop until you find any greater ele than 'num'.
                 while stack and num > stack[-1].val:
                     last= stack.pop()
                 # last will be the just smaller than 'num' and num will be the right of 'last' only.

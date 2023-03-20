@@ -6,6 +6,11 @@
 # ans= program for finding nth catalan number only.
 # https://leetcode.com/problems/unique-binary-search-trees/solutions/31666/dp-solution-in-6-lines-with-explanation-f-i-n-g-i-1-g-n-i/
 
+# After fixing the root, we have to add all the possible combination of left and right part.
+# How all possible combination?
+# Ans: Beacause if 1st node from left is direct child of root then any of the number from right part can be the right child of root.
+# Same for all numbers in left part.
+
 class Solution:
     def numTrees(self, n: int) -> int:
         if n<= 1:

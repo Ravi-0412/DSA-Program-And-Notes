@@ -2,20 +2,13 @@
 def insertion_sort(arr):
     n= len(arr)
     for i in range(1,n):
-        temp= arr[i]
+        temp= arr[i]   # when we will shift the ele then ele at 'i' will change. so we have to store in temp variable.
         j= i-1
-        while(arr[j]>temp and j>=0):
-                arr[j+1]= arr[j]
+        while j>=0 and arr[j]>temp :  # until you find ele <= temp.
+                arr[j+1]= arr[j]    # move one 'j' one position ahead to create the space for 'temp'.
                 j-= 1
-        arr[j+1]= temp
+        arr[j+1]= temp    # 'j' will be pointing to index '<=' temp so we will put 'temp' at 'j+1'.
 
-
-# lst= []
-# n= int(input("enter the number of elements \n")) 
-# print("enter the elements")   
-# for i in range(n):
-#     ele= int(input())
-#     lst.append(ele)
 
 arr = [12, 11, 13, 5, 6]
 insertion_sort(arr)

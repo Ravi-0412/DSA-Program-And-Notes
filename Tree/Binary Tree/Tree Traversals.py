@@ -91,11 +91,11 @@ def InorderIterative(self,root):
         while root:  # keep going left 
             stack.append(root)
             root= root.left
-        # if None, it means no left child then print the stack top and append the 'poped.right'
-        # it means we have reached the leftmost node 
+        # if None, it means no left child then print the stack top (just pop).
+        # it means we have reached the leftmost node.
         curr= stack.pop()
         ans.append(curr.val)
-        root= curr.right
+        root= curr.right  # move the pointer to check the right child.
     return ans
 
 

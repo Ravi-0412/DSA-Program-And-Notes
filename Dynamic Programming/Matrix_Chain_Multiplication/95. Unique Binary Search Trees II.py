@@ -16,3 +16,5 @@ class Solution:
                     rootNode= TreeNode(root, leftNode, rightNode)   # form the tree formed with root = root and all possible combination of leftNode and rightNode as left and right child.
                     ans.append(rootNode)   # add the formed tree to ans
         return ans
+
+

@@ -44,6 +44,8 @@ class Solution:
 # logic: tmko bs last point pe pahunch jana h steps leke.
 # bs step lene se phle dhyan me rakhna h ki at least us index tak pahunche h ki nhi jahan se hm next step lenge.
 # agar us index pe pahunch chuke h then reached= i + nums[i] ho jayega agar pre reached se bda hua to nhi to pre reached hi rah jayega.
+
+# time: O(n)
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
         n, target= len(nums), len(nums) -1
@@ -51,21 +53,20 @@ class Solution:
         for i in range(len(nums)):
             if reached < i:  # frog must be at least at 'i' th position to utilise the step of next index 'i'th index
                 return False
-            reached= max(i + nums[i], reached)
-            # if reached <= i:   # writing here with "=" is giving wrong ans for case: [0]
-            #     return False   # after adding 'i'th index value frog should must be at least at 'i+1' th position to utilise the step of next index 'i+1'.
-        return True
-
-
-# to stop even before like when we have reached the target already.
-class Solution:
-    def canJump(self, nums: List[int]) -> bool:
-        n, target= len(nums), len(nums) -1
-        reached= 0
-        for i in range(len(nums)):
-            if reached < i:  # frog must be at least at 'i' th position to utilise the step of next index 'i'th index
-                return False
-            reached= max(i + nums[i], reached)
+            reached= max(i + nums[i], reached)   # max we have reached till now
             if reached >= target:  # we have reached the target
                 return True
-        # return True      # no need of this.
+
+
+# my mistake: 
+# but will not work for [0]. have to modify
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        n, target= len(nums), len(nums) -1
+        maxReached= 0
+        for i in range(len(nums)):
+            maxReached= max(maxReached, i + nums[i])
+            if maxReached < i +1:  # frog must reach to atleast next index to utilise the steps of next index.
+                return False
+            if maxReached >= target:  # we have reached the target
+                return True

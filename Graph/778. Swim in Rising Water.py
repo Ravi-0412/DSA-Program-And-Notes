@@ -4,19 +4,23 @@
 
 # Q meaning: you can only cross the adjacent cell if water level(elevation) which is time only  is less than or equal to the current cell elevation(time)
 # we can take the minimum one always but for higher ele , we will have to wait for that much time 
-# finally: you have to find the minimum(max time from all possibel path)
 
-# since asking for least in a weightage path   then Dijkastra should come into mind for a while and for undirected bfs should come into mind
-# and this instead of putting the elevation in minHeap with coordinates, we will put the max(elevation till now)
-#  i.e max(pre poped and current_cell elevation)
+# finally: you have to find the minimum(max time from all possible path).
+
+# since asking for least in a weightage path   then Dijkastra should come into mind for a while and for undirected bfs should come into mind.
+
+# vvi : Min time in which you can reach any cell (r,c)= grid[r][c] if it's any of the adjacent cell is reachable in this much time.
+# So we are taking max of min time in which any of it's neigh reached and grid value. If any neigh has reched in less time than grid[r][c] then still we can't cross that cell.
 
 # this q is simply asking to return minimum of all the paths possible i.e (min(max of all possible paths))
 
-# time: n^2*logn (Dijkastra Algo)
-# minHeap contains at most n^2 elements, pop time complexity each time is is O(logn^2) = O(2*logn), At most we will pop n^2 times
+# Note vvi : Here we are marking visited when we are seeing first time only since when node is getting for 1st time then this will be minium time in which that will get visited.
+# so no need to wait for any other path to minimise it's time.
 
-# # no need to run a nested loop since already connected 
-# so better start with (0,0) and you will get your ans when it will reach the bottom right end
+# time: n^2*log(n^2) (Dijkastra Algo)
+# minHeap contains at most n^2 elements, pop time complexity each time is is O(logn^2), At most we will pop n^2 times
+
+# Note: At time of pushing we are maximising the value and with the help of heap we are minimising, so automatically we will minimum(max time from all possible path).
 class Solution:
     def swimInWater(self, grid: List[List[int]]) -> int:
         row, col= len(grid), len(grid[0])
@@ -34,6 +38,32 @@ class Solution:
                 r, c= r1 +r2, c1+ c2
                 if 0<=r<row and 0<=c<col and (r,c) not in visited:
                     visited.add((r,c))  # mark visite here only as there can't be any more optimal path possible for (r,c) because we have to include the curr cell value also.
-                    max_till_now= max(time, grid[r][c])   # put the max val as we can only reach (r,c) with this time only, not in time less than this
-                    heapq.heappush(minHeap,(max_till_now,(r,c)))
+                    min_till_needed= max(time, grid[r][c])   # put the max val as we can only reach (r,c) with this time only, not in time less than this. 
+                    heapq.heappush(minHeap,(min_till_needed,(r,c)))
+
+ 
+        
+# since for every cell, we will get the ans when we will see the node for 1st time itself 
+# then we can mark visited at that time itself and check for ans at 1st time when we will see any cell.
+class Solution:
+    def swimInWater(self, grid: List[List[int]]) -> int:
+        row, col= len(grid), len(grid[0])
+        if row== 1:
+            return 0
+        minHeap= [(grid[0][0],(0,0))]      
+        visited= set()
+        visited.add((0,0))
+        while minHeap:
+            time, (r1,c1)= heapq.heappop(minHeap)
+            directions= [[-1,0],[1,0],[0,-1],[0,1]] 
+            for r2,c2 in directions:
+                r, c= r1 +r2, c1+ c2
+                if 0<=r<row and 0<=c<col and (r,c) not in visited:
+                    min_till_needed= max(time, grid[r][c])   # put the max val as we can only reach (r,c) with this time only, not in time less than this.
+                    if r== row-1 and c== col-1:
+                        return  min_till_needed
+                    visited.add((r,c))  # mark visite here only as there can't be any more optimal path possible for (r,c) because we have to include the curr cell value also.
+                    heapq.heappush(minHeap,(min_till_needed,(r,c)))
+
+
 

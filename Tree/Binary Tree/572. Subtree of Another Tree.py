@@ -19,6 +19,10 @@ class Solution:
         return (root1.val==root2.val) and self.isIdentical(root1.left, root2.left) and self.isIdentical(root1.right, root2.right)
                 # this will check all nodes are value wise same
 
+# method 2: 
+# can also do like "Find Duplicate Subtree" using serialisation.
+# Time: O(n^2)
+
 # metho2: very better but checking for subtring will take the same time complexity
 # have to ask someone
 # https://www.geeksforgeeks.org/check-binary-tree-subtree-another-binary-tree-set-2/

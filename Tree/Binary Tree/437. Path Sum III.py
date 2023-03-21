@@ -1,3 +1,6 @@
+# just similar logic as 'Two sum'.
+
+# Brute force: just like we do in Two sum.
 # from every node , count the ans possible.
 # we can use any traversal to call the function to find the ans from each node.
 # time: O(n^2)
@@ -37,8 +40,10 @@ class Solution:
             if not root:
                 return 
             curSum= preSum + root.val
-            # just like two sum
-            if (curSum- targetSum) in preSum_freq:
+            # (curSum- targetSum) : extra sum , just like remaining sum of 'Two Sum'.
+            # agar hm us extra sum '(curSum- targetSum)' tak  ke nodes(may be more than one) ko hta de to hmko 'target' mil jaygea. (After that node to current node).
+            # Hm curSum ho hashmap me dal rhe isliye 'extra sum' jisko remove karne pe continous sum= target ho jaye , check karna hoga.
+            if (curSum- targetSum) in preSum_freq:   
                 self.count+= preSum_freq[(curSum- targetSum)]
             if curSum in preSum_freq:
                 preSum_freq[curSum]+= 1
@@ -48,10 +53,10 @@ class Solution:
             # now call the function for left and right part
             dfs(root.left, curSum)   # now curSum will become preSum
             dfs(root.right, curSum)
-            preSum_freq[curSum]-= 1    # now current branch is not going to matter anymore.
+            preSum_freq[curSum]-= 1    # now current branch is not going to matter anymore. 
 
         self.count= 0
-        preSum_freq= {0: 1}   # By default we can get sum== 0 by one way
+        preSum_freq= {0: 1}   # By default we can get sum== 0 by one way. Taking fre because there can be more than one path possible.
         dfs(root, 0)   # 0: preSum
         return self.count
 

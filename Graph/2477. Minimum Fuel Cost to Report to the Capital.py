@@ -1,5 +1,5 @@
 # Q reduced to: Find the distance from source '0' to all other nodes having seat restriction.
-# if seats= 1 then simply find the shortest distnce of all nodes from source '0'.
+# if seats= 1 then simply find the shortest distance of all nodes from source '0'.
 
 # logic: We need to track the number of people that reach each node and divide that by the number of seats per car, 
 # this will tell us the number of cars required to take us to the node that is closer to node '0'.
@@ -14,6 +14,7 @@
 
 # Note: we start calculating from leaf and send the no of people to the parent & so on.
 # time: O(n).
+
 class Solution:
     def minimumFuelCost(self, roads: List[List[int]], seats: int) -> int:
         adj= defaultdict(list)
@@ -25,12 +26,26 @@ class Solution:
             people= 0
             for nei in adj[node]:
                 if nei != parent:
-                    p= dfs(nei, node)
-                    people+= p
-                    self.fuel+= int(ceil(p / seats))
+                    p= dfs(nei, node)  # here 'p' people at this 'nei' node.
+                    self.fuel+= int(ceil(p / seats))  # we will require this much car= fuel, to reach to the node.
+                    people+= p  # 
             
-            return people + 1   # '1' to include the curr node also.
-        
+            return people + 1   # will send this much people to the parent, '1' to include the curr node also.
+
         self.fuel= 0
         dfs(0, -1)    # node, parent. to avoid getting into cycle while traversing.
         return self.fuel
+
+    
+
+
+
+
+
+
+
+
+
+
+
+

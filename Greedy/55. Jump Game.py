@@ -8,9 +8,9 @@ class Solution:
         return self.helper(0, n-1, nums, dp)
     
     def helper(self, ind, target, nums, dp):
-        if nums[ind]>= target- ind:   # if diff of nums[ind] and target is <=0. means we can reach our target.
+        if ind + nums[ind]>= target:  # if we are able to reach the target using the steps at that index.
             return True
-        if nums[ind]== 0 and target > 0:
+        if nums[ind]== 0 and target > 0:  # we can't move any step
             return False
         if dp[ind]!= -1:
             return dp[ind]

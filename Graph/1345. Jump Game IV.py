@@ -12,7 +12,8 @@ class Solution:
             eleIndexes[num].append(i)
         visited, visited_groups= set(), set()   
         # visited: just we use in normal bfs. 
-        # visited_groups: to avoid chekcing the same list of indices again and again (not more than one.). Read explanation in the link for more clarity.
+        # visited_groups: to avoid chekcing the same list of indices again and again (not more than one.).
+        #  Read explanation in the link for more clarity.
         q= collections.deque([0])
         visited.add(0)
         steps= 0

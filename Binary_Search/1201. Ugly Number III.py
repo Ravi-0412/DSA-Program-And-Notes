@@ -45,29 +45,25 @@ class Solution:
         return start
 
 # to avoid calculating lcm again and again for same thing, we can store those lcm value into variabales.
+# to make code concise, used 'math.lcm(a,b)' to find lcm.
+# Also updated the range to which start and end can vary logically.
 # best one:
 # time: # time: O(log(max(n))  
+
+import math
 class Solution:
     def nthUglyNumber(self, n: int, a: int, b: int, c: int) -> int:
-
-        def gcd(num1, num2):
-            if num1== 0:
-                return num2
-            return gcd(num2 % num1, num1)
-        
-        def lcm(num1, num2):
-            return (num1 * num2)// gcd(num1, num2)
 
         def count(num):
             return num//a + num//b + num//c - num//ab - num//bc - num//ca + num//abc
 
-        start= 1
-        end= 2*(10**9)   # maximum we may have to check till here. Max possible num *2.
+        start= min(a,b,c)   # min from here our ans will start
+        end= min(a,b,c) *n  # max till here we need to check
         # storing the lcm values into variables
-        ab= lcm(a, b)
-        bc= lcm(b, c)
-        ca= lcm(c, a)
-        abc= lcm(a, lcm(b, c))
+        ab= math.lcm(a, b)
+        bc= math.lcm(b, c)
+        ca= math.lcm(c, a)
+        abc= math.lcm(a, math.lcm(b, c))
         while start < end:
             mid= start + (end- start)//2
             if count(mid) >= n:
@@ -75,7 +71,7 @@ class Solution:
             else:
                 start= mid + 1
         return start
-
+        
 
 
 # if given 'a', b, c are prime numbers then we can do directly like this.
@@ -86,8 +82,8 @@ class Solution:
         def count(num):
             return num//a + num//b + num//c - num//(a*b) - num//(b*c)- num//(c*a) + num//(a*b*c)
 
-        start= 1
-        end= 2*(10**9)   # maximum we may have to check till here.
+        start= min(a,b,c)   # min from here our ans will start
+        end= min(a,b,c) *n  # max till here we need to check
         while start < end:
             mid= start + (end- start)//2
             if count(mid) >= n:

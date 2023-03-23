@@ -43,7 +43,7 @@ class Solution:
 class Solution:
     def is_ugly(self, num: int) -> bool:
         if num > 0:
-            for n in range(2, 6):    # only four is extra but 4 means 2^2 so will affect our ans.
+            for n in range(2, 6):    # only four is extra but 4 means 2^2 so will not affect our ans.
                 while num % n== 0:
                     num/= n
         return num== 1

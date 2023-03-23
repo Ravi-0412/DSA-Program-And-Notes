@@ -6,7 +6,7 @@ class Solution:
     def kthSmallestPrimeFraction(self, arr: List[int], k: int) -> List[int]:
         n= len(arr)
         minHeap = []
-        # first add all pair of index from whcih we are dividing by 'n-1' index.
+        # first add all pair of index from which we can get all minimum fraction possible by poping those numbers.
         # smallest fraction we will get arr[i]/arr[n-1] since array is sorted. 
         # numerator index should from the start of the arr and denominator index should be from the last of the array for minimum fraction.
         for i in range(n-1):   
@@ -14,8 +14,8 @@ class Solution:
         # now pop first 'k' elements. 
         for _ in range(k):
             _, i, j= heapq.heappop(minHeap)
-            if j-1 >= 0:  # next smaller may be arr[i]/ arr[j-1] or will be already in the heap
-                heapq.heappush(minHeap, (arr[i]/ arr[j-1], i, j-1))
+            if j-1 >= 0:  # next smaller may be arr[i]/ arr[j-1] or will be already in the heap. [1,2,3,5]  2nd min= (2,5) not (1,3) that's why we all arr[i]/arr[n-1] at first.
+                heapq.heappush(minHeap, (arr[i]/ arr[j-1], i, j-1))  # not pushed (i+1, j) since this we have already put in heap at first only.
         return [arr[i], arr[j]]   # last poped index will be our ans.
 
 
@@ -36,21 +36,22 @@ class Solution:
 
         def countLess(mid):
             cnt= 0
-            j= 0  # will work as denominator
-            p, q= 0, 1   # will store the largest fraction pair smaller than mid
-            for i in range(n):
+            j= 1  # will work as denominator
+            p, q= 0, 1   # will store the largest fraction pair <= mid
+            for i in range(n-1):  # 'i' only need to go till 'n-2' 
                 # move 'j' till you start getting fraction value<= mid.
                 # after finding such 'j' then all number from 'n-j' will have fraction <= mid for curr 'i'.
                 while j < n and arr[i]/arr[j] > mid:  # move 'j' till you start getting fraction value<= mid 
                     j+= 1
                 # update p, q
-                if j < n and p/q < arr[i]/ arr[j]:
-                    p, q= arr[i], arr[j]
+                if j < n and p/q < arr[i]/ arr[j]:   # since we have to find the largest fraction <= mid so we are updating the value first time while loop break for any 'i'. 
+                    p, q= arr[i], arr[j]                                                           # after this 'j' all will be smaller tahn current 'i'.
                 cnt+= n- j   # all ele after 'j' will have fraction less than mid.
             return cnt, p, q
 
+        # start, end= arr[0]/arr[n-1], 1  # can do like this also since we are sure that min can be this much only. And for max it will nearly equal to 1 but eaxctly '1'.
         start, end= 0, 1
-        while start <= end:
+        while start <= end:  # end -start>=0
             mid= start + (end- start)/2
             cnt, p, q= countLess(mid)
             if cnt== k:

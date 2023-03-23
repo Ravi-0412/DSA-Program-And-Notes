@@ -43,4 +43,4 @@ class Solution:
 
 # Note: Only in bove two cases we can make a decision where to move
 # and in case if we start from other corner we won't be able to make
-# decision where to move, there will be more than one possibility in other cases
+# decision where to move, there will be more than one possibility in other cases.

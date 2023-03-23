@@ -8,6 +8,9 @@
 #  we can use a pointer to keep track of where the 2, 3 and 5 are going to multiply in the next step.
 # 4) Once, we find the next minimum, we can move on the corresponding pointer, otherwise it always stays at the already existed ugly number which would makes pointer useless.
 
+# Note: we will get the next ugly number using the already ugly number in the list.
+# But it should be next smallest so will check every possiblity by multiplying by (2,3 or 5) using the next pointer value of (2,3 or 5).
+
 # for more clarity: Read solution link in sheet and read the comments by "Iemeore" and "Wuxb09" under that solution.
 
 # time: O(n)
@@ -24,3 +27,6 @@ class Solution:
             if ugly[-1]== ugly[p3] * 3: p3+= 1
             if ugly[-1]== ugly[p5] * 5: p5+= 1
         return ugly[n-1]  # ugly[-1]
+
+
+

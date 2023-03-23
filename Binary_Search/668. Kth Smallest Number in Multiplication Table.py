@@ -1,4 +1,4 @@
-# this will form a matrix in whcih every row and column will be sorted in ascending order.
+# this will form a matrix virtually in which every row and column will be sorted in ascending order.
 # so we can apply the same binary search logic of Q : "378. Kth Smallest Element in a Sorted Matrix".
 
 # Difference in both: 
@@ -6,7 +6,7 @@
 # Here did the coordinate shidt of rwo and col by '1' to directly compare with (row*col). 
 # (If we will start from index '0' then we will compare with (row +1)*(col +1) and cnt+= col +1)
 
-# Here we caan say that we are maintaing the virtual matrix.
+# Here we can say that we are maintaing the virtual matrix.
 
 # time: O(n *log(m*n))
 
@@ -20,7 +20,7 @@ class Solution:
             for row in range(1, m +1):
                 while col>= 1 and (row)* (col)> mid:  # just doing opposite 
                     col-= 1
-                cnt+= col   # after each col this will be the no of ele smaller than 'm'
+                cnt+= col   # after each col this will be the no of ele <= 'm'
             return cnt
         
         left, right= 1, m*n  # min will '1' and max will be (m*n) i.e last ele.

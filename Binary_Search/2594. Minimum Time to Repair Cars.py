@@ -1,4 +1,5 @@
-# just same logic as " Allocate minimum no of pages".
+# understand properly the range mistake and that didn't work.
+
 
 # logic: Given a time, chekc whether all cars can be get repaired or not.
 # if possible then decrease the time else increase the time.
@@ -8,20 +9,20 @@
 
 # we use high 10^14 because max(rank) = 100 and max(cars) = 10^6 so, r * n * n = 100 * 10^6 * 10^6 = 10^14
 
+# Note: for range try to generalise the value, don't think acc to the particular case . just generalise this.
+
 # time: O(n*log(10^14))
 
 class Solution:
     def repairCars(self, ranks: List[int], cars: int) -> int:
         
-        def isRepairPossible(minTime):
+        def isRepairPossible(minTime):  # Given a time, chekc whether all cars can be get repaired or not.
             car= 0
             for rank in ranks:
                 car+= int(math.sqrt(minTime/rank))
             return car >= cars
         
         n= len(ranks)
-        # start= (min(ranks) * cars**2)//n
-        # end=   (max(ranks) * cars**2)//n
         start, end= 1, 100*(10**6)**2
         while start < end:
             mid= start + (end- start)//2
@@ -34,7 +35,13 @@ class Solution:
     
 
 # my mistake in range:
-# i thought all mechanic will work simultaneously always. 
-# but given in Q 'can': "All the mechanics can repair the cars simultaneously."
-# start= (min(ranks) * cars**2)//n
-# end=   (max(ranks) * cars**2)//n 
+
+# start= (min(ranks) * cars**2)  # when lowest rank mechanic repair all car
+# end=   (max(ranks) * cars**2)  # when max rank mechanic repair all car
+
+# why wrong?
+# Thought correct only but other mechanic can also work in parallel (any of them can work parallely)
+# But we are not sure that how many will work in parallel .
+# so this time our guess for range is not working.
+
+# when you are not sure i.e Q like this then, just generalise the start and end value (take number directly which can be start and end).

@@ -13,7 +13,7 @@
 class Solution:
     def solve(self,n,k,stalls):
         stalls.sort()   # we will place the cow at the leftmost available stall. so to know the 
-                        # distance between the stalls at which last cow is placed , sorting will make our work easy.
+                        # distance between the position of stall at which last cow is placed , sorting will make our work easy.
         low= 1    # minimum difference we can get is '1'.
         up=  stalls[n-1] - stalls[0]   # maximum difference can be this only when one is placed at start and one at last
         while low <= up:
@@ -26,7 +26,7 @@ class Solution:
                 up= mid - 1
         return up
         
-    def isPossible(self, stalls, minDistance, k):
+    def isPossible(self, stalls, minDistance, k):  # given a distance, tell whether we can place all cow with minimum distance between any of them = 'distance'?
         cows= 1  # we start to place 1st cow at stall[0]
         lastCowPosition= stalls[0]  # we always try at leftmost available position
         for i in range(len(stalls)):

@@ -35,3 +35,6 @@ class Solution:
                 elif stack[-1]== abs(num):
                     stack.pop()
         return stack
+
+# https://leetcode.com/problems/asteroid-collision/solutions/109666/python-o-n-stack-based-with-explanation/
+# https://leetcode.com/problems/asteroid-collision/solutions/109694/java-c-clean-code/

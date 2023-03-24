@@ -1,7 +1,7 @@
 # Brute force : O(k*n)
 
 # just copy pasted the logic of 'Allocate minimum no of pages'.
-# time: O(k* 2*logn), space= O(n)
+# time: O(n* 2*logA), A= sum(weights) -max(weights).  space= O(n)
 class Solution:
     def shipWithinDays(self, weights: List[int], days: int) -> int:
         N, M= len(weights), days
@@ -22,3 +22,8 @@ class Solution:
                 days+= 1
                 capacity= A[i]
         return False if days > M else True
+    
+
+# range:
+# 1) start: max(weights). if less than this then max package weight won't be get delivered.
+# 2) end:   sum(weights). when we have to deliver all packages in a single day.

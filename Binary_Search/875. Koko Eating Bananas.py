@@ -2,6 +2,7 @@
 
 # the lower bound of the search space is 1, and upper bound is max(piles), 
 # because Koko can only choose one pile of bananas to eat every hour. 
+# so end= max(piles)
 # time: O(log(max(piles)))
 
 # len(piles) <= 'h' then only koko can eat all the bananas. since in one hour she can eat only one pile
@@ -16,10 +17,10 @@ class Solution:
                 start= mid+ 1
         return start
 
-    # us speed pe khake hm given hour me all banana finish kar payenge  ki nhi?
+    # agar koko is speed se khata h then kya 'h' hour me pura banana kha payega? 
     def isValid(self, piles, h, speed):
         hour= 0
         for pile in piles:
             hour+= math.ceil(pile/speed)
-        return False if hour> h else True
+        return hour <= h
 

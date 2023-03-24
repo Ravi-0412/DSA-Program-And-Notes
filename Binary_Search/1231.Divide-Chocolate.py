@@ -9,6 +9,16 @@
 # Ans: if myself take minSweetness as 'mid' then can we give total sweetness >= 'mid' as some of chunks to each of my friends and me also i.e in 'k+1' parts?
 # since every friend must get >= sweetness than me.
 
+# totally same as '410. Split Array Largest Sum' .
+# How? => we have to divide the array into 'k+1' subarrays such that minimum sum of any of the subarray is maximum.
+# just here if possible(mid), then we have to increase instead of decrease and vice versa.
+
+# just same logic as 'find last index of an ele'.
+
+# for range:
+# 1) start: we can min of all
+# 2) end:   we can take sum(arr)  when k= 0  => more constraint way ,we can take max of average.
+
 # submitted on lintcode(LC Premium)
 # time: O(n*log(A)), A= sum(sweetness)//(k+1)
 class Solution:

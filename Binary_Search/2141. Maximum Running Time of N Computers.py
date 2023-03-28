@@ -37,7 +37,6 @@ class Solution:
                 end=   guess - 1
         return end
 
-
 # will also work for 
 # start= 0  
 # end=  sum(battery). only one computer and many battery

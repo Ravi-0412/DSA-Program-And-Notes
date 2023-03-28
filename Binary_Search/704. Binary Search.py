@@ -36,7 +36,7 @@ def binary_search(arr,key):
 # print(binary_search(arr, key))
 
 
-# Template 2: 
+# Template 2:  most important template
 # here after while loop will break then 'low' and 'high' will become equal.
 # so any one of them will point to 'key' if key is present. After while loop both will point to the same thing.
 
@@ -123,7 +123,7 @@ key= 10
 
 
 # to find the last index. basic one.
-# template 1 only 
+# template 1 only : most powerful after template 2.
 
 # Note VVI: agar hmko or bda khojna ho to yhi template use karo "while start<= end" and 
 #  ek 'ans' variable leke update karte raho possible ans me and last me 'ans' ko return kar do.

@@ -13,10 +13,9 @@ class Solution:
         if n== 0 or m== 0:
             return count   # instead of zero
         if s1[n-1]== s2[m-1]:
-            count= self.lcs(s1,s2,n-1,m-1,count+1)   # incr the count by '1'
+            return self.lcs(s1,s2,n-1,m-1,count+1)   # incr the count by '1'
         else:
-            count= max(count,max(self.lcs(s1,s2,n,m-1,0),self.lcs(s1,s2,n-1,m,0)))  # make the count= 0 in function
-        return count  # return the count value at current function call
+            return max(count,max(self.lcs(s1,s2,n,m-1,0),self.lcs(s1,s2,n-1,m,0)))  # make the count= 0 in function
 
 # method 2: memoization
 # not able to write the memoised version, have to ask someone
@@ -32,17 +31,15 @@ class Solution:
         if dp[n][m]!= -1:
             return dp[n][m]
         if s1[n-1]== s2[m-1]:
-            count= self.lcs(s1,s2,n-1,m-1,count+1,dp)   # incr the count by '1'
-            dp[n][m]= count
+            dp[n][m]= self.lcs(s1,s2,n-1,m-1,count+1,dp)   # incr the count by '1'
         else:
-            count= max(count,max(self.lcs(s1,s2,n,m-1,0,dp),self.lcs(s1,s2,n-1,m,0,dp)))  # make the count= 0 in function
-            dp[n][m]= count
-        return count
+            dp[n][m]= max(count,max(self.lcs(s1,s2,n,m-1,0,dp),self.lcs(s1,s2,n-1,m,0,dp)))  # make the count= 0 in function
+        return dp[n][m]
 
 
 # method 3:
 def longestCommonSubstr(S1, S2, n, m):
-    dp= [[0 for j in range(m+1)] for i in range(n+1)]
+    dp= [[0 for j in range(m+1)] for i in range(n+1)]  # dp[i][j]= store the ans from the last time when both has become differed.
     final= 0 #this will store the maximum common substring till any point
             # like when string char will not match then there may be chances that
             # already calculated common susbtring can be the final ans

@@ -1,6 +1,6 @@
 # thought to do same method as 'printing lcs' by was becoming very tough and not getting how to do.
 
-# this on eis very easy and logical.
+# this one is very easy and logical.
 # just the another way to check whether a string is palindrome or not.
 # normally we used to check by taking two pointer, one at the start and one at the end and we go till 'mid'.
 
@@ -9,6 +9,9 @@
 # (initailisation will depend on what we are checking i.e even or odd len palindrome) 
 # and move left pointer one position to left and right pointer one position to right.
 
+# logic: we are just calculating the max len of odd and even length palindrome from each index.
+
+#  time: O(n*n)
 class Solution:
     def longestPalindrome(self, s: str) -> str:
         ans= ""

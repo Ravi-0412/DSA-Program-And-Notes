@@ -17,9 +17,11 @@ def reverse(str1):
             i= '('
         str2= i + str2
     return str2
+
+
 # all thing will be done same but in case of operators pop until if you find any
-# operator strictly greater than current one in case of '+', '-', '*', '/' as we hav eto reverse it once more
-# and in case of '^' pop until you find any ele greater than or equal'^' since it is right associative
+# operator strictly greater than current one in case of '+', '-', '*', '/' as we have to reverse it once more
+# and in case of '^' pop until you find any ele greater than or equal'^' since it is right associative.
 def InfixtoPostfix(exp):
         precedence= { '+':1, '-': 1, '*':2 ,'/':2, '%': 2, '^':3}
         res= ""  

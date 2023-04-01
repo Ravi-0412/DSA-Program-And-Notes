@@ -1,10 +1,14 @@
+# logic:
+    # traverse the string right to left and do the same as postfix evaluation
+    # no need to make special case in this for '^' as we are already traversing
+    # from right to left
+
+
 def InfixEvaluation(str1):
 
     stack= []
     lst1= str1.split(" ")
-    # traverse the string right to lest and do the same as postfix evaluation
-    # no need to make speciula case in this for '^' as we are already traversing
-    # from right to left
+
     for i in range(len(lst1)-1,-1,-1): 
         if lst1[i]== ' ': # if current char is space skip it
             continue
@@ -21,17 +25,7 @@ def InfixEvaluation(str1):
             elif lst1[i] == "%":
                  stack.append(int(op1%op2))
             elif lst1[i] == "^":
-                 stack.append(int(op1^op2))
-
-                 
-        # else: # if it is a digit
-        #         # since digit can contain more than one letter
-        #         #so we have to make it as a single digit
-        #     temp= ""
-        #     while lst1[i]!= ' ':
-        #         temp= lst1[i]+ temp
-        #         i-= 1
-        #     stack.append(temp)        
+                 stack.append(int(op1^op2))    
 
         else:  # if it a operand
             stack.append(lst1[i])     

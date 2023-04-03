@@ -1,55 +1,35 @@
-# just read the input from left to right
-# find the sum of val of both the link list at same position + quotient of pre sum
-# take remainder of above, remainder will be the new node
-# quotient will be the new quotient for next node
+# logic: Just we do the sum of two number given on paper.
+# we keep on doing the sum either 1) first no has some ele remaining 2) second no has some ele remaining  3) carry is non zero
+# here doing the same thing we are calculating the cursum of each position of l1 and l2, and adding with carry.
+
+# Note: Here given LSB on left side, so we are calculating from left side only because in simple addition also we start from LSB only.
+# We are exactly doing what we do in simple addition.
+
 
 # time: O(m+n)
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
 class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
-        curr1, curr2, pre, remainder, quotient= l1, l2, None, 0, 0
-        ans= None # to return the ans
-        # till any of one becomes None
-        while curr1 and curr2:
-            temp= curr1.val + curr2.val + quotient
-            remainder= temp%10
-            curr= ListNode(remainder)
-            quotient= temp//10
-            if ans== None:
-                ans= curr
-                pre= curr
+        ans= None  # head for ans linklist
+        cur= None  # for traversing into ans
+        cur1= l1   # for traversing into l1
+        cur2= l2   # for traversing into l2
+        carry= 0   # will store the carry for next node
+        while cur1 or cur2 or carry:
+            curSum= carry
+            if cur1:
+                curSum+= cur1.val
+                cur1= cur1.next
+            if cur2:
+                curSum+= cur2.val
+                cur2= cur2.next
+            carry= curSum // 10
+            # now update the ans
+            if ans:
+                cur.next= ListNode(curSum % 10)
+                cur= cur.next
             else:
-                pre.next= curr
-                pre= curr
-            curr1= curr1.next
-            curr2= curr2.next
-        # if first linklist is not None
-        while curr1:
-            temp= curr1.val + quotient
-            remainder= temp%10
-            curr= ListNode(remainder)
-            quotient= temp//10
-            print(quotient)
-            pre.next= curr
-            pre= curr
-            curr1= curr1.next
-        # if second linklist is not None
-        while curr2:
-            temp= curr2.val + quotient
-            remainder= temp%10
-            curr= ListNode(remainder)
-            quotient= temp//10
-            pre.next= curr
-            pre= curr
-            curr2= curr2.next
-        # at last check for quotient== 1
-        # corner case if there is quotient at the end and both link point to the None
-        if quotient== 1:
-            curr= ListNode(1)
-            pre.next= curr
+                ans= ListNode(curSum % 10)
+                cur= ans
         return ans
 
 

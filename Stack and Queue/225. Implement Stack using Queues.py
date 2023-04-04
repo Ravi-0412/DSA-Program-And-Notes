@@ -27,4 +27,5 @@ class Stack:
         return self.q[0] if self.q else -1
 
 
-# using two queue same approach only.
+# using two queue same approach only. (Asked a lot in interview)
+# Try this also separately 

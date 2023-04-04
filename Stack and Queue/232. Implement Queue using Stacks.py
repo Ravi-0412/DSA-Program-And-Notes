@@ -93,4 +93,8 @@ class MyQueue:
 
     def empty(self) -> bool:
         return (self.stack1== [] and self.stack2== [])
-    
+
+
+# Try this also.
+
+# optimize for pop operation in O(1) time, didn't care about push's time complexity.

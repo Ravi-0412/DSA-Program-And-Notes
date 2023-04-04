@@ -3,7 +3,7 @@
 # here doing the same thing we are calculating the cursum of each position of l1 and l2, and adding with carry.
 
 # Note: Here given LSB on left side, so we are calculating from left side only because in simple addition also we start from LSB only.
-# We are exactly doing what we do in simple addition.
+# We are exactly doing what we do in simple addition. we always start from LSB and go to MSB
 
 
 # time: O(m+n)

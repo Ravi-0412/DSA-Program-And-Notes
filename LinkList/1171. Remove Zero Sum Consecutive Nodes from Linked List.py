@@ -26,8 +26,22 @@ class Solution:
         return dummy.next
 
 
+# Reason for my mistakes:
+# we are updating the pointer of ans when we find any possible ans.
+# Hmko same curSum aage bhi mil sakta h and size is samay subarray ka bda hoga.(isi ke chalte mera ans galat aa rha).
+# agar aage mila to ans ke saath hm connect nhi payenge "other nodes ko remove karke".
+
+# How to solve this?
+# since we have to get max nodes for a curSum so in 1st iteration we will store the prefixSum with last node.
+# Then in 2nd iteratin we will move our pointer to the value of prefixSum (all these nodes will be part of ans).
+# kyonki hmko duplicate curSum milne pe beech wala nodes ko remove kar denge (sum== 0 ya k mil jayega beech wala ko remove karke).
+
+# yhi hm upper wale solution me kiye h.
+
+
 # my mistake:
-# after removing there still can be such sequence 
+# after removing there still can be such sequence.
+# Because here storing only first node for each 'curSum' so we may get more sequence even after removing. 
 class Solution:
     def removeZeroSumSublists(self, head: Optional[ListNode]) -> Optional[ListNode]:
         dummy= pre= ListNode(0)
@@ -62,3 +76,4 @@ class Solution:
             prefixSum[curSum]= cur
             cur= cur.next
         return dummy.next
+    

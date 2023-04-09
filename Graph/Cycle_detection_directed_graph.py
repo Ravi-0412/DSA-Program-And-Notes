@@ -1,7 +1,8 @@
 # method 1: By DFS
 # it can't be done by one array and with parent logic(like undirected graph) because
 # the adjacent node of current vertex can also be visited by other path but it may not be the cycle
-#  because in directed graph is one directional (btw two vertex) unlike undirected graph
+#  because in directed graph is one directional (btw two vertex) unlike undirected graph.
+# e.g: [[0,1], [0,2],[1,2]]
 
 # so here we will need two array one dfs_visited to check if the adjacent node of curr node is 
 # visited in current DFS call or not.

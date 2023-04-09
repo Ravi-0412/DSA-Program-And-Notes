@@ -15,7 +15,11 @@ class Solution:
                 length+= 1
         return False
 
-# 2nd method
+
+# 2nd method : storing the address into the hashmap or set
+# why set came into mind: since we have to find cycle means same address can't repeat again while traversing and
+# set only store the unique values
+# time: o(n), space: o(n)
 class Solution:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
         add = {}
@@ -47,27 +51,6 @@ class Solution:
                 return True
         if first== None:
             return False
-
-
-
-
-
-# 3rd method : storing the address into the set
-# why set came into mind: since we have to find cycle means same address can't repeat again while traversing and
-# set only store the unique values
-# time: o(n), space: o(n)
-class Solution:
-    def hasCycle(self, head: Optional[ListNode]) -> bool:
-        first= head
-        # storing the address of visited node in the set
-        # and if address is already present then loop otherwise not 
-        s= set()
-        while first:
-            if first in s:
-                return True 
-            s.add(first)  # adding the add of fisrt into the set
-            first= first.next
-        return False
         
 
 # 4th method(other student from leetcode)
@@ -76,7 +59,7 @@ class Solution:
 class Solution:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
         while head:
-            if head.val == 'visited':
+            if head.val == 'visited':  # means we have seen this node before only
                 return True
             head.val = 'visited'
             head = head.next
@@ -92,8 +75,6 @@ class Solution:
 class Solution:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
         fast, slow= head, head
-        # while slow: # will generate error as in this case slow might not be None 
-                    # but fast.next or fast.next.next may be null
         while fast and fast.next : # fast for no node and fast.next for incr the fast two times
             slow= slow.next
             fast= fast.next.next

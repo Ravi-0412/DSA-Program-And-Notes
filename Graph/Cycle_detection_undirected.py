@@ -2,8 +2,8 @@
 # method 1 : using BFS
 # time complexity is same as BFS
 
-# # logic: if adjacent node of any vertex is already visited and if it is not parent then there is a cycle 
-#  because if that is not parent and already visited then there must be another path also for reaching that adjacent node and 
+# # logic: if adjacent node of any vertex is already visited and if it is not parent then there is a cycle .
+#  because if that is not parent and already visited then there must be another path also for reaching that adjacent node from curr node and 
 # since undirected graph is two way(btwn two node) so it will be a cycle only 
 
 # this method can also be used to detect the no of connected components in the undirected graph

@@ -1,4 +1,4 @@
-# done the same thing in ' Q no: 287.Find Duplictes'
+# done the same thing in ' Q no: 287.Find Duplicates'
 # time: 0(n), space: O(1)
 class Solution:
     def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
@@ -26,15 +26,14 @@ class Solution:
             slow,fast= head, head 
             while fast and fast.next:
                 slow, fast= slow.next, fast.next.next
-                if slow== fast:
+                if slow== fast: # we have found the cycle , now check the node.
                     slow= head
                     while slow!= fast:
                         slow, fast= slow.next, fast.next
                     return slow
             print("no cycle")
 
-# https://leetcode.com/problems/linked-list-cycle-ii/discuss/1701055/JavaC%2B%2BPython-best-explanation-ever-happen's-for-this-problem   
-# https://leetcode.com/problems/find-the-duplicate-number/solutions/650942/proof-of-floyds-cycle-detection-algorithm-find-the-duplicate-number/
+
     
     
     

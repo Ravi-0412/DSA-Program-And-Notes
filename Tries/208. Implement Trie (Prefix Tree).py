@@ -2,13 +2,13 @@
 
 class TrieNode:
     def __init__(self):
-        self.children= {}  # will point to children. and can be max of 26('a' to 'z').
-        self.isEndOfWord= False   # will mark True if that node is the last node of the word otherwise False for each node.
+        self.children= {}  # will point to children. and can be max of 26('a' to 'z'). just like data in linklist
+        self.isEndOfWord= False   # will mark True if that node is the last node of the word otherwise False for each node. To diff between common node and node with ending word.
 
 class Trie:
 
     def __init__(self):
-        self.root= TrieNode()   # for every word, we will always start checking from root.
+        self.root= TrieNode()   # for every word, we will always start checking from root. just like 'head' of linklist
         
     def insert(self, word: str) -> None:
         cur= self.root
@@ -48,3 +48,42 @@ class Trie:
 # 3) used in creating / searching word in dictionary
 # 4) used to predict the possible word based on few typed words. e.g: Google Search Engine.
 # 5) used to fine the word 'starting with', 'Ending With' etc with a given substring.
+# 6) used to find whether any word matches to already present word fully (that word exist) or partially(any prefix exist) then we will use Trie if all word is made from same combination of characters.
+
+
+# Template to use in other Q.
+# same as above just removed the comment.
+
+class TrieNode:
+    def __init__(self):
+        self.children= {}  
+        self.isEndOfWord= False   
+
+class Trie:
+
+    def __init__(self):
+        self.root= TrieNode()   
+        
+    def insert(self, word: str) -> None:
+        cur= self.root
+        for c in word:
+            if c not in cur.children:
+                cur.children[c]= TrieNode()
+            cur= cur.children[c]
+        cur.isEndOfWord= True
+
+    def search(self, word: str) -> bool:
+        cur= self.root
+        for c in word:
+            if c not in cur.children:
+                return False
+            cur= cur.children[c]
+        return cur.isEndOfWord   
+
+    def startsWith(self, prefix: str) -> bool:
+        cur= self.root
+        for c in prefix:
+            if c not in cur.children:
+                return False
+            cur= cur.children[c]
+        return True

@@ -1,5 +1,15 @@
 # Time: O(n* l)  , n= no of words and l= length of each word.
 
+# why Trie?
+# We have to check all prefixes of a word is is present in the array or not.
+# So if we insert all the given words and check for each word whether all its prefixes has 'isEndOfWord= True' or not.
+# Since we have to check all its prefix so best data structure is Trie.
+
+# So first insert all the words in the Trie and check for each word whether all its prefixes has 'isEndOfWord= True'.
+
+# Note: Q: "Given array of string and given another word . Check whether all the prefixes of this present in the array or not".
+# we will do the same thing .
+
 class TrieNode:
     def __init__(self):
         self.children= {}  # will point to children. and can be max of 26('a' to 'z').   (just like 'next' in linklist)
@@ -25,6 +35,7 @@ class Trie:
                     longest= word
         return None if longest== "" else longest
 
+    # Exactly same as we insert
     def insert(self, word: str) -> None:
         cur= self.root
         for c in word:
@@ -36,7 +47,8 @@ class Trie:
         # now we have inserted all the char of 'word', so make 'cur.isEndOfWord= True'. will denote the 'word' end at this node.
         cur.isEndOfWord= True
 
-    def ifAllPrefixExists(self, word):
+    # just exactly same as we search just checking whether all its prefixes i.e all nodes with char of word has 'isEndOfWord= True' or not.
+    def ifAllPrefixExists(self, word):  
         cur= self.root
         for c in word:
             cur= cur.children[c]

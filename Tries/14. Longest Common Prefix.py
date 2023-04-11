@@ -4,6 +4,7 @@
 class Solution:
     def longestCommonPrefix(self, strs: List[str]) -> str:
         shortest= min(strs, key= len)   # will give the smallest word from the given words according to the length
+                                        # time: O(n)
         # now check till where all words matches to this shortest word.
         # where it doesn't matches then simply return till that index.
         for i in range(len(shortest)):
@@ -14,6 +15,7 @@ class Solution:
         return shortest
 
 # same logic. we can start with even first char and do the same.
+# we can do the same for every word like above because that prefix should be present in every word.
 class Solution:
     def longestCommonPrefix(self, strs: List[str]) -> str:
         ans= ""
@@ -21,18 +23,22 @@ class Solution:
             for w in strs:
                 if i== len(w) or strs[0][i]!= w[i]:
                     return ans
+            ans+= strs[0][i]
+        return ans
 
 
 # method 2:
 # time: O(n* logn)
+
+# sort the array
+# And now just find the prefix of first and last word, that will be the ans.
 
 class Solution:
     def longestCommonPrefix(self, strs: List[str]) -> str:
         n= len(strs)
         if n== 1:
             return strs[0]
-        strs.sort()   # sort the array
-        # now just find the prefix of first and last word, that will be the ans
+        strs.sort()   
         check_till= min(len(strs[0]), len(strs[n-1]))
         i= 0
         while i < check_till and strs[0][i]== strs[n-1][i]:
@@ -42,6 +48,16 @@ class Solution:
 
 
 # method 3: using TRie
+# insert all words in Trie
+# now take smallest word in len and keep adding the char of this word to ans till you don't find more than one children.
+# Because if there is more than one children then it means word start differenatiating from that node.
+# Since till common prefix there will be only char in each children.
+
+# so when you find more than one children at any node , then simply return the ans.
+
+# note: if you take any word say strs[0] then it will give incorrect ans because we go ahead with the refernec of pointer.
+# e.g: ["ab", "a"] # will give => "ab" instead of "a".
+
 class TrieNode:
     def __init__(self):
         self.children= {}  # will point to children. and can be max of 26('a' to 'z').
@@ -78,8 +94,6 @@ class Solution:
         trie= Trie()
         for s in strs:
             trie.insert(s)
-        # now take any word and keep adding the char of this word to ans till you don't find more than one children.
-        # and when you find more than one children at any node , then simply return the ans.
         shortest= min(strs, key= len)
         ans= ""
         ans= trie.LongestPrefix(shortest, ans)

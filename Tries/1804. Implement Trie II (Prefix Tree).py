@@ -105,3 +105,7 @@ class Trie:
             cur= cur.children[c]
         # now we have traversed all the char of 'word' so if 'cur.isEndOfWord== True' then it means this word is present otherwise not.
         return cur
+    
+
+# Note: whenever you have to remove any word apply the prefix_count with isEndofWord(or word_count).
+# while adding incr the count of both and while removing decr the count.

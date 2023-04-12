@@ -1,17 +1,9 @@
-# Time: O(n* l)  , n= no of words and l= length of each word.
+# Note: Eaxctly same Q as  " 1858. Longest Word With All Prefixes  ".
+# Just asking us to find "longest word with all its prefixes present in the words except the word" which will be same only.
+# just copy paste the code.
 
-# why Trie?
-# We have to check all prefixes of a word is is present in the array or not.
-# Higher length prefix will form by adding one letter(last one) to the just previous prefix.
-# so we are getting all prefix by adding one letter to the already existing prefix(word).
-
-# So if we insert all the given words and check for each word whether all its prefixes has 'isEndOfWord= True' or not.
-# Since we have to check all its prefix so best data structure is Trie.
-
-# So first insert all the words in the Trie and check for each word whether all its prefixes has 'isEndOfWord= True'.
-
-# Note: Q in other words : "Given array of string and given another word . Check whether all the prefixes of this present in the array or not".
-# we will do the same thing .
+# Note: # in this case if we will check only till 'n-1' then it will also work.
+# Because final word will get by adding the last letter and no need to care about last word.
 
 # Time: O(N * M), where N is length of words, M  is length of each word.
 # Space: O(N * M)
@@ -21,12 +13,12 @@ class TrieNode:
         self.children= {}  # will point to children. and can be max of 26('a' to 'z').   (just like 'next' in linklist)
         self.isEndOfWord= False   # will mark True if that node is the last node of the word otherwise False for each node.
 
-class Trie:
+class Solution:
 
     def __init__(self):
         self.root= TrieNode()   # for every word, we will always start checking from root.
     
-    def LongestWord(self, words):
+    def longestWord(self, words):
         # First insert all the words in the Trie
         for word in words:
             self.insert(word)
@@ -39,7 +31,7 @@ class Trie:
                     longest= word
                 elif len(word)== len(longest) and longest > word :  # when length is same, we have to take the word alphabetically small.
                     longest= word
-        return None if longest== "" else longest
+        return longest   # here change
 
     # Exactly same as we insert
     def insert(self, word: str) -> None:
@@ -55,19 +47,15 @@ class Trie:
 
     # just exactly same as we search just checking whether all its prefixes i.e all nodes with char of word has 'isEndOfWord= True' or not.
     def ifAllPrefixExists(self, word):  
+        n= len(word)
         cur= self.root
-        for c in word:
+        for i in range(n):   # in this case if we will check only till 'n-1' then it will also work.
+            c= word[i]
             cur= cur.children[c]
-            if cur.isEndOfWord== False:  
+            if cur.isEndOfWord== False:   
                 return False
         return True
-
-T= Trie()
-# words= ["n", "ni", "nin", "ninj", "ninja", "ninga"]
-# words= ["n", "ni", "nin", "ninj", "ninja", "ninga", "ninjas"]
-words= ["np", "nhi", "nikn", "ninj"]
-# words= []
-print("longest word with all prefixes is: ", T.LongestWord(words))
+    
 
 
 # method 2:
@@ -75,7 +63,7 @@ print("longest word with all prefixes is: ", T.LongestWord(words))
 class TrieNode:
     def __init__(self):
         self.children= {}  
-        self.word= None
+        self.word= None  # store the word itself. Then we can check with ans directly.
 
 class Trie:
     def __init__(self):
@@ -108,8 +96,4 @@ class Solution:
                     if len(child.word) > len(ans) or (len(child.word) == len(ans) and child.word < ans):
                         ans= child.word
                     q.append(child)
-        return None if ans== "" else ans
-
-
-# Note: Try to do by find the ans by using dfs after inserting..Link in the sheet.
-
+        return ans

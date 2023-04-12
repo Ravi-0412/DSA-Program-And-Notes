@@ -31,6 +31,8 @@ class Solution:
 # search from each cell in the matrix only one time. (here we are searching from each cell only one time not 'w' time for each word)
 # And if we find any word then add into the ans.
 
+# i.e we are checking from each cell what  all words we can form starting from that cell.
+
 # We are removing the 'word' from the trie after we have found that to reduce the time complexity.
 # since we only need only distinct word. 
 # and there are chances that we can get the same word from different starting point.
@@ -105,5 +107,78 @@ class Solution:
                 dfs(r, c, trie.root, "")
 
         return (list(ans))
+        
+
+# Method 2: my way (just same we did word search 1)
+# Here no need to check prefix_count in dfs. because we only calling function if it that cell value in 'children' so prefix_count > 0 for the calling node.
+
+class TrieNode:
+    def __init__(self):
+        self.children= {}      # will point to children. and can be max of 26('a' to 'z').
+        self.isWord= False
+        self.prefix_count= 0   # will tell no of word staring with a given prefix. after every node you are inserting increase this count.
+
+class Trie:
+
+    def __init__(self):
+        self.root= TrieNode()   # for every word, we will always start checking from root.
+        
+    def insert(self, word):
+        cur= self.root
+        for c in word:
+            if c not in cur.children:
+                # insert 'c' into chilren and make 'c' point to a TrieNode and move curr to next child(just added one)
+                cur.children[c]= TrieNode()
+            # after inserting and if present already ,move cur to next child in both cases.
+            cur= cur.children[c]
+            # increase the prefix count of this node.
+            cur.prefix_count+= 1
+        # now increase the word_count for this node.
+        cur.isWord= True
+    
+    def removeWord(self, word):
+        cur= self.root
+        for c in word:
+            cur= cur.children[c]
+            cur.prefix_count-= 1
+        cur.isWord= False
+
+class Solution:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        # insert all words into Trie.
+        trie= Trie()
+        for word in words:
+            trie.insert(word)
+
+        # now start searching from each cell.
+        rows, cols= len(board), len(board[0])
+        ans= set()  # storing in set since same word can be formed from more than one cell as starting node.
+        
+        def dfs(r, c, node, word):
+            node= node.children[board[r][c]]
+            # we can get any matching word anytime so keep checking after each node.
+            if node.isWord:  # in next node we are updating everything so we will check in next node only.
+                ans.add(word)
+                trie.removeWord(word)
+            
+            temp= board[r][c]
+            board[r][c]= "#"  # marking visited
+            # visit all the four possible directions
+            directions= [[r,c-1], [r, c+1], [r-1, c], [r+1, c]]
+            for nr, nc in directions:
+                if 0<=nr < rows and 0<= nc < cols and board[nr][nc]!= "#" and board[nr][nc] in  node.children : 
+                    dfs(nr, nc, node, word + board[nr][nc])
+            # now backtrack if we don't ans by adding the char at (r,c)
+            board[r][c]= temp
+        
+        # # now start searching from each cell.
+        for r in range(len(board)):
+            for c in range(len(board[0])):
+                if board[r][c] in trie.root.children:
+                    dfs(r, c, trie.root, board[r][c])
+
+        return (list(ans))
+
+
 
 

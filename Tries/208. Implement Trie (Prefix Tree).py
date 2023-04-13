@@ -79,11 +79,3 @@ class Trie:
                 return False
             cur= cur.children[c]
         return cur.isEndOfWord   
-
-    def startsWith(self, prefix: str) -> bool:
-        cur= self.root
-        for c in prefix:
-            if c not in cur.children:
-                return False
-            cur= cur.children[c]
-        return True

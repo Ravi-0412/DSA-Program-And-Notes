@@ -28,7 +28,7 @@
 #             b.if 2nd picks nums[j - 1], 1st can pick either ends of nums[i, j - 2];
 #             since 2nd plays to maximize his score, 1st can get nums[j] + min(2.a, 2.b)
         
-#         since the 1st plays to maximize his score, 1st can get max(nums[i] + min(1.a, 1.b), nums[j] + min(2.a, 2.b))
+#         since the 1st plays to maximize his score overall, 1st can get max(nums[i] + min(1.a, 1.b), nums[j] + min(2.a, 2.b))
 
 # time:2^n
 
@@ -41,8 +41,8 @@ class Solution:
     def FindScore(self, nums, i, j):
         if i > j:  # no ele to choose
             return 0
-        if i== j:  # only one ele remaining. both indexes are included so.
-            return nums[i]
+        # if i== j:  # only one ele remaining. both indexes are included so.. No need of this
+        #     return nums[i]
         return max(nums[i] + min(self.FindScore(nums, i +2, j), self.FindScore(nums, i +1, j-1)),
                 nums[j] + min(self.FindScore(nums, i , j-2), self.FindScore(nums, i+1 , j-1)))
 
@@ -97,7 +97,7 @@ class Solution:
 
 
 # method  3:
-# in this we are finding the difference between p1 and p2 in recursive call.
+# in this we are finding the score difference between p1 and p2 in recursive call.
 # got submitted without memoisation . But have overlapping subproblem.
 class Solution:
     def PredictTheWinner(self, nums: List[int]) -> bool:

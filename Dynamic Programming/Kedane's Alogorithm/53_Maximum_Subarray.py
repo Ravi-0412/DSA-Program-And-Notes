@@ -35,12 +35,13 @@ def maxSubArraySum(self,arr,N):
         return max_so_far
 
 # method 3: Kedane's Algo
+# just the expansion of above method
 # time: O(n)
 def maxSubArray(self, nums: List[int]) -> int:
         max_sum, curr_sum= nums[0], 0
         for n in nums:
             # curr_sum is negative then make curr_sum= curr_ele
-            if curr_sum <0:
+            if curr_sum <0: # adding in curSum will decrease the value of curSum so better start curSum from here only.
                 curr_sum= n
             else: # otherwise add the curr ele to the curr_sum
                 curr_sum+= n
@@ -62,6 +63,32 @@ def maxSubArray(self, nums: List[int]) -> int:
         return max_sum
 
 
+# Note: If we want to fidn the "Smallest sum contiguous subarray". (GFG Q)
+# https://practice.geeksforgeeks.org/problems/smallest-sum-contiguous-subarray/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
+
+# we can apply the excatly similar logic as above
+class Solution:
+    def smallestSumSubarray(self, A, N):
+        total= sum(A)
+        curSum= A[0]
+        minSum= A[0]
+        for i in range(1, N):
+            if curSum > 0:  # we have to decrease 'curSum'.
+                curSum= A[i]
+            else:
+                curSum+= A[i]
+            minSum= min(minSum, curSum)
+        return minSum
 
 
+# shortcut of above
+class Solution:
+    def smallestSumSubarray(self, A, N):
+        total= sum(A)
+        curSum= A[0]
+        minSum= A[0]
+        for i in range(1, N):
+            curSum= min(curSum + A[i], A[i])
+            minSum= min(minSum, curSum)
+        return minSum
 

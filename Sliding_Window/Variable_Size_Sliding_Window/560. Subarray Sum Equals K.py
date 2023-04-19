@@ -21,7 +21,7 @@ k = 33
 # print(SubArray_Sum(arr,k))     
 
 
-# sliding window but is not valid for negative numbers
+# sliding window but is not valid for negative numbers. valid if all number is +ve.
 # don't getting the correct output, tried a lot(got was missing one condition)
 # time : O(n)
 def Count_SubArray(arr,k):
@@ -57,14 +57,13 @@ print(Count_SubArray(arr,k))
 class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:
         ans,curr_sum= 0,0
-        prefix_sum= {0:1}  # will tell that the no of subarray that will give you the req 'diff'
-                            # which we can add to get the final ans. for '0' , one way is always possible
+        prefix_sum= {0:1}  # [sum: frequency]  # since we can get diff= 0 also because '-ve' number is also there. 
+                          # This will only happen when curSum= k and there will be at least one subarray possible i.e from index '0' to index till now. 
         for n in nums:
             curr_sum+= n
-            # prefix_sum[curr_sum]= 1+ prefix_sum.get(curr_sum, 0)  
             diff= curr_sum - k  # find the difference
             ans+= prefix_sum.get(diff, 0)  # if diff is present in prefix_sum then it means sum is possible when we remove this extra sum "diff"
-                                            # then add with the value of 'diff' as these many times sum= k will be possible and if not present then add 0
+                                            # then add with the value of 'diff' as these many times sum= k will be possible and if not present then add 0.
 
             # and add the surr_sum in prefix_sum. if already present then increment the count by its value alo else add with '1'
             prefix_sum[curr_sum]= 1+ prefix_sum.get(curr_sum, 0)  # now add the curr_sum in the prefix_sum

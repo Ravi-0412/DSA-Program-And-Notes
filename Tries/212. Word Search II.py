@@ -34,6 +34,7 @@ class Solution:
 # i.e we are checking from each cell what  all words we can form starting from that cell.
 
 # We are removing the 'word' from the trie after we have found that to reduce the time complexity.
+# for removing we are using 'prefix_count' as node member.
 # since we only need only distinct word. 
 # and there are chances that we can get the same word from different starting point.
 

@@ -19,5 +19,5 @@ class Solution:
         return ans
     
 
-# Note: python '%' operator behave veru differently if numerator is negative.
+# Note: python '%' operator behave very differently if numerator is negative.
 # But still it will work because ans will depend on dulicates so it won't create any problem.

@@ -1,6 +1,6 @@
 # just same as 'Q. maxXor'. Treat the given arr 'nums' as both arr1 and arr2. 
 # But giving Tle for last input.
-
+# Time Complexity: O(N*32) + O(M*32)= space
 class TrieNode:
     def __init__(self):
         self.children= {}   # will contains two num max i.e bit '0' and bit '1'.
@@ -13,7 +13,7 @@ class Trie:
     def insert(self, num):
         cur= self.root
         for i in range(31,-1,-1):
-            bit= (num>> i) & 1    # will give the bit from the letmost side.
+            bit= (num>> i) & 1   # getting the bit at 'i'th position.
             if bit not in cur.children:
                 cur.children[bit]= TrieNode()
             cur= cur.children[bit]
@@ -44,11 +44,37 @@ class Solution:
         return ans
 
 # same logic is getting submitted in c++ and java.
-# also there are solutions which are short and based on same logic and also getting submitted.
 
 
-# https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/solutions/171747/python-o-n-solution-easily-explained/?orderBy=most_votes
+# method 2: using bit
 
+# for finding the max value, if we can get bit set at rightmost sides then that will be our ans.
+# so we are taking the help of masking to extract those number by 100....00, 1100...00, 11100..000  etc for leftmost bit.
+# till every bit we have traversed, we are putting the 'mask&num' in a set.(we want '1' so doing '&')
+# now we will fix our target to get the max ans and that will be acc to the ans we have got till now.
 
+# later we will take num one by one from set and do will xor with 'target' and will check if it's xor is present in set then,
+# we can get our target . so update ans= target in this case and break otherwise leave ans as it is(it means we can't set the ans bit at bit position)
 
-# most effective solution in Bit Manipulation.
+# Reason behind working of above one.
+# if (a^b= target) then (target ^ a= b) and (target ^ b= a).    
+
+# just Two sum logic. 
+
+# time= O(32*n)
+class Solution:
+    def findMaximumXOR(self, nums: List[int]) -> int:
+        ans, mask= 0, 0
+        for i in range(31, -1, -1):
+            mask= mask | (1<< i)  # '1' is the max we can get at any position. mak will conatin all '1' .
+            found= set()
+            for num in nums:
+                found.add(mask & num)
+            target= ans | (1<< i)  # maximum we can get '1' at the 'i'th position. so we are fixing the target to get '1' at that 'i'th position.
+            # now do xor of num in 'found ' with target and check if 'target^num' is in found.
+            # if it is in found then we can get our desired target by taking xor of two number. so update the ans and break
+            for prefix in found:
+                if target ^ prefix in found: 
+                    ans= target
+                    break
+        return ans

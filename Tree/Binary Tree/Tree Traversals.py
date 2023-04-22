@@ -21,20 +21,27 @@ def PreorderIterative(self,root):
             stack.append(curr.left)
 
 # do by recursive inside the given function only and store the ans in a list(Leetcode q)
-# https://leetcode.com/problems/binary-tree-preorder-traversal/discuss/164175/Python-solution
-
-# for returning the ans into list inside the given fn only, somehow we will have to replace the print statement by any condition
+# same way we can do for other traversals.
 class Solution:
     def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-        if root== None: # it will reach this condition in case of one child
+        ans= []
+        if not root:
+            return ans
+        ans.append(root.val)
+        ans+= self.preorderTraversal(root.left)
+        ans+= self.preorderTraversal(root.right)
+        return ans
+
+
+# other way of writing above code
+class Solution:
+    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        if not root:
             return []
-        elif root.left==None and root.right== None:  # if leaf node
-            return [root.val]
-        l= self.preorderTraversal(root.left)
-        r= self.preorderTraversal(root.right)
-        return [root.val] + l+ r      # just the meaning of preorder
-
-
+        left=  self.preorderTraversal(root.left)
+        right= self.preorderTraversal(root.right)
+        return [root.val] + left +  right
+    
 
 def InorderRecursive(self,root):
     if root== None:

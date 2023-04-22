@@ -29,6 +29,10 @@ class Solution:
             else:  # we found the target
                 return start+1, end+1
 
+# Note: where to use "Two pointer"?
+# 1) where you see array is sorted then once must think about "Two Pointer" or "Binary Search".
+# 2) when you have to solve in-place , then think if we can do by "Two Pointer".
+# vvi: For in-place, mostly a) Think about swapping elements b) Think of "Two Pointer".
 
 # since array is already sorted so we can think of binary search but it will go in O(nlogn)
 # like for every index just find the remaining sum and try to find that remaining sum in the array

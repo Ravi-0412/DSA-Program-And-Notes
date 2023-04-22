@@ -53,5 +53,9 @@ class Solution:
         return sum(cardPoints) - minSum
 
 
+# Note: This Q is exactly same as "Maximize sum of K corner elements in Array".
+# https://www.geeksforgeeks.org/maximize-sum-of-k-elements-in-array-by-taking-only-corner-elements/
+
+
 # Also try by frontsum and backsum logic later.
 # https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/solutions/597825/simple-clean-intuitive-explanation-with-visualization/

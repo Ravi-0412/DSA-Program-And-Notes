@@ -30,12 +30,12 @@ def lenOfLongSubarr(A, N, K):
 # it also means we can get 'k' by removing remainingsum .
 
 # Note: hm map me agar curSum present nhi h tb hi hm "update" kar rhe (i.e first time only) because we wanted the longest subarray.
-# vvi: if have told to find the shortest subarray then we will update everytime.
+# vvi: if have told to "find the Smallest subarray with sum equal to k" then we will update everytime to minimise the length.
 
 class Solution:
     def lenOfLongSubarr (self, A, N, K) : 
         # just same logic as no of subarray with given sum 'k'
-        prefix_sum= {}    # will store the extra sum(may be negative or positive).
+        prefix_sum= {}    # will store the [curr_sum: index]
         max_length,curr_sum= 0, 0
         for i in range(N):
             curr_sum+= A[i]
@@ -53,8 +53,47 @@ class Solution:
         return max_length
 
 
+# Another way of writing the above logic 
+class Solution:
+    def lenOfLongSubarr (self, A, N, K) : 
+        # just same logic as no of subarray with given sum 'k'
+        prefix_sum= {0:-1}    # for handling the corner case when 'curSum-k'== 0. it will only mean that 'curSum==k' in above logic.
+        max_length,curr_sum= 0, 0
+        for i in range(N):
+            curr_sum+= A[i]
+            if (curr_sum-K) in prefix_sum:                                  
+                max_length= max(max_length,i-prefix_sum[curr_sum-K])  
+
+            # Add the curr_sum if not present. if we update always then we will not get our actual ans as
+            # it will reduce the length when it will found as extra sum i.e 'curr_sum -k'
+            if curr_sum not in prefix_sum:
+                prefix_sum[curr_sum]= i    # i will tell the length of key in the prefix_sum 
+                
+        return max_length
 
 
+# vvi => Q: "Smallest subarray with sum equal to k".
+# just same logic as above but here we will update every time to minimise the length.
+def lenOfSmallestSubarr(A, N, K) : 
+    prefix_sum= {0:-1}    # will store the extra sum(may be negative or positive).
+    min_length,curr_sum= float('inf'), 0
+    for i in range(N):
+        curr_sum+= A[i]
+        if (curr_sum-K) in prefix_sum:                                  
+            min_length= min(min_length,i-prefix_sum[curr_sum-K])  
+        prefix_sum[curr_sum]= i  
+            
+    return min_length
+
+# arr= [2, 4, 6, 10, 2, 1]
+# K = 12 
+
+arr= [1, 2, 4, 3, 2, 4, 1] 
+K = 7
+
+n= len(arr)
+
+print(lenOfSmallestSubarr(arr, n, K))
 
 
 # Note VVVI: ek cheez Variable size sliding window me hmesha yaad rakho

@@ -51,7 +51,7 @@ k= 3
 print(Count_SubArray(arr,k))
 
 
-# better one:
+# better one: just similar to "Two sum" method.
 # time: O(n)
 # VVI: analyse this Q and previous Q similarity and differences properly
 class Solution:

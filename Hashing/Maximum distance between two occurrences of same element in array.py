@@ -27,3 +27,15 @@ class Solution:
             # update everytime with latest index to get minimum length.    
             firstTime[n]= i  
         return ans
+
+
+
+# Q: "Check if a given array contains duplicate elements within k distance from each other".
+# https://www.geeksforgeeks.org/check-given-array-contains-duplicate-elements-within-k-distance/?ref=lbp
+
+# same just above one "Minimum distance between any two equal elements in an Array".
+
+# if already present then check the range(j-1+1) . if <=k then return true.
+# update the value everytime.
+
+# At last return False

@@ -18,6 +18,8 @@ def lenOfLongSubarr(A, N, K):
 
 
 # time: O(n)= space
+
+# vvi: just similar to "Two sum" method.
 # this approach will work for both positive and negative number
 # VVVI: analyse this and pre same problem properly
 
@@ -54,6 +56,8 @@ class Solution:
 
 
 # Another way of writing the above logic 
+# just will check for complement each time not by curSum.
+# very good and concise approach.
 class Solution:
     def lenOfLongSubarr (self, A, N, K) : 
         # just same logic as no of subarray with given sum 'k'

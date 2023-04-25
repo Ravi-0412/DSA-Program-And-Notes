@@ -14,9 +14,11 @@
 # Then at last count no of component i.e distinct parent ka no count karo wahi ans hoga.
 
 # how to do union : Try to bring all the connected nodes(value==1) into one component.
-# if we can't do union of nay two node their parent node will differ and will go into other component.
+# if we can't do union of any two node their parent node will differ and will go into other component.
 
 # time: O(n^2) to traverse into matrix.
+
+# Note: see the union function properly.
 class DSU:
     def __init__(self, n):
         self.v= n
@@ -24,22 +26,26 @@ class DSU:
         self.size=    [1 for i in range(n)]   # will give thesize of each parent component.
             # initially size of all be '1'(node itself).
     
-    def findUPar(self, n):   # finding the ultimate parent
-        if n== self.parent[n]:   # Root parent will be the parent of itself. so continue till we find that.
+    def findUPar(self, n):   
+        if n== self.parent[n]:   
             return n
-        self.parent[n]= self.findUPar(self.parent[n])   # writing above in same link is giving error
+                                            
+        self.parent[n]= self.findUPar(self.parent[n])   
         return self.parent[n]
     
     def unionBySize(self, n1, n2):
         p1, p2= self.findUPar(n1), self.findUPar(n2)
-        if p1== p2:   # we can't do union since they belong to the same component.
-            return 
-        # wherever we are assigning the parent means we are directly connecting those two nodes.
+
+        # no need of this because it means they are already connected to each other so if they are already connected
+        # then me must have processed them before only.  so everytime we will get diff p1 and p2.
+        # if p1== p2:  
+        #     return 
+        
         if self.size[p1] < self.size[p2]:
-            self.parent[p1]= p2   # attaching ultimate parent of 'n1' i.e p1 to ultimate parent of 'n2' i.e p2.
-            self.size[p2]+= self.size[p1]   # increase the size of p2 by size of p1.
+            self.parent[p1]= p2   
+            self.size[p2]+= self.size[p1] 
         else :   # rank[p1]>= rank[p2]
-            self.parent[p2]= p1   # attaching ultimate parent of 'n2' i.e p2 to ultimate parent of 'n1' i.e p1.
+            self.parent[p2]= p1  
             self.size[p1]+= self.size[p2]
 
 class Solution:
@@ -72,7 +78,7 @@ class Solution:
 # all three (0,1,3) will get connected into one single component.  In this way we will get all connected nodes.
 
 # Q) Why we are making parent array of 'n' only desite we are working on 'n*n' matrix?
-# Reason: Because there can be max 'n' connected components.
+# Reason: Because there can be max 'n' connected components(only 'n' vertices).
 
 
 

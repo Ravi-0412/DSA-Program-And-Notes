@@ -1,3 +1,4 @@
+# method 1: 
 
 # Q: just we have to replace every word in sentense with its smallest prefixes present in the dictionary.
 
@@ -6,17 +7,15 @@
 # Time: o(N^3)
 # will try myself using hashmap
 
-
-# But i am not getting how this updation thing is happening.
-# giving correct ans so confusing.
-class Solution:
-    def replaceWords(self, dictionary: List[str], sentence: str) -> str:
-        sentence= sentence.split()
+# logic: since we are updating every time "sentence[i]" and replacing it with string it startswith.
+# so at last we will get the smallest "starting prefix only"
+class Solution(object):
+    def replaceWords(self, dict, sentence):
+        sentence = sentence.split(" ")
         for i in range(len(sentence)):
-            for s in 
-            prefix= trie.search(sentence[i])
-            if prefix:  # means if any prefix of 'word' is present in the dictionary.
-                sentence[i]= prefix
+            for j in dict:
+                if sentence[i].startswith(j):
+                    sentence[i] = j     # changing everytime and later checking with updated one.
         return " ".join(sentence)
 
 

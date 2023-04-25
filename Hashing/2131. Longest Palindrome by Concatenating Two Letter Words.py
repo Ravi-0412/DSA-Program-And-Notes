@@ -7,7 +7,7 @@
 
 # logic: while traversing the words if we there is palindrome of curr word already present
 # then we can combine both of them to form a palindrome of 'length= 4'.
-# put one word at leftmost side and one word at rightmost side of already formed palindrome.
+# put one word at start and it's palindromic word at end of already formed palindrome or vice versa.
 
 # but there can be more than one same palindrome after combining so storing the freq of word also.
 # e.g: [lc,lc, cl,cl]
@@ -19,23 +19,31 @@
 
 # even no of duplicates pair will get cancelled forming palindrome. e.g: [gg, gg, gg], after operation we will left with : [gg] only one time.
 
+# Note: Also printing the longest palindrome
 # time: O(2*n)
 class Solution:
     def longestPalindrome(self, words: List[str]) -> int:
         freq= collections.defaultdict(int)
         ans= 0
+        longestPalindrome= ""
         for word in words:
             if word[::-1] in freq:
+                longestPalindrome= word + longestPalindrome  # adding the current word at start 
+                longestPalindrome= longestPalindrome + word[::-1]  # adding current word palindrome at last
                 ans+= 4
                 freq[word[::-1]]-= 1  # one pair we have included into ans
                 if freq[word[::-1]]== 0:  # delete we can't form new pair.
                     del freq[word[::-1]]
             else:  # only here we will add in hashmap . in above case directly got included to ans
                 freq[word]= 1 + freq.get(word, 0)
-
+                
         # Add any one palindromic word to the alrady formed palindrome.
         for s in freq.keys():
             if s== s[::-1]:
                 ans+= 2
+                n= len(longestPalindrome)
+                mid= n//2
+                longestPalindrome= longestPalindrome[: n//2] + s + longestPalindrome[n//2 : ]
                 break
+        print(longestPalindrome)
         return ans

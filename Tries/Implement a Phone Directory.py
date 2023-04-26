@@ -1,3 +1,5 @@
+# for every prefix in 'search_contact(qList)' , we have to return all contacts starting from that 'prefix'. 
+
 class TrieNode:
     def __init__(self):
         self.children= {}  # will point to children. and can be max of 26('a' to 'z').

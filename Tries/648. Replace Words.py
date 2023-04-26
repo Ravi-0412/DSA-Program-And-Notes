@@ -1,6 +1,6 @@
 # method 1: 
 
-# Q: just we have to replace every word in sentense with its smallest prefixes present in the dictionary.
+# Q: just we have to replace every word in sentense with its "smallest prefixes present in the dictionary".
 
 # method 1: using hashmap
 # Exactly similar to what i did in "677. Map Sum Pairs".
@@ -39,7 +39,7 @@ class Trie:
     def insert(self, word: str) -> None:
         cur= self.root
         for c in word:
-            if c not in cur.children:
+            if c not in cur.children:  # no prefix of word is present in dictionary
                 cur.children[c]= TrieNode()
             cur= cur.children[c]
         cur.isEndOfWord= True
@@ -52,7 +52,7 @@ class Trie:
                 return ""
             cur= cur.children[c]
             prefix+= c
-            if cur.isEndOfWord:
+            if cur.isEndOfWord:  # check if this prefix is present.
                 return prefix  
 
 class Solution:
@@ -71,7 +71,7 @@ class Solution:
 # that why convert the sentence into list.
 
 
-# for word in sentence:   # will give letter not word. (what the fuckimng mistake i was making).
+# for word in sentence:   # this will give letter not word. (what the fuckimng mistake i was making).
     for i in range(len(sentence)):  # same here
         word= sentence[i]
         prefix= trie.search(word)

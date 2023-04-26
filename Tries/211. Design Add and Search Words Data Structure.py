@@ -1,5 +1,7 @@
 # same way as we search but if there is '.' then we have to check all the possibility at that node.
-# that case we have chheck using dfs(backtrcaking).
+# that case we have check using dfs(backtrcaking).
+
+# for searching: 1st write the logic of normal search then for  dot  "." write recursion.
 class TrieNode:
     def __init__(self):
         self.children= {}  # will point to children. and can be max of 26('a' to 'z').
@@ -27,16 +29,16 @@ class WordDictionary:
         cur= root
         for i in range(ind, len(word)):
             c= word[i]
-            if c== '.':
+            if c!= '.':
+                if c not in cur.children:
+                    return False
+                cur= cur.children[c]
+            else:
                 for child in cur.children.values():
                     if self.dfs(word, i+1, child):   # if any of one return True then no need to check other path.
                         return True
                 # if neither of path return True then return False
                 return False
-            else:  # means there is letter.
-                if c not in cur.children:
-                    return False
-                cur= cur.children[c]
         # now we are at last children node of the word
         return cur.isEndOfWord
 
@@ -66,7 +68,7 @@ class WordDictionary:
     def search(self, word: str) -> bool:
 
         def solve(word, root):
-            # if not word:  # no need of this
+            # if not word:  # no need of this. last line will handle this automatically
             #     return root.isEndOfWord
             cur= root
             for i in range(len(word)):
@@ -81,7 +83,7 @@ class WordDictionary:
                         if ch in cur.children:
                             if solve(word[i+ 1: ], cur.children[ch]):
                                 return True
-                    return False  # no children is present 
+                    return False  
             return cur.isEndOfWord
 
         return solve(word, self.root)

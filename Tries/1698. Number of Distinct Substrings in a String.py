@@ -1,7 +1,7 @@
 # method 1: Brute Force
 # logic: Take all substrings that can be generated from fixing an index. (same logic as GFG solution)
 # and before adding any substring into ans check if that substring is already in the ans.
-# Time: O(n^3) # There will be n^2 substrings and for checking whether it is already in ans or not.
+# Time: O(n^3) # There will be n^2 substrings and 'n' for checking each whether it is already in ans or not.
 # space: O(n^3). There will be n^2 substrings and average length will be 'n/2'.
 
 

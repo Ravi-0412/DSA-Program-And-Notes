@@ -1,3 +1,4 @@
+
 # getting TLE using the logic of 'word search 1' i.e serarching the word one by one.
 # time: O(w.m*n.4^(m*n))  , w: # words
 
@@ -25,7 +26,7 @@ class Solution:
         board[i][j] = tmp
         return res
 
-
+# method 2: 
 # we can optimise the above problem to O(m*n.4^(m*n)) + O(n) (for inserting all words into Trie).
 # logic: First insert all words into the Trie.
 # search from each cell in the matrix only one time. (here we are searching from each cell only one time not 'w' time for each word)
@@ -36,7 +37,15 @@ class Solution:
 # We are removing the 'word' from the trie after we have found that to reduce the time complexity.
 # for removing we are using 'prefix_count' as node member.
 # since we only need only distinct word. 
-# and there are chances that we can get the same word from different starting point.
+
+# and there are chances that we can get the same word(by following the path in grid). so storing ans in set first.
+# vvi: But when we are removing the word after finding that word then no way we can get that word again so we can store
+# ans directly in list only.
+
+# Removing the word will optimise the time little bit. 
+
+# Note: we are not returning after getting any word or after function call since we can get other word also following the link.
+
 
 class TrieNode:
     def __init__(self):
@@ -110,7 +119,7 @@ class Solution:
         return (list(ans))
         
 
-# Method 2: my way (just same we did word search 1)
+# Method 3: my way (just same we did word search 1)
 # Here no need to check prefix_count in dfs. because we only calling function if it that cell value in 'children' so prefix_count > 0 for the calling node.
 
 class TrieNode:

@@ -48,7 +48,7 @@ class Solution:
 
 # method 2: using bit
 
-# for finding the max value, if we can get bit set at rightmost sides then that will be our ans.
+# for finding the max value, if we can get bit set(bit= 1) at rightmost sides then that will be our ans.
 # so we are taking the help of masking to extract those number by 100....00, 1100...00, 11100..000  etc for leftmost bit.
 # till every bit we have traversed, we are putting the 'mask&num' in a set.(we want '1' so doing '&')
 # now we will fix our target to get the max ans and that will be acc to the ans we have got till now.
@@ -66,7 +66,7 @@ class Solution:
     def findMaximumXOR(self, nums: List[int]) -> int:
         ans, mask= 0, 0
         for i in range(31, -1, -1):
-            mask= mask | (1<< i)  # '1' is the max we can get at any position. mak will conatin all '1' .
+            mask= mask | (1<< i)  # '1' is the max we can get at any position. mask will conatin all '1' .
             found= set()
             for num in nums:
                 found.add(mask & num)

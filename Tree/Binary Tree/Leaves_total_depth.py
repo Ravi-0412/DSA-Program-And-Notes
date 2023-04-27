@@ -28,7 +28,7 @@ def LeafNode(self, root):
     # count+= smallAns + smallAns1
     # return count
     # concise way
-    count= 0
+    
     if root== None:
         return 0
     if root.left== None and root.right== None:

@@ -10,11 +10,7 @@ class Solution:
         if  abs((l-r)) > 1:
             return False
         # if root is balanced then check for its child
-        left= self.isBalanced(root.left)
-        right= self.isBalanced(root.right)
-        if left== False or right== False:
-            return False
-        return True
+        return self.isBalanced(root.left) and self.isBalanced(root.right)
     
     def maxDepth(self, root):
         if root== None:
@@ -23,7 +19,7 @@ class Solution:
         r= self.maxDepth(root.right)
         return 1+ max(l,r)
 
-# concise way of writing above code
+# more concise way of writing above code
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
         if root== None:
@@ -38,28 +34,35 @@ class Solution:
         return 1 + max(self.maxDepth(root.left),self.maxDepth(root.right))
 
 # method 2: O(n)
+# there is lot of repitition in above method.
+
+# note: we have to take care of "True/False" as well as height at the same time.
+
 # just the height logic only , instead of  returning booleans we are returning in integer 
-# so that if subtree is unbalanced then it automatically make its parent unbalanced 
+# so that if subtree is unbalanced then it automatically make its parent unbalanced automatically.
 
-# and also we have to return the height which will be a positive number so replaced the boolean return value 
-# with integer return to handle all these cases
+# and also we have to return the height also which will be a positive number so replaced the boolean return value 
+# with integer return to handle all these cases.
 
-# bottom up approach , ans from bottom is getting updated to uper level.. Can say DP only
-# here we only need left and right tree ans to make a decision for current root that's why not storing ans anywhere
+# bottom up approach , ans from bottom is getting updated to upper level.. Can say DP only.
+# here we only need left and right tree ans to make a decision for current root that's why not storing ans anywhere.
 
-# Note VVI(DP in tree): calculate for left and right part 
-# then make a decision i.e (update the ans) based on left and right part
-# return for upper level..
+# Note VVI(Generalisation of DP in tree): calculate for left and right part of a node
+# then make a decision for cur node i.e (update the ans) based on left and right part and return the ans to upper level (to parent).
 
-# updating the ans and returning to the upper level might be different so always make another function if you got that both will be different
-#  in helper function, just keep updating the ans after getting value from left and right part and return the value according to the function
+# updating the ans and returning to the upper level might be different so always make another function(say helper function) if you got that both will be different.
+#  in helper function, just keep updating the ans after getting value from left and right part and return the value according to the function.
 
+# Note: we will return when any of the subtree will be balanced.
 
-# '-1' means tree is unbalanced 
+# Note: '-1' means tree is unbalanced. we can return any integer that can't be height (means any negative integer) like -1,-2....
+# all will work fine.
+
+# Note: we can't return True/False based on True/false because in Python True->1 and False->0 and '0' and '1' can be our height also.
 
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
-        # just apply the logic odf maxDepth
+        # just apply the logic of maxDepth
         def check(root):  # totally height logic only just wrote few condition in between that's it
             if root== None:  # height logic
                 return 0
@@ -72,8 +75,7 @@ class Solution:
             if right== -1:
                 return -1
 
-            # if both of them left and right is balanced then 
-            # both will return some height then check the diff between their heights for check whether rrot is balanced
+            # if both of them left and right is balanced then check the difference in their heights to check root is balanced.
             if abs((left-right))> 1: 
                 return -1
 
@@ -100,3 +102,26 @@ class Solution:
         return check(root)!= -1  # if not equal to '-1' means balanced
 
 
+# my misatke:
+# was returning 'False' in case 
+class Solution:
+    def isBalanced(self, root: Optional[TreeNode]) -> bool:
+        # just apply the logic of maxDepth
+        def check(root):  
+            if root== None:  
+                return 0
+    
+            left= check(root.left)  
+            if not left:  # when root will be None then it will make that root= None balanced since height of None= 0 
+                return False
+            right= check(root.right)  
+            if not right:
+                return False
+
+            if abs((left-right))> 1: 
+                return false
+
+            # if balanced then return the max height 
+            return 1+ max(left,right)  # calculating the height
+            
+        return check(root)  # if not equal to '-1' means balanced

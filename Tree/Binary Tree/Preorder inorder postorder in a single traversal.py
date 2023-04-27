@@ -19,7 +19,7 @@ class Solution:
         while stack:
             curr, num= stack.pop()  # every time pop first and check the value of num
             # preorder
-            if num== 1:  # add in preorder and make num= 2(incr by 1 since it has child remaining in it's meaning) 
+            if num== 1:  # add in preorder and make num= 2(to make this node get included in inorder) 
                         # and then again append curr in stack with updated num
                 pre.append(curr.val)
                 num= 2

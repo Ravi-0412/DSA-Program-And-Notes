@@ -17,7 +17,7 @@ class Solution:
             cur= q.popleft()
             if not cur:  # mark and keep skipping
                 nullFound= True
-                continue
+                continue  # we will check if 'nullfound= True' from next time. checking this time will give wrong ans because all nodes can ne 'none' after this node.
             if nullFound:  # means we have found 'null' node before a 'not_null', node or we have found 'not_null' after null node in same level or level before
                 return False
             q.append(cur.left)
@@ -72,7 +72,7 @@ class Solution:
 # logic: if we write the position of each node in array form starting from index '1',
 # ie. for left child= 2*index, right child= 2*index +1, where index= index of parent then
 # maxIndex to which all these nodes go in the array and no of nodes both should be same only(both strting from 1).
-# so just checking that by keepin track of 'maxIndex' and 'nodecount'.
+# so just checking that by keeping track of 'maxIndex' and 'nodecount'.
 
 # just same code as we find the no of nodes, only using one more para 'index'
 #  to put that node at index 'index' in array when we will start index from '1'.

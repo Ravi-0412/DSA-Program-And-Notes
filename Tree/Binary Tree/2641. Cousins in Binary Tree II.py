@@ -34,7 +34,7 @@ class Solution:
             dfs2(node.left, rightVal, depth +1)
             dfs2(node.right, leftVal, depth +1)
         
-        dfs1(root, 0)
+        dfs1(root, 0)  # for getting the sum of node value at each depth(level)
         dfs2(root, 0, 0)  # intially sibling val will be zero.
 
         return root

@@ -1,5 +1,9 @@
-# They are telling to connect all nodes at sam elevel by right pointer.
+# They are telling to connect all nodes at same elevel by right pointer.
 # and whenenver we have to do something levelwise, first thing should come into mind is 'Level Order Traversal'(MultiSource Bfs)
+
+# we need to point the cur visited node to the right of pre node at each level,
+# so we will keep a varible 'pre' to keep track of last visited node in current elevel.
+
 from collections import deque
 class Solution:
     def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
@@ -16,7 +20,5 @@ class Solution:
                     q.append(curr.right)
                 if pre:  # not None
                     pre.next= curr
-                    pre= pre.next
-                else: # if poped one is the first node at the current level
-                    pre= curr
+                pre= curr  # update pre to curr always
         return root

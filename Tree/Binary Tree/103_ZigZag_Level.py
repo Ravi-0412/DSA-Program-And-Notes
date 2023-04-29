@@ -1,4 +1,6 @@
 # just same logic as 'level order traversal'
+# we have to calculate ans for each level in same way(exact same code).
+
 # only thing we have to change the direction of output at alternate level
 # i.e we have to print in revese at alternate level
 # for this we have taken a variable count
@@ -6,10 +8,10 @@
 # if count is odd means we have to print from right to left(so in this case first reverse the levelwise ans and then append in final ans)
 
 # time: O(n)
-def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+class Solution:
+    def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         if root== None:
             return root
-        import collections
         q= collections.deque()
         q.append(root)
         ans,count= [],0
@@ -23,7 +25,7 @@ def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
                     q.append(curr.left)
                 if curr.right:
                     q.append(curr.right)
-            if level and (count%2==0):
+            if (count%2==0):  # left to right
                 ans.append(level)
             else:
                 ans.append(level[::-1])  # reverse in this case then add to ans

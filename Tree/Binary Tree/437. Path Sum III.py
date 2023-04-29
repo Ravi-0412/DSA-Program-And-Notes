@@ -1,6 +1,7 @@
-# just similar logic as 'Two sum'.
+# just similar logic as basic of 'Two sum' and exactly same as "560.Find Total number of subarrays whose sum equals to k.".
+# Don't think this as new q, it is the same Q only.
 
-# Brute force: just like we do in Two sum.
+# Brute force: just like we do the Brute force in "Find Total no of subarray having sum k"
 # from every node , count the ans possible.
 # we can use any traversal to call the function to find the ans from each node.
 # time: O(n^2)
@@ -31,8 +32,7 @@ class Solution:
         self.AllPath(root.right, target- root.val)
 
 # optimisng to O(n): DP
-# just like we do Two sum.
-# Read the solutions in link and watch video for explanation.
+# just like we optimise the "560.Find Total number of subarrays whose sum equals to k." using hashmap.
 class Solution:
     def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
 
@@ -40,23 +40,18 @@ class Solution:
             if not root:
                 return 
             curSum= preSum + root.val
-            # (curSum- targetSum) : extra sum , just like remaining sum of 'Two Sum'.
-            # agar hm us extra sum '(curSum- targetSum)' tak  ke nodes(may be more than one) ko hta de to hmko 'target' mil jaygea. (After that node to current node).
-            # Hm curSum ho hashmap me dal rhe isliye 'extra sum' jisko remove karne pe continous sum= target ho jaye , check karna hoga.
             if (curSum- targetSum) in preSum_freq:   
                 self.count+= preSum_freq[(curSum- targetSum)]
-            if curSum in preSum_freq:
-                preSum_freq[curSum]+= 1
-            else:
-                preSum_freq[curSum]= 1
-            
+            # add the curSum into hashmap before going to it child. just like we are moving to next index in array for subarray sum= k
+            preSum_freq[curSum]= 1 + preSum_freq.get(curSum, 0)
             # now call the function for left and right part
-            dfs(root.left, curSum)   # now curSum will become preSum
+            dfs(root.left, curSum)   # now curSum will become preSum. just like subarary sum i.e for next index we used to add value in curSum calculated till now.
             dfs(root.right, curSum)
-            preSum_freq[curSum]-= 1    # now current branch is not going to matter anymore. 
+            # now current node is not going to matter anymore. Because after it will return to its parent then this node can't be the part of the other paths.
+            preSum_freq[curSum]-= 1  # so reduce the freq by '1' that we had added because of this node.    
 
         self.count= 0
-        preSum_freq= {0: 1}   # By default we can get sum== 0 by one way. Taking fre because there can be more than one path possible.
+        preSum_freq= {0: 1}   # to handle the corner case when curSum== target then curSum- target= 0.
         dfs(root, 0)   # 0: preSum
         return self.count
 

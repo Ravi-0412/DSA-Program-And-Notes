@@ -11,7 +11,7 @@ class Solution:
         return ans
     
     def AllPath(self, root, target, path, ans):
-        if root== None:
+        if root== None:  # this should be the 1st base case.
             return
         if target== root.val and root.left== None and root.right== None: # value is equal to remaining target and root is a leaf.
             ans.append(path + [root.val]) 

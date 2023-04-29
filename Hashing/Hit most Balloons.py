@@ -1,3 +1,5 @@
+# Note: there can be dupliacate points also.
+
 # Indirectly we have to find :" Count maximum points on same line".
 
 # Two points can be on same line with slope say 'x' if slope of line connecting these two point will be also = "x".

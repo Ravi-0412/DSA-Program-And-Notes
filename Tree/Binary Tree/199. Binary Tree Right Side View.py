@@ -9,6 +9,8 @@
 # as you can see clearly that we have to print the last node at each level order traversali.e we have to print only the rightmost node at each level
 # so applied the exactly same logic of "level order traversal" and for each level put only the last ele at that level that's it
 
+# why ? Because all other nodes at same level won't be visible.
+
 from collections import deque
 class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
@@ -28,7 +30,7 @@ class Solution:
                     q.append(curr.left)
                 if curr.right:
                     q.append(curr.right)
-            ans+= [level[i]]   # 'i' will be only 'len(q)-1' not len(q).. or ans+= [level[-1]]
+            ans+= [level[i]]   # 'i' will be only 'len(q)-1' not len(q)..Python it works like this only. or ans+= [level[-1]]
         return ans
 
 # unusual way python work(shocked)
@@ -60,6 +62,7 @@ class Solution:
         return ans
 
 # or you can append in ans before for loop also
+# better one.
 from collections import deque
 class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:

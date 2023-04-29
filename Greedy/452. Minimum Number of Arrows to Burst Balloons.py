@@ -3,19 +3,16 @@
 
 # just like interval problems. so better understanding think all as intervals. 
 
-
 # How to Approach?
 # Ans: if the starting point of current balloons is <=  previous thrown point then the current balloon will get burst by the previous throw only.
-# and if not then only we will need extra throw. And in case of extar row we will throw at end point of current balloons.
-# just like we are merging.
+# and if not then only we will need extra throw. And in case of extra row we will throw at end point of current balloon.
+# just like we are trying to merge this curr balloon last throw arrow end point(balloon end point at we thrown the last one).
 
-
-# Pichla throw jis point se kiya gya h , us point tak hm jitna jyada ballons la payenge utna kam throw hmko karna hoga.
+# isliye hm minimum ending point se start karenge. so sort based on end point.
 
 # Hm balloon ko minEnd point of any ballons se throw karna start karenge hmesha merge n hone pe.
 # isliye hm array ko "ending point ke anusar sort karenge".
 
-# so we have to check from 
 
 
 class Solution:

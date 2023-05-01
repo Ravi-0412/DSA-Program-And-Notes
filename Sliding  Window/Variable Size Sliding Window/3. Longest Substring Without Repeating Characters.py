@@ -4,7 +4,8 @@
 # as no of unique char is given by the length of hashmap and we want all char unique in the window so for ans len(hashmap)== j-i+1 (window size)
 # so only change is that replace k with window size i.e len(hashmap)== j-i+1
 
-# agar window size len(hashmap) se bda h then it means repeating char is present in the window so start deleting the char from hashmap till len(hashmap) reaches to window size
+# agar window size len(hashmap) se bda h then it means repeating char is present in the window 
+# so start deleting the char from hashmap till len(hashmap) reaches to window size
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
         hashmap,max_length,i,j,n= {},0,0,0,len(s)

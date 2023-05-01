@@ -1,5 +1,5 @@
 # method 1: 
-# time: O(4^n) 
+# time: O(4^n)  
 def PhonePad(str1,ans):
     pad= [" ", " ", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv","wxyz"]
     if not str1:  # we get one of the ans.

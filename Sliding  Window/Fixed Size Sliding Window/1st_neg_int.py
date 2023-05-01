@@ -1,4 +1,4 @@
-# 2nd method: 
+# 2nd method:
 # just store if you find any negative no in the win arr
 # once you will reach the size of the win array
 # if win not empty then 1st index of 'win' will be the ans for that window

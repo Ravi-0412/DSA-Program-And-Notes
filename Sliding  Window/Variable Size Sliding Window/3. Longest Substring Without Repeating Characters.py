@@ -1,4 +1,4 @@
-# exactly same as 'longest substring with k unique char'
+# exactly same as 'longest substring with k unique char' 
 # only diff is there in condition: window size should contain all unique char
 # which means window size should be equal to len(hashmap) 
 # as no of unique char is given by the length of hashmap and we want all char unique in the window so for ans len(hashmap)== j-i+1 (window size)

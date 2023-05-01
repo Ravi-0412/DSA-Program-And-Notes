@@ -1,5 +1,5 @@
 # more clarity for Q: if all numbers in the array is negative then return smallest poitsive i.e '1'.
-# if all number in range are present then return the greatest of all number beyond array i.e maxNo +1
+# if all number in range are present then return the greatest of all number beyond array i.e maxNo +1 
 
 
 # method 1:

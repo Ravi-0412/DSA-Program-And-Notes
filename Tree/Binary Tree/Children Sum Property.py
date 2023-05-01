@@ -1,44 +1,60 @@
 # if you will go and keep updating from root then it will not work since after updating at start
-# any root may have more data values than sum of children(as children will get updated also to maintain the property) and decrement is not allowed
+# any root may have more/less data values than sum of children(as children will get updated also to maintain the property).
 
-# so start updating from bottom to top
-# this giving incorrect ans for some test cases but i am not able to cross check due to input syntax : coding ninja
-# have to ask someone
-def changeTree(root):
-    if  root== None or (root.left== None and root.right== None):  # if root is None or root is a leaf 
-        return 
-    changeTree(root.left)
-    changeTree(root.right)
-    sum= 0
-    if root.left or root.right:   # if root has any of child as not None
-        if root.left:
-            sum+= root.left.data
-        if root.right:
-            sum+= root.right.data
-        diff= abs((sum- root.data))
-        if root.data< sum:  # then make the root.data=  sum
-            root.data= sum
-        elif root.data> sum:  # then incr the any of the child data by the diff if exist 
-            if root.left:
-                root.left.data= root.left.data+ diff
-            elif root.right:
-                root.right.data= root.right.data+ diff
+# vvi: Decrement is not allowed.
 
+# my Method and mistake: 
+# vvi: keep in mind decrement operation is not allowed.
 
-# methid 2: submitted on coding ninja
-# if root data > child update the both child data= root.data
+# we are blindly updating the node values with sum of its children values going Bottom up.
+# But while updating the current node value we might be decreasing node value also ,say 
+# node val= 50 and after updating its left_child_val= 10 and right_child_val= 15
+#  then, when we will update cur node val to sum of its children then  
+# node_val= 25 but it is less than its current value(50) which is not allowed(since decrement operation is not allowed).
+
+# note: It will work fine when both increment and decrement operation is allowed.
+
+# logic: just go Bottom up and make node values= sum of its children.
+def changeTree(root): 
+    
+    def dfs(node):
+        if not node:
+            return 0
+        # if leaf simply return its node value
+        if node.left== None and node.right== None: 
+            return node.data
+        l= dfs(node.left)
+        r= dfs(node.right)
+        # make node value = sum of its children
+        node.data= l  + r  
+        return node.data
+        
+    dfs(root)
+    return root
+
+# to solve the mistake in above Q,
+# we have to make sure that while updating the values going Bottom up,we have to make sure that we only incr the node value.
+# And for this sum of its children value must be >= node_val while coming back so in this when we will update the cur node value to follow the property
+# then, we will have to increment its value only.
 # it will make sure that root  data has values not more than the values of children later after children get updated
-# later update the root value by sum of values of its children
+
+# so while going top to bottom if you find the node value is greater than sum of its children then make both of its children value= node value.
+# therefore when you will update the cur node value while becoming back then node_val <= sum of its children value.
+# so we will simply update the cur node value = sum of its children.(only incr operation we will have to do).
+
+# while going top to bottom, if node_val<= children_value then do nothing.
 
 def changeTree(root):
-    if  root== None:  # if root is None or root is a leaf 
-        return 
+    if  root== None:  # if root is None 
+        return
+    # find the sum of its child values
     child= 0  # store the ans of data sum of children
     if root.left:
         child+= root.left.data
     if root.right:
         child+= root.right.data
-    if root.data> child:  # child < root.data then make both child data= root.data
+    # if child < root.data then make both child data= root.data
+    if root.data> child:  
         if root.left:
             root.left.data= root.data
         elif root.right:
@@ -54,5 +70,6 @@ def changeTree(root):
     if root.left or root.right:
         root.data= update_root
 
-# Doubt: for just above solution, if we update the children= root.data automatically withou checking anything then it should also work but it's not working
-# have to ask someone
+
+
+

@@ -1,6 +1,14 @@
 # to avoid duplicates , to bring all the duplicates together so that we can easily check for duplicates
-# and best way to bring same ele together is just sort the array like we used to do in permutation ans combination problems.
+# and best way to bring same ele together is just sort the array.
 # and for every ele apply two sum if its not duplicate. and since sorted so we can use two pointer approach for Two sum.
+
+# note: in case if we find any ans then before incr start or end  pointer ,we will check for duplicates 
+# for any one of them because if we simply incr both then it can lead to duplicate ans.
+# No need to check in unequal case.
+
+# Also in outer loop, we will only apply "two sum" for cur number if it is distinct only.
+
+
 
 # time: O(n^2)
 
@@ -20,8 +28,9 @@ class Solution:
                     start+= 1
                 else:  # means we have found one of the ans.
                     ans.append([nums[i],nums[start], nums[end]])
-                    # in this case there can be duplicates after 'start' pointer and before right pointer, which may lead to duplicate if they form total= 0
-                    # so either incr 'start' to new ele or decr 'end' to new element. No need to move both, other move will be done by above two loop.
+                    # in this case there can be duplicates after 'start' pointer and before right pointer, 
+                    # which may lead to duplicate if they form total= 0
+                    # so either incr 'start' to new ele or decr 'end' to new element. No need to move both otherwise we may miss some answers.
                     start+= 1
                     # checking for duplicates
                     while start < end and nums[start]== nums[start-1]:

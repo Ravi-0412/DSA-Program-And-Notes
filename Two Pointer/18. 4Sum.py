@@ -2,7 +2,7 @@
 # without Recursion: use 'k-2' for loop and one while loop for finding two sum in sorted array.
 
 # But to avoid no of four loops , we did by recursion.
-# very better. just change the value of 'k' it will work for all given 'k'.
+# very better. just change the value of 'k' and target it will work for all given 'k' and any target.
 # time: O(n^(k-1)) for both recursive and iterative way.
 # here k= 4 so time: O(n^3).
 
@@ -12,19 +12,9 @@ class Solution:
         ans, quad= [], []
 
         def kSum(k, start, target):
-            if k!= 2:
-                # just the outermost for loop we apply to get the k-sum.i.e for k=3 we iterate from '0' to 'n-2'.
-                for i in range(start, len(nums)- k +1):
-                    # check for duplicates first.
-                    if i > start and nums[i]== nums[i -1]:
-                        continue
-                    quad.append(nums[i])
-                    kSum(k-1, i+ 1, target- nums[i])
-                    quad.pop()  
-                return # after traversing the loop exit i.e simply return to check for next possible ans.
-
-            else: # means k==2. just apply two sum approach for sorted array avoiding duplicates.
-                # did in three sum 
+            # k==2. just apply two sum approach for sorted array avoiding duplicates(Did in Three sum).
+            # it is just acting as base action. No return, it will automatically return after while loop.
+            if k== 2:
                 l, r = start, len(nums)-1
                 while l < r:
                     if nums[l] + nums[r] < target:
@@ -36,7 +26,20 @@ class Solution:
                         l+= 1
                         while l < r and nums[l]== nums[l-1]:
                             l+= 1
-        
+            else:
+                # just the outermost for loop we apply to get the k-sum.i.e for k=3 we iterate from '0' to 'n-2' from index 'start'.
+                # Last two ele we will find using Two sum, so '-k+1'.
+                for i in range(start, len(nums)- k +1):
+                    # check for duplicates first.
+                    if i > start and nums[i]== nums[i -1]:
+                        continue
+                    quad.append(nums[i])
+                    kSum(k-1, i+ 1, target- nums[i])
+                    quad.pop()  
+                return # after traversing the loop exit i.e simply return to check for next possible ans.
+     
         kSum(4, 0, target)   # k=4, starting from index= 0, passing target also since it will keep changing.
+                            # 'k' tells how many more ele we need to find starting from index 'start'.
+                            # 'start' is just same as outer index of our for loop solution.
         return ans
 

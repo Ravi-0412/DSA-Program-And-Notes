@@ -35,6 +35,11 @@ class Solution:
             else:  # we found the target
                 return start+1, end+1
 
+# Note vvi: whenever you get this type of Q then try to fix one ele somehow and find the other two ele using "Two sum" for sorted/unsorted array.
+# Just try to reduce into "two sum" problem.
+# e.g: "15. 3Sum", "18. 4Sum", "Count Triplets"
+
+
 # Note: where to use "Two pointer"?
 # 1) where you see array is sorted then once must think about "Two Pointer" or "Binary Search".
 # 2) when you have to solve in-place , then think if we can do by "Two Pointer".

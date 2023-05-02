@@ -20,9 +20,15 @@ class Solution:
         while j < len(nums):
             product*= nums[j]
             # find the length of longest subarray having product < k after adding curr ele.
+            # just shrinking the subarray.
             while product >= k: 
                 product//= nums[i]
                 i+= 1
             count+= j - i + 1  # length of subarray. this no of subarray we can form after inserting this num.
             j+= 1
         return count
+
+
+
+# Note: same logic we can apply if asked for "summation" also.
+# This methos is very useful, can  be applied to many problems like :"209. Minimum Size Subarray Sum"

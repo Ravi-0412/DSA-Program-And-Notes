@@ -1,4 +1,6 @@
 # Method 1: generalised solution for both sorted and unsorted array
+# LOGIC: square of both "-x" and "+x" will be same, so just count the occurrence of both "-x" and "+x" and store at same index "x".
+# then traverse the array from left to right and add the square of that number having count= count at that index.
 
 # using counting sort
 # time: O(n)
@@ -22,13 +24,14 @@ class Solution:
 # logic: The crux over here is that the array is already sorted.
 # We are comparing the first and last elements because after square these have the possibility of being the highest element.
 # Both the extremes contain the max element (after square ofc), so we are inserting these elements to the last of the new array to make it sorted.
+# jo bda hoga uska index update kar denge.
 
 class Solution:
     def sortedSquares(self, nums: List[int]) -> List[int]:
         n= len(nums)
         ans= [0]*n
-        i, j= 0, n-1   # will point to start and end of array
-        for index in range(n-1,-1,-1):
+        i, j= 0, n-1   # will point to start and end of array. 'j' tells the remaining index to fill.
+        for index in range(n-1,-1,-1):  # we can do from left to right also.
             if abs(nums[i]) > abs(nums[j]):
                 ans[index]= nums[i] * nums[i]
                 i+= 1

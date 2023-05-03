@@ -29,6 +29,5 @@ class Solution:
         return count
 
 
-
-# Note: same logic we can apply if asked for "summation" also.
-# This methos is very useful, can  be applied to many problems like :"209. Minimum Size Subarray Sum"
+# Note: This is a very good and useful template, can be applied to many Q like: "209. Minimum Size Subarray Sum",
+#  "Longest Subarray having sum of elements atmost ‘k’"

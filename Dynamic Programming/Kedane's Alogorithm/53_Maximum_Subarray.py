@@ -41,7 +41,7 @@ def maxSubArray(self, nums: List[int]) -> int:
         max_sum, curr_sum= nums[0], 0
         for n in nums:
             # curr_sum is negative then make curr_sum= curr_ele
-            if curr_sum <0: # adding in curSum will decrease the value of curSum so better start curSum from here only.
+            if curr_sum <0: # adding the 'n' in curSum will decrease the value of curSum so better start curSum from here only.
                 curr_sum= n
             else: # otherwise add the curr ele to the curr_sum
                 curr_sum+= n

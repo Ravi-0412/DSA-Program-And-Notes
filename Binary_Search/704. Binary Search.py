@@ -8,7 +8,7 @@
 # 'up' hmesha '>= target' me update hoga and low '<=' target me update hoga, kyonki hmlog ko size hmesha decrease karna h.
 
 # Template 1:
-# Note: use this template in case if elements are not present  we have to return some valid number, and
+# Note: use this template in case if elements are not present then  we have to return some valid number, and
 # if present  then simply we will get the ans inside the while loop.
 # e.g: Q like: 1) find ceil and floor of a number in sorted array  2) find square root of a number  
 # 3) Find 1st bad version 4) 744. Find Smallest Letter Greater Than Target 5) 35. Search Insert Position
@@ -37,18 +37,24 @@ def binary_search(arr,key):
 
 
 # Template 2:  most important template
+# Note vvi: we use when we have to find the smallest amomg all possible ans.
+
 # here after while loop will break then 'low' and 'high' will become equal.
 # so any one of them will point to 'key' if key is present. After while loop both will point to the same thing.
 
 # use this template when we are asked to return ans if present else simply return '-1'
 # (or something fixed value given to return in case if not present) or given ans exist for sure.
-# here we make decision after while loop only. 
+# here we make decision after while loop only i.e what to return as final ans.
 # e.g: search for an element in an array.
 
 # in case of duplicate elements, it will give the 1st index where ele is present.
 # because even after finding the ans(>=), we are continuing our checking and shrinking the mid(decreasing the up).
 
 # agar ans mil bhi gya ho(>=) to or range shrink karke(up ko decr karke) even or chota dhundho.
+
+# here after while loop will break then 'low' and 'high' will become equal.
+# so any one of them will point to 'key' if key is present.
+
 def binary_search(arr,key):
     n= len(arr)
     low=0
@@ -67,7 +73,8 @@ print(binary_search(arr, key))
 
 
 # another form of template 2.
-# note: use this when we have to work on <= condition and (mid and condition is acting in opposite fashion). like incr mid will decraese the condition statement value and vice versa.
+# note: use this when we have to work on <= condition and (mid and condition is acting in opposite fashion), 
+# like incr mid will decraese the condition statement value and vice versa.
 # used in Q "1283. Find the Smallest Divisor Given a Threshold".
 class Solution:
     def smallestDivisor(self, nums: List[int], threshold: int) -> int:
@@ -93,18 +100,20 @@ class Solution:
 # after each Q, find out which template we can use and what modification we have to make acc to the Q.
 
 
-# another way
 # here after while loop will break then 'low' and 'high' will become equal.
 # so any one of them will point to 'key' if key is present.
 
 # Template 3:  same as Template 2()
+# note: don't use this template. try to solve Q using template 1 and template 2 only.
+# will give TLE in many cases.
+
 
 # in case of duplicate elements, it will give the last index where ele is present.
 # because even after finding the ans, we are continuing our checking and increasing the mid(increasing the low).
 # but doesn't work always to get the last index. may get TLE also . e.g" [10,10], key= 10
 # so avoid this template to find the last index. 
 
-# note: don't use this template. try to solve Q using template 1 and template 2 only.
+
 def binary_search(arr,key):
     n= len(arr)
     low=0

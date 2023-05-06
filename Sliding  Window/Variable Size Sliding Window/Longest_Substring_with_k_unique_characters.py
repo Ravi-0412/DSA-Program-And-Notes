@@ -1,10 +1,9 @@
-# just same logic as 'count the subarry with sum==k for positive no" as no chance for becoming len(hashamp) < k once it has become equal to 'k' like positiev number
-# window size should contain exactly k unique char no matter what your window size is
+# for max ans, longest ke liye jitna se jitna char repeat karne chahiye with 
 
-# note VVI: whenever you have to handle the unique or distinct thing or ypu have to store something that you will need later
-# then first thing should come into mind is hashmap.
+# Note: To check the number of unique char at any point of time we will use hashmap.
+# 
 
-# longest ke liye jitna se jitna char repeat karne chahiye
+# 
 
 # time: O(n)= space
 class Solution:
@@ -34,8 +33,29 @@ class Solution:
         return -1 if max_length==0 else max_length
     
 
-# note in this there is no need to update 'i' once you reaches 'j-i+1==k or j+>=k" 
-# since we have to find longest then better we will increase the window size as much as possible
-# in variable size sliding window, we only operate on 'i' when we encounter an invalid condition
-# that's why we didn't write the condition like "if j+1>=k" like fixed size window
-# here window is variable so we update once reach the condition and update the window not like fixed size sliding window
+# shorter way and concise way.
+# Note: Try to solve every variable sliding window problem like this only.
+# After seeing every char check for valid substring and update ans.
+class Solution:
+    
+    def longestKSubstr(self, s, k):
+        freq= {}
+        i, j= 0, 0
+        ans= -1
+        longest= ""  # will give any such string
+        while j < len(s):
+            freq[s[j]]= 1 + freq.get(s[j], 0)
+            while len(freq) > k:
+                freq[s[i]]-= 1
+                if freq[s[i]]== 0:
+                    del freq[s[i]]
+                i+= 1
+            if len(freq)== k and j - i + 1 > len(longest):
+                longest= s[i: j +1]
+                ans= max(ans, j- i+ 1)
+            j+= 1
+        return ans
+
+    
+
+

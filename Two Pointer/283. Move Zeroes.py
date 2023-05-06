@@ -35,7 +35,7 @@ class Solution:
     def moveZeroes(self, nums: List[int]) -> None:
         n= len(nums)
         # find the index of first zero.
-        i= 0
+        i= 0  # will denote the till before which we have done the operation.
         while i < n and nums[i]!= 0:
             i+= 1
         if i== n:  # means no zero is present
@@ -47,6 +47,42 @@ class Solution:
             while i < n and nums[i]!= 0:
                 i+= 1
 
+# method 2: simple one
+# logic: whenever you see any '0', search for next non-zero and swap. else skip
+
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        n= len(nums)
+        i= 0
+        while i < n :
+            if nums[i]== 0:
+                # search for next non-zero
+                k=  i+ 1
+                while k < n and nums[k]== 0:
+                    k+= 1
+                # means array is already in desired format.
+                if k >= n: return nums
+                # else swap  
+                nums[i], nums[k]= nums[k], nums[i]
+            i+= 1
+        
+
+# optimising the above method 
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        n= len(nums)
+        last= 0  # will tell from where we have to search for non-zero ele.(till where we have made array in proper format)
+        i= 0
+        while i < n :
+            if nums[i]== 0:
+                k=  max(last + 1, i+ 1)  # to handle the case when there is many non-zero ele at start, in this case we have to search from 'i+1'.
+                while k < n and nums[k]== 0:
+                    k+= 1
+                if k >= n: return nums
+                nums[i], nums[k]= nums[k], nums[i]
+                last= k
+            i+= 1
+        
 
 # New and very creative logic:
 # From discussion section

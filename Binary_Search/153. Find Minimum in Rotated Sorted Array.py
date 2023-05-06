@@ -1,10 +1,8 @@
 # 1st method: Time: o(n), space: o(1)
 # just traverse the array from left to right wherever 
-# you will find the currnet ele greater than next element that 
-# index will be the index of maximum ele and next will be the index 
-# of minimum ele
-# use '%' with next ele to compare because largest ele can be at 'n-1'
-# then smallest will be at '(n-1+1)%n'
+# you will find the current ele greater than next element that 
+# index will be the index of maximum ele and next will be the index of minimum ele.
+# use '%' with next ele to compare because largest ele can be at 'n-1' then, smallest will be at '(n-1+1)%n'.
 class Solution:
     def findMin(self, nums: List[int]) -> int:
         n= len(nums)
@@ -13,6 +11,11 @@ class Solution:
         for i in range(0,n):
             if nums[i]>nums[(i+1)%n]:
                 return nums[(i+1)%n]
+
+
+# Note vvi: All below solution will only work if ele will be unique.
+# As checking only one condition we won't be able t take the correct decision.
+
 
 # method 2: very basic
 def findMin(self, arr):
@@ -26,12 +29,14 @@ def findMin(self, arr):
         # if above condition not found then update the start and end in the unsorted part
         # and there are two chances of unsorted part
         
-        # case 1: means ele will be present till mid and mid can also be the minimum
+        # case 1: 'start' ele is greater than 'mid' ele
+        #  means ele will be present till mid and mid can also be the minimum
         # so update end in this case
         elif arr[mid] < arr[start]: 
             end= mid
 
-        # case 2: means ele will be present after mid till end      
+        # case 2: 'mid' ele is greater than 'end' ele
+        # means ele will be present after mid till end      
         # so update 'start' in this case     
         elif arr[mid] > arr[end]:
             start= mid +1
@@ -85,11 +90,11 @@ class Solution:
                 end= mid        # as end can also be the minimum
     
             # here means nums[start...mid] is not unsorted 
-            # then min will lie beyond mid  as min or max will always lie in unsorted part    ##* my mistake(again and again) :
+            # then min will lie beyond mid  as min or max will always lie in unsorted part    # * my mistake(again and again) :
             #  as array can be already sorted then it will not work
             # or if array become sorted from start to mid after changing start
         
-            # means this condition doesnt fully guarantte that array beyond mid will be sorted
+            # means this condition doesnt fully guarantte that array beyond mid will be unsorted
 
             else:
                 start= mid+1

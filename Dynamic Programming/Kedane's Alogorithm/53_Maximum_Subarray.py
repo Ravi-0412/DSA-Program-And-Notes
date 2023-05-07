@@ -14,30 +14,14 @@ def maxSubArray(self, nums: List[int]) -> int:
 
 # logic: har ele ke pass 2 choice, either curr_sum me include ho jaye ya khud curr_sum ban jaye. that's it.
 
-# 2nd method: 
+# 2nd method: Kedane's Algo
 # Time: O(n)
 # logic: To calculate sum(0,i), 
 # you have 2 choices: either adding sum(0,i-1) to a[i], or not. 
-# If sum(0,i-1) is negative , adding it to a[i] will only make a 
-# smaller sum, so we add only if it is positive 
-def maxSubArraySum(self,arr,N):
-        max_so_far, max_ending_here= arr[0], arr[0]
-        # max_ending here will give the max_sum till that index(after conidering all the ele max_sum possible till that index)
-        # max_so_far will store the actual ans
-        # if the max_ending_here value become less after adding any ele, then max_so_far will get updated as max_so_far store only the max_sum of any subarry till now
-        # otherwise max_so_far and max_ending_here will be same
-        for i in range(1, N):
-            # either each element will continue(add their val) to the max_ending_here  till now
-            # or will become max_ending_here itself. this will happen when arr[i] will be greater than max_ending here
-            max_ending_here= max(max_ending_here + arr[i], arr[i]) 
-            # now update the max_so_far
-            max_so_far=      max(max_so_far, max_ending_here)
-        return max_so_far
+# If sum(0,i-1) is negative , adding a[i] to curSum will curSum samller only no matter whether arr[i] is +ve or -ve.
 
-# method 3: Kedane's Algo
-# just the expansion of above method
-# time: O(n)
-def maxSubArray(self, nums: List[int]) -> int:
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
         max_sum, curr_sum= nums[0], 0
         for n in nums:
             # curr_sum is negative then make curr_sum= curr_ele
@@ -49,6 +33,16 @@ def maxSubArray(self, nums: List[int]) -> int:
             max_sum= max(max_sum, curr_sum)
         return max_sum
 
+
+# short of above
+
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        max_sum, curr_sum= nums[0], 0
+        for n in nums:
+            curr_sum= max(curr_sum + n, n)
+            max_sum= max(max_sum, curr_sum)
+        return max_sum
 
 # method 4: By DP
 # exactly same approach as method 2.

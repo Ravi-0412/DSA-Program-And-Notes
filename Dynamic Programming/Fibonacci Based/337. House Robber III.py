@@ -3,8 +3,18 @@
 # time: O(n)
 
 # just bottom up DP
-# logic: will start returning from leaf node.(so postorder traversal).
-# logic: everything will depend on whether we include root or not for each subtree.
+
+# logic: everything will depend on whether we include root or not for each subtre. i.e
+
+# 1) when we include the current node, then we can't include any of its child. so take max of both the child when they are not included.
+
+# 2) # when we don't include the current node, then we have four choices and we have to max of all four:
+# a) when we don't include any of its child.
+# b) when we don't include left child and include the right child.
+# c) when we include left child and don't include the right child.
+# d) when we don't include any of its child.
+# vvi: All these four condition will get handled by 'withoutRoot= max(leftPair) + max(rightPair)'.
+
 
 class Solution:
     def rob(self, root: Optional[TreeNode]) -> int:
@@ -15,9 +25,10 @@ class Solution:
                 return [0, 0]     # [withRoot, withoutRoot]
             leftPair=  dfs(root.left)
             rightPair= dfs(root.right)
-            # now find the ans when we will include the root and when we don't include the root.
-            withRoot=  root.val + leftPair[1] + rightPair[1]  # we can't take any of it's children. when have to take 'withoutRoot' of it's child.
-            withoutRoot= max(leftPair) + max(rightPair)    # we can take max(withRoot,withoutRoot) of  both it's child.
+            # when we include the current node
+            withRoot=  root.val + leftPair[1] + rightPair[1]  
+            # when we don't include the current node
+            withoutRoot= max(leftPair) + max(rightPair)   
             return [withRoot, withoutRoot]
         
         return max(dfs(root))   # return max([withRoot, withoutRoot])

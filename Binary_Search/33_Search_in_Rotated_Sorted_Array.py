@@ -53,25 +53,26 @@ class Solution:
 
 
 # method2: By recursion(Template 2)
-#logic: just finding the sorted part and checking whether ele lies 
-# in this or not .. if lies then call the binary search  as we can directly apply binary search in sorted part only.
+#logic: just finding the sorted part and checking whether ele lies in this or not ..
+# Reason: we can only applu binary search if array is sorted.
 
+# time:O(logn)
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
         start, end= 0, len(nums) -1 
-        while(start<end):
+        while start < end :
             mid= start + (end-start)//2
-            if nums[start] <= nums[mid]: # means array is sorted from start to mid
+            # means array is sorted from start to mid
+            if nums[mid] > nums[start]: 
             # so we can check if target exist bw start and mid
-            # if it exists then we can apply binary search directly
                 if nums[start] <=target<=nums[mid]:
                     end= mid
                 else: # if not present then check in other part
                     start= mid + 1
 
-            # if above part is not sorted then it other part from mid+1 to end must be sorted
-            # check if target lies in this range        
+            # if above part is not sorted then it other part from mid+1 to end must be sorted        
             else: 
+                # check if target lies in this range
                 if nums[mid+1] <=target<=nums[end]:  # if lies call binary search
                     start= mid + 1
                 # if not lies from 'mid+1' to end then it must be before it

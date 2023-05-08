@@ -119,3 +119,10 @@ def findMax(nums):
     # because both are merging towards the index of max ele in each iteration
     
     return nums[left]
+
+
+# Note vvvi: in case of sorted & rotated array there will be two case:
+# 1) either array from start to mid (including both) will be sorted or 
+# 2) array from 'mid + 1' to 'end' will be sorted.
+
+# Both part can be either sorted or unsorted at the same time.

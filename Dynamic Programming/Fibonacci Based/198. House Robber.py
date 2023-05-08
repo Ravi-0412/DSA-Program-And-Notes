@@ -5,8 +5,8 @@
 # logic: At every home you have two option either rob the current house or don't rob.
 # if we rob then move to two house ahead(non-adj) else move to just next house.
 
-# one good way to think: 
-# just you have to find subsequences such that no ele are  adjacent and whose sum is maximum
+# vvi:one good way to think: 
+# just you have to "find subsequences such that no ele are  adjacent and whose sum is maximum".
 # using the technique of included and not included.
 
 # time: O(2^n)
@@ -14,6 +14,7 @@ class Solution:
     def rob(self, nums: List[int]) -> int:
         return self.helper(len(nums),nums)
     
+    # will give the max profit when 'n' houses are left to rob from start.
     def helper(self,n,nums):
         if n<=0:   # means no house left to rob
             return 0
@@ -24,16 +25,16 @@ class Solution:
 # time: 0(n)
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        dp= [-1]*(len(nums))
+        dp= [-1]*(len(nums) + 1)
         return self.helper(len(nums),nums,dp)
     
     def helper(self,n,nums,dp):
         if n<=0:
             return 0
-        if dp[n-1]!= -1:
-            return dp[n-1]
-        dp[n-1]= max(nums[n-1]+ self.helper(n-2,nums,dp), self.helper(n-1,nums,dp))
-        return dp[n-1]
+        if dp[n]!= -1:
+            return dp[n]
+        dp[n]= max(nums[n-1]+ self.helper(n-2,nums,dp), self.helper(n-1,nums,dp))
+        return dp[n]
 
 
 # Tabulation: Bottom Up

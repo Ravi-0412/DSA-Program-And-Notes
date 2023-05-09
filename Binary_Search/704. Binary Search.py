@@ -47,7 +47,7 @@ def binary_search(arr,key):
 # here we make decision after while loop only i.e what to return as final ans.
 # e.g: search for an element in an array.
 
-# in case of duplicate elements, it will give the 1st index where ele is present.
+# Note: in case of duplicate elements, it will give the 1st index where ele is present.
 # because even after finding the ans(>=), we are continuing our checking and shrinking the mid(decreasing the up).
 
 # agar ans mil bhi gya ho(>=) to or range shrink karke(up ko decr karke) even or chota dhundho.
@@ -164,6 +164,10 @@ print(binary_search(arr, key))
 # agar mil bhi jaye to 'low' ko aage badhate rhna h . isliye start wale condition me equal to lga do.
 # template 1 only. yhi template to use karna h ans milne ke bad bhi or bhi bda answer khojne ke liye.
 # vvi: This template used in Q like: "Aggressive cows", ""
+
+# Note: after while loop, end will point to the last index of target.
+# as before while loop exit start had last index value since equal to(<=) condition with 'start') and
+    # 'start' will point to the first greater ele than the 'target'.
 def binary_search(nums,target):
     start= 0
     end= len(nums)-1
@@ -173,9 +177,7 @@ def binary_search(nums,target):
             start= mid+1  # for finding larger index. means we have to find beyond mid
         else:
             end= mid-1
-    # after while loop, end will point to the last index of target.
-    # (as before while loop exit start had last index value since equal to(<=) condition with 'start') and
-    # 'start' will point to the smallest greater ele than the target
+
     return end  
 
 arr= [10, 10, 10,10,20,20,20,20,20]

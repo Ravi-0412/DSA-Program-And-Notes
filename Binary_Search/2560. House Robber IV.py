@@ -8,7 +8,7 @@
 # if number >= k then means we have found one of the ans so search for even more smaller.
 # else increase the range.
 
-# Q. How to find the count the number of ele which is <= 'mid' such that no two of them are adjacent?
+# Q. How to find the number of ele which is <= 'mid' such that no two of them are adjacent?
 # Ans: we can use greedy i.e then we will see any ele <= mid and if last ele is not taken then we can take the curr ele.
 
 # Reason: we have to count such ele so why to skip if can include them. 

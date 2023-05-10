@@ -8,7 +8,9 @@ class Solution:
             count= [0]*26   # to store the count of each char for each string.   a.....z
             for c in s:
                 count[ord(c)- ord("a")]+= 1
-            hashmap[tuple(count)].append(s)    # append all string with these number of char count
+            # append all string with these number of char count as key.
+            # changing into tuple because list can't be key.
+            hashmap[tuple(count)].append(s)    
         return hashmap.values()
 
 # just used the meaning of anargam like when sorted they should be same.

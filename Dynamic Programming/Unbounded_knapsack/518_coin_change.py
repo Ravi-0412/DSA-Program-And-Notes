@@ -1,14 +1,32 @@
+# method 1: Recursive
+
+class Solution:
+    def change(self, amount: int, coins: List[int]) -> int:
+        n= len(coins)
+        return self.MinCoins(coins,amount,n)
+
+    def MinCoins(self,coins,amount,n):
+        if amount== 0:
+            return 1
+        if n== 0:
+            return 0
+        if coins[n-1]<= amount:
+            return self.MinCoins(coins, amount-coins[n-1], n) + self.MinCoins(coins, amount, n-1)
+        return self.MinCoins(coins, amount, n-1)
+    
+
+
 # method 2: Memoization
 # logic:  # just exactly same as ' count no of subsets with a given sum'
-        # just write the logic of unbounded kanpsack when we include any else:
-        # here we don't need to make the weight array like 'cutting rod problem' 
-        # acc to the q we will increase/ decrease the no of variable
+# just write the logic of unbounded kanpsack.
+
 class Solution:
     def change(self, amount: int, coins: List[int]) -> int:
         N= len(coins)
         dp= [[-1 for i in range(amount +1)] for i in range(N +1)]   
-        return self.helper(N, coins, amount, dp)
-    def helper(self, n, arr, sum, dp):
+        return self.MinCoins(N, coins, amount, dp)
+    
+    def MinCoins(self, n, arr, sum, dp):
         if sum== 0:  # we have to find the ways so first check 'if sum==0'
             return 1
         if n== 0:   # means sum!= 0 and n==0
@@ -16,18 +34,17 @@ class Solution:
         if dp[n][sum] != -1: 
             return dp[n][sum]
         if arr[n -1]> sum:
-            dp[n][sum]= self.helper(n -1, arr, sum, dp)
+            dp[n][sum]= self.MinCoins(n -1, arr, sum, dp)
         else:   # arr[n -1] <= sum
-            dp[n][sum]= self.helper(n, arr, sum- arr[n-1], dp) + self.helper(n -1, arr, sum, dp)
+            dp[n][sum]= self.MinCoins(n, arr, sum- arr[n-1], dp) + self.MinCoins(n -1, arr, sum, dp)
         return dp[n][sum]
 
 
-# method 2: Bottom up Approach
+# method 3: Bottom up Approach
 class Solution:
-    def change(self, amount: int, coins: List[int]) -> int:
-        return self.NoWays(len(coins),coins,amount)
-    
-    def NoWays(self,N, arr, sum):
+    def change(self, sum: int, arr: List[int]) -> int:
+        N= len(arr)
+
         # 1st initialse the matrix properly, just like 'no of subsets with a given sum'
         dp= [[0 for i in range(sum+1) ] for i in range(N+1)]
         for i in range(N+1):

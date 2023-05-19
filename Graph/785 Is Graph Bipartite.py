@@ -1,29 +1,39 @@
 # logic: Every bipartite graph should be coloured with exactly two colors
-# use the concept of graph coloring and try to color with two color
-# no need of visited array in this because color array can work like visited also
+# use the concept of graph coloring and try to color with two color.
+# no need of visited array in this because color array can work like visited also.
 
+# Note: just similar logic as we detect cycle in undirected graph.
+
+# Logic: if any node is not visited, then color it with different color than its parent and 
+# if already visited then check it's color with the color of its neighbour. if same return False.
+
+# Note: xor of any number with 0 will give the same no  and  xor with '1' give the different number.
+# so to color the adjacent node with different color, we will take 1^color[parent].
 
 # method 1: using BFS
 
 class Solution:
     def isBipartite(self, graph: List[List[int]]) -> bool:
+        # graph is already given as adjacency list.
         n= len(graph)
-        color= [-1]*n
+        color= [-1]*n  # will tell node has been visited or not.
         for i in range(n):
             if color[i]== -1:  # means not visited till now
+                # if any of components return False, return False
                 if self.BfsCheck(graph,i,color)== False:
                     return False
+        # otherwise graph is bipartite.
         return True
     
     def BfsCheck(self, graph,src,color):
-        Q= [src]
-        color[src]= 1
+        Q= collections.deque()
+        Q.append(src)
+        color[src]= 1   # for starting node of each component color it with either '0' or '1'.
         while Q:
-            curr= Q.pop(0)
+            curr= Q.popleft()
             for nei in graph[curr]:
-                if color[nei]== -1:
-                    color[nei]= 1^color[curr]  # just change the color of its adjacent node, above taken '1' of source so here we have to take different so xor with '1'(above taken) 
-                    # for this we used xor operation with 1(to get the diff one , xor with 0 will result into the same color)
+                if color[nei]== -1:  # if not visited
+                    color[nei]= 1^color[curr]  # used xor operation with 1(to get the diff one). it will also mark node as visited.
                     Q.append(nei)  # in DFS instead of this line we call the DFS gain and everything is same only
                 elif color[nei]== color[curr]: # if colored and have same color then not bipartite 
                     return False

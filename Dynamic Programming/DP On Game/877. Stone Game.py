@@ -26,7 +26,9 @@
 
 # So, Alex always defeats Bob in this game.
 
-# other methods:
+# Thata's why simply return True
+
+# method 2:
 # totally same as 486. predict winner, so didn't submit.
 
 class Solution:

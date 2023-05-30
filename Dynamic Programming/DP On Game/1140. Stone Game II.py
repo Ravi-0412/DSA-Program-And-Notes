@@ -4,16 +4,22 @@
 # Ans: here we can pick only from start that's why.
 # when the index goes out of bound tehn we can simply return '0'.
 
+# Note: 
+# piles[i: i+k]=  in case 'i+k' go out of bound then it will give the array from index 'i' to last index.
+# And if 'i' goes out of bound then it will give empty array 
+
+# So out of bound cases will get handled automatically, no need to handle separately.
+
 class Solution:
     def stoneGameII(self, piles: List[int]) -> int:
 
-        def FindScore(i, m, turn):   
-            if i >= len(piles):   # check if it goes out of bound
+        def FindScore(i, m, turn):
+            if i >= len(piles):
                 return 0
             if turn: # means player1 turn.
                 ans= float('-inf')
                 for k in range(1, 2*m +1):
-                    tempAns= sum(piles[i: i+k]) + FindScore(i +k, max(m, k), False)    # we have to change 'm' also.
+                    tempAns= sum(piles[i: i+k]) + FindScore(i +k, max(m, k), False)   # max(m, k) because: we must take max of already picked one . e.g: if m= 3 and k= 1 then can't be less than '3' for any further pick.
                     ans= max(ans, tempAns)   # take max of all possibile chance
                 return ans
             else:
@@ -23,18 +29,7 @@ class Solution:
                     ans= min(ans, tempAns)   # take minimum of all possible chance
                 return ans
 
-        return FindScore(0, 1, True)  # denote the maximum score player1 can get if he takes first piles at the position i and when max allowed is 'm'.
-    
-
-# short way of writing the above code
-def stoneGameII(a: List[int]) -> int:
-        def minimax(st, m, player):
-            if st >= len(a): return 0
-            if player:
-                return max([sum(a[st:st+x]) + minimax(st+x, max(m,x), player^1) for x in range(1, 2*m+1)])
-            else:
-                return min([minimax(st+x, max(m,x), player^1) for x in range(1, 2*m+1)])
-        return minimax(0, 1, 1)   
+        return FindScore(0, 1, True)
 
 
 # memoisation

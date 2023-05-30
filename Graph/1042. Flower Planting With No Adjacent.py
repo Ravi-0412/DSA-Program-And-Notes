@@ -4,6 +4,13 @@
 # Here we have to print one of the possible ans.
 
 # Note: This will work for every Q of this type.
+
+# Note: there is no node that has more than 3 neighbors, always one possible color to choose.
+# so There must be one color availabe to color a node.
+# Note: Due to this reason, this  brute force solution get accepted.
+
+# time: O(4*n)
+
 class Solution:
     def gardenNoAdj(self, n: int, paths: List[List[int]]) -> List[int]:
         adj= collections.defaultdict(list)
@@ -39,6 +46,7 @@ class Solution:
 
 # method 2: will only work if no of color is > no of adjacent node for any node.
 # logic: There must be one color availabe to color a node.
+# Note: Due to this reason,above brute force solution get accepted.
 
 # Reason: Because there is no node that has more than 3 neighbors, always one possible color to choose.
 

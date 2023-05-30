@@ -47,6 +47,23 @@ class Solution:
                 nums[j] + min(self.FindScore(nums, i , j-2), self.FindScore(nums, i+1 , j-1)))
 
 
+# little expalained in more better , above logic.
+class Solution:
+    def PredictTheWinner(self, nums: List[int]) -> bool:
+        n= len(nums)
+        score1= self.FindScore(nums, 0, n-1)  # finding the max optimal score can player 1 make.
+        return score1 >= sum(nums) - score1   # comparing if socre of player1 is >= player2.
+    
+    def FindScore(self, nums, i, j):
+        if i > j:
+            return 0
+        # when player1 pick the 1st ele
+        start= nums[i] + min(self.FindScore(nums, i +2, j), self.FindScore(nums, i +1, j-1))
+        # when player1 pick the 2nd ele
+        end=   nums[j] + min(self.FindScore(nums, i , j-2), self.FindScore(nums, i+1 , j-1))
+        return max(start, end)
+
+
 # memoisation:
 # time: O(n^2)= space
 class Solution:

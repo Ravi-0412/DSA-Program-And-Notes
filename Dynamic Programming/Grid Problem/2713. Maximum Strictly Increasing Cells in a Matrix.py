@@ -2,7 +2,7 @@
 # logic : 
 # for (i,j), longest path= max(longest path in  row i, longest path in col j) + 1.
 
-# method 1:
+# method 1: Brute force
 # logic: for (i,j), longest path= max(longest path in  row i, longest path in col j) + 1.
 
 class Solution:

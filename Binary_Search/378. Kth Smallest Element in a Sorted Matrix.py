@@ -66,7 +66,7 @@ class Solution(object):
             for row in range(len(matrix)):
                 while col>= 0 and matrix[row][col]> m:  # just doing opposite 
                     col-= 1
-                cnt+= col + 1   # after each col this will be the no of ele <= 'm'
+                cnt+= col + 1   # this much will be the no of ele <= 'm' in 'i'th row
             return cnt
         
         left, right= matrix[0][0], matrix[-1][-1]  # min will be at (0,0) and max will be at (n-1,n-1) i.e last ele. our ans can be in this range only.

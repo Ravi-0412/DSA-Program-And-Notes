@@ -42,3 +42,4 @@ arr= [1, 2, 1, 0, 1, 1, 0]
 k = 4
 print(LongestSubarray(arr, k))
 
+# do for negative number also

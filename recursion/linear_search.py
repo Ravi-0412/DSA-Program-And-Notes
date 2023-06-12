@@ -49,32 +49,7 @@ indexes= []
 
 #Do the same above Q but dont take list as argument, make list inside the function body itself
 # just for knowledge and concept
-
-def LinearSearch5(arr,target,index):  # index tells from where we have to search
-    list1= []
-    if index== len(arr): # as we have traversed the whole array 
-        pass
-    elif arr[index]== target: # if ele is found add the index into the list and also
-                              # add the list returned by the further function calls
-        list1.append(index)  
-        c= LinearSearch5(arr,target,index+1)  # store the list returned to add with the previous list 
-        list1= list1+ c   # will comtain all the index of target element till now
-
-        # list1.append(index)      # writing this and next onen below lines as combination not giving 
-                                 #correct output 
-        # list1+ LinearSearch(arr,target,index+1)  # list returned by the next function is not getting added
-                                                # as after returning the value it will execute the further lines
-                                                # or any statement ahead and we are adding in the same line when when we are calling
-
-        # list1.append()+ LinearSearch(arr,target,index+1)   # writing only this giving None(None+list)
-
-    else:
-        return LinearSearch5(arr,target,index+1)
-    return list1
-
-arr= [2,4,5,7,4,9,4,10,15,22,4]
-print(LinearSearch5(arr,4,0))
-# print(LinearSearch5(arr,18,0))
+# Better one
 
 # better and concise than all other
 def search(arr,target,index):

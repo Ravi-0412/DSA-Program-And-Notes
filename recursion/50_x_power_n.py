@@ -6,10 +6,9 @@ class Solution:
             n= -n
         if n==1:   # base case
             return x
-        elif n%2==1:  # if power is odd.
+        if n%2==1:  # if power is odd.
             return x* self.myPow(x,n//2) *self.myPow(x,n//2)
-        else:
-            return self.myPow(x,n//2) * self.myPow(x,n//2)
+        return self.myPow(x,n//2) * self.myPow(x,n//2)
 
 # we have to minimise the repeatitive recursion call in above method or we can use DP.
 # time: O(logn)

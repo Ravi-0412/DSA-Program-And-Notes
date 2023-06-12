@@ -1,5 +1,9 @@
 # reverse a number
 
+# method 1:
+
+
+
 # method 1: Iterative
 def reverse(n):
     ans= 0
@@ -51,11 +55,10 @@ def reverse(n,x):
     sum=0
     if n<10:
         return n
-    else:
-        r= n%10
-        sum+= r*pow(10,x) 
-        smallAns= reverse(int(n/10),x-1)
-        sum+= smallAns
+    r= n%10
+    sum+= r*pow(10,x) 
+    smallAns= reverse(int(n/10),x-1)
+    sum+= smallAns
     return sum
 # num= int(input("enter the number"))
 

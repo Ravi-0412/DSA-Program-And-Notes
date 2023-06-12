@@ -71,8 +71,7 @@ show(10)
 def fact(n):
     if(n==1):
         return 1
-    else:
-        return n*fact(n-1)
+    return n*fact(n-1)
 print(fact(5)) 
 
 # find nth fibonacii number
@@ -102,13 +101,14 @@ def sum(n):
     else:
         # smallAns= sum(n-1)
         # return n+smallAns
-        return n + sum(n-1)  # wherever there is format like 'smalAns'
-                             # you may directly write the return 
+        return n + sum(n-1)  # wherever there is format like 'smallAns'
+                             # you may directly write the return combining all.
 # print(sum(5))
 
 
 #2nd method
-# Note: Jahan pe bhi hmko 'smallAns' ko include karna pad rha ho current ans me, wahan direct return kar do sbko combine karke in same order.
+# Note: Jahan pe bhi hmko 'smallAns' ko include karna pad rha ho current ans me, 
+# wahan direct return kar do sbko combine karke in same order.
 def sum1(n):
     ans= 0
     if n==0:
@@ -142,7 +142,7 @@ def SumDigit(n):
         return n
     else:
         r= n%10
-        q= int(n/10)
+        q= n//10
         sum1= SumDigit(q)
         return r+sum1
 
@@ -160,7 +160,7 @@ def SumDigit(n):
 
 print(SumDigit(234))
 
-# 3rd method:
+# 3rd method: shortcut of above two
 # Pattern 2.
 def SumDigit1(n):
     if n< 10:   # or if n%10== n 

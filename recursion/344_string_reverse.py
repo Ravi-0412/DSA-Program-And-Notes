@@ -16,18 +16,12 @@ class Solution:
         #another method by recursion
         #time- O(n^2) ,Space- O(n)
 
-
-
-# arr= ["h","e","l","l","o"]
-# l1= Solution()
-# print(l1.reverseString(arr))
-
-
 # another method
 # just the conversion of 1st iterative method
 #time- O(n) ,Space- O(1)
 def reverse(arr,start,end):
     if start== end:
+        # means reversing is complete
         return arr
     arr[start], arr[end]= arr[end], arr[start]
     return reverse(arr,start+1,end-1)

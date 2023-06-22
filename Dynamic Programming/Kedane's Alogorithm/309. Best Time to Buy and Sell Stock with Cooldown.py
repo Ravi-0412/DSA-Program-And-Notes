@@ -1,4 +1,6 @@
-# just totally same as Q no: 122 just a very chnage when we sell the stock. simply copy pasted the code of that only.
+# just totally same as Q no: 122 just a very change when we sell the stock.
+# if we sell next we can do purchase on 'i+2'th day, So just call the function for 'i+2' in case of sell.
+#  simply copy pasted the code of that only.
 
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:

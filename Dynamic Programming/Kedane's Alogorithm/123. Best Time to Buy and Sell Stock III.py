@@ -1,6 +1,6 @@
 # just same as pre Q: 122
 # here we can only buy and sell if transaction is allowed, otherwise simply return zero
-# so for checking the remaining txn we will need one more para
+# so for checking the remaining txn we will need one more parameter.
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         return self.helper(prices, 0, 1,  2)  # 2nd para: ind, 3rd: buying is allowed or not, 4th: no of transactions allowed

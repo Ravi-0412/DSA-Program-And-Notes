@@ -1,5 +1,12 @@
 # just the same way we can earn max profit in stocks by holding and selling one stock at a time
-# just buy the stock and sell if price increase and if are sure that price will be decrease on next day just sit idle. 
+# just buy the stock and sell if price increase & again purchase on day you sell and keep on adding the profit.
+# and if we are sure that price will be decrease on next day just sit idle i.e profit= 0 here.
+
+# Note: "you can buy it then immediately sell it on the same day" because of this statement,
+# These logic are working because we are selling on curDay if price increases and again purchasing on same day.
+
+# One good example: [5, 4,3,2,1,10]. In this profit will only get added for (6th - 5th) day & that's also the ans.
+# So checking only the adjacent will give the correct ans.
 # Time: O(n)
 
 # unlimited no of transactions are allowed
@@ -17,18 +24,25 @@ def maxProfit(self, prices: List[int]) -> int:
             profit+= max((prices[i]- prices[i-1]), 0)
         return profit
 
-# same logic
-class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        max_profit= 0
-        for i in range(1,len(prices)):
-            max_profit+= prices[i]- prices[i-1] if prices[i]- prices[i-1] >0 else 0
-        return max_profit
 
+# now by DP.
+# How to think about DP?
+# Ans: on every day we have two choices i.e either 1) buy or 2) sell.
+# 1) Buy: if buy is allowed (if stock is not purchased before)
+# In this we have two choices: i) We can buy on this day ii) We don't buy on this day
+# 2) Not buy: (means only sell is allowed).
+# In this also we have two choices: i) we sell on this day ii) we don't sell on this day. 
 
-# now by DP
-# since we can hold max one stock at a time, so to know stock has been bought already we need one variable to check 
-# for every ele we have two choices in each case if 1) buying allowed(buy or not buy)  2) buying not allowed(sell or not sell)
+# since we can hold max one stock at a time, so to know stock has been bought already, we need one variable to check. 
+
+# we also have to keep track of 'last bought date' so calculate the profit but no need of extra varible.
+# To handle this we can subtract the price of day on which we will buy and call the further function.
+
+# Note vvi: Here in recursive function, we are not buying and selling on same but still will give correct ans.
+
+# e.g: [1, 7, 9]. This function will call give the ans like : 'buy on day1 and sell on day3' which is eqivalent to 
+# 'buy on day1 & sell on day2' + 'buy on day2 and sell on day3' because value are increasing.
+# same for e.g: [1, 7, 9, 12]. will give ans according to 'buy on day1 & sell on day4' which is eqivalent to purchasing and selling on next day.
 
 # Recursive way. Time: O(2^n), space: O(n)
 class Solution:
@@ -48,6 +62,18 @@ class Solution:
         else:
             profit= max(prices[ind] + self.helper(prices, ind+1, True), 0+ self.helper(prices, ind+1, False))
         return profit
+
+# shorter and concise
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        return self.helper(prices, 0, True)   
+
+    def helper(self, prices, ind, buy):
+        if ind== len(prices):
+            return 0
+        if buy:
+            return max(-prices[ind] + self.helper(prices, ind+1, False), 0+ self.helper(prices, ind+1, True))
+        return max(prices[ind] + self.helper(prices, ind+1, True), 0+ self.helper(prices, ind+1, False))
 
 # By memoization. time: O(n*2)= space
 class Solution:

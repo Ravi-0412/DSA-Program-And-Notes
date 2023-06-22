@@ -12,8 +12,7 @@ class Solution:
         if ind== len(prices): return 0
         if buy:
             return max(-prices[ind] + self.helper(prices, ind+1, txn, 0 ), 0+ self.helper(prices, ind+1, txn, 1))
-        else:
-            return max(prices[ind] + self.helper(prices, ind+1, txn-1, 1), 0+ self.helper(prices, ind+1, txn, 0))
+        return max(prices[ind] + self.helper(prices, ind+1, txn-1, 1), 0+ self.helper(prices, ind+1, txn, 0))
 
 # method 2: memoization
 # range of k: will be k+1 i.e k,k-1....0    
@@ -52,6 +51,7 @@ class Solution:
                     else:
                         dp[ind][txn][buy]= max(prices[ind] + dp[ind+1][txn-1][1], 0+ dp[ind+1][txn][0])     
         return dp[0][k][1]  # return that proper variable for which you have called the recursive function
+
 
 # space can be optimised to O(K*2)*2 as curr row value is dependent on pre row.
 # And for optimising space, just make pre and curr array with dimension 1 less than the dp.(since we are calculating row wise so no need to include row in making array).

@@ -1,7 +1,7 @@
-# logic: 1) we have to reorder elements in such a way that we get the same BST
-# when we add the elements in order to an empty tree.
+# logic: 1) we have to reorder elements in such a way that we get the same BST,
+# when we add the elements in given order to an empty tree.
 
-# 2) so first ele must be rot.val then only you can get the same BST.
+# 2) so first ele must be root.val then only you can get the same BST.
 
 # And for above conditions we have to keep the relative order same of both left and right subtree respectively.
 # (If you will not maintain the relative order in both then you won't get the same BST).
@@ -11,11 +11,15 @@
 # Suppose we have two finite, ordered sequences x=(x1,…,xm)
 # and y=(y1,…,yn).
 # How many ways can we create a new sequence of length m+n from x and y
-# so that the order of elements is preserved?
+# such that the relative order of the digits from the same sequence(array) remain preserved?
 
 # Ans:
-# This is the same as taking m+n places, and deciding which mof them get the xi
+# This is the same as taking m+n places, and deciding which of them get the xi
 # , i.e., com(m + n , m) or comb(m + n, n) = (n + m)! //(m! * n!)
+
+# There are m + n total positions. If we put m elements from left in randomly chosen m positions (but, in order), 
+# we can put the rest in other (right ;-)) positions. 
+# (Equivalently, we could also have chosen to fill n arbitrary positions from right and fill remaining from whatever positions are left.)
 
 # TIME: o(n^2)
 

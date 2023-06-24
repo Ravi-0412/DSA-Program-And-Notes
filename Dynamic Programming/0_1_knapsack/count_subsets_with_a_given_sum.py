@@ -4,7 +4,7 @@
 # this totaly same as subset sum just replaced False ->0 and True ->1
 # but this will not work in case val of ele= 0  
 class Solution:
-    def isSubsetSum1(self, N, arr, sum):
+    def NoOfSubsets(self, N, arr, sum):
         return self.helper(N, arr, sum)
     def helper(self, n, arr, sum):  # no need of this helper function
         if sum== 0:
@@ -18,7 +18,7 @@ class Solution:
 
 # memoized the above method
 class Solution:
-    def isSubsetSum(self, N, arr, sum): 
+    def NoOfSubsets(self, N, arr, sum): 
         dp= [[-1 for i in range(sum+1)] for i in range(N)]  # no need to go till 'N+1' as we are starting from  'N-1' 
         return self.helper(N-1, arr, sum, dp)
     
@@ -41,13 +41,13 @@ class Solution:
 # print(NoOfSubsets(4,arr,6))   
 # print(NoOfSubsets(4,arr,4)) 
 
+# Method 3 vvi: correct one that will work in all cases
+# by aditya verma method and what i used to do also in GATE and while solving Q.
 
-# to find all the ans just write the base case when you reach the last ele instead when sum==0
-# correct one that will work in all cases
+# to find all the ans just write the base case when you reach the last ele instead when sum==0.
+
 # can also do by bottom up approach by initialising the dp matrix with these base condition
 
-# method 3: by aditya verma method and what i used to do also in GATE and while solving Q
-# working in all cases
 class Solution:
     def NoOfSubsets2(self, N, arr, sum):
         dp= [[-1 for i in range(sum+1)] for i in range(N +1)]   
@@ -77,24 +77,4 @@ ob= Solution()
 # print(ob.NoOfSubsets2(3,arr,1))
 
 
-# this totaly same as subset sum just replaced False ->0 and True ->1
-# but this will not work in case of repeated ele 
-class Solution:
-    def isSubsetSum1(self, N, arr, sum):
-        return self.helper(N, arr, sum)
-    def helper(self, n, arr, sum):  # no need of this helper function
-        if sum== 0:
-            return 1
-        if n== 0:  # means n== 0 and sum != 0
-            return 0
-        if arr[n-1]> sum:
-            return self.helper(n-1,arr,sum)
-        else:
-            return self.helper(n-1,arr,sum- arr[n-1]) + self.helper(n-1,arr,sum)
-
-arr= [0, 0, 0, 1]
-# arr= [0,0,1]
-ob= Solution()
-print(ob.isSubsetSum1(4,arr,1))
-# print(ob.isSubsetSum1(3,arr,1))
 

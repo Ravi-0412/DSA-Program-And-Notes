@@ -8,9 +8,10 @@ class Solution:
         if n== 0:  # means n== 0 and sum != 0
             return False
         if arr[n-1]> sum:
+            # Means we can't consider this ele
             return self.helper(n-1,arr,sum)
-        else:
-            return self.helper(n-1,arr,sum- arr[n-1]) or self.helper(n-1,arr,sum)
+        # Means we can consider this ele but we have choices i.e 1) Take it 2) Not take it.
+        return self.helper(n-1,arr,sum- arr[n-1]) or self.helper(n-1,arr,sum)
 
 
 # memoized method:

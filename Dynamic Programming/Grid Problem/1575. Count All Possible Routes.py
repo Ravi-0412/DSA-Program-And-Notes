@@ -8,6 +8,7 @@
 # Continue recursion, since there might be more ways to get back from end to end using other cities.
 # If fuel < 0, there is no further way left.
 
+# time: O(n^2 * fuel)
 class Solution:
     def countRoutes(self, locations: List[int], start: int, finish: int, fuel: int) -> int:
         n= len(locations)

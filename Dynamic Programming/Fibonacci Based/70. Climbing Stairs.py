@@ -1,17 +1,17 @@
 # method 1: recursion
 # time: same as finonacci , time space everything
-# when you reach the base just return the value as it will be one of the possible ways
+# when you reach the base just return the value as it will be one of the possible ways.
 
 # Pattern: in this type of Q(Fibonacci based), just make sure that function didn't call for negative number.
 # i.e write the base condition such that it doesn't reach till negative number and at last return all the function call
-# or write the minimal base case and before calling the function check if it will not lead to call fn with negative number
+# or write the minimal base case and before calling the function & check if it will not lead to call fn with negative number.
 
 # problem with this pattern have difference in base case only according to the Q , other things wil be similar
 
 # logic: at every stair you have two options either take one step or take two step
 class Solution:
     def climbStairs(self, n: int) -> int:
-        if n<=2:  # for n= 1, 1 choice. for n= 2 two choice(11 or 2)
+        if n<=2:  # for n= 1, 1 choice. for n= 2 two choice(1->1 or 2)
             return n
         return self.climbStairs(n-1) + self.climbStairs(n-2)  # ways(n)= ways(n-1) + ways(n-2)
 

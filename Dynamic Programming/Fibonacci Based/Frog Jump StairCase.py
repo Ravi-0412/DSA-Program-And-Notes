@@ -9,6 +9,20 @@ def frogJump(n: int, heights: List[int]) -> int:
     return min(abs(heights[n-1]-heights[n-2]) + frogJump(n-1,heights),  abs(heights[n-1]-heights[n-3]) + frogJump(n-2,heights))
 
 
+# My mistake:
+# say when n= 3 and we take '2' stair  then it will call the function for f(1) and 
+# for f(1) there is no base and when f(1) will call the function then index will go into negative.
+
+# so we have to put base case also for n == 1.
+
+# Note: we must put the base case for all 'n' , for which calling the function will lead to index out of bound
+# OR check for negative index before calling the function in any recursive Q.
+
+def frogJump(n: int, heights: List[int]) -> int:
+    if n==2: 
+        return abs(heights[1] - heights[0])
+    return min(abs(heights[n-1]-heights[n-2]) + frogJump(n-1,heights),  abs(heights[n-1]-heights[n-3]) + frogJump(n-2,heights))
+
 # method 2: memoization (Top Down )
 def frogJump(n: int, heights: List[int]) -> int:
     dp = [-1]*n

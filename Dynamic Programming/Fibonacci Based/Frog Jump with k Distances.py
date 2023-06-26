@@ -6,7 +6,7 @@ def frogJump(n, heights,k) :
     # just do by minimal base case and check condition while calling the function
     # if n==2: # only we have to go one step 
     #     return abs(heights[1] - heights[0])
-    mn= 9999999
+    mn= float('inf')
     for i in range(1,k+1):
         if n-i >=1:
             mn= min(mn, abs(heights[n-1]-heights[n-i-1]) + frogJump(n-i,heights, k))   # height idexing is starting from '0' but stair count from 1

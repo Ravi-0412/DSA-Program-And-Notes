@@ -1,11 +1,13 @@
-# Note vvi: It is asking the minimum moves not the shortest path.
+# Note vvi: It is asking the minimum moves.
+# Also we don't need to open all the locks, we only need to grab all the keys.
 
 
 # My approach:
 # vvi: will wrong ans when there is lock and their key is adjacent to any cell.
 # ["@.a..","###.#","b.A.c",".C.B."]
 
-# This will give the shortest path(shortest distance) from start till when we will get the last key.
+# This will give the shortest shortest displacement from start till when we will get the last key.
+# Will not give the shortest distance.
 class Solution:
     def shortestPathAllKeys(self, grid: List[str]) -> int:
         m, n = len(grid), len(grid[0])
@@ -53,15 +55,36 @@ class Solution:
 # Method 1:
 # working one and easier one
 
-# Logic: To solve the above problem, we need to travsere the same cell again i.e first get the key and then get the respective lock.
+# Logic: 
+
+
+# To solve the above problem, we need to travsere the same cell again i.e first get the key and then get the respective lock.
+
+# But we have to somehow mark it visited to avoid visiting the cell infinite times.
+
+# Note vvi(In general): In bfs, in most of the cases we need to keep track of visited to avoid visiting infinite times 
+# but here we have to visit the same cell again to get the key.
+# So somehow we need to find the ways to mark visited like adding ant more variable in visited one.
+
+# What to add in visited one?
+# Ans: while traversing if we reach any lock & key of that lock is not present then we can't visit that lock,
+# But when we will acquire the key of corresponding lock then we can visit that lock to get the other keys.
+
+# So from here we can get intitution that we need to keep track of path(i.e keys) that can tell whether we can visit the cur cell or not.
+# So we need to add path also to keep track of visited.
+
 # so here to mark visited we will add the path also because when it will go to that cell again to get the key &
 #  again come back then path will be differnt and should be allowed.
 
 # When we will find any key then we will add their lock into the path(i.e keys variable).
 
+# Note: we need keys to check whether we can go to current cell or not.
+
+
+
 #Time complexity: O(mn2^k) or O(m*n*k!). Have to ask someone
 
-# Note: if asked for shortest distance between start and cell where we will get the last key 
+# Note: if asked for shortest displacement between start and cell where we will get the last key 
 # then the above method will work.
 class Solution:
     def shortestPathAllKeys(self, grid: List[str]) -> int:
@@ -90,7 +113,7 @@ class Solution:
             # now traverse 4 directions
             for dr, dc in directions:
                 nr , nc = r + dr, c + dc
-                # check if we can visit this cell
+                # check if we can visit this cell.
                 if 0 <= nr < m and 0 <= nc < n and grid[nr][nc] in keys and (nr, nc, keys) not in visited:
                     visited.add((nr, nc, keys))
                     q.append((nr, nc, moves + 1, keys, acquiredKey))
@@ -121,6 +144,10 @@ class Solution:
 #         return -1
 
 
-# Method 2: Try to do by Bfs + bitmasking
+# Method 2 vvi: Try to do by Bfs + bitmasking also (solutions in sheet)
+# Logic: we can use bit masking to mark the key that we have acquired till now so that we can open the cooresponding lock.
+# Instead of keys as string we will use bit mask.
+
+
 
 

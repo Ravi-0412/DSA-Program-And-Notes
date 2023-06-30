@@ -209,3 +209,5 @@ def binary_search(arr,key):
 # like agar ye condition agar follow kar rha then is side check karna h agar nhi kar rha to dusre side check karna h..
 # then must apply Binary Search.
 
+
+# Method 2: Try to do by union find also (solution in sheet)

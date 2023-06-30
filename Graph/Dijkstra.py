@@ -65,3 +65,9 @@ print(ShortestPath1(adj, 5, 0))
 
 # Note: But when we are sure that we will get ans when we will see the node for 1st time itself and at that time we can mark visited and check the ans at 1st time itself.
 # e.g: "Q. 778.swimming in Rising water"
+
+
+# Note: Whenever we are asked to find the shortest path having no weight or equal we use bfs. 
+# Raeson: we go breadth wise to reach the other cell as soon as possible.
+
+# If weighted then think of Dijkastra Algo.

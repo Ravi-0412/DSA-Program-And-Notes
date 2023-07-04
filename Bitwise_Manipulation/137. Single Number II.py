@@ -43,35 +43,73 @@ class Solution:
             if frequency[i]==1:
                 return i
 
-
-# method 4: find the sum of set bits at all the positions and divide by 3
-# if sum of set bits at that position is not divisible by 3 then it means the single number has set bit at that position
+# method 4 vvi: find the sum of set bits at all the positions and divide by 3
+# if sum of set bits at that position is not divisible by 3 then it means the single number has set bit at that position.
 # time: O(32* n)
-# This method will work only for positive number
+
+# Note vvi: This method will work only for positive number in case of python.
+# Detailed explanation in notes, page : 137
 
 def singleNumber(self, nums: List[int]) -> int:
         ans= 0
         for i in range(32): # since max bits in any number can be 32
             check_set= 1<< i   # to check whether ith bit of that num is set bit or not so took left shift of 1 'i' times
-            sum_bits = 0      
+            no_set_bits = 0      
             for num in nums:
                 if num & check_set:  # if 1 then 
-                    sum_bits+= 1    # add to the set_bit
-            if sum_bits %3!= 0:     # now check whether sum of set bits at that position is divisible by 3 or not 
-                                    # if not divisible by 3 then
+                    no_set_bits += 1    # add to the set_bit
+            # now check whether sum of set bits at that position is divisible by 3 or not
+            if no_set_bits %3!= 0:      
+                # update the ans
                 ans= ans | check_set   # put '1' at ith position in the ans keeping other bit zero
         return ans
 
 
-# method 4: needs a lot of thinking but better method
-# using bit manipulation
-#submitted on leetcode(didn't do myself)
-# have to look later properly
+# Method 4.1 : Same above method that will work in case of both negative and positive numbers.
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        ans= 0
+        for i in range(32): # since max bits in any number can be 32
+            check_set= 1<< i   # to check whether ith bit of that num is set bit or not so took left shift of 1 'i' times
+            no_set_bits = 0      
+            for num in nums:
+                if num & check_set !=0:  # if 1 then 
+                    no_set_bits += 1    # add to the set_bit
+            # now check whether sum of set bits at that position is divisible by 3 or not
+            if no_set_bits %3 == 1:      
+                # update the ans
+                ans= ans | check_set   # put '1' at ith position in the ans keeping other bit zero
+        # print(ans, ~ans + 1 , (~ans + 1) & 0xffffffff)
+        # print(0xffffffff)
+        isPositive = (ans >> 31)  & 1 == 0
+        return ans if isPositive else -((~ans + 1) & 0xffffffff)
+
+# method 4.2: 
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        ans= 0
+        for i in range(32): # since max bits in any number can be 32
+            check_set= 1<< i   # to check whether ith bit of that num is set bit or not so took left shift of 1 'i' times
+            no_set_bits = 0      
+            for num in nums:
+                if num & check_set !=0:  # if 1 then 
+                    no_set_bits += 1    # add to the set_bit
+            # now check whether sum of set bits at that position is divisible by 3 or not
+            if no_set_bits %3 == 1:      
+                # update the ans
+                ans= ans | check_set   # put '1' at ith position in the ans keeping other bit zero
+        if ans <= 2**31 - 1:  # in 2's complement notation, +ve number can have value representation till 2**(n-1) -1.
+            # Means ans is +ve number then only we can get ans less than this
+            return ans
+        # if negative then just find the positive value and return with '-ve' sign to get the actual number.
+        return -(2**32 - ans)
+
+# method 5 vvi: needs a lot of thinking but better method
+
+# This Q was made for checking this method only.
 # time: O(n)
 
-# logic:  "ones" and "twos" to be sets that are keeping track of which numbers have appeared once and twice respectively.
-# https://leetcode.com/problems/single-number-ii/solutions/43294/challenge-me-thx/
-# for intuition read comment by "anshumanmishra" in above link.
+# logic:  Page no: 141
 
 # when any ele will occur three times then twos and ones wil be '0' for that number.
 class Solution:
@@ -87,4 +125,25 @@ class Solution:
 # all other appear three times then simply we would have returned 'two' in above logic.
 
 
-# method 5: other method like finite state machine 
+# java version
+# method 3
+
+# class Solution {
+#     public int singleNumber(int[] nums) {
+        
+#         int ans= 0;
+#         for(int i= 0; i <32; i++) 
+#         {
+#             int count = 0;
+#             for(int num : nums) 
+#             {
+#                 if(((num >>i) & 1) == 1 ){
+#                     count += 1;
+#                     }
+#             }
+#             if(count % 3 != 0)
+#                 ans = ans |(1<<i);
+#         }
+#         return ans;
+#     }
+# }

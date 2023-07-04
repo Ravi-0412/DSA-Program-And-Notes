@@ -5,7 +5,8 @@
 # and initialise 'low'= min range value and 'up'= maximum range value.
 # after this use template 1 or template 2 according to the Q.
 
-# 'up' hmesha '>= target' me update hoga and low '<=' target me update hoga, kyonki hmlog ko size hmesha decrease karna h.
+# 'up' hmesha '>= target' me update hoga and low '<=' target me update hoga, 
+# kyonki hmlog ko size hmesha decrease karna h.
 
 # Template 1:
 # Note: use this template in case if elements are not present then  we have to return some valid number, and
@@ -14,7 +15,8 @@
 # 3) Find 1st bad version 4) 744. Find Smallest Letter Greater Than Target 5) 35. Search Insert Position
 
 # here while loop will only break when low>up then 'low' will give the ceil value(just greater than key) and 
-# 'high' will give the floor value(just less than key) since after while loop low will become '1' greater than 'high'.
+# 'high' will give the floor value(just less than key) since 
+# after while loop low will become '1' greater than 'high'.
 
 # in case of duplicate ele it will give any index where it will find the ans first.
 def binary_search(arr,key):

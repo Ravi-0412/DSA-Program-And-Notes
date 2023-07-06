@@ -4,9 +4,8 @@
 
 # What to do if invalid?
 # We need to remove every ele from left side till we get valid window.
-# We need to move the window from left side i. remove the leftmost ele till our window becomes valid.
 
-# After getting the valid window, just add the length of valid window to our ans.
+# After getting the valid window, just add the length of valid window to our ans because every combination of that subarray can be part of our ans.
 
 # Time: O(n^2)  , in reality will be less than this.
 class Solution:
@@ -26,3 +25,6 @@ class Solution:
             ans += j - i + 1
             j += 1
         return ans
+
+
+# Try by other approaches from solutions

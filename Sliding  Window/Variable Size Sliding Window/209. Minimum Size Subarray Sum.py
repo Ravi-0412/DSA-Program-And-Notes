@@ -1,11 +1,23 @@
 # Note: Appplied same logic as "76. Minimum Window Substring".
 # i.e keep chekcing if you have find any ans and then try to shrink the subarray and keep updating the ans.
-# Exactly same as "713. Subarray Product Less Than K"
+
+# Here all ele is +ve and we are asked to find the minimum length so if curSum becomes >= target then we will have to remove ele from left
+# Because adding more ele will lead to more curSum and we will get the wrong ans(i.e bigger value than expected).
+
+# Note vvi: Whenever asked to find the minimum subarray length and that we can get by shrinking the window 
+# then, always we will update the ans while shrinking the window till condition is valid i.e inside 2nd while loop.
+
+# vvi: i.e condition bhi >= ka ho and minimum bhi chahiye then yhi logic use karenge.
+# shrink the window in valid conition to get the minimum ans (keep updating the ans while whrinking the window).
+
+# Note : We can also check if there exist any possible subarray or not.
+# If sum(nums) < target then no subarray possible.
+# so return 0 else find the ans as usual and at alst return the ans simply(no need to check anything).
 
 class Solution:
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
         n= len(nums)
-        ans= n + 1  # max we can get ans= n
+        ans= n + 1  # max we can get ans= n  # genralise  ans = float('inf')
         i, j= 0, 0
         curSum= 0
         while j < n:
@@ -15,18 +27,39 @@ class Solution:
                 curSum-= nums[i]
                 i+= 1
             j+= 1
-        return ans if ans!= float('inf') else 0
+        return ans if ans!= n + 1 else 0
 
 
 # Note: it won't work if there is "-ve" number also since inner while loop can break before finding the 
 # shortest subarray after adding the curr ele.
 
 # e.g: [84,-37,32,40,95], target= 167.
-# it will give output= 5 but it will be equal= 3.
+# it will give output= 5 but it should be equal= 3.
+# e.g: [3,-2,5], k= 4. 
+# output= 3 but ans should = 1.
+
+# My mistake:
+# I was updating the ans outside the while loop. This may give bigger ans.
+# As after inserting any ele we have to remove a lot of ele to get the minimum length of subarray having sum >= target.
+class Solution:
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        n= len(nums)
+        ans= n + 1  # max we can get ans= n
+        i, j= 0, 0
+        curSum= 0
+        while j < n:
+            curSum+= nums[j]
+            if curSum >= target:
+                ans= min(ans, j -i + 1)
+            while curSum >= target:
+                curSum-= nums[i]
+                i+= 1
+            j+= 1
+        return ans if ans!= n+1 else 0
 
 
 # method 2: logic of Q :"862. Shortest Subarray with Sum at Least K"
-# just commented the 2nd while loop.
+# just commented the 2nd while loop of above Q.
 
 # just think 'prefixSum[j] - prefixSum[q[0]]' = CurSum and q for storing all the possible index from where we can get the subarray.
 

@@ -34,6 +34,6 @@ def maximumSumSubarray (self,K,Arr,N):
         return max_sum
 
 
-# Note vvi: At any instant curSum= sum of ele till index 'j' - sum of ele before index 'i'.
-# it just represents sum of ele from index 'i' to index 'j'.  (prefixSum way).
+# Note vvvvi: At any instant curSum= sum of ele till index 'j' - sum of ele before index 'i'.
+# it just represents sum of ele from index 'i' to index 'j'.  i.e prefixSum[j] - prefixSum[i-1]
 

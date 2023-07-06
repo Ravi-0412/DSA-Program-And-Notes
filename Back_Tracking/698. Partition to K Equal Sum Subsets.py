@@ -17,7 +17,7 @@ class Solution:
             if k== 0:
                 # means we have formed all the 'k' subsets with equal sum
                 return True
-            # means have formed one more subset. form the new subset with all the elements.
+            # means have formed one more subset. form the new subset with all the elements which has not been used.
             # So again call the bactrack
             if subsetSum== target:
                 return backtrack(0, k-1, 0)
@@ -44,7 +44,7 @@ class Solution:
 # The key is, sums[j] == 0 means for all k > j, sums[k] == 0; 
 # because this algorithm always fill the previous buckets before trying the next.
 # So if by putting nums[i] in this empty bucket can't solve the game, 
-# putting nums[i] on other empty buckets can't solve the game either.
+# putting nums[i] on other empty buckets can't solve the game either. So simply return False
 
 # Kyonki agar dusre next partition me rakh denge nums[i] ko , then gain hmko yahi milega.
 
@@ -113,6 +113,8 @@ class Solution(object):
         # Start by trying to place nums[0]
         return canPartition(0)
 
+
+# Note vvi: whenever you are asked to operate on the sum on a set of objects, just make a list sum and store sum of a set at an index.
 
 # Note vvvi:
 # All these Q : "698. Partition to K Equal Sum Subsets", "473. Matchsticks to Square" ,

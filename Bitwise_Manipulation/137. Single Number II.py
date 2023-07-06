@@ -61,11 +61,12 @@ def singleNumber(self, nums: List[int]) -> int:
             # now check whether sum of set bits at that position is divisible by 3 or not
             if no_set_bits %3!= 0:      
                 # update the ans
-                ans= ans | check_set   # put '1' at ith position in the ans keeping other bit zero
+                ans= ans | check_set   # put '1' at ith position in the ans keeping other bit same in ans.
         return ans
 
 
 # Method 4.1 : Same above method that will work in case of both negative and positive numbers.
+# Analyse this properly 
 class Solution:
     def singleNumber(self, nums: List[int]) -> int:
         ans= 0
@@ -85,6 +86,7 @@ class Solution:
         return ans if isPositive else -((~ans + 1) & 0xffffffff)
 
 # method 4.2: 
+# Better & easier one than 4.1
 class Solution:
     def singleNumber(self, nums: List[int]) -> int:
         ans= 0

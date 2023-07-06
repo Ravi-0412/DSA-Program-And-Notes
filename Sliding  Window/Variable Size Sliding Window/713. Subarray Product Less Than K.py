@@ -1,11 +1,19 @@
-# logic: Traverse the array and keep adding the cur number to window i.e product
-# if the product is greater than k, then try to reduce numbers on the left(i),
+# Logic vvi: After inserting each num , first find the length of valid subarray.
+
+# How to find valid subarray?
+# Traverse the array and keep adding the cur number to window i.e product
+# if the product is >= k, then try to reduce numbers on the left(i),
 #  until the subarray product fit less than k again, (subarray could be empty).
 
-# vvi: After inserting each num , first find the length of valid subarray by doing above thing.
 
-# 2) After getting the length of valid subarray after inserting then number of new subarray after inserting the curr ele= length only.
-# Reason: Curr ele can form a subarray with itself of size 1, subarray of size 2 with its adjacent left ele, 
+# 2) After getting the length of valid subarray after inserting then number of new ans subarray after inserting the curr ele= length only.
+# i.e kyonki har ek subarray ka combination mera ans ka part ho sakta because agar pura subarray ka product hi chota h then 
+# uska koi bhi subarray combination ka chota to hoga hi.
+
+# And no of subarray combination we can get from a subarray of length say 'n' = n
+# Because cur ele jitna bhi subarray hoga sbke saath add ho sakta h i.e 'n-1' and '+1' for himself as single ele.
+
+# More explanation: Curr ele can form a subarray with itself of size 1, subarray of size 2 with its adjacent left ele, 
 # subarray of size 3 including two ele from left and so on until we reach the last index on left.
 # so we will get one subarray of each size from '1' to length of subarray at that point, total subarray= length only.
 
@@ -36,4 +44,3 @@ class Solution:
 # Note: This is a very good and useful template, can be applied to many Q like: "209. Minimum Size Subarray Sum",
 #  "Longest Subarray having sum of elements atmost ‘k’", 2762. Continuous Subarrays, 
 
-# Just find

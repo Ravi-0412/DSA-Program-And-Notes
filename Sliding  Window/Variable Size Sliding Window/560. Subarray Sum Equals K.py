@@ -54,6 +54,7 @@ print(Count_SubArray(arr,k))
 # better one: just similar to "Two sum" method.
 # time: O(n)
 # VVI: analyse this Q and previous Q similarity and differences properly
+# Draw it on number line then you get the proper visualisation.
 class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:
         ans,curr_sum= 0,0
@@ -62,12 +63,11 @@ class Solution:
         for n in nums:
             curr_sum+= n
             diff= curr_sum - k  # find the difference
-            ans+= prefix_sum.get(diff, 0)  # if diff is present in prefix_sum then it means sum is possible when we remove this extra sum "diff"
-                                            # then add with the value of 'diff' as these many times sum= k will be possible and if not present then add 0.
+            ans+= prefix_sum.get(diff, 0)  # if diff is present in prefix_sum then it means sum= k is possible when we remove this extra sum "diff"
+                                # Also we can say from all those indexes where prefixSum[i] = diff , we can get the curSum by adding 'k'.
 
-            # and add the surr_sum in prefix_sum. if already present then increment the count by its value alo else add with '1'
-            prefix_sum[curr_sum]= 1+ prefix_sum.get(curr_sum, 0)  # now add the curr_sum in the prefix_sum
-                                                                  # for next iteration
+            # and add the curr_sum in prefix_sum. if already present then increment the count by its value else add with '1'
+            prefix_sum[curr_sum]= 1+ prefix_sum.get(curr_sum, 0) 
         return ans
 
 

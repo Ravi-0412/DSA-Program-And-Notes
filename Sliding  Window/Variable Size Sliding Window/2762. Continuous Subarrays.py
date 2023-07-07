@@ -27,4 +27,41 @@ class Solution:
         return ans
 
 
-# Try by other approaches from solutions
+# Method 2: Better one
+# Using two heaps
+
+# Logic: Just the same above method only but here instead of every time checking the minimum and max value
+# We are taking the help of two heaps i.e minHeap and maxHeap to keep tarck of minimum and maximum in each window.
+
+# Traverse the array and for each ele check for invalid window and keep on poping till you get the valid window.
+# And keep updating the left pointer i.e 'i'.
+# At last add cur ele into both the heaps and update the ans.
+
+# Time: O(2*n*logk)    # k= max number of ele we need to remove after each ele
+
+class Solution:
+    def continuousSubarrays(self, nums: List[int]) -> int:
+        n = len(nums)
+        ans = 0
+        i, j= 0, 0
+        # Heaps will store (nums[j], j). Also storing index so that in case of invalid window we can move directly beyond that index.
+        minHeap = []   # to get the minimum ele in cur window
+        maxHeap = []   # to get the maximum ele in cur window
+        while j < n:
+            # find the leftmost position i.e 'i' if we place the cur ele in window
+            while minHeap and abs(minHeap[0][0] - nums[j]) > 2:
+                num, index = heapq.heappop(minHeap)
+                # our window can start only after 'index +1' because we have to remove all those ele from start till we get a valid window
+                i = max(i, index + 1)   # since top ele at heaps can have less index value than 'i' so taking maximum.
+            # check the same in maxHeap
+            while maxHeap and abs(-1* maxHeap[0][0] - nums[j]) > 2:
+                num, index = heapq.heappop(maxHeap)
+                i = max(i, index + 1)
+            # Now push the cur ele into both the heaps with index
+            heapq.heappush(minHeap, (nums[j], j))
+            heapq.heappush(maxHeap, (-1* nums[j], j))
+            # Now update the ans.
+            ans += j- i + 1   # just window size only
+            j += 1
+        return ans
+

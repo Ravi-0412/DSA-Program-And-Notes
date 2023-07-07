@@ -13,7 +13,7 @@ class Solution:
         while j < n:
             if nums[j] == 0:
                 count += 1
-            # 'k' can be '0' also in that case we may have to go till 'j' to get length = 0.
+            # 'k' can be '0' also, in that case we may have to go till 'j' to get length = 0.
             # e.g : [0,0,0,0], k= 0
             while i <= j and count > k:   
                 if nums[i] == 0:

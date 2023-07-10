@@ -1,37 +1,15 @@
 # method 1: Brute Force
-# for each substaring find the variance.
+# for each substring find the variance.
+# Variance = 'max(frequency) of a char' - 'min(frequency) of a char' 
 # time:O(n^3)
 
-class Solution:
-    def largestVariance(self, s: str) -> int:
-
-        def findVariance(sub):
-            # first find the frequency of each ele
-            frequency= {}
-            for i in range(len(sub)):
-                frequency[sub[i]]= 1 + frequency.get(sub[i], 0)
-            # Now find the variance for sub
-            minVal= float('inf')
-            maxVal= float('-inf')
-            for key, values in frequency.items():
-                minVal= min(minVal, values)
-                maxVal= max(maxVal, values)
-            return maxVal - minVal
-            
-            
-        n= len(s)
-        ans= 0
-        for i in range(n):
-            for j in range(i, n):
-                ans= max(ans, findVariance(s[i: j + 1]))
-                print(i, j, ans)
-        return ans
 
 
 # optimised one.
 # The basic idea is same: pick 2 chars, check the results for these particular 2 chars.
 # Totaly less than 300 ways of picking 2 chars, not big deal.
-# When 2 chars a,b are decided, we go through s, +1 when see 'a', -1 when see 'b'. The question becomes:
+# When 2 chars a,b are decided, we go through s, +1 when see 'a', -1 when see 'b'. Then, 
+# The question becomes:
 # -1, +1, +1, -1, +1, ...
 # What is the maximum subarray?
 
@@ -93,24 +71,3 @@ class Solution:
                         res = max(diff - min_diff, max_diff - diff, res)
         return res
 
-
-# My mistake in method 1:
-class Solution:
-    def largestVariance(self, s: str) -> int:
-
-        def findVariance(sub):
-            frequency= {}
-            minVal= float('inf')
-            maxVal= float('-inf')
-            for i in range(len(sub)):
-                frequency[sub[i]]= 1 + frequency.get(sub[i], 0)
-                minVal= min(minVal, frequency[sub[i]])
-                maxVal= max(maxVal, frequency[sub[i]])
-            return maxVal - minVal
-
-        n= len(s)
-        ans= 0
-        for i in range(n):
-            for j in range(i, n):
-                ans= max(ans, findVariance(s[i: j + 1]))
-        return ans

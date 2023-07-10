@@ -1,17 +1,17 @@
-# don't know why this is not workinfg
+# One liner
 class Solution:
     def maxDepth(self, root: Optional[TreeNode]) -> int:
-        return 1 + (self.maxDepth(root.left),self.maxDepth(root.right)) if root else 0
+        return 1 + max(self.maxDepth(root.left),self.maxDepth(root.right)) if root else 0
 
-#  more readable and better  than above but not working in leetcode
+#  more readable and better  than above 
 class Solution:
     def maxDepth(self, root: Optional[TreeNode]) -> int:
         if root== None:
             return 0
-        return 1 + (self.maxDepth(root.left),self.maxDepth(root.right))
+        return 1 + max(self.maxDepth(root.left),self.maxDepth(root.right))
 
 
-# working on leetcode
+# Little more expansion
 class Solution:
     def maxDepth(self, root: Optional[TreeNode]) -> int:
         if root== None:

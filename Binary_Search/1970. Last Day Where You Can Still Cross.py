@@ -1,6 +1,6 @@
 # Logic :
-# vvvi: Since each day, the new cell becomes flooded with water, so if on i th day,
-# if we can't walk from the top to bottom then all days after i th we also can't walk.
+# vvvi: Since each day, the new cell becomes flooded with water, so if on ith day,
+# if we can't walk from the top to bottom then all days after ith we also can't walk.
 
 # So we can apply Binary Search to find the last day we can walk in range [1..len(cells)], 
 # for each mid = (left + right)/2), we need to check if we can still walk in mid th day.
@@ -27,11 +27,13 @@ class Solution:
                 mat[r - 1][c - 1] = 1
             # Now run bfs to check whether we can run reach top to bottom at the given day.
             q = collections.deque()
-            # first push all the cell indices of first col in 'Q' if it is a cell.
+            # first push all the cell indices of first col in 'Q' if it is a cell
+            # rather than checking one by one.
             for j in range(col):
                 if mat[0][j] == 0:
                     q.append((0, j))
                     mat[0][j] = 1    # marking as visited by changing the value.
+                                     # Try to mark like this only where we have to chnage the value like here.
             
             # Now run the bfs
             while q:

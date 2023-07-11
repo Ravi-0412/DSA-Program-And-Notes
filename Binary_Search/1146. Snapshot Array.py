@@ -1,9 +1,13 @@
-# Mistake: I was not getting the properly.
-# Also after seeing intuition , i was directly searching for given snap in get function & and if not found then i was returning '0'.
+# Note: 
+# We can store (snap_id, val) for every index in an list.
+# since snap_id will always increase.
+# So when asked to get the value, we will apply binary search to find the floor value of given snap_id
+# and then we will return the value.
 
-# Note: we have to search for floor value of snap at given id.
+# Why floor?
+# If that snap_id doesn't exist then we will return the value at the just pre snap id.
 
-# Note: Intuition in notes, page no : 117
+# Little more explanation in page no: 117
 
 # Time: O(logS)
 # Space: O(S) where S is the number of set called.
@@ -21,14 +25,17 @@ class SnapshotArray:
 
     def set(self, index: int, val: int) -> None:
         # check if there is already some stored value at this index for same snap_id.
-        # check if last index snap value is same
+        # if exist then we will update the value.
+        # for this check if last index snap_id is same.
         if self.indexToSnap_Values[index] and self.indexToSnap_Values[index][-1][0] == self.snap_id:
             self.indexToSnap_Values[index][-1][1] = val     # only change the value and return
             return
         # go to given index and store the pair
         self.indexToSnap_Values[index].append([self.snap_id, val])
         
-        # self.indexToSnap_Values[index].append([self.snap_id, val])   # only writing like this will give error when same index is called for set multiple times for same snap_id value.
+        # self.indexToSnap_Values[index].append([self.snap_id, val])   # only writing like this will give error 
+                                # when same index is called for set multiple times for same snap_id value.
+                                # so 1st we have to check any value already exist at this snap_id.
         
     def snap(self) -> int:
         self.snap_id += 1

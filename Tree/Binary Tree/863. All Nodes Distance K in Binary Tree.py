@@ -4,12 +4,14 @@
 
 
 # method 2: very logical and easy
-# since we have to find the nodes at distance "k" and the nodes can be above the target node and may be in different subtree of target node
-# # so there is no way we can reach the these nodes from target as we can't traverse in upward direction
+# since we have to find the nodes at distance "k" and 
+# the nodes can be above the target node and may be in different subtree of target node.
+# so there is no way we can reach the these nodes from target as we can't traverse in upward direction
 
-# one thing always remember if told to find anything at some given distance or shortest path always think of BFS
+# Note vvi: one thing always remember if told to find anything at some given distance or 
+# shortest path always think of BFS.
 # so somehow  if we can convert the three into graph and make a adjacency list between parent to children
-# then we can easily apply multisource bfs (even single source also fine) to get the all the nodes at distance 'K'
+# then we can easily apply multisource bfs (even single source also fine) to get the all the nodes at distance 'K'.
 
 class Solution:
     def distanceK(self, root, target, K):
@@ -49,4 +51,43 @@ class Solution:
                         q.append(nei)
                         visited.add(nei)
             distance+= 1
+
+
+
+# Method 2: Using dfs
+# we only need to cover the nodes till distance 'k'.
+# for this we will use distance 'd' also as one of the parameter.
+# if 'd' < k then we need to cover the adjacent nodes to cur node 
+# And if = k then we got one of the ans (No need to call function in this).
+
+import collections
+class Solution:
+    def distanceK(self, root, target, K):
+        adj, res, visited = collections.defaultdict(list), [], set()
+        def dfs(node):
+            if node.left:
+                adj[node].append(node.left)
+                adj[node.left].append(node)
+                dfs(node.left)
+            if node.right:
+                adj[node].append(node.right)
+                adj[node.right].append(node)
+                dfs(node.right)
+
+        # to make the graph
+        dfs(root)
+
+        # Again run dfs to find the ans
+        def dfs2(node, d):
+            if d < K:
+                visited.add(node)
+                for v in adj[node]:
+                    if v not in visited:
+                        dfs2(v, d + 1)
+            else:
+                res.append(node.val)
+        dfs2(target, 0)
+        return res
+
+
 

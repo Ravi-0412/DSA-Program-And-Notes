@@ -5,7 +5,8 @@
 # What to do if invalid?
 # We need to remove every ele from left side till we get valid window.
 
-# After getting the valid window, just add the length of valid window to our ans because every combination of that subarray can be part of our ans.
+# After getting the valid window, just add the length of valid window to our ans 
+# because every combination of that subarray can be part of our ans.
 
 # Time: O(n^2)  , in reality will be less than this.
 class Solution:
@@ -30,11 +31,14 @@ class Solution:
 # Method 2: Better one
 # Using two heaps
 
-# Logic: Just the same above method only but here instead of every time checking the minimum and max value
-# We are taking the help of two heaps i.e minHeap and maxHeap to keep tarck of minimum and maximum in each window.
+# Reason: We need to keep track of min and max values so for this we can use two heaps 'minHeap' and 'maxHeap'.
+# For knowing the index i.e where to move from left in case of invalid one, 
+# we will also store the 'index + 1' with ele value.
 
-# Traverse the array and for each ele check for invalid window and keep on poping till you get the valid window.
-# And keep updating the left pointer i.e 'i'.
+# While adding any ele first we will check the valid condition wrt both minimum & max ele till now.
+# and keep on poping till you get the valid window wrt both(min and max).
+# And keep updating the left pointer i.e 'index' of poped ele.
+
 # At last add cur ele into both the heaps and update the ans.
 
 # Time: O(2*n*logk)    # k= max number of ele we need to remove after each ele

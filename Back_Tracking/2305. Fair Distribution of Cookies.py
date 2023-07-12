@@ -28,6 +28,7 @@ class Solution:
                 # we have to update ans
                 # first find the max sum of all partition and then update the ans.
                 maxSum = max(sums)
+                # Now to get minimum of all max(sums) of every possible partition.
                 self.ans = min(self.ans, maxSum)
                 return 
             for j in range(k):

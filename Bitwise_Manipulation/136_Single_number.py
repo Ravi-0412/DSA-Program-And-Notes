@@ -14,14 +14,22 @@ def singlenumber(nums):
 nums = [4,1,2,1,2]
 print(singlenumber(nums))
 
+# method 2:
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        return 2 * sum(set(nums)) - sum(nums)
 
-
-#2nd method: best one using XOR operation
+# 3rd method: best one using XOR operation
 # Time: o(n), space: o(1)
-# logic: xor with any number itself is zero and xor of any number with zero is the number itself
+# logic: xor with any number itself is zero and xor of any number with zero is the number itself.
+# so when we will take xor of all ele, we will be left with the 'single number' 
+# because all will be pair so they will get cancel('0') automatically.
 
-# def singlenumber(nums):
-#     ans=0  # taking zero initially since xor of any number with zero is the number itself
-#     for num in nums:
-#         ans= ans^num
-#     return ans
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        ans= 0
+        for num in nums:
+            ans^= num
+        return ans
+            
+        

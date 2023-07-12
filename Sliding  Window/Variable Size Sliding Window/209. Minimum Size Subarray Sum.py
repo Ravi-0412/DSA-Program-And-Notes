@@ -12,7 +12,12 @@
 
 # Note : We can also check if there exist any possible subarray or not.
 # If sum(nums) < target then no subarray possible.
-# so return 0 else find the ans as usual and at alst return the ans simply(no need to check anything).
+
+# How to solve?
+# Ans: Just keep on adding the cur ele to 'sum' and after adding keep on reducing the window size from left
+# till our window is valid because we need the 'minimum' length of subarray.
+
+# Just similar logic as "76. Minimum Window Substring".
 
 class Solution:
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
@@ -35,33 +40,18 @@ class Solution:
 
 # e.g: [84,-37,32,40,95], target= 167.
 # it will give output= 5 but it should be equal= 3.
+# Reason: '95' ko add karne ke bad sum >= 167 ho jayega and jb hm window ko shrink karenge after removing
+# '87' then sum < 167 ho jayega and loop break ho jayega. 
+# But agar '-37' ko bhi remove kar de tb bhi mera sum > 167 rhega but ye case consider hi nhi hoga.
 # e.g: [3,-2,5], k= 4. 
 # output= 3 but ans should = 1.
-
-# My mistake:
-# I was updating the ans outside the while loop. This may give bigger ans.
-# As after inserting any ele we have to remove a lot of ele to get the minimum length of subarray having sum >= target.
-class Solution:
-    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
-        n= len(nums)
-        ans= n + 1  # max we can get ans= n
-        i, j= 0, 0
-        curSum= 0
-        while j < n:
-            curSum+= nums[j]
-            if curSum >= target:
-                ans= min(ans, j -i + 1)
-            while curSum >= target:
-                curSum-= nums[i]
-                i+= 1
-            j+= 1
-        return ans if ans!= n+1 else 0
 
 
 # method 2: logic of Q :"862. Shortest Subarray with Sum at Least K"
 # just commented the 2nd while loop of above Q.
 
-# just think 'prefixSum[j] - prefixSum[q[0]]' = CurSum and q for storing all the possible index from where we can get the subarray.
+# just think 'prefixSum[j] - prefixSum[q[0]]' = CurSum and
+#  q for storing all the possible index from where we can get the valid subarray.
 
 class Solution:
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:

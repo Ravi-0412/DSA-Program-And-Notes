@@ -1,16 +1,24 @@
-# my mistake: i was not looking at that we have to check the 'safe node' also with terminal node.
-# main paroblem: checking the safe node is making the problem good.
-# e.g:Suppose if we are checking a node and if any of its vertices are not in terminal but that cab be the safe node.
+# main : checking the safe node is making the problem good.
+# e.g:Suppose if we are checking a node and if any of its vertices are not in terminal but that can be the safe node.
 # This thing is making problem.
 
-# logic and what really Q is asking: it asking to find the node which doesn't belong to any of cycle formed .
-# we have to not include that node which is directly not included in cycle but is a part of cycle i.e 
+# Note: Terminal nodes has no outgoing vertices so these can't be part of a cycle.
+# And safe nodes will have all its edges to terminal nodes only so this also can't be part of any cycle.
+
+# Except these nodes i.e terminal and safe all nodes will be part of cycle .
+
+# logic of above: since terminal will be the nodes having no adjacent node and 
+# safe nodes are those nodes which have only terminal or safe node as adjacent node.
+# i.e if any node reaches to any terminal or safe node then it will not go back. so will not form a cycle.
+
+# vvi: So basically we have to find the 'nodes which doesn't belong to any of cycle formed'.
+
+# One thing to keep in mind:
+# Also we do not have to include those nodes which is directly not included in cycle but is a part of cycle i.e 
 # it is directly connected to any node which is directly included in the cycle.
 
-# logic of above: since terminal will be the nodes having no adjacent node and safe nodes are those nodes which have only terminal or safe node as adjacent node.
-# i.e if any node reaches to any termianl to safe node then it will not go back. so will not form a cycle.
-
-# how to solve: just try to find the cycle and if you don't encounter a cycle then it all node from starting to where call ended(will end only at any terminal node)
+# how to solve: just try to find the cycle and if you don't encounter a cycle 
+# then all nodes from starting to where call ended(will end only at any terminal node)
 # will be safe only since they are not part of any cycle.
 
 # exactly same code as cycle detction in directed graph using dfs.
@@ -29,7 +37,7 @@ class Solution:
                 if nei not in visited:
                     if dfs(nei)== True:   # means we have found a cycle. so simply return we don't have to include any node as safe.
                         return True
-                elif nei in path_visited:   # means cycle so simply return
+                elif nei in path_visited:   # means cycle so simply return, because all nodes part of this cycle will not be in our ans.
                     return True
             # if neither of nei is part of a cycle means that is a safe node.
             ans.append(node)    # only extra lien than cycle detection.

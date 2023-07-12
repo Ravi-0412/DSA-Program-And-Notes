@@ -13,8 +13,8 @@ class Solution:
         while j < n:
             if nums[j] == 0:
                 count += 1
-            # 'k' can be '0' also, in that case we may have to go till 'j' to get length = 0.
-            # e.g : [0,0,0,0], k= 0
+            # ans can be '0' also when 'k'= 0 and all ele is '0' only like [0,0,0,0] 
+            # in that case we may have to go till 'j' to get length = 0.
             while i <= j and count > k:   
                 if nums[i] == 0:
                     count -= 1
@@ -22,3 +22,10 @@ class Solution:
             ans = max(ans, j- i + 1)
             j += 1
         return ans
+    
+
+# Note vvi: Whenever you have to find the 'largest subarray length of a single consecutive ele'
+# where you can change other ele then apply this logic only.
+
+# e.g: "1493. Longest Subarray of 1's After Deleting One Element", "2024. Maximize the Confusion of an Exam"
+# are exactly same Q.

@@ -11,8 +11,15 @@
 # we will sum up A[0] and A[n - 1] in the total socre,
 # so this won't make any difference between max and min.
 
-# To split into k bags,
-# we actually choose k-1 cut points:
+# To split into k bags 
+# we actually choose k-1 cut points because 1st and last ele will get included automatically.
+
+# Note vvvi: Ans for min and max will depend on where we are making the cuts.
+# And value of each partition depend on 1st and last ele of that partition only.
+# So q reduces to 'k-1' min/max pair wise sum .
+
+# More explanation
+
 # A[0]...A[i1]
 # A[i1+1]....A[i2]
 # A[i2+1]....A[i3]

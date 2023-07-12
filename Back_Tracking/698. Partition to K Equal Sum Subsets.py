@@ -118,7 +118,8 @@ class Solution(object):
 
 # Note vvvi:
 # All these Q : "698. Partition to K Equal Sum Subsets", "473. Matchsticks to Square" ,
-# "2305. Fair Distribution of Cookies", "1723. Find Minimum Time to Finish All Jobs" are exactly same and can be done by normal backtracking.
+# "2305. Fair Distribution of Cookies", "1723. Find Minimum Time to Finish All Jobs" 
+# are exactly same and can be done by normal backtracking.
 
 # But to avoid TLE, we have to optimise a little wherever we can.
 

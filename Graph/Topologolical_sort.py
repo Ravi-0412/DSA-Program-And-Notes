@@ -114,7 +114,7 @@ class Graph:
                 self.indegree[j]-= 1
                 if self.indegree[j]== 0:  # after decreasing if any node has indegree == 0 then put in the Q
                     Q.append(j)
-        # note: count will be less than '1'.
+        # note: count will be less than 'V'.
         if count!= self.V:  # for checking the cycle in directed graph using BFS .. 
             print("there exist a cycle in the graph")
         else:

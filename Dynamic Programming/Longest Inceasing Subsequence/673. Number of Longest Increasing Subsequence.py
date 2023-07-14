@@ -10,19 +10,25 @@ class Solution:
 
 # in above Q, if we calculate the total no of max(LIS) then that will give the no of total LIS.
 # But in above one, we were neglecting the LIS of same length , so here we will create another array to store the count of LIS.
+
+# How to solve?
+# If we encounter 'LIS[curr]== 1+ LIS[pre]' then, it means cur ele is already part of some seq having length = "LIS[CUR].
+# so adding the pre one will give the different seq but of same length.
+# But we need to calculate the no of LIS, we will add count of pre to cur i. : "count[curr]+= count[pre]".
 # time: O(n^2)
 class Solution:
     def findNumberOfLIS(self, nums: List[int]) -> int:
         LIS= [1]* len(nums) # LIS[i] indicates that LIS that end at index 'i' from start.
-        count= [1]* len(nums)  # stores count of longest sequence of length LIS[i]
+        count= [1]* len(nums)  # stores count of longest sequence of length till index 'i'
         for curr in range(len(nums)):   # i -> curr
             for pre in range(curr):      # j-> pre
                 if nums[pre] < nums[curr]:
                     if LIS[curr] < 1+ LIS[pre]: 
+                        # New greater length
                         LIS[curr] = 1+ LIS[pre]
-                        # inherit
+                        # new one so count , it will inherit the count of 'pre'
                         count[curr]= count[pre]  # since we are adding the nums[pre] to the previous LIS only count of cur will be same as count of pre.
-                    elif LIS[curr]== 1+ LIS[pre]:  # this means there are more subsequences of same length ending at length LIS[curr]
+                    elif LIS[curr]== 1+ LIS[pre]:  # this means there are already more subsequences of same length ending at 'i'.
                         # just increase the count
                         count[curr]+= count[pre]
         max_LIS= max(LIS)

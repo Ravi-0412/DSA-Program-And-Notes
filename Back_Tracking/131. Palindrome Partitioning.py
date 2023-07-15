@@ -1,4 +1,5 @@
 # write in notes the logic
+# Time: O(2^n * n)
 class Solution:
     def partition(self, s: str) -> List[List[str]]:
         ans, part= [], []
@@ -16,4 +17,23 @@ class Solution:
                 self.PAlindromePartition(s[i+1:],part,ans)
                 # for next starting partition pop the ele that you added so that it add the fresh new palindrome i.e do backtracking
                 part.pop()
+
+# Better one:
+# No need to 'pop' while returning time if we modify the partition in function call only
+# instead of 1st appending and then adding.
+# This we can do in every Q.
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:
+        n = len(s)
+        def solve(i, partition):
+            if i == len(s):
+                ans.append(partition)
+                return
+            for j in range(i, n):
+                if s[i : j + 1] == s[i : j + 1][::-1]:
+                    solve(j + 1, partition + [s[i : j + 1]])
+
+        ans = []
+        solve(0, [])
+        return ans
 

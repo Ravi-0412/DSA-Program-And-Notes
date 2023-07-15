@@ -1,5 +1,49 @@
-# mine logic: if given string is palindrome simply return '0'
-# partition it at all index by calling the function again and again.
+# mIne method : easy only
+
+# Logic: if given string is palindrome simply return '0'
+# else Try partition it at all index and take minimum of all.
+
+
+# Recursion
+# time :O(2^n)
+class Solution:
+    def minCut(self, s: str) -> int:
+        n = len(s)
+
+        def solve(i):
+            if i == len(s):
+                return 0
+            if s[i: ] == s[i :][::-1]:
+                return 0
+            ans = float('inf')
+            for j in range(i, n):
+                if s[i : j + 1] == s[i : j + 1][::-1]:
+                    ans = min(ans, 1 + solve(j + 1))
+            return ans
+
+        return solve(0)
+    
+# Recursion  + memoisation
+# tIme: O(n^2)
+class Solution:
+    def minCut(self, s: str) -> int:
+        n = len(s)
+
+        def solve(i):
+            if i == len(s):
+                return 0
+            if s[i: ] == s[i :][::-1]:
+                return 0
+            if dp[i] != -1:
+                return dp[i]
+            ans = float('inf')
+            for j in range(i, n):
+                if s[i : j + 1] == s[i : j + 1][::-1]:
+                    ans = min(ans, 1 + solve(j + 1))
+            dp[i] = ans
+            return ans
+        dp = [-1 for i in range(len(s))]
+        return solve(0)
 
 # but TLE all the three methods.
 

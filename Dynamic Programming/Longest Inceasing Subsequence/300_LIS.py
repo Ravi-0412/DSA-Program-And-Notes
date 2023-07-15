@@ -90,6 +90,10 @@ class Solution:
 
 # method 3: 
 # Just the same above logic only, different way to write.
+
+# Note vvvi: This is better one template in case of 'take' and 'notTake'  which there is 'notTake' option always there.
+# So just find the condition for 'take' and return the max(take, notTake)
+
 # How?
 # There is no need to check the possibility of 'taking' and 'not taking' in possible case.
 # There is always one choice to 'not take' and we can only take if follows the sequence.
@@ -99,6 +103,8 @@ class Solution:
 
 # time: O(2^n)
 # space: O(n)
+
+
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
         return self.helper(0, -1, nums)

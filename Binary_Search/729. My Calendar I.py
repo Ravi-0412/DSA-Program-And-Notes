@@ -2,6 +2,8 @@
 # we only need to book the cur event if it is not overlapping with any of the booked event.
 
 # Method 1:
+
+#To visualise overlapping draw on paper.
 # Time: O(n^2)
 class MyCalendar:
     
@@ -11,9 +13,9 @@ class MyCalendar:
     def book(self, start: int, end: int) -> bool:
         # check if it is overlapping with any of the booked events
         for s, e in self.booked:
-            # overlap tabhi karega jb current ka end bda ho 's' se and start chota ho 'e' se.
+            # overlap tabhi karega jb 'end' bda ho 's' se and start chota ho 'e' se.
             # ye sb case handle kar lega
-            if end > s and start < e:
+            if end > s and start < e:  # checking '>/<' not '>= /<=' because we can start the next event same day pre event is ending(= is allowed).
                 return False
         # booked one ko dal do list me
         self.booked.append((start, end))
@@ -57,6 +59,8 @@ class MyCalendar:
 
 # Method 3: Binary search Tree
 # Easy and logical one
+# Logic: Same as we insert in BST.
+# if we can insert the cur event in BST, then it means we can book the cur event else not.
 
 # Every node will denote one event.
 class Node:

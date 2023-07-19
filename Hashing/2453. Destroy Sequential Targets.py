@@ -23,7 +23,6 @@ class Solution:
             if nums[i] not in visited:
                 
                 targets = maxTargets(nums[i])
-                print(i , targets, max_target)
                 if targets > max_target:
                     ans = nums[i]
                     max_target = targets
@@ -33,13 +32,22 @@ class Solution:
 
 # Method 2: Optimising the above one like : "1218. Longest Arithmetic Subsequence of Given Difference".
 
-# Observation: The elements with same remainder module by space, can be destroyed together.
-# Reason: When adding 'c*space' to a fix number, all of the number generated from this will be having same remainder. 
+# Observation: 
+# if we take any num say nums[i] then we should get sequence like: nums[i] + 1 * c , nums[i] + 2 * space , nums[i] + 3 * space ...
+# Which will be in AP only with common differenec 'space'.
+# So basically we have to find the max(length of any Arithemtic progression).
+
+# Another observation: 
+# Vvi: When elements are in AP with common differenec 'd' then, all the ele of this AP will give same remainder when divided by 'd'.
+
+# So the elements with same remainder module by space, can be destroyed together.
+
+# How to solve?
 
 # So if we store the count of remainder value i.e [remainder : count] then, 
 # our Q reduces to 'find the minimum no which contributed in maximum count'.
 
-# Note: In this type of Q, try to find the common between each number that will be in same group or how we can tarck the other no using the cur one.
+# Note: In this type of Q, try to find the common between each number that will be in same group or how we can be track the other no using the cur one.
 # Try to observe the things and find the relation.
 
 # Steps: 

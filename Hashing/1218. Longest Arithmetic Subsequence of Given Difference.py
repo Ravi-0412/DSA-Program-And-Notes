@@ -47,3 +47,7 @@ class Solution:
             lengths[num] = 1 + lengths[num - difference]
             ans = max(ans, lengths[num])
         return ans
+
+
+# Note : isme is Q "2453. Destroy Sequential Targets" ka same remainder wala concept nhi lagega kyoni
+# Yahan order of ele matter karega i.e (next wala pichle se bda hoga and order me hoga) but us Q me matter nhi karega.

@@ -1,11 +1,13 @@
 # Note: 
-# We can store (snap_id, val) for every index in an list.
+# Get function: hmko wo snap_id pe value return karna h given index ka.
 # since snap_id will always increase.
+# We can store (snap_id, val) for every index in an list.
+
 # So when asked to get the value, we will apply binary search to find the floor value of given snap_id
 # and then we will return the value.
 
 # Why floor?
-# If that snap_id doesn't exist then we will return the value at the just pre snap id.
+# If that snap_id doesn't exist then we will return the value at the just pre(floor) snap id.
 
 # Little more explanation in page no: 117
 

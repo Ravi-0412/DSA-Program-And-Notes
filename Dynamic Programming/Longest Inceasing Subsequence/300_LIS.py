@@ -249,5 +249,23 @@ class Solution:
         return len(sub)
 
 
-# try to understand this approach also.
-# https://leetcode.com/problems/longest-increasing-subsequence/solutions/74824/JavaPython-Binary-search-O(nlogn)-time-with-explanation/comments/206357/
+# Note: when trying to do by "1235. Maximum Profit in Job Scheduling".
+# And same q of this method is not working in '1235. Maximum Profit in Job Scheduling'.
+
+# I am getting error . Have to ask someone
+# nums = [4,10,4,3,8,9] , getting : 4 but exp = 3
+
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+
+        def solve(i):
+            if i >= len(nums):
+                return 0
+            j = i + 1
+            while j < len(nums):
+                if nums[j] > nums[i]:
+                    break
+                j += 1
+            return max(solve(i + 1), 1 + solve(j))
+        
+        return solve(0)

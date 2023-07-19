@@ -58,7 +58,7 @@ class MyCalendar:
 
 
 # Method 3: Binary search Tree
-# Easy and logical one
+# Easy and logical one . same logic as above method
 # Logic: Same as we insert in BST.
 # if we can insert the cur event in BST, then it means we can book the cur event else not.
 

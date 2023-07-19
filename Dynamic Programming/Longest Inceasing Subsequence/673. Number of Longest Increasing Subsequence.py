@@ -19,7 +19,7 @@ class Solution:
 class Solution:
     def findNumberOfLIS(self, nums: List[int]) -> int:
         LIS= [1]* len(nums) # LIS[i] indicates that LIS that end at index 'i' from start.
-        count= [1]* len(nums)  # stores count of longest sequence of length till index 'i'
+        count= [1]* len(nums)  # stores count of LIS of length 'LIS[i]'.
         for curr in range(len(nums)):   # i -> curr
             for pre in range(curr):      # j-> pre
                 if nums[pre] < nums[curr]:

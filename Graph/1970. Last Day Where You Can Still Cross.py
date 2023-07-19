@@ -1,3 +1,11 @@
+# Method 1: Brute force
+# Logic: start from day 0 to last day and check till what day you can reach from top row to bottom row.
+# Linear search
+# Time: O(days * row* col)   , TLE.
+
+# Method 2: 
+# optimisation using binary search
+
 # Logic :
 # vvvi: Since each day, the new cell becomes flooded with water, so if on i th day,
 # if we can't walk from the top to bottom then all days after i th we also can't walk.
@@ -27,7 +35,7 @@ class Solution:
                 mat[r - 1][c - 1] = 1
             # Now run bfs to check whether we can run reach top to bottom at the given day.
             q = collections.deque()
-            # first push all the cell indices of first col in 'Q' if it is a cell.
+            # first push all the cell indices of first col in 'Q' if it is a land.
             for j in range(col):
                 if mat[0][j] == 0:
                     q.append((0, j))
@@ -41,7 +49,9 @@ class Solution:
                 for dr, dc in directions:
                     nr, nc = r + dr, c + dc
                     if 0 <= nr < row and 0 <= nc < col and mat[nr][nc] == 0:
-                        # note: checking here for last row may give wrong ans.
+                        # note: can check for last row here also.
+                        # if nr == row -1:  # we have reached the bottom so return true
+                        #     return True
                         q.append((nr, nc))
                         mat[nr][nc] = 1  # marking as visited
             return False

@@ -65,6 +65,9 @@ class Solution:
 
 # did myself but don't know why giving incorrect answer. Have to ask someone
 # after memoizing it will go in time= space= O(n^2)
+
+# Same way as i did in 300.LIS, LIS method not working here and method of this Q not working LIS.
+# Have to ask someone.
 class Solution:
     def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
         return self.helper(startTime, endTime, profit, -1, 0)  # '-1' last included index, '0': current index
@@ -74,6 +77,6 @@ class Solution:
             return 0
         if pre < 0 or start[curr] >= end[pre]:  # we can include this ele. but we have two choices either include in ans or not include.
             return max(profit[curr] + self.helper(start, end, profit, curr, curr+1), self.helper(start, end, profit, pre, curr +1))
-        else:  # only one choice we can't include this ele
-            return self.helper(start, end, profit, pre, curr +1)
+        # only one choice we can't include this ele
+        return self.helper(start, end, profit, pre, curr +1)
 

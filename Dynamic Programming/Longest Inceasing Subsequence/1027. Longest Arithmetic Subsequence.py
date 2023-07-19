@@ -2,7 +2,8 @@
 # The difference is that we need to consider the arithmetic difference in this problem.
 
 # LIS: me sirf bda dikha add kar diye but yahan difference bhi track karna hoga.
-# we need to keep track of difference as well with length.
+# we need to keep track of difference as well with length i.e
+# Hmko har index pe, har possible difference ka AP ka length track karna hoga.
 
 # How to keep track of the length as well as the difference? 
 # We can use a hashmap, whose key is the (index, difference) and value is the length.

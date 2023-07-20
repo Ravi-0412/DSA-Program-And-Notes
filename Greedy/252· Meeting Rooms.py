@@ -1,6 +1,6 @@
 # submitted on lintcode
 
-# if starting time of any meeting is < neding time of previous ongoing meeting then person can't atttend all meetings.
+# if starting time of any meeting is < ending time of previous ongoing meeting then person can't atttend all meetings.
 # And we can only compare if we know the timing of prevoius meeeting.
 # And to know which meeting is going before we need to sort the intervals based on starting time.
 

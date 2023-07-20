@@ -2,7 +2,7 @@
 # Also this problem can be reduced to : 'Divide the intervals into minimum no of different parts 
 # such that no two intervals in respective parts are overlapping. Find the no of parts.'.
 
-# that no of max room we will require because for meeting in same part can be executed after completion of previous meeting without any overlap.
+# that no of max room we will require because meeting in same part can be executed after completion of previous meeting without any overlap.
 
 # Brute Force: O(n^2)
 # just sort and check the current meeting start time with the end of all the meetings before.
@@ -10,7 +10,9 @@
 # at last return the count
 
 # method 2: O(n*logn)
-# logic: Take two arrays say start and end that will store the start and end time of meetings respectively.
+# Logic: Jo room khali hoga koi interval ke bad uske hmko use karna h and apna sb interval ko run karana h.
+
+# How to do?: Take two arrays say start and end that will store the start and end time of meetings respectively.
 # now sort these arrays
 # vvi: now take two pointer one each to start and end array respectively.
 # run the loop till all meetings has started because after all meeting have started then no need to alloacate any different room.
@@ -31,13 +33,14 @@ class Solution:
         ans, count= 0, 0
         s, e= 0, 0  # pointer to start and end array
         while s< len(start):  # till we have started all the meetings
+            # overlapping so we will need one new room.
             if start[s] < end[e]:
                 count+= 1  # allocated new room for overlapping meeting 
-                s+= 1
+                s+= 1   # started one so incr 's' by '1'.
                 ans= max(ans, count)
             else:
-                count-= 1   # one meeting ended. now the previous can be used for different meeting so decr total no of room required.
+                # one meeting ended. now the previous can be used for different meeting so decr total no of room required.
+                count-= 1   
                 e+= 1
         return ans
 
-    

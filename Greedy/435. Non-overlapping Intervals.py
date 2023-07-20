@@ -3,6 +3,8 @@
 
 # Reason:
 
+# Note: Here one interval can start on ending day of another interval.
+
 # Note: Another way of asking some Q is "max no of non-overlapping interval we can get ".
 # Ans = total - removed_one.
 # Finding "max no of non-overlapping interval" is exactly same as classical problem i.e "Interval scheduling"

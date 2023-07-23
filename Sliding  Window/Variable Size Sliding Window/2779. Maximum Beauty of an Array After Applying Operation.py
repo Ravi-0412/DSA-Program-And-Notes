@@ -24,13 +24,31 @@ class Solution:
         while j < len(nums):
             # if we are at 'j' then minimum possible value can be : nums[j] - 2*k
             # so we will keep on incr 'i' till we get minimum >= nums[j] - 2*k
-            minimum = nums[j] - 2*k
+            minimum = nums[j] - 2*k  # after getting valid subarray, we can make all elemenst equla to this.
             while nums[i] < minimum:
+                i += 1
+            ans= max(ans , j - i + 1)   # length of subarray.
+            j += 1
+        return ans
+
+
+# Another and good way.
+# https://leetcode.com/problems/maximum-beauty-of-an-array-after-applying-operation/solutions/3772327/why-and-how-of-the-solution/
+
+class Solution:
+    def maximumBeauty(self, nums: List[int], k: int) -> int:
+        nums.sort()
+        i, j= 0, 0
+        ans = 1  # min we can get this 
+        while j < len(nums):
+            # (maxi - mini) <= 2*k for valid one
+            while nums[j] - nums[i] > 2*k:
                 i += 1
             ans= max(ans , j - i + 1)
             j += 1
         return ans
-    
+
+
 
 # Must try doing in O(n)
 # https://leetcode.com/problems/maximum-beauty-of-an-array-after-applying-operation/solutions/3771403/line-sweep-approach-picture-explanation-study-guide/

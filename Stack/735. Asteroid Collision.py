@@ -1,19 +1,23 @@
 # very nice Q.
-# logic: overall, there are totally 4 scenarios will happen: 1.(+,+) 2.(-,-) 3.(+,-) 4.(-,+)
+# logic: overall, there are totally 4 scenarios will happen: 1.(+,+) 2.(-,-) 3.(+,-) 4.(-,+)  => see this combination as resultant also 
 # But collision will hapen in 3rd case only.(not in 4th case)
 # i.e if we traverse from left to right in array then for collision 1st asteroid (left one) must be moveing towards right,
 # and 2nd one must be moving towards left. (+, -)
 # why? => just draw on paper .
 
+# what does this mean?
+# Ans: It means that when we will see the asteroid going left (-ve) then, it will collide with all the asteroid going right(+ve) before it.
+# Means we need to search for the pre asteroids before left. 
+
+# From here we get the intitution for 'stack' i.e after seeing any negative value we wil search for +ve values left of it.
+
 # How to do ?
-# just store the 1st asteroid into stack and for next check if it can collide with the previous asteroid.
-# so we will put the +ve asteroid into stack and if there is any -ve asteroid then there is chance of collision.
-# But when they can collide?
-# 1) when stack is not empty and there is +ve ball on stack.
-# a) curr -ve ball can cancel when abs(curr) > stack[-1] so keep on poping until abs(curr) > stack[-1].
-# b) see the explanation in coding
-# why stack?
-# ANs: we have to comapre with previous one and after operation we have to add the result and then this curr result will be comapred with next one and so on.
+# 1) whenever you see positive value(going right) store them into stack simply.
+# 2) when you see -ve value (going left) then, collision will happen.
+
+# But till when they will collide?
+# 1) when stack is not empty and there is +ve value(opposite one) on stack and 'stack[-1] < abs(num)'.
+# see the explanation in coding
 
 # time: o(n)
 
@@ -35,6 +39,3 @@ class Solution:
                 elif stack[-1]== abs(num):
                     stack.pop()
         return stack
-
-# https://leetcode.com/problems/asteroid-collision/solutions/109666/python-o-n-stack-based-with-explanation/
-# https://leetcode.com/problems/asteroid-collision/solutions/109694/java-c-clean-code/

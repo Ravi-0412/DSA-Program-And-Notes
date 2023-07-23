@@ -79,3 +79,20 @@ class Trie:
                 return False
             cur= cur.children[c]
         return cur.isEndOfWord   
+
+
+# Very short and another way of implementing tries
+# Have to understand very properly.
+# https://stackoverflow.com/questions/11015320/how-to-create-a-trie-in-python
+
+
+T = lambda: defaultdict(T)
+trie = T()
+for w in forbidden:
+    reduce(dict.__getitem__, w, trie)['#'] = True
+
+# Meaning: 
+# Will insert each word in tries 'trie' and mar the end of word by special symbol '#'.  => can you other symbol as well.
+
+# See use here :
+https://leetcode.com/problems/length-of-the-longest-valid-substring/solutions/3771520/python-hashmap-and-trie-solutions/

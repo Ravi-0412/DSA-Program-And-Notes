@@ -14,8 +14,9 @@ class Solution:
 class Solution:
     def numTrees(self, n: int) -> int:
         def solve(i , j):
-            # if left with '1' or '0' nodes after selectiny any node as root for cur subtree.
-            if i >= j:
+            # if left with '0' nodes after selecting any node as root for cur subtree then ,
+            # there will be only choice to make the subtree as 'None'. 
+            if i >j:
                 return 1
             ans = 0
             for k in range(i, j + 1):

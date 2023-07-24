@@ -2,6 +2,7 @@
 class Solution:
     def myPow(self, x: float, n: int) -> float:
         if n<0: 
+            # Just what we do to evaluate the negative power.
             x=1/x
             n= -n
         if n==1:   # base case
@@ -17,33 +18,40 @@ class Solution:
         if n<0: 
             x=1/x
             n= -n
-        ans= 1
         if n==0: 
             return 1
-        elif n%2==1:
+        if n%2==1:
             smallAns= self.myPow(x,n//2)
-            ans= x* smallAns* smallAns
-        else:
-            smallAns= self.myPow(x,n//2)
-            ans= smallAns* smallAns
-        return ans
+            return x* smallAns* smallAns
+        # if power is even
+        smallAns= self.myPow(x,n//2)
+        return smallAns* smallAns
 
 
 # 2nd method- time: O(logn)
+# Using Bit
+# https://leetcode.com/problems/powx-n/solutions/1337794/java-c-simple-o-log-n-easy-faster-than-100-explained/
+
+# Basic Idea is to divide the work using binary representation of exponents
+# i.e. 1 ) keep multiplying pow with x, if the bit is odd, and 2 )  multiplying x with itself until we get bit =  0
+
+# 'x' will only update in power of '2' i.e x, x^2, x^4....
+
+# We will update the ans in similar way we convert from 'binary' to 'decimal'.
+# i.e value changes when bit is '1' only.
+# Here we will also update the ans in same way only. It is same that we are adding the power when there is '1'.
 
 class Solution:
     def myPow(self, x: float, n: int) -> float:
         if n<0:
             x= 1/x
             n= -n
-        ans=1.0
-        base= x
-        i= n 
-        while i:
-            if i % 2==1:   # to check the last bit ,update the ans only when last bit is one
-                            # just think the operation like binary numbers
-                ans*= base
-            base*= base
-            i = int(i/2)          # right shift means dividing by 2 only  
+        ans = 1.0
+        while n:
+            if n % 2==1: 
+                # multiply only when power is odd
+                ans*= x
+            x*= x  # reducing the power by '2' so also need to square only 'x'.
+            n = n >> 1         # right shift means dividing by 2 only  
         return ans
 

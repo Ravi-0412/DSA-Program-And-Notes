@@ -8,8 +8,8 @@
 # if variable starting point and variable ending point. Then either go 'top to down' or 'bottom to top'
 
 # method 2: Start path for Bob and Alice together
-# both will reach the destination simultaneously i.e last row(they might land on different col on last row but after reaching last row, we will get one of the ans)
-# because both are always going one row ahead in every step they take
+# Note: both will reach the destination simultaneously i.e last row because in every step we are going down.
+# But yeah they might land on different col or on same col on last row.
 
 # time complexity= O(3^n * 3^n)  # in each row both Alice and Bob has three choices
 # space: O(n)
@@ -30,13 +30,14 @@ def helper(r,c1,c2,mat):
         return mat[r][c1] + mat[r][c2]
  
     maxChocolates= 0
-    # since they are moving simulataneously, for every one move of Alice Bob will have three options i.e in total there will be 3*3 different choices
+    # since they are moving simulataneously, for every one move of Alice Bob will have three options i.e
+    #  in total there will be 3*3 different choices
     path= [-1,0,1]  # either they can go left diagonal, or down or right diagonal
     for Alice_col in range(3):  # there are three possible path
         for Bob_col in range(3):
             # check if Alice and bob are at the same col, add the value only one time
             if c1== c2:
-                maxChocolates= max(maxChocolates, mat[r][c1] + helper(r+1,c1+ path[Alice_col],c2 + path[Bob_col], mat))
+                maxChocolates= max(maxChocolates, mat[r][c1] + helper(r+1,c1+ path[Alice_col], c2 + path[Bob_col], mat))
             else: # add values of both Alice and Bob
                 maxChocolates= max(maxChocolates, mat[r][c1] + mat[r][c2] + helper(r+1,c1+ path[Alice_col],c2 + path[Bob_col], mat))
     return maxChocolates

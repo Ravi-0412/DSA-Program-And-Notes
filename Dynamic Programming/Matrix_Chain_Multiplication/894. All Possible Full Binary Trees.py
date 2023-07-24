@@ -1,11 +1,14 @@
 
-# just same as we did for Bst "q no: 96".
+# just same as we did for BST i.e q : "96. Unique Binary Search Trees".
 # difference: 1) if n is even then full binary tree is not possible because we will not not able to make every root with either '0' or '2' children only.
 # 2) we have to divide our subproblem in such a way that left and right part contain odd no of nodes(since with even no we will not generate full binary tree).
-# so selacting only even number in range to split the left part with odd number of nodes.
+# so selecting only even number in range to split the left part with odd number of nodes.(subtree should also full binary tree only)
 # 3) here only number of node will matter in left and right subpart not their values. # only structure will matter.
 # so no need to pass any extra parameter like BST.
-# And also no need to exchange the left and right part since we can get the same structure exhnage automatically at later stage.
+
+# Note: In simple words jitna bhi possible structure bnega us structure me har node ka value = 0 dal ke return karna h.
+
+# And also no need to exchange the left and right part since we can get the same structure in exchange automatically at later stage.
 # e.g: for n= 5, let root = 2 then in left we have '1' node and in right we have '3' node.  
 # now let root= 4 then in left we have '3' node and in right we have '1' node. 
 # so we will get the exchanged struture later .
@@ -17,6 +20,10 @@ class Solution:
         return self.generate(n)
     
     def generate(self, n):
+        # # This base case will give wrong ans since we are choosing the even no as root only.
+        # if n== 0:
+        #     return [None]
+
         if n== 1:
             return [TreeNode(0)]
         ans= []
@@ -41,6 +48,7 @@ class Solution:
     def generate(self, n):
         if n== 1:
             return [TreeNode(0)]
+        
         ans= []
         for i in range(2, n+1, 2):
             leftNodes=  self.generate(i- 1)

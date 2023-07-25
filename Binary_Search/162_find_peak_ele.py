@@ -17,9 +17,9 @@ class Solution:
                 if nums[mid] > nums[mid-1] and nums[mid] > nums[mid+1]: # peak ele will hold this condition
                     return mid
                 # move to the side containing bigger ele i.e due to which 'mid' didn't become the 'peak' element.
-                elif nums[mid] < nums[mid -1]:
+                elif nums[mid] <= nums[mid -1]:
                     end= mid- 1
-                else: # nums[mid] < nums[mid +1]
+                else: # nums[mid] <= nums[mid +1]
                     start= mid+ 1
             # now handle the edge cases
             elif mid== 0:  #if first ele
@@ -38,7 +38,7 @@ class Solution:
     def findPeakElement(self, nums: List[int]) -> int:
         start= 0
         end= len(nums)-1
-        while start< end:
+        while start < end:
             mid= start+ (end-start)//2
             # in which direction  we should move 
             # will depend on the value of arr[mid] and arr[mid+1]
@@ -46,13 +46,14 @@ class Solution:
             # means we are in decr part of array
             # so our ans will lie on the left hand side of mid including 'mid'
                 end= mid
-            else:  #  peak(maximum ele) will be on left side of mid including mid
+            else:  #  peak(maximum ele) will be on right side of mid only excluding 'mid'
                 start= mid +1
         return start
 
 # Note: This same logic can  be used to find one of the peak ele(ele greater than neighbours) in any type of array.
 # e.g: '852. Peak Index in a Mountain Array'
 
-# this doesn't mean you can find the max in any array using this approach. only mean you can find any one of those ele following the property.
+# this doesn't mean you can find the max in any array using this approach. 
+# only mean you can find any one of those ele following the property or array following this type of property.
 
 

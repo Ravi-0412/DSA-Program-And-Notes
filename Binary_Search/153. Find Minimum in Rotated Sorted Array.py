@@ -74,7 +74,7 @@ class Solution:
 
 
 
-# below method will give the incorrect result
+# below method will give the incorrect result for 'minimum element'.
 # my mistake
 
 # but this similar thought logic will work in 'finding the max element in rotated sorted array' 
@@ -120,6 +120,9 @@ def findMax(nums):
     
     return nums[left]
 
+
+# Note: kisse compare karna kon sa case me iske liye 'else' case pe focus karo.
+# 
 
 # Note vvvi: in case of sorted & rotated array there will be two case:
 # 1) either array from start to mid (including both) will be sorted or 

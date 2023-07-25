@@ -47,6 +47,12 @@
 
 # finally 15 cherries without violating the rules.
 
+# why not working?
+# The obvious difference is that now the maximum number of cherries of the trip not only depends on the starting position (i, j),
+# but also on the status of the grid matrix when that position is reached. 
+# This is because the grid matrix may be modified differently along different paths towards the same position (i, j), 
+# therefore, even if the starting position is the same, the maximum number of cherries may be different since we are working with different grid matrix now.
+
 # Note: The above method is working in "Chocolate Pickup (3D DP)", have to see and check once again and compare both the Q.
 
 
@@ -55,6 +61,8 @@
 # Instead of going one by one, we can go simultaneoulsy.
 # Also going top to bottom(right, down) and bottom to top(left, up) both is same.
 # So instead of taking initial rows and cols values as (0, 0, n-1, n-1) we can take (0, 0, 0,0) i.e we can start both from (0,0) only.
+
+# Now Q reduces to reach (n-1, n-1) from (0,0).
 
 # In detail: 
 

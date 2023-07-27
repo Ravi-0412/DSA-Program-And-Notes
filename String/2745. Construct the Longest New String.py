@@ -1,4 +1,5 @@
-# 
+# logic in notes
+# page: 96
 
 class Solution:
     def longestString(self, x: int, y: int, z: int) -> int:

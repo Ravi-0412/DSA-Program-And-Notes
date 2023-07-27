@@ -3,7 +3,8 @@
 
 # Note: for initialising 'low' and 'up' just find the range in which we can get the ans.
 # and initialise 'low'= min range value and 'up'= maximum range value.
-# after this use template 1 or template 2 according to the Q.
+# After this use template 1 or template 2 or template according to the Q.
+# Note: Using above three template you can solve almost all Q of binary search, just think which template we can use here analysing the Q.
 
 # 'up' hmesha '>= target' me update hoga and low '<=' target me update hoga, 
 # kyonki hmlog ko size hmesha decrease karna h.
@@ -38,7 +39,7 @@ def binary_search(arr,key):
 # print(binary_search(arr, key))
 
 
-# Template 2:  most important template
+# Template 2:  most important and most powerful template
 # Note vvi: we use when we have to find the smallest amomg all possible ans.
 
 # here after while loop will break then 'low' and 'high' will become equal.
@@ -106,11 +107,11 @@ class Solution:
 # so any one of them will point to 'key' if key is present.
 
 # Template 3:  same as Template 2()
-# note: don't use this template. try to solve Q using template 1 and template 2 only.
+# note: don't use this template. try to solve Q using template 1 and template 2 and template 4 only.
 # will give TLE in many cases.
 
 
-# in case of duplicate elements, it will give the last index where ele is present.
+# Note vvi: in case of duplicate elements, it will give the last index where ele is present.
 # because even after finding the ans, we are continuing our checking and increasing the mid(increasing the low).
 # but doesn't work always to get the last index. may get TLE also . e.g" [10,10], key= 10
 # so avoid this template to find the last index. 
@@ -134,7 +135,7 @@ key= 10
 
 
 # to find the last index. basic one.
-# template 1 only : most powerful after template 2.
+# template 1 only :
 
 # Note VVI: agar hmko or bda khojna ho to yhi template use karo "while start<= end" and 
 #  ek 'ans' variable leke update karte raho possible ans me and last me 'ans' ko return kar do.
@@ -161,8 +162,8 @@ arr= [10, 10,20,20,20,20]
 key= 20
 print(binary_search(arr, key))
 
-
-# another concise way of above method(merge two if into one if)
+# Template 4: most powerful after template 2.
+#  Just consice way of above method(merge two if into one if).
 # agar mil bhi jaye to 'low' ko aage badhate rhna h . isliye start wale condition me equal to lga do.
 # template 1 only. yhi template to use karna h ans milne ke bad bhi or bhi bda answer khojne ke liye.
 # vvi: This template used in Q like: "Aggressive cows", ""

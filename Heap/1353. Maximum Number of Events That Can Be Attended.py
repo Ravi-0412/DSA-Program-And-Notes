@@ -1,11 +1,13 @@
 # Very good and logical.
 
-# Logic: 1) To check the availability of event at any day, we need to sor the events according to the start date.
+# Intuition: we will attend according to the ending time first.
+# for this we need minHeap to get the event having minimum ending time among already ongoing event.
+
+# Logic: 1) To check the availability of event at any day, we need to sort the events according to the start date.
 # 2) At any day we will try to attend the event that will end soonest to attend the maximum event.
 # for this we need to get the least end day of events among the available events till today.
 # for this we will use the minHeap to keep track of least end day of event.
 
-# https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended/solutions/1116371/python-with-detailed-explanation/
 
 # Time : O(N *log(N) + D*log(N)), d= totalDays
 
@@ -17,6 +19,7 @@ class Solution:
         eventId = 0  # will tell till which event we have traversed. will help in keep track of events that will start on a day.
         day = 1   # minimum start day of any event.
         endingSooner = []    # minHeap. to get the event that will end the soonest.
+        # we can attend event till last end day.
         while day  <= totalDays:
             # Add the ending date of all the events that will start today
             while eventId < len(events) and events[eventId][0] == day:

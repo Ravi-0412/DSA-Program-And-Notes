@@ -22,39 +22,6 @@
 
 # leetcode Q:  returns  a list of list of all the subsets(leetcode Q) 
 # very better one,just applied the above logic
-# class Solution:
-#     def subsets(self, nums: List[int]) -> List[List[int]]:
-#         return self.helper(0,nums,[])
-#     def helper(self,ind,arr,ans):
-#         if ind== len(arr):
-#             return [ans]
-#         left= self.helper(ind+1,arr,ans+ [arr[ind]])
-#         right= self.helper(ind+1,arr,ans)
-#         return left+right
-
-
-# method 2: more concise and easier way of above logic
-class Solution:
-    def subsets(self, nums: List[int]) -> List[List[int]]:
-        res= []
-        subset= []
-        def dfs(i):
-            if i>=len(nums):
-                # res.append(subset)  # if you write this then will print very subset as empty only as we are updating the subset always i.e 
-                # adding and poping so subset will be 'empty' only after the all calls end so getting all subset as empty
-                res.append(subset.copy())     # so do deep copy
-                return
-            # when we include the curr ele in subset
-            subset.append(nums[i])
-            dfs(i+1)
-            # when we don't include the curr ele in subset
-            subset.pop()
-            dfs(i+1)        
-        # call the dfs with starting index '0'
-        dfs(0)
-        return res
-
-# another way of writing the above code.
 # very concise and useful way.
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:

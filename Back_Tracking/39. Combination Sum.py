@@ -1,5 +1,6 @@
 # just same as we did in "subsequnce with given some" . only difference is
 # 1) here in case arr[0]<=k i.e when we are including that index don't increment that index as we can include any ele any no of times
+# As in case of subsequence repitition does not happen.
 # 2) we will check for ans(base case) only when we will get the target first then for array end.
 
 # time: O(2^t *k), t= target , k= length of every subsequence(for printing/putting each subsequence into another data structure)
@@ -10,6 +11,10 @@
 
 # note: This is valid because number given are all distinct and positive.
 # if given distinct number having both positive and negative value then we will have to check each subsequences at end if it's sum= target.
+
+# Note: Since number is distinct then automatically we will get the unique combinations because there is no chance of duplicate combination.
+# If not distinct then we will have to modify this little. can see in Q : "40. Combination Sum II".
+
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
         res= []

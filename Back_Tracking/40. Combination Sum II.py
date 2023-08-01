@@ -7,8 +7,11 @@
 # time: O(2^n *k), k= average length of subsequence(for printing/putting each subsequence into another data structure).
 # space: O(k*x), k: average length of subset and x: no of combinations(ans) without recursive space.
 
-# logic: All duplicates can come together in one combination but not in different different combination to avoid duplicates.
-# if they will come in different combination then, we will get duplicates in the ans.\
+# logic: All duplicates can come together in one combination but not in different different combination to avoid duplicates combination.
+# if they will come in different combination then, we will get duplicates in the ans.
+
+# Not vvi: we will get duplicates in ans only when we will 'not include' the cur ele.
+# So when we skip then we will choose the next distinct ele.
 
 # just same logic as '90.subset2'.
 class Solution:

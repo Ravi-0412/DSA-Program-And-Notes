@@ -2,6 +2,8 @@
 # Reason: No of possible unique binary tree structure for 'n' nodes = catalan(n)
 # And each structure can give the desired preorder, inorder or postorder. 
 
+# Explanation in note, page no : 126
+
 # Now, asking for no of bst given 'n' nodes means indirectly asking "no of tree structure that will be give [1,2,3...n] as inorder"
 # And this i sequal to= catalan(n)
 class Solution:

@@ -1,5 +1,7 @@
 # it basically checking all the subsequences formed with their sum.
 # valid for all cases.
+# Note vvi: We always have choice to 'not include' and we can only include when arr[i] <= target(remaining_sum)
+
 def PrintSubsequence2(arr,ans,k):
     if not arr:
         if sum(ans)==k:
@@ -19,6 +21,7 @@ def PrintSubsequence2(arr,ans,k):
 
 # little modification of above code as when in array will be greater than 'k' then no need to find subsequence for that number.
 # note: will be only valid if all number will be positive only.
+
 def PrintSubsequence3(arr,ans,k):
     if k==0:
         print(ans)
@@ -27,7 +30,7 @@ def PrintSubsequence3(arr,ans,k):
         return
     # if we include the current ele, then add arr[ind] into the ans but we only include if the curr ele value is less than sum.
     if arr[0]<=k:  # if folows this tehn include otherwise don't include
-        PrintSubsequence3(arr,ans+ [arr[0]],k-arr[0])
+        PrintSubsequence3(arr[1: ],ans+ [arr[0]],k-arr[0])
     # if we don't include the current ele 
     PrintSubsequence3(arr[1:],ans,k)
 
@@ -61,6 +64,7 @@ def PrintSubsequence4(arr,ans,k):
     # if we don't include the current ele 
     if(PrintSubsequence4(arr[1:],ans,k))== True:
         return True
+    return False
 
 arr= [2,1,2,1]
 print("possible subsequences or subset is: ")

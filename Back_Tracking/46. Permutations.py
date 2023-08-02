@@ -1,6 +1,7 @@
 # very simple and easy. Just same as we do on pen and paper by taking choices for each boxes.
 # logic: hmko 'len(arr)' no of boxes fill karna jo array me h wahi sb ele se.
-#  remaining position ke liye koi bhi ele le sakte h and kisi ele ko choose karne ke bad usko aage nhi le sakte remaining boxes ko fill karne ke liye.
+#  remaining position ke liye koi bhi ele le sakte h and kisi ele ko choose karne ke bad ,
+# usko aage nhi le sakte remaining boxes ko fill karne ke liye.
 # isi tarah mera smaller subproblem generate hoga.
 
 # time: O(n! * n)  # n! = no of permutation and n= copying each permuatation
@@ -10,17 +11,21 @@ class Solution:
         ans= []
 
         def permutation(arr, per):
-            if not arr:  # means we have found the ans
+            if not arr: 
+                # means we have found the ans. Filled all the req places.
                 ans.append(per)
-                return 
-            for i in range(len(arr)):  # we can choose any number to fill remaining position i.e 'len(arr)'
-                permutation(arr[: i] + arr[i+1: ], per + [arr[i]])   # us ele ko lene ke bad usko aage me include nhi kar sakte. so removing the added ele from arr.
+                return
+            # we can choose any number to fill the next position from remaining arr
+            for i in range(len(arr)):  
+                # us ele ko lene ke bad usko aage me include nhi kar sakte. so removing the added ele from arr and adding that to our one of permutation.
+                permutation(arr[: i] + arr[i+1: ], per + [arr[i]])   
         
         permutation(nums, [])
         return ans
 
 # To avoid copying the array after excluding the current included ele we can use set to check whether that has been added to 'per' or not.
 # trying to fill remaining with all the ele if that ele is not used yet in that permutation.
+# Since only distinct ele it will work fine when we will check the ele value.
 def permutations2(arr,ans,included):
     if len(ans)== len(arr):  # measn we have got one of the permutations
         print(ans)
@@ -33,7 +38,7 @@ def permutations2(arr,ans,included):
             permutations2(arr,ans,included)
             # while backtracking remove arr[i]
             included.remove(arr[i]) 
-            ans.remove(arr[i])
+            ans.remove(arr[i])    # if you will make this change inside function call only then, no need to remove.
 
 # arr= [1,2,3]
 # included= set()  # will also conatain the permutation only.
@@ -89,7 +94,6 @@ class Solution:
 # count the no of total possible permutations
 # just same as above ,only return count instead of returning 'ans'
 def permutations(given, ans):
-    res= []
     count= 0
     if not given: # if given string is empty, then only we get one of the ans so incr count
         return 1     # simplest way of all the above three lines
@@ -110,7 +114,9 @@ def permutations(given, ans):
 # print(permutations("aba", ""))  
 
 
-# method 4:
+# method 4: Most optimised
+# Visualise this properly.
+
 # Here no extra space
 # logic: we are trying to bring every ele at every possible index by swapping and
 #  when index== len(arr) means we have done required no of swap to get a ans.
@@ -118,9 +124,10 @@ def permutations3(ind,arr):
     if ind== len(arr):
         print(arr)
         return 
+    # bring the cur ele at index 'ind' at all possible position.
     for i in range(ind,len(arr)):
         arr[i],arr[ind]= arr[ind],arr[i]
-        permutations3(i+1,arr)
+        permutations3(i+1,arr)          # calling the function for 'i+1' not 'ind + 1' .
         arr[i],arr[ind]= arr[ind],arr[i]
 
 arr= [1,2,3]

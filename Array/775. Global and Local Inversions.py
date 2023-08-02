@@ -1,4 +1,5 @@
-# Note: we are able to do this by these methods since no are only from '0' to 'n-1' and there is only 'n' element each exactly occuring once(permutation).
+# Note: we are able to do this by these methods since no are only from '0' to 'n-1' and 
+# there is only 'n' element each exactly occuring once(permutation).
 
 # method 1:
 # The problem asks us to find whether the number of global inversions are equal to local inversion.

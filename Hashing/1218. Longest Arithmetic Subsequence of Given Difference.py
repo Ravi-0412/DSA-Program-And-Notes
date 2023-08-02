@@ -35,8 +35,6 @@ class Solution:
 # While Traversing if 'num - difference' say = 'num1' is already there then means 'num - num1'= difference.
 # So will add '+1' to 'num1' else we will start new seq from here so we will update 'lengths[num] = 1'.
 
-
-
 # Time : O(n)= space
 
 class Solution:

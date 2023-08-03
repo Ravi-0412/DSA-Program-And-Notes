@@ -64,3 +64,12 @@ arr= [1,2,1]
 # print("possible subsequences or subset is: ")
 # PrintSubsequence2(arr,[])
 
+
+# Note vvi: This method is very very useful and widely used.
+# A lot of problems can be solved easily using above method only.
+
+# Where to use this?
+# Ans: when you have to get the ans with the numbers(all or some) given in Q or their combinations in our ans then we can use this logic.
+# I.e when our given array/string will become empty(means we have used all the numbers) then, we will get one of the ans.
+
+# Some Q where we can use this : "78. Subsets", "17. Letter Combinations of a Phone Number", "No of ways to get  sum '4' from a dice ". 

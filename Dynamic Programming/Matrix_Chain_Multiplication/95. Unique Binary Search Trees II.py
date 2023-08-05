@@ -1,5 +1,7 @@
 # time: exponential
 # Just same as method 2 of Q : "95. Unique Binary Search Trees II".
+# https://github.com/Ravi-0412/DSA-Program-And-Notes/blob/main/Dynamic%20Programming/Matrix_Chain_Multiplication/96.%20Unique%20Binary%20Search%20Trees.py
+
 # Just replace (i->left , j -> right and k->root)
 # logic in notes, page: 127, 128
 class Solution:
@@ -21,3 +23,15 @@ class Solution:
         return ans
 
 
+# Similar Q:
+# 1) 96. Unique Binary Search Trees
+# https://github.com/Ravi-0412/DSA-Program-And-Notes/blob/main/Dynamic%20Programming/Matrix_Chain_Multiplication/96.%20Unique%20Binary%20Search%20Trees.py
+
+
+
+# 2) 894. All Possible Full Binary Trees
+# https://github.com/Ravi-0412/DSA-Program-And-Notes/blob/main/Dynamic%20Programming/Matrix_Chain_Multiplication/894.%20All%20Possible%20Full%20Binary%20Trees.py
+
+# 3) 241. Different Ways to Add Parentheses
+
+# https://github.com/Ravi-0412/DSA-Program-And-Notes/blob/main/Dynamic%20Programming/Matrix_Chain_Multiplication/241.%20Different%20Ways%20to%20Add%20Parentheses.py

@@ -1,7 +1,6 @@
 # just same logic what we did in Q: 140. Word Break II
-# but have to optimise this so instead of doing slicing on string itself, passed index as parameter
 
-# logic: just check for each substring after the given index, if it is present in dic then check for remaining string recursively, that's it.
+
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
         wordSet= set(wordDict)  # to check any substring present or not in O(1)
@@ -21,7 +20,7 @@ class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
         wordSet= set(wordDict)  # to check any substring present or not in O(1)
         n= len(s)
-        dp= [-1 for i in range(n+1)]
+        dp= [-1 for i in range(n+1)]  # dp[i]: denotes whether we can partition s[: i+1] into words given in wordDict or not.
         return self.helper(0, n, s, wordSet, dp) 
     
     def helper(self, ind, n, s, wordSet, dp):
@@ -35,3 +34,23 @@ class Solution:
                 return True
         dp[ind]= False
         return False
+    
+
+# Note vvi: 
+# Same method but when doing by taking actual string giving TLE.
+# Have to analyse this properly and discuss with someone.
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        def dfs(s):
+            if not s:
+                return True
+            if s in cache:
+                return cache[s]
+            for i in range(len(s)):
+                if s[: i+1] in wordDict and self.wordBreak(s[i+1 :], wordDict):
+                    cache[s] = True
+                    return True
+            cache[s] = False
+            return False
+        cache = {}
+        return dfs(s)

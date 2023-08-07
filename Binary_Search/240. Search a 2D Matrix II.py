@@ -1,23 +1,11 @@
 # 1st method: Brute force O(N^2)
 
-# 2nd method: just apply binary search in each row
+# 2nd method: just apply binary search in each row or each column
 # time: O(mlogn)
 
 
 # 3rd method: 
-# it's is pretty nicee and easy problem , it's approach is soo nicee
-# logic: just start checking from top right corner and
-# if not found then update the value of iterating variable properly
-# where we can get the element just like binary search
-# Time: O(m+n)
-
-# why we are not checking from (0,0)?
-# ans: because every time we will not find the ele i.e for both the smaller and greater than case, we will have two choice for each.
-# in this way we will have to traverse the each cell exactly one time.
-# so time: O(n*m) only
-
-# but when we traverse from top right then in unequal case we will have only one choice.
-# key greater then check in next row and if smaller check in pre col.
+# Exactly same as method 3 of q : "74. Search a 2D Matrix".
 
 class Solution:
     def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
@@ -37,6 +25,12 @@ class Solution:
                 down+= 1
         return False
 
+# Note Vvi: 
+# Difference from Q :"74. Search a 2D Matrix"
+# This current Q only guarantee the row and col are sorted not whole ele is sorted.
+# so we can't apply methods of Q :"74".
+
+# Note: Here we can't decide the row number checking 1st and last value of any row.
 
 # 4th method: you can also start searching from bottom-left point
 # and change the variable accordingly

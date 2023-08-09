@@ -72,12 +72,14 @@ class Solution:
 # where we can get the element just like binary search
 
 # why we are not checking from (0,0)?
-# ans: because every time we will not find the ele i.e for both the smaller and greater than case, we will have two choice for each.
-# if target is smaller choices: left or up , if greater choices: right or down
-# in this way we will have to traverse the each cell exactly one time.
-# so time: O(n*m) only
+# Ans: When we will start from here then for moving into grid we will have to go to (right, down).
+# And in both cases ele will be greater ( in increasing order). 
+# Now suppose target is greater then we can't say which way to go i.e right or down since both are in increasing order.
+# And in case target is smaller then there will no way since both way have greater element.
 
-# but when we traverse from top right then in unequal case we will have only one choice.
+# But when we traverse from top right then in unequal case we will have only one choice.
+# Because in this for getting ele of grid we will move left and down.
+# left will have smaller ele then cur one and down will have greater ele than cur one.
 # if target is smaller choices: left , if greater choices: down
 
 # Time: O(m+n)  , bigger than method '2'.

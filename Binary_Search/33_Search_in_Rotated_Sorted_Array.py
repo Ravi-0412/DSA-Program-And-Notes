@@ -8,7 +8,7 @@ class Solution:
     def search(self, nums: List[int], target: int) -> int:
         n= len(nums)
         # 1st find the index of minimum ele(here pivot index) 
-        pivot_index= self.BinarySearchPivot(nums,0,n-1)
+        pivot_index= self.BinarySearchPivot(nums)
         # now apply binry search from index 0 before index of minimum ele
         left= self.BinarySearch(nums,target,0,pivot_index-1)
         if left== -1:
@@ -21,7 +21,7 @@ class Solution:
                 return right
         return left
     
-    def BinarySearchPivot(nums):              
+    def BinarySearchPivot(self, nums):              
         left, right = 0, len(nums)-1
         while left < right:
             mid = (left + right) // 2
@@ -63,7 +63,7 @@ class Solution:
         while start < end :
             mid= start + (end-start)//2
             # means array is sorted from start to mid
-            if nums[mid] > nums[start]: 
+            if nums[mid] >= nums[start]: 
             # so we can check if target exist bw start and mid
                 if nums[start] <=target<=nums[mid]:
                     end= mid
@@ -79,3 +79,7 @@ class Solution:
                 else:
                     end= mid
         return start if nums[start]== target else -1
+
+
+# Similar Q:
+"81. Search in Rotated Sorted Array II".

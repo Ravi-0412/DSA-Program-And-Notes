@@ -72,8 +72,6 @@ class Solution:
 
 
 
-
-
 # below method will give the incorrect result for 'minimum element'.
 # my mistake
 
@@ -129,3 +127,9 @@ def findMax(nums):
 # 2) array from 'mid' to 'end' (including both) will be sorted  => mininum ele case
 
 # Both part can't be either sorted or unsorted at the same time.
+
+
+# The above obseravtion we can use in Q :"33. Search in Rotated Sorted Array".
+# see the 2nd method of this Q.
+# Logic: Just find which part is sorted and then check whether target lies in that sorted part or not and move accordingly.
+# https://github.com/Ravi-0412/DSA-Program-And-Notes/blob/main/Binary_Search/33_Search_in_Rotated_Sorted_Array.py

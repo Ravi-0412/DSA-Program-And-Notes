@@ -71,7 +71,6 @@ class Solution:
         return nums[left]
 
 
-
 # below method will give the incorrect result for 'minimum element'.
 # my mistake
 
@@ -128,6 +127,7 @@ def findMax(nums):
 
 # Both part can't be either sorted or unsorted at the same time.
 
+# Similar Q: 1) 33. Search in Rotated Sorted Array"
 
 # The above obseravtion we can use in Q :"33. Search in Rotated Sorted Array".
 # see the 2nd method of this Q.

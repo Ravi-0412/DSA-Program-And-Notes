@@ -26,7 +26,7 @@ class Solution:
         while left < right:
             mid = (left + right) // 2
     
-            if nums[left] >nums[mid]:   # means array from 'left' to 'mid' is unsorted
+            if nums[left] > nums[mid]:   # means array from 'left' to 'mid' is unsorted
                 right = mid-1            # so max will lie before mid 
 
             else:      # here it will guarantee that array from left to mid is sorted and 
@@ -53,7 +53,7 @@ class Solution:
 
 
 # method2: By recursion(Template 2)
-#logic: just finding the sorted part and checking whether ele lies in this or not ..
+#logic: just finding the sorted part and checking whether ele lies in that or not ..
 # Reason: we can only applu binary search if array is sorted.
 
 # time:O(logn)
@@ -70,7 +70,7 @@ class Solution:
                 else: # if not present then check in other part
                     start= mid + 1
 
-            # if above part is not sorted then it other part from mid+1 to end must be sorted        
+            # if above part is not sorted then other part from mid+1 to end must be sorted        
             else: 
                 # check if target lies in this range
                 if nums[mid+1] <=target<=nums[end]:  # if lies call binary search
@@ -82,4 +82,5 @@ class Solution:
 
 
 # Similar Q:
-"81. Search in Rotated Sorted Array II".
+# 1) "81. Search in Rotated Sorted Array II".
+# https://github.com/Ravi-0412/DSA-Program-And-Notes/blob/main/Binary_Search/81.%20Search%20in%20Rotated%20Sorted%20Array%20II.py

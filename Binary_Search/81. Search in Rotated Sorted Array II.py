@@ -10,8 +10,9 @@
 # [1,0,1,1,1] (target = 0), [1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1] (target = 2)
 
 # why this giving wrong?
-# Because when we are checking the sorted part then we are comparing only 'mid' with start not taking care of elements that are coming in middle of 'start' and 'mid'.
-# e.g: [1,0,1,1,1] . mid = 2 then according to our if condition array from index '0' to '2' is sorted but its not because '0' in between.
+# Because when we are checking the sorted part then we are comparing only 'mid' with start
+#  without taking care of elements that are coming in middle of 'start' and 'mid'.
+# e.g: [1,0,1,1,1] . mid = 2 then according to our 'if' condition array from index '0' to '2' is sorted but its not because '0' in between.
 # That's why getting wrong ans.
 
 # There is no way to get ans in logn for such cases. will go in O(n)

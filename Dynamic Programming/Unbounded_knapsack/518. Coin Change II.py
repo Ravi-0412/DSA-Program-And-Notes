@@ -10,9 +10,12 @@ class Solution:
             return 1
         if n== 0:
             return 0
-        if coins[n-1]<= amount:
-            return self.MinCoins(coins, amount-coins[n-1], n) + self.MinCoins(coins, amount, n-1)
-        return self.MinCoins(coins, amount, n-1)
+        if coins[n-1]> amount:
+            # Only one option don't take
+            return self.MinCoins(coins, amount, n-1)
+        # else coins[n-1] <= amount:
+        # we have two choice either take the cur one or not
+        return self.MinCoins(coins, amount-coins[n-1], n) + self.MinCoins(coins, amount, n-1)
     
 
 
@@ -59,4 +62,8 @@ class Solution:
                 else: # ways possible including this ele(unbounded one) + ways possible without including it
                     dp[i][j]= dp[i][j-arr[i-1]] + dp[i-1][j]
         return dp[N][sum]
-        
+
+
+
+# Similar Q: 
+# 1) 322. Coin Change

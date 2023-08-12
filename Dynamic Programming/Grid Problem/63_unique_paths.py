@@ -1,5 +1,6 @@
 # Recursive:
-# Note:write always do like this only(False condition + out of bound cases all together first then base cases)
+# Note: Always do like this only(False condition + out of bound cases all together first then base cases).
+# write the code for normal Q(without obstacle) just treat 'obstacle' in invalid base case in any Q .
 class Solution:
     def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
         return self.helper(0,0,obstacleGrid)
@@ -8,7 +9,7 @@ class Solution:
         if r>= len(grid) or c>= len(grid[0]) or grid[r][c]==1:  # write all the false cases together like we used to do in graph
                                                                 # this help you to avoid a lot of checking condition further
             return 0
-        if r== len(grid)-1 and c== len(grid[0])-1 :  #if reaches the end point 
+        if r== len(grid)- 1 and c== len(grid[0])-1 :  #if reaches the end point 
             return 1
         return self.helper(r+1,c,grid) + self.helper(r,c+1,grid)
 

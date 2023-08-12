@@ -1,9 +1,8 @@
-
-# logic : 
-# for (i,j), longest path= max(longest path in  row i, longest path in col j) + 1.
-
 # method 1: Brute force
 # logic: for (i,j), longest path= max(longest path in  row i, longest path in col j) + 1.
+
+# For row and col, we need to check every ele as for cur cell either ele on left or right may be greater.
+
 
 class Solution:
     def maxIncreasingCells(self, mat: List[List[int]]) -> int:
@@ -35,13 +34,15 @@ class Solution:
 
 # method 2:
 # optimising the above 
+# A single ele can repeat many times and we are again and again calling function for those indices.
 
 # Intitution: 
-# we find the longest increasing paths starting from each value in the matrix. 
+# we find the longest increasing paths starting from each value(not cell) in the matrix. 
 # By keeping track of the longest paths for rows and columns, we determine the maximum number of cells we can visit. 
 # The final result is the maximum path length among all rows and columns
 
 # note: we have to traverse either in ascending or descendimg order of values.
+# So 1st we need to store the cells wrt to a value.
 
 # A single ele can repeat many times so first we have to store all its indices .{val: indices}
 
@@ -67,7 +68,8 @@ class Solution:
         for num in sorted(valToIndices):
             for (i, j) in valToIndices[num]:
                 # max we can go from (i, j) is max(row[i], col[j]) + 1
-                dp[i][j]= max(rows[i], cols[j]) + 1
+                # for smaller value we already calculated so for cur value max we can go is this only.
+                dp[i][j]= 1 + max(rows[i], cols[j]) 
                 ans= max(ans, dp[i][j])
             # now update the value of rows and cols array.
             for (i, j) in valToIndices[num]:

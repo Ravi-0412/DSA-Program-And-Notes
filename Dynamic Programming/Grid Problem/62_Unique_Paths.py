@@ -1,8 +1,17 @@
 # Recursive way:
 # Time Complexity: O(2m*n)
+# Note: No need to check for 'out of range' condition since it will get returned for m== 1 or n ==1 ' only.
+
+# for base case, you can do like :
+# if m == 1 and n ==1:
+#     return 1
+
+# if we write this as base case then we need to check for invalid condition.
+
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
-        if m== 1 or n== 1:
+        if m== 1 or n== 1: 
+            # After reaching 1st row or 1st col there will be only one possible way i.e either go up or left.  
             return 1
         return self.uniquePaths(m, n-1) + self.uniquePaths(m-1, n)
 
@@ -23,7 +32,8 @@ class Solution:
 
 
 # Tabulation
-# Note vvi if m==n then : when you will make all sub-problems (n*n) as matrix and put the value then you will find find the ans matrix is a transpose matrix.
+# Note vvi if m==n then : when you will make all sub-problems (n*n) as matrix , put the value in matrix.
+# After that you will find that the ans matrix is a transpose matrix.
 
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:

@@ -150,7 +150,74 @@ g.FindTopoSort()
 # Note VVI: whenever you have to find the order of distinct elements, given some relation between them(or dependency)
 # must think of topological sort 
 
+# Note: Use this template in other Q of topological sort
 
+# 1) Dfs template
+from collections import defaultdict
+import collections
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        AdjList= defaultdict(list)
+        # first convert into adjacency list(edges) for directed graph
+        # According to the meaning of the Q.
+        for second,first in prerequisites:
+            AdjList[first].append(second)
 
+        def checkCycle(src):
+            visited.add(src)
+            path_visited.add(src)
+            for u in AdjList[src]:
+                if u not in visited:
+                    if checkCycle(u):
+                        return True
+                elif u in path_visited:
+                    return True
+            path_visited.remove(src)
+            return False
 
+        visited= set()
+        path_visited= set()
+        for i in range(numCourses):
+            if i not in visited and checkCycle(i):    # if cycle simply return False, else continue checking for another node
+                return False
+        return True
+    
+    
+# method 2: bfs template
+from collections import defaultdict
+import collections
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        AdjList= defaultdict(list)
+        # first convert into adjacency list(edges) for directed graph
+        for first,second in prerequisites:
+            AdjList[second].append(first)  # phle 2nd wala course karenge tb hi first kar sakte h.
+        
+        n = numCourses
+        indegree= [0]*n
+        
+        # finding the indegree of each vertices
+        for i in range(n):
+            for k in AdjList[i]:  # if k is adj to 'i' means there is one indegree edge to 'k'
+                indegree[k]+= 1
+        
+        # now applying the BFS to get the topological order
+        count, ans = 0, []
+        Q  = collections.deque()
+        for i in range(n):
+            if indegree[i]==0: 
+                Q.append(i)
+    
+        while Q:
+            count+= 1  
+            u= Q.popleft()
+            ans.append(u)
+            # after poping decrease the indegree of all node adjacent to 'u'
+            for j in AdjList[u]:
+                indegree[j] -= 1   
+                if indegree[j]== 0: 
+                    Q.append(j)
 
+        if count!= n: 
+            return False
+        return True

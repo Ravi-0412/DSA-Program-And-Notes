@@ -1,5 +1,5 @@
 # mostly same logic as Dijkastra
-# not bale top print the exact path(edges)
+# not able top print the exact path(edges)
 from collections import defaultdict
 import heapq
 def Prim(adj, src, n):

@@ -71,8 +71,11 @@ class Solution:
 # Note: This is difference between bfs and dfs(DP). 
 # Use above observation to see what should we use.
 
+# Note vvi: When subproblems are repeating then try to do by DP only because through bfs you will get mostly TLE.
+# sometime your solution may get accepted using bfs like this and few more Q.
+
 # We used bfs. Later try by dfs(dp also).
 
 
-# One more q that i tried by DP but didn't get but got by 'DP'.
+# One more q that i tried by DP but didn't get but got by 'bfs'.
 # "1553. Minimum Number of Days to Eat N Oranges".

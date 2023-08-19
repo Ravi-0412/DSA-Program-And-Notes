@@ -137,7 +137,7 @@ class DSU:
         return self.parent[n]
     
     def union(self, n1, n2):  
-        p1, p2= self.findUPar(n1), self.findUPar(n2)
+        p1, p2= self.findParent(n1), self.findParent(n2)
         if p1== p2:   # we can't do union since they belong to the same component.
             # return
             # return False

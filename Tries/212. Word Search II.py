@@ -77,7 +77,7 @@ class Trie:
         cur.prefix_count-= 1
         for c in word:
             cur= cur.children[c]
-            cur.prefix_count-= 1
+            cur.prefix_count -= 1
         cur.isWord= False
 
 class Solution:

@@ -1,7 +1,6 @@
 # why Tries?
 # ans: if we see the binary form of every number then all are  made from '0' or '1' only like all words is formed from letters 'a-z' only.
 
-
 # logic: insert all element of first array into Trie.
 # After that take each number one by one from 2nd array and keep updating the ans.
 
@@ -21,12 +20,12 @@ class Trie:
     def __init__(self):
         self.root= TrieNode()
     
-    # will insert in binary from leftmost side and each num is stored in '32' bit binary.
+    # will insert in binary from leftmost side(most significant bit) and each num is stored in '32' bit binary.
     # 1st node will contain most significant bit and so on.
     def insert(self, num):
         cur= self.root
         for i in range(31,-1,-1):
-            bit= (num>> i) & 1    # getting the bit at 'i'th position. Bit counting start from right side. That's why doing right shift 'i' times.
+            bit= (num>> i) & 1    # getting ith most significant digit.for this we need to do right shift 'i' times
             if bit not in cur.children:
                 cur.children[bit]= TrieNode()
             cur= cur.children[bit]
@@ -39,8 +38,8 @@ class Trie:
         for i in range(31, -1, -1):
             bit= (num>> i) & 1
             # for maximum xor, we need the opposite of this 'bit'.
-            # if present then at this position, we will make bit= 1.
-            # for making bit= 1, bring 1 at this position by doing left shift by 'i' and take OR with max_xor.
+            # if present then at this position, we will make bit= 1 for this position keeping all other bit same.
+            # for this, bring 1 at this position by doing left shift by 'i' and take OR with max_xor.
             if (1-bit) in cur.children:
                 max_xor= max_xor | (1<< i)
                 cur= cur.children[1- bit]     # will follow node with '1-bit' here.

@@ -1,5 +1,5 @@
 # just same as 'Q. maxXor'. Treat the given arr 'nums' as both arr1 and arr2. 
-# But giving Tle for last input.
+# But giving Tle for last inputs.
 # Time Complexity: O(N*32) + O(M*32)= space
 class TrieNode:
     def __init__(self):

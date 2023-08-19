@@ -36,7 +36,7 @@ class Solution:
             for d,c in adj[s]:       # d: destination, c= cost
                 edges.append((c,s,d))
     
-        # heapify the edges so that minimum weight edge come at first index
+        # heapify the edges so that minimum weight edge come at first index or sort the edge
         heapq.heapify(edges)
         remaining_edge= V-1     # as for connecting 'v' node we have to add only 'v-1' edges
         dsu= DSU(V)

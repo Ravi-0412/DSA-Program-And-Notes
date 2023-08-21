@@ -58,13 +58,23 @@ class Solution:
 
 class Solution:
     def minCost(self, nums: List[int], cost: List[int]) -> int:
-        mn, mx= min(nums), max(nums)
-        ans= float('inf')
-        for i in range(mn, mx + 1):
+
+        def f(x) :
             curCost= 0
-            for j in range(len(nums)):
-                curCost += abs(nums[j] - i) * cost[j]
-            ans= min(ans, curCost)
+            for a, c in zip(nums, cost):
+                curCost += abs(a - x) * c
+            return curCost
+        
+        start, end = min(nums) , max(nums)
+        ans = f(start)
+        while start < end:
+            x = (start + end) //2  # just mid only
+            y1, y2 = f(x), f(x + 1)
+            ans = min(y1, y2)
+            if y1 < y2 :
+                end = x
+            else:
+                start = x + 1
         return ans
 
 

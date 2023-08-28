@@ -64,6 +64,21 @@ arr= [2,5,8,3,2,4,1,7]
 # print(nextSmallerLeft(arr))
 
 
+
+# other way:
+# Traverse right to left.
+# Here will store ans as index not actual value.
+
+# next_smaller_left = [-1]*n
+# stack2 = []
+# for i in range(n-1, -1, -1):
+#     while stack2 and a[stack2[-1]] > a[i]:
+#         # means we got the next_smaller left  < for stack.pop(). 
+#         ind = stack2.pop()
+#         next_smaller_left[ind] = i
+#     stack2.append(i)
+
+
 # Next smaller right program
 def nextSmallerRight(arr):
     stack= []
@@ -82,3 +97,16 @@ def nextSmallerRight(arr):
 arr= [2,5,8,3,2,4,1,7]
 # print(nextSmallerRight(arr))
 
+
+# other way:
+# traverse left to right
+# Here will store ans as index not actual value.
+
+# next_smaller_right = [-1] * n
+# stack1 = []
+# for i in range(n):
+#     while stack1 and a[stack1[-1]] > a[i]:
+#         # means we got the next_smaller right  < for stack.pop().
+#         ind = stack1.pop()
+#         next_smaller_right[ind] = i
+#     stack1.append(i)

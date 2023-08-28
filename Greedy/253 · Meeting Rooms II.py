@@ -16,7 +16,7 @@
 # now sort these arrays
 # vvi: now take two pointer one each to start and end array respectively.
 # run the loop till all meetings has started because after all meeting have started then no need to alloacate any different room.
-# compare both the pointer value and if start value is less than incr the count by '1' and incr the start pointer.
+# compare both the pointer value and if overlapping i.e start value is less than incr the count by '1' and incr the start pointer.
 # else decr the count by '1' and incr the end pointer.
 # after every comparison update the ans
 
@@ -25,6 +25,8 @@
 # why we came through this? if start is less than end value then it means the ongoing meeting has not ended and we have to start the new meeting
 # so incr the count by '1'.
 # else: one of the meeting has ended so decr the count by '1'.
+
+# Note: Another way of asking this Q :"Find the maximum no of overlapping intervals at once"
 
 class Solution:
     def min_meeting_rooms(self, intervals: List[Interval]) -> int:

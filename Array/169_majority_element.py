@@ -1,5 +1,7 @@
+# Note vvi: There can be exactly one majority ele.
+
 # method 1:
-# 4th method : using dictionary(this i submitted on GFG)
+# using dictionary(this i submitted on GFG)
 class Solution:
     def majorityElement(self, A, N):
         middle_index= N//2
@@ -31,13 +33,15 @@ class Solution:
 # Method 3: Better one and Q is based on this only.
 
 # Algo: (Moore’s Voting Algorithm)
+# Just you have to find the winner on election.(No chance of draw)
+
 # basic meaning: just cancel each other vote.
 # it gives the majority ele i.e that has occured more than n/2 times
 # by balancing the count i.e after seeing any other element, it 
 # decreases the count if count is zero and  'm' is not equal to the current element.
 # at alst 'm' will give the majority element
 
-# note: only valid for majority ele if they occur for sure. will not give the ele which has occured maximum no of times
+# note vvi: only valid for majority ele if they occur for sure. will not give the ele which has occured maximum no of times
 # if the max_fre ele occur at the start then count will get decrement to '0' later and 'm' will have different ele at last
 # then will give incorrect ans 
 
@@ -61,9 +65,18 @@ class Solution:
 
 
 # Another way of writing the same logic
+# More logical
+
+# Har ele ke passs 2 choice : 
+# i) majority ele h. 
+# is case me count ko bs increment karna h.
+# ii) majority ele nhi h.
+# is case me count ko decrease karna h and agar count == 0 ho gya decrease karne ke bad
+# Then, majority ele ko update kar dena h current ele se and count = 1 kar dena h.
+
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
-        m = nums[0]  # Assume majority is 'm'.
+        m = nums[0]  # Assume majority is nums[0]
         count = 1   # nums[0]
         for i in range(1, len(nums)):
             if nums[i] == m:
@@ -76,4 +89,23 @@ class Solution:
         return m
 
 
+# Another way of writing the above code
+# on this approach, we can solve the Q :"229. Majority Element II".
 
+# Just relate to real life counting of votes in ele i.e how a condidate wins.
+
+class Solution:
+    def majorityElement(self, nums: List[int]) -> int:
+        m = None  
+        count = 0   
+        for n in nums:
+            if n == m:
+                # vote of majority ele will increase.
+                count += 1
+            elif count == 0:
+                # cur ele will become majority ele (current winning condidate)
+                m , count = n, 1
+            else:  # count > 0
+                # cur ele can't be the winning condidate, it will just reduce the vote of cur winning condidate i.e cur majority ele
+                count -= 1
+        return m

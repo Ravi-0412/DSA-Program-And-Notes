@@ -13,6 +13,8 @@
 
 # Time: O(n)
 
+# Here we are doing thinking: what will be the penalty if we close the shop at the 'i'th hour.
+
 class Solution:
     def bestClosingTime(self, customers: str) -> int:
         n = len(customers)
@@ -48,17 +50,21 @@ class Solution:
 # So, for that we'll be calculating the score, whenever 'Y' will be found score increases elsewise decreases!
 # Maximum score will be recorded, till which the shop will be open and after that shop closes so ind+1 gives the answer.
 
+# # Here we are doing thinking: what will be the maxScore if we can get if we keep open the shop till 'i'th hour.
+# After this hour , score will start decreasing so will close the shop after this hour.
+
 class Solution:
     def bestClosingTime(self, customers: str) -> int:
         n = len(customers)
         ind = -1
-        penality , maxPenality = 0, 0
+        score , maxScore = 0, 0
         for i , c in enumerate(customers):
             if c == 'Y':
-                penality += 1
+                score += 1
             else:
-                penality -= 1
-            if penality > maxPenality:
-                maxPenality = penality
+                score -= 1
+            if score > maxScore:
+                maxScore = score
                 ind = i
         return ind + 1
+

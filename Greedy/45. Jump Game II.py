@@ -42,3 +42,8 @@ class Solution:
 
 # we only need to run loop till 'n-2' because we will must reach 'n-1' in next level since it is given that there is at least one path possible.
 # i.e considering all the level before we will must reach the last index.
+
+
+# Similar Q:
+# ) 1024. Video Stitching
+# 2) 

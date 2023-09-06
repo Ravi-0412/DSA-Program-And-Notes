@@ -4,7 +4,6 @@
 # time:O(n^3)
 
 
-
 # optimised one.
 # As we have to find the " largest difference between the number of occurrences of any 2 characters present in the string".
 
@@ -22,6 +21,9 @@
 # time: O((26*25)/2 *n *2), n= len(s)
 
 # correct only but Leetcode compiler is not working properly.
+
+# More explanation in notes: page no = 157
+
 
 class Solution:
     def largestVariance(self, s: str) -> int:

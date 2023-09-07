@@ -1,40 +1,44 @@
-# if egg= 1 and no of floor== 'n'.
-# logic:
-# just start dropping egg from floor 1 for better utilisation of given egg and if breaks then required floor is '0' (1-0) 
-# and if doesn't break go on checking for next floor. But this will only work if we were given one egg only. 
+# Just extension of Q : "1884. Egg Drop With 2 Eggs and N Floors".
 
 # just same as "375. Guess Number Higher or Lower II".
 # logic: ans will depend on from which floor we start checking for remaining egg and remaining floor to check.
-# we can start checking from any floor. There will be two condition:
-#  1) egg brakes on 'i'th floor. then call the function with one less egg and one less floor i.e f(k-1, i-1). floor must be less than the curr floor number we checked.
-# 2) egg doesn't brake on 'i'th floor. then call the function with one same egg and one more floor i.e f(k, n-i). since floor can be even higher
+# We need to try all possibility. 
+
+# will try to drop from each floor. There will be two condition:
+#  1) egg brakes on 'i'th floor. 
+#  We need to check with 'k-1' eggs and remaining floor to check = 'i-1' i.e f(k-1, i-1).
+
+# 2) egg doesn't brake on 'i'th floor.
+#  We need to check with 'k' eggs and remaining floor to check = 'n -i'(after 'i') i.e f(k, n -i).
 
 # note: move will not depend on floor number , it will depend on from which floor we start to check for remaining floor to check.
-# vvi: The problem is not actually to find the critical floor, but merely to decide floors from which eggs should be dropped so that the total number of trials is minimized. 
-
-
-# videos: 
-# https://www.youtube.com/watch?v=iOaRjDT0vjc
-# Note: we should eggs always greater than '0'.
 
 # we can think like given 'k' eggs and 'n' floor, how many minimum no eggs we have to drop to know the required floor.
+
+# Note vvi: Har floor pe worst case lena h maximum of both choices(break or not break) but overall minimise karna h.
+
+# Note :we want the worst possible case between the two sub-problems. 
+# And the overall answer is the best (min) of the worst (max) cases.
+
 class Solution:
     def superEggDrop(self, k: int, n: int) -> int:
         return self.f(k , n)  # it denotes the min no of moves ,given no of eggs 'k' and remaining floor we have to check is 'n'
-    
-    def f(self, k, n):
-        if n== 0 or n== 1:  # if remaining floor is '0' or '1' then we need '0' or '1' move respectively.
+
+    def f(self, k, n, dp):
+        # 1) if k == 1 go on checking floor from 1 to 'n'(in worst case)
+        # 2) if no of floor < = 1 then ans = no of remaining floor.
+        if k== 1 or n <= 1:  
             return n
-        if k== 1:  # go on checking floor from 1 to 'n'(in worst case).. this case also means k==1 and (n!=0 or 1)
-            return n
+        if dp[k][n]!= -1:
+            return dp[k][n]
         # now check from each floor one by one
         ans= float('inf')
-        for i in range(1, n): 
-            # if egg break then we need to check till 'i-1' with 'k-1' egg and
-            #  if doesn't then remaining floor to check will be 'n-i' with 'k' eggs as we have to find max floor.
-            tempAns= 1+ max(self.f(k-1, i-1), self.f(k, n-i))
-            ans= min(ans, tempAns)  # for getting the minimum floor no
-        return ans
+        for i in range(1, n + 1): 
+            tempAns= 1+ max(self.f(k-1, i-1, dp), self.f(k, n-i, dp))  # to get maximum if we start to drop from this floor.
+            ans= min(ans, tempAns)          # for getting overall minimum
+        dp[k][n]= ans
+        return dp[k][n]
+    
 
 # memoization: TLE
 # Time Complexity: O((n^2) * k)
@@ -45,26 +49,23 @@ class Solution:
         return self.f(k , n, dp)  # it denotes the given no of eggs 'k' and remaining floor we have to check is 'n'
     
     def f(self, k, n, dp):
-        if n== 0 or n== 1:  # if remaining floor is '0' or '1' then we need '0' or '1' move respectively.
-            return n
-        if k== 1:  # go on checking floor from 1 to 'n'(in worst case)
+        # 1) if k == 1 go on checking floor from 1 to 'n'(in worst case)
+        # 2) if no of floor < = 1 then ans = no of remaining floor.
+        if k== 1 or n <= 1:  
             return n
         if dp[k][n]!= -1:
             return dp[k][n]
-        # now check from each floor one by one
+        # now check from each floor one by one. No need to check from floor 'n', it will get handled automatically in base case.
         ans= float('inf')
-        for i in range(1, n):  # can also include 'n' np but base case will handle when remaining floor==1.
-            # if egg break then we need to check till 'n-1' with 'k-1' egg and
-            #  if doesn't then remaining floor to check will be 'n-i' with 'k' eggs as we have to find max floor
+        for i in range(1, n + 1): 
             tempAns= 1+ max(self.f(k-1, i-1, dp), self.f(k, n-i, dp))
-            ans= min(ans, tempAns)  # for getting the minimum floor no
+            ans= min(ans, tempAns) 
         dp[k][n]= ans
         return dp[k][n]
 
-
-
 # optimising memoization using bottom up and binary search
 # here we find the move for mid floor and then take the decision accordingly.
+# Instead of dropping one by one from each floor.
 # Time Complexity: O((n * k) * logn )
 # Space Complexity: O(n * k)
 
@@ -77,9 +78,9 @@ class Solution:
         return self.f(k , n, dp)  # it denotes the given no of eggs 'k' and remaining floor we have to check is 'n'
     
     def f(self, k, n, dp):
-        if n== 0 or n== 1:  # if remaining floor is '0' or '1' then we need '0' or '1' move respectively.
-            return n
-        if k== 1:  # go on checking floor from 1 to 'n'(in worst case)
+        # 1) if k == 1 go on checking floor from 1 to 'n'(in worst case)
+        # 2) if no of floor < = 1 then ans = no of remaining floor.
+        if k== 1 or n <= 1:  
             return n
         if dp[k][n]!= -1:
             return dp[k][n]
@@ -92,11 +93,11 @@ class Solution:
         # else update l= 'mid+1. we are just moving in part which have more no of moves to maximise the temporary ans.
         while l<= h: 
             mid= (l+h)//2
-            left=  self.f(k-1 , mid-1, dp)  # if egg broken check for down floors of mid..
+            left=  self.f(k-1 , mid-1, dp)  # if egg broken, check for down floors of mid..
             right= self.f(k , n- mid, dp)   # if egg doesn't break , check for up floors of mid
             tempAns= 1+ max(left, right)     # store max of both 
-            if right> left:  # since right is more than left and we need more in worst case
-                l= mid +1    # so l=mid+1 to gain more temp for worst case : upward
+            if right > left:  # since right is more than left and we need more in worst case
+                l= mid +1    # so l=mid+1 to gain more for worst case : upward
             else: # left >= right so we will go downward 
                 h= mid -1
             ans= min(ans, tempAns)  # store minimum attempts

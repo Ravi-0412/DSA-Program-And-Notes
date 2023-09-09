@@ -18,6 +18,27 @@ class Solution:
         return self.MinCoins(coins, amount-coins[n-1], n) + self.MinCoins(coins, amount, n-1)
     
 
+# Other way to write
+# Logic: At each step we have choice to not_take and we can only take if 'coins[n-1] <= amount'.
+# Return sum of take + not_take.
+
+class Solution:
+    def change(self, amount: int, coins: List[int]) -> int:
+        n= len(coins)
+        return self.MinCoins(coins,amount,n)
+
+    def MinCoins(self,coins,amount,n):
+        if amount== 0:
+            return 1
+        if n== 0:
+            return 0
+        not_take = self.MinCoins(coins, amount, n-1)
+        take = 0
+        if coins[n-1] <= amount:
+            take = self.MinCoins(coins, amount-coins[n-1], n)
+        return take + not_take
+    
+
 
 # method 2: Memoization
 # logic:  # just exactly same as ' count no of subsets with a given sum'

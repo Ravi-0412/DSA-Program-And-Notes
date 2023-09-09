@@ -33,6 +33,7 @@
 
 # If we needed to find 2^(10^5) or something big, then approach will run in O(logn) time, but produces garbage values as ans.
 
+# time: O(logn)
 
 class Solution:
     def countGoodNumbers(self, n: int) -> int:

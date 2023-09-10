@@ -1,0 +1,84 @@
+# Method 1:
+# logic: pick up must be before delivery.
+# So first put all the 'n' pick ups.
+# no of ways of putting all 'n' pickups = (n!)
+
+# Now we have to arrange all 'n' delivery.
+# total ways to arrange delivery = 1 * 3 *5 * 7 * (2*n -1).....
+
+# How?
+# Denote pickup 1, pickup 2, pickup 3, ... as A, B, C, ...
+# Denote delivery 1, delivery 2, delivery 3, ... as a, b, c, ...
+# We need to ensure a is behind A, b is behind B, ...
+
+# This solution involves 2 stages.
+
+# Stage 1
+# We decide the order of all the pickups. It is trivial to tell there are n! possibilities
+
+# Stage 2
+# Given one possibility. Let's say the pickups are ordered like this A B C
+# We can now insert the corresponding deliveries one by one.
+# We start with the last pickup we made, namely, insert c, and there is only 1 valid slot.
+# A B C c
+# We continue with the second last pickup we made, namely, insert b, and there are 3 valid slots.
+# A B x C x c x (where x denotes the location of valid slots for b)
+# Let's only consider one case A B C c b. We continue with the third last pickup we made, namely, insert a, and there are 5 valid slots.
+# A x B x C x c x b x, (where x denotes the location of valid slots for a)
+# In conclusion. we have in total 1 * 3 * 5 * ... * (2n-1) possibilities.
+
+# Thus, the final solution is n! * (1 * 3 * 5 * ... * (2n-1)) % 1000000007
+
+class Solution:
+    def countOrders(self, n: int) -> int:
+        mod = 10**9 + 7
+        pickup_permutation = factorial(n) % mod
+        delivery_permutation = 1
+        for i in range(1, 2*n , 2):
+            delivery_permutation = (delivery_permutation * i) % mod
+        return (pickup_permutation * delivery_permutation) % mod
+    
+
+# Method 2:
+# Assume we have already n - 1 pairs, now we need to insert the nth pair.
+# To insert the first element, there are n * 2 - 1 chioces of position。
+# To insert the second element, there are n * 2 chioces of position。
+# So there are (n * 2 - 1) * n * 2 permutations.
+# Considering that delivery(i) is always after of pickup(i), we need to divide 2.
+# So it's (n * 2 - 1) * n
+
+# Time = space = O(n)
+
+class Solution:
+    def countOrders(self, n: int) -> int:
+        if n == 1:
+            return 1
+        mod = 10**9 + 7
+        dp = [1 for i in range(n + 1)]
+        dp[1] = 1
+        for i in range(2, n+1):
+            pickUpWays =  (i - 1)*2 + 1
+            deliverWays = pickUpWays + 1  # '1' after adding pick up.
+            totalWays = (pickUpWays * deliverWays) //2
+            dp[i] = (dp[i - 1] * totalWays) % mod
+        return dp[n]
+
+
+# Optimising space
+#  Time = O(n), space = O(1)
+class Solution:
+    def countOrders(self, n: int) -> int:
+        if n == 1:
+            return 1
+        mod = 10**9 + 7
+        ans = 1
+        for i in range(2, n+1):
+            pickUpWays =  (i - 1)*2 + 1
+            deliverWays = pickUpWays + 1  # '1' after adding pick up.
+            totalWays = (pickUpWays * deliverWays) //2
+            ans = (ans * totalWays) % mod
+        return ans
+
+
+
+

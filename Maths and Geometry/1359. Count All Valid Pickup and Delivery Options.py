@@ -81,4 +81,68 @@ class Solution:
 
 
 
+# Note: Another way of asking same Q .
+# Already asked in one company
+# Q: https://leetcode.com/discuss/interview-question/846916/Validate-Orders-Path-(Doordash)
 
+# Q:
+# Given a set list of pickups and deliveries for order, figure out if the given list is valid or not.
+# A delivery cannot happen for an order before pickup.
+
+# Examples below:
+# [P1, P2, D1, D2]==>valid
+# [P1, D1, P2, D2]==>valid
+# [P1, D2, D1, P2]==>invalid
+# [P1, D2]==>invalid
+# [P1, P2]==>invalid
+# [P1, D1, D1]==>invalid
+# []==>valid
+# [P1, P1, D1]==>invalid
+# [P1, P1, D1, D1]==>invalid
+# [P1, D1, P1]==>invalid
+# [P1, D1, P1, D1]==>invalid
+
+
+# Solution:
+
+def isValid(orders):
+    pickupSet =   set()
+    deliverySet = set()
+    
+    for order in orders:
+        taskType = order[0]
+        taskNo =   order[1: ]
+        if taskType == 'P':
+            # if pickup
+            if taskNo  in pickupSet or taskNo in deliverySet:
+                # if picking up again or got delivered before pick up
+                return "Invalid"
+            pickupSet.add(taskNo)
+        
+        elif taskType == 'D':
+            # if delivery
+            if taskNo in deliverySet or  taskNo not in pickupSet:
+                # if already delivered or  not pick up before
+                return "Invalid"
+            deliverySet.add(taskNo)
+        else:
+            return "Invalid"
+    
+    return "Valid" if len(pickupSet) == len(deliverySet) else "Invalid"
+
+list_orders = [
+    ['P1', 'P2', 'D1', 'D2'], 
+    ['P1', 'D1', 'P2', 'D2'], 
+    ['P1', 'D2', 'D1', 'P2'], 
+    ['P1', 'D2'], 
+    ['P1', 'P2'], 
+    ['P1', 'D1', 'D1'], 
+    [], 
+    ['P1', 'P1', 'D1'], 
+    ['P1', 'P1', 'D1', 'D1'], 
+    ['P1', 'D1', 'P1'], 
+    ['P1', 'D1', 'P1', 'D1']
+    ]
+
+for order in list_orders:
+    print(order, isValid(order))

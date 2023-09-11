@@ -1,3 +1,6 @@
+# Q) why can't use heap?
+# Because heap gives kth smallest/largest that come in sequence assuming sorted array, not the kth distinct smallest/largest.
+
 # method 1: sort and check from last and count the distinct number you have seen till now.
 # time: O(n*logn)
 
@@ -32,20 +35,25 @@ class Solution:
                 thirdMax = secondMax
                 secondMax = num
             elif num > thirdMax and num != firstMax and num != secondMax:  
-                # not writing the condition 'num != firstMax' will give error in case like: [1,2,2,5,3,5]
+                # not writing the condition 'num != firstMax' will give error in case like: [1,2,2,5,3,5], [1,1,1,1,1] etc.
                 # # here we need to update only thirdMax
                 thirdMax = num
         return thirdMax if thirdMax != float('-inf') else max(nums)
 
 # method 3:
 # Just the shorter version of above logic.
-# Updating the varible at same sondition only but we don't need to check that much extra cases 
-# if we update the variable when we will see distinct number only.
+# Updating the variable at same condition only but we don't need to check that much extra cases 
+
+# Note: We need to handle that many cases under if-else to handle duplicate numbers in above method.
+# In this we are only updating if we are getting distinct number.
+# Logic of if-else condition will be same after seeing distinct no.
+
+# keep track of first_max, 2nd_max, 3rd_max after you each ele you see any distinct number.
 
 # Note: we can apply this logic to find '2nd largest number also' in similar way.
 
-# logic: keep track of first_max, 2nd_max, 3rd_max after you each ele you see any distinct number.
 # time: O(3* n), space: O(3)
+
 class Solution(object):
     def thirdMax(self, nums):
         v = [float('-inf'), float('-inf'), float('-inf')]   # [first_max, second_max, third_max]
@@ -56,12 +64,14 @@ class Solution(object):
                 elif num > v[2]: v = [v[0], v[1], num]  # keep first & second same, & make third= num
         # return max(nums) if float('-inf') in v else v[2]
         return v[2] if v[2] != float('-inf') else v[0]
-    
+
+
+# Note: 2nd distinct maximum
 
 # Code for 2nd maximum (submitted on gfg)
 class Solution: 
 	def print2largest(self,arr, n):
-		firstMax, secondMax = -1, -1
+		firstMax, secondMax = -1, -1  
 		for num in arr:
 		    if num > firstMax:
 		        # 'num' is greatest number till now

@@ -16,6 +16,28 @@ def lenOfLongSubarr(A, N, K):
         j += 1
     return maxLen
 
+# Other way of writing the same logic
+# Better one
+
+# Note: only valid if elements are only positive.
+
+class Solution:
+    def lenofLongestSubarray(self, nums, target) :
+        n = len(nums)
+        ans = -1  # any min value that can't be ans
+        i, j = 0, 0
+        curSum = 0
+        while j < n:
+            curSum += nums[j]
+            # Keep on removeing ele from start for till subarray sum is invalid
+            while i <= j and curSum > target:
+                curSum -= nums[i]
+                i += 1
+            if curSum == target:
+                ans = max(ans , j - i + 1)
+            j += 1
+        return -1 if ans == -1 else n - ans
+
 
 # time: O(n)= space
 

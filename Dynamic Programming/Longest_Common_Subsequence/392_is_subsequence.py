@@ -41,5 +41,20 @@ class Solution:
                 j+= 1 
         return i== len(s)  # means we have got all char of 's' in 't'.
     
+# method 3: using stack
+# We treat subsequence string as stack and travel from end of base string.
+# When the top() of stack matches current element in base string we pop().
+# We continue till we reach end of base string or till stick becomes empty.
 
+# time: O(n)= O(10000) , only for 't'
+# space= O(100), only for 's'
+class Solution:
+    def isSubsequence(self, s: str, t: str) -> bool:
+        stack = list(s)
+        for i in range(len(t) -1, -1, -1):
+            if not stack:
+                return True
+            if t[i] == stack[-1]:
+                stack.pop()
+        return stack == []
     

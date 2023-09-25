@@ -83,10 +83,10 @@ class Solution:
                 # return ans
             ans = max(ans, solve(pre, cur + 1))
             return ans              # returning only is fine but in case of above memoised one it will not work because their value will get updated again.
-        return solve(-1, 0)         # But here it is taking max of all possibility then returning so will work fine.
+                                    # But here it is taking max of all possibility then returning so will work fine.
                                     # in above memoised one , we can do like this also if we compare 
                                     # i.e dp[pre + 1][cur]= max(dp[pre + 1][cur], solve(pre, cur + 1)). Then no need to return at both place.
-
+        return solve(-1, 0) 
 
 # method 3: 
 # Just the same above logic only, different way to write.

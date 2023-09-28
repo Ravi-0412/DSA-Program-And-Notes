@@ -31,7 +31,8 @@ class Solution:
         while(start <end):
             if(nums[start]%2!= 0):      # if odd swap ele at start and end index
                 nums[start], nums[end]= nums[end], nums[start]
-                end-= 1  # in this case don't incr 'start' as after swapping 'start'  may get the even odd also as we are swapping without checking the ele at 'end'
+                end-= 1  # in this case don't incr 'start' as after swapping 'start' because 
+                        # we may get the odd also at start as we are swapping without checking the ele at 'end'
             else:
                 start+= 1   # in this case don't decr 'end ' 
         return nums

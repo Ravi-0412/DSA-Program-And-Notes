@@ -77,7 +77,7 @@ print(binary_search(arr, key))
 
 # another form of template 2.
 # note: use this when we have to work on <= condition and (mid and condition is acting in opposite fashion), 
-# like incr mid will decraese the condition statement value and vice versa.
+# like incr mid will decrease the condition statement value and vice versa.
 # used in Q "1283. Find the Smallest Divisor Given a Threshold".
 class Solution:
     def smallestDivisor(self, nums: List[int], threshold: int) -> int:
@@ -98,7 +98,7 @@ class Solution:
         return start
 
 
-# Note: every binary search problem can be solved using these two(1 and 2) template with exact one or with slight modification 
+# Note: Most of the binary search problem can be solved using these two(1 and 2) template with exact one or with slight modification 
 # in while loop condidtion or in 'if' condition or both.
 # after each Q, find out which template we can use and what modification we have to make acc to the Q.
 

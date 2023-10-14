@@ -1,5 +1,6 @@
 # find the index of peak ele
-# and apply binary search on left and right of the peak index
+# and apply binary search on left and right of the peak index.
+
 class Solution:
         def findInMountainArray(self, target: int, mountain_arr: 'MountainArray') -> int:
             last_index= mountain_arr.length()-1
@@ -18,14 +19,10 @@ class Solution:
             end= mountain_arr.length() -1
             while(start<end):
                 mid= start+ (end-start)//2
-                if mountain_arr.get(mid)< mountain_arr.get(mid+1):
-                # means we are in incr part of array
-                # this might be the ans, but look at left 
-                # because end!= mid-1 may be 
-                # so peak(maximum ele) will be on right side of mid
-                    start= mid +1
-                else:  #  peak(maximum ele) will be on left side of mid including mid
-                    end= mid
+                if mountain_arr.get(mid) > mountain_arr.get(mid+1):
+                    end = mid 
+                else:
+                    start = mid + 1
             return start
         
         # searching in the left side of the peak including peak
@@ -56,3 +53,4 @@ class Solution:
                 else:
                     up= mid -1
             return -1
+        

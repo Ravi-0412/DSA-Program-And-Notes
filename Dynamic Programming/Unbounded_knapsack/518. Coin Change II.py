@@ -19,7 +19,12 @@ class Solution:
     
 
 # Other way to write
+# Better one
+
 # Logic: At each step we have choice to not_take and we can only take if 'coins[n-1] <= amount'.
+
+# Just combining the above three function call into two function call.
+
 # Return sum of take + not_take.
 
 class Solution:

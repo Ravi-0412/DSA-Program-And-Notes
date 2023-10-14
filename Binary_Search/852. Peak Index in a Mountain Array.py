@@ -1,5 +1,6 @@
 
-# Note: exact same as '162. FindPeakIndex'. in this there will be only one peak ele. other things are totally same as '162. find peak index'. 
+# Note: exact same as '162. FindPeakIndex'. in this there will be only one peak ele
+# other things are totally same as '162. find peak index'. 
 
 # method 2: 
 

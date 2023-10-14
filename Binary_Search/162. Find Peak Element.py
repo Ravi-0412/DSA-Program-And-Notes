@@ -4,7 +4,7 @@
 
 # 2nd method: Binary Search
 # logic: check if mid is 'peak ele' or not.
-# if not then move into the direction of greater ele i.e due to which 'mid' didn't become the 'mid'.
+# if not then move into the direction of greater ele i.e due to which 'mid' didn't become the 'peak'.
 
 class Solution:
     def findPeakElement(self, nums: List[int]) -> int:

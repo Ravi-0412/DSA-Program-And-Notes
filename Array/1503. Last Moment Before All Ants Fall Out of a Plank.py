@@ -10,7 +10,8 @@
 # There would be no difference if we had just swapped the ants, or let them pass through each other when they collide 
 # because again in next unit of time they will exchange the position having difference same.
 
-# so our ans= max(time taken to reach left ants to '0' , time taken to reach left ants to 'n')
+# so our ans= max(max(time taken to reach left ants to '0') , max(time taken to reach right ants to 'n'))
+# = max(time taken by max(left) to reach 0, time taken by min(right) to reach n)
 
 # Note vvvvi: if ants have different speed or cover different distance in unit time then this method won't work.
 # in this case we have to go by Brute force only i.e after each unit of time we will have to find the position of ants

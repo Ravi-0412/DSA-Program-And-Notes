@@ -64,8 +64,12 @@ class Solution:
         return m
 
 
-# Another way of writing the same logic
-# More logical
+# Mthod 4: Another way of writing the same logic
+# More logical and better
+
+# Logic: Since majority element already exist, every ele has two choice:
+# 1) it can be same as cur majority element
+# 2) different from cur majority
 
 # Har ele ke passs 2 choice : 
 # i) majority ele h. 

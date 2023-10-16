@@ -1,7 +1,8 @@
 # Note: we only need to care about max(nums1) & min(nums2)
 
 # Approach:
-# our ans will be equal to minimum difference between two consecutive elements because for getting minimum value must be close in both the partition.
+# Reducing: our ans will be equal to minimum difference between two consecutive elements 
+# when they are in sorted order because for getting minimum value must be close in both the partition.
 # for this we need to sort the array and check.
 # How?
 # suppose 'nums[i] - nums[i-1]' gives the minimum value among all consecutive pairs.

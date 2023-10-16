@@ -1,9 +1,10 @@
 # Observation : 1) element x of an integer array arr of length n is dominant if freq(x) * 2 > n,
-# it means arr can have at most one dominant element.
+# it means arr can have at most one dominant element in that array.
 
 # 2) nums[0, ..., i], and nums[i + 1, ..., n - 1] have the same dominant element if we split at index 'i'.
 
-# Majority ele say 'm' must be dominant in any one of the parts then using '2' point ,
+# observation from these two points: 
+# a) Majority ele say 'm' of original array must be dominant in any one of the parts then using '2' point ,
 # It confirms that 'm' must be dominant in both the parts.
 
 # so now Q reduces to find the "smallest index at which m is in dominant in both the parts".

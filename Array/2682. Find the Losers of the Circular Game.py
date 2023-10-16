@@ -10,6 +10,8 @@ class Solution:
             # nect person
             curNum= (curNum + i*k) % n 
             # using 1-based indexing but doing modulus with 'n'. so '0' will mean 'n' only.
+            # Since doing % with 'n' so if we have to check whether we reach 'n' separately
+            # otherwise we won't get n'
             if curNum== 0:
                 curNum= n
             count[curNum]+= 1

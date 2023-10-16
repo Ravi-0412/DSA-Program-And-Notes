@@ -1,4 +1,4 @@
-# logic: After every 5 litre consumption we will add '1' more litre.
+# logic: After every 5 litre consumption we will add '1' more litre from additional only if additional will be present.
 
 class Solution:
     def distanceTraveled(self, mainTank: int, additionalTank: int) -> int:

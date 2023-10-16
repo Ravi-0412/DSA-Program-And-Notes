@@ -15,7 +15,7 @@
 # so index can go from '0' to 'n'.
 
 # How to do?
-# While tarversing array say 'num' mark the ele at index 'num' to its negative value.
+# While tarversing array say cur num =  'num' mark the ele at index 'num' to its negative value.
 # i.e this will make sure that if value at that index 'num' is negative means num is our ans.
 # Note : we are modifying array in this method.
 

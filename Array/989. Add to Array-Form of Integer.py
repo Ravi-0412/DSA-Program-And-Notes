@@ -48,6 +48,7 @@ class Solution:
 
         if carry:
             ans.append(carry)
+        return ans[::-1]
 
 # Method 3:
 # Shortcut and very good way of above method

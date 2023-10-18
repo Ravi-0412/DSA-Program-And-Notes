@@ -1,12 +1,23 @@
 # Note: In one semester you can study any number of courses as long as you have studied all the prerequisites for the course you are studying.
 
+# E.g: in 1st sem you can study all those courses which is not dependent on any course i.e doesn't require any prerequisite.
+# in other way courses having indegree == 0
+# in 2nd sem , we can study all those courses whose prerequisite courses has been already studied i.e courses having indegree == 1
+# and so on.
+
+# Note: for better visulation draw diagram.
 
 # Ans: the minimum number of semesters needed to study all courses is determined by the longest acyclic path, i.e, 
 # we are looking for the longest acyclic path with each edge’s weight being 1.
 
-# Observation: prerequisite thing(means topological sort) + maximum path wirth equal weight (multosource bfs)
 
-# Logic: Just topological sort + multisource bfs
+# Observation: prerequisite thing(means topological sort) + longest/shortest path with equal weight (bfs)
+
+# Note : In other words wew can say it is forming levels and we have to find last level i.e level at which last course exist.
+
+# for level wise , we can use multisource bfs.
+# Can use simple bfs also, in this case take one more vaiable length in queue and one more variable to update the ans.
+
 # Only converted the code of topogical sort into multisource bfs.
 
 from collections import defaultdict

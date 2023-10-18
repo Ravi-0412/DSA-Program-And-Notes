@@ -1,7 +1,29 @@
 # time= O(n)
+# Method 1: 
+# Logic: Make another array and put num in proper order
+# After that copy these value in original arrays.
+
+# Time = Space = O(n)
+
+def Reorder(arr,indices):
+    n = len(arr)
+    temp = [0] * n;
+    # arr[i] should be
+        # present at index[i] index
+    for i in range(0,n):
+        temp[indices[i]] = arr[i]
+
+    # Copy temp[] to arr[]
+    for i in range(0,n):
+        arr[i] = temp[i]
+        indices[i] = i
+
+
+# Method 2:
+
 # space= O(1)
 
-# logic: start checking from index '0', if ele is at its correct position then only proceed to nect ele.
+# logic: start checking from index '0', if ele is at its correct position then only proceed to next ele.
 # otherwise keep on swapping ele to its proper index and "indexes" also.
 
 def Reorder(arr, indices):
@@ -33,3 +55,20 @@ indices = [3, 1, 4, 0, 2]
 
 print(Reorder(arr, indices))
 
+
+
+# Method 2: 
+# Logic: Make another array and put num in proper order
+# After that copy these value in original arrays.
+
+def reorder(arr,index, n):
+    temp = [0] * n;
+    # arr[i] should be
+        # present at index[i] index
+    for i in range(0,n):
+        temp[index[i]] = arr[i]
+
+    # Copy temp[] to arr[]
+    for i in range(0,n):
+        arr[i] = temp[i]
+        index[i] = i

@@ -47,7 +47,7 @@ class Solution:
                     else:  
                         matrix[r][0]= 0  # marking the rows 
 
-        #now make all ele of those rows and col to zero.
+        #now make all ele of those rows and col to zero starting from (1, 1).
         for r in range(1, m):
             for c in range(1, n):
                 if matrix[r][0] == 0 or matrix[0][c]== 0:  # if first ele of either row or col of this ele is zero then make that cell= 0

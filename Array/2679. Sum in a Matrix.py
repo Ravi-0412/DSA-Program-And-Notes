@@ -1,26 +1,6 @@
-# method 1: Brute force 
-# simply did what they are telling to do.
-
-# time: O(n^2)
-
-class Solution:
-    def matrixSum(self, nums: List[List[int]]) -> int:
-        r, c= len(nums), len( nums[0])
-        count= r*c
-        ans= 0
-        while count >0:
-            mx= float('-inf')
-            for i in range(r):
-                max_row= max(nums[i])
-                mx= max(mx, max_row)
-                nums[i].remove(max_row)
-            count-= r
-            ans+= mx
-        return ans
-
-
-# method 2:
-# time: O(n^2)
+# Logic: just sort all 1D array.
+# Then go column wise and take max ele of that column and add it to ans.
+# time: O(r*c*logc)
 class Solution:
     def matrixSum(self, nums: List[List[int]]) -> int:
         r, c= len(nums), len( nums[0])

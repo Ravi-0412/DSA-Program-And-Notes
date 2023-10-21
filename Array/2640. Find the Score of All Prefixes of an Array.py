@@ -1,17 +1,14 @@
 # time= space= O(n)
-# logic in code only.
 
 class Solution:
     def findPrefixScore(self, nums: List[int]) -> List[int]:
         n= len(nums)
-        maxTillIndex= [nums[0]]  # will store the max ele till index 'i'.
-        for i in range(1, n):
-            curMax= max(nums[i], maxTillIndex[-1])  # only we need to compare with last ele because that will the max till index 'i-1'.
-            maxTillIndex.append(curMax)
-        # now making the conver array.
+        maxi= nums[0]  # will store max_seen_till_now
+        # making the conver array.
         conver= [0]*n
         for i in range(n):
-            conver[i]= nums[i] + maxTillIndex[i]
+            maxi = max(maxi, nums[i])
+            conver[i]= nums[i] + maxi
         # finding the answer array , just score of array only.
         # ans= the prefix sum of arr 'conver'
         ans= [0]*n  # will store the score of array till index 'i' i.e arr[....i]
@@ -20,8 +17,6 @@ class Solution:
         for i in range(1, n):
             ans[i]= conver[i] + ans[i-1]
         return ans
-    
-
 
 # concise version of above
 
@@ -32,5 +27,9 @@ class Solution:
         for n in nums:
             maxTillNow= max(maxTillNow, n)
             conver.append(n + maxTillNow)
-        return accumulate(conver)  # convert the given array into prefix array original array will be same only.
-                                   # with print you will have to also specify the type like "print(list(accumulate(conver)))" otherwise will give object address.
+        return accumulate(conver)  # convert the given array into prefix array, original array will be same only.
+        # with print you will have to also specify the type like "print(list(accumulate(conver)))" otherwise will give object address.
+
+
+# To study about accumulate:
+# https://www.geeksforgeeks.org/python-itertools-accumulate/

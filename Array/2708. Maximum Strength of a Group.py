@@ -24,6 +24,8 @@ class Solution:
 
 
 # method 2:
+# Time: O(n)
+
 # Handling all the corner cases 
 class Solution:
     def maxStrength(self, nums: List[int]) -> int:
@@ -47,7 +49,3 @@ class Solution:
             return mul
         # if negative then remove the largest negtaive ele from the multiplication.
         return abs(mul) // abs(largestNegative)
-
-
-# method 3: Later try to do by sorting also
-# https://leetcode.com/problems/maximum-strength-of-a-group/solutions/3568596/sort/

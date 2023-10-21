@@ -27,7 +27,7 @@ class Solution:
             # if 'index1' is colored and have same color as prev index
             if nums[index1] and pre== nums[index1]:
                 curAns-= 1
-            # if 'index1' is colored and have same color as prev index
+            # if 'index1' is colored and have same color as next index
             if nums[index1] and next== nums[index1]:
                 curAns-= 1
             # assign the color

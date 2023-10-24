@@ -1,14 +1,16 @@
 # very simple, time: O(n)
-# any bar can go to its 'left smaller next' to its left and 'right smaller next' to its right 
-# so just find the 'left smaller next' and 'right smaller next' for each element
-# earlier was not getting because i was pushing values which won't work here
-# best way to push the index into the satck
+# any bar can go to its 'left smaller next' to its left and 'right smaller next' to its right.
+# so just find the 'left smaller next' and 'right smaller next' for each element.
+
+# Short: just we are checking if we conside the cur bar as height how much width we can get
+# i.e how much we can go in left or right.
+
 class Solution:
     def largestRectangleArea(self, heights):
         n,max_area= len(heights),0
-        left_smaller=  self.LeftSmallerNext(heights,n)     # will conatin the indices of next smaller left for each ele
+        left_smaller=  self.LeftSmallerNext(heights,n)     # will contain the indices of next smaller left for each ele
                                                            # means before that index they can go in the left
-        right_smaller= self.RightSmallerNext(heights,n)    # will conatin the indices of next smaller right for each ele
+        right_smaller= self.RightSmallerNext(heights,n)    # will contain the indices of next smaller right for each ele
                                                            # means before that index they can go in the right
         for i in range(n):
             width= (right_smaller[i]-left_smaller[i])-1    # range in which they can go 
@@ -42,7 +44,9 @@ class Solution:
 
 
 # method 2: concise one(good one), single traversal, time: O(n)
-# this i solved after a lot of time after seeing videos 2-3 times
+
+# Understand this properly.
+
 # index will always give the right margin i.e before till index stack[poped] can go in right side
 # basically stack me push hi hm 'next smaller left' kar rhe and index right margin bta rha
 class Solution:
@@ -89,3 +93,6 @@ def largestRectangleArea(self, heights):
         stack.append(i)
     return area
 
+
+# Related Q:
+# "1793. Maximum Score of a Good Subarray", 

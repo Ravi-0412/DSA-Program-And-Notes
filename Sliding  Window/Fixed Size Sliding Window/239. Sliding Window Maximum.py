@@ -7,6 +7,9 @@
 
 # solution: 
 
+# See the method '3' of q : "1425. Constrained Subsequence Sum" for better understanding.
+# And try to do this by similar approach.
+
 # logic: if curr ele is smaller than last ele of  array then simply add this into ans as this can be maximum for upcominmg window
 # else: append at last after removing all the smaller than the curr ele i.e agar hmko bda ele mil rha this window ke liye ya upcoming window ke liye to chota wala kyu rakhna
 
@@ -38,5 +41,6 @@ class Solution:
 
 # In this Q, we are storing at first and checking and removing from last if curr ele is better condidate
 # for this Q: agar curr ele chota h last wala se to wo ans ho sakta h upcoming window ke liye, tb usko add kar do deque me
-# and agar pop karte karte deque empty ho gya , matlab curr ele hi best h and gar nhi hua to curr ele may be upcomimng window ke liye ans ho sakta h
+# and agar pop karte karte deque empty ho gya , matlab curr ele hi best h and gar nhi hua to 
+# curr ele may be upcomimng window ke liye ans ho sakta h
 

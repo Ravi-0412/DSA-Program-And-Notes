@@ -5,11 +5,11 @@
 
 # How to approach?
 # Here we have to come as late as possible and still be able to board on the bus.
-# We have to come late, so definitely the optimal approach is to board on the last bus.
-
+# We have to come late, so definitely the optimal approach is to board on the last bus as far as possible.
 # Cases:
 # 1) Last bus is not full: We can reach at bus time, but we have to make sure that our time should not clash with any other passenger.
-# 2) Last bus is full: We have to reach before the last person which is on board and we have to make sure that our time should not clash with any other passenger.
+# 2) Last bus is full: We have to reach before the last person which is on board and 
+# we have to make sure that our time should not clash with any other passenger.
 
 # TC: O(NlogN) + O(MlogM)
 # SC: O(1)

@@ -6,6 +6,8 @@
 # logic: first find the range of number i.e min no in arr and max no in array.
 # now check for positive number which is not present in the array.
 
+# Not good because it is taking extra space :O(n)
+
 class Solution:
     def firstMissingPositive(self, nums: List[int]) -> int:
         minNo, maxNo = min(nums), max(nums)
@@ -18,31 +20,74 @@ class Solution:
         # means all no in range are present.
         return maxNo + 1
 
-# method 2:
-# in c++ its working in python not working.
-class Solution {
-public: 
-    int firstMissingPositive(vector<int>& nums) {
-        int n = nums.size(); 
-        for (int i = 0; i < n; i++)
-            while (nums[i] > 0 && nums[i] <= n && nums[nums[i] - 1] != nums[i])
-                swap(nums[i], nums[nums[i] - 1]);
-        for (int i = 0; i < n; i++)
-            if (nums[i] != i + 1)
-                return i + 1;
-        return n + 1;
-    }
-};
+# Method 2:
+
+# Observation: the missing integer must be in the range [1..n + 1]. (n = length of array)
+# So, If an integer is missing it must be in the range [1..n], if an integer is not missing then the answer is n+1.
+
+# Explanation: 
+# There is two possibilty:
+# 1) There is no missing integer in the array.
+# If there is no missing integers, this means that the array has all number from 1 to n.
+# This must mean that the array is full. Why, because in the range [1..n] there are exactly n numbers, 
+# and if you place n numbers in an array of length n, the array is by definition full.
+
+# in this case the solution is to return n+1 which is the first smallest integer
+
+# 2) There is a missing integer in the array.
+# If there is a missing integer (or more than one), the missing integer(s), let's call it X,
+# must be in the range 1..n. Why, because if the missing integer X is not in the range [1..n] 
+# that would imply that all integers [1..n] are in the array, which would mean that the array is full,
+# leaving no space to place X (since X is not in the range [1..n]).
+
+# Then the algorithm becomes:
+
+# Ignore all numbers <=0 and >n since they are outside the range of possible answers (which we proved was [1..n]). 
+# We do this by replacing them with the value n+1.
+# For all other integers <n+1, mark their bucket (cell) to indicate the integer exists. (*see below)
+# Find the first cell not marked, that is the first missing integer. If you did not find an unmarked cell, 
+# there was no missing integer, so return n+1.
+
+# Time = O(n), space : O(1)
+
+class Solution:
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        n = len(nums)
+        # 1) mark numbers (num <= 0) and (num > n) with a special marker number (n+1) 
+        # (we can ignore those because if all number are > n then we'll simply return 1)
+        for i in range(n):
+            if nums[i] <=0 or nums[i] > n:
+                nums[i] = n + 1
+        # note: all number in the array are now positive, and on the range 1..n+1
+        # 2. mark each cell appearing in the array, by converting the index for that number to negative
+        for i in range(n):
+            num = abs(nums[i]) # since modifying in place so might be -ve also
+                    #But we have to take index
+            if num > n:
+                continue
+            # 'num' will correspond to index 'num-1'
+            if nums[num - 1] > 0:  # prevents double negative
+                nums[num -1] = -1*nums[num -1]  # it means 'num' is present in array
+        # 3. find the first cell which isn't negative (doesn't appear in the array)
+        for i in range(n):
+            if nums[i] >= 0:
+                return i + 1
+        # 4. no positive numbers were found, which means the array contains all numbers 1..n
+        return n + 1
 
 
-# class Solution:
-#     def firstMissingPositive(self, nums: List[int]) -> int:
-#         n= len(nums)
-#         for i in range(n):
-#             while nums[i] > 0 and nums[i] <= n and nums[nums[i] - 1] != nums[i]:
-#                 nums[i], nums[nums[i] -1]= nums[nums[i] -1], nums[i]
+# Try by this approach also in python.
+# https://leetcode.com/problems/first-missing-positive/solutions/17071/my-short-c-solution-o-1-space-and-o-n-time/
+# Tried but not working.
+
+class Solution:
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        n= len(nums)
+        for i in range(n):
+            while nums[i] > 0 and nums[i] <= n and nums[nums[i] - 1] != nums[i]:
+                nums[i], nums[nums[i] -1]= nums[nums[i] -1], nums[i]
         
-#         for i in range(n):
-#             if nums[i]!= i+1:
-#                 return i +1
-#         return n + 1
+        for i in range(n):
+            if nums[i]!= i+1:
+                return i +1
+        return n + 1

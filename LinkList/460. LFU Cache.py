@@ -78,3 +78,8 @@ class LFUCache:
             self.freqTable[1].insertAtLast(node)
             self.cache[key] = node
             self.minFreq = 1  # Since inserting new node so minFreq = 1 only
+
+
+# Try to do in more concise way
+# https://leetcode.com/problems/lfu-cache/solutions/166683/python-only-use-ordereddict-get-o-1-put-o-1-simple-and-brief-explained/
+# https://leetcode.com/problems/lfu-cache/solutions/369104/python-two-dicts-explanation/

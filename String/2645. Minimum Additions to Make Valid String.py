@@ -12,6 +12,8 @@
 # Finally we find k, word is subsequence of "abc" repeated k times.
 # We return k * 3 - n.   '3'= len(abc)
 
+# subtracting 'length' because no need to add that much char, they are already given.
+
 # note: agar 'dcba' jaisa form karna hota then strictly decreasing lete.
 # pre= smallest char
 # if c >= pre, k++.

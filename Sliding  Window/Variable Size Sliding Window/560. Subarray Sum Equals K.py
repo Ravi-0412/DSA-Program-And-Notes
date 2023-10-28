@@ -89,3 +89,7 @@ class Solution:
                 ans+= prefix_sum[curr_sum-k]
             prefix_sum[curr_sum]= 1 + prefix_sum.get(curr_sum, 0)   # first i was storing simply with index like "longest subarry with sum= k"
         return ans
+
+
+# Note: Extension of this Q and related Q
+# "1074. Number of Submatrices That Sum to Target"

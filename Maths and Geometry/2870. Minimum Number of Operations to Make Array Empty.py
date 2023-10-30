@@ -1,6 +1,8 @@
+# Same logic as : "343. Integer break".
+
 # Logic:1) Calculate the frequecny of each element.
 
-# Note: Any number > 1 can be expressed as 'c1*3 + c2*2' where c1,c1 >=0.
+# Note: Any number > 1 can be expressed as 'c1*3 + c2*2' where c1,c1 >=0 i.e combination of multiple of '2 and '3'.
 
 # 2) So if freq of any number is < 1 then it on't possible else it is possible to make array empty.
 # 3) For getting minimum we will try to get maximum part divisible by '3' i.e 'c1' as big as possible.

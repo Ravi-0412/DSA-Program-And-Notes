@@ -7,36 +7,6 @@
 
 
 # time: O(m+n)
-class Solution:
-    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
-        ans= None  # head for ans linklist
-        cur= None  # for traversing into ans
-        cur1= l1   # for traversing into l1
-        cur2= l2   # for traversing into l2
-        carry= 0   # will store the carry for next node
-        # we have to do addition till either first linklist 
-        # or 2nd linklist or carry is not None(or zero)
-        while cur1 or cur2 or carry:
-            curSum= carry
-            if cur1:
-                curSum+= cur1.val
-                cur1= cur1.next
-            if cur2:
-                curSum+= cur2.val
-                cur2= cur2.next
-            carry= curSum // 10
-            # now update the ans
-            if ans:
-                cur.next= ListNode(curSum % 10)
-                cur= cur.next
-            else:
-                ans= ListNode(curSum % 10)
-                cur= ans
-        return ans
-
-
-# very concise way of writing above code
-# logic is same only but too concise
 
 class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:

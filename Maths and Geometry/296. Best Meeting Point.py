@@ -1,6 +1,6 @@
 # just same logic as :" 462. Minimum Moves to Equal Array Elements II".
 
-# Point should be median point of all 'x' coordinates where house is present and all 'y' coordinate where house is present.
+# Point should be median point of all 'x' and all 'y' coordinates where house is present respectively.
 
 def findBestMeetingPoint(mat):
     n, m= len(mat), len(mat[0])

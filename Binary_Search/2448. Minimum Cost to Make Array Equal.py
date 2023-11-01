@@ -114,3 +114,7 @@ class Solution:
                 break
         # Now find the cost of making all ele equal to 'target'.
         return sum(abs(num - target) * c for num, c in arr)
+
+
+# Related Q: 
+"462. Minimum Moves to Equal Array Elements II", 

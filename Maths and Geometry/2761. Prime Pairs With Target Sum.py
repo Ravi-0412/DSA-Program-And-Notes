@@ -22,6 +22,7 @@ class Solution:
         for num in range(2 , n + 1):
             if isPrime(num):
                 primes.append(num)
+                
         ans= []
         i, j = 0, len(primes) - 1
         while i <= j:

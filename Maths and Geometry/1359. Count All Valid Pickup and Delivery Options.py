@@ -1,7 +1,7 @@
 # Method 1:
 # logic: pick up must be before delivery.
 # So first put all the 'n' pick ups.
-# no of ways of putting all 'n' pickups = (n!)
+# no of ways of putting all 'n' pickups = (n!) as order of individual pick up is not mattering.
 
 # Now we have to arrange all 'n' delivery.
 # total ways to arrange delivery = 1 * 3 *5 * 7 * (2*n -1).....
@@ -14,7 +14,7 @@
 # This solution involves 2 stages.
 
 # Stage 1
-# We decide the order of all the pickups. It is trivial to tell there are n! possibilities
+# We decide the order of all the pickups.there are n! possibilities
 
 # Stage 2
 # Given one possibility. Let's say the pickups are ordered like this A B C
@@ -27,6 +27,11 @@
 # A x B x C x c x b x, (where x denotes the location of valid slots for a)
 # In conclusion. we have in total 1 * 3 * 5 * ... * (2n-1) possibilities.
 
+# In short:
+# for 1st delivery 'c', only : 1 option
+# for 2nd delivery 'b' , there is : 3 choice i.e we have put '1' pair at proper place so gaps formed by these pair = 2 * 1 + 1 = 3
+# for 3rd delivery, 'a', there is : 5 choice i.e we have put '2' pair at proper place so gaps formed by these pair = 2 *2 + 1 = 5
+# And so on till '2n-1'
 # Thus, the final solution is n! * (1 * 3 * 5 * ... * (2n-1)) % 1000000007
 
 class Solution:
@@ -41,11 +46,11 @@ class Solution:
 
 # Method 2:
 # Assume we have already n - 1 pairs, now we need to insert the nth pair.
-# To insert the first element, there are n * 2 - 1 chioces of position。
-# To insert the second element, there are n * 2 chioces of position。
-# So there are (n * 2 - 1) * n * 2 permutations.
-# Considering that delivery(i) is always after of pickup(i), we need to divide 2.
-# So it's (n * 2 - 1) * n
+# To insert the next pickup , we have (n -1)*2 + 1 choice. 
+# To insert the next delivery after inserting pick up, (n -1)*2 + 1 + 1 choice. after adding pick up gap will increase by '1'.
+
+# Considering that delivery(i) is always after of pickup(i), we need to divide 2. 
+# Because while inserting we are not taking care of this condition.
 
 # Time = space = O(n)
 
@@ -58,7 +63,7 @@ class Solution:
         dp[1] = 1
         for i in range(2, n+1):
             pickUpWays =  (i - 1)*2 + 1
-            deliverWays = pickUpWays + 1  # '1' after adding pick up.
+            deliverWays = pickUpWays + 1  # after adding pick up gap will increase by '1'.
             totalWays = (pickUpWays * deliverWays) //2
             dp[i] = (dp[i - 1] * totalWays) % mod
         return dp[n]

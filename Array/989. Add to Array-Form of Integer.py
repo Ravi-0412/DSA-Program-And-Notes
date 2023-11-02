@@ -15,43 +15,8 @@ class Solution:
         return ans
 
 
-# Method 2:
-# Just same logic as : "445. Add Two Numbers II".
-
-# time = O(n) , space = O(n)
-
-class Solution:
-    def addToArrayForm(self, num: List[int], k: int) -> List[int]:
-        n = len(num)
-        ans = []
-        i = n - 1
-        carry = 0
-        while k  and i >= 0:
-            r = k % 10
-            cur_num = num[i]
-            carry, cur_ans = divmod(r + cur_num + carry , 10)
-            ans.append(cur_ans)
-            k = k //10
-            i -= 1
-
-        while i >= 0:
-            cur_num = num[i]
-            carry, cur_ans = divmod(cur_num + carry , 10)
-            ans.append(cur_ans)
-            i -= 1
-
-        while k :
-            r = k % 10
-            carry, cur_ans = divmod(r + carry , 10)
-            ans.append(cur_ans)
-            k = k // 10
-
-        if carry:
-            ans.append(carry)
-        return ans[::-1]
-
-# Method 3:
-# Shortcut and very good way of above method
+# Method 2: Same as "445. Add Two Numbers II".
+# Shortcut and very good  method
 
 # Logic: We are taking k as carry.
 # We start from the last or lowest digit in array num add k.

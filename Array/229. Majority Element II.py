@@ -7,6 +7,8 @@
 # so first find the two condidates who secured highest votes amon all.
 # After that check if there vote count is > n//3.
 
+# Note: Har ele ke pass '3 choice h either condidate1 ho, condidate2 ho ya different ele ho.
+
 # Time: O(n)
 
 class Solution:
@@ -20,6 +22,9 @@ class Solution:
             elif n== condidate2:
                 # vote of condidate2 will increase
                 count2+= 1
+                
+            # agar na hi condidate1 h na hi condidate2 h then 
+            # cur ele kuch bhi ho sakte h depending upon value of count1 and count2.
             elif count1== 0:
                 # cur ele will become the 1st condidate(one of possible condidate)
                 condidate1, count1= n, 1
@@ -30,8 +35,6 @@ class Solution:
                 # third condidate came other than one and two.
                 # so will minimise the vote of both.
                 count1, count2= count1 -1, count2 -1
-        print(condidate1, condidate2)
-
         # if condidate1== condidate2 and condidate1!= -1:
         #     return [condidate1]
         # ans= []

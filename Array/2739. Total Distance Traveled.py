@@ -15,6 +15,12 @@ class Solution:
 
 # METHOD 2: 
 # very short . Before i was thinking in somewhat this way only.
+
+# Logic: main tank me kitna extra fuel add hoga.
+# Har 5 ke bad 1 litre means agar '5' litre use kiya to actual me main tank se '4' litre hi jayeya
+#  kyonki hm 1 litre add kar denge except 1st time(isliye '-1').
+
+
 class Solution:
     def distanceTraveled(self, mainTank: int, additionalTank: int) -> int:
         return (mainTank + min((mainTank -1)//4, additionalTank)) *10

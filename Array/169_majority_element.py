@@ -94,6 +94,7 @@ class Solution:
 
 
 # Another way of writing the above code
+# Best one
 # on this approach, we can solve the Q :"229. Majority Element II".
 
 # Just relate to real life counting of votes in ele i.e how a condidate wins.
@@ -106,9 +107,11 @@ class Solution:
             if n == m:
                 # vote of majority ele will increase.
                 count += 1
+            # Agar majority 'm' nhi h and count = 0 h then cur ele majority ban jayega.
             elif count == 0:
                 # cur ele will become majority ele (current winning condidate)
                 m , count = n, 1
+            # # Agar majority 'm' nhi h and count > 0 h then 'm' ka count kamega.
             else:  # count > 0
                 # cur ele can't be the winning condidate, it will just reduce the vote of cur winning condidate i.e cur majority ele
                 count -= 1

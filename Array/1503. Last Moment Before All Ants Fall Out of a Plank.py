@@ -1,6 +1,6 @@
 # Intuition vvi: : the main observation is that "we need not care about the collisions as the ants aren't unique"
 # (means all cover the same distance in unit time or have same speed).
-# it's just as they move in the same direction without changing the direction. find the last position of each robot simply using this.
+# it's just same as they keep moving in the same direction without changing the direction. 
 
 # In detail:
 

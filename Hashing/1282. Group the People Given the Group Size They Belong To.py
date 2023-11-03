@@ -2,7 +2,7 @@
 
 class Solution:
     def groupThePeople(self, groupSizes: List[int]) -> List[List[int]]:
-        noOfPeopleInGroup = collections.defaultdict(list)  # will keep tarck of people that should belong to a given gr size.
+        noOfPeopleInGroup = collections.defaultdict(list)  # will keep track of people that should belong to a given gr size.
         for i, groupSize in enumerate(groupSizes):
             noOfPeopleInGroup[groupSize].append(i)
             

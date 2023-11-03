@@ -1,19 +1,21 @@
 # 1) for add:
-# a) first decrease the no of count of the no = freqToNum[freqCount[num]] by '1'
+# a) first decrease the no of count of the number = freqToNum[freqCount[num]] by '1'
 # b) increase the freq of curr number
-# c) incr the no of count of no= new freq of number i.e freqToNum[freqCount[num]] by '1'.
+# c) incr the no of count of number in new frequency= new freq of number i.e freqToNum[freqCount[num]] by '1'.
 
 # Reason: freq of curr number will change by '1'. so we have to remove from count of pre freq and will add to the new freq.
 
 # 2) for delete:
 # same way as above
 
+# Time = space  = O(n)
+
 import collections
 class FrequencyTracker:
 
     def __init__(self):
-        self.freqCount = collections.defaultdict(int)
-        self.freqToNum = collections.defaultdict(int)
+        self.freqCount = collections.defaultdict(int)   # [num : count]
+        self.freqToNum = collections.defaultdict(int)   # [freq: count_no_having_a_freq]
 
     def add(self, number: int) -> None:
         # phle freq wale se hta do

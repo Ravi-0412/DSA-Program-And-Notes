@@ -19,13 +19,15 @@ class Solution:
         return ans
     
 # method 2: Counting sort
-# simple and logical only.
+# Can utilise the lesser constraint of 'nums[i]'.
 class Solution:
     def countKDifference(self, nums: List[int], k: int) -> int:
-        count= [0]*101 # max values of nums[i]= 100
-        for n in nums: # calucate the frequency of each num
+        count= [0]*101 # count[i]: frequency of 'i' for i > 0. max values of nums[i]= 100
+        for n in nums: # calculate the frequency of each num 'n'
             count[n]+= 1
         ans= 0
-        for i in range(k+1, 101):  # starting from 'k+1' because of '0' based indexing.
-            ans+= count[i] * count[i-k]   # see here sum= k of indices i.e i+ (i-k)= k. Indices here are number only.
+        # starting from 'k+1' because of number will start from index '1'.
+        # We get get abs diff = k only when there exist ele at 'i' and 'i-k'
+        for i in range(k+1, 101):  
+            ans+= count[i] * count[i-k]   # all possible pair will contribute to ans. 
         return ans

@@ -31,7 +31,18 @@ class Solution:
             else:
                 ans += q + 1
         return ans
-    
+
+
+# Shortcut and other way of writing above method
+class Solution:
+    def minOperations(self, nums: List[int]) -> int:
+        freq = Counter(nums)
+        ans = 0
+        for val in freq.values():
+            if val < 2:
+                return -1
+            ans += ceil(val /3)
+        return ans
 
 # Similar Q:
 # 2244. Minimum Rounds to Complete All Tasks

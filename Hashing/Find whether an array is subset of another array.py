@@ -14,6 +14,8 @@ def isSubset( a1, a2, n, m):
 # same way we can check "Two array is equal or not".
 # frequency must be equal of each ele.
 
+# Note: If order also mattering then it won't work.
+
 from collections import Counter
 class Solution:
     def check(self,A,B,N):

@@ -31,7 +31,7 @@ class Solution:
 
 # how it's working?
 # dict 1 & dict 2 will intersect the two counters here, the lowest counts are preserved;
-# elements() is Counter's method, it just take the elements as many times as their counts.
+# 'elements()' is Counter's method, it just take the elements as many times as their counts.
 # https://docs.python.org/3/library/collections.html#collections.Counter
 
 # time= space= O(n)

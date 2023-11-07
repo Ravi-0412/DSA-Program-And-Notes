@@ -8,10 +8,10 @@
 # How to keep track of the length as well as the difference? 
 # We can use a hashmap, whose key is the (index, difference) and value is the length.
 
-# for two elements A[i] and A[j] where j < i, 
-# the difference between A[i] and A[j] (name it diff) is a critical condition. 
-# If the hashmap at position j has the key diff, it means that there is 
-# an arithmetic subsequence ending at index j, with arithmetic difference diff and length dp[j][diff]. 
+# for two elements A[i] and A[j] where i < j, 
+# the difference between A[i] and A[j] (name it diff). 
+# If the hashmap at position j has the key 'diff', it means that there is 
+# an arithmetic subsequence ending at index j, with arithmetic difference 'diff' and length 'dp[j][diff]'. 
 # And we just add the length by 1. If hashmap does not have the key diff, then those two elements can form a 2-length arithmetic subsequence.
 
 # Note: LIS me bda dekh ke add kar rhe the '+1' usi 'j' wale ka length me, 

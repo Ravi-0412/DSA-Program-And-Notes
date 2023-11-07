@@ -17,9 +17,15 @@ class Solution:
             # update the frequency of nums[i] in hashmap.
             hashmap[nums[j]]= 1 + hashmap.get(nums[j], 0)
         return ans
-    
+
+
 # method 2: Counting sort
 # Can utilise the lesser constraint of 'nums[i]'.
+
+# Note: Here storing the frequency first then finding the ans.
+# But still it won't give duplicates or unnecessary ans because while finding ans
+# we are checking for values at different index.
+
 class Solution:
     def countKDifference(self, nums: List[int], k: int) -> int:
         count= [0]*101 # count[i]: frequency of 'i' for i > 0. max values of nums[i]= 100

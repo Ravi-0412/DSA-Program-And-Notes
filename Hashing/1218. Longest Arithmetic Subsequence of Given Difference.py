@@ -39,7 +39,7 @@ class Solution:
 
 class Solution:
     def longestSubsequence(self, arr: List[int], difference: int) -> int:
-        lengths = collections.defaultdict(int)
+        lengths = collections.defaultdict(int)  # [num : length] => length of AP with given difference when last number considered is 'num'.
         ans = 1
         for num in arr:
             lengths[num] = 1 + lengths[num - difference]
@@ -47,5 +47,5 @@ class Solution:
         return ans
 
 
-# Note : isme is Q "2453. Destroy Sequential Targets" ka same remainder wala concept nhi lagega kyoni
+# Note : isme  Q "2453. Destroy Sequential Targets" ka same remainder wala concept nhi lagega kyoni
 # Yahan order of ele matter karega i.e (next wala pichle se bda hoga and order me hoga) but us Q me matter nhi karega.

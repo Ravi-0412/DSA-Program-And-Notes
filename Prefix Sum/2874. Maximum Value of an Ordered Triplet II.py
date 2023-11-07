@@ -40,11 +40,11 @@ class Solution:
 # Method 2:
 # In one pass with O(1) space
 
-# Logic: If somehow if we can keep track of max(nums[i] - nums[j]) for each index
-# then we can update our ans after each index 'k'.
+# Logic: If somehow if we can keep track of max(nums[i] - nums[j]) for each index 'k'
+# then, we can update our ans after each index 'k'.
 
 # for keeping track of max(nums[i] - nums[j]) , we will need to keep track of 
-# max element seen till now
+# max element seen till now i.e nums[i]
 
 # Very very nicce logic.
 

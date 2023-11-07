@@ -1,5 +1,7 @@
 # time= space= O(n)
 
+# Can do in single loop also.
+
 class Solution:
     def findPrefixScore(self, nums: List[int]) -> List[int]:
         n= len(nums)
@@ -33,3 +35,9 @@ class Solution:
 
 # To study about accumulate:
 # https://www.geeksforgeeks.org/python-itertools-accumulate/
+
+# syntax: 
+# itertools.accumulate(iterable[, func]) –> accumulate object
+
+# If no function is passed, addition takes place by default. 
+# If the input iterable is empty, the output iterable will also be empty.

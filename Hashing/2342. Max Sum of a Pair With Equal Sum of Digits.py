@@ -62,4 +62,8 @@ class Solution:
                 digitSum[sum] = num
         return ans
 
-# Note: When you have to find largest/smallest pair among all possible then apply the same logic.
+# Note: When you have to find largest/smallest pair among all possible then apply the same above logic.
+
+# Note vvi: Whenver you are asked to 'find pair' or 'count pairs' apply two sum logic.
+# in case of 'pair count' store 'frequency' as value.
+

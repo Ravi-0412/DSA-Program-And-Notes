@@ -1,3 +1,14 @@
+# Logic: 'Average' nikalne ke liye hmko us route ka 'total count' and 'total time' track karna hoga.
+# Isko hm ek hashmap se tarck karenge.
+
+# Note: Jb 'checkout' called hoga then hmko ye pta hona chahiye ki ye 'id' wala kahan se checkIn kiya tha
+# and kis time pe kiya tha.
+# Isko bhi hm ek hashmap se tarck karenge.
+
+# checkIn me hmesha recent wala value rakhenge.
+
+# All operation : O(1)
+
 class UndergroundSystem:
     
     def __init__(self):

@@ -1,4 +1,5 @@
 # 1D version of this "560. Subarray Sum Equals K"
+
 # Logic : we will try to convert 2D matrix into 1D array and 
 # after that we will apply same logic of "560. Subarray Sum Equals K".
 

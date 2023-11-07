@@ -1,6 +1,6 @@
 # logic: just same logic as prefixSum.
 
-# Traverse the words and when the cur start and end with vowel, add 1 to the prefixCount else= pre prefixCount.
+# Traverse the words and when the cur word start and end with vowel, add 1 to the prefixCount else= pre prefixCount.
 
 # Queries are just same finding the prefixSum between two index 'i' and 'j' both inclusive.
 # which= prefixSum[j + 1] - prefixSum[i], when we use 1-based indexing in prefixSum.

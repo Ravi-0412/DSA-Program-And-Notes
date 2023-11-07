@@ -11,7 +11,7 @@
 class Solution:
     def leastBricks(self, wall: List[List[int]]) -> int:
         row= len(wall)
-        bricksEndingPoints= collections.defaultdict(list)
+        bricksEndingPoints= collections.defaultdict(list)  # [endPoint : no_brick_in_diff_row_that_end_at_this_point]
         max_freq= 0
         for bricks in wall:
             endPoint= 0

@@ -62,11 +62,11 @@ class Solution:
         res=[]
         for num in nums:
             if(num!=0):
-                smaller= prefix_sum[num-1]
+                smaller = prefix_sum[num-1]
+                res.append(smaller)
             else:  # if ele= 0 then append zero in the ans
-                smaller=0
-            res.append(smaller)
+                res.append(0)
         return res
-            
+
 
 

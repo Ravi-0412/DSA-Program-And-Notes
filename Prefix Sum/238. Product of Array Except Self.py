@@ -1,5 +1,15 @@
+# Brute force:
+# Just calculate the 'prefix' and 'suffix' multiplication then, 
+# ans[i] = prefix[i - 1] * suffix[i + 1]
+
+# Method 2: 
+# Optimising space
+
 # we have to do in O(1) space complexity except ans array.
-# logic:just calculate the prefix and postfix multiplication for each ele and multiply both to get the ans at that index.
+# means we will have to store prefix and suffix into a variable instead of array.
+
+# 1) Traverse from left to right and store the 'prefix' for each ele.
+# 2) for 'suffix' traverse right to left.
 # time: O(n),space: O(1)
 
 class Solution:

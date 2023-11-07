@@ -20,3 +20,6 @@ def RangeSum(arr, query):
 arr= [1, 4, 1]
 query= [[1,1], [1,2], [0,2]]
 print(RangeSum(arr, query))
+
+# Note: Whenever there is something related to 'sum in a range', apply prefix sum.
+# Can you array also instead of hashmap of size 'n' or 'n + 1' depending upon Q.

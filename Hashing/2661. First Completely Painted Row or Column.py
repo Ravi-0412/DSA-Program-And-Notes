@@ -1,8 +1,8 @@
-# How we cando?
+# How can we do?
 # Ans: while traversing the array we will just incr the count in its row and col number.
 # it means we have seen one more ele in that row and col.
 
-# and whenever no of ele in either row= no of col OR no of ele in col= no of row then we will return that index.
+# and whenever either 'no of ele in row= 'no of col' OR 'no of ele in col= no of row' then, we will return that index.
 
 # vvi: for knowing the row and col of all ele, we will store their row and col in hashmap to get in O(1).
 # so first store the rowNo and colNo of each ele in hashmap.
@@ -26,6 +26,7 @@ class Solution:
         # then means we have found either row or column with all elements painted
         freq_row= {}  # will keep track of number of ele we have seen till now in each row
         freq_col= {}  # will keep track of number of ele we have seen till now in each col
+        # we can use array also for this.
         for i, num in enumerate(arr):
             # get the row and col of this num
             row, col= rowNo[num], colNo[num]

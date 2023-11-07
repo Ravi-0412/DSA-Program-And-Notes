@@ -47,7 +47,8 @@ class Solution:
 # So if we store the count of remainder value i.e [remainder : count] then, 
 # our Q reduces to 'find the minimum no which contributed in maximum count'.
 
-# Note: In this type of Q, try to find the common between each number that will be in same group or how we can be track the other no using the cur one.
+# Note: In this type of Q, try to find the common between each number that will be in same group
+#  or how we can be track the other no using the cur one.
 # Try to observe the things and find the relation.
 
 # Steps: 

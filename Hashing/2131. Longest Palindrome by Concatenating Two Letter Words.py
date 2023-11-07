@@ -14,10 +14,10 @@
 
 # After forming the palindrome traversing whole array, we can add max one word having both character equal(palindromic word)
 # we can keep this word in middle. This will increase the length of ans by '2'.
-# we can include such one word at last.
-# vvi: adding more than one such will not form a valid palindrome. 
+# vvi: adding more than one such word will not form a valid palindrome. 
 
-# even no of duplicates pair will get cancelled forming palindrome. e.g: [gg, gg, gg], after operation we will left with : [gg] only one time.
+# even no of duplicates pair will get cancelled forming palindrome. e.g: [gg, gg, gg], 
+# after operation we will left with : [gg] only one time.
 
 # Note: Also printing the longest palindrome
 # time: O(2*n)
@@ -42,7 +42,6 @@ class Solution:
             if s== s[::-1]:
                 ans+= 2
                 n= len(longestPalindrome)
-                mid= n//2
                 longestPalindrome= longestPalindrome[: n//2] + s + longestPalindrome[n//2 : ]
                 break
         print(longestPalindrome)

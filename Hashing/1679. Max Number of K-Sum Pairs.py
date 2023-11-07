@@ -29,3 +29,7 @@ class Solution:
                 numFrequency[n]+= 1
         
         return count
+
+
+# Note: Whenever you are asked to find pairs then think of 'Two sum' logic and
+# Store the 'frequency' as value because pair at different index will also add to ans. 

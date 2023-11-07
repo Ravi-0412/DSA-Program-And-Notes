@@ -22,7 +22,10 @@ def twoSum(self, nums: List[int], target: int) -> List[int]:
 # think of 'Two sum' logic only like how you can get the 2nd number using 1st one. 
 # Another number we will get by complement of 1st according to the behaviour of operator.
 
-# Note: Store 'what you need to find(for pair i.e by help of which you will get one of ans) as key' and 
+# Note: In case of pair count always store the frequency.
+# You can traverse and check for pair in parallel.
+
+# 2) Note: Store 'what you need to find(for pair i.e by help of which you will get one of ans) as key' and 
 # 'what you need in ans(or due to which you can get the ans after some operation) as value' in hashmap.
 # e.g: "in Two sum Q", we want to check remaining sum(another number) so kept this as 'key' and
 # in ans we wanted the index so kept 'index' as value.
@@ -30,7 +33,7 @@ def twoSum(self, nums: List[int], target: int) -> List[int]:
 # It will help in lot of Q like : "2006. Count Number of Pairs With Absolute Difference K",
 #  "1679. Max Number of K-Sum Pairs", "2183. Count Array Pairs Divisible by K" etc...
 
-# 2) Note: whenever you have to find the subarray length or count of subarray with given sum 'k' or
+# 3) Note: whenever you have to find the subarray length or count of subarray with given sum 'k' or
 #  given xor 'k' or related to nay operation. => Apply two sum logic.
 # since "+" has complement "-" i.e given a sum say 'target' then say till any index 'j' totalSum= curSum 
 # then if we can find any ele 'x' at index 'i' having such that x= curSum - target,  
@@ -43,3 +46,39 @@ def twoSum(self, nums: List[int], target: int) -> List[int]:
 # "Longest Sub-Array with Sum K" ,"Smallest Subarray with Sum K",
 # "560. Subarray Sum Equals K", "Count Subarrays with Given XOR"  etc....
 
+
+
+# Extension:
+# q)  If had asked count no of such pair then,
+# In parallel we have to store the frequency and will check for ans.
+
+class Solution:
+    def getPairsCount(self, arr, n, k):
+        unordered_map = {}
+        count = 0
+        for i in range(n):
+            if k - arr[i] in unordered_map:
+                count += unordered_map[k - arr[i]]
+            if arr[i] in unordered_map:
+                unordered_map[arr[i]] += 1
+            else:
+                unordered_map[arr[i]] = 1
+        return count
+
+
+# Note: First counting the frequency and then calculating the sum will give wrong ans.
+# Must be >= expected one because there will be a lot of duplicates ans and unnecessary pair.
+
+# e.g: k = 10, arr = [1 5 5 5 5 7]
+# this will give count = 16 but should be '6' only.
+# Here same index will also get counted in ans with a lot of duplicates one.
+
+from collections import Counter
+class Solution:
+    def getPairsCount(self, arr, n, k):
+        unordered_map = Counter(arr)
+        count = 0
+        for i in range(n):
+            if k - arr[i] in unordered_map:
+                count += unordered_map[k - arr[i]]
+        return count

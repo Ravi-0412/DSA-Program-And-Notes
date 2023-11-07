@@ -10,7 +10,7 @@ class Solution:
         i= 0
         while (i +1) < len(distinct_ele):
             if distinct_ele[i+1]!= distinct_ele[i] + 1:
-                # ans= max(ans, count)    # updating here will give the incorrect ans as when your ans lies at last
+                # ans= max(ans, count)    # updating here only will give the incorrect ans as when your ans lies at last
                 #  e.g: [1,2,3,4] then our ans won't get updated singlee time.
                 count= 1
             elif distinct_ele[i+1]== distinct_ele[i] + 1:
@@ -19,7 +19,7 @@ class Solution:
             i+= 1
         return ans
 
-# another wayy of writing
+# another way of writing
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
         distinct_ele= sorted(list(set(nums)))
@@ -40,7 +40,12 @@ class Solution:
     
 
 # method 2:
+# Just above logic only.
+# For cur ele if 'cur -1' is not present then, new sequence will start from 'cur ele'.
+# else cur ele is already got included in some sequence.
+
 # time: O(n)
+
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
         numSet= set(nums)   # can use hashmap also, in both we can search in O(1)
@@ -59,7 +64,7 @@ class Solution:
 
 
 # method 3: using DSU
-# Logic: we will try to merge(union) a cur ele with its adjacent ele if already merged(present in hashamp).
+# Logic: we will try to merge(union) a cur ele with its adjacent ele if already merged(present in hashamp) into one component.
 # At alst we will return the largest size of distinct component.
 
 class DSU:
@@ -83,12 +88,13 @@ class DSU:
             self.size[p1]+= self.size[p2]
     
     # find the size of the largest component (distinct parent)
-    def getLongestSequence(self):
-        maxSize= 1 # minimum can be '1'.
-        for i in range(len(self.parent)):
-            if i== self.parent[i]:  # means parent of one of the component.
-                maxSize= max(maxSize, self.size[i])
-        return maxSize
+
+    # def getLongestSequence(self):
+    #     maxSize= 1 # minimum can be '1'.
+    #     for i in range(len(self.parent)):
+    #         if i== self.parent[i]:  # means parent of one of the component.
+    #             maxSize= max(maxSize, self.size[i])
+    #     return maxSize
 
 
 class Solution:
@@ -111,29 +117,4 @@ class Solution:
         
         # return dsu.getLongestSequence() if nums else 0
         return max(dsu.size) if nums else 0  # shortcut
-
-
-
-# my method mistake in 2nd method : correct only but giving TLE
-# Reason of TLE: here we are checking for very ele and in above method if are only checking if that ele is the start of the sequence.
-
-class Solution:
-    def longestConsecutive(self, nums: List[int]) -> int:
-        setNum= set(nums)
-        hashmap= collections.defaultdict(int)  # [num: seq_count]
-        ans= 0
-        for num in setNum:
-            cur= num
-            count= 1
-            while cur +1  in setNum:
-                if cur + 1 in hashmap:
-                    count+= hashmap[cur+1]
-                    break
-                else:
-                    count+= 1
-                cur+= 1
-
-            hashmap[num]= count
-            ans= max(ans, count)
-        return ans
 

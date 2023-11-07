@@ -1,3 +1,7 @@
+# Just extension of Q: "Hit most Balloons".
+# https://practice.geeksforgeeks.org/problems/hit-most-balloons--170637/1
+
+
 # Basically points is not given, it is line segments placed between given coordinates.
 # and you have to find "minimum no of throws such that it touches all segments".
 

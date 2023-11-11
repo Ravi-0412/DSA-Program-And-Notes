@@ -19,12 +19,13 @@ class Solution:
 
 # method 2: using sliding window
 # How to think this?
-# Ans: After chooisng 'k' cards whatever way we choose, we will be left with a continous subarray of size= 'len(arr) -k'.
-# Because you can’t choose 2nd element from the beginning unless you have chosen the first one. Similarly, you can’t choose 2nd element from last unless you have chosen the last one.
+# Ans: After chooisng 'k' cards whatever way we choose, we will be left with a continous subarray of size= 'n -k' cards.
+# Because you can’t choose 2nd element from the beginning unless 
+# you have chosen the first one. Similarly, you can’t choose 2nd element from last unless you have chosen the last one.
 
 # And for getting the ans maximum, sum of left subarray should be minimum.
-# So now our problem reduces to "Find the smallest sum subarray of size 'len(arr) -k' ".
-# then our ans= sum(arr) - 'smallest sum of subarray of size 'len(arr) -k' '.
+# So now our problem reduces to "Find the smallest sum subarray of size 'n -k' ".
+# then our ans= sum(arr) - 'smallest sum of subarray of size 'n -k' '.
 
 # time: O(n)
 
@@ -53,7 +54,8 @@ class Solution:
         return sum(cardPoints) - minSum
 
 
-# Note: This Q is exactly same as "Maximize sum of K corner elements in Array".
+# Related Q: 
+# "Maximize sum of K corner elements in Array".
 # https://www.geeksforgeeks.org/maximize-sum-of-k-elements-in-array-by-taking-only-corner-elements/
 
 

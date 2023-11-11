@@ -15,6 +15,7 @@ class Solution:
                 # not suffficient no of ele to inlcude to inlcude to make subarray of size = k starting from index 'i'.
                 return False
             operations= nums[i]
+            # Reduce the next 'i+k' ele including cur ele by 'num[i]'.
             for j in range(i, i + k):
                 nums[j] -= operations
                 if nums[j] < 0:
@@ -36,14 +37,14 @@ class Solution:
 class Solution:
     def checkArray(self, nums: List[int], k: int) -> bool:
         n = len(nums)
-        impact = 0  # will tell the overall impact of pre 'i-k' el . will tell minimum no of times, we have to reduce the next ele.
-                    # Basically storing: A[i - 1] + A[i - 2] + A[i - k + 1] after each step
+        impact = 0  # will tell the overall impact of pre 'i-k' ele. will tell minimum no of times, we have to reduce the next ele.
+                    # Basically storing:  sum of previous k - 1 element i.e A[i - 1] + A[i - 2] + A[i - k + 1] after each step
         for i in range(n):
             if impact > nums[i] :
                 # cur number will be negative
                 return False
             nums[i] = nums[i] - impact  # After impact cur ele value will equal to this only. 
-                                        # This is also the extra impact that it will to existing impact..
+                                        # This is also the extra impact that it will add to existing impact..
             impact += nums[i]    # Adding the extra impact that it will add to make himself '0' on next numbers.
             # we have to remove the impact of 'i-k' element for next ele . Since ele of that ele will be till this index only.
             if i - (k -1) >= 0:

@@ -5,26 +5,8 @@
 # if empty means no negative ele present for that window, so print(1)
 # after reaching win, check if arr[i] <0 , then you remove the 1st ele from 'win'
 # since that can't be the ans for next win as you are moving for the next win
-# def printFirstNegativeInteger( A, N, K):
-#     win= []
-#     i,j= 0,0
-#     while(j<N):
-#         if A[j]<0:  # appj in 'win'
-#             win.append(A[j])
-#         if j-i+1< K:    # incr 'j' only
-#             j+= 1
-#         elif j-i+1== K:    # means you have reached the req win size
-#             if not win:     # if win empty
-#                 print(0, end=" ")
-#             else:       # if win not empty
-#                 print(win[0], end=" ")
-#                 if A[i]<0:   # check for ele at 'i' index before moving to next win
-#                     win.pop(0)
-#             j+= 1
-#             i+= 1
 
-
-# just little concise way of above
+# time = O(n)
 
 from collections import deque
 def printFirstNegativeInteger( A, N, K):
@@ -33,14 +15,14 @@ def printFirstNegativeInteger( A, N, K):
     while j <N:
         if A[j]<0:  # appj in 'win' 
             win.append(A[j])
-            
-        if j+1>= K:    # means you have reached the req win size
+        if j+1 >=K:    # means you have reached the req win size
             if not win:     # if win empty
                 print(0, end=" ")
             else:       # if win not empty
                 print(win[0], end=" ")
                 if A[i]<0:   # then remove ele of 'i' index from win i.e first ele from win
-                            # tabhi remove kar sakte h jb 'i'th index ele negative ho like jb property ko follow kar rh ahoga tabhi remove karenge n
+                            # tabhi remove kar sakte h jb 'i'th index ele negative ho like jb property ko follow kar rha hoga tabhi remove karenge n
+                            # Kyonki remove karte samay property check karke dale the.
                     win.popleft()
             i+= 1
         j+= 1

@@ -7,8 +7,8 @@
 #  F(j) denote the maximum sum of the subsequence with nums[j] as the last number.
 # F(j) = nums[j] + max(0, F(j-1), F(j-2), ..., F(j-i), ... F(j-k)) where j-i >= 0.
 # Note that if all of the valid F(j-1), F(j-2), ..., F(j-i), ... F(j-k) are negative, 
-# we will not choose any of these values because choosing one of them would 
-# lower the value of the required sum: hence we have a 0 in the max term.
+# we will not choose any of these values because choosing any of them would 
+# lower the value of the required sum: hence we have a '0' in the max term.
 
 # Recurrence relation: 
 # F(n) = F(n-1) + F(n-2) + ... + F(n-k)
@@ -18,8 +18,8 @@
 # F(0) = 1
 
 # If you draw a recursion tree, it will be a k-ary tree with depth n, where n is the length of nums. 
-# 'The time complexity is the number of nodes in this tree, O(k^n). The space complexity is the depth of this tree (recursion stack), O(n)
-# without memoisation.
+# 'The time complexity is the number of nodes in this tree, O(k^n). 
+# The space complexity is the depth of this tree (recursion stack), O(n) without memoisation.
 
 # With memoisation:
 # Time : O(n*k), space = O(n)
@@ -31,13 +31,14 @@
 class Solution:
     def constrainedSubsetSum(self, nums: List[int], k: int) -> int:
 
+        # What will be the max_sum when nums[j] will be the last element
         def solve(j):
             if j < 0:
                 return 0
-            max_val = 0
+            max_val = 0  # less than '0' will decrease the ans.
             for i in range(1, k + 1):
                 max_val = max(max_val , solve(j - i))
-            return nums[j] + max_val  # return with nums[j]
+            return nums[j] + max_val  # previous wale se max_sum find karo and cur wala 'j' ko add karke return kar do.
 
         ans = float('-inf')
         for i in range(len(nums)):
@@ -45,6 +46,7 @@ class Solution:
         return ans
 
 # Writing above code like this will give wrong ans
+# Beacuse here we are adding 'nums[j]' before onl so it may effect the further function call.
 class Solution:
     def constrainedSubsetSum(self, nums: List[int], k: int) -> int:
 
@@ -64,7 +66,7 @@ class Solution:
 
 # Mine logic:
 # But it's not working
-# Reason: We are skipping and then considering some ele 
+# Reason: We are skipping(Not take) and then considering some ele 
 # So next index should be in range 'k' is not getting maintained.
 # i.e j -i <= k
 
@@ -106,19 +108,8 @@ class Solution:
         for j in range(1, n):
             back = max(j-k, 0)  # we can take any index from 'j-k' to 'j-1' for dp[j]
             for i in range(back , j):
-                dp[j]= max(dp[j] , dp[i])
+                dp[j]= max(dp[j] , dp[i]) # will be >= 0 only
             dp[j] += nums[j]
-        return max(dp)
-
-
-# If you will write like this, will give wrong ans.
-class Solution:
-    def constrainedSubsetSum(self, nums: List[int], k: int) -> int:
-        n = len(nums)
-        dp = [nums[i] for i in range(n)]
-        for j in range(1, n):
-            for i in reversed(range(max(0, j - k), j)):
-                dp[j]= max(dp[j] , dp[i])
         return max(dp)
 
 
@@ -134,7 +125,7 @@ class Solution:
         n = len(nums)
         dp = [0] * n
         dp[0] = nums[0]
-        q = deque([0])  # Mono decreasing queue. will store the possible indexe
+        q = deque([0])  # Mono decreasing queue. will store the possible indexes because contraint yahan index pe h.
             # we need to take maximum from pre 'j-k' ele so decreasing queue.
 
         for j in range(1, n):
@@ -149,7 +140,7 @@ class Solution:
             dp[j] = nums[j] + max(0, dp[q[0]])
             # Now pop all those indexes which has 'dp' value less than 'j'.
             # Because why to consider index before 'j' for next upcoming index if dp[j]' has greater value.
-            # for this we need to remove from last
+            # for this we need to remove from last because start will contain bigger values.
             while q and dp[q[-1]] < dp[j]:
                 q.pop()
             # Now append 'j' to 'queue'.

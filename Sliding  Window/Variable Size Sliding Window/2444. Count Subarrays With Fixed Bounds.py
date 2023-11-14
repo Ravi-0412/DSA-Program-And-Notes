@@ -1,6 +1,8 @@
 # why this working?
-# Ans: agar hmko ek window mil gya h condition ke saath then agar kuch ele ko hta de min(jahan min mila, jahan max mila) h uske phle then wo sb bhi mera ans me count hoga.
-# e.g: mera ans subarray ka start_index 4 h and min hmko 7 pe mila h, max hmko 9 pe mila h then agar hm index '4' to '6'(just before min of both) index tak ele hta bhi denge,
+# Ans: agar hmko ek window mil gya h condition ke saath then agar kuch ele ko hta de 
+# min(jahan min mila, jahan max mila) h uske phle then wo sb bhi mera ans me count hoga.
+# e.g: mera ans subarray ka start_index 4 h and min hmko 7 pe mila h, max hmko 9 pe mila h 
+# then agar hm index '4' to '6'(just before min of both) index tak ele hta bhi denge,
 # tb bhi ans pe effect nhi padega , wo sb bhi ans me count hoga. and jb hm '7' index ho htayenge tb jake mera ans affect hoga.
 # isliye: min(latestMinIndex, latestMaxIndex) - subArrStartIndex + 1) . '1' for actual subarray no extra ele.
 
@@ -8,8 +10,8 @@
 # tb tak ja sakta h tjb tak hmko koi invalid element na mile.
 # and hmara ans h: min(latestMinIndex, latestMaxIndex) - subArrStartIndex + 1) . jo already calculated h.
 
-# isliye har ele ke liye same formaula lagta rhega jb tak koi invalid ele na mil jaye.
-# agar invalid milega tb count+= 0 hoga and samw with agar dono i.e minK and maxK nhi milta h tb.
+# isliye har ele ke liye same formula lagta rhenge jb tak koi invalid ele na mil jaye.
+# agar invalid milega tb count+= 0 hoga and same with agar dono i.e minK and maxK nhi milta h tb.
 
 # time: O(n), space: O(1)
 class Solution:
@@ -20,7 +22,8 @@ class Solution:
         latestMaxIndex= -1
 
         for i in range(len(nums)):
-            if nums[i] < minK or nums[i] > maxK:   # if we get any ele out of bound i.e smaller than minK and greater than maxK then we have to initialise all the variable
+            if nums[i] < minK or nums[i] > maxK:
+                # if we get any ele out of bound i.e smaller than minK and greater than maxK then we have to initialise all the variable  
                 latestMinIndex, latestMaxIndex= -1, -1
                 subArrStartIndex= i + 1  # our next desired subarray can start only after 'i'
             if nums[i]== minK:

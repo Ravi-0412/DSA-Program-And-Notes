@@ -12,6 +12,9 @@
 
 # So store 'remainder' as 'key' and 'index' as value.
 
+# Note: Here we will only add in 'hashmap' if 'cursum' is not present because
+# Here length is also mattering and we need bigger length.
+
 
 # Time complexity: O(n), space complexity: O(min(k, n)) if k != 0, else O(n).
 class Solution:
@@ -31,5 +34,5 @@ class Solution:
         return False
 
 
-
-
+# Related Q: 
+# 1)  "974. Subarray Sums Divisible by K"

@@ -6,7 +6,7 @@
 
 # Then ans = n - maxLen if subarray exist else -1.
 
-# Note: constarint of ele is +ve.
+# Note: constarint of ele is +ve. So no need to use map.
 
 # Time = O(n) , space = O(1)
 

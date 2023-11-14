@@ -39,6 +39,8 @@ class Solution:
         return -1 if ans == -1 else n - ans
 
 
+# Solution: will work with both positive and negative numbers.
+
 # time: O(n)= space
 
 # vvi: just similar to "Two sum" method.
@@ -78,6 +80,8 @@ class Solution:
 
 
 # Another way of writing the above logic 
+# Better one
+
 # just will check for complement each time not by curSum.
 # very good and concise approach.
 class Solution:
@@ -98,6 +102,12 @@ class Solution:
         return max_length
 
 
+# Note: Agar smallest subarray pucha hota tb 'Har bar index' ko update karte taki range small ho.
+
+# Related Q:
+# 1) "Smallest Subarray with Sum K"
+# 2) "1658. Minimum Operations to Reduce X to Zero"
+# 3) "560. Subarray Sum Equals K"
 
 
 

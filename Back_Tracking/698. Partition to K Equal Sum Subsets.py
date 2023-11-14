@@ -49,7 +49,8 @@ class Solution:
 # Kyonki agar dusre next partition me rakh denge nums[i] ko , then gain hmko yahi milega.
 
 # If subsets[j] = 0, it means this is the first time adding values to that subset.
-# If the backtrack search fails when adding the values to subSets[j] and subSets[j] remains 0, it will also fail for all subSets from subSets[j+1:].
+# If the backtrack search fails when adding the values to subSets[j] and subSets[j] remains 0, 
+# it will also fail for all subSets from subSets[j+1:].
 # Because we are simply going through the previous recursive tree again for a different j+1 position.
 # So we can effectively break from the for loop or directly return False.
 
@@ -97,7 +98,7 @@ class Solution(object):
                 #   - We put nums[i] into an empty bucket
                 #   - We tried placing every other element after and failed.
                 #   - We took nums[i] out of the bucket, making it empty again. 
-                # So trying to put nums[i] into a _different_ empty bucket will not produce
+                # So trying to put nums[i] into a _different_ empty bucket as 1st ele will not produce
                 # a correct solution; we will just waste time (we place elements left to right,
                 # so if this bucket is now empty, every one after it is too).
                 #

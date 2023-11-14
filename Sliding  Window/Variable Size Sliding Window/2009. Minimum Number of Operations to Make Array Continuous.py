@@ -13,8 +13,8 @@
 # Since the array is already sorted, we can use sliding window so that we only traverse the entire array once.
 
 # suppose we are able to include ele before index 'j' consider starting number as 'nums[i]' then,
-# we will need to replace ele right from index 'j' till 'n-1' + element left of 'i'.
-# total replace = (n - j) + i  .(right + left)
+# 'no of unique ele considering 'i' as starting ele = 'j - i'.
+# So total replacement = n - no_unique_ele = n - (j - i).
 
 # Time : O(n*logn)
 
@@ -29,7 +29,8 @@ class Solution:
             start, end = nums[i] , nums[i] + (n - 1)
             while j < m and nums[j] <= end:
                 j += 1
-            ans = min(ans , n - j + i)  
+            uniqueEle = j- i
+            ans = min(ans , n - uniqueEle)  
         return ans
 
 
@@ -48,6 +49,7 @@ class Solution:
         ans = n  # any big not possible ans
         for i in range(m):
             start, end = nums[i] , nums[i] + (n - 1)
-            idx = bisect.bisect_right(nums, end)   # 'j' only
-            ans = min(ans , n - idx + i)  
+            j = bisect.bisect_right(nums, end)   
+            uniqueEle = j- i
+            ans = min(ans , n - uniqueEle)  
         return ans

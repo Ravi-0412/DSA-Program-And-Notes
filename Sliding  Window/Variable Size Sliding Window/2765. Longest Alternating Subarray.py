@@ -53,6 +53,7 @@ class Solution:
     def alternatingSubarray(self, nums: List[int]) -> int:
         n = len(nums)
         i, j = 0, 1  # 'j' = 1 to check with pre ele.
+              # 'i' : starting index of alternating subarray.
         ans= -1
         while j < n:
             if nums[j] == (nums[i] + (j - i) % 2):

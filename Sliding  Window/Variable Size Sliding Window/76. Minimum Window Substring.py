@@ -1,16 +1,10 @@
 # similar logic to "find anargam"
-# here we have to compress the window size if possible to decrease the size of the ans subarray.
-# so when count becomes == 0 then try to compress if possible by incr 'i' keeping 'j' constant.
-# compression is only possible if any char is present extra time in window than the required
 
-# differences from "find anargam"
-# here no necessary to increase the 'i' always after j-i+1== len(t) as here the char in 't' may not be continous. 
-# in "find anargam" all the char should be continous so we will always have to incr 'i' after j-i+1== len(t)
-
-# so first find any window that contain all char of 't' at least in proper quantity then try to shrink the window if possible.
-
-# while shrinking the window only incr 'i' if we can get better ans otherwise don't incr 'i' 
-# i.e first reach the count==0 then only try to incr the 'i' if shrinking is possible.
+# Logic: First find a valid window in which all char of 't' is present in s.
+# then compress the window size if possible to decrease the size of the ans subarray.
+# so when count becomes == 0(means we have found all char of t in proper quantity) 
+# then try to compress if possible by incr 'i' keeping 'j' constant.
+# Note: compression is only possible if any char is present extra time in window than the required or 'not required char' is present.
 
 # 'count' will tell how many we have not seen till now in proper quantity.
 

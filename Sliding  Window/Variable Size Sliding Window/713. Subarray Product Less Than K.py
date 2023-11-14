@@ -17,7 +17,8 @@
 # subarray of size 3 including two ele from left and so on until we reach the last index on left.
 # so we will get one subarray of each size from '1' to length of subarray at that point, total subarray= length only.
 
-# In other words , cur number will get added to each of the subarray formed before say 'k' then adding humself it will be 'k+1' = length of valid subarray.
+# In other words , cur number will get added to each of the subarray formed before say 'k'
+#  then adding humself it will be 'k+1' = length of valid subarray.
 
 # time: O(n)
 class Solution:
@@ -41,6 +42,10 @@ class Solution:
 
 # Note vvvvi: use this logic only whenever you are asked to find the total number of subarray and you have include each pair of that subarray in the ans.
 
-# Note: This is a very good and useful template, can be applied to many Q like: "209. Minimum Size Subarray Sum",
-#  "Longest Subarray having sum of elements atmost ‘k’", 2762. Continuous Subarrays, 
+# Note: This is a very good and useful template. 
+# Related Q: 
+# 1) "Number of subarrays having sum less than K"
+# 2)  "209. Minimum Size Subarray Sum",
+# 3)  "Longest Subarray having sum of elements atmost ‘k’"
+# 4)  2762. Continuous Subarrays, 
 

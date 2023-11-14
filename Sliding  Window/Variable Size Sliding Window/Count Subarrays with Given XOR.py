@@ -1,7 +1,5 @@
-# Brute force: O(n^2)
+# just same way "560.Subarray sum equals k" and "Longest subArray having sum k"
 
-
-# method 2: use bit
 # submitted on interview Bit
 
 # what we are doing actually?
@@ -11,31 +9,9 @@
 # why this is working?
 # say if res= a^b then res^a= b and res^b= a. (property of xor)
 # res= xor till now. so we by taking the xor of 'res' with 'k' indirectly we are finding the another number 'a' or 'b'.
-# just similar to  in "Two sum" method only.
 
-# for more details read the striver logic in sheet.
 # time: O(n), space: O(1).
 
-class Solution:
-    def solve(self, A, B):
-        count= 0
-        xorr= 0  # will store the xor till now
-        xor_count= {}  # will store the xor that occured till now with their count
-        for num in A:
-            xorr= xorr ^ num
-            if xorr== B:
-                count+= 1
-            if B ^ xorr in xor_count:  # if present means at this point we can get xor= B for different distinct(than before) subarrays.
-                count+= xor_count[B ^ xorr]
-            if xorr in xor_count:
-                xor_count[xorr]+= 1
-            else:
-                xor_count[xorr]= 1
-        return count
-
-
-# shorter version of above.
-# just same way "560.Subarray sum equals k" and "Longest subArray having sum k"
 class Solution:
     def solve(self, A, B):
         prefix_xor= {0: 1}   # [cur_xor: freq] # to handle the case when cur_xor= B itself  then cur_xor ^ B= 0. 

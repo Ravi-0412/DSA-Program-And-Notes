@@ -71,25 +71,8 @@ class Solution:
         return ans
 
 
-# my mistake:
-# you have to always store the curr_sum in prefix_sum by incr its count as it will tell the no of ways 
-# you can get that curr_sum and that may no of times it should get added into the ans as these curr_sum will may become 'diff' later
-# so always check the possible no with the value of  'diff'
-class Solution:
-    def subarraySum(self, nums: List[int], k: int) -> int:
-        ans, curr_sum= 0, 0
-        prefix_sum= {}
-        for i in range(len(nums)):
-            curr_sum+= nums[i]
-            # prefix_sum[curr_sum]= 1 + prefix_sum.get(curr_sum, 0)  # writing here will give the incorrect ans as it will make the sum possible
-                            #  which might not be possible with given values e.g :[1], sum= 0
-            if curr_sum== k:    # this will give error because extra sum is '0' and there can be diff ways to form '0'
-                ans+= 1
-            elif (curr_sum-k) in prefix_sum:
-                ans+= prefix_sum[curr_sum-k]
-            prefix_sum[curr_sum]= 1 + prefix_sum.get(curr_sum, 0)   # first i was storing simply with index like "longest subarry with sum= k"
-        return ans
-
-
 # Note: Extension of this Q and related Q
-# "1074. Number of Submatrices That Sum to Target"
+# 1) Count Subarrays with Given XOR
+# 2) 525. Contiguous Array
+# 3) 974. Subarray Sums Divisible by K
+# 4) vvi:  "1074. Number of Submatrices That Sum to Target"

@@ -1,4 +1,6 @@
-# Time complexity: O(n * max_length_of_forbidden_words ^ 2) = 10^7
+# Logic: Find the length of 'longest valid substring' from each index.
+
+# Time complexity: O(n * max_length_of_forbidden_words ^ 2) = 10^7.
 
 class Solution:
     def longestValidSubstring(self, word: str, forbidden: List[str]) -> int:
@@ -24,7 +26,8 @@ class Solution:
 # 1 <= forbidden[i].length <= k
 # In this problem, k = 10.
 
-# When we use a set of forbidden words, to check if a substring beginning at i is in forbidden_set, we need to perform a slicing on the provided word.
+# When we use a set of forbidden words, to check if a substring beginning at 'i' is in forbidden_set, 
+# we need to perform a slicing on the provided word.
 # That is, for 1 <= j <= k, we need to perform word[i:j]. As you can see, this runs in O(k^2) time.
 
 # If we use a Trie, we can keep track of the node in the trie as we move through the substring. 

@@ -27,5 +27,6 @@ class Solution:
 # Note vvi: Whenever you have to find the 'largest subarray length of a single consecutive ele'
 # where you can change other ele then apply this logic only.
 
-# e.g: "1493. Longest Subarray of 1's After Deleting One Element", "2024. Maximize the Confusion of an Exam"
-# are exactly same Q.
+# Related Q: 
+# 1)  "1493. Longest Subarray of 1's After Deleting One Element",
+# 2)  "2024. Maximize the Confusion of an Exam"

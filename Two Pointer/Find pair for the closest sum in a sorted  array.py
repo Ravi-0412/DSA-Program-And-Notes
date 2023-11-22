@@ -13,6 +13,7 @@ def twoSum(numbers, target):
                 minDiff= min(minDiff, diff)
                 ele1, ele2= numbers[start], numbers[end]
             if diff== 0:
+                # Can't be better than this 
                 break
             
             elif sum > target:

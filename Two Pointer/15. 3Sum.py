@@ -1,14 +1,15 @@
-# to avoid duplicates , to bring all the duplicates together so that we can easily check for duplicates
+# to avoid duplicates , we will have to bring all the duplicates together so that we can easily check for duplicates,
 # and best way to bring same ele together is just sort the array.
 # and for every ele apply two sum if its not duplicate. and since sorted so we can use two pointer approach for Two sum.
+
+# Note: Since only number is mattering in ans (not index) , we can sort array.
+# If index were asked to return then we can't sort.
 
 # note: in case if we find any ans then before incr start or end  pointer ,we will check for duplicates 
 # for any one of them because if we simply incr both then it can lead to duplicate ans.
 # No need to check in unequal case.
 
 # Also in outer loop, we will only apply "two sum" for cur number if it is distinct only.
-
-
 
 # time: O(n^2)
 
@@ -19,7 +20,7 @@ class Solution:
         for i in range(n-2):
             if i>0 and nums[i]== nums[i-1]:   # simply skip so that no duplicate come in the ans
                 continue
-            start, end= i+1, n-1
+            start, end= i+1, n-1  # check for 'Two sum' in remaining array ahead.
             while start< end:
                 threeSum= nums[i] + nums[start] + nums[end]
                 if threeSum>0:
@@ -38,4 +39,5 @@ class Solution:
         return ans
 
 
+# Note: Jahan bhi distinct ka bat ho sorting ka ek bar jaroor socho.
 

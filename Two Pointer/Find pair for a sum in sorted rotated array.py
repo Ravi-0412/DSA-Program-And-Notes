@@ -1,5 +1,8 @@
 # same logic as unsorted just little change in how we change the
 # lower and starting index
+
+# Time: O(n)
+
 def pair_sum_rotated_sorted(arr,k):
     n= len(arr)
     for i in range(0,n):

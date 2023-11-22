@@ -1,7 +1,7 @@
 # just same logic as 'Three sum'.
 # without Recursion: use 'k-2' for loop and one while loop for finding two sum in sorted array.
 
-# But to avoid no of four loops , we did by recursion.
+# But to avoid no of for loops , we did by recursion.
 # very better. just change the value of 'k' and target it will work for all given 'k' and any target.
 # time: O(n^(k-1)) for both recursive and iterative way.
 # here k= 4 so time: O(n^3).
@@ -29,17 +29,20 @@ class Solution:
             else:
                 # just the outermost for loop we apply to get the k-sum.i.e for k=3 we iterate from '0' to 'n-2' from index 'start'.
                 # Last two ele we will find using Two sum, so '-k+1'.
+
+                # Any ele from remaining can be next ele
                 for i in range(start, len(nums)- k +1):
-                    # check for duplicates first.
+                    # check for duplicates first. No need to check for start , start need to be included only.
                     if i > start and nums[i]== nums[i -1]:
+                        # If we will take choices from duplicate one then, we will get duplicate in ans.
                         continue
                     quad.append(nums[i])
-                    kSum(k-1, i+ 1, target- nums[i])
+                    kSum(k-1, i+ 1, target- nums[i])  # added one ele so decrease 'k' by '1' and target by 'nums[i]'.
                     quad.pop()  
                 return # after traversing the loop exit i.e simply return to check for next possible ans.
-     
+
         kSum(4, 0, target)   # k=4, starting from index= 0, passing target also since it will keep changing.
-                            # 'k' tells how many more ele we need to find starting from index 'start'.
+                            # 'k' tells how many more ele we need to find starting from index 'start' to make sum = target.
                             # 'start' is just same as outer index of our for loop solution.
         return ans
 

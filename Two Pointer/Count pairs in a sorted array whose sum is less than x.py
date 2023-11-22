@@ -1,6 +1,6 @@
 # just apply two sum and when you find "sum< target" 
 # then you can take start index ele with any of the ele from 'start+1' to 'end' all pair will give sum < target.
-# So incr count= count + end- start and update both start and end pointer.
+# So incr count= count + 'end- start' and update both start and end pointer.
 
 # But it will also print duplicates.
 # for avoiding duplicates, just move start pointer to next distinct ele like "15. sum".
@@ -11,6 +11,7 @@ def countPairs(arr, target):
     start, end= 0, n-1
     while start< end:  
         if arr[start] + arr[end] >= target:
+                # until you find sum < target.
                 end-= 1
         else: # means < target
             count+= end- start

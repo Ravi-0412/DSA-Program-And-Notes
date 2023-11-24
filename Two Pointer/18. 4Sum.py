@@ -46,3 +46,7 @@ class Solution:
                             # 'start' is just same as outer index of our for loop solution.
         return ans
 
+
+# Similar Q: 
+15. 3Sum
+Count the triplets

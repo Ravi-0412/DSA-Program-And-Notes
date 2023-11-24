@@ -18,6 +18,7 @@ def minimumCost(n , routes, chocolateCost, k):
             c, node = heapq.heappop(minHeap)
             if node in visited:
                 continue
+            
             # 1) if we purchase at this town
             totalCost = c + chocolateCost[node] + c*k
             ans = min(ans, totalCost)

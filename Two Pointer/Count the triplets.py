@@ -11,7 +11,7 @@ class Solution:
 	    arr.sort()
 	    count= 0
 	    i= n -1
-	    while i> 1: 
+	    while i > 1: 
 	        target = arr[i]
 	        # nowe we have to find the pair whose sum= arr[i]= target
 	        start= 0
@@ -30,5 +30,5 @@ class Solution:
 	    return count
 
 
-# Note: The above will give duplicate triplet also.
-# for removing duplicates do exactly same as "15. 3Sum".
+# Note: The above will give duplicate triplet also if duplicate no is also allowed.
+# # for removing duplicates do exactly same as "15. 3Sum".

@@ -1,5 +1,5 @@
 # method 1:
-# 'l' , 'r' will point to the different indices of current ele . so will compare num[l] and nums[r] to check dupliactes.
+# 'l' , 'r' will point to the different indices of current ele . so will compare num[l] and nums[r] to check duplicates.
 # lastDistinct will point to the index where last distinct ele was put.
 
 # time: o(n), space: O(1)

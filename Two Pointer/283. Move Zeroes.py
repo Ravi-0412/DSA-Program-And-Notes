@@ -1,59 +1,33 @@
-# time: O(n)
+# Note: if asked to move all zeroes at last without caring about order of non-zero ele then
+# We can do like this.
 
+# Logic: We have to move zero at last so focus on starting pointer
+# Because we have to move from start to end if we find any zero at start.
 class Solution:
     def moveZeroes(self, nums: List[int]) -> None:
-        n= len(nums)
-        # find the index of first zero.
-        i= 0
-        while i < n and nums[i]!= 0:
-            i+= 1
-        if i== n:  # means no zero is present
-            return
-        # find the first non-zero number after 'i' to swap.
-        j= i +1
-        while j < n and nums[j]== 0:
-            j+= 1
-        if j== n:  # means no non-zero ele is present
-            return 
-        # apply two pointer from 'i' to 'n-1' and swap the zero with non-zero element.
-        while i< n and j < n:
-            # swap(nums[i], nums[j])
-            nums[i], nums[j]= nums[j], nums[i]
-            # move 'i' to index where next zero is present.
-            i+= 1
-            while i < n and nums[i]!= 0:
-                i+= 1
-            # move 'j' to index where next non-zero ele is present.
-            j+= 1
-            while j < n and nums[j]== 0:
-                j+= 1
+        l , r = 0, len(nums) -1
+        while l < r:
+            if nums[l] == 0:
+                # swap 
+                nums[l] , nums[r] = nums[r] , nums[l]
+                r -= 1  # no need to incr 'l' as after swapping we can get '0' at 'l' because we are swapping without checking value at 'r'.
+            else:
+                # in correct position so simply move 'l'
+                l += 1 
+        return nums
 
 
-# little concise way of writing the above same logic.
+# Now coming to actual Q.
 
-class Solution:
-    def moveZeroes(self, nums: List[int]) -> None:
-        n= len(nums)
-        # find the index of first zero.
-        i= 0  # will denote the till before which we have done the operation.
-        while i < n and nums[i]!= 0:
-            i+= 1
-        if i== n:  # means no zero is present
-            return
-        for j in range(i+1, n):
-            if nums[j]!= 0:
-                nums[i], nums[j]= nums[j], nums[i]
-            # now move 'i' to find the next zero
-            while i < n and nums[i]!= 0:
-                i+= 1
+# method 1:
+# Similar as '26. Remove Duplicates from Sorted Array' logic.
 
-# method 2: simple one
 # logic: whenever you see any '0', search for next non-zero and swap. else skip
 
 class Solution:
     def moveZeroes(self, nums: List[int]) -> None:
         n= len(nums)
-        i= 0
+        i= 0  # i will denote where we have to keep next non-zero ele.
         while i < n :
             if nums[i]== 0:
                 # search for next non-zero
@@ -67,12 +41,13 @@ class Solution:
             i+= 1
         
 
-# optimising the above method 
+# optimising the above method
+# In above one we are always searching from 'i+ 1' even though we have already traverses more index than 'i + 1'.
 class Solution:
     def moveZeroes(self, nums: List[int]) -> None:
         n= len(nums)
-        last= 0  # will tell from where we have to search for non-zero ele.(till where we have made array in proper format)
-        i= 0
+        last= 0  # will tell from where we have to search for non-zero ele. Till here we have alraedy traversed.
+        i= 0   #  i will denote where we have to keep next non-zero ele.
         while i < n :
             if nums[i]== 0:
                 k=  max(last + 1, i+ 1)  # to handle the case when there is many non-zero ele at start, in this case we have to search from 'i+1'.
@@ -98,5 +73,6 @@ class Solution:
                 temp= nums[i]
                 nums[i]= 0
                 nums[i -snowBallSize]= temp   # moving the non-zero ele to the leftmost zero.  
-        
-        
+
+# Related Q: 
+# 1) 26. Remove duplicates

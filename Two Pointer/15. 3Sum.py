@@ -41,3 +41,7 @@ class Solution:
 
 # Note: Jahan bhi distinct ka bat ho sorting ka ek bar jaroor socho.
 
+# Similar Q: 
+# 1) 18. 4Sum
+# 2) Count the triplets
+

@@ -21,9 +21,10 @@ class Solution:
 # no need to take lastDistinct variable 'l' we can use like that.
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
-        l= 0
+        l= 0 # denote till where we have put elements. next we will put at 'i+ 1'.
         for r in range(len(nums)):
             if nums[l]== nums[r]:
+                # agar cur ele and last distinct ele same h
                 r+= 1
             else:
                 nums[l+ 1]= nums[r]
@@ -33,7 +34,7 @@ class Solution:
     
 
 # method 3:
-# concise way of writing above codes
+# concise way of writing above code. 
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
         lastDistinct= 0
@@ -42,3 +43,9 @@ class Solution:
                 nums[lastDistinct]= num
                 lastDistinct+= 1
         return lastDistinct
+
+
+# Note vvi: Jahan order maintain karna ho and O(1) space me karna ho
+# Wahan ek pointer chahiye jo btaye ki next ele kahan rakhna h.
+
+

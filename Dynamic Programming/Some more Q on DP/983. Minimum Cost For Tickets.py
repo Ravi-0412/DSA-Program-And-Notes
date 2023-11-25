@@ -52,5 +52,7 @@ class Solution:
             cost_month = costs[2] + dp[max(0, day - 30)] # if month pass is ending on this day, we can buy new month pass
             dp[day] = min(cost_day, cost_week, cost_month)
         return dp[-1]
-        
-        
+
+
+# Try to do this using approach of :
+# "746. Min Cost Climbing Stairs" , "2944. Minimum Number of Coins for Fruits".

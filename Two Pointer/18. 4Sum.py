@@ -47,6 +47,3 @@ class Solution:
         return ans
 
 
-# Similar Q: 
-15. 3Sum
-Count the triplets

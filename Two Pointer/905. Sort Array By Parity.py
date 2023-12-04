@@ -23,6 +23,12 @@
 # logic: try to bring the even ele at first and odd ele at last
 # traverse the array and if you find odd ele then from last find the position of 1st even ele
 # and then swap nums[start] and nums[end] and so on
+
+# Note in this order of ele doesn't matter like '283. Move Zeroes' and '26. Remove Duplicates from Sorted Array'.
+# So this method is working .
+
+# Apply this method in this type of questioj if order is not mattering.
+
 class Solution:
     def sortArrayByParity(self, nums: List[int]) -> List[int]:
         n= len(nums)

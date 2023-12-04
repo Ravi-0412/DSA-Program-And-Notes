@@ -1,6 +1,6 @@
-# logic: we have to make char same from start and end where char_at_start <=char_at_end.
+# logic: we have to make char same from start and end where char_at_start <= char_at_end.
 
-# so, just check char  from left and right likwe we do in case of palindrome.
+# so, just check char  from left and right like we do in case of palindrome.
 # if equal simply skip else make char same where char_at_start <=char_at_end
 
 class Solution:

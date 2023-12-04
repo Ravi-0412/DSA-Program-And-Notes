@@ -4,8 +4,6 @@
 #         n= len(nums)
 #         #start,end will give the starting and last index index of subarray respectively
 #         start, end= n,0
-#         # start will be equal to: when we find any element(i) greater than the any upcoming next element
-#         # end will be equal to: max index till we can find any smaller element than the any previous element
 #         for i in range(n-1):
 #             for j in range(i+1,n):
 #                 if nums[i]> nums[j]:
@@ -39,15 +37,22 @@ class Solution:
 
 
 # 3rd method using stack , time:O(n), space: O(n)
-# my mistake: for start index, i was just checking the first time it is violating the increasing order sequence
+# my mistake: for start index, i was just checking the first time it is violating the increasing order sequence and 
 # for end, i was checking 1st time it is violating the decreasing order sequence
 
 # but this can be totally wrong e.g:
-# [5,6,7,8,9,1,10,15,4], [1,2,2,2,2,0,5,7,4], [1,2,3,6,4,8,15,10,10,10,10,10], [1],[2,1](VVI), 
+# [1,2,11,12,13,14,10,7,8,9],  [5,6,7,8,9,1,10,15,4], [1,2,2,2,2,0,5,7,4], [1,2,3,6,4,8,15,10,10,10,10,10], [1],[2,1] etc.
 
-# logic:1) for start index , if elements are in order , push into the stack and once you find any ele out of order then
-# keep on poping until you find any ele smaller than the current ele(out of order ele). we are simply finding the position of out of order ele and that will the 'start' index
-# do the opposite for 'end' index 
+# Why it is violating take 1st example: [1,2,11,12,13,14,10,7,8,9]
+# from start we are getting out of sequence at index '2' and from last at index '6'
+# But sorting fromindex '2' to '6' will give wrong ans.
+# As '7,8,9' also needs to be included.
+
+# How to solve this issue?
+# For each index we need to find the index where that ele can fit.
+# for this we need to find the next smaller or equal to left and here idea of stack comes.
+
+# Note: Since we can't get track of length so we have to check this also for 'end' using another loop.
 
 # time: o(n), space= o(n)
 class Solution:
@@ -56,27 +61,17 @@ class Solution:
         stack = []   # used to store the index of start and end 
         start,end= n-1,0 
 
-        # traverse left to right to finding the starting index
-        # comapare the element at nums[peek] with current element
-        # if current element is smaller then update 'start' value with min(top of stack,start)
-        # else push the index of current element into the stack
+        # For each ele, search for its proper position in the array
         for i in range(n):
-            # once you find any ele out of order from start then, search for its proper position in the array
             while stack and nums[stack[-1]]> nums[i]:
+                # out of order means 'stack' top may be the possible index from we have to start sorting.
                 start= min(start,stack.pop())
-            # if ele is in order then push the curr index into the stack
             stack.append(i)
     
-        # traverse right to left to finding the ending index
-        # comapare the element at nums[peek] with current element
-        # if current element is greater then update 'end' value with max(top of stack, end)
-        # else push the index of current element into the stack  
         stack= []  
         for i in range(n-1,-1,-1):
-            # once you find any ele out of order from end, search for its proper position in the array
             while stack and nums[stack[-1]]< nums[i]:
                 end= max(end,stack.pop())
-            # if ele is is in order, then push 
             stack.append(i)
         
         # if array is not sorted then start will be somewhere before end. so 'end-start' will be greater than zero
@@ -93,22 +88,23 @@ class Solution:
         if len(nums) <2:
             return 0
         
-        prev = nums[0]   # it will store the largest pre ele till now
-        end = 0
+        prev_max = nums[0]   # it will store the largest pre ele till now
+        end = 0  # maximum till where we need to sort.
 		# find the largest index not in place from starting to find the 'end'
         for i in range(1,len(nums)):
-            if nums[i] < prev:  # if inordered. agar largest till now bhi bda ho jaye curr ele se
+            if nums[i] < prev_max:  
+                # if inordered . nums[i] bda hona chahiye tha
                 end = i
             else:  # means in order
-                prev = nums[i]
+                # max_seen (prev_max) se bhi bda then order me h
+                prev_max = nums[i]
 
         start = len(nums) - 1
-        prev = nums[start]   # it will store the max ele till now from end
-		# find the smallest index not in place from last to find the 'start'
+        prev = nums[start]   # min index from where we need to sort
         for i in range(len(nums)-2, -1, -1):
-            if prev < nums[i]:  # if inordered. agar largest till now bhi chhota ho jaye curr ele se
+            if prev < nums[i]:
                 start = i
-            else:  # means in order
+            else:
                 prev = nums[i]
         if end != 0:
             return end - start + 1

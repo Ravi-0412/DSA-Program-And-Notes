@@ -1,3 +1,7 @@
+# Intuition: Just we need to take careof pre 2 indexes where s[i] == s[i -1] or s[i] == s[i + 1]
+
+# Method 1:
+
 # logic: store all indexes (first index) where s[i] == s[i+ 1].
 
 # time= space = O(n)
@@ -28,24 +32,21 @@ class Solution:
 # space: O(1)
 
 # just converted the above logic in form of pointers.
-# we only need 'cur' index(j), last_index of matching(last), previous index that we can include in our ans(i).
+# we only need 'cur' index(i), last_index of matching(last), 2nd_last index of matching char.
+
+# For any index 'i', we can include till 'i - second_last'.
+# One repitition is allowed and one char we can include from 2nd_last.
 
 class Solution:
     def longestSemiRepetitiveSubstring(self, s: str) -> int:
-        n= len(s)
-        if n== 1 or n== 2:
-            return n
-        i, j, last= 0, 1, 0 
-        # 'i' will tell the starting index of subsring for possible ans
-        # 'last' will denote the 'last index' where we have found 's[j]== s[j-1]' = j
-        # 'j' will denote the cur index
-        ans= 1
-        while j < len(s):
-            if s[j] == s[j -1]:
-                if last:  # from 2nd time we will move 'i' as one repitition is allowed.
-                    i= last
-                last= j
-            ans= max(ans, j- i + 1)    #'+' to include the last index where repitition was found.
-            j += 1
+        ans = 0
+        second_last , last = -1, -1  # will store starting index i.e 'i-1' where s[i] == s[i -1].
+        for i in range(1, len(s)):
+            if s[i] == s[i - 1]:
+                second_last , last = last , i -1
+            ans= max(ans, i - second_last) 
         return ans
+    
+
+# Note: Keep this method in mind , may help in other Q as well.
 

@@ -1,5 +1,6 @@
 # time: O(n*m), n: no of ele in arr1, m: no of ele in arr2.
 # giving TLE.
+# Insertion sortlogic
 
 # just traverse in first array and check if curr ele in first array is greater than the first ele in 2nd array.
 # if greater then swap both.

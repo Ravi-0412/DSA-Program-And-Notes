@@ -20,3 +20,25 @@ class DataStream:
         else:
             self.i= self.j= 0
         return self.j - self.i >= self.k
+
+
+# Method 2 :
+# simplest
+
+# We only need to check whether last 'k' char is equal or not.
+# So simply mainitain a count 'cnt' that will tell the no of consecutive 'value' seen.
+
+class DataStream:
+    
+    def __init__(self, value: int, k: int):
+        self.cnt = 0
+        self.value= value
+        self.k= k
+        
+
+    def consec(self, num: int) -> bool:
+        if num== self.value:
+            self.cnt+= 1
+        else:
+            self.cnt = 0
+        return self.cnt >= self.k

@@ -1,8 +1,11 @@
 # Note: if asked to move all zeroes at last without caring about order of non-zero ele then
 # We can do like this.
 
+# This wil work in Q like : '905. Sort Array By Parity'
+
 # Logic: We have to move zero at last so focus on starting pointer
 # Because we have to move from start to end if we find any zero at start.
+
 class Solution:
     def moveZeroes(self, nums: List[int]) -> None:
         l , r = 0, len(nums) -1
@@ -76,3 +79,5 @@ class Solution:
 
 # Related Q: 
 # 1) 26. Remove duplicates
+# 2) 905. Sort Array By Parity
+# 3) 75 sort colors

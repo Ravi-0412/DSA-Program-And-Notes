@@ -25,11 +25,12 @@ class Solution:
 
 
 # method 2: in place merging(best one)
-# logic: just think of utilising the extra zero 
+# logic: just think of utilising the extra zero.
 # for in place we can replace the zeroes at last 
-# as replacing these will not affect the nums1
-# but we start putting from start in nums1 then ele of nums1 will get affected   
-# putting from last means put the maximum ele of both the arr from last
+# as replacing these will not affect the nums1.
+# but if we start putting from start in nums1 then ele of nums1 will get affected   
+# putting from last means put the maximum ele of both the arr from last.
+
 class Solution:
     def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:  
         while m>0 and n>0:

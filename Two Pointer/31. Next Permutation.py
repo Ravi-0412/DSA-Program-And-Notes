@@ -1,19 +1,22 @@
-# Brute force: find all the permuatation and store them in a list.
-# after that sort that list and find the index of curr given num and return the next index num for the ans.
-
-# My better approach.
-# Time: O(n^2)
-
-# i was doing by finding the permutation no of the given number by just finding the index of each num in the sorted arr of given number.
-# say the permutaion no of given num is 'K' then we can find the 'k+1'th permutation to get the ans.
-# if num given== sorted(num)[::-1], it means this is the last permutation so return the first sorted(num) as ans.
-# But since it contains duplicate number also, it will not work.
-
 
 # Best one: 
 # Since we have to include all the given number in permutation.
 # Logic: This Q reduces to 'Find the next greater number than the given number only using the digit of the given number'.
 # and for finding this we can start from righmost side.
+
+# for next smallest number,
+# 1) first find 'i' from last such that  nums[i] > nums[i - 1]  then ,
+# (from index 'i' to last ele, element will be in descending order.
+
+# 2)  We have to bring 'i-1' to its correct position in right side.
+# For bringing at rigth position , we have to search j' such that nums[j] > nums[i-1] then, swap(i-1, j) .
+# just finding the position of nums[i-1] in a descending array i.e from index 'i' to last.
+
+# After swapping number from index 'i' to last will be in descending order only
+# So to get minimum number value from index 'i' to last, we will have to reverse array from index 'i' to last.
+
+# For visualisation take e.g : [9, 4, 8, 3, 6, 5, 2, 1]
+# i = 4, j = 5
 
 # Steps: wrote in solution itself.
 class Solution:
@@ -32,9 +35,7 @@ class Solution:
         while nums[j] <= nums[i-1]:
             j-= 1
         # 3) now swap the 'j' and 'i-1'.
-        print(nums,i-1, j)
         nums[j], nums[i-1]= nums[i-1], nums[j]
-        print(nums,i)
         # 4) reverse the arr from index 'i' to last.
         # return nums[:i] + (nums[i+1:])[::-1]   # this will not work. because 'nums[:i]: create another array but nums[i:] modifies the same arr'.
         nums[i:]= nums[i:][::-1]

@@ -47,5 +47,6 @@ class Solution:
 # 1) "Number of subarrays having sum less than K"
 # 2)  "209. Minimum Size Subarray Sum",
 # 3)  "Longest Subarray having sum of elements atmost ‘k’"
-# 4)  2762. Continuous Subarrays, 
+# 4)  2762. Continuous Subarrays
+# 5) 2958. Length of Longest Subarray With at Most K Frequency
 

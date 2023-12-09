@@ -4,6 +4,10 @@ def findKthLargest(self, nums: List[int], k: int) -> int:
         return sorted(nums)[-k]
     
 
+# 2nd method: make a min heap and delete the k-1 element
+# after that return the top ele of the array, that will be the kth largest element
+
+# methid 3: using min Heap
 # better method:
 # time complexity: O(nlogk)= O(k+(n-k)lgk) time
 import heapq
@@ -15,17 +19,20 @@ class Solution:
                                          # the smallest ele till now will be at the 1st index
             if len(heap)> k:             # we are only inserting k ele in the heap  
                 heapq.heappop(heap)      # will delete the 1st index ele means the smallest ele till now
-                                         # in this way all the smallest ele except the k ele will get deleted
+                                         # in this way all the smallest ele except the k largest ele will get deleted
         # after this loop will end 'heap' will contain all the k largest ele and 
-        # after this loop the topmost ele(1st index ele) will be the kth largest ele
-        # as we have poped all the smallest ele and in max heap smallest ele get poped 
-        # other k-1 ele will be greater or equal to this ele, since in min heap other ele than 1st index 
-        # ele will be greater than or equal to the 1st ele
+        # Since this is min Heap so top ele will be smallest among 'k' ele i.e
+        # Will be kth largest element only.
+            
         return heap[0]
 
-# to find the 'k' largest else:
-# just return the heap. this will only contain the 'k' largest ele as we have poped all the smaller ele
+# Note:  find the 'k' largest else:
+# just return the heap. this will only contain the 'k' largest ele as we have poped all the smaller ele.
 
+# Note vvi: Use opposite heap to find the kth largest/ smallest as it will save space since at any point of time
+# Heap won't contain more than 'k' element.
+
+# Method 4: 
 
 # better one than all: Using Quick Select
 # time: O(n) average, worst: O(n^2)

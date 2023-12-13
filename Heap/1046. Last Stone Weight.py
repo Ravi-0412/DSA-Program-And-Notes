@@ -1,4 +1,9 @@
-# do stone ko smash karne ke bad jo aayega result usko phor se add karn ahoga 
+# do stone ko smash karne ke bad jo aayega result usko phir se add karna hoga
+# And ye step repeat karte rhna h.
+
+# Note: Jahan bhi aisa kuch dikhe ki har ek operation me(ya bad) hmko min/max chahiye then
+# think about heap.
+
 import heapq
 class Solution:
     def lastStoneWeight(self, stones: List[int]) -> int:
@@ -20,7 +25,7 @@ import heapq
 class Solution:
     def lastStoneWeight(self, stones: List[int]) -> int:
         for i in range(len(stones)):
-            stones[i]= -stones[i]  # to make max heap we hav eto switch the sign of every ele
+            stones[i]= -stones[i]  # to make max heap we have to switch the sign of every ele.
         heapq.heapify(stones)
         while len(stones)>1:
             y= -heapq.heappop(stones)

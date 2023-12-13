@@ -9,30 +9,11 @@ class Solution:
             count+= 1
             if count== K2:  
                 return sum1
-            if count>K1 and count< K2:  # this will be our one of the ans
+            if count > K1 and count < K2:  # this will be our one of the ans
                 sum1+= temp
 
 
 # using maxHEap
-import heapq
-class Solution:
-    def sumBetweenTwoKth(self, A, N, K1, K2):
-        heap= []
-        for i in range(N):
-            heapq.heappush(heap, -1*A[i])
-        if len(heap)> K2:
-            heapq.heappop(heap)
-            
-        ans= 0
-        while heap:
-            temp = -1*heapq.heappop(heap)
-            if K1-1< len(heap) < K2 -1: # since after poping we are checking the length so subtract '-1'
-                ans+= temp
-            if len(heap)== K1:
-                return ans
-
-
-# another way of writing the above code
 import heapq
 class Solution:
     def sumBetweenTwoKth(self, A, N, K1, K2):

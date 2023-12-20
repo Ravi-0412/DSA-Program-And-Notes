@@ -1,9 +1,22 @@
+# Brute force
+# Apply Dijkastra one by one for each node(V).
+# Time: V*(ElogV)
+# a) for sparse graph, E = O(V),   time: O(V^2*logV)
+# b) for dense graph, E = O(V^2),  time: O(V^3*logV)
+
+
+# Optimised one using Flyodd Warshall Algo
+# Graph + DP.
+
 # logic: go via every node one by one
 # in this algo, we store the graph in adjacency matrix rather than adjacency list
 # for detecting negative weight cycle, check the distance of any node from itself, if negative it means 'negative weight cycle' exist 
 # since it should be always zero only but it has decreased and becomes negative.
 
-# submitted on gfg
+# Time: O(n^3)
+
+# Note: See the logic and theory in GATE notes page no: 142-144
+
 class Solution:
     def shortest_distance(self, matrix):
 	    n= len(matrix)
@@ -16,10 +29,13 @@ class Solution:
 	                matrix[i][j]= 0
 		
 	    # now apply the algorithm
-	    for via in range(n):
+		# Distance of shortest path between i -> j with {0, 1, 2,...k} as internal vertices.
+	    for k in range(n):
 	        for i in range(n):
 	            for j in range(n):
-	                matrix[i][j]= min(matrix[i][j], (matrix[i][via] + matrix[via][j]))
+	                matrix[i][j]= min(matrix[i][j], (matrix[i][k] + matrix[k][j]))
+		
+		# Note: If you will change the order of 'i', 'j' and 'k' then it won't work.
 		
 	    # for detecting the negative weight cycle
 	    for i in range(n):

@@ -27,3 +27,14 @@ class Solution:
         # Calculate the moves to make all ele equal to median.
         return sum(abs(num - median) for num in nums)
 
+
+# Note vvi: when ever you want to equalize values in an array and the absolute value change in each item
+# to make it equal we should consider the median value as the final value.
+
+
+# Related Q
+# 296. Best Meeting Point
+# 2967. Minimum Cost to Make Array Equalindromic
+
+
+

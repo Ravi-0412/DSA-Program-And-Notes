@@ -3,11 +3,13 @@
 
 # Note: for initialising 'low' and 'up' just find the range in which we can get the ans.
 # and initialise 'low'= min range value and 'up'= maximum range value.
-# After this use template 1 or template 2 or template according to the Q.
+# After this use template 1 or template 2 or template 4 according to the Q.
 # Note: Using above three template you can solve almost all Q of binary search, just think which template we can use here analysing the Q.
 
-# 'up' hmesha '>= target' me update hoga and low '<=' target me update hoga, 
+# 'up' hmesha '>=' or '>' target' me update hoga and low '<=' or '<' target me update hoga, 
 # kyonki hmlog ko size hmesha decrease karna h.
+# (Question ka meaning bhi thoda dhyan me rakhna h). Opposite fashion me bhi kam kar sakta h.
+# e.g: "1283. Find the Smallest Divisor Given a Threshold".
 
 # Template 1:
 # Note: use this template in case if elements are not present then  we have to return some valid number, and

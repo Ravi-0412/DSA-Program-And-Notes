@@ -1,12 +1,17 @@
-# smallest ele will at the start only so at start we will push in heap :((nums1[0]+ nums2[0],0,0)).
+# smallest ele will at the start only. 
+# So we will push (nums1[0] + nums1[0] ,0, 0) => (sum, index1, index2).
+# But next minimum can be at index (0, 1) or (1, 0).
 
-# When we will pop any ele say at index (i, j) then next minimum we will get at (i+1, j) or (j+1, i) only.
-# Since there are two possibility we can get same index from other way also.
-# e.g: (2,2) -> (1,2) or (2, 1) so we will use visited set to keop track of visited indices.
+# Explanation:
 
-# 
+# Logic: When we will pop any ele say at index (i, j) then 
+# next minimum sum we will get at (i+1, j) or (j+1, i) only.
 
-#  so we are marking the ele already visited
+# We will push both possibility in heap and will pop pair having minimum sum using min heap.
+
+# Note: Since there are two possibility to get same pair of indices 
+# e.g: (2,2) -> (1,2) or (2, 1) so we will use visited set to keep track of visited indices.
+
 # time: O(k*log(m+n))
 
 import heapq

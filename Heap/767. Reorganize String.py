@@ -1,4 +1,5 @@
 # Note vvi: In this type of questions, focus on most frequent char first.
+# And try to put them one after the other fre.
 
 # Here try to put the most frequent char just after other.
 
@@ -70,7 +71,6 @@ class Solution:
 class Solution:
     def reorganizeString(self, s: str) -> str:
         n = len(s)
-        ans = ""
         frequency = collections.defaultdict(int)
         maxLength , letter = 0 , None
         for c in s:

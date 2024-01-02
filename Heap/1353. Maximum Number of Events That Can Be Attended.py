@@ -1,19 +1,24 @@
 # Very good and logical.
 
-# Intuition: we will attend according to the ending time first.
-# for this we need minHeap to get the event having minimum ending time among already ongoing event.
+# Intuition: For attending maximum event, we will have to attend according to ending time.
+# But for knowing which all event we can attend on current day, we need to know which all event has started till current day.
+# For this we need to sort event according to starting time.
+ 
+# For getting event having lesser ending time out of event that has started till currnet day, 
+# We can use heap to store ending time of all the event that has started till today and then choose minimum among them.
 
+# In short; 
 # Logic: 1) To check the availability of event at any day, we need to sort the events according to the start date.
 # 2) At any day we will try to attend the event that will end soonest to attend the maximum event.
 # for this we need to get the least end day of events among the available events till today.
 # for this we will use the minHeap to keep track of least end day of event.
 
 
-# Time : O(N *log(N) + D*log(N)), d= totalDays
+# Time : O(N *log(N) + D*log(N)), D= totalDays
 
 class Solution:
     def maxEvents(self, events: List[List[int]]) -> int:
-        events.sort()  # to check which all event will start today
+        events.sort()  # to check which all event that will start today
         totalDays = max(end for start, end in events)   # max date till which we can attend the event
         maxAttended = 0
         eventId = 0  # will tell till which event we have traversed. will help in keep track of events that will start on a day.

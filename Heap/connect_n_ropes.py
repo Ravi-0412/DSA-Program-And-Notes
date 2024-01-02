@@ -1,5 +1,7 @@
 # for connecting n ropes with minimum cost
 # you will have to pick the two smallest length always and connect them
+# Because we have to choose the minimum weight to get minimum cost.
+
 # so min heap will work prefectly
 # after connecting two ropes put them again into the heap 
 # since there can be other combination possible with two smaller length

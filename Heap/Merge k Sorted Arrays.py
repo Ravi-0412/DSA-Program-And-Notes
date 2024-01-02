@@ -1,5 +1,12 @@
+# Logic: 1st minimum can be 1st ele of any of the arrays.
+# For getting this we can put 1st ele from all the arrays and select the minimum one.
+# For this we can use min Heap.
+
+# But next minimum can come from same array.
+# So we need to put the array number with index as well so that we can insert next ele of this array in heap.
 
 # time: O(n*logk), n= total no of elements
+
 import heapq
 class Solution:
     def mergeKArrays(self, arr, K):

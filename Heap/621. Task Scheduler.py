@@ -15,7 +15,7 @@
 
 # here only count of each letter(task) will matter not their name
 
-# time: O(26*logn + m*n). m= #tasks. in case tasks= a,a,a,a,... we will havew to wait till m*n
+# time: O(26*logn + m*n). m= #tasks. in case tasks= a,a,a,a,... we may have to wait till m*n
 
 import collections
 import heapq
@@ -23,11 +23,12 @@ class Solution:
     def leastInterval(self, tasks: List[str], n: int) -> int:
         freq= Counter(tasks)
         # make a maxHeap with the freq of each char,only we have to take freq of each letter
-        maxHeap= [-cnt for cnt in freq.values()]    # have to make max heap
+        maxHeap= [-cnt for cnt in freq.values()]    # have to make max heap. Only here freq will matter.
+                                                    # For checking same type of task, we are using queue to keep track of time.
         heapq.heapify(maxHeap)  
         q= collections.deque()
         time= 0
-        # if maxHeap is empty and Q is not empty and there is no ele whose next_process time is matching with curr_time 
+        # if maxHeap is empty and Q is not empty it means there is no ele whose next_process time is matching with curr_time 
         # then it will be counted as idle
         while maxHeap or q:  
             time+= 1
@@ -37,6 +38,11 @@ class Solution:
                 if cnt!= 0:  # means same task has more time to process so add in 'Q' with [count,next_process_time]
                     q.append((cnt, time+ n))   # this task can be processed next time at 'time+n'
             # each time check if there is any task that can be processed at curr time, only need to check the 1st one as we are doing one task at a time
-            if q and q[0][1]== time:  # then push into the maxHeap, only the count of task
+            if q and q[0][1]== time:  # then push into the maxHeap, only the count of task 
                 heapq.heappush(maxHeap, q.popleft()[0])
         return time
+
+
+# Later do using formula:
+# https://leetcode.com/problems/task-scheduler/solutions/3280549/full-explanation-using-priority-queue-and-formula-based-approach/
+# https://leetcode.com/problems/task-scheduler/solutions/760131/java-concise-solution-intuition-explained-in-detail/

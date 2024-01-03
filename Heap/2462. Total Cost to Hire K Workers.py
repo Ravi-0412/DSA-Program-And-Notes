@@ -17,6 +17,8 @@ class Solution:
         while r >= n - candidates and r >= l:
             heapq.heappush(minHeap, (costs[r] , r))
             r -= 1
+        # Now 'l' will represent 1st ele from left that we need to add if we pop element from left.
+        # r: will represent 1st ele from right that we need to add if we pop element from right.
         
         ans = 0
         # we need to get k ele from heap for min cost

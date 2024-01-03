@@ -46,3 +46,6 @@ class SORTracker:
         score, name = heapq.heappop(self.maxHeap)
         heapq.heappush(self.minHeap, (-1*score , name))
         return name
+
+# Other solution
+https://leetcode.com/problems/sequentially-ordinal-rank-tracker/solutions/3842245/python-two-solutions-sortedcontainers-and-minheap-maxheap-with-explanation/

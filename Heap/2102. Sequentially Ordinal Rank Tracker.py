@@ -28,3 +28,21 @@ class SORTracker:
 # Note:  Above one is very bad for interview.
 
 # Do by Two heaps
+# https://leetcode.com/problems/sequentially-ordinal-rank-tracker/
+# python code for above but not working link
+class SORTracker:
+
+    def __init__(self):
+        self.minHeap = []   # Will store 'i' largest element
+        self.maxHeap = []   # Will store other remaining elements
+        
+
+    def add(self, name: str, score: int) -> None:
+        heapq.heappush(self.minHeap, (score , name))
+        sc, location = heapq.heappop(self.minHeap)
+        heapq.heappush(self.maxHeap, (-1*sc, location))
+
+    def get(self) -> str:
+        score, name = heapq.heappop(self.maxHeap)
+        heapq.heappush(self.minHeap, (-1*score , name))
+        return name

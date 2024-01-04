@@ -10,7 +10,8 @@ class Solution:
         heap= []  
         # create a min heap with freq , key 
         for k,v in count.items():
-            heapq.heappush(heap,(v,-1*k))   # added the num with negative sign to bring the num with larger value first in case of equal frequency
+            # add the num with negative sign to bring the num with larger value first in case of equal frequency
+            heapq.heappush(heap,(v,-1*k))   
         # now add the ele into ans arr as many times they have occured(equal to their freq)
         ans= []
         while(len(heap)):
@@ -19,17 +20,18 @@ class Solution:
                 ans.append(-1*temp[1])      # temp[1] will contain the ele
         return ans
 
-# method 2: can be optimised to O(n) using bucket sort
 
-
-# another method: try to understand
-https://leetcode.com/problems/sort-array-by-increasing-frequency/discuss/917795/C%2B%2BPython-Sort
-
-
-# another method:(try to understand)
+# Shortcut of above method
 class Solution:
     def frequencySort(self, nums: List[int]) -> List[int]:
-        return sorted(sorted(nums,reverse=1),key=nums.count)
+        count = collections.Counter(nums)
+        # sorting nums
+        # count[x] sorts by frequency, and if two values are equal, it will sort the keys in decreasing order.
+        return sorted(nums, key=lambda x: (count[x], -x))  
+
+# method 2: can be optimised to O(n) using bucket sort
+# Try later
+
 
 # try to understans this also
 class Solution:

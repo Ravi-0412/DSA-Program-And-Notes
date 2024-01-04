@@ -8,13 +8,21 @@
 # for this sorting can make our work easy.
 # Bt we have to keep track of mapping of ele in both arrays. => zip(nums1, nums)
 
-# Then sort the above zipped array into ascending or descending order(better descending because cur ele in nums2 will be minimum auto)
-# Also we have to remove ele when len(sub) > k , & removed one must be minimum.
+# Then sort the above zipped array into descending order(descending because cur ele in nums2 will be minimum auto)
+# Also we have to remove ele when len(sub) > k , & removed one must be minimum for maximum sum. => maximising sum
 # for this we will use minHeap. => want length atmost k and also want to remove minimum.
 
 # say n1 -> nums1 , n2 -> nums2
 # for (n1, n2):
-# n2 will always minimum since we are traversing in descending order.
+# n2 will always minimum since we are traversing in descending order. 
+# But at the same time it will be also maximum(among minimum) for which we have selected k ele till now. ==>? maximising minimum
+
+# Also we can use all ele we have seen till now in nums1 for current 'n2' as 
+# this will be minimum till now so it will be minimum for all ele seen also.
+
+# Note: Because of above condition sorting in ascending order won't work.
+# Since 'n2' won't be minimum till now so we can't use all the ele that we have seen till now in nums1.
+
 # So we can take any 'k' numbers from numbers that we have visited till now from nums1.
 # if now q reduces to keep 'k' maximum ele in heap from nums1 at any point of time.
 

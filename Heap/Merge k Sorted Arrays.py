@@ -17,3 +17,6 @@ class Solution:
                 heapq.heappush(heap, (arr[arr_num][ind+1], arr_num, ind+1))
         return ans
 
+
+# Related Q:
+# 355. Design Twitter

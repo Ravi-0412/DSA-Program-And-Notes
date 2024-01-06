@@ -1,6 +1,13 @@
 # quick_select is used to find the kth smallest or kth largest element 
 # in the time: o(n^2) ,but worst case can be avoided by using a random pivot. so average: 0(n^2)
 # here doing for kth largest element
+
+# Logic: If pivot of an element is 'n-k' then this means this ele is our ans i.e kth largest ele.
+# So just find the pivot and check if it is ans or not.
+# If not then check which side our ans lie i.e either left side of pivot or right side of pivot and call quick_select on that side.
+
+# Exactly same as quick sort.
+
 # link: https://www.geeksforgeeks.org/quickselect-algorithm/
 
 def quick_select(arr,low,high,k):
@@ -26,9 +33,11 @@ def partition(arr,low,high):
     arr[j],arr[low]= arr[low], arr[j]
     return j
 
-arr = [ 10, 4, 5, 8, 6, 11, 26,10,10 ]
+# arr = [ 10, 4, 5, 8, 6, 11, 26,10,10 ]
+# arr = [3,2,3,1,2,4,5,5,6]
+arr = [3,2,1,5,6,4]
 n= len(arr)
-k= 6
+k= 2
 print("{}th largest element is ".format(k))
 print(quick_select(arr, 0, n - 1, k))
 

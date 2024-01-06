@@ -1,7 +1,10 @@
+# juist similar to "2402. Meeting Rooms III"
+
 # logic: we need to keep track of all projects we can complete using curr 'w'.
 # for this we will maintain a  minHeap.
+# We need to store (capital , profit) pair to get maxProfit among all possible project.
+
 # And from the all possible projects we have to take the most profitable project, so we will maintain a maxHeap for this.
-# Ele that we will pop from MaxHeap will be our ans.
 
 # time: O(k* 2*logn), space= O(n)
 class Solution:
@@ -12,9 +15,6 @@ class Solution:
         print(minCapital)
 
         for i in range(k):
-            # maxProfit= []   # creating here giving wrong ans.  # Reason: we can get high profit project from the already added projects in 'maxProfit' 
-                            # But we are adding from scratch for each project.
-
             # add all the profits of projects that we can afford into maxProfit with current capital 'w'. 
             while minCapital and minCapital[0][0] <= w:
                 c, p= heapq.heappop(minCapital)

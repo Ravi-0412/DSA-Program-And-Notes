@@ -1,7 +1,9 @@
 # just we have to find the 'Next Greater ele on left'.
 # for first ele ans== 1 as for default ans ==1.
 
-# submitted on GFG(to vaoid submission of same type Q on Leetcode)
+# Here we need to store the index in stack.
+
+# submitted on GFG
 class Solution:
     def calculateSpan(self,a,n):
         stack, ans= [0], [1]   # initialsing with this to handle the base case for index==0

@@ -1,5 +1,4 @@
 # Just we have to find the 'Next greater right'
-# got the ans but didn't submit.
 
 class Solution:
     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:

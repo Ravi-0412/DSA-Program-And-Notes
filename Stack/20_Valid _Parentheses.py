@@ -16,21 +16,15 @@ class Solution:
             # if closing bracket is not of  same type then 'invalid'
             else:
                 if s[i]== ')':
-                    if stack[-1]== '(':
-                        stack.pop()
-                    else:
+                    if stack.pop() != '(':
                         return False
                 if s[i]== '}':
-                    if stack[-1]== '{':
-                        stack.pop()
-                    else:
+                    if stack.pop() != '{':
                         return False
                 if s[i]== ']':
-                    if stack[-1]== '[':
-                        stack.pop()
-                    else:
+                    if stack.pop() != '[':
                         return False
-        return stack[-1]== 0  # means no extra char remaining in stack 
+        return stack == [0]    # means no extra char remaining in stack 
 
 
 # method 2: concise one
@@ -54,4 +48,3 @@ class Solution:
                 return False
         return stack== [0]   # after traversing all the string if stack is empty
                             # then valid otherwise not
-

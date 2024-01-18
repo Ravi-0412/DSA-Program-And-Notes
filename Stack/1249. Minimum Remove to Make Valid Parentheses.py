@@ -1,3 +1,12 @@
+# Logic: We need to only care about brackets.
+# So we can just check combination of '(' and ')' ignoring alphabetical character.
+# When we will see '(' we will push index of '(' into stack  and 
+# on ')' if stack is empty then  there is no matching for current ')' 
+# so we will make value at index of ')' as empty("").
+
+# At last we will left with all unmatched pair for '(' in form of indexes so we will
+# make all value at these indexes also = "".
+
 # Time= space = O(n)
 
 class Solution:
@@ -16,7 +25,7 @@ class Solution:
                 else:
                     list_s[i] = ""
         # Now if our stack is not empty then we will have to make all those index value = "".
-        # Because these have no matching pair
+        # Because these '(' have no matching pair.
         for i in stack:
             list_s[i] = ""
         # Now return the ans as string

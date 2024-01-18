@@ -9,6 +9,7 @@ class Solution:
         m , n = len(haystack) , len(needle)
         # Make a new string combining both the string with one special character(to avoid comparison beyond that char)
         # jiska find karna h usko phle and jisme find karna h usko bad me.
+        # Kyonki prefix == sufffix chahiye and jiska karna h wo prefix hona chahiye.
         s = needle + '$' + haystack   # any special symbol which is not allowed in string 
         # Now apply 'Z - Algo'.
         z = [0] * (m + n + 1)  # '1' for special symbol

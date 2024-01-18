@@ -54,4 +54,26 @@ class Solution:
             ans += 1
 
 
-# Did by DP also
+# vvi: Did by DP also
+class Solution:
+    def minimumOperationsToMakeEqual(self, x: int, y: int) -> int:
+        if y >= x:
+            return y - x
+        
+        def solve(x):
+            if y >= x:
+                return y - x
+            if dp[x] != -1:
+                return dp[x]
+            ans = abs(y - x )  # maximum possible ans
+            option1 = 1 + x % 5 + solve(x// 5)   # After this operation next x = x //5
+            option2 = 1 + (5 - x % 5) + solve(x// 5 + 1) # After this operation next x = x //5 + 1
+            option3 = 1 + x % 11 + solve(x// 11)   # After this operation next x = x //11
+            option4 = 1 + (11 - x % 11) + solve(x// 11 + 1) # After this operation next x = x //11 + 1
+            ans = min(ans, option1, option2, option3, option4)
+            dp[x] = ans
+            return dp[x]
+
+        dp = [-1] * (10**4 + 11)
+        solve(x)
+        return dp[x]

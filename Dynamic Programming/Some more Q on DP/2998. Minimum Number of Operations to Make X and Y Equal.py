@@ -42,3 +42,37 @@ class Solution:
         dp = [-1] * (10**4 + 11)
         # dp[i] : no of operation needed to convert 'i' to 'y'. so dp[x] will also give the ans.
         return solve(x)
+
+# Did by multisource bfs also
+class Solution:
+    def minimumOperationsToMakeEqual(self, x: int, y: int) -> int:
+        if y >= x:
+            return y - x
+        q = collections.deque()
+        ans = 0
+        visited = set()
+        q.append(x)
+        visited.add(x)
+        while q:
+            for i in range(len(q)):
+                num = q.popleft()
+                if num == y :
+                    return ans
+                if num > 10**4 or num <= 0:
+                    continue
+                # apply all four condition on 'num'
+                # Avoid going that num which has been already visited
+                if num % 11 == 0 and num // 11 not in visited:
+                    q.append(num // 11)
+                    visited.add(num // 11)
+                if num % 5 == 0 and num // 5 not in visited:
+                    q.append(num // 5)
+                    visited.add(num // 5)
+                if num - 1 > 0 and num - 1 not in visited:
+                    q.append(num - 1)
+                    visited.add(num -1)
+                if num + 1 <= 10 **4 and num + 1 not in visited:
+                    q.append(num + 1)
+                    visited.add(num + 1)
+            ans += 1
+    

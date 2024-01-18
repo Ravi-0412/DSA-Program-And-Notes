@@ -34,9 +34,11 @@ class Solution:
 
 # Explanation:
 # when a[i] (maxHeights[i]) is peak then we have two possibility:
-# a) element on pre of 'i' say index 'j' (either left or right) is <= a[i] then, sum_on_left[i] = sum_on_left[j] + a[i] (including a[i])
-# b) if previous ele is > then all element till before index 'j' will be made equal to a[i]  (j = first ele on left/right which is smaller than a[i])
-# then sum_on_left[j] = (i - j) * a[i] + sum_on_left[j]
+# a) element on just pre of 'i' say index 'j' (either left or right) is <= a[i] then, 
+# sum_on_left[i] = sum_on_left[j] + a[i] (including a[i])
+# b) if just  previous ele either left/right one is > a[i] then :
+# all element till before index 'j' will be made equal to a[i]  (j = first ele on left/right which is smaller than a[i]).
+# then sum_on_left[j] = (i - j) * a[i] + sum_on_left[j] 
 
 # sum_on_left[j]: came from condition 'a'.
 
@@ -45,6 +47,8 @@ class Solution:
 # After that our ans = max(leftSum[i] + rightSum[i] - a[i]) for all indexes.
 
 # subtracting 'a[i]' from ans because a[i] is added two times i.e in leftSum and rightSum both.
+    
+# So 1st we need to find the next smaller on both left/right for all elements.
 
 # time = O(n)
 
@@ -78,13 +82,15 @@ class Solution:
         leftSum =  [0]*n  # left sum when maxHeights[i] is peak including maxHeights[i]
         rightSum = [0]*n  # right sum when maxHeights[i] is peak including maxHeights[i]
         ans = 0
+        # Finding sum on left side when a[i] is peak including a[i]
         for i in range(n):
             l = next_smaller_left[i]
             if l == -1:
                 leftSum[i] = (i + 1)* maxHeights[i]
             else:
                 leftSum[i] = (i - l)* maxHeights[i] + leftSum[l]
-            
+        
+        # Finding sum on right side when a[i] is peak including a[i]
         for i in range(n-1, -1, -1):
             r = next_smaller_right[i]
             if r == -1:
@@ -92,7 +98,7 @@ class Solution:
             else:
                 rightSum[i] = (r - i)* maxHeights[i] + rightSum[r]
 
-            ans = max(ans , leftSum[i] + rightSum[i] - maxHeights[i])
+            ans = max(ans , leftSum[i] + rightSum[i] - maxHeights[i])  
         return ans
     
 

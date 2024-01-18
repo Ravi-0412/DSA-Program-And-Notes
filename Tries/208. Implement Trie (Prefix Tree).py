@@ -40,7 +40,7 @@ class Trie:
         return True
 
 
-# Note: we can use trie where we are sure that every ele or every word will be made only from a fixed thing like number or letter.
+# Note: we can use trie where we are sure that every numbr or ele or every word will be made only from a fixed thing like number or letter.
 # so that there is no need to create or check from scratch for every ele.
 
 # 1) every word can be made only from letters 'a-z' i.e every ele in word will start from 'a-z' only. will have characters only from 'a-z'.
@@ -92,7 +92,7 @@ for w in forbidden:
     reduce(dict.__getitem__, w, trie)['#'] = True
 
 # Meaning: 
-# Will insert each word in tries 'trie' and mar the end of word by special symbol '#'.  => can you other symbol as well.
+# Will insert each word in tries 'trie' and mark the end of word by special symbol '#'.  => can you other symbol as well.
 
 # See use here :
 https://leetcode.com/problems/length-of-the-longest-valid-substring/solutions/3771520/python-hashmap-and-trie-solutions/

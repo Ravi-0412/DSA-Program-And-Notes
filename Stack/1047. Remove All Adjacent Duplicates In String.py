@@ -12,3 +12,5 @@ class Solution:
                 stack.append(c)
         return "".join(stack)
 
+
+# Later try by two pointer also

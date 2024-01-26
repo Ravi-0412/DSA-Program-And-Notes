@@ -1,14 +1,17 @@
-# method 1: convert the infix to postfif/prefix and then evaluate that.
+# method 1: convert the infix to postfix/prefix and then evaluate that.
 
 # method 2:
 
 # intuition?
-# Ans: Just store the result of all operation snad put the num into stack.
+# Ans: Just store the result of all operations and put the num into stack.
 # At last sum(stack) will give the ans.
 
 # logic: All these operator have associativity from left to right.
 # we are keeping track of last_operator and num.
-# After seeing any operator, we will do the operation for last_operator since we need atleast two num for doing operation for any operator.
+# After seeing any operator, we will do the operation for last_operator not current one.
+# since we need atleast two num for doing operation for any operator i.e one to left and one to right of operator.
+# Left num we will get from stack top and right one we will get from last_num.
+
 # After doing the operation acc to meaning of operator, we will push the result into stack.
 # And will make num= 0 and last_operator= curr_operator when we will encounter new operator.
 
@@ -20,7 +23,7 @@
 class Solution:
     def calculate(self, s: str) -> int:
         stack= []
-        num, lastOperator= 0, "+"
+        num, lastOperator= 0, "+"  # default one
         for c in s:
             if c== ' ':
                 continue
@@ -83,3 +86,6 @@ class Solution:
                 num, lastOperator= 0, c
         return sum(stack)
     
+
+# Similar / extended Q:
+# 772 · Basic Calculator III

@@ -26,14 +26,19 @@ class Solution:
 
 # method 2: using stack
 # time= space= O(n)
-# logic: when you see '(': push the index index into the stack
+# logic: Put '(' always into stack
+# and ')' when we are not able to find any valid after we see ')'.
+# Pushing ')' will denote that after index of ')' , paranthesis are vlid.
+
+# Implementation:
+# when you see '(': push the index into the stack
 # when you see ')': pop and check if stack is empty or not.
 # if empty push the curr index into stack.
 # if not empty then we got one valid ans.
 class Solution:
     def longestValidParentheses(self, s: str) -> int:
         ans= 0
-        stack= [-1]   # initially fill the stack with '-1'.
+        stack= [-1]   # initially fill the stack with '-1' to handle corner cases like s= '('.
         for i in range(len(s)):
             if s[i]== '(':
                 stack.append(i)
@@ -42,7 +47,7 @@ class Solution:
                 if not stack:   # means we have found invalid one 
                     stack.append(i)
                 else:  # means we have found the valid one
-                    ans= max(ans, i- stack[-1])
+                    ans= max(ans, i- stack[-1])  # substring after index 'stack[-1]' to 'i' will be a valid one
         return ans 
 
 

@@ -130,7 +130,7 @@ class Solution:
             # if l >= r then z[i] = 0 till now
             
             # for calculating more(from r to n - 1) use the brute force logic (think like that only)
-            # we need to only compare from index  'z[i]' on left and 'i+ z[i]' on right.
+            # we need to only compare from index  'z[i]' on left(start) and 'i+ z[i]' on right.
             # if z[i] == 0 then it will automatically calculate from left = 0 and right = i
             while i + z[i] < n and s[z[i]]  == s[i + z[i]]:
                 z[i] += 1

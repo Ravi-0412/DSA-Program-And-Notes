@@ -12,7 +12,7 @@ class MyQueue:
         self.stack1.append(x)
         
 
-    def pop(self) -> int:   # stack ka pop hmko queue ka phla(q me pop matlab phla ele) ele de.
+    def pop(self) -> int:   # stack1 ka pop hmko queue ka phla(q me pop matlab phla ele) ele de.
         while len(self.stack1) > 1:  # moving ell ele except first one to stack2.
             temp= self.stack1.pop()
             self.stack2.append(temp)

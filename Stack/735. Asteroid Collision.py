@@ -6,8 +6,9 @@
 # why? => just draw on paper .
 
 # what does this mean?
-# Ans: It means that when we will see the asteroid going left (-ve) then, it will collide with all the asteroid going right(+ve) before it.
-# Means we need to search for the pre asteroids before left. 
+# Ans: It means that when we will see the asteroid going left (-ve) then, 
+# it will collide  with all the asteroid on left of it going right(+ve).
+# Means we need to search for the pre asteroids before left going right .
 
 # From here we get the intitution for 'stack' i.e after seeing any negative value we wil search for +ve values left of it.
 
@@ -39,3 +40,7 @@ class Solution:
                 elif stack[-1]== abs(num):
                     stack.pop()
         return stack
+
+
+
+

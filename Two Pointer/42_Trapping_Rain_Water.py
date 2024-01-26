@@ -40,24 +40,20 @@ class Solution:
 
 # logic: we need GreatestLeft and GreatestRight for each level
 # so we can keep two pointer left and right for this 
-# keep two variable for storing maxLeft and maxRight.
-# VVI: when you are standing at any level then you might think we know about maxLeft or maxRight only 
-# but it is not necessary that right pointer wil be GreatestRight or left pointer will be Greatestleft.
-# yeah that's correct that right pointer may not give the GreatestRight and same for left but we need only min(maxLeft, maxRight) and
-# if maxLeft is smaller than ele at right pointer then it must be lesser than the GreatestRight and same for right.. so we don't need to care about that 
+# keep two variable for storing maxLeft and maxRight. 
 
 # soo nicee logic.. keep this in mind
-# https://www.youtube.com/watch?v=ZI2z5pq0TqA
+
 class Solution:
     def trap(self, height: List[int]) -> int: 
         if not height: return 0
         l,r, n= 0, len(height)-1, len(height)
         maxLeft, maxRight= height[0], height[n-1]
         ans= 0
-        while l <r:
+        while l < r:
             # shift the minimum pointer and find the ans at minimum pointer
-            if maxLeft > maxRight:  # then at 'r' it can store max water according to its maxRight minimum one
-                r-= 1  # updating r first to avoid the case of '-ve'. will take the maxRight only as max if greater than height[r] or maxRight= height[r]
+            if maxLeft > maxRight:  # then at 'r' it can store max water according to its maxRight one
+                r-= 1  # updating r because we have value of heights[r]
                 maxRight= max(maxRight, height[r])
                 ans+= maxRight- height[r]
             else:  # then at 'l' it can store max water according to its maxLeft minimum one

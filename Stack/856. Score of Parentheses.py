@@ -5,12 +5,15 @@
 # method 1: using stack
 # hm har ek ABC ka score stack me rakh rahe and last me sum of stack value return kar rhe.  A,B,C : nested paranthesis.
 
-# jaise hi hmko ')' dikh rha h, usi samay hm uske liye value find karke add me dal de rhe. isse sbse internal ka stack me ja rha then external ke liye hm sbko add kar denge to ans aa jayega.
+# jaise hi hmko ')' dikh rha h, usi samay hm uske liye value find karke add me dal de rhe. 
+# isse sbse internal ka stack me ja rhe then external ke liye hm sbko add kar denge to ans aa jayega.
 
 # vvi: in case of nested paranthesis we have to keep track of score of internal paranthesis.
 # so we will put number instead of  braces.
-# when we will see '(', push '0' into the stack when you see ')' add all value till you see '0' (indirectly we are searching for next '(' on left for which we will evaluate now).
-# while poping add all the values and then calculate the socre using score= max(2*val, 1). And put this into the stack. 
+# when we will see '(', push '0' into the stack when you see ')' add all value till you see '0' 
+# (indirectly we are searching for next '(' on left for which we will evaluate now).
+
+# while poping add all the values and then calculate the score using score= max(2*val, 1). And put this into the stack. 
 # Note: we always have to multiply the val by '2' to calculate the score. like we can consider '()' also a single nested. 
 # but for '()', score will be '1' but we will get 2*0= 0 so taking max of 'max(2*val, 1)'.
 
@@ -54,8 +57,9 @@ class Solution:
             if c== '(':
                 depth+= 1
             else:
-                depth-= 1   
-                if pre== '(':   # means we have not calculated for this depth. if pre= ')'' then we have alrady calculated the ans for this since in this we are calculating at once.
+                # depth-= 1   
+                if pre== '(':   # means we have not calculated for this depth. if pre= ')'' then ,
+                                # we have alrady calculated the ans for this since in this we are calculating at once.
                     ans+= 2**depth
             pre= c
         return ans

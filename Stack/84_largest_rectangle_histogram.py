@@ -13,7 +13,7 @@ class Solution:
         right_smaller= self.RightSmallerNext(heights,n)    # will contain the indices of next smaller right for each ele
                                                            # means before that index they can go in the right
         for i in range(n):
-            width= (right_smaller[i]-left_smaller[i])-1    # range in which they can go 
+            width= (right_smaller[i]-left_smaller[i]) -1    # range in which they can go 
             local_area= heights[i]*width   
             max_area= max(max_area, local_area)
         return max_area
@@ -42,6 +42,9 @@ class Solution:
             stack.append(i)
         return ans[::-1]
 
+
+# Have to understand below 2 solutions later.
+# Must understand properly for saving coding time.
 
 # method 2: concise one(good one), single traversal, time: O(n)
 

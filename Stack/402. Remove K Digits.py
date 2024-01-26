@@ -17,12 +17,11 @@ class Solution:
         return ans if ans else '0'
 
 # time= space= O(n)
-# logic: just keep poping the num into stack when you see curr ele is smaller than the stack_top. else append into stack.
+# logic: just keep poping the num from stack when you see curr ele is smaller than the stack_top, else append into stack.
 # note: we have to make number smaller so we will remove the most significant digit only. 
 class Solution:
     def removeKdigits(self, num: str, k: int) -> str:
         stack= []
-
         for n in num:
             while stack and k and stack[-1] > n:   # stack will always contain the ele in ascending order.
                 stack.pop()

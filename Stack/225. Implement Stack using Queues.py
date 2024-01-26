@@ -1,4 +1,4 @@
-# correct only biut giving runtime error.
+# correct only but giving runtime error.
 # tried submitting on coding ninja.
 # correct only
 

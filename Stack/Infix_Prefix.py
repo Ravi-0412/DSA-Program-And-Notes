@@ -20,8 +20,17 @@ def reverse(str1):
 
 
 # all thing will be done same but in case of operators pop until if you find any
-# operator strictly greater than current one in case of '+', '-', '*', '/' as we have to reverse it once more
-# and in case of '^' pop until you find any ele greater than or equal'^' since it is right associative.
+# 1) operator strictly greater than current one in case of '+', '-', '*', '/' as we have to reverse it once more:
+
+# Q) why not poping for "="?
+# because "=" take care of associativity in case of equal precedence and for ('+', '-', '*', '/'),
+# it is left to right.
+# But this associativity thing will be allready taken care when we will reverse the string for final ans.
+
+# 2)  in case of '^' pop until you find any ele greater than or equal'^' since it is right associative.
+# '^' is rigth associative so it won't be taken care automatically while reversing.
+# So here we will do left -> right and after reversing it will become right -> left for equal precedence.
+
 def InfixtoPostfix(exp):
         precedence= { '+':1, '-': 1, '*':2 ,'/':2, '%': 2, '^':3}
         res= ""  
@@ -43,7 +52,7 @@ def InfixtoPostfix(exp):
 
             elif exp[i]== '+' or exp[i]== '-' or exp[i]== '*' or exp[i]== '/' or exp[i]== '%' or exp[i]== '^':
                 if exp[i]!= '^':
-                    while stack[-1]!=0 and stack[-1]!='(' and (precedence.get(exp[i])< precedence.get(stack[-1])) :
+                    while stack[-1]!=0 and stack[-1]!='(' and (precedence.get(exp[i]) < precedence.get(stack[-1])) :
                         res+= str(stack.pop())
                     # now push the operator
                     stack.append(exp[i])

@@ -1,5 +1,5 @@
 # Logic: Just check how much side of square we can form from cur cell if cell value = 1.
-# it will depend on side we can form from i.e min(left, down, diagonal) + 1.
+# it will depend on side we can form from i.e min(left, up, upper_left_diagonal) + 1.
 
 # Just like : "2088. Count Fertile Pyramids in a Land".
 
@@ -13,7 +13,7 @@ class Solution:
             for j in range(n):
                 if matrix[i][j] == "1":
                     # find the min side of square formed by 
-                    # its left cell, down cell and diagonally left
+                    # its left, up, upper_left_diagonal
                     left = int(matrix[i][j - 1]) if j > 0 else 0
                     down = int(matrix[i-1][j]) if i > 0 else 0
                     diagonal= int(matrix[i-1][j-1]) if i > 0 and j > 0 else 0

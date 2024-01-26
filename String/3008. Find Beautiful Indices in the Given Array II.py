@@ -1,3 +1,25 @@
+# Brute Force: Tle
+
+class Solution:
+    def beautifulIndices(self, s: str, a: str, b: str, k: int) -> List[int]:
+        n, m, o= len(s) , len(a), len(b)
+        indexes_i, indexes_j = [], []
+        for i in range(n):
+            if s[i : i + m] == a:
+                indexes_i.append(i)
+            if s[i : i + o] == b:
+                indexes_j.append(i)
+        ans = []
+        for i in indexes_i:
+            for j in indexes_j:
+                if abs(i - j) <= k:
+                    ans.append(i)
+                    break    # No need to check further for current index 'i'.
+        return sorted(ans)
+        # return ans.sort()   # this will give wrong ans.
+            
+# Method 2: Optimisation
+
 # Just extension of '28. Find the Index of the First Occurrence in a String'.
 
 # steps:
@@ -42,17 +64,20 @@ class Solution:
                 
         ans = []
         i , j = 0, 0
+        # abs(i - j) <= k means (i - j) <= k or (j - i) <= k.
+        # Check violation of these two condition.
         while i < len(indexes_i) and j < len(indexes_j):
-            # (j -i ) > k . so increase 'i' to reduce the diff.
-            if indexes_i[i] < indexes_j[j] - k :
-                i += 1
-            # (i - j) > k . So decrease 'j' to reduce the diff.
-            elif indexes_j[j] < indexes_i[i] - k :
+            # 1)  (i - j) > k . So increase 'j' to reduce the diff.
+            if indexes_i[i] - indexes_j[j] > k :
                 j += 1
+            # 2) (j -i ) > k . so increase 'i' to reduce the diff.
+            elif indexes_j[j] - indexes_i[i] > k :
+                i += 1
             else:
                 # means abs(i - j) <= k . so add 'i' in ans.
                 ans.append(indexes_i[i])
                 i += 1
         return ans
+
 
 

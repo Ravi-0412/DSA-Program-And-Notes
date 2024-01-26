@@ -34,7 +34,7 @@ class MinStack:
         return self.min_stack[-1]  # min_stack will give the min_ele
 
 
-# VVVI: without any extra space
+# VVVI: without any extra space i.e other stack
 # detailed solution in notes
 class MinStack:
     def __init__(self):

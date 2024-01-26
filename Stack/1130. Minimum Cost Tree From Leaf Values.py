@@ -127,7 +127,8 @@ class Solution:
         ans= 0
         stack= [float('inf')]  # to handle the base case
         for num in arr:
-            # when you get any greater ele from the stack top then keep on poping since smaller ele is already in stack so we have to use it first to minimise the ans.
+            # when you get any greater ele from the stack top then keep on poping 
+            # since smaller ele is already in stack so we have to use it first to minimise the ans.
             while stack[-1] <= num: 
                 mid= stack.pop()    # this will be the one of the ele we will use as leaf and now we have to find the min ele to just left or just right of it.
                 ans+= mid * min(stack[-1], num)    # stack[-1] will be on left side of mid and num will be on right side of mid and we have to take minimum of both.

@@ -2,7 +2,8 @@
 # Ans: Because higher precedence operator we have to evaluate first , so if stack has operator with >= pre then, we will pop that.
 # stack will store the operator in strictly increasing order of precedence.
 
-# logic: when we see any operator we do the operation for previous seen operator if stack is not empty and they have higher precedence i.e pop them and add into the res.
+# logic: when we see any operator we do the operation for previous seen operator 
+# if stack is not empty and they have higher precedence i.e pop them and add into the res.
 # Associativity will not matter here.
 
 class Solution:

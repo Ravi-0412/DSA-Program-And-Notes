@@ -47,7 +47,8 @@ class Solution:
 # After that our ans = max(leftSum[i] + rightSum[i] - a[i]) for all indexes.
 
 # subtracting 'a[i]' from ans because a[i] is added two times i.e in leftSum and rightSum both.
-    
+
+# Short: nums[i] ko us index tak rakh sakte h jb tak isse hmko chota na mile dono side.
 # So 1st we need to find the next smaller on both left/right for all elements.
 
 # time = O(n)
@@ -105,3 +106,7 @@ class Solution:
 # can be done in two traversal.
 # calculate the leftSum and rightSum while findig the nextSmaller only.
 # Do by this later.
+    
+
+# Similar questions:
+# 907. Sum of Subarray Minimums

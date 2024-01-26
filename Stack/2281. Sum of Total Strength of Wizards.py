@@ -1,17 +1,15 @@
 # This Q is combination of : 1) "907. Sum of Subarray Minimums"  and 2 ) "84. Largest Rectangle in Histogram".
 
-
 # Logic: 
-# For each strength[i], we could find a non-empty index range (left, right) where strength[i] is the min value. 
+# For each strength[i], we can find a non-empty index range (left, right) where strength[i] is the min value. 
 # So for all subarrays in this range including strength[i], the total strength is strength[i] * the sum of those subarray sums.
 
 # Note: The reason we use < on left but <= on right is to avoid duplicates.
 # e.g: 1 2 3 4 2 3 4 2 1
 # for subarray '2 3 4 2' ,  we want to calculate the strength using the 2nd 2 but not the first 2.
 
-# Note: The techniques regarding prefix sum and monostack come to our minds respectively, 
+# Note vvi: The techniques regarding prefix sum and monostack come to our minds respectively, 
 # when we see the problem involves to find the sums and find the minimums of the subarrays.
-
 
 # Note: understand the last part properly i.e how we are adding into ans.
 

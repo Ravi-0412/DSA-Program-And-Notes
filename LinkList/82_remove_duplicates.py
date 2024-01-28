@@ -1,11 +1,11 @@
-# method 1: try to understand all th emethods properly later
+# method 1: try to understand all the methods properly later
 class Solution:
     def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
         if head== None or head.next==None:
             return head
         dummy= ListNode(0)  # need dummy node because 1st node can also have duplicates in this we will have to delete head also
         dummy.next= head
-        pre= dummy  # pre will always point to the pre distinct ele having no duplicates till now but later this ele can also ahve duplicates
+        pre= dummy  # pre will always point to the pre distinct ele having no duplicates.
         # and if no duplicates then it will always point to one node before current
 
         current= head
@@ -15,8 +15,8 @@ class Solution:
             # after updating check whether temp and current adjacent or not
             # as this while loop can  break because of 1st condition also
 
-            if pre.next==current:  # means no duplicates(if pre and curr are  adjacent)
-                pre= current   # make 
+            if pre.next == current:  # means no duplicates(if pre and curr are  adjacent)
+                pre= current  
             else:  # means till current it is duplicates
                 pre.next= current.next
 
@@ -59,9 +59,10 @@ class Solution:
             while fast.next and fast.val == fast.next.val:
                 fast = fast.next
             if slow.next == fast:
+                # no duplicates
                 slow, fast = slow.next, fast.next
             else:
+                # Skipping duplicates. Tilll 'fast' there is duplicate.
                 slow.next = fast.next
                 fast = slow.next
-                
         return dummy.next

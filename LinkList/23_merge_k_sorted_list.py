@@ -41,11 +41,11 @@ class Solution:
             return None
         if len(lists) == 1:
             return lists[0]
-        while len(lists) >1:
+        while len(lists) > 1:
             MergedLists= []
-            for i in range(0,len(lists),2):
+            for i in range(0, len(lists),2):
                 l1= lists[i]
-                l2= lists[i+1] if (i+1) <len(lists) else None   # this can be None also for off no of lists
+                l2= lists[i+1] if (i+1) < len(lists) else None   # this can be None also for odd no of lists
                 MergedLists.append(self.mergeTwoLists(l1,l2))
             lists= MergedLists.copy()
         return lists[0]  
@@ -59,7 +59,7 @@ class Solution:
 
 
 # method 2: very simpler and cleaner
-# time ans space is just same as above
+# time and space is just same as above
 # logic: just use the concept of merge sort (divide and conquer technique)
 
 class Solution:

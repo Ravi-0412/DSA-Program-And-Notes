@@ -4,7 +4,7 @@
 
 # Vvvi: meaning of above statement is that : 1) ele < 'x' should come before 'x' should be in 1st partition. 
 # 2) ele >= x should be in 2nd partition  &&
-# 3) order of ele should be preserved in both the partitions so both partition need to be sorted but order should be maintained.
+# 3) order of ele should be preserved in both the partitions means both partition need not to be sorted but order should be maintained.
 
 
 # Logic: Just store the ele < 'x' in one list and ele >= 'x' in other list.
@@ -28,6 +28,7 @@ class Solution:
                 cur2.next = cur
                 cur2 = cur2.next
             cur= cur.next
-        cur1.next, cur2.next = None, None   # make both None otherwise there will be cycle
+        # cur1.next, cur2.next = None, None   # make both None otherwise there will be cycle
+        cur2.next = None    # only this will also work as 'cur1.next' is getting changed below.
         cur1.next = dummy2.next
         return dummy1.next

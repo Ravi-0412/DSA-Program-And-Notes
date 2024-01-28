@@ -1,5 +1,19 @@
+# Logic:
+# Assume the input is an array like 'count subarray having sum = k' etc.
+# Do you know how to solve it?
+# Scan from the left, and calculate the prefix sum.
+# Whenever meet the seen prefix,
+# remove all elements of the subarray between them.
+
+# Implementation:
+# Iterate for the first time,
+# calculate the prefix sum.
+
+# Iterate for the second time,
+# calculate the prefix sum,
+# and directly skip to last occurrence of this prefix
+
 # time= space= O(n)
-# Analyse very properly and write the logic in notes.
 
 class Solution:
     def removeZeroSumSublists(self, head: Optional[ListNode]) -> Optional[ListNode]:

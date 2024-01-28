@@ -1,11 +1,15 @@
 # logic. 'K' right shift ka very basic meaning for any data structure like linklist or array:
-#  last ke 'k' node ko aage lana h aur
+#  last ke 'k' node ko aage lana h and
 # last node ko 1st node ke saath attach kar dena h and next node after 'n-k' ko 
-# 1st_node after rotation bna dena h
+# 1st_node after rotation bna dena h.
+
+# For left shift first 'k' node ko last me rakh dena h.
 
 # finally what we have to do:
-# 1) find the last node and length togetehr in one traversal 2) find the next node after 'n-k' node
-# 3) store the next node after 'n-k' node say in 'head_node_after_rotation' and make next of 'n-k' as None and return 'the head_node_after_rotation' 
+# 1) find the last node and length togetehr in one traversal 
+# 2) find the next node after 'n-k' node
+# 3) store the next node after 'n-k' node say in 'head_node_after_rotation' 
+# and make next of 'n-k' as None and make last_node.next = 1st node && return 'the head_node_after_rotation'. 
 # time: O(n), space: O(1)
 # very good one
 
@@ -13,35 +17,29 @@ class Solution:
     def rotateRight(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
         if head== None:
             return head
-        curr= head
+        curr = head
         n= 0  # for length
         last_node= None  # storing the last ele as we have to connect this next to head of current linklist
         while curr:
             n+= 1
             last_node= curr
             curr= curr.next
-        k= k% n
-        if k==0:   # if 'k' is '0' or mutliple of length then we have to return the same linklist
-            # this will be the corner case for this logic as we are making the next node after 'n-k' as 1st node and in this case last node will be the last node only
+        k = k % n
+        if k == 0:   # if 'k' is '0' or mutliple of length then we have to return the same linklist
             return head
-        # just we have bring nodes after 'n-k' position(1,2...) at start and attach the last node with the head 
-        # anf after that make the node just after 'n-k' position as head
-        count= 0  # will go till 'n-k'
-        move_forward= n-k
-        curr= head
-        head_node_after_rotation= None
-        while curr:
-            count+= 1
-            if count== move_forward:
-                head_node_after_rotation= curr.next
-                curr.next= None  # making the last_node_after_rotation.next= None as this will only the last node after rotation
-                break
-            curr= curr.next
+        count =  1  # will go till 'n-k'
+        cur = head
+        while count < n- k :
+            cur = cur.next
+            count += 1
+
+        head_node_after_rotation = cur.next
+        cur.next = None
         last_node.next= head
         return head_node_after_rotation
 
 
-# VVI: simpler way of doing above logic
+# VVI: Another simpler way of doing above logic
 # just find the kth node from end like we used to find.  this will be the head of the linklist after rotation 
 # keep a pointer 'pre' that will point to one node before kth node from end. (just like finding kth and k+1 th node from end)
 # make pre.next= None and last.next = head and make head = kth node from end and return head

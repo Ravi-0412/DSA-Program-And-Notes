@@ -36,6 +36,41 @@ class Solution:
         return pre              # at last pre will point to the 1st node in reverse list
                                 # and current and first will point to None
 
+# Method 3: Iterative
+# Do on pen and paper and understand.
+    
+# This method we can use in "92. Reverse Linked List II"  for concise code.
+
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if head== None: return head
+        dummy= ListNode(0)  # will help to handle the case when we will reverse from head also
+        dummy.next= head
+        pre = dummy
+        start = head   # starting node from which we have to reverse
+        # Note: We won't change 'pre' and 'start' pointer. Will only change its 'next'.
+        then = start.next  # node from which we will change the direction
+
+        # 1 - 2 -3 - 4 - 5 ; ---> pre = dummy, start = 1, then = 2
+        # dummy-> 1 -> 2 -> 3 -> 4 -> 5
+
+        # 'pre.next'     will always point to the 1st node that we got after reversing till now.
+        # 'start.next' : will point the node from which we have to reverse in next iteration
+
+        cur = head
+        # We are changing direction one step ahead of 'cur' so need to check 'cur.next' only not 'while cur:'
+        # we need to run this 'n-1' time. (n = len(linklist))
+        while cur.next:   
+            start.next = then.next
+            then.next = pre.next
+            pre.next = then
+            then = start.next  # will point the node from which we have to reverse in next iteration
+        # first reversing : dummy->2 - 1 - 3 - 4 - 5;   pre = dummy, start = 1, then = 3  , 1st two node got reversed
+        # second reversing: dummy->3 - 2 - 1 - 4 - 5;   pre = dummy, start = 1, then = 4    , 1st three node got reversed
+        # third reversing:  dummy->4- 3 - 2 - 1 - 5;    pre = dummy, start = 1, then = 5   , 1st four node got reversed
+        # fourth reversing: dummy->5- 4- 3 - 2 - 1;    pre = dummy, start = 1, then = None (finish)  , all nodes got reversed
+        return dummy.next
+
 # Method 3: By recursion
 # just the conversion of above iterative into recursive.
 
@@ -72,7 +107,7 @@ class Solution:
         if curr== None:
             headreverse= pre
         else:
-            # Solution().ReverseByRecursion(current,current.next)  # this will return none at last since we are 
+            # self.ReverseByRecursion(current,current.next)  # this will return none at last since we are 
                                                                     # not storing the updated value of 'headreverse' 
             headreverse = self.ReverseByRecursion(curr,curr.next)  # keep storing the result into headreverse
             curr.next= pre  
@@ -89,6 +124,16 @@ class Solution:
         head.next= None  # this we have to write for the 1st node. other next will automatically become None
         return reverseHead
 
+
+# Note vvi: Whenever you have comapare 1st and last ele , 
+# do sum of 1st and last ele, append 1st to last ele , or any operation related to 1st and last ele.
+# Must think of 'reversing linklist' and how we can get ans from reversing.
+
+# Questions based on this:
+# 234. Palindrome Linked List
+# 61. Rotate List
+# 2130. Maximum Twin Sum of a Linked List
+# 143. Reorder List
 
 # mistakes
 # i got my mistake: for using a variable defined in other function, just put both the function inside a class and 
@@ -135,3 +180,14 @@ class Solution:
         return curr   
 
 
+
+# Template for using in other questions:
+def reverseList(self, head) :
+        if not head: return head 
+        pre,current= None,head 
+        while current:  
+            temp= current.next  
+            current.next= pre    
+            pre= current        
+            current= temp     
+        return pre              

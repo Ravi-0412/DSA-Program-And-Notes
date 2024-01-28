@@ -22,7 +22,7 @@ class Solution:
             lastNode.next= nextNode  # and last ele will be point to the next starting ele
             curr= nextNode  # next starting node to be reordered
             # for stopping condition 
-            if curr.next== lastNode:  # if it reaches till mod in case of odd no of ele and next niddle in case of even no of elements
+            if curr.next== lastNode:  # if it reaches till midddle in case of odd no of ele and next niddle in case of even no of elements
                 curr.next= None
                 break
         return head
@@ -43,6 +43,9 @@ class Solution:
             
         second= slow.next   # this will point to 1st ele after the middle
         slow.next= None
+
+        # In case of even no of element last pair will be already in 1st part and get included automatically
+        # in case of odd no of ele , extra ele will be 1st part and will get included automatically.
         
         # now reverse from 1st ele after middle to last
         pre= None

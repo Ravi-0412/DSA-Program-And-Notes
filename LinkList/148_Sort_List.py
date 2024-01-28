@@ -1,10 +1,5 @@
 # exactly same as merge sort of array just think how we can convert it for linklist
 
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
 class Solution:
     def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         if head==None or head.next==None:   
@@ -22,9 +17,9 @@ class Solution:
         while fast.next and fast.next.next:
             slow= slow.next
             fast= fast.next.next
-        # slow will point to the middle ele
+        # slow will point to the middle ele. In case of even no of ele it will point to 1st middle
         temp= slow.next
-        slow.next= None
+        slow.next= None   # Next of last node of 1st half as 'None'.
         return temp
     
 #     def MergeList(self,list1,list2):     # recursion depth was exceeding so used iterative one

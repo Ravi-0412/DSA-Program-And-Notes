@@ -78,8 +78,7 @@ class Solution:
         return ans
 
 # optimising space complexity to O(1)
-# time: O(n+m)
-# space= O(1)
+# time: O(n+m) = space
 
 # very good approach. 
 class Solution:
@@ -101,7 +100,6 @@ class Solution:
         s1, s2= size(cur1), size(cur2)
 
         # make a linklist combine values(actual value, without carry) of both from left to right.
-        # Since we have to propagate the carry from LSB to MSB. so direction of linklist should be from LSB--> MSB.
         res= None
         cur1, cur2= l1, l2
         while s1 and s2:    # or while cur1 and cur2:
@@ -110,7 +108,12 @@ class Solution:
                 curSum+= cur1.val
                 cur1= cur1.next
                 s1-= 1
-            if s2 > s1:   # We will only add at the position and for this n2>n1 in case if we have decremented 'n1' above
+            if s2 > s1:  
+                # We will only add value at the same position and for this s2 > s1 .
+                #This will handle both cases : 1) in case if we have decremented 's1' above
+                # After that if s2 > s1 then s1 and s2 were equal so we will include element from both i.e
+                # We adding element at same position.
+                # 2) Else s2 > s1 so we will include value at s2 only not s1.
                 curSum+= cur2.val
                 cur2= cur2.next
                 s2-= 1

@@ -1,4 +1,4 @@
-# submitted on leetcode
+
 # method 1:
 class Solution:
     def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
@@ -36,9 +36,10 @@ class Solution:
 
 
 # method 2 : concise way of method 1
+# Better one
 class Solution:
     def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        curr= head
+        curr= head   # cur will point to last distinct ele.
         while curr: 
             while curr.next and curr.next.val== curr.val:
                 curr.next= curr.next.next
@@ -49,13 +50,15 @@ class Solution:
 
 
 
-# method 3: By recursion (have to look once properly and understand)
-# logic: just keep on calling the function and after each call check for duplicates
-# if duplicates then connect with next duplicate and skip the 1st one(if duplicates then it will get connected to last node of duplicate not 1st one) else return head
+# method 3: By recursion 
 
 # better one to understand:
 # agar aage wala node ka value same h to hm apne aap ko usme include nhi kar sakte isliye 'head.next' return kar denge
-# agar aage wala node ka value different h to hm apne aap ko usme include kar sakte isliye apna value include karke return kar denge, isliye 'head' return kar rhe
+# agar aage wala node ka value different h to hm apne aap ko usme include kar sakte isliye apna value include karke return kar denge, 
+# isliye 'head' return kar rhe.
+
+# Note: Har distinct element ka last node store hoga internally answer me.
+# Only last distinct element will get added for each node.
 
 def deleteDuplicates(self, head):
         if head and head.next:

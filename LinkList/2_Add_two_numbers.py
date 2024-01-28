@@ -10,7 +10,7 @@
 
 class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
-        ans=cur= ListNode(0)  # creating a dummy node to handle inserting at first
+        ans = cur= ListNode(0)  # creating a dummy node to handle inserting at first
         carry= 0
         cur1, cur2 = l1, l2
         while cur1 or cur2 or carry:

@@ -2,12 +2,6 @@
 # made the dummy node to point to 1st ele of the result
 # after that only we have to link the nodes based on condition
 
-
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
 class Solution:
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
         dummy= ListNode(0)
@@ -23,7 +17,6 @@ class Solution:
                 temp.next= curr1
                 temp= curr1
                 curr1= curr1.next
-        print(dummy.next)
         if curr1!= None:
             temp.next= curr1
             temp= curr1
@@ -37,18 +30,10 @@ class Solution:
 # the list which has minimum ele, dummy.next will point to that node
 # after that just make the links based on conditions
 
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
 class Solution:
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
         dummy= temp= ListNode(0)
-        # 'dummy.next' we will return at last and temp will connect all the nodes
-
-        # here no need to point 'dummy.next' to any of the head as we don't know which head will come first
-        # to handle this corner cases we are using dummy list
+        # 'dummy.next' we will return at last and temp will connect all the node.
 
         while list1 and list2:
             if list1.val>=list2.val:   # will check the 1st ele in each list to which it is pointing
@@ -73,7 +58,8 @@ class Solution:
 # just conversion of above iterative method
 def mergeTwoLists2(self, l1, l2):
     # base condition.. Both list can't be None at the same time
-    if not l1 or not l2:   # if l1 if None then return 'l2' and if 'l2' is None then return 'l1'. (This condition is short form of this meaning)
+    # if l1 if None then return 'l2' and if 'l2' is None then return 'l1'. (This condition is short form of this meaning)
+    if not l1 or not l2:   
         return l1 or l2
     if l1.val < l2.val:
         l1.next = self.mergeTwoLists(l1.next, l2)
@@ -97,7 +83,8 @@ class Solution:
             # we were only exchanging the pointers(point to min) in all the above cases
 
             if list1.val> list2.val:
-                # in iterative(exchanging temp) and in recursion above one exchanging the list pointer based on condition and exactly same here                       
+                # in iterative(exchanging temp) and in recursion above one exchanging the list pointer 
+                # based on condition and exactly same here                       
                 list1, list2= list2, list1                                                                                  
             list1.next= self.mergeTwoLists(list1.next,list2)  # now whichever list will have min ele will become 1st ele
         

@@ -14,7 +14,7 @@ class Solution:
 
         # first diving the list including the extra node also i.e "extraNode" no of list will have "minPartSize +1" nodes.
         # since we have to keep list with more number of nodes at first
-        cur= head
+        cur= head  # Will point to next node from we have to include.
         for i in range(extraNode):
             ll= cur1= ListNode(0)  
             count= 0

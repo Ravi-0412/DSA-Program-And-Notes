@@ -13,32 +13,44 @@
 # calculate the prefix sum,
 # and directly skip to last occurrence of this prefix
 
+# Note: Calculating prefixSum and updating ans parallely won't work here 
+# Because we can't traverse backward in linklist. We won't be able to connect the nodes.
+# So 1st calculate the prefixSum and then find the ans.
+
 # time= space= O(n)
 
 class Solution:
     def removeZeroSumSublists(self, head: Optional[ListNode]) -> Optional[ListNode]:
         dummy= ListNode(0)
-        dummy.next= head
-        cur= head
-        prefixSum= {0: dummy}  # [presum: cur]. prefix calculates the prefix sum from the first node to the current cur node.
-                        # if we remove this extra sum(cursum- k),k= 0 here. then we can get sum= 0 from 'node.next' in hashmap  till cur.
+        dummy.next = head
+        cur = head
+        prefixSum = {0: dummy}  # [presum: cur]. prefix calculates the prefix sum from the first node to the current cur node.
+                                # in case of same curSum it will store the latest node . 
+                                # Storing latest will help in removing longest chain of nodes.
         curSum= 0
         while cur:
-            curSum+= cur.val
-            # generalising from sum= 0 to sum= 'k'(here k= 0 only). storing only the last node for same 'curSum'. 
-            # if same curSum i.e (curSum- k) is found then we can get sum== 'k' after last occurence of curSum til cur node.
-            prefixSum[(curSum- 0)]= cur
-            cur= cur.next
+            curSum += cur.val
+            prefixSum[curSum] = cur
+            cur = cur.next
         
         curSum= 0
         # Go from the dummy node again to set the next node to be the last node for a prefix sum 
-        head= dummy  # we will start connecting node from dummy only after removing
+        cur= dummy  # starting from 'dummy' node because we may have to remove nodes from start also
+                     # if prefixSum has value = 0
         while head:
-            curSum+= head.val
-            head.next= prefixSum[curSum].next   # remove the nodes 
-            head= head.next
+            curSum += head.val
+            # if curSum is in 'prefixSum' then it means sum of node from 'cur.next' to node 'prefixSum[curSum]' is = 0.
+            # So point 'cur.next' to node after node 'prefixSum[curSum]'.
+            cur.next= prefixSum[curSum].next   # remove the nodes if cursum has occured more than one time else will automatically point to his next.
+            cur = cur.next
         return dummy.next
 
+
+# Note vvi: If asked for sum = k then we have to check 'curSum + k' in prefixSum.
+# If later at some node curSum is = 'curSum + k ' then, it means sum of node from 'cur.next' to node 'prefixSum[curSum + k]' is = k.
+
+
+# My mistakes:
 
 # Reason for my mistakes:
 # we are updating the pointer of ans when we find any possible ans.
@@ -51,7 +63,6 @@ class Solution:
 # kyonki hmko duplicate curSum milne pe beech wala nodes ko remove kar denge (sum== 0 ya k mil jayega beech wala ko remove karke).
 
 # yhi hm upper wale solution me kiye h.
-
 
 # my mistake:
 # after removing there still can be such sequence.
@@ -71,23 +82,3 @@ class Solution:
                 prefixSum[curSum]= cur
             cur= cur.next
         return dummy.next
-    
-
-# tried to update the cursum with latest node but now diff type of error.
-class Solution:
-    def removeZeroSumSublists(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        dummy= ListNode(0)
-        dummy.next= head
-        cur= head
-        prefixSum= {0: dummy}  # sum-> till node. if we remove this extra sum(cursum- k),k= 0 here. then we can get sum= 0 from 'node.next' in hashmap  till cur.
-        curSum= 0
-        while cur:
-            curSum+= cur.val
-            if (curSum- 0) in prefixSum:  # just generalise from sum= 0 to 'k'. 
-                prefixSum[(curSum- 0)].next= cur.next   # we can get sum= 0. so just remove that zero sum part.
-            # if curSum not in prefixSum:
-            #     prefixSum[curSum]= cur
-            prefixSum[curSum]= cur
-            cur= cur.next
-        return dummy.next
-    

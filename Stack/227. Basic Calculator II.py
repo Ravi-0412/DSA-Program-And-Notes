@@ -67,7 +67,7 @@ class Solution:
             c= s[i]
             # if c== ' ':  # writing this will give erorr if there is space at last then we will not do the operation for last index.
             #     continue   # for skipping, use the 'continue' or nothing. This will depend on the Q.
-            if c.isdigit():
+            if c.isdigit():   # All numbers are positive so checking this is fine
                 num= num*10 + int(c)
 
             if c in all_operators or i== len(s)-1:   # either operator or last index.
@@ -76,6 +76,7 @@ class Solution:
                     stack.append(num)
                 elif lastOperator== "-" :
                     stack.append(-1* num)
+                # In case of '*' or '/' left operand will be on top of stack
                 elif lastOperator== "*" :
                     temp= stack.pop()
                     stack.append(temp * num)

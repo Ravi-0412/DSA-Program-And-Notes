@@ -1,5 +1,5 @@
 # just same logic we find the 'next Greater element on the Right".
-# But if  next greater is not on the right side, you have to start finding from start before that index.
+# But if  next greater is not on the right side, you have to start finding from start till that index.
 # here only for max ele ans will be '-1' and for remaining ele ans will be any ele from array.
 # from this thinking we can get initution to solve the problem.
 
@@ -35,7 +35,7 @@ class Solution:
         stack = []
         ans = [-1] * n
         for i in range(2*n):
-            num = nums[i % n]
+            num = nums[i % n]    # '%' will help in 2nd traversal.
             while stack and nums[stack[-1]] < num:
                 ans[stack.pop()] = num
             stack.append(i % n)

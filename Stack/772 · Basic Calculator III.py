@@ -1,7 +1,7 @@
 # logic: similar as basic calculator 2. Little modification for '(' and ')'.
 
 # when we  see "(", we have to find the result first for this bracket and similar for nested bracket also.
-# but we should keep track of operator before "(" also, so we push the operator(befre '(' ) also in this case.
+# but we should keep track of operator before "(" also, so we push the operator(before '(' ) also in this case.
 # Also make num= 0 and operator= "+", since we will calculate res for this bracet from scratch.
 # just like we recursilvely calculate the ans for smaller subproblem.
 

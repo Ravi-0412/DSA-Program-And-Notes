@@ -49,19 +49,19 @@ class Solution:
 # 3) But if you find * then remove the last element of our answer(i.e. decrease j).
 # 4) After traversing all the elements return substring till j as answer.(refer point 1).
     
-class Solution {
-public:
-    string removeStars(string s) {
-        int i=0,j=0;
-        for(i=0;i<s.size();i++){
-            if(s[i]=='*'){
-                j--;
-            }else{
-                s[j++] = s[i];
-            }
-        }
-        return s.substr(0,j);
-    }
-};
+# class Solution {
+# public:
+#     string removeStars(string s) {
+#         int i=0,j=0;
+#         for(i=0;i<s.size();i++){
+#             if(s[i]=='*'){
+#                 j--;
+#             }else{
+#                 s[j++] = s[i];
+#             }
+#         }
+#         return s.substr(0,j);
+#     }
+# };
 
 

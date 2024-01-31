@@ -3,7 +3,11 @@
 # using one stack.
 # just like solve 'postfix and infix' evalauation.
 
-# logic: before every '[', there will be a number.
+# Logic: Push everything except ']' and when you see ']'
+# evaluate for pre '[' and put result of this into stack.
+
+# Note: before every '[', there will be a number.
+
 # time: will depend on 'num' before every bracket but will be linear time only.
 
 class Solution:
@@ -17,9 +21,9 @@ class Solution:
                 temp= ""
                 while stack[-1] != '[':
                     temp= stack.pop() + temp
-                stack.pop()
+                stack.pop()  # Removing '[' bracket
                 # before every '[', there will be a number but this can be of more than one digit.
-                # find the number. better than multiplying by 10.
+                # find the number.
                 num= ""
                 while stack and stack[-1].isdigit():  # checking stack empty in case it doesn't any number then stack will be empty.
                     num= stack.pop() + num
@@ -45,7 +49,6 @@ class Solution(object):
         stack = []
         current_string = ""
         k = 0
-        
         for char in s:
             if char == "[" :
                 # Just finished parsing this k, save current string and k for when we pop
@@ -56,8 +59,9 @@ class Solution(object):
             elif char == "]":
                 # We have completed this frame, get the last current_string and k from when the frame 
                 # opened, which is the k we need to duplicate the current current_string by
-                last_string, last_k = stack.pop(-1)
+                last_string, last_k = stack.pop()
                 current_string = last_string + last_k * current_string
+                # No need to put current_string into stack.
             elif char.isdigit():
                 k = k * 10 + int(char)
             else:

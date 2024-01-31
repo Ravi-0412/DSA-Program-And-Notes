@@ -1,7 +1,10 @@
 # logic:
-    # traverse the string right to left and do the same as postfix evaluation
-    # no need to make special case in this for '^' as we are already traversing
-    # from right to left
+# traverse the string right to left and do the same as postfix evaluation
+# no need to make special case in this for '^' as we are already traversing
+# from right to left.
+
+# Note: we reverses 's' and applied logic of 'infix -> postfix'  for infix -> prefix conversion
+# so for evaluation also just reverse 's' (or traverse right -> left) and apply logic of postfix evaluation.
 
 
 def InfixEvaluation(str1):

@@ -1,9 +1,21 @@
-# Logic: We only need to care about actual value if that no is present in nums2.
+# Method 1:
+# Brute force
+# Time: O(m*n)
+
+# Method 2:
+# Time : O(m + n)
+
+# Logic: We only need to care about actual value if that number is present in nums2.
 # So we will store the actual value in ans.
-# And to check that no is presnet in nums2 or not in O(1), 
+# And to check that number is presnet in nums2 or not in O(1), 
 # we need either dictionary or set.
 
-# sing dictionary we can check also and store ans also and later return also easily.
+# Using dictionary we can check also and store ans also and later return also easily.
+
+# Here dictionary will store ans for numbers that have answer.
+# Note: For number that is present in nums2 but has no answer then at last
+# while returning we will automatically get '-1'. 
+
 
 class Solution:
     def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
@@ -17,6 +29,5 @@ class Solution:
                                                 #  return that otherwise return '-1'
         
 
-# Can do by other way also.
 
 

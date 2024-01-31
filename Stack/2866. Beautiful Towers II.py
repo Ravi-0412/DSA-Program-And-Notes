@@ -32,15 +32,14 @@ class Solution:
 # Method 2:
 # optimising using stack to find the sum when a[i] is taken as peak element.
 
-# Explanation:
-# when a[i] (maxHeights[i]) is peak then we have two possibility:
-# a) element on just pre of 'i' say index 'j' (either left or right) is <= a[i] then, 
-# sum_on_left[i] = sum_on_left[j] + a[i] (including a[i])
-# b) if just  previous ele either left/right one is > a[i] then :
-# all element till before index 'j' will be made equal to a[i]  (j = first ele on left/right which is smaller than a[i]).
-# then sum_on_left[j] = (i - j) * a[i] + sum_on_left[j] 
+# Note: max value we can put for elements to left 'i' and right 'i' is a[i].
+# But we can only put on both the sides until we get any index having value < a[i].
 
-# sum_on_left[j]: came from condition 'a'.
+# First do for left side.
+# suppose we found index 'j' on left such that a[i] > a[j].
+# then you can replace from index 'j + 1' to 'i' by a[i] => no of ele = (i - j)
+# and we can add res[j] to get sum on left when a[i] is peak.
+# left_sum[i] = (i - j) * a[i] + left_sum[j]
 
 # In same way we can do for right side for right sum.
 
@@ -49,7 +48,7 @@ class Solution:
 # subtracting 'a[i]' from ans because a[i] is added two times i.e in leftSum and rightSum both.
 
 # Short: nums[i] ko us index tak rakh sakte h jb tak isse hmko chota na mile dono side.
-# So 1st we need to find the next smaller on both left/right for all elements.
+# So 1st we need to find the next smaller index on both left/right for all elements.
 
 # time = O(n)
 

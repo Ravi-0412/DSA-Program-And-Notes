@@ -5,6 +5,9 @@
         # from stack and apply operator bw them and put the result into the stack
         # at last top of stack will give the final result
 
+# Note: Here no need to worry about 'precedence and associativity' because we convert from
+# 'infix to postfix' only to get rid of these things so that we can calculate ans directly after seeing an operator.
+
 class Solution: 
     def evaluatePostfix(self, S):
         stack= []  # store the operand not operator like infix to postfix

@@ -5,13 +5,13 @@
 
 
 # 3rd method: 
-# Exactly same as method 3 of q : "74. Search a 2D Matrix".
+# Exactly same as method 3 of q : "74. Search a 2D Matrix" because here matrix is sorted row wise and column wise.
 
 class Solution:
     def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
         row, col= len(matrix), len(matrix[0])
         down, left= 0 , col -1
-        while down< row and left >=0:  # 'i' will always go down(max till row-1) and 'j' will always go left max till '0'
+        while down < row and left >=0:  # 'i' will always go down(max till row-1) and 'j' will always go left max till '0'
             # if found then return True
             if matrix[down][left]== target:
                 return True
@@ -28,7 +28,7 @@ class Solution:
 # Note Vvi: 
 # Difference from Q :"74. Search a 2D Matrix"
 # This current Q only guarantee the row and col are sorted not whole ele is sorted.
-# so we can't apply methods of Q :"74".
+# so we can't all apply methods of Q :"74".
 
 # Note: Here we can't decide the row number checking 1st and last value of any row.
 

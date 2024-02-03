@@ -3,6 +3,8 @@
 
 # Method 1:
 
+# Note: Remember this short form to check 'ovelapping interval', will be helpful in a lot of questions.
+
 #To visualise overlapping draw on paper.
 # Time: O(n^2)
 class MyCalendar:
@@ -13,9 +15,9 @@ class MyCalendar:
     def book(self, start: int, end: int) -> bool:
         # check if it is overlapping with any of the booked events
         for s, e in self.booked:
-            # overlap tabhi karega jb 'end' bda ho 's' se and start chota ho 'e' se.
-            # ye sb case handle kar lega
-            if end > s and start < e:  # checking '>/<' not '>= /<=' because we can start the next event same day pre event is ending(= is allowed).
+            # overlap tabhi karega jb start chota ho 'e' se and 'end' bda ho 's' se. This will handle all cases
+            # checking '>/<' not '>= /<=' because we can start the next event same day pre event is ending(= is allowed).
+            if end > s and start < e:  
                 return False
         # booked one ko dal do list me
         self.booked.append((start, end))
@@ -32,12 +34,8 @@ class MyCalendar:
 # for this we can use 'sortedList'.
 
 # time: O(n*logn)
-
-# To Read about sortedList
-# https://grantjenks.com/docs/sortedcontainers/sortedlist.html#sortedcontainers.SortedList
-
+    
 from sortedcontainers import SortedList
-
 class MyCalendar:
 
     def __init__(self):
@@ -77,7 +75,7 @@ class MyCalendar:
     
     # Agar hm kahin isko insert kar paye BST me to then possible else not.
     def isBookingPossible(self, start , end , cur):
-        # 1 ) ye event ya to phle cur event ke bad start hona chahiye
+        # 1 ) ye event ya to cur event ke bad start hona chahiye ya
         if start >= cur.e:
             # then it will go to right side
             if cur.right:

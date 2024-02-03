@@ -12,7 +12,8 @@ class Solution:
             
 
 # method 2:
-# our ans must be at any of the three index i.e at 'n//4' or '2*n//4' or '3*n//4'.
+# our ans must be at any of the three index i.e at i) 'n//4': if 1st index of ans is at <= n//4
+# or ii) '2*n//4' : if 1st index of ans is at <= 2*n//4 or iii) '3*n//4': if 1st index of ans is at <= 3*n//4
 # So just find the first index of these ele and compare with '+ n//4' if equal then that will be our ans.
 # time: O(3*logn)
 
@@ -25,7 +26,9 @@ class Solution:
             if arr[start]== arr[start + n//4]:
                 return arr[start]
 
-
+# Method 3: 
+# Just above logic only .
+# Check 1st two possibility if our ans is not from 1st two then our ans = (3*n//4)
 # time: O(2*logn)
 class Solution:
     def findSpecialInteger(self, arr: List[int]) -> int:

@@ -19,8 +19,8 @@ class Solution:
 
 # How we came at this?
 # 1st row we need '1' coin, 2nd coin -> 2, 3rd coin -> 3 and so on.
-# so if there is 'k' rows then total number of coins used in making 'k' rows must be less than 'k'.
-# i.e K <= (K * (K+1))/2 <= N
+# so if there is 'k' rows then total number of coins used in making 'k' rows must be less than 'N'.
+# i.e Summation from '1' to 'k' <= N => (K * (K+1))/2 <= N
 
 
 class Solution:

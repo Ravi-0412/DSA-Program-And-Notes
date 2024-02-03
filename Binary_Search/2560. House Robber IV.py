@@ -1,10 +1,11 @@
-# logic: just same as we find "kth smallest ele in 2D sorted matrix".
+# logic: just similar as we find "kth smallest ele in 2D sorted matrix".
+# But reducing inti this form is little tough.
 
-# Q reduces to "Find the minimum ele from array which is >= k ele when we take them such that no two of them are adjacent".
-
+# Q reduces to "Find the minimum ele say 'ans' from array which has >= k no of smaller ele in array from 'ans'
+# when we chose those element non - adjacently ".
 # how to solve?
 # Ans: for each number in our ans range i.e min(nums) to max(nums) by taking 'mid',
-# calculate the number of element samller than 'mid' such that no two of them are adjacent.
+# calculate the number of element <= 'mid' such that no two of them are adjacent.
 # if number >= k then means we have found one of the ans so search for even more smaller.
 # else increase the range.
 

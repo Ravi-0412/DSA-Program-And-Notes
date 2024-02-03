@@ -1,9 +1,12 @@
 # Why stack?
+# When we will see any character then we will try to remove all the characters before
+# which has higher lexicographically order if that char is also occuring ahead.
+# For this we need stack.
 
+# Implementation:
 # we have to pick the character's if it is not already visited. 
 # We'll also make sure, the previously picked character is smaller then the current character
 # in order to maintain lexicographically order. 
-# But, how we can check the previously picked character is best for!! And the answer is Stack!!
 
 # time= space= O(n)
 

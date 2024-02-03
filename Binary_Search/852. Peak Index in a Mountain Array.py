@@ -19,3 +19,7 @@ class Solution:
             else:  #  peak(maximum ele) will be on left side of mid including mid
                 start= mid +1
         return start
+
+
+# Later learn and do by 'Golden-section search'.
+# Last solution of link : https://leetcode.com/problems/peak-index-in-a-mountain-array/solutions/139848/c-java-python-better-than-binary-search/

@@ -2,7 +2,8 @@
 # Time: O(n)
 
 # method 2: Binary Search
-# logic: in correct part before the 'single ele', 1st instance of any ele will occur at even index and 2nd instance will ocuur at odd index.
+# logic: in correct part before the 'single ele',
+#  1st instance of any ele will occur at even index and 2nd instance will ocuur at odd index.
 # so first check if this pattern is getting followed till 'mid' or not.and then move accordingly.
 
 # folowing the correct pattern if 1) mid is even then ele at 'mid' and 'mid+1' should be same   OR
@@ -11,7 +12,7 @@
 class Solution:
     def singleNonDuplicate(self, nums: List[int]) -> int:
         low, up= 0, len(nums) -1
-        while low<up:
+        while low < up:
             mid= low + (up-low)//2
             # find the matching index of mid ele.
             # if any of these condition is true then till now they are following the right pattern i.e 

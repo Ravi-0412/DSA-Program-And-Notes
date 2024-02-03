@@ -1,6 +1,7 @@
 # method 1: Brute force
 # using heap
 # time: O(n^2 *log(n^2))
+# space : O(n^2)
 import heapq
 class Solution:
     def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
@@ -8,25 +9,28 @@ class Solution:
         for r in range(len(matrix)):
             for c in range(len(matrix[0])):
                 heapq.heappush(heap, -1*matrix[r][c])
-                if len(heap)> k:
+                if len(heap) > k:
                     heapq.heappop(heap)
         return -1*heap[0]
     
 # methopd 2: VVI (very good approach)
-# modifyong heap and using the sorted rows and columns benefit.
-# logic: Since each of the rows in matrix are already sorted, we can understand the problem as finding the kth smallest element from amongst M sorted rows.
+# modifying heap and using the sorted rows and columns benefit.
+# logic: Since each of the rows in matrix are already sorted, we can understand the problem as 
+# "finding the kth smallest element from amongst M sorted rows."
+    
 # We start the pointers to point to the beginning of each rows as all next smaller ele will be connected to this pointer only.
 #  then we iterate k times to find the ans.
 # for each time ith, the top of the minHeap is the ith smallest element in the matrix. 
-# We pop the top from the minHeap then add the next element which has the same row & next col with the poped one.
+# We pop the top from the minHeap then add the next element which has the same row & next col with the poped one
+# as this ele can be next minimum.
 
-# Time: O(m* log(min(k, m)) + O(k*logk))
+# Time: O(k* log(min(k, m)) + O(k*logk))
 # Space: O(K)
 class Solution(object):
     def kthSmallest(self, matrix, k):
         m, n= len(matrix), len(matrix[0])
         minHeap= []
-        # insert first values of all rows i.e values of 1st col.
+        # insert first 'k' values of all rows i.e values of 1st col as smallest ele will be from these 'k' elements.
         for r in range(min(k, m)):  # max this much row we will have to visit to get the ans.
             heapq.heappush(minHeap, (matrix[r][0], r, 0))   # every smaller ele will be connected to these ele only.
         
@@ -41,8 +45,7 @@ class Solution(object):
 
 
 # method 3: using binary search (more optimised)
-# time: O(n*log(A)), A= difference between minimum value and maximum value in the matrix.
-# https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/discuss/1321862/Python-Binary-search-solution-explained
+# time: O((m + n) *log(A)), A= difference between minimum value and maximum value in the matrix.
 # logic explanation: 
 # We have a way to count how many numbers are less than or equal to x in the table 
 # (let's call this function count(x)). We can simply apply binary search over the range [matrix[0][0], matrix[-1][-1]] 
@@ -69,7 +72,8 @@ class Solution(object):
                 cnt+= col + 1   # this much will be the no of ele <= 'm' in 'i'th row
             return cnt
         
-        left, right= matrix[0][0], matrix[-1][-1]  # min will be at (0,0) and max will be at (n-1,n-1) i.e last ele. our ans can be in this range only.
+        left, right= matrix[0][0], matrix[-1][-1]  # min will be at (0,0) and max will be at (n-1,n-1) 
+                                                    # i.e last ele. our ans can be in this range only.
         while left < right:
             mid = (left + right) // 2
             if count(mid) >= k:   #
@@ -79,10 +83,23 @@ class Solution(object):
         return left
 
 
-# i was thinking since we are finding the mid and updating the start and mid acc to the mid.
-# but mid may not be the ele in the matrix but we are updating these values according to the matrix value only so we will get the correct ans at last.
-# so after while loop ans will be the ele that will be in matrix itself.
-# after every valid(>=) equal to case, it will go closer and closer to the the ele present in the matrix for the ans.
+# we can write 'count(mid)' like this also. Replaced inner 'while' with 'if'.
+def count(m):
+    row , col = len(matrix) , len(matrix[0])  # declaring globally giving error so did inside function.
+    r, c = 0, col - 1
+    cnt = 0
+    while r < row and c >= 0:
+        if matrix[r][c] > m:
+            c -= 1
+        else:
+            cnt += c + 1
+            r += 1
+    return cnt
+
 
 # also try to understand the O(n) approach and do it later
 # https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/discuss/85170/O(n)-from-paper.-Yes-O(rows)
+
+
+# Similar Q:
+# i) 668. Kth Smallest Number in Multiplication Table

@@ -16,8 +16,10 @@ class Solution:
 
 # Optimising
 # Logic: Any person will not able to see all those flowers:
-# 1) which has start bloom time > person_time.  the number of flowers that have stopped blooming before person_time
-# 2) which end bloom time < person_time      .  the number of flowers that will start blooming after person_time
+# 1) which has start bloom time > person_time.  The number of flowers that will start blooming after person_time .
+# For this we need to sort the flowers acc to starting time.
+# 2) which end bloom time < person_time      .  The number of flowers that have stopped blooming before person_time .
+# For this we need to sort the flowers acc to ending time.
 
 # So just find all those flowers they can't see and then to get the ans for cur people subtract with 'n'.
 
@@ -31,7 +33,7 @@ class Solution:
         end.sort()
         ans = []
         for t in people:
-            can_not_see_right = n- bisect.bisect_right(start, t)
+            can_not_see_right = n - bisect.bisect_right(start, t)
             can_not_see_left = bisect.bisect_left(end, t)
             can_see = n - can_not_see_right - can_not_see_left
             ans.append(can_see)

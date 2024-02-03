@@ -17,7 +17,7 @@ class Solution:
 # As checking only one condition we won't be able t take the correct decision.
 
 
-# method 2: very basic
+# method 2: very basic but not a good one
 def findMin(self, arr):
     start, end, n= 0, len(arr)-1, len(arr)
     while start<= end:
@@ -47,8 +47,8 @@ def findMin(self, arr):
 
 
 # 3rd method : Best one(Template 2)
-# minimum and maximum element will always in unsorted part
-# and there will be only one sorted and unsorted part i.e 1) if left to mid is unsorted then mid to right will be unsorted (<=>)
+# Note vvi: minimum and maximum element will always in unsorted part
+# and there will be only one sorted and unsorted part i.e 1) if left to mid is unsorted then mid to right will be sorted (<=>)
 # 2) if right to mid is unsorted then left to mid must be sorted(<=>)
 
 # check condition that guarantee both the sorted and unsorted part and change pointer accordingly.
@@ -62,8 +62,8 @@ class Solution:
                 left = mid + 1            # so minimum will lie in this part only i.e beyond mid
 
             else:      
-            # here it will guarantee that array from 
-            # mid to right is sorted and start to mid is unsorted and mid can also be minimum
+                # here it will guarantee that array from 
+                # mid to right is sorted and start to mid is unsorted and mid can also be minimum
                 right = mid
         # after loop will fail , start and end will point to 
         # the same ele and that will be the minimum ele
@@ -88,7 +88,7 @@ class Solution:
     
             # here means nums[start...mid] is not unsorted 
             # then min will lie beyond mid  as min or max will always lie in unsorted part    # * my mistake(again and again) :
-            #  as array can be already sorted then it will not work
+            # Note:  as array can be already sorted then it will not work
             # or if array become sorted from start to mid after changing start
         
             # means this condition doesnt fully guarantte that array beyond mid will be unsorted
@@ -118,14 +118,16 @@ def findMax(nums):
     return nums[left]
 
 
-# Note: kisse compare karna h 'mid' ko like with 'start' or 'end' to guarantee unsorted part in case of 'min and max' iske liye 'else' case pe focus karo.
-# Agar 'else' other cases ko sahi se handle kar rha(just check already sorted & unsorted case) to wahi logic lga do anhi to dusra wala unsorted case check karo.
+# Note: kisse compare karna h 'mid' ko like with 'start' or 'end' to guarantee unsorted part
+# in case of 'min and max' iske liye 'else' case pe focus karo.
+# Agar 'else' condition other cases ko sahi se handle kar rha(just check already sorted & unsorted case)
+#  to wahi logic lga do nhi to dusra wala unsorted case check karo.
 
 # Note vvvi: in case of sorted & rotated array there will be two case:
 # 1) either array from start to mid (including both) will be sorted => max ele case    OR
 # 2) array from 'mid' to 'end' (including both) will be sorted  => mininum ele case
 
-# Both part can't be either sorted or unsorted at the same time.
+# Both part can't be either sorted(except already ascending array) or unsorted at the same time.
 
 # Similar Q: 1) 33. Search in Rotated Sorted Array"
 

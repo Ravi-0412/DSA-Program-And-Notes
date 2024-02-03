@@ -27,9 +27,7 @@ class Solution:
         while left < right:
             mid = (left + right) // 2
             if count(mid) >= k:
-                print(mid, "right")
                 right = mid  # try to looking for a smaller value in the left side but 'mid' can also be the ans.
             else:  # we have to increase the count so we have to search beyond mid i.e 'mid +1'.
-                print(mid, "left")
                 left = mid + 1  
         return left

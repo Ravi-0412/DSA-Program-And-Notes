@@ -1,3 +1,6 @@
+# Logic : 1st find the range in whcih '1' lies
+# Then find the position of 1st one in that range.
+
 def FindIndex(arr):
     i= 0
     while(arr[2**(i+1)]< 1): # means target not lie in this range

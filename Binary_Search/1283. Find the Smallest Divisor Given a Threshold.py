@@ -1,5 +1,6 @@
 # note: here in <= we are updating end= mid (we used to do this in >=). But it will work fine only.
-# since mid and condition is acting in opposite way like when we will incr the mid (condition value associated with mid will decr)  and so on.
+# since mid and condition is acting in opposite way like when we will incr the mid 
+# (condition value associated with mid will decr)  and so on.
 # So logically we are updating start and end for same reason only like we used to do this in all the Q.
 
 # Vvi Reason: we will get max sum when our mid will less and min sum when our mid will be high.

@@ -1,7 +1,12 @@
 # logic: just similar as we find "kth smallest ele in 2D sorted matrix".
 # But reducing inti this form is little tough.
 
-# Q reduces to "Find the minimum ele say 'ans' from array which has >= k no of smaller ele in array from 'ans'
+# How? 
+# We just need to chose >= k elements and take min(max) of all possibility.
+# So if any number has >= k smaller element than him in array that can be our ans,
+# But we have to minimum possible such number.
+
+# So Q reduces to "Find the minimum ele say 'ans' from array which has >= k no of smaller ele in array from 'ans'
 # when we chose those element non - adjacently ".
 # how to solve?
 # Ans: for each number in our ans range i.e min(nums) to max(nums) by taking 'mid',
@@ -37,6 +42,7 @@ class Solution:
                     lastTaken= True
             return count
 
+        # 2nd Template only
         start, end= min(nums) , max(nums) # our value will lie in this range only.
         while start < end:
             mid= start + (end - start)//2

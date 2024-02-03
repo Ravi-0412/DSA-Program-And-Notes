@@ -1,8 +1,10 @@
-# logic: we are using the formula i.e given three numbers(a, b, c) and a num 'num', find the number of positive number from '1' to 'num' that is divisible by either a or b or c.
-# formula is: num/a + num/b + num/c – num/lcm(a, b) – num/lcm(b, c) – num/lcm(a, c) + num/lcm(a, b, c).
+# logic: we are using the formula i.e given three numbers(a, b, c) and a num 'num', 
+# find the number of positive number from '1' to 'num' that is divisible by either a or b or c.
+# formula is: num/a + num/b + num/c – num/lcm(a, b) – num/lcm(b, c) – num/lcm(a, c) + num/lcm(a, b, c). 
 
 # just the set theory logic. Subtracting to avoid duplicates.
-# vvi: so now Q reduces to find the smallest num such that count of numbers that is divisible by either 'a' or 'b' or 'c' is equal to 'n'.
+# vvi: so now Q reduces to "find the smallest num such that count of numbers that is divisible till 'num' 
+# by either 'a' or 'b' or 'c' is equal to 'n' ".
 # Nd for this we can use binary search as usual.
 
 
@@ -35,7 +37,8 @@ class Solution:
             return num//a + num//b + num//c - num//lcm(a, b) - num//lcm(b, c) - num//lcm(a, c) + num//lcm(a, lcm(b,c))
 
         start= 1
-        end= 2*(10**9)   # maximum we may have to check till here. Given in Q only that result will be in range [1, 2 * 109].
+        # end= 2*(10**9)   # maximum we may have to check till here. Given in Q only that result will be in range [1, 2 * 109].
+        end= n * max(a, b, c)   # max can't go after this.
         while start < end:
             mid= start + (end- start)//2
             if count(mid) >= n:   # search for even more smaller number.
@@ -91,3 +94,7 @@ class Solution:
             else:
                 start= mid + 1
         return start
+
+
+# Similar Q:
+# i) 878. Nth Magical Number    => Exactly same Q

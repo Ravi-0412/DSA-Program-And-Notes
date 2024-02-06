@@ -12,7 +12,7 @@ class Solution:
         l = index          # no of ele on left side of 'index'
 
         def isPossible(mid):
-            m = mid - 1  # from this num i.e 'm' we will start placing in both left and right side to mantaing diff of '1'.
+            m = mid - 1  # from this num i.e 'm' we will start placing in both left and right side to maintain diff of '1'.
             leftSum, rightSum = 0, 0
             # Calculating for right part
             if r <= m:

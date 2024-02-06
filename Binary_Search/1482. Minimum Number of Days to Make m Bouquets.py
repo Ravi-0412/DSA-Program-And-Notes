@@ -1,7 +1,8 @@
 # just same logic as "alllocate minimum no of pages".
 # Difference between both Q: Here we can excatly allocate 'k' no of adjacent books to each student,
 # instead of allocating any no of books if no of pages in that book is <= max_page_allowed.(i.e mid) .
-# And we must allocate to at least 'k' students.
+
+# And we must allocate to at least 'm' students.
 
 # our ans will lie in range [min(bloomDay), max(bloomDay)]. At least we will have to wait till min(bloomDay) and max can go upto max(bloomDay)
 
@@ -30,4 +31,11 @@ class Solution:
                 bouquet+= 1
                 count= 0  # to chekc for next possible bouquet.
         return bouquet >= m
-    
+
+
+# other way we can do is:
+# 1) jst sort the array 
+# 2) apply binaty search on range ' [min(bloomDay), max(bloomDay)]' .
+# 3) Check the last insertion point of mid in sorted array
+# if insertion_point >= m * k then means for this 'mid' , it is possible to get all 'm' boquet.
+# Reason: it means that we can get >= m * k flowers at days == mid.

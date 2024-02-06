@@ -1,5 +1,5 @@
-# logic: We only need to wait between two trains, so do a ceiling division of (distance/speed) for all trains but the last one, 
-# and do exact division for the last one.
+# logic vvi : We only need to wait between two trains, so do a ceiling division of (distance/speed) for all trains 
+# but after the last one we don't have to wait so for last do exact division.
 
 # method 1:
 class Solution:
@@ -8,7 +8,7 @@ class Solution:
 
         def possibleToReach(mid):
             totalHour= 0
-            # last train don't havw to wait
+            # last train don't have to wait
             for d in dist[: -1]:
                 totalHour+= ceil(d/mid)   # since we can only start at integer time. 
             # for last train only have to add the time.

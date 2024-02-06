@@ -43,3 +43,14 @@ class Solution:
 
 # but above one is exact one 
 
+
+
+# My mistake:
+# Analyse why this won't work?
+
+# e.g: n = 3 , batteries : [10,10,3,5]
+# avg = 9 but ans = 8
+
+class Solution:
+    def maxRunTime(self, n: int, batteries: List[int]) -> int:
+        return sum(batteries) // n

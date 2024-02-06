@@ -1,8 +1,6 @@
-# just same as '410. split array for maximum sum'.
-
 # the lower bound of the search space is 1, and upper bound is max(piles), 
 # because Koko can only choose one pile of bananas to eat every hour. 
-# so end= max(piles)
+# so end= max(piles) 
 # time: O(log(max(piles)))
 
 # len(piles) <= 'h' then only koko can eat all the bananas. since in one hour she can eat only one pile

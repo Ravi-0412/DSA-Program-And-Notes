@@ -1,9 +1,6 @@
 # just same as "Allocate minimum pages". in this we have to find the maximum instead of 'minimum' that's it.
-# here we are checking for valid position for placing cow then updating the 'lastcowPOSITION',as here we have to palce when we will find any position.
-
-# IN 'Allocate min pages' we were first updating the 'page_sum' then we are checking the condition as in this we have to keep allocating 
-# the pages to same student until it is valid to alloacate.
-# very good question.
+# here we are checking for valid position for placing cow then updating the 'lastcowPOSITION',
+# as here we have to palce when we will find any position.
 
 # submitted on GFG. But Q is more clear and meaningful on codeStudio and leetcode discussion link in sheet.
 # https://leetcode.com/discuss/general-discussion/1302335/aggressive-cows-spoj-fully-explained-c

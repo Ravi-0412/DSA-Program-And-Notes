@@ -1,11 +1,14 @@
 # logic:Similar logic like "Allocate minimum no of pages" but very good Q.
 # Q asking : 'k' gas station add karne ke bad minimum distance kisi bhi gas station ke beech kitna ho sakta h.
 
-# we can check for each posible ans(difference only) like if it is possible to keep all the stations with this 'diff' by adding at most 'k' extra stations.
+# we can check for each posible ans(difference only) like if it is possible to keep all the stations with this 'diff' 
+# by adding at most 'k' extra stations ??
 # how to calculate the no of stations for 'diff'? (VVI)
 # Ans: check for adjacent station difference and if it is greater than 'diff' means we have to put extra station between these two stations.
-# But to find exactly how many extra stations we have to put to keep the max diff between adjacent station equal to 'diff'= count+= (stations[i]- stations[i-1])//diff.
+# But to find exactly how many extra stations we have to put to keep the max diff between adjacent station equal to 'diff' .
+# and count+= (stations[i]- stations[i-1])//diff.
 # e.g: if diff is greater than two times but less tahn three times then we need to put '2' station and so on. It's very practical to think.
+# so we will add ceilig value.
 
 # Raeson: Every adjacent gas staion can have max distance 'mid', so checking between every station.
 

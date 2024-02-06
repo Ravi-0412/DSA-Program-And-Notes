@@ -1,17 +1,16 @@
+# What we have find indirectly:
+# Find the smallest difference say 'diff' such that we can find 'p' pairs having difference between them is <= 'diff'.
+# Just like we find the 1st index.
+
+# Note vvi: wo 'min_diff' between two pair find karna h jiske niche hmko 'p' pairs nhi mile jiska 'pair_diff',  'min_diff se <= ho.
+# Finally wahi 'min_diff' mera ans hoga.(minimum maximum difference among all p pairs)
+
 
 # Note: Since given "no index can appear more than once amongst the p pairs".
-# so it will better to check with adjacent pair only for any ele because 
+# so it will better to check with adjacent pair only for any ele for each index because 
 # when we will check with any other element then difference will be even more.
 
 # if pair_diff <= given_diff then we will increase the index by '2' else by '1' so that no index used more than one time.
-# So 'if' loop will work better instead of 'while' loop since we only need to check with adjacent index for any element.
-
-# logic: Given a diff can be find 'p' pairs such that absolute diff between those pair  <= diff.
-# if yes find even more smaller 'diff' and if no increase the diff.
-# just same as other q only.
-
-# Note vvi: wo 'min_diff' between two pair find karna h jiske niche hmko 'p' pairs nhi mile jiska 'pair_diff',  'min_diff se <= ho.
-# Finally wahi 'min_diff' mera maximum ans hoga.(minimum maximum difference among all p pairs)
 
 # vvi: pointer ko jb update karenge tb mere ans minimise hoga and jb 'while' loop break hoga tb required and milega i.e : 'min(max)'.
 
@@ -71,7 +70,8 @@ class Solution:
         return start
 
 
-# Note vvvi: Every sub-function we are calling can be asked as a separate problem in interview so keep those function pattern also in mind like when to use.
+# Note vvvi: Every sub-function we are calling can be asked as a separate problem in interview 
+    # so keep those function pattern also in mind like when to use.
 # Like: 1) " Count the no of pairs <= given_num such that no index appear more than once amongst those pairs".
 # Solution above
 

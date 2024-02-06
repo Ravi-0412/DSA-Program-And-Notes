@@ -1,6 +1,4 @@
-# Note: 1) given: All alloys must be created with the same machine.
-# 2) By intuition:
-# for creating maximum no of alloys, we must create all alloys of same metal.
+# Note: Given: All alloys must be created with the same machine.
 
 # Logic: check for given mid, if possible then try to find the more bigger value.
 # Just like we 'find the last index in sorted array'.

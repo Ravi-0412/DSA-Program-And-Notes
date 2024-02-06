@@ -1,6 +1,11 @@
 # logic: All elements must lie between [min(nums), max(nums)] when all will be equal.
 
-# Note: the goal of this problem is to find a num that makes the sum of moves is minimum.
+# Note: the goal of this problem is to "find a num that makes the sum of moves minimum".
+
+# Note vvi: 'target' ele must be from one of the given nums only.
+# e.g: Well, you say, if our array is [2, 5], what if we can achieve min cost by making them 3 or 4?
+# For this to be the case, the cost for both 2 and 5 must be the same. 
+# But if the cost is same, we can achieve the same min cost if we pick 2 or 5.
 
 # Brute force: Just caculating the cost of making all ele equal in above range.
 class Solution:
@@ -16,9 +21,7 @@ class Solution:
     
 
 # Little bit optimising the above solution.
-# By using the inituition that 'target' ele must be from one of the given nums only.
-# e.g: Well, you say, if our array is [2, 5], what if we can achieve min cost by making them 3 or 4?
-# For this to be the case, the cost for both 2 and 5 must be the same. But if the cost the same, we can achieve the same min cost if we pick 2 or 5.
+# Taking only number of same array and making them equal.
 
 class Solution:
     def minCost(self, nums: List[int], cost: List[int]) -> int:
@@ -36,19 +39,19 @@ class Solution:
 # https://leetcode.com/problems/minimum-cost-to-make-array-equal/solutions/2734091/Pivot-vs.-W-Median-vs.-Binary-Search/
 
 # Assume the final equal values are x
-# the total cost function y = f(x) is a convex function(upward parabola) i.e there will be only one value for which this will be minimum.
-# on the range of [min(A), max(A)].
+# the total cost function y = f(x) is a convex function(upward parabola) i.e 
+# there will be only one value for which this will be minimum on the range of [min(A), max(A)].
 
 # To find the minimum value of f(x),
 # we can binary search x by comparing f(mid) and f(mid + 1).  (adjacent value)
 
-# If f(mid) <= f(mid + 1),
-# the minimum f(x) is on the left of mid,
-# where x <= mid
-
 # If f(mid) >= f(mid + 1),
-# the minimum f(x) is on the right of mid + 1,
-# where x >= mid.
+# the minimum f(x) is on the right of 'mid' so make start = mid + 1
+# where x >= mid + 1
+
+# If f(mid) < f(mid + 1),
+# the minimum f(x) is on left of mid including 'mid',
+# where x <= mid.
 
 # Repeatly doing this while left < right,
 # until we find the minimum value and return it.
@@ -59,6 +62,7 @@ class Solution:
 class Solution:
     def minCost(self, nums: List[int], cost: List[int]) -> int:
 
+        # Cost of making all element equal to 'x'.
         def f(x) :
             curCost= 0
             for a, c in zip(nums, cost):
@@ -71,10 +75,10 @@ class Solution:
             x = (start + end) //2  # just mid only
             y1, y2 = f(x), f(x + 1)
             ans = min(y1, y2)
-            if y1 < y2 :
-                end = x
-            else:
+            if y1 >= y2 :
                 start = x + 1
+            else:
+                end = x
         return ans
 
 
@@ -84,18 +88,21 @@ class Solution:
 # logic: Think of the cost array as the weight of the corresponding num in the nums array. 
 # For example when nums = [1, 3, 5, 2] and cost = [2, 3, 1, 14], suppose we want to increase 1 in nums to 2, 
 # we know that the cost for this operation is 2. However, this is equivalent as 
-# if there are two 1’s in nums and we increase both of them to 2. Therefore, the minimum total cost such that 
-# all the elements of the array nums become equal is equivalent to the minimum total cost such that all the elements of the array 
-# nums = [1, 1, 3, 3, 3, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2] become equal, with the cost of doing one operation on each element being 1.
+# if there are two 1’s in nums and we increase both of them to 2. 
+# Therefore, the minimum total cost such that all the elements of the array nums become equal is equivalent 
+# to the minimum total cost such that all the elements of the array 
+# nums = [1, 1, 3, 3, 3, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2] become equal, 
+# with the cost of doing one operation on each element being 1.
 
-# Note : so As such, the answer to this question is the total cost for moving all elements to the (unweighted) median in the new (collapsed) array.
+# Note : so As such, the answer to this question is the :
+# total cost for moving all elements to the (unweighted) median in the new (collapsed) array.
 
 # Note vvvvi: If the cost for all element is the same, then the minimum cost is when all numbers converge at the median.
 # Since the cost is not the same, we need to find a weighted median.
 
-# How will find the 'weighted medina'?
+# How will find the 'weighted median'?
 # To find a weighted median(target, we sort elements, "repeating" each element based on its weight.
-# For [1,3,5,2], [2,3,1,4] case, the repeated array looks like this (median is in bold): [1,1,2,2,2,2,3,3,3,5].
+# For [1,3,5,2], [2,3,1,4] case, the repeated array looks like this: [1,1,2,2,2,2,3,3,3,5].
 
 # Note: Now aggregate the current weight going from one side, and stop when current > total // 2.
 

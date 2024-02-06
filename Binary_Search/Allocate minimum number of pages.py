@@ -64,6 +64,16 @@ class Solution:
 # for end value(in General): jisme hmko divide karna h usko minimse kar do and jisko hmko divide karna h usko maximise kar do.(Q ke anusar)
 # just logically socho ki mera value kahan se kahan tak lie kar sakta h(corner case leke) according to the Q.
 
+# Related questions:
+# 1) 410. Split Array Largest Sum
+# 2) 1011. Capacity To Ship Packages Within D Days
+# 3) 1870. Minimum Speed to Arrive on Time
+# 4) 1231.Divide-Chocolate
+# 5) 875. Koko Eating Bananas
+# 6) 1482. Minimum Number of Days to Make m Bouquets
+# 7) 774-minimize-max-distance-to-gas-station
+
+
 
 
 # tried to find the pages allocated also but not getting correct ans. will do it later.

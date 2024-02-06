@@ -5,7 +5,7 @@
 # 1)'max sum of the splitted subarrays should be minimum' OR 2) 'sum of absolute diff of any two divided subarrays should be minimum'.
 
 # how binary search?: just like we did in '378. k smallest element'. 
-# we can find mid and check it is valid to allocate pages acc to the mid if valid then we will find the next smaller
+# we can find mid and check it is valid to allocate this much max no of pages acc to the mid if valid then we will find the next smaller
 # else we will search for pages greater than mid.
 
 

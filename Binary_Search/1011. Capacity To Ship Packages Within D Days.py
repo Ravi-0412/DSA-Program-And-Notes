@@ -8,6 +8,7 @@ class Solution:
         start, end= max(weights), sum(weights)
         while start< end:
             mid= start + (end-start)//2
+            # if maximum weight capacity of the ship id 'mid' then is it possible to deliver in 'd' days ?
             if self.IsValid(weights,N,M,mid):  # search for even more smaller but mid can be the ans also.
                 end= mid
             else:

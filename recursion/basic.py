@@ -98,10 +98,9 @@ def fibonacii(n):
 def sum(n):
     if n==1:
         return 1
-    else:
-        # smallAns= sum(n-1)
-        # return n+smallAns
-        return n + sum(n-1)  # wherever there is format like 'smallAns'
+    # smallAns= sum(n-1)
+    # return n+smallAns
+    return n + sum(n-1)  # wherever there is format like 'smallAns'
                              # you may directly write the return combining all.
 # print(sum(5))
 
@@ -140,11 +139,10 @@ def SumDigit(n):
     sum,r,q= 0,0,0
     if 0<=n<=9:   # or if n%10== n 
         return n
-    else:
-        r= n%10
-        q= n//10
-        sum1= SumDigit(q)
-        return r+sum1
+    r= n%10
+    q= n//10
+    sum1= SumDigit(q)
+    return r+sum1
 
 # print(SumDigit(234))
 
@@ -161,6 +159,7 @@ def SumDigit(n):
 print(SumDigit(234))
 
 # 3rd method: shortcut of above two
+# Best one
 # Pattern 2.
 def SumDigit1(n):
     if n< 10:   # or if n%10== n 

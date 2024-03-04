@@ -1,15 +1,11 @@
 # time: O(n)
 
-from collections import deque
 class Solution:
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
-        if root== None:
-            return root
-        ans, level= [], []
-        return self.helper(root,level,ans)
-    
-    def helper(self,root, level, ans):
+        if not root:
+            return None
         q= deque([root])
+        ans, level= [], []
         while q:
             for i in range(len(q)):  # we have to print level by level in a list
                 curr= q.popleft()
@@ -46,4 +42,41 @@ class Solution:
         return ans
 
 
+# 2) 513. Find Bottom Left Tree Value
+# simplied: Find the 1st node of last level
 
+# a) When you find node at greater level , update the ans.
+class Solution:
+    def findBottomLeftValue(self, root: Optional[TreeNode]) -> int:
+        q = collections.deque()
+        q.append((0, root))
+        maxLevel = -1
+        ans = None
+        while q:
+            l , node = q.popleft()
+            if l > maxLevel :
+                maxLevel = l
+                ans = node.val
+            if node.left:
+                q.append((l + 1, node.left))
+            if node.right:
+                q.append((l + 1, node.right))
+        return ans
+
+
+# b) Append right to left then last poped node will be our ans
+class Solution:
+    def findBottomLeftValue(self, root: Optional[TreeNode]) -> int:
+        q = collections.deque()
+        q.append(root)
+        while q:
+            root = q.popleft()   # change root then only we will be able to return correct ans at last.
+            if root.right:
+                q.append(root.right)
+            if root.left:
+                q.append(root.left)
+            
+        return root.val  # value of last poped node
+
+
+# 3) 1609. Even Odd Tree

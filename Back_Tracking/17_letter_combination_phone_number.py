@@ -76,7 +76,7 @@ class Solution:
             digit = digits[0]
             temp = dfs(digits[1 :])
             for char1 in keypad[digit]:
-                for char2 in temp:   # 'temp' empty hoga isliye temapAns bhi empty hoga ans ans bhi empty milega.
+                for char2 in temp:   # 'temp' empty hoga isliye tempAns bhi empty hoga and ans bhi empty milega.
                     tempAns = char1 + char2
                     ans.append(tempAns)
             return ans

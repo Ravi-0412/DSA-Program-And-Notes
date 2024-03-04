@@ -5,8 +5,8 @@
 
 # logic: just find the sum of left subtree height and right subtree height of all nodes
 # max of all will be your ans and this will be maximum only between two leaves
-# see: the solution on gfg brute force (same logic)
-# so another way of asking this Q can be " longest path between any two leaves".
+
+# Note vvi: another way of asking this Q can be " longest path between any two leaves".
 
 
 # optimised way ,O(n)
@@ -21,8 +21,8 @@ class Solution:
                 return 0
             left= Height(root.left)
             right= Height(root.right)
-            self.ans= max(self.ans, left+ right)
-            return 1+ max(left, right)
+            self.ans= max(self.ans, left+ right)   # ans when 'root' is lcs 
+            return 1+ max(left, right)    # root will contribute either to left or right so take max(left, right)
         
         # read from here    
         Height(root)

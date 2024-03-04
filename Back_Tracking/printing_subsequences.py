@@ -3,7 +3,7 @@
 # because subset doesn't allow duplicates
 # subset: basically means taking any no of elements in any order
 
-# time complexity= O(2^n *n), 2^n; total no fo subsequences and for each we traversing nearly the whole array
+# time complexity= O(2^n *n), 2^n; total no of subsequences and for each we traversing nearly the whole array
 # space complexity= O(n), maximum recursion depth
 # expanation in note, page no: 24
 

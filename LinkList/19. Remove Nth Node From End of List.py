@@ -1,5 +1,5 @@
 
-# 1st method: traversing the linked list two times(leetcode accepted)
+# 1st method: traversing the linked list two times.
 # one for finding the length and 2nd for deleting the element
 class Solution:
     def removeNthFromEnd(self, head: Optional[ListNode], n: int):      
@@ -53,7 +53,7 @@ class Solution:
         second.next= second.next.next
         return dummy.next  
 
-# just same logic as method 1
+# just same logic as method 2
 class Solution:
     def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
         dummy= ListNode()

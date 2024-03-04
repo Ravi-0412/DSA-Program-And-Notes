@@ -1,8 +1,7 @@
 # Q: find all the subsets of given string
 # logic: just make the recursion tree by including the first letetr 
 # and 'not including' the 1st letter .
-# and whenever you will find the given string empty then that will be our one of the subset
-# must draw recursion tree, it very easy to understand and the basic of DP
+# and whenever you will find the given string empty then that will be our one of the subset.
 
 # def subset(str1,ans):
 #     if not str1:  # if empty then that will be one of the subset and that will be in 'ans'
@@ -19,8 +18,6 @@
 
 
 # 2nd method: to store the result into an list
-
-# leetcode Q:  returns  a list of list of all the subsets(leetcode Q) 
 # very better one,just applied the above logic
 # very concise and useful way.
 class Solution:
@@ -79,18 +76,6 @@ class Solution:
 # arr= [1,2,3]
 # print(subset(arr))
 
-
-# my mistake but got later
-# class Solution:
-#     def subsets(self, nums: List[int]) -> List[List[int]]:
-#         ans= [[]]
-#         for i in range(len(nums)):
-#             for j in range(len(ans)):
-#                 local= ans[j].copy()
-#                 local.append(nums[i])
-#                 ans.append(local)
-#             # ans.append(local)       # this i was writing outside the inside for loop
-#         return ans
 
 # my mistake
 # class Solution:

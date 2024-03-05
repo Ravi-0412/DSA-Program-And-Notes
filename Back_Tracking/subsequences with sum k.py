@@ -73,3 +73,6 @@ PrintSubsequence4(arr,[],2)
 # k = 6
 # PrintSubsequence4(arr,[],k)
 
+# Related Q:
+# 1) 77. Combinations
+# 2) 78. Subsets

@@ -28,11 +28,11 @@ def ways2(r,c,m,n,path):
 # concise way of writing the above code.
 # write all the invalid cases as base case then after that simply call the next function.
 def ways2(r,c,m,n,path):
+    if r >m or c > n:  # invalid case
+        return 0
     if r==m and c==n:
         print(path)
         return 1  # telling the no of ways
-    if r >m or c > n:  # invalid case
-        return 0
     return ways2(r,c+1,m,n,path+"R") + ways2(r+1,c,m,n,path+"D")   # Right and Down
 
 # print("path :")
@@ -74,11 +74,11 @@ def ways4(r,c,m,n,path):
 
 # concise way of writing above code.
 def ways4(r,c,m,n,path):
+    if r > m or c > n:
+        return 0
     if r==m and c==n:
         print(path)
         return 1
-    if r > m or c > n:
-        return 0
     return ways4(r+1,c+1,m,n,path+"D")  + ways4(r,c+1,m,n,path+"H") + ways4(r+1,c,m,n,path+"V") # Diagonal, Horizontal, Verical
 
 print("path :")

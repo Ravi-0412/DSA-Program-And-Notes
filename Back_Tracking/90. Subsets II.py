@@ -22,7 +22,6 @@ class Solution:
             # when you include the curr index ele.
             dfs(i+1, subset + [nums[i]])
             # when you don't include the curr index ele.
-            #  But when you don't include the curr index,
             # you have to skip all the duplicates of curr ele to avoid duplicate in the ans.
             # Now you can call the function at next distinct ele only.
             while i+1 < len(nums) and nums[i+1]== nums[i]:
@@ -33,3 +32,6 @@ class Solution:
         return res
 
 
+# Note: Apply same logic in all questions where dupliacates are allowed and asking for unique subsets/combinations.
+# i.e a) sorting 2) move to distinct number in case of not-take.
+# e.g: 1) 40. Combination Sum II

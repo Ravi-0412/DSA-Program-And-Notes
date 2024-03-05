@@ -1,3 +1,5 @@
+# Logic: Basically asking kth largest element using number from 1 to n only one time.
+
 # Method 1: Store all the possible permutations in list and then sort the list and return list[k-1]
 # correct only but giving TLE
 # time: O(n!*n + n!logn!)
@@ -44,7 +46,7 @@ class Solution:
         if remaining_k== 0:  # then all char present in arr should be added as it is i.e in same order
             ans+= arr
             return ans
-        # if no_added==n:  # no need of this as it is not possible that remaining_k== 0 and no_added== n.
+        # if no_added==n:  # no need of this as it is not possible that remaining_k!= 0 and no_added== n.
         #     return ans
         no_gen_by_each_char= self.fact(n- no_added -1)   # just fix one char and find no of permutation for remaining
                         # we are fixing each char(-1) and finding the no of permutation we can get by fixing this curr char.

@@ -88,7 +88,6 @@ class Solution:
                 if resultSoFar == target:
                     ans.append(ways)
                 return
-            print(num, i , len(num) + 1)
             for j in range(i + 1, len(num) + 1):
                 s = num[i : j]
                 if len(s) > 1 and num[i] == "0":

@@ -46,7 +46,7 @@ class Solution:
 # So if by putting nums[i] in this empty bucket can't solve the game, 
 # putting nums[i] on other empty buckets can't solve the game either. So simply return False
 
-# Kyonki agar dusre next partition me rakh denge nums[i] ko , then gain hmko yahi milega.
+# Kyonki agar dusre next partition me rakh denge nums[i] ko , then again hmko yahi milega.
 
 # If subsets[j] = 0, it means this is the first time adding values to that subset.
 # If the backtrack search fails when adding the values to subSets[j] and subSets[j] remains 0, 
@@ -117,9 +117,11 @@ class Solution(object):
 
 # Note vvi: whenever you are asked to operate on the sum on a set of objects, just make a list sum and store sum of a set at an index.
 
-# Note vvvi:
-# All these Q : "698. Partition to K Equal Sum Subsets", "473. Matchsticks to Square" ,
-# "2305. Fair Distribution of Cookies", "1723. Find Minimum Time to Finish All Jobs" 
+# Related Q. Note vvvi:
+# All these Q : "698. Partition to K Equal Sum Subsets", 
+# "473. Matchsticks to Square" ,
+# "2305. Fair Distribution of Cookies", 
+# "1723. Find Minimum Time to Finish All Jobs" 
 # are exactly same and can be done by normal backtracking.
 
 # But to avoid TLE, we have to optimise a little wherever we can.

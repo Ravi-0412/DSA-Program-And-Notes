@@ -1,4 +1,4 @@
-# just same as we did in "subsequnce with given some" . only difference is
+# just same as we did in "subsequnce with given sum" . only difference is
 # 1) here in case arr[0]<=k i.e when we are including that index don't increment that index as we can include any ele any no of times
 # As in case of subsequence repitition does not happen.
 # 2) we will check for ans(base case) only when we will get the target first then for array end.

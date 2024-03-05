@@ -1,5 +1,9 @@
 # exactly same as "22. generate valid parantheis"
 
+# In above Q: No of '(' will be always >= no of ')'.
+
+# Just replace '(' -> 1 and ')' -> 0.
+
 # Q: we have to fill 'n' boxes in such a way that no of '1' is >= no of '0' for all prefix.
 # logic in Q: "22. generate valid parantheis"
 

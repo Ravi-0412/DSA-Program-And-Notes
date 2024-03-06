@@ -1,34 +1,14 @@
-def TotalNodes(self, root):
-         # just do any traversal and count
-        # count= 0
-        # if root== None:
-        #     return 0
-        # count+= 1
-        # smallAns= self.TotalNodes(root.left)
-        # count+= smallAns
-        # smallAns1= self.TotalNodes(root.right)
-        # count+= smallAns1
-        # return count
+# 1) Total nodes
 
-        # concise way of writing
+def TotalNodes(self, root):
         if root== None:
             return 0
         return 1+ self.TotalNodes(root.left) + self.TotalNodes(root.right)
-    # Later try by iterative way
 
+# Later try by iterative way
 
+# 2) Leaf Nodes
 def LeafNode(self, root):
-    # count= 0
-    # if root== None:
-    #     return 0
-    # if root.left== None and root.right== None:
-    #     return 1
-    # smallAns= self.LeafNode(root.left)
-    # smallAns1= self.LeafNode(root.right)
-    # count+= smallAns + smallAns1
-    # return count
-    # concise way
-    
     if root== None:
         return 0
     if root.left== None and root.right== None:
@@ -36,6 +16,7 @@ def LeafNode(self, root):
     return self.LeafNode(root.left) + self.LeafNode(root.right)
         # Later try by iterative way
 
+# 3) Depth / Height
 def Depth(self,root):
     if root== None:
         return 0

@@ -50,7 +50,8 @@ class Solution:
 # Note VVI(Generalisation of DP in tree): calculate for left and right part of a node
 # then make a decision for cur node i.e (update the ans) based on left and right part and return the ans to upper level (to parent).
 
-# updating the ans and returning to the upper level might be different so always make another function(say helper function) if you got that both will be different.
+# Note: updating the ans and returning to the upper level might be different 
+# so always make another function(say helper function) if you got that both will be different and keep 'ans' as global variable.
 #  in helper function, just keep updating the ans after getting value from left and right part and return the value according to the function.
 
 # Note: we will return when any of the subtree will be balanced.
@@ -60,31 +61,6 @@ class Solution:
 
 # Note: we can't return True/False based on True/false because in Python True->1 and False->0 and '0' and '1' can be our height also.
 
-class Solution:
-    def isBalanced(self, root: Optional[TreeNode]) -> bool:
-        # just apply the logic of maxDepth
-        def check(root):  # totally height logic only just wrote few condition in between that's it
-            if root== None:  # height logic
-                return 0
-    
-            # if either left or right is unbalanced i.e= -1 then simply return -1 no need to check further
-            left= check(root.left)   # height logic
-            if left== -1:
-                return -1
-            right= check(root.right)  # height logic
-            if right== -1:
-                return -1
-
-            # if both of them left and right is balanced then check the difference in their heights to check root is balanced.
-            if abs((left-right))> 1: 
-                return -1
-
-            # if balanced then return the max height 
-            return 1+ max(left,right)  # calculating the height
-            
-        return check(root)!= -1  # if not equal to '-1' means balanced
-
-# concise way of writing above code
 # '-1' means tree is unbalanced 
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
@@ -100,6 +76,26 @@ class Solution:
             return 1+ max(left,right)
             
         return check(root)!= -1  # if not equal to '-1' means balanced
+
+
+# Simplest way of writing above logic using 'ans' as global variable.
+# Do by this only
+
+class Solution:
+    def isBalanced(self, root: Optional[TreeNode]) -> bool:   
+        self.ans= True   # without 'self' it is not working
+
+        def maxDepth(root):  # check if subtree starting from root is balanced.
+            if root== None:
+                return 0
+            l = maxDepth(root.left)
+            r = maxDepth(root.right)
+            if abs(l - r) > 1:
+                self.ans = False
+            return 1 + max(l, r)
+
+        maxDepth(root)
+        return self.ans
 
 
 # my misatke:

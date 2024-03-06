@@ -19,9 +19,15 @@ class Solution:
         return (root1.val==root2.val) and self.isIdentical(root1.left, root2.left) and self.isIdentical(root1.right, root2.right)
                 # this will check all nodes are value wise same
 
+# Try later these approaches
+
 # method 2: 
 # can also do like "Find Duplicate Subtree" using serialisation.
 # Time: O(n*m)
+    
+# 4) Store values of tree in a list say root_values and values of subtree in a list say subtree_values.
+# Now apply string algorithm like Z-function, KMp and check if any substring of subtree_values in present in root_values.
+    
 
 # method 3: serialisation + kmp
 # Time: O(m+ n)

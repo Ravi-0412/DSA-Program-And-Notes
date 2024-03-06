@@ -5,7 +5,9 @@ def PreorderRecursive(self,root):
         self.PreorderRecursive(root.left)
         self.PreorderRecursive(root.right)
 
-# iterative way 
+# iterative way
+# Logic: first push the right subtree in the stack as we have to 
+# print 'left' side first and stack is LIFO
 def PreorderIterative(self,root):
     if root== None:
         return 
@@ -14,8 +16,7 @@ def PreorderIterative(self,root):
     while stack:
         curr= stack.pop()
         print(curr.data, end=" ")
-        if curr.right: # first push the right subtree in the stack as we have to 
-                       # print 'left' side first and stack is LIFO
+        if curr.right: 
             stack.append(curr.right)
         if curr.left:
             stack.append(curr.left)
@@ -60,7 +61,7 @@ class Solution:
         r= self.inorderTraversal(root.right)
         return l+ [root.val] + r        # just the meaning of inorder
 
-# iterative one
+# Note vvi: iterative one
 # easier one. just the conversion of iterative form when we start from root.left
 # logic: just keep on going left and when left is none then pop the last added one(just same as recursive code, think little)
 

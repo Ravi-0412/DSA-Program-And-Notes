@@ -1,5 +1,4 @@
-# just similar logic as basic of 'Two sum' and exactly same as "560.Find Total number of subarrays whose sum equals to k.".
-# Don't think this as new q, it is the same Q only.
+
 
 # Brute force: just like we do the Brute force in "Find Total no of subarray having sum k"
 # from every node , count the ans possible.
@@ -32,7 +31,12 @@ class Solution:
         self.AllPath(root.right, target- root.val)
 
 # optimisng to O(n): DP
+# just similar logic as basic of 'Two sum' and exactly same as "560.Find Total number of subarrays whose sum equals to k.".
+# Don't think this as new q, it is the same Q only.
+        
 # just like we optimise the "560.Find Total number of subarrays whose sum equals to k." using hashmap.
+
+
 class Solution:
     def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
 

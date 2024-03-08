@@ -20,7 +20,6 @@ class Solution:
 # can write like this also.
 class Solution:
     def sumNumbers(self, root: Optional[TreeNode]) -> int:
-        self.ans= 0
         # once it reaches the 'none' or leaf, it will start returning.
         def dfs(root, path):
             if root== None:

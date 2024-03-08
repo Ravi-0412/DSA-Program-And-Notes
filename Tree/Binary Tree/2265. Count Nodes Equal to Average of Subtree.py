@@ -36,7 +36,9 @@ class Solution:
 # logic: for each subtree we need "sum of subtree" and "count of node in that subtree".
 
 # how to do?
-# just similar method as "House Robber 3". we will return 2 thing in this.
+# just similar method as "1372. Longest ZigZag Path in a Binary Tree", or "House Robber 3". we will return 2 thing in this.
+
+#  For each node return [sum, no_nodes]
 
 # time: O(n)
 class Solution:
@@ -60,32 +62,4 @@ class Solution:
         return self.ans
 
 
-# Brute force 
-# but in python don't know how to code
-class Solution:
-    def averageOfSubtree(self, root: Optional[TreeNode]) -> int:
-        self.count= 0
-
-        
-        def dfs(root):
-            if not root:
-                return 0
-            self.count+= 1
-            l= dfs(root.left)
-            r= dfs(root.right)
-            return root.val + l + r
-        
-        def preorder(root):
-            if not root:
-                return
-            count= 0
-            average= dfs(root) // count
-            if average== root.val:
-                self.ans+= 1
-
-            preorder(root.left)
-            preorder(root.right)
-        
-        preorder(root)
-        return self.ans
 

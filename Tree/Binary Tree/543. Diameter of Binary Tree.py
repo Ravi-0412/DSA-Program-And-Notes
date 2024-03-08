@@ -33,3 +33,8 @@ class Solution:
 # at last return the ans.
 
 # e.g: "543. Diameter Q", "124. Tree path sum"
+    
+
+# Related Q:
+# 1) 124. Binary Tree Maximum Path Sum
+# 2) 2246. Longest Path With Different Adjacent Characters

@@ -1,4 +1,4 @@
-# left boundary: first node at each level
+# left boundary: first node at each level except last level
 # leaves: all leave node from left to right
 # right: last node at each level in reverse order (bottom -> top).
 

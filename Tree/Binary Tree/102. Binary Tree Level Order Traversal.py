@@ -78,5 +78,10 @@ class Solution:
             
         return root.val  # value of last poped node
 
-
-# 3) 1609. Even Odd Tree
+# 3) 103. Binary Tree Zigzag Level Order Traversal
+# 4) 1609. Even Odd Tree
+# 5) 1161. Maximum Level Sum of a Binary Tree
+# 6) 116. Populating Next Right Pointers in Each Node
+# 7) 199. Binary Tree Right Side View
+# 8) Left View of a Binary Tree
+    

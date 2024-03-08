@@ -20,6 +20,8 @@ class Solution:
 # Method 2: 
 # Find the length of valid 'left' and 'right' path for each node.
 
+# Note: If we will try to maintain only single value for each node then it won't work.
+
 # Time: O(n)
 class Solution:
     def longestZigZag(self, root: Optional[TreeNode]) -> int:

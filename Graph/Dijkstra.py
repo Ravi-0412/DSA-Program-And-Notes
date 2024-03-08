@@ -58,7 +58,8 @@ adj= [[0,1,10],[0,2,5],[1,3,1],[1,2,2],[2,1,3],[2,4,2],[2,3,9],[3,4,4],[4,0,7],[
 print(ShortestPath1(adj, 5, 0))
 
 
-# Note vvi: We don't mark visited when we see the node for 1st time itself in case, when there are possibility of getting more better path OR
+# Note vvi: We don't mark visited when we see the node for 1st time itself in case, 
+# when there are possibility of getting more better path OR
 #  when we are not able to decide the exact min time(or distance) in which we will see the same node again.
 # In this case we mark visited after poping the node. It means we got the min time in which we can visit the poped node.
 # So after poping we relax all its edges to minimise other nodes connected to it.
@@ -70,4 +71,4 @@ print(ShortestPath1(adj, 5, 0))
 # Note: Whenever we are asked to find the shortest path having no weight or equal we use bfs. 
 # Raeson: we go breadth wise to reach the other cell as soon as possible.
 
-# If weighted then think of Dijkastra Algo.
+# If weighted then think of Dijkastra Algo.2092. Find All People With Secret

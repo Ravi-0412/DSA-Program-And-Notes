@@ -17,33 +17,12 @@ class Solution:
             cur= q.popleft()
             if not cur:  # mark and keep skipping
                 nullFound= True
-                continue  # we will check if 'nullfound= True' from next time. checking this time will give wrong ans because all nodes can ne 'none' after this node.
+                continue  # we will check if 'nullfound= True' from next time. 
+                          # checking this time will give wrong ans because all nodes can ne 'none' after this node.
             if nullFound:  # means we have found 'null' node before a 'not_null', node or we have found 'not_null' after null node in same level or level before
                 return False
             q.append(cur.left)
             q.append(cur.right)
-        return True
-
-
-# Another way of writing 
-# if 'not-none' then  check if we have already found 'none'.
-class Solution:
-    def isCompleteTree(self, root: Optional[TreeNode]) -> bool:
-        q= collections.deque([root])
-        nullFound= False
-        while q:
-            cur= q.popleft()
-            if cur.left:
-                if nullFound: return False  # means we have found 'null' node before a 'not_null in same level or level before
-                q.append(cur.left)
-            else:
-                nullFound= True
-            if cur.right:
-                if nullFound: return False   # means we have found 'null' node before a 'not_null in same level or level before
-                q.append(cur.right)
-            else:
-                nullFound= True
-
         return True
 
 # other way : my mistake

@@ -9,8 +9,8 @@
 # so just think we are printing horizonatlly from min_horizontal to max_horizontal
 
 # now for each horizonatl distance in range find all the nodes matching to given horizontal distance and add into the ans
-# time: O(n^2) , for each horizontal level we are find the nodes that matches with given horizonatl level
-# but this will not print the node in sorted value when they belong to same vertical and horizonatl level (work on GFG but on leetcode).
+# time: O(n^2) , for each horizontal level we find the nodes that matches with given horizonatl level
+# but this will not print the node in sorted value when they belong to same vertical and horizonatl level (work on GFG but not on leetcode).
 
 class Solution:
     def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
@@ -88,3 +88,11 @@ class Solution:
         return ans
 
 # do by iterative way later all the view based q
+
+
+# Related Q:
+# 1) Top View of Binary Tree
+# ans: you have to print the 1st node at each horizontal level from top(minimum x_coodinate)
+
+# 2) Bottom View of Binary Tree
+# Ans: you have to print the 1st node at each horizonatl level from bottom(maximum x_coordinate)

@@ -13,10 +13,10 @@ class Solution:
                 continue
             adj[par].append(i)
             adj[i].append(par)
-        
-        
+
         def dfs(node):
             visited.add(node)
+            # Take max of all its adjacent node and add '1'.
             ans = 1
             for nei in adj[node]:
                 if nei not in visited and s[node] != s[nei]:
@@ -25,11 +25,12 @@ class Solution:
 
         n = len(parent)
         visited = set()
-        ans = 0
+        res = 0
         for i in range(n):
-            ans = max(ans, dfs(i))
+            res = max(res, dfs(i))
+            # print(res, i, "res")
             visited.clear()
-        return ans
+        return res
 
 
 # Optimising to O(n)
@@ -82,7 +83,7 @@ class Solution:
             # best + second_best + 1 means the length of the longest valid path 
             # going through this node in the sub-tree rooted at this node.
             self.ans = max(self.ans, best + second_best + 1)  # '1' for cur node
-            # But it will return only one length i.e maximum possible one
+            # But it will return only one length i.e maximum possible one. Parent can only take one of the path so take best one
             return best + 1
 
         dfs(0)

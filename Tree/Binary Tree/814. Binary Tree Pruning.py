@@ -1,7 +1,7 @@
 # logic: just go Bottom up and if you have find any '1' either from its child or cur node itslef then 
 # we will include that node in ans.
 
-# else will return None  (remove this node).
+# else will return None  (remove subtree starting from that node).
 
 # time: O(n)
 

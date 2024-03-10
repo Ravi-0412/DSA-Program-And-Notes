@@ -15,11 +15,12 @@ class Solution:
             adj[a].append(b)
             adj[b].append(a)
         
-        visited = set()
+        visited = set()  # this will help in avoiding adding the parent node for any current node.
+                        # parent node will get visited first.
         ans = [0] * n
 
         def dfs(node):
-            visited.add(node)
+            visited.add(node)  # marking visted 1st time when we will see because we will get ans for this node when we will see 1st time only.
             cost_values = [cost[node]]  # subtree will start from cur node only
 
             for nei in adj[node]:
@@ -34,7 +35,7 @@ class Solution:
             ans[node] = max(0, cost_values[0] * cost_values[1] * cost_values[2] , 
                             cost_values[0] * cost_values[-1] * cost_values[-2])
             
-            # return cost_values[: 3] + cost_values[-2 : ]
+            # return cost_values[: 3] + cost_values[-2 : ] 
             return cost_values if len(cost_values) < 6 else cost_values[: 3] + cost_values[-2 : ]
 
         dfs(0)

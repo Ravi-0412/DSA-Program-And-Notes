@@ -15,7 +15,7 @@ class Solution:
 
         def dfs(root):
             if not root:
-                return 
+                return None
             root.left = dfs(root.left)
             root.right = dfs(root. right)
             # if root in 'to_delete' then its children must be in ans. so first add them then, make root as None as we are deleting

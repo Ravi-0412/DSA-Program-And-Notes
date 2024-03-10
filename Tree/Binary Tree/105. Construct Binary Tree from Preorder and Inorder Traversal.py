@@ -41,3 +41,7 @@ class Solution:
         root.right = self.buildTree(preorder_right, inorder_right)
         
         return root
+
+
+# Related Q:
+# 1) 106. Construct Binary Tree from Inorder and Postorder Traversal

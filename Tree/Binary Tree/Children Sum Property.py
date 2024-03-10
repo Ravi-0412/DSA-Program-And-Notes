@@ -34,11 +34,13 @@ def changeTree(root):
 
 # to solve the mistake in above Q,
 # we have to make sure that while updating the values going Bottom up,we have to make sure that we only incr the node value.
-# And for this sum of its children value must be >= node_val while coming back so in this when we will update the cur node value to follow the property
+# And for this sum of its children value must be >= node_val 
+# while coming back so in this when we will update the cur node value to follow the property
 # then, we will have to increment its value only.
 # it will make sure that root  data has values not more than the values of children later after children get updated
 
-# so while going top to bottom if you find the node value is greater than sum of its children then make both of its children value= node value.
+# for making sure this while going top to bottom if you find the node value is greater than sum of its children 
+# then make both of its children value= node value.
 # therefore when you will update the cur node value while becoming back then node_val <= sum of its children value.
 # so we will simply update the cur node value = sum of its children.(only incr operation we will have to do).
 

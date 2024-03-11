@@ -109,3 +109,12 @@ class Solution:
         # and at last we we will compare the no of students with M(# student given in the Q)
         # if < M means allocation is possible otherwise not possible
         return False if len(pages_allocated) >= M else True
+
+
+# Related Q:
+# 1) 410. Split Array Largest Sum
+# 2) 1011. Capacity To Ship Packages Within D Days
+# 3) 1870. Minimum Speed to Arrive on Time
+# 4) 875. Koko Eating Bananas
+# 5) 1482. Minimum Number of Days to Make m Bouquets
+# 6) 1231.Divide-Chocolate

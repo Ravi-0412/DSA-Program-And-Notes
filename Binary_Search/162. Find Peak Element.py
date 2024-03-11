@@ -51,9 +51,15 @@ class Solution:
         return start
 
 # Note: This same logic can  be used to find one of the peak ele(ele greater than neighbours) in any type of array.
-# e.g: '852. Peak Index in a Mountain Array'
-
 # this doesn't mean you can find the max in any array using this approach. 
 # only mean you can find any one of those ele following the property or array following this type of property.
+    
+# e.g:1)  '852. Peak Index in a Mountain Array'
+# in this there will be only one peak ele
+# other things are totally same as '162. find peak index'. 
+
+# 2) 1095. Find in Mountain Array
+
+
 
 

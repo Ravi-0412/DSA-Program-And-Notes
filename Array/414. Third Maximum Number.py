@@ -1,3 +1,25 @@
+# first see 2nd distinct maximum
+# Note: 2nd distinct maximum
+
+# Code for 2nd maximum (submitted on gfg)
+class Solution: 
+	def print2largest(self,arr, n):
+		firstMax, secondMax = -1, -1  
+		for num in arr:
+		    if num > firstMax:
+		        # 'num' is greatest number till now
+		        # so in this we will have to update both 'firstMax' and 'secondMax'
+		        # Update 'secondMax' to 'firstMax' and then 'firstMax' to cur 'num'.
+		        secondMax = firstMax
+		        firstMax  =  num
+		    elif num > secondMax and num != firstMax:
+		        # in this case we only need to update 'secondMax' to 'num'
+		        secondMax = num
+		return secondMax  # if '-1' then all elements are equal and there is no 2nd maximum.
+
+
+# Now come to this question
+
 # Q) why can't use heap?
 # Because heap gives kth smallest/largest that come in sequence assuming sorted array, not the kth distinct smallest/largest.
 
@@ -66,20 +88,3 @@ class Solution(object):
         return v[2] if v[2] != float('-inf') else v[0]
 
 
-# Note: 2nd distinct maximum
-
-# Code for 2nd maximum (submitted on gfg)
-class Solution: 
-	def print2largest(self,arr, n):
-		firstMax, secondMax = -1, -1  
-		for num in arr:
-		    if num > firstMax:
-		        # 'num' is greatest number till now
-		        # so in this we will have to update both 'firstMax' and 'secondMax'
-		        # Update 'secondMax' to 'firstMax' and then 'firstMax' to cur 'num'.
-		        secondMax = firstMax
-		        firstMax  =  num
-		    elif num > secondMax and num != firstMax:
-		        # in this case we only need to update 'secondMax' to 'num'.
-		        secondMax = num
-		return secondMax  # if '-1' then all elements are equal and there is no 2nd maximum.

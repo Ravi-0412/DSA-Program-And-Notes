@@ -11,7 +11,7 @@
 # vvi: this formula can be used only if the positions are sorted.
 
 # So sort the array and find the prefixSum where prefix[i]= sum till index 'i-1'.
-# then fidn the total sum.
+# then find the total sum.
 
 class Solution:
     def sumDistance(self, nums: List[int], s: str, d: int) -> int:
@@ -39,3 +39,4 @@ class Solution:
 # So in this we also need to do find sum from 'right' like 'left'.
 
 # But in current Q, we need to find sum so no need to do from right.
+

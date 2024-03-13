@@ -1,40 +1,7 @@
-# method 1 :
-# TLE
-
-# Logic: Try to form 'k' subset one by one without sorting or with sorting.
-# Both approach will give TLE
-
-class Solution:
-    def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
-        n= len(nums)
-        if sum(nums) % k != 0:
-            return False
-        nums.sort(reverse= True)
-        target= sum(nums)//k  # sum of each subset will be this only
-        used= [False]*n  # will tell whether index 'i' has been used or not.
-
-        def backtrack(ind, k, subsetSum):
-            if k== 0:
-                # means we have formed all the 'k' subsets with equal sum
-                return True
-            # means have formed one more subset. form the new subset with all the elements which has not been used.
-            # So again call the bactrack
-            if subsetSum== target:
-                return backtrack(0, k-1, 0)
-            # form the subset with the help of numbers which has not been used yet.
-            for j in range(ind, n):
-                # after adding any num subset sum must be <= target.
-                if not used[j] and subsetSum + nums[j] <= target:  
-                    used[j]= True
-                    if backtrack(j+1, k, subsetSum + nums[j]):
-                        return True
-                    used[j]= False  # backtarcking
-            return False
-        
-        return backtrack(0, k, 0)
 
 
-# method 2: vvi
+
+# method 1: vvi
 # logic: every element can go into any of the 'k' buckets.
 # so just start putting each ele into each bucket one by one.
 

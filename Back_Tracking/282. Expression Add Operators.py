@@ -43,6 +43,7 @@ class Solution:
                 s = num[: i]
                 if len(s) > 1 and s[0] == "0":
                     # to handle addition of '05' , '0005' etc. 
+                    # i.e handling leading zero
                     # continue
                     break   # in this you can't get possible way considering same remaining num.
                 if num[i : ] != "":

@@ -146,3 +146,10 @@ class Solution:
         # if any of these are false means you can't place Queen at that position
         # you are here means all are position is safe so simply return True
         return True
+
+
+# Similar Question i.e based on checking 'isSafe()' for each possible number.
+
+# 1) Placing n Knight in a 2d array such that they don't attack each other
+# 2) 37. Sudoku Solver
+# 3) M-Coloring Problem

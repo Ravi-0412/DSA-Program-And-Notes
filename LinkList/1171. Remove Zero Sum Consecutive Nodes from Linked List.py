@@ -37,8 +37,8 @@ class Solution:
         # Go from the dummy node again to set the next node to be the last node for a prefix sum 
         cur= dummy  # starting from 'dummy' node because we may have to remove nodes from start also
                      # if prefixSum has value = 0
-        while head:
-            curSum += head.val
+        while cur:
+            curSum += cur.val
             # if curSum is in 'prefixSum' then it means sum of node from 'cur.next' to node 'prefixSum[curSum]' is = 0.
             # So point 'cur.next' to node after node 'prefixSum[curSum]'.
             cur.next= prefixSum[curSum].next   # remove the nodes if cursum has occured more than one time else will automatically point to his next.

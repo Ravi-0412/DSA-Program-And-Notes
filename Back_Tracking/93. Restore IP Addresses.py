@@ -17,8 +17,8 @@ class Solution:
             # for next dot we only need to check the next three char because 4 char together will be sure > 255.
             for j in range(i, min(i+3, len(s))):
                 # checking integer value must be <= 255 and there is no leading zeroes.
-                # for leading zeroes:  #take 1 digit is always good
-                #take 2 or 3 digits, first digit cannot be '0'
+                # for leading zeroes:  # take 1 digit is always good
+                #take 2 or 3 digits etc, first digit cannot be '0'
                 if int(s[i: j+1]) <= 255 and (i== j or s[i] != "0"):
                     backtrack(j+1, dots + 1, curIP + s[i: j+1] + ".")
             

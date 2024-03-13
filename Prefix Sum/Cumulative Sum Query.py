@@ -23,3 +23,5 @@ print(RangeSum(arr, query))
 
 # Note: Whenever there is something related to 'sum in a range', apply prefix sum.
 # Can you array also instead of hashmap of size 'n' or 'n + 1' depending upon Q.
+
+# Related q:

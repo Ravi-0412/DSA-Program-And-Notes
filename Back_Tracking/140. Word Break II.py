@@ -34,6 +34,25 @@ class Solution:
                 seg.pop()
 
 
+# Better one
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+
+        def helper(s, seg):
+            if not s:
+                ans.append(seg[: -1])   # removing the extra space at last
+                return
+            for i in range(1,len(s)+1):
+                if s[:i] in wordsSet:
+                    # if present in dict then, search for remaining 's'
+                    helper(s[i:] , seg + s[: i] + " ")
+
+
+        ans= []  # will store the final ans
+        wordsSet = set(wordDict)
+        helper(s, "")
+        return ans
+
 # Similar Questions:
 # 1) "139. Word Break"
 # https://github.com/Ravi-0412/DSA-Program-And-Notes/blob/main/Dynamic%20Programming/Matrix_Chain_Multiplication/Front%20Partitioning/139.%20Word%20Break.py

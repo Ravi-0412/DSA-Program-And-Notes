@@ -16,8 +16,7 @@ class Solution:
                             if self.solveSudoku(board):
                                 return True
                             # if filling with this num at curr empty cell doesn't lead to a valid sudoku, reset the changes made.
-                            else:
-                                board[r][c]= '.'
+                            board[r][c]= '.'
                     # if we are not able to fill this place with any of the num from '1' to '9', then return False
                     # Now it will backtrack and will try to change the num at empty places after which this function was called
                     return False

@@ -5,7 +5,7 @@
 
 # my mistake , i am checking Top To Down
 # comparing the root value with its adjacent left and right node only
-# but theses left subtree can contain vale greater than root val and similarly right subtree can contain value lesser than root val
+# but these left subtree can contain vale greater than root val and similarly right subtree can contain value lesser than root val
 # and in these cases also it will give True since we are comparing only adjacent left and right node
 
 class Solution:
@@ -38,14 +38,8 @@ class Solution:
         return ans
 
 
-# solution of above methods is to compare the child value not only with the root only but with the parent of root also
-# but this will lead to space : O(n)
-
-# but the abive logic can be implement without any extra space
-# write the iterative inorder traversal 
-# like when we pop any ele just check its value with the pre element.
-# poped ele must be greater than the pre element as in case of inorder traversal 
-# element should be in ascending. 
+# Just logic of method1 in o(1) space.
+# Just compare cur ele with prev one to check if elements are in strictly sorted order or not. 
 class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
         if root== None:
@@ -68,3 +62,20 @@ class Solution:
         return True  
 
 
+# Method 2: 
+# better one and new logic
+# Time: O(n)
+
+class Solution:
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+
+        def check(root, min, max):
+            if not root:
+                return True
+            if root.val <= min or root.val >= max:
+                return False
+            # for left: Now max will be root.val and min will be same
+            # for right: min will be root.val and max will be same
+            return check(root.left, min, root.val) and check(root.right, root.val, max)
+
+        return check(root, float('-inf'), float('inf'))    # (root, minimum_for_that_path, maximum_for_that_path)

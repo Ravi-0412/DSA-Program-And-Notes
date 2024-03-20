@@ -1,7 +1,7 @@
 # method 1: Brute force
 # steps: 1) find the inorder traversal and store them into an array say 'inorder'.
 # 2) search for index of each root.val in 'inorder' array , using binary search say 'idx'.
-# 3 ) Find the suffix sum to get the sum from the above index to last in o(1).
+# 3 ) Find the suffix sum to get the sum from the above index(all larger node) to last in o(1).
 # then root.val= suffix[idx]
 
 # time: O(n*logn), searching index of each ele .

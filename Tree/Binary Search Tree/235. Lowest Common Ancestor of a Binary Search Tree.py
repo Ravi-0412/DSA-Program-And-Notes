@@ -8,14 +8,14 @@
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        if root== None:
-            return root 
+        # if root== None:     # No need of this as it won't reach till 'root= None', it will get returned before only
+        #     return root 
         if root.val> p.val and root.val> q.val:  # both lie in the left subtree of that node
             return self.lowestCommonAncestor(root.left, p, q)
-        elif root.val< p.val and root.val< q.val:   # both lie in the right subtree of that node
+        if root.val< p.val and root.val< q.val:   # both lie in the right subtree of that node
             return self.lowestCommonAncestor(root.right, p, q)
-        else: # means one lie left and other lie in right or (one tree is LCA of other) so return root itself
-            return root
+        # means one lie left and other lie in right or (one tree is LCA of other) so return root itself
+        return root
 
 
 # iterative way of above

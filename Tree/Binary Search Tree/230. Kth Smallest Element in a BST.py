@@ -1,4 +1,4 @@
-# method 1: do any traversal and then sort the ans and tehn return the kth ele from start
+# method 1: do any traversal and then sort the ans and then return the kth ele from start
 # time: O(n*logn), space: O(n)
 
 # method 2: just find the inorder traversal of the tree and return the kth element from the start

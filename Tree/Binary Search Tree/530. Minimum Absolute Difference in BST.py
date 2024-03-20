@@ -4,26 +4,20 @@
 
 # time: O(n)
 
-# Recursive one in java. Later do in Python.
-public class Solution {
-    
-    int minDiff = Integer.MAX_VALUE;
-    TreeNode prev;
-    
-    public int getMinimumDifference(TreeNode root) {
-        inorder(root);
-        return minDiff;
-    }
-    
-    public void inorder(TreeNode root) {
-        if (root == null) return;
-        inorder(root.left);
-        if (prev != null) minDiff = Math.min(minDiff, root.val - prev.val);
-        prev = root;
-        inorder(root.right);
-    }
-
-}
+class Solution:
+    def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
+        pre = float('-inf')
+        stack = []
+        ans = float('inf')
+        while stack or root:
+            while root:  # keep going left 
+                stack.append(root)
+                root= root.left
+            curr= stack.pop()
+            ans = min(ans, curr.val - pre)   # just finding diff between two consecutive ele in sorted array.
+            pre = curr.val
+            root= curr.right  # move the pointer to check the right child.
+        return ans
 
 # 2nd method:
 # https://leetcode.com/problems/minimum-absolute-difference-in-bst/solutions/338515/python-recursive/

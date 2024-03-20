@@ -138,3 +138,21 @@ print()
 # print("total no of nodes: ", b.TotalNodes(root))
 # print("no of leaf nodes: ", b.LeafNode(root))
 print("depth of the tree is: ",b.Depth(root))
+
+
+# Keep this inorder traversal code in mind
+# Most of the q of BST , we can solve modifying this a little.
+def InorderIterative(self,root):
+    if root== None:
+        return 
+    stack, ans= [], []
+    while stack or root:
+        while root:  # keep going left 
+            stack.append(root)
+            root= root.left
+        # if None, it means no left child then print the stack top (just pop).
+        # it means we have reached the leftmost node.
+        curr= stack.pop()
+        ans.append(curr.val)
+        root= curr.right  # move the pointer to check the right child.
+    return ans

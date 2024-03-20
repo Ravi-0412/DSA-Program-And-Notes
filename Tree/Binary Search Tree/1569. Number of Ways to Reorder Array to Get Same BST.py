@@ -14,11 +14,11 @@
 # such that the relative order of the digits from the same sequence(array) remain preserved?
 
 # Ans:
-# This is the same as taking m+n places, and deciding which of them get the xi
+# This is the same as taking m+n places, and deciding which of them get the xi or yi
 # , i.e., com(m + n , m) or comb(m + n, n) = (n + m)! //(m! * n!)
 
-# There are m + n total positions. If we put m elements from left in randomly chosen m positions (but, in order), 
-# we can put the rest in other (right ;-)) positions. 
+# There are m + n total positions. If we put m elements from left(smaller value than root) in randomly chosen m positions (but, in order), 
+# we can put the rest(right) in other remaining positions. (right: greater values than root)
 # (Equivalently, we could also have chosen to fill n arbitrary positions from right and fill remaining from whatever positions are left.)
 
 # TIME: o(n^2)

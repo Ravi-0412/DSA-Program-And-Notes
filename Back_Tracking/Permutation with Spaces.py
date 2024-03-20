@@ -19,8 +19,23 @@ class Solution:
             
         ans= []
         per= S[0]
-        solve(per, S[1: ]) 
+        solve(per, S[1: ])   # If we call from here then no need to handle placing of spaces at last separately.
         return ans
 
 
-# taking ans inside the function only
+# Other way
+class Solution:
+    def permutation (self, S):
+        
+        def solve(per, s):
+            if not s:
+                ans.append(per)
+                return
+            if len(s) > 1:
+                # To avoid printing space at last
+                solve(per + s[0] + " " ,  s[1: ])
+            solve(per + s[0], s[1: ])
+            
+        ans= []
+        solve("", S) 
+        return ans

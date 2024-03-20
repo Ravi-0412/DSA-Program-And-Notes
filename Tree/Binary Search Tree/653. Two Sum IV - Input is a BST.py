@@ -1,6 +1,6 @@
 # method 1: store the inorder 
 # now problem reduces to "Two sum"
-# then apply the two pointer approach for find th epair since inorder will be a sorted array 
+# then apply the two pointer approach for find the pair since inorder will be a sorted array 
 # space= time= O(n)
 
 # method 2:
@@ -10,11 +10,17 @@
 
 
 # method 3: just use the 'BST iterator' i.e 'next' and 'prev'
-# nect will give element from start i.e samllest one and 'prev' will give element from last i.e largest one
-# Now problem reduces to "Two sum" with two pointer approach 'next' and 'prev'
+# next will give element from start i.e samllest one and 'prev' will give element from last i.e largest one.
+# Now problem reduces to "Two sum" with two pointer approach 'next' and 'prev'.
+
+# for getting the 'prev' just push all the right ele first and for any node you pop
+# just the opposite of inorder i.e Right,Root,Left
+# doing opposite of inorder will sort the array in descending order
+# 'prev' will give the elements in from last of inorder.
+
 # time: O(n)
 # space: O(H)*2= O(H)
-# this Q is based on this approach only since in this we are using a lot of proeperty of BST
+# this Q is based on this approach only since in this we are using a lot of property of BST
 
 class BSTIterator:
     def __init__(self, root, reverse):  # taking reverse also so that we don't have to make separate function 
@@ -35,7 +41,7 @@ class BSTIterator:
         return self.stack!= []
     
     def PushAll(self, root):
-        # push everything that comes on the left of root
+        # push everything that comes on the left/right of root based on 'reverse' value.
         curr= root
         while curr:
             self.stack.append(curr)
@@ -46,8 +52,8 @@ class BSTIterator:
                 
 class Solution:
     def findTarget(self, root: Optional[TreeNode], k: int) -> bool:
-        start= BSTIterator(root, False)    # go get element from start i.e smallest one first
-        end=   BSTIterator(root, True)     # go get element from end i.e   largest one first so made reverse= "True"
+        start= BSTIterator(root, False)    # get element from start i.e smallest one first
+        end=   BSTIterator(root, True)     # get element from end i.e   largest one first so made reverse= "True"
         i= start.next()
         j= end.next()
         while i< j:

@@ -21,24 +21,18 @@ k = 33
 # print(SubArray_Sum(arr,k))     
 
 
-# sliding window but is not valid for negative numbers. valid if all number is +ve.
+# sliding window but is not valid for negative numbers. valid if all number is +ve(> 0).
 # don't getting the correct output, tried a lot(got was missing one condition)
 # time : O(n)
 def Count_SubArray(arr,k):
     i,j,win_sum,ans= 0,0,0,0
-    while j<len(arr):
+    while j < len(arr):
         win_sum+= arr[j]
-        if win_sum== k:
-            ans+= 1
-        elif win_sum >k:
-            # first make sum <k(and keep on incr 'i') then incr 'j'
-            # just shifting the window for finding the ans like before
-            while win_sum >k:  # in thgis you have to delete from left since all are positive no
-                win_sum-= arr[i]
-                i+= 1
-                # while removing win_sum can become equla to 'k' also
-                if win_sum== k:
-                    ans+= 1
+        while i <= j and win_sum > k:
+            winSum -= arr[i]
+            i += 1
+        if win_sum == k:
+            ans+= 1      
         j+= 1  # you have to incr 'j' always so better write outside the loop
     return ans
 

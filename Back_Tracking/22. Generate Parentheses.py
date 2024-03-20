@@ -41,6 +41,7 @@ class Solution:
         return ans
 
 # storing the paranthesis formed in string
+# Better one
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
         ans= []

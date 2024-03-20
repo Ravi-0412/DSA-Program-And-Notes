@@ -1,10 +1,5 @@
-# logic: just find out the inorder traversal by sorting the array and Apply "convert into binary tree given preorder and inorder".
-# Q.But why this is working even we are applying the logic of binary tree to convert into BST?
-# Ans: Because every time this will select middle node from inorder for each sub_part like we used to "convert the given sorted array into Balanced BST".
-# for each subtree 1st ele of preorder will be the root and that will be the mid ele in inorder for their part.
-
-# method 2: simply sort and then apply the "convert the given sorted array into Balanced BST".
-# time: O(n*logn) for both methods.
+# Method1: 
+#  just find out the inorder traversal by sorting the array and Apply "convert into binary tree given preorder and inorder".
 
 class Solution:
     def bstFromPreorder(self, preorder: List[int]) -> Optional[TreeNode]:
@@ -25,6 +20,8 @@ class Solution:
 
         return root
 
+# method 2: simply sort and then apply the "convert the given sorted array into Balanced BST".
+# time: O(n*logn) for both methods.
 
 # method 3: Take each ele in preorder and apply the normal method to form BST i.e insert node in BST one by one.
 # time: O(n*logn).
@@ -32,13 +29,15 @@ class Solution:
 # method 4: 
 # time: O(n)
 # Q. How to come up with this logic?
-# Ans: Just given the preorder, draw the BST on paper and analyse how you are putting the nodes and which Data Structure we can use to get BST directly from preorder.
+# Ans: Just given the preorder, draw the BST on paper and analyse how you are putting the nodes and 
+# which Data Structure we can use to get BST directly from preorder.
 
 # Q. why we are directly adding when num is samller and poping before adding when num is greater?
 # Ans: if smaller means that must be the left child of the just previous ele in stack , 
 # Because we are doing acc to the preorder and in preorder we will move to left after root and it is BST so smaller ele will be on left.(root, left right,)
 # vvi: until we find any ele greater than top of stack, all those num will be go as left child only(like skew tree).
-# And we will find any ele greater then we will search for the node to which 'num' will be the right child.  (now direction of tree will change).
+# And we will find any ele greater then we will search for the node to which 'num' will be the right child.  
+# (now direction of tree will change).
 # i.e we will find the last smaller ele from the current num. 'num' will be the right child of that ele.
 
 # That's why we are using stack.

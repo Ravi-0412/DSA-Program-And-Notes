@@ -14,6 +14,9 @@
 
 # Won't work in case of more than one component.
 
+# Note: Checking for no cycle and single component will wrong ans because
+# in this one node can more than two children.
+
 
 # method 2: 
 # https://leetcode.com/problems/validate-binary-tree-nodes/solutions/939381/python-clean-bfs-96-faster-timecomplexity-o-n-space-complexity-o-n/?envType=daily-question&envId=2023-10-17

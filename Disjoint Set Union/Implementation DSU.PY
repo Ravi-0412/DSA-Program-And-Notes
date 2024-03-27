@@ -153,8 +153,9 @@ class DSU:
 
 
 # Note: every time we will get our ans while doing 'union' only. so you might have to modify little bit'union' function to get the ans.
-# like 1) you may have to simply return or you have to return '0' in case we can't do union  2) you may have to return True or return '1' 
-# in case union is possible.  3) may be in little other way according to the Q.
+# like : 1) you may have to simply return or you have to return '0' in case we can't do union  
+# 2) you may have to return True or return '1' in case union is possible.  
+# 3) may be in little other way according to the Q.
 
 # Note: in every Q, first convert the parameter(you want to do union) in an integer 
 # because we have to find parent and all , and they can be found out using index only.

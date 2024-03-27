@@ -76,7 +76,7 @@
 
 # This method can also be used to detect cycle in directed graph
 # just count the no of nodes added in the Q, if there will be cycle then count <n because  at some point 
-# there will not be any node whose indegree will be equal to '0' to put into the Q or call the bfs function
+# there will not be any node whose indegree will be equal to '0' to put into the Q or call the bfs function.
 # here no need of visited set since we are adding only the node with 'indegree==0'
 
 from collections import defaultdict
@@ -97,7 +97,8 @@ class Graph:
                 self.indegree[k]+= 1
 
     def FindTopoSort(self):
-        Q, ans= [], []
+        Q, ans= [], []      # Note: Replace 'Q' -> deque
+
         # find the node with indegree '0' as this node will come 1st in the topological order
         # i.e it will be the source node and after that apply the BFS
         for i in range(self.V):   # will also work for more than one component
@@ -119,6 +120,9 @@ class Graph:
             print("there exist a cycle in the graph")
         else:
             print(ans)
+
+# Note: You can go level wise i.e Node with indegree '0' come at first then node with indegree = '1' and so on.
+# This will useful in Q: 1136. Parallel Courses
         
 # test case 1
 # g= Graph(6)
@@ -153,34 +157,7 @@ g.FindTopoSort()
 # Note: Use this template in other Q of topological sort
 
 # 1) Dfs template
-from collections import defaultdict
-import collections
-class Solution:
-    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        AdjList= defaultdict(list)
-        # first convert into adjacency list(edges) for directed graph
-        # According to the meaning of the Q.
-        for second,first in prerequisites:
-            AdjList[first].append(second)
 
-        def checkCycle(src):
-            visited.add(src)
-            path_visited.add(src)
-            for u in AdjList[src]:
-                if u not in visited:
-                    if checkCycle(u):
-                        return True
-                elif u in path_visited:
-                    return True
-            path_visited.remove(src)
-            return False
-
-        visited= set()
-        path_visited= set()
-        for i in range(numCourses):
-            if i not in visited and checkCycle(i):    # if cycle simply return False, else continue checking for another node
-                return False
-        return True
     
     
 # method 2: bfs template

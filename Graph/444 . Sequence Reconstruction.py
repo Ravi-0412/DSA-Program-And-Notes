@@ -7,8 +7,8 @@
 
 # from here we get idea of topological sort.
 
-# And there should be only possible choice at a time otherwise there will be choice
-# and we get other ans also.
+# And there should be only possible choice at a time otherwise we will get more than one ans also.
+# I.e there shoule be only one topological order and that should be equal to nums.
 
 import collections
 
@@ -17,7 +17,7 @@ class Solution:
         n = len(org)
         adj = collections.defaultdict(list)
         indegree = collections.defaultdict(int)
-        nodes = set()
+        nodes = set()   # to find no of distinct nodes 
         for seq in seqs:
             nodes |= set(seq)   # to Handle when len(seq) == 1, we have to include that one ele
             for i in range(len(seq) -1):

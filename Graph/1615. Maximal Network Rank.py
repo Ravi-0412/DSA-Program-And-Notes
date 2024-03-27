@@ -16,13 +16,12 @@ class Solution:
         for a, b in roads:
             indegree[a] += 1
             indegree[b] += 1
-            roadsEgdes.add((a, b))
-            roadsEgdes.add((b, a))
+            roadsEgdes.add((a, b))   # no need to add other pair (b, a) since bidirectional
             
         ans = 0
         for i in range(n):
             for j in range(i + 1, n):
-                if (i, j) in roadsEgdes or (j, i) in roadsEgdes:
+                if (i, j) in roadsEgdes:
                     ans = max(ans, indegree[i] + indegree[j] -1)
                 else:
                     ans = max(ans, indegree[i] + indegree[j])

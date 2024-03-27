@@ -1,5 +1,5 @@
 # logic: Nodes having indegree '0' won't be reachable by any other nodes,
-# And other nodes having indegree > 0 will be reachable by other nodes.
+# And other nodes having indegree > 0 will be reachable by nodes having indegree = 0.
 
 # so Q reduces to: "Find the nodes having indegree= 0".
 

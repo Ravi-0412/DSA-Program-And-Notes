@@ -69,3 +69,35 @@ print(g.isCycle(9,g.AdjList))
 
 # method 2: using BFS(kahn's Algorithm)
 # this is under topological sort (Method 2)
+
+
+# Dfs template to use in other Q
+# Just code of: 207. Course Schedule
+from collections import defaultdict
+import collections
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        AdjList= defaultdict(list)
+        # first convert into adjacency list(edges) for directed graph
+        # According to the meaning of the Q.
+        for second,first in prerequisites:
+            AdjList[first].append(second)
+
+        def checkCycle(src):
+            visited.add(src)
+            path_visited.add(src)
+            for u in AdjList[src]:
+                if u not in visited:
+                    if checkCycle(u):
+                        return True
+                elif u in path_visited:
+                    return True
+            path_visited.remove(src)
+            return False
+
+        visited= set()
+        path_visited= set()
+        for i in range(numCourses):
+            if i not in visited and checkCycle(i):    # if cycle simply return False, else continue checking for another node
+                return False
+        return True

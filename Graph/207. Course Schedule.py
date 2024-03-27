@@ -105,7 +105,7 @@ class Solution:
                 return False
         return True
         
-
+    # Returns true if path is possible i.e no cycle.
     def FindTopoSort(self, adj,src, stack,visited):
         # base case for checking whether we have visited all the adjacent node.. if visited then check on another node
         if visited[src]== 1:   # been visited and added to the stack(ans). so simply return true so that it can check for next node without repeating the work
@@ -118,10 +118,10 @@ class Solution:
         visited[src]= -1   # Marking 'cur' node is visited in current cycle. Also it means till now we have only visited the 'src' not its adjacent node.
         for u in adj[src]:
             if not self.FindTopoSort(adj, u, stack, visited):
-                return False
+                return False   # cycle 
                 
         # while traversing back make visited[src]= 1 and  put the node into the stack
         visited[src]= 1   # means we have visited the 'src' as well as its neighbour and added to the ans(stack)
         stack.append(src)
-        return True   # means we have visited the current node as well as its neighbour successfully
+        return True   # means we have visited the current node as well as its neighbour successfully. No cycle
         

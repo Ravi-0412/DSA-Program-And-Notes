@@ -23,14 +23,17 @@
 
 # exactly same code as cycle detction in directed graph using dfs.
 # only one extra line added to include the node in the ans that's it.
+
+# Note: All terminal node is a safe node since all paths from terminal node go to same terminal node.
+
 class Solution:
     def eventualSafeNodes(self, graph: List[List[int]]) -> List[int]:
         n= len(graph)
         visited= set()
-        path_visited= set()
+        path_visited= set()   # making this as local variable for each dfs call will give error
         ans= []
 
-        def dfs(node):
+        def dfs(node):   #checking cycle
             visited.add(node)
             path_visited.add(node)
             for nei in graph[node]:
@@ -40,7 +43,7 @@ class Solution:
                 elif nei in path_visited:   # means cycle so simply return, because all nodes part of this cycle will not be in our ans.
                     return True
             # if neither of nei is part of a cycle means that is a safe node.
-            ans.append(node)    # only extra lien than cycle detection.
+            ans.append(node)    # only extra line than cycle detection.
             path_visited.remove(node)
             return False
 

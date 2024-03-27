@@ -54,7 +54,7 @@ class Solution:
 # and then extend the new batch by adding courses with all prerequisites fulfilled,
 # then the time taken will be max⁡(2,10) + max⁡(7,2) + max⁡(3) = 10+7+3 = 20
 
-# note vvi: However, we can realize that by end of 121212 months, we can complete courses [1, 2, 3, 4]. Then complete [5] afterwards.
+# note vvi: However, we can realize that by end of 12 months, we can complete courses [1, 2, 3, 4]. Then complete [5] afterwards.
 #  Thus, the minimum time taken is 12+3=15 Hence, 15 is the optimal solution.
 
 
@@ -123,6 +123,7 @@ class Solution:
             if dp[course] != -1:
                 return dp[course]
             if not AdjList[course]:
+                # If there is no adjacent node to this course i.e this course at last level.
                 dp[course] = time[course]
                 return dp[course]
             # find max path from all it's adjacent and add his time to get max_path+sum from this 'course'
@@ -135,6 +136,7 @@ class Solution:
         dp = [-1 for i in range(n)]
         # wiil called from here only for 1st level i.e indegree '0' . 
         # for other courses it will get calculated inside 'dfs' automatically.
+        # Calling for all course one by one to take care of multiple component.
         for course in range(n):  
             dfs(course)
         return max(dp)

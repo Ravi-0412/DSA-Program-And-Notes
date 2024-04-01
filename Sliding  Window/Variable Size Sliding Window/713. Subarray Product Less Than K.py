@@ -49,4 +49,5 @@ class Solution:
 # 3)  "Longest Subarray having sum of elements atmost ‘k’"
 # 4)  2762. Continuous Subarrays
 # 5) 2958. Length of Longest Subarray With at Most K Frequency
+# 6) 2962. Count Subarrays Where Max Element Appears at Least K Times
 

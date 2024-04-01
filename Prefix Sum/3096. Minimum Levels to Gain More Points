@@ -1,0 +1,53 @@
+# Logic: We have to find the 1st index from start such that sum[0....i] > sum[i+ 1....n-1].
+# For this we can use prefixSum.
+
+# Time= Space = O(n)
+
+class Solution:
+    def minimumLevels(self, possible: List[int]) -> int:
+        n = len(possible)
+        prefix = [0] * n
+        suffix = [0] * n
+        prefix[0] = 1 if possible[0] == 1 else -1
+        suffix[n-1] = 1 if possible[n-1] == 1 else -1
+        for i in range(1, n):
+            if possible[i] == 1:
+                prefix[i] = prefix[i -1] + 1
+            else:
+                prefix[i] = prefix[i -1] - 1
+        for i in range(n-2, -1, -1):
+            if possible[i] == 1:
+                suffix[i] = suffix[i + 1] + 1
+            else:
+                suffix[i] = suffix[i + 1] - 1
+        for i in range(n-1):
+            if prefix[i] > suffix[i + 1] :
+                return i + 1
+        return -1
+                
+
+# Method 2: Very better one
+# Optimised space and reduced one iteration
+# Time = O(n)
+
+class Solution:
+    def minimumLevels(self, possible: List[int]) -> int:
+        n = len(possible)
+        BobMax = 0
+        for num in possible:
+            if num == 1:
+                BobMax += 1
+            else:
+                BobMax -= 1
+        # Now calculate Dan score anc check if it greater than bob score on right
+        DanScore = 0
+        for i in range(n-1):
+            if possible[i] == 1:
+                DanScore += 1
+                BobMax -= 1     # we only need to sum bob score on right of 'i' so we will remove the extra that we added in 1st iteration
+            else:
+                DanScore -= 1
+                BobMax   += 1   # Removing '-1' that we added before i.e add '+'
+            if DanScore > BobMax:
+                return i + 1
+        return -1

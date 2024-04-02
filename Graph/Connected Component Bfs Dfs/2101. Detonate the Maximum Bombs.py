@@ -5,15 +5,15 @@
 
 # Note: it may happen that 'i' detonate 'j' but 'j' won't detonate 'i'.
 
-# How we will find the detonating bombs?
-# say we have to find whether detoanting 'i' will detonate 'j' or not?
+# VVi: How we will find the detonating bombs?
+# say we have to find whether detonating 'i' will detonate 'j' or not?
 # if distance between their location is <= radius of 'i' then 'i' will detonate 'j'.
 
 
 class Solution:
     def maximumDetonation(self, bombs: List[List[int]]) -> int:
         # make adjacency list i.e connect bomb which can detonate each other
-        adj= collections.defaultdict(list)  # [node: no_bombs that will get detonate after detonating 'node']
+        adj= collections.defaultdict(list)  # [node: bombs that will get detonate after detonating 'node']
         n= len(bombs)
         for i in range(n):
             x1, y1, r1= bombs[i]
@@ -28,7 +28,7 @@ class Solution:
                     adj[i].append(j)
 
         def dfs(node, visited):
-            count= 1
+            count = 1
             visited.add(node)
             for nei in adj[node]:
                 if nei not in visited:
@@ -51,7 +51,7 @@ class Solution:
 class Solution:
     def maximumDetonation(self, bombs: List[List[int]]) -> int:
         # make adjacency list i.e connect bomb which can detonate each other
-        adj= collections.defaultdict(list)  # [node: no_bombs that will get detonate after detonating 'node']
+        adj= collections.defaultdict(list)  # [node: bombs that will get detonate after detonating 'node']
         n= len(bombs)
         for i in range(n):
             x1, y1, r1= bombs[i]

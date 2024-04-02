@@ -2,32 +2,43 @@
 
 # simple and concise way of writing the above code
 # using Bfs
+
+# Same code will give ans for Q: 695. maxArea of island
+
+# Note: Make 'directions' array as global in all questions to avoiding creating again and again every time.
+
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
         row,col= len(grid), len(grid[0])
         visited= set()
         island= 0
+        maxArea = 0 
         
+        directions= [[-1,0],[1,0],[0,-1],[0,1]] # writing all possible allowed directions i.e up,down,left,right in form of matrix
+
         def BFS(r,c):
             Q= collections.deque()
             Q.append((r,c))
+            count= 0
             while Q:
-                r1,c1= Q.popleft()
-                # writing all possible allowed directions i.e up,down,left,right in form of matrix
-                directions= [[-1,0],[1,0],[0,-1],[0,1]]
+                r1, c1= Q.popleft()
+                count+= 1
                 for dr,dc in directions:
                     r,c= r1+dr, c1+dc
-                    if 0<=r<row and 0<=c<col and  grid[r][c]=="1" and (r,c) not in visited:
+                    if 0 <= r < row and 0 <= c < col and  grid[r][c] == "1" and (r,c) not in visited:
                         visited.add((r,c))
                         Q.append((r,c))
-        
+            return count
+                        
+        # code starts from here
         for r in range(row):
             for c in range(col):
-                if grid[r][c]== "1" and (r,c) not in visited:
-                    island+= 1
+                if grid[r][c] == "1" and (r,c) not in visited:
+                    island += 1
                     visited.add((r,c))
-                    BFS(r,c)
+                    maxArea = max(maxArea, BFS(r,c))
         return island
+        
 
 # method 2: using DFS
 

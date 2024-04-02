@@ -1,61 +1,25 @@
 # just same logic as number of island 
-# the same program will give the no of island also
+# the same program will give the no of island also.
 
 class Solution:
     def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
         row,col= len(grid), len(grid[0])
         visited= set()
         island= 0
-        maxArea= [0]  # since variable we can't change in insider function so storing in list
+        maxArea = 0 
         
-        # if you write function inside a function then you can't acess the immutable objects, you can only acess the mutable objects of the main function
-        def BFS(r,c):
-            Q= collections.deque()
-            Q.append((r,c))
-            count= 0
-            while Q:
-                r1,c1= Q.popleft()
-                count+= 1
-                maxArea[0]= max(maxArea[0],count)
-                # writing all possible allowed directions i.e up,down,left,right in form of matrix
-                directions= [[-1,0],[1,0],[0,-1],[0,1]]
-                for dr,dc in directions:
-                    r,c= r1+dr, c1+dc
-                    if 0<=r<row and 0<=c<col and  grid[r][c]==1 and (r,c) not in visited:
-                        visited.add((r,c))
-                        Q.append((r,c))
-                        
-        # code starts from here
-        for r in range(row):
-            for c in range(col):
-                if grid[r][c]== 1 and (r,c) not in visited:
-                    island+= 1
-                    visited.add((r,c))
-                    BFS(r,c)
-        return maxArea[0]
+        directions= [[-1,0],[1,0],[0,-1],[0,1]] # writing all possible allowed directions i.e up,down,left,right in form of matrix
 
-# storing the ans in variable than the single array
-# far better one than above 
-class Solution:
-    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
-        row,col= len(grid), len(grid[0])
-        visited= set()
-        island= 0
-        maxArea= 0  
-        
-        # if you write function inside a function then you can't acess the immutable objects, you can only acess the mutable objects of the main function
         def BFS(r,c):
             Q= collections.deque()
             Q.append((r,c))
             count= 0
             while Q:
-                r1,c1= Q.popleft()
+                r1, c1= Q.popleft()
                 count+= 1
-                # writing all possible allowed directions i.e up,down,left,right in form of matrix
-                directions= [[-1,0],[1,0],[0,-1],[0,1]]
                 for dr,dc in directions:
                     r,c= r1+dr, c1+dc
-                    if 0<=r<row and 0<=c<col and  grid[r][c]==1 and (r,c) not in visited:
+                    if 0 <= r < row and 0 <= c < col and  grid[r][c] == 1 and (r,c) not in visited:
                         visited.add((r,c))
                         Q.append((r,c))
             return count
@@ -63,10 +27,10 @@ class Solution:
         # code starts from here
         for r in range(row):
             for c in range(col):
-                if grid[r][c]== 1 and (r,c) not in visited:
-                    island+= 1
+                if grid[r][c] == 1 and (r,c) not in visited:
+                    island += 1
                     visited.add((r,c))
-                    maxArea= max(maxArea, BFS(r,c))
+                    maxArea = max(maxArea, BFS(r,c))
         return maxArea
 
 
@@ -78,20 +42,20 @@ class Solution:
         maxArea= 0
         
         def DFS(r,c):
-            if r<0 or r>=row or c<0 or c>=col or grid[r][c]!= 1:
+            if r < 0 or r >= row or c < 0 or c >= col or grid[r][c] != 1:
                 return 0
-            area= 1
+            area = 1
             grid[r][c]= "visited"  # put any special symbol
             directions= [[-1,0],[1,0],[0,-1],[0,1]]
             for dr,dc in directions:
-                r1,c1= r+dr, c+dc
-                area+= DFS(r1,c1)
+                r1,c1 = r+dr, c+dc
+                area += DFS(r1,c1)
             return area
                         
         # code starts from here
         for r in range(row):
             for c in range(col):
-                if grid[r][c]== 1 : 
-                    island+= 1
-                    maxArea= max(maxArea, DFS(r,c))
+                if grid[r][c] == 1 : 
+                    island += 1
+                    maxArea = max(maxArea, DFS(r,c))
         return maxArea

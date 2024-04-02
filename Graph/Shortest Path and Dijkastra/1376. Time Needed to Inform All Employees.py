@@ -1,5 +1,6 @@
 # logic: when we form tree according the hierarchy then ans= "max cost from root to leaf" where cost= time
-# i.e find all cost from root to leaf then take maximum of all.
+# i.e Max path sum from root to leaf.
+# Just similar to 2nd approach of q: "2050. Parallel Courses III".
 
 # Just converted the above one into graph and solved.
 
@@ -26,7 +27,8 @@ class Solution:
             ans= max(ans, time)
             for direct_emp in hierarchy[id]:
                 # keep on adding time since it is passing from one person to another just like minimum spanning Tree
-                q.append((time + informTime[direct_emp], direct_emp))   
+                q.append((time + informTime[direct_emp], direct_emp))   # informTime[i] == 0 if employee i has no subordinates. This restriction will handle automatcally
+                                                                        # if 'direct_emp' has no subordinate.
         return ans
 
 # method 2:  using dfs
@@ -49,6 +51,9 @@ class Solution:
     
 
 # my mistake in dfs code
+# it will give ' um of time of all'.
+# e.g: n = 15, head = 0, manager = [-1,0,0,1,1,2,2,3,3,4,4,5,5,6,6] , time = [1,1,1,1,1,1,1,0,0,0,0,0,0,0,0]
+    
 class Solution:
     def numOfMinutes(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:
         hierarchy= collections.defaultdict(list)  # just forming adjacency list, directed graph

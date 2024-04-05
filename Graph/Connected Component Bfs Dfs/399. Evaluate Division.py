@@ -5,17 +5,21 @@
 # Given:
 # a/b = 2.0, b/c = 3.0
 # We can build a directed graph:
-# a -- 2.0 --> b -- 3.0 --> c
+# a --> 2.0 --> b -- 3.0 --> c
 # If we were asked to find a/c, we have:
 # a/c = a/b * b/c = 2.0 * 3.0
 # In the graph, it is the product of costs of edges.
 
 # Do notice that, 2 edges need to added into the graph with one given equation,
 # because with a/b we also get result of b/a, which is the reciprocal of a/b.
+# in short using reciprocal we can also get ans .
 
-# so the previous example also gives edges:
+# e.g: If asked to find 'c/a' then reciprocal will only help.
 # c -- 0.333 --> b -- 0.5 --> a
 
+# how to do?
+# FOr each query [a, b], run a bfs starting from 'a' and keep multiplying the edges that is adjacent 
+# And once you reach 'b', return ans. (a and b can be equal also)
 
 # time: n * (E+ V), n= len(queries)
 
@@ -25,14 +29,14 @@ class Solution:
         # form adjacency list (directed graph with values for that eqn)
         for i, eq in enumerate(equations):
             a, b= eq
-            adj[a].append((b, values[i]))
-            adj[b].append((a, 1 / values[i]))  # for reverse value will also reverse
+            adj[a].append((b, values[i]))  # 'a/b' = values[i]
+            adj[b].append((a, 1 / values[i]))  # for reverse value will also reverse. 'b/a' = 1/values[i]
         
         def bfs(src, target):
             if src not in adj or target not in adj:
                 return -1
             q= collections.deque()
-            visited= set()
+            visited= set()   # we are adding reverse also so there will be cycle . so take visited.
             q.append((src, 1))   # [variable, values_till_now]
             visited.add(src)
             while q:

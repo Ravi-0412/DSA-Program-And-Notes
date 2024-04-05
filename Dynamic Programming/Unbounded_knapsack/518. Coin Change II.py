@@ -1,3 +1,5 @@
+# Just same as 'unbounded knapsack'.
+
 # method 1: Recursive
 
 class Solution:
@@ -7,8 +9,10 @@ class Solution:
 
     def MinCoins(self,coins,amount,n):
         if amount== 0:
+            # No need to check further simply return
             return 1
         if n== 0:
+            # amount != 0 but n == 0 means there is no possible way
             return 0
         if coins[n-1]> amount:
             # Only one option don't take

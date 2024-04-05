@@ -1,5 +1,8 @@
 # Note: just normal multisource bfs.
 # we can also do by single source by storing minSteps also with coordinate in q.
+
+#  1st time when we will see any cell that will be the minimum no of steps required to reach that cell
+
 # time: O(n*n)
 
 from collections import deque

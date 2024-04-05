@@ -1,15 +1,19 @@
 # logic: Just exacyly same as 'M-coloring'.
 # just treat garden as nodes and flowers as color.
 
+# " choose a flower type for each garden such that, for any two gardens connected by a path, they have different types of flowers."
+# This line tells that this is a 'M-coloring' problem only.
+
 # Here we have to print one of the possible ans.
 
 # Note: This will work for every Q of this type.
 
 # Note: there is no node that has more than 3 neighbors, always one possible color to choose.
-# so There must be one color availabe to color a node.
+# so There must be one color availabe to color a node anytime.
+
 # Note: Due to this reason, this  brute force solution get accepted.
 
-# time: O(4*n)
+# time: O(4**n)
 
 class Solution:
     def gardenNoAdj(self, n: int, paths: List[List[int]]) -> List[int]:
@@ -36,7 +40,7 @@ class Solution:
                     if isPlantingPossible(node + 1):
                         return True
                     # try to plant with different flowers.
-                    color[node]= -1
+                    # color[node]= -1   # No need of this line as there will be one color available for each node so it will return True.
         
         ans= []
         color= [-1]*(n+1)
@@ -45,9 +49,11 @@ class Solution:
 
 
 # method 2: will only work if no of color is > no of adjacent node for any node.
-# logic: There must be one color availabe to color a node.
-# Note: Due to this reason,above brute force solution get accepted.
+# Here no_of_color = 4 and max_no_adjacent_node_for_any_node = 3
 
+# logic: There must be one color availabe to color a node.
+
+# Note: Due to this reason,above brute force solution get accepted.
 # Reason: Because there is no node that has more than 3 neighbors, always one possible color to choose.
 
 # It says that there are 4 flowers to choose from, but each garden can only have 3 edges. 

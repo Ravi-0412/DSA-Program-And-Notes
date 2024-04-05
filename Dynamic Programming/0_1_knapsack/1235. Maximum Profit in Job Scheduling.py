@@ -1,5 +1,6 @@
 # This Q is exactly same as: "1751. Maximum Number of Events That Can Be Attended II".
-# Just here there is no limit on taking the job like :'k' jobs only.
+# Difference : Here  1) there is no limit on taking the job like :'k' jobs only.
+# 2) next job can start at ending time of another job.
 
 # Same code of Q: "1751. Maximum Number of Events That Can Be Attended II"  
 
@@ -63,20 +64,22 @@ class Solution:
                         # To decide easily which event we can pick next.
         return solve(0)
 
-# did myself but don't know why giving incorrect answer. Have to ask someone
-# after memoizing it will go in time= space= O(n^2)
 
-# Same way as i did in 300.LIS, LIS method not working here and method of this Q not working LIS.
-# Have to ask someone.
+# Method 2:
+
 class Solution:
     def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
-        return self.helper(startTime, endTime, profit, -1, 0)  # '-1' last included index, '0': current index
+        jobs = []
+        for i in range(len(startTime)):
+            jobs.append([startTime[i], endTime[i], profit[i]])
+            jobs.sort()
+        return self.helper(0, -1, jobs)  # '-1' last included index, '0': current index
     
-    def helper(self, start, end, profit, pre, curr):
-        if curr== len(start):
+    def helper(self, curr, pre, jobs):
+        if curr == len(jobs):
             return 0
-        if pre < 0 or start[curr] >= end[pre]:  # we can include this ele. but we have two choices either include in ans or not include.
-            return max(profit[curr] + self.helper(start, end, profit, curr, curr+1), self.helper(start, end, profit, pre, curr +1))
+        if pre < 0 or jobs[curr][0] >= jobs[pre][1] :  # we can include this ele. but we have two choices either include in ans or not include.
+            return max(jobs[curr][2] + self.helper(curr + 1, curr, jobs), self.helper(curr + 1, pre, jobs))
         # only one choice we can't include this ele
-        return self.helper(start, end, profit, pre, curr +1)
+        return self.helper(curr + 1, pre, jobs)
 

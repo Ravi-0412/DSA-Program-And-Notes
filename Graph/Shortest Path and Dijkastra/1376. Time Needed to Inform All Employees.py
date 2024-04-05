@@ -32,7 +32,7 @@ class Solution:
         return ans
 
 # method 2:  using dfs
-# Note: Keep this method in mind, will help in lot of problems.
+
 class Solution:
     def numOfMinutes(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:
         hierarchy= collections.defaultdict(list)  # just forming adjacency list, directed graph
@@ -48,11 +48,34 @@ class Solution:
             return ans
 
         return dfs(headID)
+
+# Other way of writing this
+# Better one. Just same as ""2050. Parallel Courses III"." 2nd method.
+
+class Solution:
+    def numOfMinutes(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:
+        hierarchy= collections.defaultdict(list)  # just forming adjacency list, directed graph
+        for i in range(len(manager)):
+            if manager[i]== -1:
+                continue
+            hierarchy[manager[i]].append(i)  # manager[i] will pass info to these employee
+    
+        def dfs(u):
+            max_time = 0
+            for v in hierarchy[u]:
+                max_time = max(max_time, dfs(v))
+            return informTime[u] + max_time
+
+        return dfs(headID)
     
 
 # my mistake in dfs code
-# it will give ' um of time of all'.
+# it will give ' sum of time of all inform time'.
 # e.g: n = 15, head = 0, manager = [-1,0,0,1,1,2,2,3,3,4,4,5,5,6,6] , time = [1,1,1,1,1,1,1,0,0,0,0,0,0,0,0]
+    # it will give ans = 7 but actual ans = 3
+
+# Note vvi: Understand the difference between these two mathod properly.
+# Understand this why giving incorrect ans later.
     
 class Solution:
     def numOfMinutes(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:

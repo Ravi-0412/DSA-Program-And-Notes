@@ -1,7 +1,8 @@
 # Just normal BFS.
 
-# logic: add (steps=1, 0,0) in q and add (0,0) in visited.
-# Adding in visited at 1st time when we see the cell because: 1st time when we will see any cell that will be the minimum no of steps required to reach that cell.
+# logic: add (steps, r, c) in deque
+# Adding in visited at 1st time when we see the cell because:
+#  1st time when we will see any cell that will be the minimum no of steps required to reach that cell.
 
 # after that apply normal bfs as we do i.e traverse all the possible paths as we do normally.
 # before adding any node in 'q' check if it is destination.
@@ -13,8 +14,9 @@
 # space: O(m*n)
 
 
-# note: This is similar to "45. Jump Game II" i.e we can take any cell in same row with col in range (c+1,grid[r][c] + c ) (rightward) and same for downward.
-# More concisely, you can take further 'grid[r][c]' steps in rightward and downward after raeching (r, c).
+# note: This is similar to "45. Jump Game II" i.e 
+# we can take any cell in same row with col in range (c+1,grid[r][c] + c ) (rightward) and same for downward.
+# More concisely, you can take further 'grid[r][c]' steps in rightward and downward after reaching (r, c).
 
 class Solution:
     def minimumVisitedCells(self, grid: List[List[int]]) -> int:

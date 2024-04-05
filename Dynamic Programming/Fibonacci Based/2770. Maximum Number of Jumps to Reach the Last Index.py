@@ -19,7 +19,7 @@ class Solution:
         return ans if ans != float('-inf') else -1
         
 # Note: if we initialise ans = -1 then it will return '0' in case if not possible in some test cases.
-# Because in this case it will return from last i.e 'return ans= -1' and after adding '+1',
+# Because in this case it will return from last i.e 'return ans= -1' and after adding '+1' in '1 + solve(j)'
 # it will take max(ans, 1 + -1)= ans(-1, 0)= 0
 
 # e.g [1,3,6,4,1,2] , target = 0

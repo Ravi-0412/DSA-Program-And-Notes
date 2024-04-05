@@ -19,7 +19,7 @@ class Solution:
         if n== 0:   # retuen a very large val which will indicate sum amount is not possible
             return float('inf')
         if coins[n-1]<= amount:
-            return min((1+ self.MinCoins(coins,amount-coins[n-1],n)) ,self.MinCoins(coins,amount,n-1))
+            return min(1+ self.MinCoins(coins,amount-coins[n-1],n) ,self.MinCoins(coins,amount,n-1))
         return self.MinCoins(coins,amount,n-1)   # if coins[n-1] > amount
 
 
@@ -41,7 +41,7 @@ class Solution:
         if dp[n][amount] != -1:
             return dp[n][amount]
         elif coins[n-1] <= amount:
-            dp[n][amount]= min((1 + self.MinCoins(coins,amount-coins[n-1],n, dp)) ,self.MinCoins(coins,amount,n-1, dp))
+            dp[n][amount]= min(1 + self.MinCoins(coins,amount-coins[n-1],n, dp) ,self.MinCoins(coins,amount,n-1, dp))
         else:
             dp[n][amount]= self.MinCoins(coins, amount, n-1, dp)
         return dp[n][amount]
@@ -65,7 +65,7 @@ class Solution:
         if dp[n][amount] != -1:
             return dp[n][amount]
         elif coins[n-1] <= amount:
-            dp[n][amount]= min((1 + self.MinCoins(coins,amount-coins[n-1],n, dp)) ,self.MinCoins(coins,amount,n-1, dp))
+            dp[n][amount]= min(1 + self.MinCoins(coins,amount-coins[n-1],n, dp) ,self.MinCoins(coins,amount,n-1, dp))
         else:
             dp[n][amount]= self.MinCoins(coins, amount, n-1, dp)
         return dp[n][amount]

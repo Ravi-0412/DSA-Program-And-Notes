@@ -1,7 +1,10 @@
 
 # method 1 : using BFS
 # logic: just count the level at which destination is present from the source
-# this method can be used to find the shortest path even in weighted graph if the weight of each edge will be same
+# this method can be used to find the shortest path even in weighted graph if the weight of each edge will be same.
+
+# Note: First time when you will see the 'destination' that will be ans only.
+
 class Graph:
     def __init__(self,n):
         self.V= n
@@ -11,7 +14,7 @@ class Graph:
     
     def BFS(self, adj, src, des):
         self.distance[src]= 0
-        Q, total_distance= [], 0
+        Q, total_distance= [], 0   # use 'deque' instead of 'q'. 
         self.visited[src]= True
         Q.append(src)
         while Q:
@@ -46,4 +49,14 @@ g= Graph(8)
 g.BFS(adj, 2, 6)
 
 
-# method 2: use multisource bfs
+# Method 2: 
+
+# # Logic: in deque add (node, distance) and when node == destination that will be the ans.
+# First time you will see the destination that will be the ans only.
+
+# Method 3: Apply multisource bfs
+
+
+# Extension of this q:
+# 1) Shortest path in Undirected Graph having unit distance
+# link: https://www.geeksforgeeks.org/problems/shortest-path-in-undirected-graph-having-unit-distance/1

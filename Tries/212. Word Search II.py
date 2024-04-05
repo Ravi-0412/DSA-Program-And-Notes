@@ -38,7 +38,7 @@ class Solution:
 # for removing we are using 'prefix_count' as node member.
 # since we only need only distinct word. 
 
-# and there are chances that we can get the same word(by following the path in grid). so storing ans in set first.
+# and there are chances that we can get the same word(by following other path in grid). so storing ans in set first.
 # vvi: But when we are removing the word after finding that word then no way we can get that word again so we can store
 # ans directly in list only.
 
@@ -60,7 +60,6 @@ class Trie:
         
     def insert(self, word):
         cur= self.root
-        cur.prefix_count+= 1
         for c in word:
             if c not in cur.children:
                 # insert 'c' into chilren and make 'c' point to a TrieNode and move curr to next child(just added one)
@@ -74,7 +73,6 @@ class Trie:
     
     def removeWord(self, word):
         cur= self.root
-        cur.prefix_count-= 1
         for c in word:
             cur= cur.children[c]
             cur.prefix_count -= 1
@@ -94,7 +92,7 @@ class Solution:
         
         def dfs(r, c, node, word):
             # write all the invalid possible cases together.
-            if r <0 or r== rows or c < 0 or c== cols or (r,c) in visited or board[r][c] not in node.children or node.prefix_count < 1:
+            if r <0 or r== rows or c < 0 or c== cols or (r,c) in visited or board[r][c] not in node.children :
                 return 
             word+= board[r][c]
             visited.add((r,c))
@@ -120,7 +118,6 @@ class Solution:
         
 
 # Method 3: my way (just same we did word search 1)
-# Here no need to check prefix_count in dfs. because we only calling function if it that cell value in 'children' so prefix_count > 0 for the calling node.
 
 class TrieNode:
     def __init__(self):
@@ -191,4 +188,68 @@ class Solution:
 
 
 
+# Java version for 1st method:
+
+# public class Solution {
+#     public class TrieNode{
+#         public boolean isWord = false;
+#         public TrieNode[] child = new TrieNode[26];
+#         public TrieNode(){
+            
+#         }
+#     }
+    
+#     TrieNode root = new TrieNode();
+#     boolean[][] flag;
+#     public List<String> findWords(char[][] board, String[] words) {
+#         Set<String> result = new HashSet<>();
+#         flag = new boolean[board.length][board[0].length];
+        
+#         addToTrie(words);
+        
+#         for(int i = 0; i < board.length; i++){
+#             for(int j = 0; j < board[0].length; j++){
+#                 if(root.child[board[i][j] - 'a'] != null){
+#                     search(board, i, j, root, "", result);
+#                 }
+#             }
+#         }
+#         return new ArrayList<>(result);
+#         // return new LinkedList<>(result);
+#     }
+    
+#     private void addToTrie(String[] words){
+#         for(String word: words){
+#             TrieNode node = root;
+#             for(int i = 0; i < word.length(); i++){
+#                 char ch = word.charAt(i);
+#                 if(node.child[ch - 'a'] == null){
+#                     node.child[ch - 'a'] = new TrieNode();
+#                 }
+#                 node = node.child[ch - 'a'];
+#             }
+#             node.isWord = true;
+#         }
+#     }
+    
+#     private void search(char[][] board, int i, int j, TrieNode node, String word, Set<String> result){
+#         if(i >= board.length || i < 0 || j >= board[i].length || j < 0 || flag[i][j] || node.child[board[i][j] - 'a'] == null){
+#             return;
+#         }
+        
+#         word += board[i][j] ;
+#         flag[i][j] = true;
+#         node = node.child[board[i][j] - 'a'];
+#         if(node.isWord){
+#             result.add(word);
+#         }
+        
+#         search(board, i-1, j, node, word, result);
+#         search(board, i+1, j, node, word, result);
+#         search(board, i, j-1, node, word, result);
+#         search(board, i, j+1, node, word, result);
+        
+#         flag[i][j] = false;
+#     }
+# }
 

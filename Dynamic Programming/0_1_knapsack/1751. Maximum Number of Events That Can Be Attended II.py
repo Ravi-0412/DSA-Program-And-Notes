@@ -56,7 +56,7 @@ class Solution:
             # 1)  either don't take the cur event
             # 2) if we take it then we need to find the next event we can take after this
             # next event we can only take if there start time is greater than the end time of this event.
-            next = bisect_right(startDate, events[cur][1])
+            next = bisect.bisect_right(startDate, events[cur][1])
             return max(solve(cur + 1, k), events[cur][2] + solve(next, k - 1))
 
         events.sort()   # will sort acc to start time and if start timme equal then acc to end time
@@ -67,7 +67,12 @@ class Solution:
 
 
 # My doubt
-# Writing the same code in this form is not working. Have to ask someone.
+# After finding the next , i am not breaking the loop.
+# So giving incorrect because in this take will always take last index satisfying the condition and
+# breaking one we can't do in for loop because 'recursion' call is also associated .
+
+# Either do like above one or take one more parameter 'pre' in function call.
+
 
 class Solution:
     def maxValue(self, events: List[List[int]], k: int) -> int:
@@ -84,7 +89,7 @@ class Solution:
             take = 0
             for next in range(cur + 1 , len(events)):
                 if events[next][0] > events[cur][1]:
-                    notTake = events[cur][2] + solve(next, k -1)
+                    take = events[cur][2] + solve(next, k -1)
             return max(take, notTake)
 
         events.sort()   # will sort acc to start time and if start timme equal then acc to end time
@@ -92,3 +97,23 @@ class Solution:
 
 
 # Method 2:
+# Take one more parameter 'pre' in function call.
+# Replaced events -> jobs
+
+# Can further optimise using binary search.
+
+class Solution:
+    def jobScheduling(self, jobs: List[List[int]], k: int) -> int:
+        jobs = []
+        for i in range(len(startTime)):
+            jobs.append([startTime[i], endTime[i], profit[i]])
+        jobs.sort()
+        return self.helper(0, -1, jobs)  # '-1' last included index, '0': current index
+    
+    def helper(self, curr, pre, jobs, k):
+        if curr == len(jobs) or k == 0:
+            return 0
+        if pre < 0 or jobs[curr][0] >= jobs[pre][1] :  # we can include this ele. but we have two choices either include in ans or not include.
+            return max(jobs[curr][2] + self.helper(curr + 1, curr, jobs, k - 1), self.helper(curr + 1, pre, jobs, k))
+        # only one choice we can't include this ele
+        return self.helper(curr + 1, pre, jobs)

@@ -32,7 +32,7 @@ def helper(n,dp):
 # space: O(n)
 def fib2(n):
     dp= [-1]*(n+1)
-    # now iitialise the base cases with their values so that we can directly remaining ans seeing the values of base cases
+    # now initialise the base cases with their values so that we can directly remaining ans seeing the values of base cases
     dp[0],dp[1]= 0,1
     # now start finding the values other than base case
     for i in range(2,n+1):

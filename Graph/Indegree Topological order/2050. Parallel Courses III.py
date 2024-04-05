@@ -112,6 +112,10 @@ class Solution:
 # "Find the maximum path sum we can get".
 
 # For max_path_sum we need to check from course with indegree '0' i.e at 1st level to course at last level i.e highest indegree.
+    
+# Note vvi: Whenever you have to add the current value by taking min/max from all sub-problems then apply this method only.
+# Note: Keep this method in mind, will help in lot of problems.
+
 
 class Solution:
     def minimumTime(self, n: int, relations: List[List[int]], time: List[int]) -> int:
@@ -144,4 +148,8 @@ class Solution:
 
 # Note vvi: when time 't' will be equal for all the courses then 
 # ans = no_level * t.
+    
+
+# Related Q:
+# 1) "1376. Time Needed to Inform All Employees"
 

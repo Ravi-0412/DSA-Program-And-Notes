@@ -16,3 +16,7 @@ class Solution:
 
 # Note: How above method will take care of not_take case i.e skip case?
 # Ans: When we are at index 'i' and if we include ans of 'i+2' (called 'i + 2') then we have skipped 'i+1'.
+
+# If say you can jump upto 'k' then we have to take minimum of next 'k' index after adding the cost of cur_index.
+# Related Q: 
+# 1) 2944. Minimum Number of Coins for Fruits

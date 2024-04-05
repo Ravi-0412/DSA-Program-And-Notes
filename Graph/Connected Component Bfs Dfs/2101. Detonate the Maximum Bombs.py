@@ -1,3 +1,5 @@
+# Just same as:"695. Max Area of Island". Just we have to think and reduce into this q.
+
 # Intitution: Just we have to find the "max no of node in connected comopnents".
 
 # Howe we will connect ?

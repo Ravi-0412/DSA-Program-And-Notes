@@ -18,10 +18,11 @@ class Solution:
 
         def SquareNoToCoordinate(square):  # will return the coordinate of the 'square' no.
             r, c= divmod(square- 1, n)   # square no is in '1' based indexing.
-            # so for getting the coordinates in '0' based indexing(board) dividing by 'n-1'. 
+            # so for getting the coordinates in '0' based indexing(board) dividing by 'n'. 
             # it will give row no from bottom , so from top row no will be...
-            row_no= (n -1) - r   # board is zero based indexing so subtracting with 'n-1'
+            row_no= (n -1) - r   # board is zero based indexing so subtracting with 'n-1'.
             # for finding exact col(due to cell no from left->right, right->left in alternate row) , 
+            
             # it will depend on whether 'r' is odd or even from bottom
             if r% 2== 0:  # if even
                 return [row_no, c]

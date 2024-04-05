@@ -7,6 +7,8 @@
 # time: O(m*n.4^(m*n))
 
 # Here blindly calling dfs so we have to check for invalid cases just after base case.
+# Good approach. Do like this only
+
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
         row,col= len(board), len(board[0])
@@ -45,7 +47,7 @@ class Solution:
         def dfs(r,c,word):
             if not word:
                 return True
-            if r<0 or r>=row or c<0 or c>= col or board[r][c]== "#" or board[r][c]!= word[0]:
+            if r < 0 or r >= row or c < 0 or c>= col or board[r][c] == "#" or board[r][c] != word[0]:
                 return False
             temp= board[r][c]
             board[r][c]= "#"
@@ -65,7 +67,6 @@ class Solution:
 
 
 # method 2: Another way of doing .
-# i do like this only always. my way
 # just same logic only
 # Here we are not calling blindly so need to check invalid cases.
 class Solution:
@@ -93,3 +94,44 @@ class Solution:
                 if board[r][c]== word[0] and dfs(r,c,word[1:]):  # checking if we can get and from current cell
                     return True
         return False
+
+
+# Java version
+
+# class Solution {
+#     static boolean[][] visited;
+#     public boolean exist(char[][] board, String word) {
+#         int rows = board.length, cols = board[0].length ;
+#         visited = new boolean[rows][cols] ;
+        
+#         for(int i = 0 ; i < rows; i ++) {
+#             for(int j = 0; j < cols ; j ++) {
+#                 if(board[i][j] == word.charAt(0) && search(board, word, i, j, 0)) {
+#                     return true ;
+#                 }
+#             }
+#         }
+#         return false;
+
+#     }
+
+#     public boolean search(char[][] board, String word, int i, int j, int ind) {
+#         if(ind == word.length()) {
+#             return true;
+#         }
+#         if(i < 0 || i >= board.length || j < 0 || j >= board[0].length || board[i][j] != word.charAt(ind) || visited[i][j]) {
+#             return false;
+#         }
+#         visited[i][j] = true;
+#         if(search(board, word, i - 1, j, ind + 1)  ||
+#             search(board, word, i + 1, j, ind + 1) ||
+#             search(board, word, i , j -1, ind + 1) ||
+#             search(board, word, i , j + 1, ind + 1)) {
+#                 return true;
+#             }
+#         visited[i][j] = false;
+#         return false;
+#     }
+# }
+
+# Try java one by removing visited and using special char to mark visited.

@@ -1,13 +1,18 @@
-# Q: Given weights and values of n items, put these items in a knapsack of capacity W to get the maximum total value in the knapsack. 
-# In other words, given two integer arrays val[0..n-1] and wt[0..n-1] which represent values and weights associated with n items respectively.
+
+# In other words, given two integer arrays val[0..n-1] and wt[0..n-1] 
+# which represent values and weights associated with n items respectively.
 #  Also given an integer W which represents knapsack capacity, 
 # find out the maximum value subset of val[] such that sum of the weights of 
 # this subset is smaller than or equal to W. You cannot break an item, either pick the complete item or don’t pick it (0-1) property
 
 # method1: by recursion
 # just like subsequence and subset. basically we are finding this only from the value array
-# ime Complexity: O(2^n), no extra space but recursion  O(n)
-def knapSack(N, W, val, wt):
+
+# Logic: For every ele we have two choice : 1) include that or 2) Not include that
+# we can only include if sufficient weight in bag is available.
+
+# Time Complexity: O(2^n), no extra space but recursion  O(n)
+def knapSack(N, W, val, wt):  # max profit you can get with 'n' items having available bag size = w
     if N==0 or W==0:
         return 0
     if wt[N-1]<= W: # we have two choices either to take this item or not
@@ -26,7 +31,7 @@ print(knapSack(N,W,values,weight))
 # time complexity: O(N*W)
 # method: By memoization
 # 2 variable changing so 2d dp and for size see the range of both the variable from base case to max value it can go
-# n can go from 0(base case) to n and same for w so it will (n+1)*(w+1)
+# n:  can go from 0(base case) to n and same for w so it will (n+1)*(w+1)
 class Solution:
     #Function to return max value that can be put in knapsack of capacity W.
     def knapSack(self,W, wt, val, n):

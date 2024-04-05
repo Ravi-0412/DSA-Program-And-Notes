@@ -1,3 +1,8 @@
+# Logic : # say two subsets are s1 and s2 such that |s1 - s2| = diff.
+# and 's1 + s2 = total_sum_arr' .
+# After solving these two we will get s1 = (total_sum_arr + diff)//2.
+# so Question now reduce to find the no of subests having sum = 's1'.
+
 
 # method 1: 
 # will work properly for all cases in which value of ele will be greater than zero may not for value of ele= 0
@@ -18,7 +23,6 @@ def NoOfSubsets(N, arr, sum):
             else: # subset possible including this ele + subset possible without including it
                 dp[i][j]= dp[i-1][j-arr[i-1]] + dp[i-1][j]
     return dp[N][sum]
-
 
 def SubsetWithDiff(arr,diff):
     total= sum(arr)

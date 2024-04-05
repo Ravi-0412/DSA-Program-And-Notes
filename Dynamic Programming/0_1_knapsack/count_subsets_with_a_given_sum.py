@@ -11,7 +11,7 @@ class Solution:
             return 1
         if n== 0:  # means n== 0 and sum != 0
             return 0
-        if arr[n-1]> sum:
+        if arr[n-1] > sum:
             return self.helper(n-1,arr,sum)
         else:
             return self.helper(n-1,arr,sum- arr[n-1]) + self.helper(n-1,arr,sum)
@@ -42,9 +42,8 @@ class Solution:
 # print(NoOfSubsets(4,arr,4)) 
 
 # Method 3 vvi: correct one that will work in all cases
-# by aditya verma method and what i used to do also in GATE and while solving Q.
 
-# to find all the ans just write the base case when you reach the last ele instead when sum==0.
+# Note vvi:  to find all the ans just write the base case when you reach the last ele instead when sum==0.
 
 # can also do by bottom up approach by initialising the dp matrix with these base condition
 

@@ -7,12 +7,42 @@
 # 1)We're just calculating the number of people that arrive at a city and then the number of cars that would be 
 # required for these people to move from this city to the next one.
 
-# 2) Calculating the number of cars gives the amount of fuel consumed because each car would consume a litre of fuel.
+# 2) For this we need to find the no of people that arrives at this node.
+# For this we need to return 'no of people' from each node.(Just like we used to do in Tree)
 
-# 3) Also return the amount of people that arrive at this node to the next node, so that we can carry out the 
-# above calculations on the next node as well.
+# 3) Calculating the number of cars gives the amount of fuel consumed because each car would consume a litre of fuel.
+
 
 # Note: we start calculating from leaf and send the no of people to the parent & so on.
+
+# Time: O(n)
+
+class Solution:
+    def minimumFuelCost(self, roads: List[List[int]], seats: int) -> int:
+        adj= defaultdict(list)
+        for s,d in roads:
+            adj[s].append(d)
+            adj[d].append(s)
+
+        self.ans = 0
+        visited = set()
+
+        def dfs(node):
+            visited.add(node)
+            people = 1
+            for nei in adj[node]:
+                if nei not in visited:
+                    people += dfs(nei)   # Add people from all its adjacent node
+            if node != 0:
+                # To avoid calculation after reaching capital
+                self.ans += ceil(people / seats)
+            return people
+
+        dfs(0)
+        return self.ans
+    
+
+# Other way.
 # time: O(n).
 
 class Solution:

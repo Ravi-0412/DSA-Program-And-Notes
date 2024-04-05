@@ -1,11 +1,13 @@
 # method 1: Recursive Approach
-# correct only but showing time limit exceeded
-# just same as 0/1 knapsack except when you include that item
+
+# just same as 0/1 knapsack except when you include that item.
+# When you include any item don't increment the index because you can take that element later also.
+
 def knapSack(N, W, val, wt):
     if N==0 or W==0:
         return 0
     if wt[N-1]<= W: # we have two choices either to take this item or not
-        return max(val[N-1]+ knapSack(N,W- wt[N-1],val,wt), knapSack(N-1,W,val, wt))
+        return max(val[N-1]+ knapSack(N, W- wt[N-1],val,wt), knapSack(N-1,W,val, wt))
     else:  # only one option i.e we can't take this ele
         return knapSack(N-1,W,val, wt) 
 

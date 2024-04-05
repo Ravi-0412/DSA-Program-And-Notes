@@ -49,6 +49,22 @@ class Solution:
 
 
 # optimising space complexity
+
+# Note; Whenever you see like this : 'dp[r][c]= dp[r][c-1] + dp[r-1][c]'
+# Means you can optmimise the space because we only need current and previous row value for 
+# calculating value for current one. No need of whole 1d array.
+
+# How to do?
+# Just make 1d array where length = range of 2nd varibale , here range of 'c'.
+
+# Note vvi:Whenever we create a new row ( say cur), 
+# we need to explicitly set its first element or few elements according to our base condition.
+# More in depth: Basically value of base for current row either only 1st ele or few ele whatever & how many 
+# you have written in base case.
+
+# note : In same way you can reduce 1D array to few variables.
+# e.g: Fibonacci patterns questions
+
 # time: O(m*n), space: O(n)
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:

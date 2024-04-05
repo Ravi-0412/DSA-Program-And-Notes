@@ -10,6 +10,8 @@
 # Note: xor of any number with 0 will give the same no  and  xor with '1' give the different number.
 # so to color the adjacent node with different color, we will take 1^color[parent].
 
+# Note: Complete graph can never be bipartite.
+
 # method 1: using BFS
 
 class Solution:
@@ -94,3 +96,10 @@ class Solution:
                 return False
         # return True   # no need of this
 
+
+# Note: It can done also by 'm-coloring' problem using backtracking.
+# Just replace 'm' -> 2.
+
+
+# Related Q: 
+# 1042. Flower Planting With No Adjacent

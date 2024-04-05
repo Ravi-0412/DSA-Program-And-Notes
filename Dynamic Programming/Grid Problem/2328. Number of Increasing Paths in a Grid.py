@@ -14,12 +14,17 @@
 
 # In same way we are doing for 2D.
 
+# Note: Just same as '329. Longest Increasing Path in a Matrix'
+# Isme number chahiye isliye adjacent wale ka 'sum le lo ' and '1' add karke 
+# return kar do .
+
 # Recursion + memoisation
 # time : O(4*m *n) .At each recursion at max you have 4 directions thus O(1) further calls and we have a total of m*n states for the DP.
 # SPACE: o(m * n)
 
 # Note: It's strictly increasing so we don't need visited array.
 
+ 
 class Solution:
     def countPaths(self, grid: List[List[int]]) -> int:
         m, n = len(grid), len(grid[0])
@@ -28,12 +33,12 @@ class Solution:
 
         @lru_cache(None)
         def dfs(i, j):
-            ans = 1
+            sum_of_adjacent = 0
             for dr, dc in directions:
                 nr, nc = i + dr, j + dc
-                if 0 <= nr < m and 0 <= nc < n and grid[nr][nc] > grid[i][j]:
-                    ans = (ans + dfs(nr, nc)) % mod
-            return ans
+                if 0 <= nr < m and 0 <= nc < n and grid[nr][nc] > grid[i][j]: 
+                    sum_of_adjacent += dfs(nr, nc)
+            return (1 + sum_of_adjacent) % mod
 
         ans = 0
         for i in range(m):

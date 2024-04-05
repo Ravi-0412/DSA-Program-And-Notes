@@ -39,7 +39,8 @@ class Solution(object):
             # simply skip 
             if (stone, jump) in stoneToLastJump:
                 return 
-            for j in (jump-1, jump, jump +1):
+            for j in (jump-1, jump, jump +1): 
+                # first move should be of '1' will be automatically handled by 'j > 0'.
                 if j >0 and (stone + j) in stoneSet:
                     if solve(stone + j, j):
                         return True

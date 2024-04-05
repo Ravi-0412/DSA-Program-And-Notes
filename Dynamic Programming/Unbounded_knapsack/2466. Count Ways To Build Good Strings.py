@@ -25,12 +25,13 @@ class Solution:
         count("")
         return self.ans % mod
     
+
 # method 2: Recursion + memoisation
 # logic: instead of keeping track of string, just keep track of length of string.
 # Then we will get duplicate but all those string will be unique only.
 
-
-# Here 
+# Here only length matter i.e if length in that range then that is one of possible ans.
+#  ans is only dependent on 'one' and 'zero' value.
 
 class Solution:
     def countGoodStrings(self, low: int, high: int, zero: int, one: int) -> int:
@@ -51,20 +52,22 @@ class Solution:
             return res % mod
 
         return dfs(0)
-    
-# Tabulation:
-# for length in range 'low' to 'high' check how many staring we can form of each length.
-# At last add those all.
+
+# Tabulation
+
+# Note: Here going opposite of memoisation so subtracting instead of adding.
+# z = dp.get(length- zero, 0)  # zero
+# o = dp.get(length- one, 0)   # one
 
 class Solution:
     def countGoodStrings(self, low: int, high: int, zero: int, one: int) -> int:
         mod= 10 **9 + 7
-        dp = {0: 1}
+        dp = {0: 1}  # {length : no_string}
         for length in range(1, high +1):
-            # no of staring of length of two ,
-            #  we will get after adding this much no of zero/one to length (length- zero) and (length- one) respectively.
-            z= dp.get(length- zero, 0)
-            o= dp.get(length- one, 0)
+            # no of string of length 'i' ,
+            #  we will get after adding value of (length- zero) and (length- one) respectively.
+            z= dp.get(length- zero, 0)  # zero
+            o= dp.get(length- one, 0)   # one
             dp[length]= (z + o) % mod
 
         ans= 0
@@ -72,3 +75,7 @@ class Solution:
             ans+= dp[length]
         return ans % mod
 
+# tabulation top-down
+# dp = {high: 1}
+# then traverse from 'high -1' to '0'
+# in this you can do '+' instead of '-'.

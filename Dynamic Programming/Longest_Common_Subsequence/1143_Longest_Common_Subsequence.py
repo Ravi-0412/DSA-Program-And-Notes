@@ -6,7 +6,7 @@ class Solution:
     def LCS(self, m, n, s1, s2):
         if m==0 or n==0:
             return 0
-        elif s1[m -1] == s2[n -1]:
+        if s1[m -1] == s2[n -1]:
             return 1+ self.LCS(m-1, n-1, s1, s2)
         # else: # s1[m -1] != s2[n -1]
         return max (self.LCS(m, n-1, s1, s2), self.LCS(m-1, n, s1, s2))

@@ -3,7 +3,7 @@
 # Logic: Similar to LCS.
 
 # If any char of 's' is not present in 't' then that will be ans i.e ans = 1
-# if presnet then we have two choice: # 1) include 's[i]' and 2) Don't include s[i] .
+# if present then we have two choice: # 1) include 's[i]' and 2) Don't include s[i] .
 # For 1) we will start checking in 't' after we have found 'cur char of s' . 
 # say char found at 'k' then we will check from 'k+1' in 't'.
 

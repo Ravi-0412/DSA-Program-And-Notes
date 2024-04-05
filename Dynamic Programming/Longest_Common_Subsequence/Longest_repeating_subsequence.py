@@ -1,12 +1,13 @@
 # take the same string and find the longest common subsequence
-# only this to change when both char are equal at same index
+# only thing to change when both char are equal at same index
 # in that case we have to exclude that count
 # otherwise this char will be counted in both the subsequences
 # but we have to count repeating char only 
 #  and take max of other two like we used to case of unequal one
 
-# we only have to check whether the curr char is present somewhere also in the string for repeating and for this 
-# only thing you have to keep in mind that when both char are equal then must not be at the same index that's it.  This is the only difference from lcs
+# vvi: we only have to check whether the curr char is present somewhere also in the string for repeating and for this 
+# only thing you have to keep in mind that when both char are equal then must not be at the same index that's it. 
+#  This is the only difference from lcs
 # this will mean that same char is present at somewhere also means it is repeating
 
 # 1st write the recursive equation
@@ -14,7 +15,7 @@
 # method 1: memoized 
 # class Solution:
 #     def LongestRepeatingSubsequence(self, str):
-# 	n= len(str)
+# 	    n= len(str)
 #         dp= [[-1 for i in range(n+1)]for i in range(n+1)]
 #         return self.LCS(n, n, str, str, dp)
     
@@ -71,8 +72,9 @@ def lcs(x,y,s1,s2):
 # to print the string and count together
 # just add the string when you were finding any repeating ele
 # but  this will give the incorrect ans
-# # will print each char no of times they are repeated since it is checking all the possiblity
-# so elimiate the repeating char just store the string ans in set then convert into string but this will give ans into any order(because of set)
+# # will print each char no of times they are repeated since it is checking all the possiblity.
+# so to eliminate the repeating char just store the string ans in set then convert into string but
+#  this will give ans into any order(because of set)
 # so better store into the dic and print the key for ans. this will work
 
 # same thing will happen when you will print lcs like this 

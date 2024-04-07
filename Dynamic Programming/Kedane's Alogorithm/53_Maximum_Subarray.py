@@ -86,3 +86,5 @@ class Solution:
             minSum= min(minSum, curSum)
         return minSum
 
+
+# Try by divide & conquer later

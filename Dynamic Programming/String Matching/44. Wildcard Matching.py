@@ -1,5 +1,4 @@
 # by Recursion
-# write the logic in notes in detail
 
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
@@ -7,19 +6,12 @@ class Solution:
         return self.helper(m, n, s, p)
     
     def helper(self, m, n, s, p):
-        # if string 2nd(pattern) get exhausted and 
-        # 1st also get exhausted then return True
-
-        # if n== 0 and m== 0:
-        #     return True
-        # if n== 0 and m!= 0:
-        #     return False
         if n== 0:     # simplest one
             return m== 0
         
         # if 1st string get exhausted
         # then if all remainig char in 'p' is all "*" then return True else False
-        if m==0:  # i was only checking once like 'return p[i]== "x"
+        if m==0:  
             for i in range(n-1,-1,-1):
                 if p[i]!= '*':
                     return False
@@ -35,57 +27,6 @@ class Solution:
                 return True
         return False
 
-# little shorter way
-class Solution:
-    def isMatch(self, s: str, p: str) -> bool:
-        m,n= len(s), len(p)
-        return self.helper(m, n, s, p)
-    
-    def helper(self, m, n, s, p):
-        # if string 2nd(pattern) get exhausted and
-        # 1st also get exhausted then return True
-        if n== 0 and m== 0:
-            return True
-        if n== 0 and m!= 0:
-            return False
-        
-        # if 1st string get exhausted
-        # then if all remainig char in 'p' is all "*" then return True else False
-        if m==0:
-            for i in range(n-1,-1,-1):
-                if p[i]!= '*':
-                    return False
-            return True
-        
-        if s[m-1]== p[n-1] or p[n-1]== '?':
-            return self.helper(m-1, n-1, s, p)
-        elif p[n-1]== '*':
-            return self.helper(m, n-1, s, p) or self.helper(m-1, n, s, p)
-        return False  # in all other cases simply return False
-
-# my mistakes
-class Solution:
-    def isMatch(self, s: str, p: str) -> bool:
-        m,n= len(s), len(p)
-        return self.helper(m, n, s, p)
-    
-    def helper(self, m, n, s, p):
-        if m==0 and n==0:
-            return True
-        if p[n-1]== '*' and m==0:
-            return True
-        if (m== 0 and n!= 0) or (n==0 and m!= 0):
-            return False
-        if s[m-1]== p[n-1] or p[n-1]== '?':
-            if self.helper(m-1, n-1, s, p)== False:
-                return False
-        elif p[n-1]== '*':
-            if self.helper(m, n-1, s, p) or self.helper(m-1, n, s, p):
-                return True
-        elif s[m-1]!= p[n-1]:
-            return False
-        return True
-
 
 # method 2: memoization
 class Solution:
@@ -95,14 +36,8 @@ class Solution:
         return self.helper(m, n, s, p,dp)
     
     def helper(self, m, n, s, p, dp):
-        # if string 2nd(pattern) get exhausted
-        
-        # 1st also get exhausted then return True
-        if n== 0 and m== 0:
-            return True
-        if n== 0 and m!= 0:
-            return False
-        
+        if n== 0:     # simplest one
+            return m== 0
         # if 1st string get exhausted
         # then if all remainig char in 'p' is all "*" then return True else False
         if m==0:

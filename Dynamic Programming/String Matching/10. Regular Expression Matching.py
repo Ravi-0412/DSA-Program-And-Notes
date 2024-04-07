@@ -4,13 +4,13 @@
 # just like we write the regular expression.
 
 # 'a*' means: ["", a, aa, aaa, aaaa, ....], this can match to zero or more a 
-# simlarly '.*' means: ["", ., .., ..., & so on]  and these dots can match to any char like one dot with any one char 
-# and two dot with any two char.
+# simlarly '.*' means: ["", ., .., ..., & so on] . 
+# Given: ".*" means "zero or more (*) of any character (.)".
 
-# for understanding better draw tree of pattern comapring with sring.
+# for understanding better draw tree of pattern comparing with sring.
 
-# tried a lot by checking from last and by similar idea as "44. wildcard " but didn't get.
-# have to ask someone
+# Method 1: Better one
+
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
         m,n= len(s), len(p)
@@ -20,8 +20,11 @@ class Solution:
         if n== 0:
             return m== 0
         if m== 0: # n!= 0
+            # then remaining char of 'p' must be either : 1) s[0]*. Since matches '0' or more prev char  or 2) .* 
+            # Other than these two all combination will be invalid.
             for i in range(n-1, -1, -1):
                 if i== n-1 and p[i]!= "*":
+                    # Last char must be '*'.
                     return False
                 elif p[i]!= (s[0] or '.'):
                     return False
@@ -35,6 +38,11 @@ class Solution:
                 if self.helper(m, n-1, s, p) or self.helper(m-1, n, s, p):
                     return True
         return False
+
+# Memoised this later 
+
+
+# Method 2: 
 
 
 # neetcode video

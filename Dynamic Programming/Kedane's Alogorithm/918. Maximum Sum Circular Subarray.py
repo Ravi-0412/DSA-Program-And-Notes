@@ -1,20 +1,30 @@
-# note: Ans for this will always >= ans of Q "53. Maximum Subarray" since we can join ele in circular also here.
-# ans=  total sum - min(subarray)
-# But after this ans we will get may not formed form the continous subrray so in this case our ans= maxSum= "53. Maximum Subarray"
-# if coninous then ans= total sum - min(subarray)
-# So finally our ans= max(maxSum, sum(nums)- minSum).
+# note => Ans for this will always >= ans of part 1:  "53. Maximum Subarray" since we can join ele in circular also here.
+
+# Explanation
+# There are two case.
+# Case 1. The first is that the subarray take only a middle part, and we know how to find the max subarray sum.
+# ans = "53. Maximum Subarray" 
+# Case2. The second is that the subarray take a part of head array and a part of tail array.
+# We can transfer this case to the part 1.
+# The maximum result equals to the total sum minus the minimum subarray sum.
+
+# For case 2: Find the minimum subarray sum and subtract from 'toal sum of array'.
+
+# So the max subarray circular sum equals to
+# ans = max( Non circular max sum + circular max sum ) i.e max(the max subarray sum, the total sum - the min subarray sum)
 
 # so we have to keep track of both 'minSum' and 'maxSum'.
 
-# Note: More deeply what we are doing :
-# ans = max( Non circular max sum + circular max sum ) where 'maxSum'= Non circular max sum and 'sum(nums)- minSum'= circular max sum. 
-# Also first and last ele of 'minSum' must be '-ve' otherwise those would be part of ans only.
 # Corner case in above one: 
 # Just one to pay attention:
 # If all numbers are negative, maxSum = max(A) and minSum = sum(A).
 # In this case, max(maxSum, total - minSum) = 0, which means the sum of an empty subarray.
-# According to the deacription, We need to return the max(A), instead of sum of am empty subarray.
+# According to the description, We need to return the max(A), instead of sum of am empty subarray.
 # So we return the maxSum to handle this corner case.
+
+# How we handle next and previous element in circular array?
+# Next: the next element of nums[i] is:  nums[(i + 1) % n] 
+# the previous element of nums[i] is:    nums[(i - 1 + n) % n].
 
 # time: O(n)
 class Solution:
@@ -46,3 +56,6 @@ class Solution:
 # method 3:
 # Try by other method like ' Heap' and deque given in this link later.
 # https://leetcode.com/problems/maximum-sum-circular-subarray/solutions/1348545/python-3-solutions-clean-concise-o-1-space/
+
+
+# 

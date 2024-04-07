@@ -36,13 +36,11 @@ def printSubarraySum(arr):
     start= 0
     maxSum= float('-inf')
     for i, n in enumerate(arr):
-        if i> 0 and curSum < 0:
+        if curSum < 0:
             start= i
             curSum= n
         else:
             curSum+= n
-        if i== 0:
-            start= i
         # update our ans index , and maxSum
         if curSum > maxSum:
             ansStart= start

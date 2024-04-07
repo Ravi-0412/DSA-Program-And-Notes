@@ -1,9 +1,10 @@
 # checking valid paranthesis if it contains only two types of string i.e: '(' and ')'.
 
+# In this type of question, try to do by taking count of '(' rather than pushing and poping.
+
 class Solution:
     def checkValidString(self, s: str) -> bool:
         openCount= 0  # will count the no of open paranthesis
-        # it tells the exact no of ')' must be there for a valid string.
         for i  in range(len(s)):
             if s[i]== '(':
                 openCount+= 1
@@ -15,14 +16,15 @@ class Solution:
 
 # can do the same logic by Recursion also.
 def isValid(self, i, s, open):
+        if open < 0:
+            return False
         if i== len(s):
             return open== 0
         if s[i]== '(':
             open+= 1
         else:
             open-= 1
-            if open < 0:
-                return False
+            
         return self.isValid(i+1, s, open)
 
 
@@ -35,7 +37,7 @@ class Solution:
         return self.check(s, 0, openCount)  # '0': start index from where we have to check.
     
     def check(self, s, ind, openCount):
-        if openCount< 0:
+        if openCount < 0:
             return False
         if ind== len(s):
             return openCount== 0
@@ -72,7 +74,7 @@ class Solution:
         return self.check(s, ind+1, openCount)    # if only either '(' or ')' comes at current index.
 
 # optimising the above solution
-# time= space= O(n^2)
+# time= space= O(n^2) 
 class Solution:
     def checkValidString(self, s: str) -> bool:
         openCount= 0  # count the no of open paranthesis

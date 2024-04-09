@@ -6,8 +6,8 @@ class Solution:
         return self.helper(prices, 0, 1,  2)  # 2nd para: ind, 3rd: buying is allowed or not, 4th: no of transactions allowed
     
     def helper(self, prices, ind, buy, txn):
-        if txn== 0: return 0
-        if ind== len(prices): return 0
+        if txn== 0 or ind == len(prices): 
+            return 0
         if buy:
             return max(-prices[ind] + self.helper(prices, ind+1, 0, txn ), 0+ self.helper(prices, ind+1, 1, txn))
         else:
@@ -16,3 +16,5 @@ class Solution:
 
 # did all other things in Q: 188. totally same
 # just replace k->2 
+
+

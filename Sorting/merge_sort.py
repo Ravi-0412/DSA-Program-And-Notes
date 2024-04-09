@@ -24,6 +24,7 @@ def merge(arr,low,mid,up):
         low2+=1
     j= low
     k= 0
+    # Now copy array 'b' to original array 'arr' for index 'low' to 'up'.
     while(j<=up):
         arr[j]= b[k]
         j+= 1

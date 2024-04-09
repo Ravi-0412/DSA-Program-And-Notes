@@ -28,6 +28,7 @@ class Solution:
 # another way of writing above code and my mistakes
 # we have to take max of all nodes. they are visited with minimum time when they will get poped out from heap.
 # So at that time just update our ans.
+
 class Solution:
     def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
         adj= collections.defaultdict(list)
@@ -42,7 +43,8 @@ class Solution:
                 continue
             # if not visited, add to visited set and visit all its nodes and update the weight
             visited.add(n1)
-            min_time= max(min_time, w1)   # will take max of all the node times. 
+            # min_time= max(min_time, w1)   # will take max of all the node times. 
+            min_time = w1   # this will also work because w1 will be maximum only. Element getting poped later will have more time.
             for n2,w2 in adj[n1]:
                 if n2 not in visited:
                     heapq.heappush(minHeap,(w1+ w2, n2))   # add in heap by adding the weight of its parent also

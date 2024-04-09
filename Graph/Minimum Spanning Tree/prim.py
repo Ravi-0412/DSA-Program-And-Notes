@@ -21,6 +21,7 @@ def Prim(adj, src, n):
             if n2 not in visited:
                 parent[n2]= n1
                 heapq.heappush(min_heap,(w2, n2))  # here little change from dijkastra as in this we have to add the weight of all edges which will be come under MST
+                                                   # Instead of adding 'w1+w2' like Dijkastra here adding only 'w2'.
 
     print("cost of minimum spanning tree is:", min_mst)
 

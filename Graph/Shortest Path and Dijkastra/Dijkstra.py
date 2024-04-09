@@ -69,6 +69,9 @@ print(ShortestPath1(adj, 5, 0))
 
 
 # Note: Whenever we are asked to find the shortest path having no weight or equal we use bfs. 
-# Raeson: we go breadth wise to reach the other cell as soon as possible.
+# Reason: we go breadth wise to reach the other cell as soon as possible.
 
-# If weighted then think of Dijkastra Algo.2092. Find All People With Secret
+# If weighted then think of Dijkastra Algo.
+
+# Related Q:
+# 1) 2092. Find All People With Secret

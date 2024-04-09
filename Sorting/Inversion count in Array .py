@@ -1,4 +1,4 @@
-# Why Merge sor?
+# Why Merge sort?
 # Ans: merge sort me merge karne time hm elements ko compare karte h left and right elements ko.
 # Compare time agar left wala bda hua right wale to ek inversion me count hoga.
 
@@ -59,10 +59,11 @@ class Solution:
 # Only need to modify merge function according to Q.
 
 # Related Q: 
-# "493. Reverse Pairs", "315. Count of Smaller Numbers After Self"
+# 1) "493. Reverse Pairs", 
+# 2) "315. Count of Smaller Numbers After Self"
 
 
-# Note: Study this article properly to get logic of different elgo that will help in solving these types of Q.
+# Note: Study this article properly to get logic of different algo that will help in solving these types of Q.
 # https://leetcode.com/problems/reverse-pairs/solutions/97268/general-principles-behind-problems-similar-to-reverse-pairs/
 
 

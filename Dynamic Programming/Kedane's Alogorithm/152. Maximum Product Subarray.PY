@@ -1,4 +1,7 @@
-# thought a lot but didn't come up by myself.
+# thought a lot but didn't come up by myself.\
+
+
+# Think: How you will tackle cases like: [1, -3, -6, -8], [1, -3, -6, -8 10], [-1, 8], [8, -1]
 
 # logic: negative no is making problem like if product till now is min but 
 # next time it can become the ans if next ele will be negative.

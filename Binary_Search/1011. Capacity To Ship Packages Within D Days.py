@@ -22,7 +22,7 @@ class Solution:
             if capacity > max_cap: 
                 days+= 1
                 capacity= A[i]
-        return False if days > M else True
+        return days <= M
     
 
 # range:

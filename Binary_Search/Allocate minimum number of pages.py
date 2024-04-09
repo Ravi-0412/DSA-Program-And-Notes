@@ -65,6 +65,8 @@ class Solution:
 # just logically socho ki mera value kahan se kahan tak lie kar sakta h(corner case leke) according to the Q.
 
 # Related questions:
+# Note: Minimise the maximum or find minimum 
+
 # 1) 410. Split Array Largest Sum
 # 2) 1011. Capacity To Ship Packages Within D Days
 # 3) 1870. Minimum Speed to Arrive on Time
@@ -72,6 +74,7 @@ class Solution:
 # 5) 875. Koko Eating Bananas
 # 6) 1482. Minimum Number of Days to Make m Bouquets
 # 7) 774-minimize-max-distance-to-gas-station
+# 8) The Painter's Partition Problem-II
 
 
 

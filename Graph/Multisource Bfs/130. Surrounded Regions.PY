@@ -1,8 +1,8 @@
 # Soo nicee Question
-# logic: just same as we thought in "pacific Atlantic Ocean work flow" i.e in reverse way thinking
+# logic: just same as we did in "pacific Atlantic Ocean work flow" i.e in reverse way thinking
 # change the q from "capture surrounded regions " to "capture everything except surrounded regions": both have same meaning only
 
-# that all cell will come under unsurrounded that will be connected to any of the "O" at the boundary
+#  all those cell will come under unsurrounded that will be connected to any of the "O" at the boundary
 # so run the dfs at the boundary only and mark all the connected "O" by some special symbol say "V"
 # after doing this you will get all unsurrounded "O" marked by "V" and all surrounded "O" will remain as it is
 
@@ -37,3 +37,5 @@ class Solution:
                     board[r][c]="O"
         return board
 
+
+# Can do by multisource bfs. Append all the boundary 'O' into queue and go on.

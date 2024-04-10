@@ -6,7 +6,7 @@ class Solution:
         q = deque()
         q.append(n)
         steps=0
-        visited=set()
+        visited=set()    
         
         while q:
             for _ in range(len(q)):
@@ -26,3 +26,4 @@ class Solution:
             steps += 1
 
 # Did by DP also.
+# THis is best solution

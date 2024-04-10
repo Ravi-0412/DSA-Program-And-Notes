@@ -21,3 +21,4 @@ class Solution:
     
 
 # Can do by single source bfs and dfs also.
+# better do by this only. 

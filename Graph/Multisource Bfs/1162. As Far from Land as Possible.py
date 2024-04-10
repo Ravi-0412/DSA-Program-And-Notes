@@ -1,5 +1,12 @@
 # just multisource bfs.
 
+# just telling to find the maximum level in which we can reach all '0' from any '1'.
+# From any '1' we have to rach '0', so put all '1' in queue and apply multisource bfs.
+
+# Note:  Manhattan distance between two cells (x0, y0) and (x1, y1) is |x0 - x1| + |y0 - y1|
+# and in case of matrix/grid , it is equal to shortest distance possible between two points i.e
+# in how many steps we can reach one point to other point.
+
 class Solution:
     def maxDistance(self, grid: List[List[int]]) -> int:
         row, col= len(grid), len(grid[0])

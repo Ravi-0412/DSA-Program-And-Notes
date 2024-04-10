@@ -1,4 +1,4 @@
-# All '1' which are directly or indirectly connected to the corner '1' can reach to to the end.
+# Logic: All '1' which are directly or indirectly connected to the corner '1' can reach to to the end.
 # so put all corner '1' in the 'Q' and apply mutisource bfs.
 # single source bfs will also work but 'multisource is far better if applicable anywhere'.
 
@@ -7,7 +7,7 @@ class Solution:
         row,col= len(grid), len(grid[0])
         de= collections.deque()
         visited= set()  # so that same cell having '1' doesn't get added to Q.
-        corner_1, middle_1= 0, 0
+        corner_1, middle_1= 0, 0 
         
         for r in range(row):
             for c in range(col):
@@ -28,4 +28,5 @@ class Solution:
                         visited.add((r1, c1))
                         de.append((r1, c1))
                         middle_1 -= 1
-        return middle_1
+        return middle_1   # count of '1' in middle which can't reach end.
+

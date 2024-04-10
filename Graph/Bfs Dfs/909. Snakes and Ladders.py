@@ -1,6 +1,6 @@
 #  Q: The way we exactly play the snake and ladder game in Ludo.
 
-# logic: Just we have to apply bfs or multiosurce bfs.
+# logic: Just we have to apply bfs or multisource bfs.
 # Main problem and tough part of this Q is to convert the Square no -> coordinates.
 # After that exactly same as bfs..
 # Understand this conversion properly by drawing on pen and paer for more clarity.

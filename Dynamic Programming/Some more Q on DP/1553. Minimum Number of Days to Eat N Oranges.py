@@ -3,12 +3,17 @@
 
 # Logic for doing 1+ min( (n%2) + f(n/2), (n%3) + f(n/3) ) :
 # Since we need to eliminate evaluation of f(n-1), What we do is we only evaluate for n, when n % 2 = 0 or n % 3 = 0. 
-# If it is not the case, we simple assume that we took a number of steps, where we ate 1 orange each day.
+# If it is not the case, we simply assume that we took a number of steps, where we ate 1 orange each day.
 
 # Consider a case where n = 2m + 1,
-# if we choose to eat 1 orange today, we have even number of oranges left for tomorrow. So we are adding n % 2 for today, when we ate 1 orange.
+# for n % 2 : if we choose to eat 1 orange today, we have even number of oranges left for tomorrow. 
+# So we are adding n % 2 for today, when we ate 1 orange.
+# in simple first we have to make this 'n' divisible by '2' to get eat n//2 oranges in coming days.
+# so we will have to eat '1' oranges first then only we can eat 'n/2' oranges so we will add  '1'.
 
-# On a similar ground we are adding n % 3 to the other option and evaluating only cases when n % 2 =0 or n % 3 = 0.
+# If n % 3: 
+# we have to make this 'n' divisible by '3' to get eat n//3 oranges in coming days.
+# so we will have to eat '1' or '2' oranges first then only we can eat 'n/3' oranges so we will add '1' or '2' a/c remainder.
 
 # for space complexity:
 # Another important thing to note is that we are not using an array of size n (or n +1) as in a classic DP problem. 

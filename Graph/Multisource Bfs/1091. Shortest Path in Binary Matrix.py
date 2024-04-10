@@ -55,5 +55,3 @@ class Solution:
                         visited.add((nr, nc))
         return -1   # means in between there is no way we can reach the destination
 
-
-# Note: we can also do by multisource bfs.

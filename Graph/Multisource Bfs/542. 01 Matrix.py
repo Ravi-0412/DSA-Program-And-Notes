@@ -2,6 +2,11 @@
 # only one extra we added here, the visited to check whether we have already visited the cell with value== 1 before or not.
 # since the same cell can be visited again(in next cycle) and then time for that cell will increase.
 
+# Note: First time we will see any '1' that will be shortest distance.
+
+# Here we haveto find shortest distance of '1' from any of the '0' 
+# so append all '0' into queue and apply multisource bfs.
+
 class Solution:
     def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
         row, col= len(mat), len(mat[0])

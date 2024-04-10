@@ -1,11 +1,11 @@
 # Q meaning: you have to return all that grid in a 2D matrix from which water can flow to both pacific and atlantic ocean
 # we are going reverse i.e from ocean to the cells
-# so curr height of cell should be gretaer than the preHeight of the cell
+# so curr height of cell should be >= preHeight of the cell
 # logic: find the cell that can reach the pacific and atlantic respectively and 
 # at last find the cell that can reach both and add them into the ans
 
 # very better logic as we are going from ocean to the cell then for next adjacent node, 
-# we will have to check with height of preCell only, if height greater than preCell then the curr cell and also reach the respective ocean
+# we will have to check with height of preCell only, if height >= to  preCell than the curr cell can also reach the respective ocean
 # exactly  same as "No of island", only change in height checking condition
 
 # time: O(m*n), space: O(m*n)
@@ -35,16 +35,17 @@ class Solution:
         for r in range(row):
             DFS(r, 0, pac, heights[r][0])           # 1st column
             DFS(r, col-1, atl, heights[r][col-1])   # last column
-  
+
         # now find out the cells that are present in both pacific and atlantic cell and them into ans
-        for i in range(row):
-            for j in range(col):
-                if (i,j) in pac and (i,j) in atl:
-                    ans.append([i,j])
-        return ans
+        # for i in range(row):
+        #     for j in range(col):
+        #         if (i,j) in pac and (i,j) in atl:
+        #             ans.append([i,j])
+        # return ans
+        return list(pac & atl)    # Take intersection of both sets
 
 
 # method 2: By Bfs using same logic as we did in case of "No of island"
 
-# method: Try to do by DP(neetocde was not able to do by DP).. i also tried but not able to do
+# method 3: Try to do by DP(neetocde was not able to do by DP).. i also tried but not able to do
 # But seeming a Q of dp:  Ask someone

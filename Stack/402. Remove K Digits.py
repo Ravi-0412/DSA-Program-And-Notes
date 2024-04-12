@@ -8,13 +8,16 @@ class Solution:
         k = n - k   # required length after removing 'k' digit.
         stack = []
         for i in range(len(num)):
-            while stack and int(stack[-1]) > int(num[i]) and (len(stack) -1 ) + (n - i) >= k:
+            while stack and int(stack[-1]) > int(num[i]) and (len(stack) + (n - i)) > k:
                 stack.pop()
             if len(stack) < k:
                 stack.append(num[i])
         # Now handle the '0' at start.
         ans= "".join(stack).lstrip('0')
         return ans if ans else '0'
+    
+        # or simply return 
+        # return "".join(stack).lstrip("0") or "0"
 
 # time= space= O(n)
 # logic: just keep poping the num from stack when you see curr ele is smaller than the stack_top, else append into stack.

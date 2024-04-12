@@ -1,9 +1,6 @@
-# Simple Dijkstra only but have to modify little because :
-# If we create distance array by taking n= len(self.graph) then index may get out of bound if 'node1 or node2' will be >= n.
-# Also for fidning shortest path between two nodes, we don't need distance array, we can do like this only.
-# we need distance array when we want to find path from source to all other nodes like that.
+# Logic: Apply Dijkstra everytime told to find 'shortestPath'.
+# Just brute force
 
-# So instaed of craeting any distance array, just keep on pushing the cost simply if not visited.
 # first time node will be poped that will be the minimum cost only.
 
 

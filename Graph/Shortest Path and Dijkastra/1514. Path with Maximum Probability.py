@@ -2,7 +2,7 @@
 # only difference here we will use maxHeap instead of minHeap.
 
 # vvi: when we will relax the node then only we will get the ans because 
-# later prob will keep on multiplying so it will become smaller only.
+# later probability will keep on multiplying so it will become smaller only.
 # so it will guarantee the maximum one.
 
 # Time: O(ElogV)
@@ -29,7 +29,7 @@ class Solution:
 
 
 # Getting the ans when we will see for first time will give wrong ans.
-# Because at that time we can get 'end' with any probability , it will not guarantee the maximum one.
+# Because later we can get 'end' with other path having maximum probability ,so  it will not guarantee the maximum one.
 
 class Solution:
     def maxProbability(self, n: int, edges: List[List[int]], succProb: List[float], start: int, end: int) -> float:

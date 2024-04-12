@@ -1,13 +1,18 @@
 # Logic: Person who will know the secret will tell all his connected persons.
 # Person who come to know the secret at less time will tell more person.
+
+# Hmko max person ko include karna h answer me isliye hm chahenge ki koi person
+# jitna kam time me secret jane taki aage wale ko kam time me bta sake ans so on & finally mera ans me maximum log 
+# include ho jayega.
+
 # For this we need to pop person according to lesser time.
-# So we want as lesser time for every person to include max person in our ans. => minHeap
+# we want as lesser time for every person to include max person in our ans. => minHeap
 
 # Note: But when any person will come the secret that may not be the least time for that person,
 # that person can know the secret at more lesser time by other person.
 # Just same as Dijkastra. mark visited only after poping.
 
-# Note: So when you will mark person visited when you will see them for 1st time like bfs
+# Note: So when you will mark any person visited, when you will see them for 1st time like bfs then,
 # You will get wrong ans. You will get less no of people than expected. 
 
 # Time: Same as Dijkastra
@@ -38,7 +43,7 @@ class Solution:
 
 
 # My mistakes
-# 1) Sorting acc to time and checking all the meetings and adding according to them.
+# 1) Sorting acc to time and checking all the meetings and adding in ans according to them.
 # Error why? 
 # say there are meetings like : [11, 1, 2] , [11, 3, 2] : [t, x, y] and suppose person 0 and person 3 knows the secret till now.
 # Then for [11, 1, 2] we won't add in ans but it should be because at time = 11, person 2 will know the secret from peron 3 
@@ -64,7 +69,7 @@ class Solution:
 # Why wrong:
 # Suppose there is lot of meeting going at same time and here we are adding all the persons that are involved in 
 # any meeting at that time.
-# But not all person can come to know the secret.
+# But not all person can come to know the secret in all possible meetings.
     
 # so in this case we will get the more number than expected.
 

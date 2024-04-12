@@ -1,5 +1,8 @@
 # Q: min time needed to reach all the nodes from all possible paths.
 
+# Similar to Q: "778. Swim in Rising Water". 
+# Analyse both properly.
+
 # method 1: my mistake
 #  used mutisource bfs.
 # TLE : Because we are inserting a single node multiple times and checking it's nei also many time.
@@ -10,7 +13,6 @@ class Solution:
         time= 0
         while q:
             visited= set()
-            print(q, time)
             for i in range(len(q)):
                 r, c= q.popleft()
                 if r== row-1 and c== col-1:
@@ -54,7 +56,9 @@ class Solution:
                     # find the time when we can visit the cell (nr, nc) later
                     else:
                         diff= grid[nr][nc] - time
-                        if diff & 1: # if difference is odd then we can visit that cell in 'grid[nr][nc]' time during back and forth to other cell in this diff to of time i.e we can come back to (nr, nc) in grid[nr][nc]
+                        if diff & 1: 
+                            # if difference is odd then we can visit that cell in 'grid[nr][nc]' time during back and forth 
+                            # to other cell in this diff to of time i.e we can come back to (nr, nc) in grid[nr][nc].
                             heapq.heappush(minHeap, (grid[nr][nc], nr, nc))
                         else:  # if even then we can visit in time = 'grid[nr][nc] +1' later.
                             heapq.heappush(minHeap, (grid[nr][nc] +1, nr, nc))

@@ -1,3 +1,5 @@
+# Logic: We can purchase chocolate at each node 
+
 from collections import defaultdict
 import heapq
 
@@ -20,6 +22,7 @@ def minimumCost(n , routes, chocolateCost, k):
                 continue
             
             # 1) if we purchase at this town
+            # current cost 'c' + cost_to_buy_chocolate_at_this_node + cost_returning_back
             totalCost = c + chocolateCost[node] + c*k
             ans = min(ans, totalCost)
             visited.add(node)
@@ -29,7 +32,6 @@ def minimumCost(n , routes, chocolateCost, k):
                 if nei not in visited:
                     heapq.heappush(minHeap, (c + c1, nei))
         return ans
-
 
     ans = []
     for i in range(n):

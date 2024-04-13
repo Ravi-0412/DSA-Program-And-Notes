@@ -1,5 +1,5 @@
 # very simple, time: O(n)
-# any bar can go to its 'left smaller next' to its left and 'right smaller next' to its right.
+# any bar can go 'left smaller next' to its left and 'right smaller next' to its right.
 # so just find the 'left smaller next' and 'right smaller next' for each element.
 
 # Short: just we are checking if we conside the cur bar as height how much width we can get

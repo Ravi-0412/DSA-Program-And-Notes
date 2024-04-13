@@ -1,7 +1,19 @@
+# Logic: Har ek cell (r, c) se check kar rhe ki maximum kitne side ka square form kar sakte h.
+# Iske liye hmko 3 direction ka length ka min lena hoga i.e (diagonally upper-left, upper_cell, left_cell) => 
+# min(r-1, c-1, r, c- 1, r-1, c) and current cell ka '1' add karna hoga agar cur cell (r, c) ka value '1' h tb.
 
-# method 1: recursive.
+# Let cur cell se ans = 3 then means including this cell we can form squre of side of length '3'.
+# But yahan number puch rha square ka then ye side '1' ka square  , side '2' and side '3' ka square form kar sakta h adjacent cell
+# se combine hoke. Isliye jo side aayega wahi mera count hoga us cell ke liye.
+
+# Isse hm direct Tabulation DP likh sakte h, Top - Down . See method 4.
+
+
+# # method 1: recursive.
 # note: jyada dimag mat lagao recursion me , sb sahi logic socho or likh do.
-# https://leetcode.com/problems/count-square-submatrices-with-all-ones/solutions/441414/c-intuitive-solution-recursion-with-memoization/
+# Yahan (0, 0) se ja rhe isliye hmko check karne ka direction change karna hoga.
+# i.e min(down, right, lower_right diagonal).
+
 class Solution:
     def countSquares(self, matrix: List[List[int]]) -> int:
         row, col= len(matrix), len(matrix[0])
@@ -9,13 +21,14 @@ class Solution:
         for r in range(row):
             for c in range(col):
                 if matrix[r][c]== 1:
-                    ans+= self.dfs(matrix, r, c)
+                    ans+= self.dfs(matrix, r, c)   # Add the side length i.e count of each cell.
         return ans
     
+    # Will give side length if we include cur cell.
     def dfs(self, matrix, r, c):
         if r<0 or r>= len(matrix) or c<0 or c>= len(matrix[0]) or matrix[r][c]!= 1:
             return 0
-        return 1 + min(self.dfs(matrix, r+1, c), self.dfs(matrix, r, c+1), self.dfs(matrix, r+1, c+1))  # down, right, lower diagonal
+        return 1 + min(self.dfs(matrix, r+1, c), self.dfs(matrix, r, c+1), self.dfs(matrix, r+1, c+1))  
 
 # method 2: memoization
 class Solution:
@@ -56,7 +69,7 @@ class Solution:
 # time: O(m*n)= space
 # logic is totally same as above.
 
-# logic: just find the no of matrix whose lower right corner is matrix[i][j].
+# logic: just find the no of square matrix whose lower right corner is matrix[i][j].
 # for 1st row and 1st col, ans will be matrix value only.
 
 # why taking min of all three?
@@ -83,12 +96,7 @@ class Solution:
 
         for r in range(1, row):
             for c in range(1, col):
-                if matrix[r][c]== 0:
-                    dp[r][c]= 0
-                else:
-                    dp[r][c]= 1+ min(dp[r-1][c], dp[r][c-1], dp[r-1][c-1])   # up, left, upper diagonal
+                if matrix[r][c] == 1:
+                    dp[r][c]= 1+ min(dp[r-1][c], dp[r][c-1], dp[r-1][c-1])   # up, left, upper-left diagonal
                     ans+= dp[r][c]
         return ans
-
-# writing recursive code of this will be very very tough.
-# so just analyse and write the Tabulation.

@@ -1,8 +1,7 @@
-# just convert the problems of 2D into 1D like 'largest rectangle in histogram'
-# rule for converting
-# add the heights(+1) to the pre heights if value of matrix at that position is= 1
-# else heights at that index will be equal to zero
-# assume that you are making building so if base height is zero , you can't make the building
+# just convert the problems of 2D into 1D like 'largest rectangle in histogram' rule for converting.
+# add the heights(+1) to the pre heights if value of matrix at that position is = 1 
+# else heights at that index will be equal to zero.
+# Assume that you are making building so if base height is zero , you can't make the building
 # so height at that position will be equal to zero
 
 # just find the area of 1st row then '1st + 2nd row' then '1st + 2nd+ 3rd row' and so on'

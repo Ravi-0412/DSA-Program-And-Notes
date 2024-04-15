@@ -1,10 +1,15 @@
-# Approach
+# Similar to Q: "1553. Minimum Number of Days to Eat N Oranges".
+# Only difference here increment by '1' is also allowed.
+# so here we need to handle two more states  for increment operation.
+
+# Note: We will try to avoid operation increment and decrement by '1' for optimal ans.
+
 # We need to check for 5 ways in our recursive calls :
 
 # 1) Just abs diff of x & y can be ans. So initialise res = abs(x - y)
 # 2) We may go to multiple of 5 which is smaller than x. 
 # This can be achieved by just subtracting x%5 from x and divide x by 5. 
-# Here total operations = x%5 ( this many time decreament ) + 1( for division by 5).
+# Here total operations = x%5 ( this many time decrement ) + 1( for division by 5).
 # 3) We may go to multiple of 5 which is larger than x. 
 # This can be achieved by just adding (5 - x%5) to x and then divid x by 5. 
 # Here total operations = 5 - x%5 ( this many time increment ) + 1( for division by 5).
@@ -30,12 +35,12 @@ class Solution:
                 return y - x
             if dp[x] != -1:
                 return dp[x]
-            ans = abs(y - x )  # maximum possible ans
-            option1 = 1 + x % 5 + solve(x// 5)   # After this operation next x = x //5
-            option2 = 1 + (5 - x % 5) + solve(x// 5 + 1) # After this operation next x = x //5 + 1
-            option3 = 1 + x % 11 + solve(x// 11)   # After this operation next x = x //11
-            option4 = 1 + (11 - x % 11) + solve(x// 11 + 1) # After this operation next x = x //11 + 1
-            ans = min(ans, option1, option2, option3, option4)
+            ans = abs(y - x )  # # option1. maximum possible ans only way decrement by '1' in each step
+            option2 = 1 + x % 5 + solve(x// 5)   # After this operation next x = x //5
+            option3 = 1 + (5 - x % 5) + solve(x// 5 + 1) # After this operation next x = x //5 + 1
+            option4 = 1 + x % 11 + solve(x// 11)   # After this operation next x = x //11
+            option5 = 1 + (11 - x % 11) + solve(x// 11 + 1) # After this operation next x = x //11 + 1
+            ans = min(ans, option2, option3, option4, option5)
             dp[x] = ans
             return dp[x]
 

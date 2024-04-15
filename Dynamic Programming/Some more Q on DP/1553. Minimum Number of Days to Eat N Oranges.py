@@ -1,3 +1,23 @@
+# my approach: TLE
+# Due to: choice1 = self.minDays(n-1)
+# So somehow we have to avoid 'decrement operation by 1'
+# Time: O(n)
+class Solution:
+    def minDays(self, n: int) -> int:
+        if n == 1:
+            return 1
+        if n== 0:
+            return 0
+        choice1, choice2, choice3 = float('inf'), float('inf'), float('inf')
+        choice1 = self.minDays(n-1)
+        if n % 2 == 0:
+            choice2 = self.minDays(n//2)
+        if n % 3 == 0:
+            choice2 = self.minDays(n - 2*(n//3))
+        return 1 + min(choice1, choice2, choice3)
+    
+# Optimisation
+
 # Note: it does not make sense to eat oranges one by one for optimal ans.
 # so we have to avoid this step as much as possible.
 
@@ -29,21 +49,14 @@ class Solution:
         if n <= 2:
             return n
         return 1 + min((n % 2) + self.minDays(n//2) , (n % 3) + self.minDays(n//3))   # remaining oranges after eating : (n//2), (n//3)
+            # In case if we are not not getting answer from minimum of other two 
+            # we simply assume that we took a number of steps, where we ate 1 orange each day.
+            # so adding '1' with minimum of other two.
+        
+
+# Related Q:
+# Compare these two q and understand properly
+# 1) 2998. Minimum Number of Operations to Make X and Y Equal
 
 
-# my approach: TLE
-# Time: O(n)
-class Solution:
-    def minDays(self, n: int) -> int:
-        if n == 1:
-            return 1
-        if n== 0:
-            return 0
-        choice1, choice2, choice3 = float('inf'), float('inf'), float('inf')
-        choice1 = self.minDays(n-1)
-        if n % 2 == 0:
-            choice2 = self.minDays(n//2)
-        if n % 3 == 0:
-            choice2 = self.minDays(n - 2*(n//3))
-        return 1 + min(choice1, choice2, choice3)
         

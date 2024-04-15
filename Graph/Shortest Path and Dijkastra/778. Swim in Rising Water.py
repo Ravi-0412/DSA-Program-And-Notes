@@ -72,4 +72,7 @@ class Solution:
                     heapq.heappush(minHeap,(min_till_needed,(r,c)))
 
 
-
+# Related Q:
+# Note: Analyse these question properly like why in one q we are getting ans on 1st time and why in other getting after poping.
+# 1) 2577. Minimum Time to Visit a Cell In a Grid
+# 2) 1631. Path With Minimum Effort

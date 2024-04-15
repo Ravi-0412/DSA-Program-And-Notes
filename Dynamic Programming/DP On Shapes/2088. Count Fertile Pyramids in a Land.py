@@ -1,12 +1,14 @@
 # Time = space = O(m*n)
 
 # Consider each cell as apex and see of how much height of pyramid  we can form.
-# for this cell below/above must be '1' and left, right should also form a pyramid.
+# For reverse grid: 
+# for this cell , above cell must be '1' &  (left, right) of pre cell should also form a pyramid 
+# if we go top down i.e from (0, 0) to (m, n).
 # Recurrence relation,
-# f(i, j) = 1 + min(f(i+1, j-1), f(i+1, j+1))
+# f(i, j) = 1 + min(f(i - 1, j-1), f(i- 1, j+1)) if grid[i][j] = 1 else 0.
 # where f(i, j) is the height of largest pyramid, whose apex is at i,j.
 
-# height 'h' will contribue 'h-1' to the ans because cell that will come below/above apex will also contribute to the ans.
+# height 'h' will contribue 'h-1' to the ans because the cell that will come below/above apex will also contribute to the ans.
 
 # Explanation in note, page : 182
 

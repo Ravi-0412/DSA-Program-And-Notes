@@ -8,8 +8,9 @@
 # But in this Q, there can be other path possible with larger absolute difference 
 # so we will mark visited only after we will relax all directions from it.
 # i.e only after we will pop
+# Take the 1st example for clarification.
 
-# Time complexity:O(M∗N∗log(M∗N))
+# Time complexity:O(M∗N∗log(M∗N)). Just 'ElogV' where E = m*n and V= m*m
 
 class Solution:
     def minimumEffortPath(self, heights: List[List[int]]) -> int:
@@ -21,9 +22,10 @@ class Solution:
             diff, r, c= heapq.heappop(heap)
             if r== n-1 and c== m-1 :
                 return diff
-            if (r, c) in visited:  # this i was missing. mark visited only after you relax all directions from a cell, not when you visit for 1st time itself.
+            # this i was missing. mark visited only after you relax all directions from a cell, not when you visit for 1st time itself.
+            if (r, c) in visited:  
                 continue
-            visited.add((r, c))   # since same cell can be added more than once with othwe weight value. and if it has been already visited then skip.
+            visited.add((r, c))  
             directions= [[r-1, c], [r+1, c], [r, c-1], [r, c+1]]  # up, down. left, right
             for nr, nc in directions:
                 if 0<= nr < n and 0<= nc < m and (nr, nc) not in visited:
@@ -56,6 +58,7 @@ class Solution:
                     if 0<= nr < n and 0<= nc < m and (nr, nc) not in visited and abs(heights[r][c] - heights[nr][nc]) <=k:
                         q.append((nr, nc))
                         visited.add((nr, nc))
+            return 0
 
         start , end = 0, 10**6
         while start < end:

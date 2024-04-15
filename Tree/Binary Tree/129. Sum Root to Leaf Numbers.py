@@ -1,38 +1,6 @@
 # method 1:
 # just like we print all paths from root to leaf.
-class Solution:
-    def sumNumbers(self, root: Optional[TreeNode]) -> int:
-        self.ans= 0
 
-        def dfs(root, path):
-            if root== None:   # without this won't work if there is left child but no right child
-                return 
-            if root.left== None and root.right== None:
-                path+= str(root.val)
-                self.ans+= int(path)
-                return
-            dfs(root.left, path + str(root.val))
-            dfs(root.right, path + str(root.val))
-
-        dfs(root, "")
-        return self.ans
-
-# can write like this also.
-class Solution:
-    def sumNumbers(self, root: Optional[TreeNode]) -> int:
-        # once it reaches the 'none' or leaf, it will start returning.
-        def dfs(root, path):
-            if root== None:
-                return 0
-            if root.left== None and root.right== None:
-                path+= str(root.val)
-                return int(path)
-            return dfs(root.left, path + str(root.val)) + dfs(root.right, path + str(root.val))
-            
-        return dfs(root, "")
-
-# method 2: better one
-# same above logic only.
 class Solution:
     def sumNumbers(self, root: Optional[TreeNode]) -> int:
         self.ans= 0
@@ -51,3 +19,51 @@ class Solution:
         return self.ans
 
 
+# Method 2: 
+# Concise version of above
+
+class Solution:
+    def sumNumbers(self, root: Optional[TreeNode]) -> int:
+
+        def sumOfPaths(root, total):
+            if not root:
+                return 0
+            if root.left == None and root.right == None:
+                # Add the current leaf node val
+                return total* 10 + root.val
+            return sumOfPaths(root.left, total*10 + root.val) + sumOfPaths(root.right, total*10 + root.val)
+
+        return sumOfPaths(root, 0)
+    
+# My Mistake
+# Here returning only after seeing 'root = None'
+# so same total will return from both left and right side.
+# So ans will get doubled.
+
+# Note vvi: In case of question related to leaf, put one base condition for leaf also with 'not root'
+# and return ans from here.
+
+class Solution:
+    def sumNumbers(self, root: Optional[TreeNode]) -> int:
+
+        def sumOfPaths(root, total):
+            if not root:
+                return total
+            return sumOfPaths(root.left, total*10 + root.val) + sumOfPaths(root.right, total*10 + root.val)
+
+        return sumOfPaths(root, 0)
+
+# Java code
+
+# class Solution {
+#     public int sumNumbers(TreeNode root) {
+#         return sumOfPath(root, 0);
+#     }
+#     public int sumOfPath(TreeNode root, int total){
+#         if(root == null)
+#             return 0;
+#         if(root.left == null && root.right == null)
+#             return total *10 + root.val ;
+#         return sumOfPath(root.left, total *10 + root.val) + sumOfPath(root.right, total *10 + root.val);
+#     }
+# }

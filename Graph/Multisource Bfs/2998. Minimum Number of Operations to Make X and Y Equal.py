@@ -16,6 +16,8 @@
 # For example, If I earlier got 6, then after doing x-1 we get 5, 
 # then we should not go back to x+1 to get 6. So we mark visited every time we get a new number.
 
+# Note: 1st time you will see 'y' that will be the ans only.
+
 # Complexity
 # Time complexity:
 # O(max(X, Y))

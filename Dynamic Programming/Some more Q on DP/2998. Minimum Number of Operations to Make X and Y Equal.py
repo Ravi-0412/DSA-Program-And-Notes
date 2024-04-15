@@ -6,6 +6,7 @@
 
 # We need to check for 5 ways in our recursive calls :
 
+# Options/choices are:
 # 1) Just abs diff of x & y can be ans. So initialise res = abs(x - y)
 # 2) We may go to multiple of 5 which is smaller than x. 
 # This can be achieved by just subtracting x%5 from x and divide x by 5. 
@@ -35,12 +36,13 @@ class Solution:
                 return y - x
             if dp[x] != -1:
                 return dp[x]
-            ans = abs(y - x )  # # option1. maximum possible ans only way decrement by '1' in each step
+            option1 = x - y  # maximum possible ans only way decrement by '1' in each step
+                        # Not taking this may give wrong ans i.e more steps. e.g: x= 2, y= 1.
             option2 = 1 + x % 5 + solve(x// 5)   # After this operation next x = x //5
             option3 = 1 + (5 - x % 5) + solve(x// 5 + 1) # After this operation next x = x //5 + 1
             option4 = 1 + x % 11 + solve(x// 11)   # After this operation next x = x //11
             option5 = 1 + (11 - x % 11) + solve(x// 11 + 1) # After this operation next x = x //11 + 1
-            ans = min(ans, option2, option3, option4, option5)
+            ans = min(option1, option2, option3, option4, option5)
             dp[x] = ans
             return dp[x]
 

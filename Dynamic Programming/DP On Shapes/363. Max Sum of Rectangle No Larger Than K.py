@@ -18,7 +18,8 @@
 # If 'left' is present at some index 'i' then it means after index 'i' i.e from 'i+1' to 'j' sum == k.
 # where sum = right - left (for generalization) which will be equal to 'k' only in this case.
 
-# VVI: In similar way here if we can find left such that 'left >= right - k' then it means
+# VVI: In similar way ,here telling to find the largest sum <= k
+# so here we will find 'left' such that 'left >= right - k' then it means
 # we can get sum = right - left <= k and for getting maximum sum we will find smallest 'left'.
 
 
@@ -44,6 +45,7 @@ class Solution:
         for i in range(len(arr)):
             right += arr[i] 
             # After each curSum (right), find the smallest value of sum of left side side say 'left' such that 'left >= right - k'.
+            # Indirectly telling us to find the ceiling value of 'right-k'.
             left = self.Ceiling(seen, right-k)  
             if left != None:   # means if we have seen the this difference then update the ans
                 ans= max(ans, right - left)  # ans will be equal to 'right-left'

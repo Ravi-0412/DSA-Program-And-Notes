@@ -10,8 +10,10 @@
 # 2) We can also visit same node but should be through different path i.e other set of visited nodes
 # Otherwise will go in infinite loop.
 
-# For handling these two we must put all nodes in 'queue' with set of visited_nodes_in_cur_path with steps.
+# For handling these two we must put all nodes in 'queue' with 'set of visited_nodes_in_cur_path with steps' & 'steps'.
 # for getting set of visited nodes in every path , we will use BIT masking.
+# i.e if bitmask value is different after reaching any node then it means we have reached that node 
+# through different path.
 
 # And when mask == all_1 i.e 2^n -1 then means we have visited all nodes and that will be our ans.
 
@@ -28,6 +30,9 @@ class Solution:
         visited = set()
         q = deque()
         for i in range(n):
+            # 1st add all nodes in queue we don't know starting from which node will lead to ans 
+            # and make bit at that 'node' index = 1.
+            # bit value at any position = 1 will tell this node is already visited in cur path.
             q.append((i, 1 << i, 0))   # (node, nodes_included_in_path, steps)
             visited.add((i, 1 << i))   # (node, nodes_included_in_path)
             # Path = mask 
@@ -37,9 +42,11 @@ class Solution:
             if mask == allVisitedMask:
                 return steps
             for nei in graph[node]:
-                # if we take include cur node also in path then mask= mask | 1 << nei
+                # check if we are visiting 'nei' through different path 
                 if (nei , mask | 1 << nei) not in visited:
                     if mask | 1 << nei == allVisitedMask:
                         return steps + 1
+                    # if we take include cur node also in path then mask= mask | 1 << nei
+                # because we will have to set 'node' bit = 1
                     q.append((nei, mask | 1 << nei, steps + 1))
                     visited.add((nei, mask | 1 << nei))

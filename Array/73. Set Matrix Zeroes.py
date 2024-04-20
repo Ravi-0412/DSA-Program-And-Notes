@@ -24,29 +24,33 @@ class Solution:
 
 
 # method 3:
-# instead of taking rows and cols array separately to mark.
-# we can do that inplace like we can use the 1st row and col of given matrix only to mark that.
+# instead of taking rows and cols array separately to mark ,we can do marking inplace .
 # whenver we we will find any ele 'zero' we will mark the 1st ele of that row and col as zero denoting,
-#  we have to make all ele of this row and col to 'zero'.
+#  we have to make all ele of this row and col to 'zero' later.
 
-# but we will start updatig from (1,1) instead of (0,0) since we will updating also and 
-# then after updating our first row and col can become zero leading to wrong ans.
+# In this way our whole 1st row ans 1st column will tell what all rows and column we have to make zero.
+# Here for marking it's also taking O(m + n) space but it is inplace.
 
-# for updating frst row and col , we will keep one variable and will update first row and col at last.
+# Note: we will start updating from (1,1) because 0th row and 0th col we have used for marking.
+# So if we start marking from '0'th row and '0'th col then it may unnecessarily make 0th row and 0th column zero.
+
+# So we will handle whether we have to mark '0'th row and '0'th column separately.
+
 class Solution:
     def setZeroes(self, matrix: List[List[int]]) -> None:
         m, n= len(matrix), len(matrix[0])
-        rowZero= False  # will tell whether we have to make ele of row= 0 equal to zero or not.
+        rowZero, colZero= False, False # will tell whether we have to make ele of row= 0 and col = 0 equal to zero or not.                   
         # first find the rows and col for which we have to make ele zero
         for r in range(m):
             for c in range(n):
                 if matrix[r][c]== 0:
                     matrix[0][c]= 0  # marking the columns
-                    if r== 0:  # if any ele in row zero is '0'.
+                    matrix[r][0]= 0  # marking the rows 
+                    if r == 0:  # if any ele in row zero is '0'.
                         rowZero= True
-                    else:  
-                        matrix[r][0]= 0  # marking the rows 
-
+                    if c == 0:
+                        colZero = True
+                        
         #now make all ele of those rows and col to zero starting from (1, 1).
         for r in range(1, m):
             for c in range(1, n):
@@ -55,7 +59,7 @@ class Solution:
 
         # marking the 1st row and col
         # for marking 1st col
-        if matrix[0][0]== 0:
+        if colZero:
             for r in range(m):
                 matrix[r][0]= 0
         
@@ -63,4 +67,5 @@ class Solution:
         if rowZero:
             for c in range(n):
                 matrix[0][c]= 0
+        
 

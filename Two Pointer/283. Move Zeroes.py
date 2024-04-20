@@ -1,7 +1,7 @@
 # Note: if asked to move all zeroes at last without caring about order of non-zero ele then
 # We can do like this.
 
-# This wil work in Q like : '905. Sort Array By Parity'
+# This logic wil work in Q like : '905. Sort Array By Parity'
 
 # Logic: We have to move zero at last so focus on starting pointer
 # Because we have to move from start to end if we find any zero at start.
@@ -49,11 +49,11 @@ class Solution:
 class Solution:
     def moveZeroes(self, nums: List[int]) -> None:
         n= len(nums)
-        last= 0  # will tell from where we have to search for non-zero ele. Till here we have alraedy traversed.
+        last= 0  # will tell from where we have to search for next non-zero ele. Till here we have alraedy traversed.
         i= 0   #  i will denote where we have to keep next non-zero ele.
         while i < n :
             if nums[i]== 0:
-                k=  max(last + 1, i+ 1)  # to handle the case when there is many non-zero ele at start, in this case we have to search from 'i+1'.
+                k=  max(last + 1, i+ 1)  # We will start only from 'i+1' so taking maximum.
                 while k < n and nums[k]== 0:
                     k+= 1
                 if k >= n: return nums
@@ -63,8 +63,8 @@ class Solution:
         
 
 # New and very creative logic:
-# From discussion section
-# https://leetcode.com/problems/move-zeroes/solutions/172432/the-easiest-but-unusual-snowball-java-solution-beats-100-o-n-clear-explanation/
+# logic: collect all consecutive zeroes and after finding any non-zero do replacement.
+
 class Solution:
     def moveZeroes(self, nums: List[int]) -> None:
         n= len(nums)
@@ -72,10 +72,11 @@ class Solution:
         for i in range(n):
             if nums[i]== 0:
                 snowBallSize+= 1   # tring to gather all the zeroes together.
-            elif snowBallSize >0:  # only update the value if we have encounter any zero till now.
+            elif snowBallSize > 0:  # only update the value if we have encounter any zero till now.
                 temp= nums[i]
-                nums[i]= 0
-                nums[i -snowBallSize]= temp   # moving the non-zero ele to the leftmost zero.  
+                nums[i -snowBallSize]= temp   # moving the non-zero ele to the leftmost zero. 
+                nums[i]= 0   # this should be zero only after replacement.
+        
 
 # Related Q: 
 # 1) 26. Remove duplicates

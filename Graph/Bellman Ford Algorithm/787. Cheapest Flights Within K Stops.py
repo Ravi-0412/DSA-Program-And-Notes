@@ -8,8 +8,9 @@
 # and for checking the negative weight cycle, just run the loop n times nad compare the value of any node with previous one
 # if it is less then it means cycle 
 
-# working: phla bar run karne pe jo edge source se attach hoga uska optimal ans milega ,ek bar relax karne pe
-# 2nd time jo node abhi tak reached hua h uske help se remaining connected edge optimise hoga + already optimise edge also if they are connected to any viisted node till
+# working: phla bar run karne pe jo edge source se attach(directly connected) hoga uska optimal ans milega.
+# 2nd time jo node abhi tak reached hua h uske help se remaining connected edge 
+# optimise hoga + already optimise edge also if they are connected to any viisted node till now. 
 # isi tarah se ye repeat hota rhega or har bar har edge optimise hota rhega agar wo connected hoga to
 # Note: we will optimise seeing the previous iteration result not the current one 
 class Solution:
@@ -30,13 +31,11 @@ class Solution:
             tempPrices= prices.copy()    # this create another copy of the original array
             # we will update the current iteration ans in the tempPrices seeing the previous optimise ans(prices), so we copied 
 
-            # here no need to make the adjacency list as we are not using any data structure for push and pop like heap 
-            # here we have to relax every edge so we can do it by the given 'flights' matrix also directly
             for s,d,p in flights:  # s: source, d: destination, p: prices
                 if prices[s]== 'inf':  # it means that the stopage s(source) is not reachable till ith stop
-                                        # it basically means that 'd' is not connected to the any node that has been updated(relaxed) till now
+                        # it basically means that 'd' is not connected to the any node that has been updated(relaxed) till now
                     continue
-                if prices[s] + p< tempPrices[d]:
+                if prices[s] + p < tempPrices[d]:
                     tempPrices[d]= prices[s] + p
             # prices= tempPrices  # here this will also work as we are not updating prices array anywhere            
             prices= tempPrices.copy()  # this will always work fine 

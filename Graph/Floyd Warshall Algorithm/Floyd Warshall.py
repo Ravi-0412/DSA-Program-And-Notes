@@ -1,3 +1,7 @@
+# what does it give?
+# it gives shortest path between all pairs of vertices.
+# Also it can detect negative weight cycle but won't give ans for negative weight cycle.
+
 # Brute force
 # Apply Dijkastra one by one for each node(V).
 # Time: V*(ElogV)
@@ -9,13 +13,16 @@
 # Graph + DP.
 
 # logic: go via every node one by one
-# in this algo, we store the graph in adjacency matrix rather than adjacency list
-# for detecting negative weight cycle, check the distance of any node from itself, if negative it means 'negative weight cycle' exist 
+# in this algo, we store the graph in adjacency matrix rather than adjacency list.
+
+# for detecting negative weight cycle, check the distance of any node from itself, if negative it means 'negative weight cycle' exist.
 # since it should be always zero only but it has decreased and becomes negative.
 
 # Time: O(n^3)
 
 # Note: See the logic and theory in GATE notes page no: 142-144
+
+# Submitted on gfg
 
 class Solution:
     def shortest_distance(self, matrix):

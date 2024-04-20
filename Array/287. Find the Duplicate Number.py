@@ -11,12 +11,17 @@
 
 # Method 2: Marking visited value within the array
 
+# Method 3:
+
 # Logic: Since all values of the array are between '1' to 'n' and array size is 'n+1' .
 # so index can go from '0' to 'n'.
 
 # How to do?
-# While tarversing array say cur num =  'num' mark the ele at index 'num' to its negative value.
-# i.e this will make sure that if value at that index 'num' is negative means num is our ans.
+# While tarversing array say cur_num =  'num' then, mark the ele at index 'num' to its negative value.
+# You are just marking to check that you have already visited 'num' before and 
+# if you find value at index 'num' negative, it will mean that that number is repeating.
+# So 'num' will be our ans only.
+
 # Note : we are modifying array in this method.
 
 # Time = O(n), space = O(1)
@@ -27,7 +32,7 @@ class Solution:
         for num in nums:
             idx = abs(num)   # taking abs of 'num' to check value at that index.
                             # because we are modifying the array so later ele may contain negative values.
-                            # But 'num' in constraint is +ve.
+                            # But index can't be negative.
             if nums[idx] < 0:
                 # 'num' index wala ele i.e 'num' only is already visited.
                 return idx
@@ -43,7 +48,7 @@ class Solution:
 
 # Take the array [1,3,4,2] as an example, the index of this
 # array is [0,1,2,3], we can map the index to the nums[n]
-i.e 0→1→3→2→4 
+# i.e 0→1→3→2→4 
 
 # How mapping: 
 # index '0' pe kon sa num h (1), '1' index pe kon sa number h '3', '3' index pe kon sa number h '2' ,.......
@@ -55,7 +60,6 @@ i.e 0→1→3→2→4
 # Here you can see cycle starts to repeat from num = 2.
 
 # So now this Q reduces to: "Find the starting node from which cycle starts in linklist".
-
 
 # Q is based on this logic only.
 

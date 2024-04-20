@@ -1,5 +1,5 @@
 # mostly same logic as Dijkastra
-# not able top print the exact path(edges)
+# not able to print the exact path(edges). Have to ask someone
 from collections import defaultdict
 import heapq
 def Prim(adj, src, n):
@@ -7,6 +7,7 @@ def Prim(adj, src, n):
     parent= [-1]*n
     for u,v,w in adj:
         edges[u].append((v,w))
+        edges[v].append((u,w))
     visited= set()
     min_mst= 0
     min_heap= [(0,src)]   # you can start with any node this, will not affect the ans 
@@ -29,3 +30,8 @@ def Prim(adj, src, n):
 adj= [[0,2,3],[1,3,4],[1,2,10],[2,1,10],[2,3,2],[2,4,6],[2,0,3],[3,1,4],[3,2,2],[3,4,1],[4,2,6],[4,3,1]]  # ans= 10
 # Prim(adj, 0, 7)
 Prim(adj, 0, 5)
+
+
+# Note: Whenever you are asked directly or indirectly to find the :
+# 1) minimum cost to connect all points/nodes (or anything) gievn some cost/distance between each point
+# 2) 

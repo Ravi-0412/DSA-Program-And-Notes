@@ -6,7 +6,10 @@
 # since we have to connect all village with minimum cost then minimum spanning tree should come into mind.
 
 # how to do?
-# Ans: since we have to build well at any of the village then only we can connect other villages through it otherwise we will build the wells at other villages also.
+# Ans: First we have to build well at any of the village then only we can connect other villages through it 
+# otherwise we will build the wells at other villages also.
+
+# Note: We don't know digging well at which village will give optimal ans, we can get starting from any village.
 # so put cost of all building wells at all villages into heap and then after that totally same as mst.
 
 import collections
@@ -27,7 +30,7 @@ def supplyWater(n, k, wells, pipes):
 		if n1 in visited:
 			continue
 		visited.add(n1)
-		minCost+= w1
+		minCost += w1
 		if len(visited)== n:
 			return minCost
 		for n2,w2 in adj[n1]:

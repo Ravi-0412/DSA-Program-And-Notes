@@ -1,17 +1,21 @@
 # Read this carefully:
 # 'person A is acquainted with person B if A is friends with B, or A is a friend of someone acquainted with B'.
 
-# This is recursive statement in itself when you will draw on paper.
-# After that we will observe that we need to connect all of them 
-# and after that we need to find the max time of all connections.
+# In simple word, it means a person 'A' can know other person 'B' if 'A' is friend of 'B' or
+# 'A' knows someone who is friend of 'B'.
 
-# ANd above one is exactly same as: "find the max edge cost from a MST".
-# Just 'MST' logic only
+# This is recursive statement in itself when you will draw on paper.
+
+# note: we have to find minimum cost to connect all people.
+# i.e from all possible path take the maximum time and that will be answer. 
+
+# Other way to ask this question is: "find the max edge cost from a MST".
+# Just 'MST' logic only. Here no need to add just take maximum of all edge weight.
 
 import heapq
 from collections import defaultdict
 def minTime(logs, n):
-    if logs < n -1:  # we need at least 'n-1' edge to connect 'n' nodes
+    if len(logs) < n -1:  # we need at least 'n-1' edge to connect 'n' nodes
         return -1
     edges = defaultdict(list)
     for w, u, v in logs:
@@ -20,7 +24,7 @@ def minTime(logs, n):
     visited = set()
     min_time = 0
     min_heap = [(0,0)]  # we can start from any node. strarted with smallest one
-    # Here changed from 'while len(visited) < n'. Because all may be not connected also/.
+    # Here changed from 'while len(visited) < n'. Because all may be not connected also.
     while min_heap:  
         w1,n1= heapq.heappop(min_heap)
         if n1 in visited:  

@@ -1,14 +1,6 @@
 
-# submitted on GFG(12/06/2022)
 # logic 1st method: just check when rightmost bit becomes 1 by right shifting the number and taking '&' with '1'.
-# 2nd method: if we somehow make all the bits on the left side of the 1st one equal to zero and all right bit equal to zero 
-# and we if take 'And' all bit on left and right side of 1st set bit will become equal to zero.
-# then the no of bits in the resulting number will be the ans
 
-# for this ,only thing come into mind is to find the two's complement amd then take '&' and then take log
-
-# Note: when we write '-' before any number then that will get converted to 2's complement of the given no.
-# and '~' gives one's complement.
 class Solution:
     def getFirstSetBit(self,n):
         count= 0
@@ -34,8 +26,17 @@ def getFirstSetBit(self,n):
         return 0
 
 
-# method 2: 
+# 2nd method: if we somehow make all the bits on the left side of the 1st one equal to zero and all right bit equal to zero 
+# and we if take 'And' all bit on left and right side of 1st set bit will become equal to zero.
+# then the no of bits in the resulting number will be the ans
+
+# for this ,only thing come into mind is to find the two's complement amd then take '&' and then take log
+
+# Note: when we write '-' before any number then that will get converted to 2's complement of the given no.
+# and '~' gives one's complement.
 # logic: (n&~(n-1)) always return the binary number containing the rightmost set bit as 1. if N = 12 (1100) then it will return 4 (100).
+# And the returned binary number will be of power of '2'.
+# So just find the power value using log and add '1'.
 import math
 class Solution:
     def getFirstSetBit(self,n):

@@ -1,19 +1,22 @@
 # exactly same as Prim's algo
 # logic: 1st make adjacency list
-# after that it is totally same as prim's algo
+# after that it is totally same as prim's algo.
+
+# for adjacency list we will have to take distance between every pair of node,
+# and all node will be adjacnet to each other  => O(n^2)
+
+# Time: o(E*logV) + O(n^2)
 
 class Solution:
     def minCostConnectPoints(self, points: List[List[int]]) -> int:
         adj= defaultdict(list)
-        # simpler and more readable way of making adjacency list
         for i in range(len(points)):
             x1,y1= points[i]
-            for j in range(len(points)):
-                if i==j:
-                    continue
+            for j in range(i+1, len(points)):
                 x2,y2= points[j]
                 distance= abs(x1-x2) + abs(y1-y2)
                 adj[i].append((j,distance))
+                adj[j].append((i,distance))
 
         # after this totally prim's algo
         visited= set()

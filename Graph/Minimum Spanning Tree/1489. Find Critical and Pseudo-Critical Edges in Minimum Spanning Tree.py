@@ -1,23 +1,25 @@
 # Very good problem. Not much hard. Medium level
 # Just need to think a little.
 
-# 1) critical: Edge that must be in any of the mst.
+# little similar way of doing as :"2699. Modify Graph Edge Weights".
+
+# 1) critical: Edge that must be in all of the mst.
 # How to find? 
-# If deleting the edge and re-calculating the mst again makes mst 
-# total weight increase (or can't form mst),then the edge goes into critical list.
+# If deleting the edge and re-calculating the mst again makes mst increase 
+# (or can't form mst),then the edge goes into critical list.
 
 # Note: if any edge is critical then that can't be pseudo because pseudo may or may not be in all mst.
 
 # 2) pseudo: edge that is part of some mst but not.
 # i.e if no matter we use or do not use this edge, we can always find an MST with the min cost.
 
-# Notevvi: If any edge is critical then no need to check for 'pseudo'.
-# else check for pseudo
+# Note vvi: If any edge is critical then no need to check for 'pseudo' else check for pseudo.
+
 # How to check?
 # Ans: If after including the edge we get mst value = original mst then it is 'pseudo'.
 # Because it is  not critical(not part of all MST) but part of one of the MST.
 
-# Note: Psedo we will only get when edge weight will repeat , in case of unique edge weight there is no chance of pseudo edge.
+# Note: Pseudo we will only get when edge weight will repeat , in case of unique edge weight there is no chance of pseudo edge.
 
 # Note: some edge may not belong to either 'critical' or 'pseudo'
 # The larger weight edge remaining after mst.
@@ -79,12 +81,12 @@ class Solution:
                     mst_excluding += w
             
             # add if critical
-            # if we are not able to form mst without the above edge(any of parent size must be 'n') or value of mst is greater then 
-            # it is critical edge
+            # if we are not able to form mst without the above edge(any of parent size is not 'n') 
+            # or value of mst is greater then it is critical edge
             if max(uf1.size) != n or mst_excluding > mst:
                 critical.append(j)
                 continue  # because if any edge in critical then that can't be 'pseudo critical'
-                # so need to check for psedu critical
+                          # so no need to check for psedu critical
             
             # Now check for pseudo critical
             # means the current edge is not critical so it may or not be part of MST

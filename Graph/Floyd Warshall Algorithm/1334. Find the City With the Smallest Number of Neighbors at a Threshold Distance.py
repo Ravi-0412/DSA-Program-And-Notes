@@ -1,4 +1,4 @@
-# Q: have to find the city from which we can reach the smallest no of nodes we can reach(as opimal) within the threshold.
+# Q: have to find the city from which we can reach the smallest no of nodes within the threshold.
 # since we have to find the optimal for each city then only Algo comes into mind is 'Floyd Warshall Algo'.
 
 class Solution:

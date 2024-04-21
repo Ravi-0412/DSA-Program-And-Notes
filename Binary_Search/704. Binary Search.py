@@ -1,5 +1,5 @@
-# Note: in Binary search mid will give the ans always. so for making any decision or condition in 'if' or 'while' loop, just think from 'mid' 
-# i.e if it is not equal to mid then where to move for this 'if' condition.
+# Note: in Binary search mid will give the ans always. so for making any decision or condition in 'if' or 'while' loop, 
+# just think from 'mid' i.e if it is not equal to mid then where to move for this 'if' condition.
 
 # Note: for initialising 'low' and 'up' just find the range in which we can get the ans.
 # and initialise 'low'= min range value and 'up'= maximum range value.

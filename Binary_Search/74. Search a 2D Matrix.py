@@ -7,13 +7,12 @@
 
 # Method 1:
 # Note vvi: Using the observation 'when we will put all elements in an 1d array row wise then they will in increasing order only'
-# Also Here we can find the exact row of any element. 
-# But in Q :'240. Search a 2D Matrix II' we can't .
-
-# Method 1: 
 
 # so we can first find in which row element lies by comparing the 1st and last ele of that row.
 # and then we can apply the binary search on that row.
+
+# Also Here we can find the exact row of any element. 
+# But in Q :'240. Search a 2D Matrix II' we can't .
 
 # time: O(m+ log*n)
 class Solution:
@@ -27,7 +26,7 @@ class Solution:
         n= len(arr)
         low=0
         up= n-1
-        while low< up:
+        while low < up:
             mid= low+ (up-low)//2
             if(arr[mid]>= key):    
                 up= mid         
@@ -152,6 +151,6 @@ class Solution:
 # r = mid //row ,  c = mid % col
     
 
-# Similar Q: "240. Search a 2D Matrix II"
+# Similar Q: 
+# 1) "240. Search a 2D Matrix II"
 # exactly same thing as 'method 2'.
-# https://github.com/Ravi-0412/DSA-Program-And-Notes/blob/main/Binary_Search/240.%20Search%20a%202D%20Matrix%20II.py

@@ -28,6 +28,9 @@ class Solution:
 
 
 # 2nd method- time: O(logn)
+
+# understand this properly later
+
 # Using Bit
 # https://leetcode.com/problems/powx-n/solutions/1337794/java-c-simple-o-log-n-easy-faster-than-100-explained/
 

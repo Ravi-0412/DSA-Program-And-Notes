@@ -27,14 +27,14 @@ class Solution:
                         while l < r and nums[l]== nums[l-1]:
                             l+= 1
             else:
-                # just the outermost for loop we apply to get the k-sum.i.e for k=3 we iterate from '0' to 'n-2' from index 'start'.
+                # just the outermost 'for loop' we apply to get the 'k-sum'.i.e for k=3 we iterate from '0' to 'n-2' from index 'start'.
                 # Last two ele we will find using Two sum, so '-k+1'.
 
                 # Any ele from remaining can be next ele
                 for i in range(start, len(nums)- k +1):
-                    # check for duplicates first. No need to check for start , start need to be included only.
+                    # check if we can take this 'nums[start]' as first element.
                     if i > start and nums[i]== nums[i -1]:
-                        # If we will take choices from duplicate one then, we will get duplicate in ans.
+                        # if we take this 'nums[i]' as first element then it will give duplicate.
                         continue
                     quad.append(nums[i])
                     kSum(k-1, i+ 1, target- nums[i])  # added one ele so decrease 'k' by '1' and target by 'nums[i]'.

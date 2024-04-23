@@ -1,5 +1,5 @@
 # method 1: just sort and store ele in set then in list.
-# time: O(n)= space
+# time: O(n*logn)
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
         distinct_ele= sorted(list(set(nums)))
@@ -101,7 +101,7 @@ class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
         n= len(nums)
         dsu= DSU(n)
-        # to avoid repetition we have to keep value of num and to do union we need index of already added ele.
+        # to avoid repetition we have to keep distinct value of num and to do union we need index of already added ele.
         numToIndex= collections.defaultdict(int) # [num: index]
         for i, num in enumerate(nums):
             if num in numToIndex:  # means we have alreay added this to a component
@@ -113,8 +113,10 @@ class Solution:
             if num - 1 in numToIndex:
                 dsu.union(i, numToIndex[num - 1])
             # Add this curr num in hashmap
-            numToIndex[num]= i
-        
+            numToIndex[num]= i  # since we have to do union with already included element that's why including at last.
+            
+        # find the size of the largest component (distinct parent)
+
         # return dsu.getLongestSequence() if nums else 0
         return max(dsu.size) if nums else 0  # shortcut
 

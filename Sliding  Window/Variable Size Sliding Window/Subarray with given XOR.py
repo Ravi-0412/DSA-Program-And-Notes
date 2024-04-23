@@ -1,14 +1,21 @@
 # just same way "560.Subarray sum equals k" and "Longest subArray having sum k"
 
-# submitted on interview Bit
 
 # what we are doing actually?
 # Ans: supoose we calculated 'xorr' then if can find 'x' such that x= B ^ xorr then means we can get 'B' no of times 'x' we got till now.
+
+
+# Proof:  Say at any index 'j', total xor = 'cur_xor' and let say we have seen xor = 'cur_xor ^ k' before at index 'i' and other indices also.
+# let take 'cur_xor ^ k' at index 'i' and xor from 'i+1' to 'j' is 'X' then, we can write:
+# cur_xor(xor till now) = xor_till_i ^ X and xor_till_i = cur_xor ^ k then
+# cur_xor = cur_xor ^ k ^ X then we will get X = K.
+
 # So our aim is to find the number of such 'x' and for this we are using hashmap to store the count of each xor we got till now.
 
 # why this is working?
 # say if res= a^b then res^a= b and res^b= a. (property of xor)
 # res= xor till now. so we by taking the xor of 'res' with 'k' indirectly we are finding the another number 'a' or 'b'.
+
 
 # time: O(n), space: O(1).
 

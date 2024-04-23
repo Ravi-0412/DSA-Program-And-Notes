@@ -1,3 +1,21 @@
+# Method 1:
+# just traverse the 1st linklist and store its address in hashmap with val =1(just any value)
+# after that traverse the other linklist and check whether that node was in hashmap1
+# it basically checking the address of the node, if equal then intesection point exist at that node
+# other don't exist
+
+# But it will take extra O(N) space
+def getIntersectionNode(self, headA, headB) ->:
+        curr1,curr2,hashmap1= headA, headB,{}
+        while curr1:
+            hashmap1[curr1]= 1
+            curr1= curr1.next
+        while curr2:
+            if curr2 in hashmap1: 
+                return curr2
+            curr2= curr2.next
+        return None
+
 # find the diff in the length of linked list
 # now move the linklist with greater length equal to the len_diff 
 # now start moving the both linked list simultaneously and keep checking
@@ -25,7 +43,6 @@ class Solution:
     
     def IntersectionNode(self,d,head1,head2):
         curr1,curr2= head1,head2
-        print(id(curr1),id(curr2))  # here add of both will be diff as they both are pointing to the different data
         for i in range(d):
             curr1= curr1.next
         while curr1 and curr2:
@@ -41,18 +58,7 @@ class Solution:
         return None
 
 
-# very very concise
-# just traverse the 1st linklist and store its address in hashmap with val =1(just any value)
-# after that traverse the other linklist and check whether that node was in hashmap1
-# it basically checking the address of the node, if equal then intesection point exist at that node
-# other don't exist
-def getIntersectionNode(self, headA, headB) ->:
-        curr1,curr2,hashmap1= headA, headB,{}
-        while curr1:
-            hashmap1[curr1]= 1
-            curr1= curr1.next
-        while curr2:
-            if curr2 in hashmap1: 
-                return curr2
-            curr2= curr2.next
-        return None
+# Try by this method also later
+# https://leetcode.com/problems/intersection-of-two-linked-lists/solutions/49785/java-solution-without-knowing-the-difference-in-len/
+
+

@@ -1,4 +1,4 @@
-# every opearion may take O(n)
+# 'pop' and 'peek' will tell 
 
 class MyQueue:
     
@@ -6,11 +6,8 @@ class MyQueue:
         self.stack1= []
         self.stack2= []
 
-        
-
     def push(self, x: int) -> None:
         self.stack1.append(x)
-        
 
     def pop(self) -> int:   # stack1 ka pop hmko queue ka phla(q me pop matlab phla ele) ele de.
         while len(self.stack1) > 1:  # moving ell ele except first one to stack2.
@@ -60,26 +57,22 @@ class MyQueue:
         self.stack2= []
         self.eleInStack2= 0
 
-        
-
-    def push(self, x: int) -> None:
+    def push(self, x):
         self.stack1.append(x)
-        
 
-    def pop(self) -> int:
+    def pop(self):
         if self.eleInStack2 > 0:
             self.eleInStack2-= 1
             return self.stack2.pop()
 
-        while len(self.stack1) :
+        while len(self.stack1) > 1:
             temp= self.stack1.pop()
             self.stack2.append(temp)
             self.eleInStack2+= 1
-        self.eleInStack2-= 1
-        return self.stack2.pop()
+        return self.stack1.pop()
         
 
-    def peek(self) -> int:
+    def peek(self):
         if self.eleInStack2 > 0:
             return self.stack2[-1]
             
@@ -89,12 +82,11 @@ class MyQueue:
             self.eleInStack2+= 1
         return self.stack2[-1]
 
-        
-
-    def empty(self) -> bool:
+    def empty(self):
         return (self.stack1== [] and self.stack2== [])
 
 
 # Try this also.
 
 # optimize for pop operation in O(1) time, didn't care about push's time complexity.
+# This way , i have done in Q: "225.Implement stack using Queues"

@@ -1,9 +1,9 @@
-# exactly same as 'longest substring with k unique char' 
+# Similar as as 'longest substring with k unique char' 
 # only diff is there in condition: 'window size should contain all unique char'
 # which means window size should be equal to len(hashmap).
 # as no of unique char is given by the length of hashmap and 
 # we want all char unique in the window so for ans len(hashmap)== j-i+1 (window size)
-# so only change is that replace k with window size i.e len(hashmap)== j-i+1
+# so only change is that replace k with window size i.e len(hashmap)== j-i+1 & change the size from '>' to '<'.
 
 # agar window size len(hashmap) se bda h then it means repeating char is present in the window 
 # so start deleting the char from hashmap till len(hashmap) reaches to window size

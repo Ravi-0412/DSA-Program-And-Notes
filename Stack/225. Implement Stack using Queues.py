@@ -1,6 +1,4 @@
-# correct only but giving runtime error.
-# tried submitting on coding ninja.
-# correct only
+# 1st using Two queues.
 
 # time: all operation O(1) except push : O(n).
 
@@ -26,6 +24,4 @@ class Stack:
     def top(self):
         return self.q[0] if self.q else -1
 
-
-# using two queue same approach only. (Asked a lot in interview)
-# Try this also separately 
+# Actual Q: Using Two Queues

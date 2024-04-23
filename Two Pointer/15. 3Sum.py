@@ -5,8 +5,8 @@
 # Note: Since only number is mattering in ans (not index) , we can sort array.
 # If index were asked to return then we can't sort.
 
-# note: in case if we find any ans then before incr start or end  pointer ,we will check for duplicates 
-# for any one of them because if we simply incr both then it can lead to duplicate ans.
+# note: in case if we find any ans then before updating start or end  pointer ,we will check for duplicates 
+# because if we simply incr both then it can lead to duplicate ans.
 # No need to check in unequal case.
 
 # Also in outer loop, we will only apply "two sum" for cur number if it is distinct only.
@@ -18,7 +18,9 @@ class Solution:
         nums.sort()
         ans, n= [],len(nums)
         for i in range(n-2):
+            # check if we can take this 'nums[i]' as first element.
             if i>0 and nums[i]== nums[i-1]:   # simply skip so that no duplicate come in the ans
+                # if we take this 'nums[i]' as first element then it will give duplicate
                 continue
             start, end= i+1, n-1  # check for 'Two sum' in remaining array ahead.
             while start< end:

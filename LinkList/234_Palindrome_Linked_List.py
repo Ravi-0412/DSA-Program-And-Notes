@@ -44,11 +44,11 @@ class Solution:
 # automatically handled in during comparion because of 'and' in while loop.
 
 class Solution:
-    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+    def isPalindrome(self, head):
         # first find the middle element
         # in case of even no of elements, midddle one will be 
         # the next middle
-        middle= self.middleNode(head)
+        middle = self.middleNode(head)
         ReverseHead= self.reverseList(middle)
         
         # now compare both the 1st half and 2nd half
@@ -56,9 +56,7 @@ class Solution:
     
     def middleNode(self, head1):
         slow, fast= head1, head1
-        
         while fast and fast.next:
-            pre_slow= slow
             slow= slow.next
             fast= fast.next.next
         # after this slow will point to middle ele in case of odd no

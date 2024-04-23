@@ -38,6 +38,7 @@ class Solution:
 
 # Method 3: Iterative
 # Do on pen and paper and understand.
+# Understand this later properly.
     
 # This method we can use in "92. Reverse Linked List II"  for concise code.
 
@@ -59,7 +60,6 @@ class Solution:
 
         cur = head
         # We are changing direction one step ahead of 'cur' so need to check 'cur.next' only not 'while cur:'
-        # we need to run this 'n-1' time. (n = len(linklist))
         while cur.next:   
             start.next = then.next
             then.next = pre.next

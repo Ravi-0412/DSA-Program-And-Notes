@@ -1,25 +1,4 @@
-# if no given is only positive then we can apply sliding window with two pointer
-
-def lenOfLongSubarr(A, N, K):
-    i, j, sum = 0, 0, 0
-    maxLen = -sys.maxsize -1
-    while j < N:
-        sum += A[j]
-        if sum == K: # condition is valid
-            maxLen = max(maxLen, j - i + 1)
-        elif sum > K: # if condition is invalid then pop ele i.e subtract the 'ith' index ele from sum till it becomes smaller than  'k'
-            while (sum > K):
-                sum -= A[i]
-                i += 1
-            if (sum == K):   # while subtracting it make become= k also then update the ans
-                  maxLen = max(maxLen, j - i + 1)
-        j += 1
-    return maxLen
-
-# Other way of writing the same logic
-# Better one
-
-# Note: only valid if elements are only positive.
+# if no given is only positive then we can apply sliding window with two pointer.
 
 class Solution:
     def lenofLongestSubarray(self, nums, target) :
@@ -47,7 +26,7 @@ class Solution:
 # this approach will work for both positive and negative number
 # VVVI: analyse this and pre same problem properly
 
-# isme hm invalid case like 'curr_sum>k' check nhi kar rhe kyonki aage number negative aake sum ko reduce kar sakta h
+# isme hm invalid case like 'curr_sum > k' check nhi kar rhe kyonki aage number negative aake sum ko reduce kar sakta h
 # isliye yahan hm koi ele ko remove nhi kar sakte.. so bina two pointer ke karna easy rhega.
 
 # Note: agar 'k- curSum' check karenge hashmap me to galat ans dega kyonki let say remainingSum= x
@@ -100,6 +79,10 @@ class Solution:
                 prefix_sum[curr_sum]= i    # i will tell the length of key in the prefix_sum 
                 
         return max_length
+
+
+# Note: Agar 'curSum; check karenge har ele ke bad then ye question reduce ho jayega
+# "Largest subarray with 0 sum".
 
 
 # Note: Agar smallest subarray pucha hota tb 'Har bar index' ko update karte taki range small ho.

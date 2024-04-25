@@ -2,7 +2,8 @@
 # Also this problem can be reduced to : 'Divide the intervals into minimum no of different parts 
 # such that no two intervals in respective parts are overlapping. Find the no of parts.'.
 
-# that no of max room we will require because meeting in same part can be executed after completion of previous meeting without any overlap.
+# meeting in same part can be executed after completion of previous meeting without any overlap.
+# so max no of room = no of parts
 
 # Brute Force: O(n^2)
 # just sort and check the current meeting start time with the end of all the meetings before.
@@ -10,7 +11,18 @@
 # at last return the count
 
 # method 2: O(n*logn)
-# Logic: Jo room khali hoga koi interval ke bad uske hmko use karna h and apna sb interval ko run karana h.
+# Logic: Jo room khali hoga koi interval ke bad uske hmko use karna h and apna sb interval ko run karbana h.
+# Hmko bs sb meeting start kar dena h.
+# Iske liye koi meeting end ho rha h ki nhi , cur meeting ke start se phle wo hmko track karna hoga
+# for minimum ans we need the smallest ending time .
+# from here we get intuition that we have to sort according to minimum ending time.
+
+# Now we will try to schedule the meeting having minimum starting time first if any meeting ends
+# from here we get intuition of soting base on starting time also.
+
+# finally we have to sort based on starting and ending time separately.
+
+# Note: Just focus on that "we have to start all the meetings".
 
 # How to do?: Take two arrays say start and end that will store the start and end time of meetings respectively.
 # now sort these arrays
@@ -20,7 +32,7 @@
 # else decr the count by '1' and incr the end pointer.
 # after every comparison update the ans
 
-# here count will tell the no of overlapping meetings at present - 1 (no of conferernce room at present).
+# here count will tell the 'no of conferernce room at present' after each meeting.
 
 # why we came through this? if start is less than end value then it means the ongoing meeting has not ended and we have to start the new meeting
 # so incr the count by '1'.
@@ -43,6 +55,9 @@ class Solution:
             else:
                 # one meeting ended. now the previous can be used for different meeting so decr total no of room required.
                 count-= 1   
-                e+= 1
+                e+= 1  # 
         return ans
 
+
+# Related Q:
+# 1) Minimum Platforms

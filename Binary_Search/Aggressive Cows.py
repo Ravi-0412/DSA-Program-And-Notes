@@ -22,7 +22,7 @@ class Solution:
             else:  # if not able to place then try to decr the minDistance so decr 'up'
                 up= mid - 1
         return up
-        
+
     def isPossible(self, stalls, minDistance, k):  # given a distance, tell whether we can place all cow with minimum distance between any of them = 'distance'?
         cows= 1  # we start to place 1st cow at stall[0]
         lastCowPosition= stalls[0]  # we always try at leftmost available position

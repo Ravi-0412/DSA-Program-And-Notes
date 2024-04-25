@@ -29,7 +29,7 @@
 
 class Solution:
     def findPages(self,A, N, M):
-        if M>N: return -1
+        if M > N: return -1
         start, end= max(A), sum(A)
         while start< end:
             mid= start + (end-start)//2

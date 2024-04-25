@@ -120,12 +120,12 @@ def findMax(nums):
 
 # Note: kisse compare karna h 'mid' ko like with 'start' or 'end' to guarantee unsorted part
 # in case of 'min and max' iske liye 'else' case pe focus karo.
-# Agar 'else' condition other cases ko sahi se handle kar rha(just check already sorted & unsorted case)
+# Agar 'else' condition other cases ko sahi se handle kar rha(just check already sorted in ascending order case)
 #  to wahi logic lga do nhi to dusra wala unsorted case check karo.
 
 # Note vvvi: in case of sorted & rotated array there will be two case:
-# 1) either array from start to mid (including both) will be sorted => max ele case    OR
-# 2) array from 'mid' to 'end' (including both) will be sorted  => mininum ele case
+# 1) either array from start to mid (including both) will be sorted => 'max ele' case    OR
+# 2) array from 'mid' to 'end' (including both) will be sorted  => mininum ele' case
 
 # Both part can't be either sorted(except already ascending array) or unsorted at the same time.
 

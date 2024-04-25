@@ -19,7 +19,7 @@ class Solution:
         total= len(nums1) + len(nums2)   # total length of both array
         half= total//2
         # finding the smaller size array and storing the smaller size array in "A" only.
-        if len(B) <len(A):  # then swap
+        if len(B) < len(A):  # then swap
             A, B= B, A
         # traversing by finding the mid in smaller length array 'A' 
         # Also we have to move mid of 'A' in case we don't find the correct partition.   
@@ -28,9 +28,11 @@ class Solution:
             i= l+ (r-l) //2   # mid of smaller array. last ele in left partition of 'A'.
             j= half- i- 2     # point to the last index in array 'B' in the left partition.  '-2' since indexing are from '0'.
                             # we must include this much ele from 'B' to get 'half' no of ele in cumulative array.
+                            # j = half - (i + 1) - 1
             
-            Aleft=  A[i] if i>=0 else float('-inf')  # handling the corner case when all ele in left partition get included to form a single array only.
-                                                    # leftmost ele from array A in left partition. 
+            Aleft=  A[i] if i>=0 else float('-inf')  # handling the corner case when all ele in left partition get 
+                      # included to form a single array i.e array 'B' only.
+        
             Aright= A[i+1] if (i+1) < len(A) else float('inf')  # if all ele get included from single array.
                                                     # First ele from array 'A' in right partition. 
             Bleft=  B[j]   if j>=0 else float('-inf')   # left most ele from B in left partition

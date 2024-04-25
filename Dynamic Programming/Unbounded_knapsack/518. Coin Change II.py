@@ -14,7 +14,7 @@ class Solution:
         if n== 0:
             # amount != 0 but n == 0 means there is no possible way
             return 0
-        if coins[n-1]> amount:
+        if coins[n-1] > amount:
             # Only one option don't take
             return self.MinCoins(coins, amount, n-1)
         # else coins[n-1] <= amount:
@@ -66,7 +66,7 @@ class Solution:
             return 0
         if dp[n][sum] != -1: 
             return dp[n][sum]
-        if arr[n -1]> sum:
+        if arr[n -1] > sum:
             dp[n][sum]= self.MinCoins(n -1, arr, sum, dp)
         else:   # arr[n -1] <= sum
             dp[n][sum]= self.MinCoins(n, arr, sum- arr[n-1], dp) + self.MinCoins(n -1, arr, sum, dp)

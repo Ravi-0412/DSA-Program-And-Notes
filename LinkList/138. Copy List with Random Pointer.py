@@ -2,8 +2,9 @@
 class Solution:
     def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
         # storing each node in hashmap so that we can connect the random pointer if random is not adjacent to the already connected node
-        OldToCopy= {None:None}   # initilasing with None because for geeting node again while connecting for last node it will give error as
-                                     # 'next' will be None and also in case if 'random' will be None for any node
+        OldToCopy= {None:None}    # [curNode: curNode_copy]
+                    # initilasing with None because for geeting node again while connecting for last node it will give error as
+                    # 'next' will be None and also in case if 'random' will be None for any node
         cur= head
         while cur:
             # create the copy node for each node and store the copy node w.r.t to the cur node as we have to connect all the copied node only

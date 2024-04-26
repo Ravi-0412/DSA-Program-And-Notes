@@ -2,12 +2,13 @@
 # time: O(n*logn)
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        hashmap, heap= {}, []
+        hashmap = {}
         # hashmap will map each ele with their respective frequency
         for num in nums:
             hashmap[num]= 1 + hashmap.get(num, 0)
-        arr= sorted(hashmap, key= hashmap.get, reverse= True) # will sort the hashmap based on freq(value of hashmap) i.e key that we had provided 
-                                                                # and will store the key wrt each value
+        arr= sorted(hashmap, key= hashmap.get, reverse= True) 
+                                # will sort the hashmap based on freq(value of hashmap) i.e key that we had provided 
+                                # and will store the key wrt each value
         return arr[:k]
 
 # just make min heap with fre of each ele
@@ -28,7 +29,7 @@ class Solution:
                 heapq.heappop(heap)
                 
         # now you will be left with fre of k top ele with their key
-        # now print the key of each remaiing ele in heap
+        # now print the key of each remaining ele in heap
         ans= []
         for num in heap:
             ans.append(num[1])
@@ -53,7 +54,7 @@ class Solution:
             count[num]= 1+ count.get(num, 0)   # if num is already present then incr the val by '1'
                                                # else incr the value by zero
                 
-        freq= [[] for i in range(len(nums)+1)]    # will contain the array of ele with for a given frequency
+        freq= [[] for i in range(len(nums)+1)]    # will contain the array of ele for a given frequency
                                                  # since freq can be equal to n so we are taking the row equal to n+1
             
         # now store the array of ele with for a given fre

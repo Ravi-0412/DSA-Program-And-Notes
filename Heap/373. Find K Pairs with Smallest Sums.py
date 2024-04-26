@@ -1,4 +1,4 @@
-# smallest ele will at the start only. 
+# smallest ele will be at the start only. 
 # So we will push (nums1[0] + nums1[0] ,0, 0) => (sum, index1, index2).
 # But next minimum can be at index (0, 1) or (1, 0).
 
@@ -11,6 +11,9 @@
 
 # Note: Since there are two possibility to get same pair of indices 
 # e.g: (2,2) -> (1,2) or (2, 1) so we will use visited set to keep track of visited indices.
+
+# Note: Add visited at 1st time only otherwise you will get duplicate in answer 
+# i.e if you mark visited after poping.
 
 # time: O(k*log(m+n))
 
@@ -33,3 +36,10 @@ class Solution:
                 heapq.heappush(heap,(nums1[i+1]+ nums2[j], i+1, j))
 
         return ans
+    
+
+# Related Q:
+# 1) Maximum Sum Combinations
+
+# 2) Merge k sorted arrays
+# This is also an wider extension of this approach only.

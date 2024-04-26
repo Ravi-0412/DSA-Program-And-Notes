@@ -135,7 +135,7 @@ class MedianFinder:
         # if length is equal then return the average
         return (self.minHeap[0] - self.maxHeap[0])/2
 
-# In this type of Q or similar question like :
+# Note: In this type of Q or similar question like :
 "2102. Sequentially Ordinal Rank Tracker" 
 
 # Just think how can get the elements that matter to our ans and how to get those ele optimally.

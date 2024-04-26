@@ -6,7 +6,7 @@
 class Solution:
     def isValid(self, s: str) -> bool:
         stack= [0] # initialising stack with '0' to check at last
-        # stack = [] won't handle the case when s = '[' , ']' etc..
+        # stack == [] won't handle the case when s = '[' , ']' etc..
         n= len(s)
         for i in range(n):
             # push if any opening bracket comes

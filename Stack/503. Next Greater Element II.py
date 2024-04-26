@@ -3,7 +3,7 @@
 # here only for max ele ans will be '-1' and for remaining ele ans will be any ele from array.
 # from this thinking we can get initution to solve the problem.
 
-# so to find the ans for last ele, we will start comparing from start only till 'n-1.
+# so to find the ans for last ele, we will start comparing from start only till 'n-2'.
 # that's why append all these ele i.e from start to 'n-2' in the stack in reverse order since we will compare first with index '0' ele.
 # after that apply the excatly same logic.
 

@@ -7,7 +7,7 @@
 
 # Logic: We only need to care about actual value if that number is present in nums2.
 # So we will store the actual value in ans.
-# And to check that number is presnet in nums2 or not in O(1), 
+# And to check that number is present in nums2 or not in O(1), 
 # we need either dictionary or set.
 
 # Using dictionary we can check also and store ans also and later return also easily.

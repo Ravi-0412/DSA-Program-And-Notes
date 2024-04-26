@@ -3,8 +3,10 @@
 # Time : O(n - k + 1)*k
 
 
-# Method 2:
-# Use heap for fidning the max ele in each window.
+# Method 2: 
+# Optimisation. Accepted 
+# Easier one
+# Use heap for finding the max ele in each window.
 
 # Time: O(n*logn)
 
@@ -13,26 +15,32 @@ class Solution:
         n = len(nums)
         ans = []
         maxHeap = []
+        # insert first 'k' element in 'maxHeap' to get ans for 1st window.
+        # We need to remove the also after each ele if their index is out of window so inserting index as well.
         for i in range(k):
-            heapq.heappush(maxHeap, (-nums[i], i))
+            heapq.heappush(maxHeap, (-nums[i], i)) 
         ans.append(-maxHeap[0][0])  # for 1st window
         # Now find the ans for remaining window
         for i in range(k, n):
-            # 1st add the cur ele into heap
+            # 1st add the cur ele into heap, because this can also be the answer for current window.
             heapq.heappush(maxHeap, (-nums[i], i))
             # Then remove the ele from heap which is not part of cur window if on top of heap.
-            # Ele out of cur window can be in heap but should not be part of our ans for cur window.
-            # Due to this for each ele time complexity will be 'logn' not 'logk'
+            # Ele out of cur window can be in heap even after removal from top, 
+            # but if not on top then, that won't affect our ans.
+            # Due to this for each ele time complexity will be 'logn' not 'logk' as there can be more than 'k' ele in heap.
             while maxHeap and (i - maxHeap[0][1]) >= k:
                 heapq.heappop(maxHeap)
             # Now top of heap will be ans for cur window
             ans.append(-maxHeap[0][0])
         return ans
+    
+
+# Understand 'method 3' and 'method 4' later.
 
 # Method 3:
 # say NUMS : 1, 3, -1, -3, 5, 3, 6, 7
 
-# 1) divide array into blocks of K starting from index 1.
+# 1) divide array into blocks of K starting from index 0.
 # Here divide into blocks of size K=3. then,
 
 # NUMS : 1, 3, -1, | -3, 5, 3, | 6, 7
@@ -41,7 +49,7 @@ class Solution:
 #  A.) by traversing from left to right B.) by traversing from right to left.
 
 # Why two ways:
-# Because if we keep tarck of maximum from either left or right then won't be maximum for all window.
+# Because if we keep track of maximum from either left or right only then won't be maximum for all window.
 # e.g: in above 'nums' , '1' is not maximum for index '0'  but it is maximum seen from left till index '0'.
 # But if we can keep track of max from right also for cur window then max_right[0] then we can get correct ans = 3
 
@@ -55,7 +63,7 @@ class Solution:
 # NUMS : 1, 3, -1, | -3, 5, 3, | 6, 7
 # Right : 3, 3, -1, | 5, 5, 3, | 7, 7
 
-# 5) Now we have to find maximum for each subarray or window of size K. So, starting from index = 1 to index = N-K+1 .
+# 5) Now we have to find maximum for each subarray or window of size K. So, starting from index = 0 to index = N-K+1 .
 # NUMS :  1, 3, -1, | -3, 5, 3,  | 6, 7
 # Left :  1, 3, 3,  | -3, 5, 5,  | 6, 7
 # Right : 3, 3, -1, | 5, 5,  3,  | 7, 7

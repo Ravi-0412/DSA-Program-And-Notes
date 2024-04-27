@@ -23,7 +23,9 @@ class Solution:
             A, B= B, A
         # traversing by finding the mid in smaller length array 'A' 
         # Also we have to move mid of 'A' in case we don't find the correct partition.   
-        l, r= 0, len(A) -1   
+        l, r= 0, len(A) -1
+
+        # If we write 'while l <= r' then, it won't work because here with the help of 
         while True:
             i= l+ (r-l) //2   # mid of smaller array. last ele in left partition of 'A'.
             j= half- i- 2     # point to the last index in array 'B' in the left partition.  '-2' since indexing are from '0'.

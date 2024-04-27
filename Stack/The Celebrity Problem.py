@@ -30,7 +30,7 @@ def findCelebrity(n, knows):
 # just check him with all people.
 # if he is celebrity then return its id else return -1.
 
-# Note: This methos is based on like: if this happens then he can't be the ans and so on.
+# Note: This method is based on like: if this happens then he can't be the ans and so on.
 
 def findCelebrity(n, knows):
     stack= []
@@ -39,9 +39,11 @@ def findCelebrity(n, knows):
     while len(stack) >= 2:
         p1= stack.pop()
         p2= stack.pop()
-        if knows(p2, p1): # means p2 knows p1 -> p2 can't be celebrity so push 'p2' into stack.
+        if knows(p2, p1): 
+            # means p2 knows p1 -> p2 can't be celebrity but 'p1' can be celebrity so put 'p1' into stack
             stack.append(p1)
-        else: # means p1 can't be the celebrity. so push p1 into stack
+        else: 
+            # means p2 doesn't knows p1 -> p1 can't be celebrity but 'p2' can be celebrity so put 'p2' into stack
             stack.append(p2)
     # now chekc the only person left in stack is celebrity or not.
     p= stack.pop()

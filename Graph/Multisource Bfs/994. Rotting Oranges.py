@@ -46,3 +46,7 @@ class Solution:
 
         return time if fresh == 0 else -1  # if no fresh oranges is left
 
+
+# Note: if you will writw : "while q" only and at last you return 'time -1' then it will give wrong ans
+# when there is no rotten oranges or no fresh oranges. 
+# so checking fresh also with 'queue'.

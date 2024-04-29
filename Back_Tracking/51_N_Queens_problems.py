@@ -1,4 +1,4 @@
-# Q)find the no of possible ways to put the Queens
+# Q) find the no of possible ways to put the Queens
 # page: 21
 # in this we are placing row wise and once we got any safe place in a row, no need to check further col in that row.
 # as two Queens can't be in the same row

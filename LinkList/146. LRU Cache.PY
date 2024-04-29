@@ -28,9 +28,12 @@ class Node:  # doubly Linked List with key-value pair.
 
 class LRUCache:
 
-    def __init__(self, capacity: int):
+    def __init__(self, capacity):
         self.cap= capacity
-        self.cache= {}  # will map key to node. val will be node pointer containing key-value pair of itself.
+        self.cache= {}  # will map key to node. value will be node pointer containing key-value pair of itself.
+                        # why storing ' node pointer ' in value?
+                        # Because we will have to delete also the node corresonding to key while 'get' and 'put'.
+                        # 
         self.Lru= Node(0,0)  # Lru.next will always point to the least recently used Node. Keeping Lru leftmost side of the list 
         self.Mru= Node(0,0)  # Mru.pre will always point to the most recently used Node. keeping Mru rightmost side of the list
         # connect 'Lru' and 'Mru' initially.
@@ -39,11 +42,13 @@ class LRUCache:
         self.Mru.prev= self.Lru
     
     # insertion will always happen at right side just before Mru as any inserted ele will become the Mru
+    # Logic: Just we insert before a give node 'mru' in a doubly linklist.
     # Time : O(1)
     def Insert(self,node):
-        node_prev= self.Mru.prev   # storing the pre of mru
+        # first connect the new_node to nodes on its next and prev.
+        node.next, node.prev= self.Mru, self.Mru.prev
+        # Now connect the existing nodes to new node.
         self.Mru.prev.next= self.Mru.prev= node
-        node.next, node.prev= self.Mru, node_prev
 
     # we will have to delete from any position like when put is called and capacity if full.
     # Time : O(1)
@@ -57,10 +62,9 @@ class LRUCache:
         # del_nxt.pre= del_pre
 
         # In short
-        node.prev.next= node.next
-        node.next.prev= node.prev
+        node.prev.next, node.next.prev = node.next, node.prev
         
-    def get(self, key: int) -> int:
+    def get(self, key):
         # if key in cache, just delete from its position and keep it at the rightmost side as this is Mru now.
         # and return its val
         # if not present then simply return -1
@@ -70,7 +74,7 @@ class LRUCache:
             return self.cache[key].val    # return the value of node associated with key.
         return -1
         
-    def put(self, key: int, value: int) -> None:
+    def put(self, key, value):
         # if key in cache, just delete from its position.
         # after that insert it at the righmost side  as this is Mru now. 
         # we have to insert if not present also 
@@ -81,9 +85,9 @@ class LRUCache:
         self.cache[key]= Node(key,value)  # Adding into cache. no need to write inside if because dictionary doesn't store duplicates key,val pair.
         self.Insert(self.cache[key])
         # after inserting check if capacity of cache is greater than given capacity.
-        if len(self.cache) >self.cap:
+        if len(self.cache) > self.cap:
             # delete the Lru from the list i.e node just after the Lru pointer
             lst_used= self.Lru.next  # storing the node that we have to delete. lst_used: least recently used
             self.Delete(lst_used)
             # now delete Lru from hashmap also
-            del self.cache[lst_used.key]
+            del self.cache[lst_used.key]    # only in this case we need to delete from hashmap

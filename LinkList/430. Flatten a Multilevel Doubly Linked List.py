@@ -1,28 +1,26 @@
-# simple and straight
-# time: O(n), space: O(1)
-# bottom up
-class Solution:
-    def flatten(self, head: 'Optional[Node]') -> 'Optional[Node]':
-        if head== None:
-            return head
-        remaining_child= None
-        temp= head.next
-        if head.child:  # first we have to add the child node. after head then child then next
-            remaining_child= self.flatten(head.child)
-            head.next= remaining_child   # we have to add with 'next' pointer for ans always
-            remaining_child.prev= head
-        if temp!= None:  # check for next node 
-            remaining_nxt= self.flatten(temp)
-            if remaining_child:  # add the remaining next after the last node of child node if child is not None
-                curr= remaining_child
-                while curr.next:   # we are traversing in ans and in ans there is only 'next' pointer
-                    curr= curr.next
-                curr.next= remaining_nxt
-                remaining_nxt.prev= curr
-            else:  # if empty then directly add the next to head
-                head.next= remaining_nxt
-                remaining_nxt.prev= head
-        head.child= None  #while backtrack make child pointer as 'None' 
+# Exactly sam elogic as: "114. Flatten Binary Tree to Linked List".
+# Here we need to take care of one more pointer 'prev' which is simple only.
+
+class Solution(object):
+    def flatten(self, head):
+        if not head:
+            return None
+        child_Node = self.flatten(head.child)
+        next_Node = self.flatten(head.next)
+        head.next = child_Node if child_Node else next_Node     # writing this only won't work because we have to take care of 'prev' also.
+        # Take care of prev pointer for 'next' node.
+        if child_Node:
+            child_Node.prev = head
+        elif next_Node:
+            next_Node.prev = head
+
+        if child_Node and next_Node:
+            cur = child_Node
+            while cur.next:
+                cur = cur.next
+            cur.next = next_Node
+            next_Node.prev = cur
+        head.child = None
         return head
 
 

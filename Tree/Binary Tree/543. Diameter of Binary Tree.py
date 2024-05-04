@@ -1,6 +1,10 @@
-# Note: whenever you have to find distance between any two nodes then that will be equal to=> distance of both the nodes from their lowest common ancesstor.
+# Logic: For each node check that is root of the ans.
+
+# Note: whenever you have to find distance between any two nodes then that will be equal to 
+# => distance of both the nodes from their lowest common ancesstor.
 # and here we have to find the maximum of all such distances. 
-# so we will treat every node as lowest common ancesstor(because at any node we can get the ans and every node can be lowest common ancesstor) 
+# so we will treat every node as lowest common ancesstor(because at any node we can get the ans and 
+# every node can be lowest common ancesstor).
 # and will update the ans according to the "sum of nodes to its left + right part"(sum of height of subtree only)
 
 # logic: just find the sum of left subtree height and right subtree height of all nodes

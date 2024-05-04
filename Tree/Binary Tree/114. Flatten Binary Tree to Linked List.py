@@ -1,25 +1,44 @@
-# applied the exactly same logic as " 430. Flatten a Multilevel Doubly Linked List"
+# Method 1:
+# Just store the preorder traversal in a list and ten connect all those to get the ans.
+# space = time = O(n)
+
+
+# Method 2: Space optimisation to O(1)
+# Logic: Agar hm first time kisi node ko dekhte hi connect karenge tb wrong ans dega.
+# Kyonki hm dusre node ko tabhi isse connect kar sakte h jb dusar node already flattened ho.
+# Iske liye hm bottom up jana hoga.
+
+# Now 1) current node ka right ko 'left' wale ke saath karna h agar 'left' is not None else 'right' wale child ke saath.
+# 2) Then left wala ka last node se 'right' ko connect kar dena h.
+# 3) cur node ka left ko null kar dena h.
+# 4) cur node ko return kar dena h
+
+# Not vvi: Aise Question me yhi logic lagana h , bhut simple h.
+# e.g: in Q "430. Flatten a Multilevel Doubly Linked List"
+
 # time: O(n)
-class Solution:
-    def flatten(self, root: Optional[TreeNode]) -> None:
-        if root== None:
-            return root
-        remaining_left= None
-        temp= root.right
-        if root.left:
-            remaining_left= self.flatten(root.left)
-            root.right= remaining_left   # we have to always add the node with rigth pointer only in the ans
-        if temp:  # if root.right!= None
-            remaining_right= self.flatten(temp)
-            if remaining_left:  # if there is node on left side of root, then add the ans in right part to the last node in left side ans
-                curr= remaining_left
-                while curr.right:     # we have to check in ans , so rigth pointer only
-                    curr= curr.right
-                curr.right= remaining_right
-            else:  # if no node on left side of root then directly add the ans got for right part to the root
-                root.right= remaining_right
-        root.left= None   # while traversing back make left pointer as None
+
+class Solution(object):
+    def flatten(self, root):
+        if not root:
+            return None
+        l = self.flatten(root.left)
+        r = self.flatten(root.right)
+        # first connect the next node that will come in preorder traversal 
+        root.right = l if l else r   # if 'l' is not 'None' then it will come else 'r' will come
+        # Now connect the right child with last node of left one. we only need to do this if both 'l' and 'r' are None
+        if l and r:
+            cur = l
+            # 'l' and 'r' is already flattened so we need to tarverse with the help of 'right' pointer only.
+            while cur.right:
+                cur = cur.right
+            cur.right = r  # 
+        # Make 'cur' left pointer = None
+        root.left = None  
         return root
+    
+
+# Undersatand other method later
 
 # method 2: 
 # in above one first we were going root then left then right like preorder only

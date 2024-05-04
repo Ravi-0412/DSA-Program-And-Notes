@@ -10,13 +10,12 @@
 
 
 # method 3: just use the 'BST iterator' i.e 'next' and 'prev'
-# next will give element from start i.e samllest one and 'prev' will give element from last i.e largest one.
+# next will give element from start i.e smallest one and 'prev' will give element from last i.e largest one.
 # Now problem reduces to "Two sum" with two pointer approach 'next' and 'prev'.
 
-# for getting the 'prev' just push all the right ele first and for any node you pop
-# just the opposite of inorder i.e Right,Root,Left
-# doing opposite of inorder will sort the array in descending order
-# 'prev' will give the elements in from last of inorder.
+# for getting the 'prev' just push all the right ele first and for any node you pop 
+# push their 'left'. 
+# just the opposite of 'next'.
 
 # time: O(n)
 # space: O(H)*2= O(H)
@@ -38,7 +37,7 @@ class BSTIterator:
         return temp.val
         
     def hasNext(self) -> bool:
-        return self.stack!= []
+        return self.stack != []
     
     def PushAll(self, root):
         # push everything that comes on the left/right of root based on 'reverse' value.
@@ -59,7 +58,7 @@ class Solution:
         while i< j:
             if i + j== k:
                 return True
-            elif i + j <k:
+            elif i + j < k:
                 i= start.next()
             else: 
                 j= end.next()

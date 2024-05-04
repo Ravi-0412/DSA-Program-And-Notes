@@ -82,3 +82,17 @@ class Solution:
             if k - arr[i] in unordered_map:
                 count += unordered_map[k - arr[i]]
         return count
+
+
+# Realted Q:
+# 1) 2441. Largest Positive Integer That Exists With Its Negative
+class Solution:
+    def findMaxK(self, nums):
+        visited = set()
+        ans = -1
+        for num in nums:
+            if -1*num in visited:
+                if abs(num) > ans:   # taking abs because we don't know whether this num is positive or negative.
+                    ans = abs(num)
+            visited.add(num)
+        return ans 

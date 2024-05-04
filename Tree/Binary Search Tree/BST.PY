@@ -32,7 +32,7 @@ class BST:
     def SearchKey(self,root, key):
         if root== None:   # if reached None
             print("{} is not present or tree is empty".format(key))
-            return
+            return None
         if root.data== key:
             # print("{} is present at node address {}".format(key,root))
             return root
@@ -62,24 +62,18 @@ class BST:
         return root
                 
     def SearchMin1(self,root):
-        if root== None:
-            return
         if root.left== None:
             return root
         return self.SearchMin(root.left)
     
+        # Or 
+        """
+        while root.left:
+            root = root.left
+        return root
+        """
+    
     def TotalNodes(self, root):
-         # just do any traversal and count
-        # count= 0
-        # if root== None:
-        #     return 0
-        # count+= 1
-        # smallAns= self.TotalNodes(root.left)
-        # count+= smallAns
-        # smallAns1= self.TotalNodes(root.right)
-        # count+= smallAns1
-        # return count
-
         # concise way of writing
         if root== None:
             return 0
@@ -88,18 +82,7 @@ class BST:
 
 
     def LeafNode(self, root):
-        # count= 0
-        # if root== None:
-        #     return 0
-        # if root.left== None and root.right== None:
-        #     return 1
-        # smallAns= self.LeafNode(root.left)
-        # smallAns1= self.LeafNode(root.right)
-        # count+= smallAns + smallAns1
-        # return count
-
         # concise way
-        count= 0
         if root== None:
             return 0
         if root.left== None and root.right== None:

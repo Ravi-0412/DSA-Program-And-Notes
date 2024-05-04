@@ -38,7 +38,6 @@ class Solution:
                 if cur.right:
                     q.append(cur.right)
             ans.append(maxi)
-            level= []   # to store the ans of next level
         return ans
 
 

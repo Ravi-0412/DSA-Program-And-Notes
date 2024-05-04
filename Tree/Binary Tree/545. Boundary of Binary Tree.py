@@ -19,6 +19,7 @@ class Solution:
     def LeftBoundary(self,root,ans):
         curr= root
         #  hmko yahan wapas kisi node pe nhi aana h kisi bhi subtree me, bs left chalte jana h jb tak koi leaf node na mil jaye.
+        # Agar left me node h tb left hi move karna h , node nhi h left me tb hi right jana h.
         while curr:  
             # check for non leaf before adding
             if curr.left!= None or curr.right!= None:

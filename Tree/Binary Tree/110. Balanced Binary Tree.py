@@ -36,6 +36,8 @@ class Solution:
 # method 2: O(n)
 # there is lot of repitition in above method.
 
+# Note vvi: To make decision on a node , we need maximum node count from its left and right subtree.
+
 # note: we have to take care of "True/False" as well as height at the same time.
 
 # just the height logic only , instead of  returning booleans we are returning in integer 

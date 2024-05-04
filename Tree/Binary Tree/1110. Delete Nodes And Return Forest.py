@@ -45,6 +45,11 @@ class Solution:
 # If Q ask :"to get the ans after deleting each given node" given tree returns to its initial state after each deletion.
 # then our solution will:
 
+# Simply we have to disconnect all node of the subtree starting from 'node_to_delete'.
+# for this just return 'None' when we will see the 'node_to_delete' or null node.
+
+# And keep including all the nodes by creating new_node just like we make 'Binary Search Tree'.
+
 # Time : O(n^2)
 
 class Solution:

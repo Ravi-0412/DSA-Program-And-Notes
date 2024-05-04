@@ -1,6 +1,7 @@
 # Brute force :
-# find the minimum horizontal distance and maximum horizontal distance, by taking distance of left child as '-1' and for right child as '+1' always
-# minimum will be for leftmost leaf node and max will be rightmost leaf node
+# find the minimum horizontal distance and maximum horizontal distance, 
+# by taking distance of left child as '-1' and for right child as '+1'.
+# Minimum will be for leftmost leaf node and max will be rightmost leaf node
 
 # vvi: for coordinates: just stand at root(assume root as origin as given also) (0,0) and reverse the axis i.e row -> x and col -> y.
 # horizontal -> y axis and vertical is x-axis.
@@ -53,7 +54,7 @@ class Solution:
 # time; O(n*logn). for hashmap buliding its O(n) only but for adding into ans we have to sort the node at each level so n*logn.
 
 # hashmap will store all the nodes at same horizontal level with (vertical_level, node_val)
-# since we have to print horizontally(from min_x to max_y) so made horizonatl_level as key. 
+# since we have to print horizontally(from min_x to max_x) so made horizonatl_level as key. 
 
 # And while printing, we will print the node from top to bottom at each level i.e min_vertical to max_vertical.
 # That's why we are adding "vertical_level value" also with node value.

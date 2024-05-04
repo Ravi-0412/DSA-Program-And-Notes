@@ -1,4 +1,6 @@
 # logic: Bottom up (can say DP only)
+# Logic: For each node check that is root of the ans.
+ # Just similar to  :"543. Diameter of Binary Tree"
 # find the path sum at each node 
 
 # for max ans, we have 6 choices like:

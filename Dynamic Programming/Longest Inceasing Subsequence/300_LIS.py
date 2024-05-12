@@ -88,7 +88,7 @@ class Solution:
                                     # i.e dp[pre + 1][cur]= max(dp[pre + 1][cur], solve(pre, cur + 1)). Then no need to return at both place.
         return solve(-1, 0) 
 
-# method 3: Betterone
+# method 3: Better one
 # Just the same above logic only, different way to write.
 
 # Note vvvi: This is better one template in case of 'take' and 'notTake'  which there is 'notTake' option always there.

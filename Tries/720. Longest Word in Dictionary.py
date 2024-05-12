@@ -87,7 +87,7 @@ class Solution:
         
         ans= ""
         q= collections.deque([])
-        q.append(trie.root)  # will only contain the node that will some ending word exzcept root since we update all the things in next node.
+        q.append(trie.root)  # will only contain the node that will have some ending word except root since we update all the things in next node.
 
         while q:
             cur= q.popleft()

@@ -12,6 +12,9 @@
 # Reason: Since we are inserting all the elements of arr1 into trie where every element is of size 32 bit
 #  but the space complexity will be less than O(N*32) because they might have overlapped.
 
+# Note vvi: for insertion , we will insert from leftmost side because for maximum xor we will try to get
+# '1' from leftmost side as soon as possible. 
+
 class TrieNode:
     def __init__(self):
         self.children= {}   # will contains two num max i.e bit '0' and bit '1'.

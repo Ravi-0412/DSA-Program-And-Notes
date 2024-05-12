@@ -26,7 +26,7 @@ class Solution:
 
 
 # method 2: using BFS
-# same logic as above. working corectly (found from submissions)
+# same logic as above.
 class Solution:
     def cloneGraph(self, node: 'Node') -> 'Node':
         if not node:

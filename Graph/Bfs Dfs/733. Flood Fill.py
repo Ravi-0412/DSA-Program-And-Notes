@@ -10,7 +10,7 @@ class Solution:
         while q:
             for i in range(len(q)):
                 r, c = q.popleft()  # clr= pixel at that (r,c)
-                image[r][c]= color
+                image[r][c]= color  # can update when we will see for 1st time also
                 directions= [[-1,0],[1,0],[0,-1],[0,1]]  # up,down,left,right
                 for dr,dc in directions:
                     row,col= r+ dr, c+ dc

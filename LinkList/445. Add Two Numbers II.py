@@ -122,18 +122,17 @@ class Solution:
         # now propagate the carry from LSB to MSB if value of node in above formed linklist is >= 10 and update the node value.
         # And we have to reverse the direction also since we have to return ans MSB-->LSB.
         cur= res
-        res, carry= None, 0
-        while cur:
-            sumValue= carry + cur.val
+        res, carry = None, 0
+        while cur or carry:
+            sumValue = carry
+            if cur:
+                sumValue += cur.val
+                cur = cur.next
             carry, nodeValue= divmod(sumValue, 10)
-            res= addToFront(nodeValue, res)
-            cur= cur.next
-        
-        # at last carry can be non-zero(1) so for that we have to make one extra node
-        if carry:
-            res= addToFront(carry, res)
+            res = addToFront(nodeValue, res)
         return res
 
 
 # Similar Q in array:
-# "66. Plus One".
+# 1) "66. Plus One".
+# 2) 2816. Double a Number Represented as a Linked List

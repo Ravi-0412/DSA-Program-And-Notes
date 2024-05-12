@@ -1,4 +1,4 @@
-# Logic: Find the length of 'longest valid substring' from each index.
+# Logic: Find the length of 'longest valid substring' from each index from right side.
 
 # Time complexity: O(n * max_length_of_forbidden_words ^ 2) = 10^7.
 

@@ -1,5 +1,5 @@
 # method 1: Brute force.
-# put all key in hashmap and keep updating with lastes value.
+# put all key in hashmap and keep updating with latest value.
 
 # for sum:
 # check all key present in hashamsp if they startswith "prefix" .
@@ -22,17 +22,17 @@ class MapSum:
 
 # method 2: using Trie
 
-# logic: we have to count the val of every word has prefix as given "prefix".
+# logic: we have to count the val of every word which has prefix as given "prefix".
 # so for every node we have to store the 'key' and keep on adding for another key at same node.
 
 # for insert:
 # 1) first we will check whether that key is already present or not.
 # 1.a) if present then at every node where key char is present , we will have to update with new val.
-# for updating we will need the preVal. for getting preVal we are stoing the 'val' with isEndOfWord.
+# for updating we will need the preVal. for getting preVal we are storing the 'val' with isEndOfWord.
 
 # After getting pre value we will update prefix_sum like:  cur.prefix_sum= cur.prefix_sum - preVal + val .
 
-# 2) if not present then simply insert and each node keep on adding this 'va' to the node.prefixSum.
+# 2) if not present then simply insert and each node keep on adding this 'val' to the node.prefixSum.
 
 # Time:
 # insert: O(K), where K <= 50 is length of key string.
@@ -94,7 +94,7 @@ class MapSum:
         return cur.prefix_sum
 
 
-# method 3:
+# method 3: Easier one
 # trie + Hashmap(for stroing the pre val of key).
 # we will update the val of prefix_sum like cur.prefix_sum+= valDiff where valDiff= val- self.hashmap[key]   # (if not present then self.hashmap[key]= 0).
 

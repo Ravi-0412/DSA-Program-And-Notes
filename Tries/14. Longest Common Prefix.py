@@ -14,7 +14,7 @@ class Solution:
         # means shortest is our required ans
         return shortest
 
-# same logic. we can start with even first char and do the same.
+# same logic. we can start with even first word and do the same.
 # we can do the same for every word like above because that prefix should be present in every word.
 class Solution:
     def longestCommonPrefix(self, strs: List[str]) -> str:
@@ -51,7 +51,8 @@ class Solution:
 # insert all words in Trie
 
 # now take smallest word in len and keep adding the char of this word to ans till you don't find more than one children.
-# Because if there is more than one children then it means word start differentiating from that node (means char are differing from that index).
+# Because if there is more than one children then it means word start differentiating from that node
+# (means char are differing from that index).
 # Since till common prefix there will be only char in each children.
 
 # so when you find more than one children at any node , then simply return the ans.

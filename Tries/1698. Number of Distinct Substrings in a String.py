@@ -27,6 +27,7 @@ def countDistinctSubstrings(s):
         cur= root
         for j in range(i, len(s)):
             if s[j] not in cur.children:   # only need to insert s[j] since we are doing by Trie.
+                # means found new different substring
                 cur.children[s[j]]= TrieNode()
                 count+= 1
             cur= cur.children[s[j]]
@@ -34,22 +35,23 @@ def countDistinctSubstrings(s):
 
 
 # Also printing all the distinct substring
-def countDistinctSubstrings(s):
-    root= TrieNode()
-    count= 1    # we have to include empty string also
-    ans= []    # will print all distinct substring except empty string. for empty string you can add that at 1st or last.
-    for i in range(len(s)):
-        curAns= ""
-        cur= root
-        for j in range(i, len(s)):
-            curAns+= s[j]
-            if s[j] not in cur.children:
-                cur.children[s[j]]= TrieNode()
-                count+= 1
-                ans.append(curAns)
-            cur= cur.children[s[j]]
-    print(ans)
-    return count
+
+# def countDistinctSubstrings(s):
+#     root= TrieNode()
+#     count= 1    # we have to include empty string also
+#     ans= []    # will print all distinct substring except empty string. for empty string you can add that at 1st or last.
+#     for i in range(len(s)):
+#         curAns= ""
+#         cur= root
+#         for j in range(i, len(s)):
+#             curAns+= s[j]
+#             if s[j] not in cur.children:
+#                 cur.children[s[j]]= TrieNode()
+#                 count+= 1
+#                 ans.append(curAns)
+#             cur= cur.children[s[j]]
+#     print(ans)
+#     return count
 
 # Note: 
 # Q) why not directly applying the mathematical logical i.e  for a string of len 'n' no of total substring possible = (n*(n+1)) //2.

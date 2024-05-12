@@ -21,7 +21,7 @@ class Solution(object):
 
 # logic: just put all words of dictionary into Trie 
 
-# then traverse each word in dictionary and search for its smallest prefix in dictionary(Trie)
+# then traverse each word in sentence and search for its smallest prefix in dictionary(Trie)
 # i.e first node where we will get 'node.isEndOfWord= True'.
 
 # if doesn't have any prefix then return "" at that time itself.

@@ -4,7 +4,8 @@ class Solution:
     def shortestSubstrings(self, arr: List[str]) -> List[str]:
         res = []
         for word in range(len(arr)):
-            resSub = "{zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz" # ascii value of '{' is larger than 'z' that's why used it. Also to match the 'shortest length' criterion, added multiple z around 20 times. you can add anything since it will always be lexicographically greater.
+            resSub = "{zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz" # ascii value of '{' is larger than 'z' that's why used it. 
+                    # Also to match the 'shortest length' criterion, added multiple z around 20 times. you can add anything since it will always be lexicographically greater.
             for i in range(len(arr[word])):
                 for j in range(i, len(arr[word])):
                     sub = arr[word][i:j+1]  # Checking every sub string (simple brute force)
@@ -35,8 +36,8 @@ class Solution:
 # and to chekc whether that substring is present in how many word we will insert each substring with some number
 # say index of word.
 
-# Now for ans traverse each substring of a word and for each substring check in how many word that substring is prsesent.
-# If present in same only only then store that substring into ans and after that return the smallest one.
+# Now for ans traverse each substring of a word and for each substring check in how many word that substring is present.
+# If present in same word only then store that substring into ans and after that return the smallest one.
 
 # Time: O(m * n*n) = O(100*20*20), m = no of string and n = length of each string
 

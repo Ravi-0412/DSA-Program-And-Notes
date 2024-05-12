@@ -15,7 +15,7 @@ class Trie:
     def insert(self, num):
         cur= self.root
         for i in range(31,-1,-1):
-            bit= (num>> i) & 1    # will give the 'ith' bit.
+            bit= (num >> i) & 1    # will give the 'ith' bit.
             if bit not in cur.children:
                 cur.children[bit]= TrieNode()
             cur= cur.children[bit]

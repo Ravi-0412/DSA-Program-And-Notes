@@ -28,7 +28,6 @@ class Solution:
                 i+= 1
             j+= 1
         return ans
-    
 
 # method 2: using heaps
 # Try later agai and understand properly the intuition

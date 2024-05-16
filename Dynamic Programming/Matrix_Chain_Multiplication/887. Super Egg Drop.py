@@ -1,17 +1,16 @@
 # Just extension of Q : "1884. Egg Drop With 2 Eggs and N Floors".
 
 # just same as "375. Guess Number Higher or Lower II".
-# logic: ans will depend on from which floor we start checking for remaining egg and remaining floor to check.
+# logic: ans will depend on from which floor we start checking for remaining egg and remaining floor.
 # We need to try all possibility. 
 
 # will try to drop from each floor. There will be two condition:
 #  1) egg brakes on 'i'th floor. 
 #  We need to check with 'k-1' eggs and remaining floor to check = 'i-1' i.e f(k-1, i-1).
+# because our ans can't lie beyond 'i' so nned to check only 'i-1' floor.
 
 # 2) egg doesn't brake on 'i'th floor.
-#  We need to check with 'k' eggs and remaining floor to check = 'n -i'(after 'i') i.e f(k, n -i).
-
-# note: move will not depend on floor number , it will depend on from which floor we start to check for remaining floor to check.
+#  We need to check with 'k' eggs and remaining floor to check = 'n - i'(after 'i') i.e f(k, n -i).
 
 # we can think like given 'k' eggs and 'n' floor, how many minimum no eggs we have to drop to know the required floor.
 
@@ -19,6 +18,11 @@
 
 # Note :we want the worst possible case between the two sub-problems. 
 # And the overall answer is the best (min) of the worst (max) cases.
+
+# Just exactly same as :"1884. Egg Drop With 2 Eggs and N Floors".
+# Just added on more varible 'k'.
+
+# Replace k -> 2 to get ans for "1884. Egg Drop With 2 Eggs and N Floors".
 
 class Solution:
     def superEggDrop(self, k: int, n: int) -> int:
@@ -63,9 +67,8 @@ class Solution:
         dp[k][n]= ans
         return dp[k][n]
 
-# optimising memoization using bottom up and binary search
-# here we find the move for mid floor and then take the decision accordingly.
-# Instead of dropping one by one from each floor.
+# optimising memoization using bottom up and binary search.
+# Instead of dropping from each possible floor, we can find the floor using binary search.
 # Time Complexity: O((n * k) * logn )
 # Space Complexity: O(n * k)
 

@@ -1,9 +1,11 @@
 # 1) suppose if egg= 1 and no of floor== 'n'.
 # logic:
-# just start dropping egg from floor 1 for better utilisation of given egg and if breaks then required floor is '0' 
+# just start dropping egg from floor 1 and if breaks then required floor is '0' 
 # and if doesn't break go on checking for next floor. But this will only work if we were given one egg only.
 # In this way we may need to go till 'n' floor.
 # so ans = n(remaining floor).
+
+# If no of eggs will increase then no of moves will decrease.
 
 # Note vvvi:The problem is not actually to find the critical floor, 
 # but merely to decide floors from which eggs should be dropped so that the total number of trials is minimized.
@@ -46,7 +48,11 @@
 #  x(x+1)/2  = 100
 #          x = 13.651
 
-# Therefore, we start trying from 14'th floor. If Egg breaks on 14th floor
+# How minimum 14 moves?
+# One optimal strategy is: (See leetcode example explanation
+
+# OR
+# we start trying from 14'th floor. If Egg breaks on 14th floor
 # we one by one try remaining 13 floors, starting from 1st floor.  If egg doesn't break
 # we go to 27th floor.
 # If egg breaks on 27'th floor, we try floors form 15 to 26.
@@ -59,8 +65,13 @@
 
 # Note : This we can generalise for 'n' floors.
 
+# Note vvi: we can only find the minimum no of moves required to find the exact floor but we can't find the exact floor
+# by this approach. Finding exact floor will be very difficult.
+
 # Note vvi:  we want the worst possible case between the two sub-problems. 
 # And the overall answer is the best (min) of the worst (max) cases.
+
+# Note vvi: Here for no fo eggs = 2 no of moves(our ans) will be also equal to the threshhold floor(above which egg will drop for sure)
 
 # Time : O(root(n))
 
@@ -73,12 +84,14 @@ class Solution:
 
 
 # Method 3: Dynamic Programming
-# Note vvi: we want the worst possible case between the two sub-problems. 
+# Note vvi: we want the worst possible case between the two sub-problems.(when it breaks and when it doesn't break)
 # And the overall answer is the best (min) of the worst (max) cases.
 
 # Just the conversion of above observations.
 
-# Note vvi: Here no of moves(our ans) will be also equal to the threshhold floor(above which egg will drop for sure)
+# Logic: Just trying to drop from floors which can minimize our ans i.e 
+# finding the sequence of floors from which we can drop.
+# So try each possibility i.e drop from each floor.
 
 # Time : O(n^2)
 
@@ -87,7 +100,7 @@ class Solution:
         dp= [-1 for i in range(n+1)]
         return self.f(n, dp)  
     
-    def f(self, n, dp):
+    def f(self, n, dp):  # will give minimum nof of moves when no of floor is 'n'.
         if n <= 1:  
             return n
         if dp[n]!= -1:
@@ -95,10 +108,10 @@ class Solution:
         # now check from each floor one by one
         ans= float('inf')
         for i in range(1, n + 1):
-            # if break and 2) didn't break
+            # 1) if break then check all floor from '1' to 'i-1' => i -1 moves
+            # 2) If it doesn't break then check the remaining floor i.e 'n- i'
             tempAns= 1+ max(i -1, self.f(n-i, dp))
             ans= min(ans, tempAns) 
-            # ans= min(ans, 1+ max(i -1, self.f(n-i, dp)))    # in one line
         dp[n]= ans
         return dp[n]
 

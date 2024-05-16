@@ -10,6 +10,11 @@ class Solution:
             return 0
         mn= 99999999999
         for k in range(start,end):
+            # start matrix se leke 'k' matrix tak + (k + 1) se leke 'j-1' tak
+            # (start , k) matrix tak jo result matrix milega uska dimension hoga: arr[start-1]*arr[k]
+            # (k + 1, end) matrix tak jo result matrix milega uska dimension hoga: arr[k] * arr[end]
+            # no of multiplication hoga dono ka: arr[start-1]*arr[k] * arr[end] i.e just conside above sub-matrix as separate matrix .
+            # And is dono ka resultant matrix ka jo dimension hoga: arr[start-1] * arr[end] .
             tempAns= self.MCM(arr,start,k) + self.MCM(arr,k+1,end) + arr[start-1]*arr[k]*arr[end]   # will store all possible ans
             mn= min(mn,tempAns)   # take minimum of all ans.
         return mn

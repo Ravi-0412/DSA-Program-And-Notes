@@ -36,6 +36,33 @@ class Solution:
         dfs(0, [])  
         return res
 
+# Method 3 : Using Bit Masking
+
+# n : len(nums)
+# every subset is represented by a binary number of 'n' bits.
+# VVI: Each bit represents whether the number at that index exists in the subset or not.
+# No of subsets = 2^n . Using these 2^n numbers [0,2^n-1], we will try to find the number in that subset.
+
+# For better understanding, go through link in sheet.
+
+# if asked for only non-empty subsets then before adding temp into ans check:
+# if len(temp) > 0 then only add.
+
+# Time: O(2^n * n)
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        n = len(nums)
+        ans = []
+        for num in range(1 << n):
+            temp = []
+            # add the number whose 'index' bit is set is set in num
+            for i in range(n):
+                # if 'i'th bit is set in 'num then nums[i] is part of this subset.
+                if (num >> i) & 1:
+                    temp.append(nums[i])
+            ans.append(temp)
+        return ans
+
 
 # iterative way:
 

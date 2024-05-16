@@ -1,13 +1,22 @@
 # 1st method: Recursive
 # logic in notes: 123,124
+
+# lOgic: # we can cur at any of the given position in cuts so there must be something on leftmost and rightmost side 
+# to calculate the length that's why appedning these number.
+# so first insert '0' and 'n' and then sort. Then automatically '0' will come at furst and 'n' at last.
+# why sorting?
+# agla kon sa length pe cut karna h har part me, usko pta karne ke liye sort karna hoga
+
+# After that apply same logic as 'MCM'.
+
 class Solution:
     def minCost(self, n: int, cuts: List[int]) -> int:
-        # we can cur at any of th egiven position in cuts so there must be something on leftmost and rightmost side to calculate the length that's why appedning these number.
-        cuts.insert(0,0)
+        cuts.append(0)
         cuts.append(n)
-        cuts.sort()  # agla kon sa length pe cut karna h har part me, usko pta karne ke liye sort karna hoga
+        cuts.sort()
         l= len(cuts)
-        return self.helper(cuts, 1, l-1)
+        return self.helper(cuts, 1, l-1)   # first valied -> 1 and first invalid -> l - 1
+                                           # first_invalid - (1st_valid - 1)  will give length after each cut.
     
     def helper(self, cuts, i, j):
         if i==j:
@@ -16,17 +25,17 @@ class Solution:
         for k in range(i, j):
             tempAns= self.helper(cuts, i, k) + self.helper(cuts, k+1, j) + cuts[j]- cuts[i-1]
             # tempAns= self.helper(cuts, i, k-1) + self.helper(cuts, k+1, j) + cuts[j]- cuts[i-1]   # i was writing this. last range should be invalid only and writing 'k-1' will make valid
-            mn= min(mn, tempAns)
+        mn= min(mn, tempAns)
         return mn
 
 # method 2: memoization
 class Solution:
     def minCost(self, n: int, cuts: List[int]) -> int:
-        cuts.insert(0,0)   # list.insert(pos, elmnt)
+        cuts.append(0)
         cuts.append(n)
         cuts.sort()
         l= len(cuts)
-        dp= [[-1 for j in range(l)]for i in range(l)]
+        dp= [[-1 for j in range(l)] for i in range(l)]
         return self.helper(cuts, 1, l-1, dp)
     
     def helper(self, cuts, i, j, dp):
@@ -38,14 +47,14 @@ class Solution:
         for k in range(i, j):
             tempAns= self.helper(cuts, i, k, dp) + self.helper(cuts, k+1, j, dp) + cuts[j]- cuts[i-1]
             mn= min(mn, tempAns)
-            dp[i][j]= mn
+        dp[i][j]= mn
         return dp[i][j]
 
 
 # Tabulation
 class Solution:
     def minCost(self, n: int, cuts: List[int]) -> int:
-        cuts.insert(0,0)
+        cuts.append(0)
         cuts.append(n)
         cuts.sort()
         l= len(cuts)

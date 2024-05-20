@@ -115,6 +115,9 @@ class Solution:
 
 
 # method 4: using only one parameter
+# Logic: After reaching base case 'that last node' should be head for reverse order.
+# That reverse node should not change.
+# Only change the pointer to reverse the direction and return the same 'reverseNode' always like above recursive methods.
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         if not head or not head.next:  # if there is no node or only one node. start reversing after you reach the last node
@@ -191,3 +194,56 @@ def reverseList(self, head) :
             pre= current        
             current= temp     
         return pre              
+
+
+# java
+"""
+// method 2:
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null) return head;
+        ListNode pre = null, current = head;
+        while (current != null) {
+            ListNode temp = current.next;
+            current.next = pre;
+            pre = current;
+            current = temp;
+        }
+        return pre;
+    }
+}
+
+// method 3:
+class Solution {
+    private ListNode head;
+    public ListNode reverseList(ListNode head) {
+        this.head = head;
+        ListNode pre = null, curr = head;
+        return reverseByRecursion(pre, curr);
+    }
+
+    private ListNode reverseByRecursion(ListNode pre, ListNode curr) {
+        if (curr == null) {
+            this.head = pre;
+        } else {
+            reverseByRecursion(curr, curr.next);
+            curr.next = pre;
+        }
+        return this.head;
+    }
+    }
+
+// method 4:
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode reverseHead = reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return reverseHead;
+    }
+}
+
+"""

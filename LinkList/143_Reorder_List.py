@@ -64,7 +64,8 @@ class Solution:
         return head
 
 
-# another way of doing the same logic
+# another way of doing the same logic.
+# Just change in merging logic.
 class Solution:
     def reorderList(self, head: Optional[ListNode]) -> None:
         if head.next== None or head.next.next== None:
@@ -86,9 +87,49 @@ class Solution:
             second= nextNode
             
         # now merge the two list
+        # curr1: will always contain the 1st node from which we have to start to connect
+        # curr2: will always contain the 2nd node to which we have to connect curr1.   curr1 - > curr2
         curr1, curr2= head, pre
         while curr1 and curr2:
-            temp= curr1.next
+            temp = curr1.next
             curr1.next= curr2
             curr1, curr2= curr2, temp   # swap the pointer
         return head
+
+
+# java
+"""
+class Solution {
+    public void reorderList(ListNode head) {
+        if (head == null) return;
+
+        // Step 1: Find the middle of the list
+        ListNode slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // Step 2: Reverse the second half of the list
+        ListNode second = slow.next;
+        slow.next = null;
+        ListNode pre = null;
+        while (second != null) {
+            ListNode nextNode = second.next;
+            second.next = pre;
+            pre = second;
+            second = nextNode;
+        }
+
+        // Step 3: Merge the two halves
+        ListNode curr1 = head, curr2 = pre;
+        while (curr1 != null && curr2 != null) {
+            ListNode temp1 = curr1.next, temp2 = curr2.next;
+            curr1.next = curr2;
+            curr2.next = temp1;
+            curr1 = temp1;
+            curr2 = temp2;
+        }
+    }
+}
+"""

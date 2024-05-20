@@ -72,7 +72,8 @@ class Solution:
 
             # if above part is not sorted then other part from mid+1 to end must be sorted        
             else: 
-                # check if target lies in this range
+                # check if target lies in this range. 
+                # note: comparing with 'mid' will give the wrong ans.
                 if nums[mid+1] <=target<=nums[end]:  # if lies call binary search
                     start= mid + 1
                 # if not lies from 'mid+1' to end then it must be before it
@@ -84,3 +85,42 @@ class Solution:
 # Similar Q:
 # 1) "81. Search in Rotated Sorted Array II".
 # https://github.com/Ravi-0412/DSA-Program-And-Notes/blob/main/Binary_Search/81.%20Search%20in%20Rotated%20Sorted%20Array%20II.py
+
+
+# Java
+"""
+# Method 2:
+
+public class Solution {
+    public int search(int[] nums, int target) {
+        int start = 0, end = nums.length - 1;
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+
+            // Means array is sorted from start to mid
+            if (nums[mid] >= nums[start]) {
+                // Check if target exists between start and mid
+                if (nums[start] <= target && target <= nums[mid]) {
+                    end = mid;
+                } else {
+                    // If not present, then check in the other part
+                    start = mid + 1;
+                }
+            } else {
+                // If the above part is not sorted, then the other part from mid+1 to end must be sorted
+                // Check if target lies in this range
+                if (nums[mid + 1] <= target && target <= nums[end]) {
+                    start = mid + 1;
+                } else {
+                    // If not lies from 'mid+1' to end, then it must be before it
+                    end = mid;
+                }
+            }
+        }
+
+        // After loop ends, check if the start points to the target
+        return nums[start] == target ? start : -1;
+    }
+}
+"""

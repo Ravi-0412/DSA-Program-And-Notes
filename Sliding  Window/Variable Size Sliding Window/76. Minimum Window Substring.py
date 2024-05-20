@@ -41,3 +41,57 @@ class Solution:
                 i+= 1  # keep shrinking till count==0 means till we are having valid subarray
             j+= 1
         return ans
+
+
+# Java
+""""
+import java.util.HashMap;
+import java.util.Map;
+
+public class Solution {
+    public String minWindow(String s, String t) {
+        if (t.length() > s.length()) {
+            return "";
+        }
+
+        Map<Character, Integer> hashmap = new HashMap<>();
+        for (char c : t.toCharArray()) {
+            hashmap.put(c, hashmap.getOrDefault(c, 0) + 1);
+        }
+
+        int n = s.length();
+        int minLen = n + 1;
+        String ans = "";
+        int count = hashmap.size();
+        int i = 0, j = 0;
+
+        while (j < s.length()) {
+            if (hashmap.containsKey(s.charAt(j))) {
+                hashmap.put(s.charAt(j), hashmap.get(s.charAt(j)) - 1);
+                if (hashmap.get(s.charAt(j)) == 0) {
+                    count--;
+                }
+            }
+
+            while (count == 0) {
+                if (minLen > j - i + 1) {
+                    minLen = j - i + 1;
+                    ans = s.substring(i, j + 1);
+                }
+
+                if (hashmap.containsKey(s.charAt(i))) {
+                    hashmap.put(s.charAt(i), hashmap.get(s.charAt(i)) + 1);
+                    if (hashmap.get(s.charAt(i)) == 1) {
+                        count++;
+                    }
+                }
+                i++;
+            }
+            j++;
+        }
+
+        return ans;
+    }
+}
+
+"""

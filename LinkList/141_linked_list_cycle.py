@@ -53,7 +53,7 @@ class Solution:
             return False
         
 
-# 4th method(other student from leetcode)
+# 3rd method
 # time: o(n), space= o(1)
 # mark the traversing node as 'visited'
 class Solution:
@@ -66,7 +66,7 @@ class Solution:
         return False
 
 
-# 5th method: Floyd's cycle detection algorithm(submitted on GFG)
+# 4th method: Floyd's cycle detection algorithm(submitted on GFG)
 # time: o(n), space= o(1)
 # logic: move the slow pointer one step ahead and 'fast' pointer 
 # two steps ahead. And if there will be any cycle then at some time 
@@ -75,7 +75,7 @@ class Solution:
 class Solution:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
         fast, slow= head, head
-        while fast and fast.next : # fast for no node and fast.next for incr the fast two times
+        while fast and fast.next : # fast: for no node and fast.next for incr the fast two times
             slow= slow.next
             fast= fast.next.next
             if slow== fast:
@@ -83,4 +83,26 @@ class Solution:
         return False
 
 
+# Java
+"""
+// method 4:
+class Solution {
+    public boolean hasCycle(ListNode head) {
+        if (head == null || head.next == null) {
+            return false; // If the list is empty or has only one element, there is no cycle
+        }
 
+        ListNode fast = head;
+        ListNode slow = head;
+
+        while (fast != null && fast.next != null) { // Ensure fast and fast.next are not null
+            slow = slow.next; // Move slow by one step
+            fast = fast.next.next; // Move fast by two steps
+            if (slow == fast) { // If slow and fast meet, there is a cycle
+                return true;
+            }
+        }
+        return false; // If fast reaches the end, there is no cycle
+    }
+}
+"""

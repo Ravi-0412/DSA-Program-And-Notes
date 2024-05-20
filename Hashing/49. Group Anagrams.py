@@ -9,7 +9,7 @@ class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         hashmap= defaultdict(list)
         for s in strs:
-            hashmap[tuple(sorted(s))].append(s)    # sorted : return list so converting into tuple.
+            hashmap[tuple(sorted(s))].append(s)    # sorted : return list so converting into tuple because list can't be key.
         return hashmap.values()
 
 
@@ -30,5 +30,42 @@ class Solution:
             hashmap[tuple(count)].append(s)    
         return hashmap.values()
 
+# Java
+"""
+// method 1:
 
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> map = new HashMap<>();
+        
+        for (String word : strs) {
+            char[] chars = word.toCharArray();
+            Arrays.sort(chars);
+            String sortedWord = new String(chars);
+            
+            if (!map.containsKey(sortedWord)) {
+                map.put(sortedWord, new ArrayList<>());
+            }
+            
+            map.get(sortedWord).add(word);
+        }
+        
+        return new ArrayList<>(map.values());
+    }
+}
 
+// method 2:
+
+    public List<List<String>> groupAnagrams(String[] strs) {
+        if (strs == null || strs.length == 0) return new ArrayList<>();
+        Map<String, List<String>> map = new HashMap<>();
+        for (String s : strs) {
+            char[] ca = new char[26];
+            for (char c : s.toCharArray()) ca[c - 'a']++;
+            String keyStr = String.valueOf(ca);   # take the value of 'ca' array and convert the values into single string and make this string as key
+            if (!map.containsKey(keyStr)) map.put(keyStr, new ArrayList<>());
+            map.get(keyStr).add(s);
+        }
+        return new ArrayList<>(map.values());
+    }
+"""

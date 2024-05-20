@@ -17,12 +17,12 @@ class Solution:
             if path_p[i]== path_q[j]:
                 return path_p[i]
             # in case didn't match.
-            elif i>j:  # only decr 'i'. means no of ele in path1 is more
-                i-= 1
-            elif j>i:   # only decr 'j'. means no of ele in path2 is more
-                j-= 1
+            elif i > j:  # only decr 'i'. means no of ele in path1 is more
+                i -= 1
+            elif j > i:   # only decr 'j'. means no of ele in path2 is more
+                j -= 1
             else:  # it means remainging no of ele in both is same. 
-                i,j= i-1, j-1
+                i,j = i-1, j-1
 
     def path(self,root,key,ans):  
         if root== None:

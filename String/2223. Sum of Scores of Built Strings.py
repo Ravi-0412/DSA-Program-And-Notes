@@ -54,8 +54,8 @@ class Solution:
 # element is equal to the greatest number of characters starting from the position 'i' 
 # that coincide with the first characters of 's'.
 
-# z[i]is the length of the longest string that is, at the same time, a prefix of 's' and
-# a prefix of the suffix of 's' starting at 'i'.
+# z[i] : is the length of the longest string that is, at the same time, a prefix of 's' and
+# a suffix of 's' starting at 'i'.
 
 # Note : Here we are not making any extra string with 'special char'.
 # We need to find traverse in same string only.
@@ -121,7 +121,7 @@ class Solution:
 
                 # then no need to calculate from starting index '0'.
                 # we can use the already calculated Z-values to "initialize" the value of z[i] 
-                # to something (it sure is better than "starting from zero"), maybe even some big number.
+                # to something (it is sure better than "starting from zero"), maybe even some big number.
 
                 # min value of z[i] must be equal = z[i - l] but must be less than 'r - i' using prev computation.
                 z[i] = min(r - i , z[i -l])
@@ -158,4 +158,8 @@ class Solution:
 # Find its shortest "compressed" representation, that is: find a string 't' of shortest length such that
 # 's' can be represented as a concatenation of one or more copies of 't'.
 
+# 4) Q: "https://leetcode.com/problems/subtree-of-another-tree/description/"
+
 # Some more problem link is given inside above link.
+
+

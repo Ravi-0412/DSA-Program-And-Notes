@@ -120,3 +120,106 @@ class Solution:
         # return dsu.getLongestSequence() if nums else 0
         return max(dsu.size) if nums else 0  # shortcut
 
+
+
+# Java
+"""
+// method 2:
+
+import java.util.HashSet;
+
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        Set<Integer> numSet = new HashSet<>();
+        for (int num : nums) {
+            numSet.add(num);
+        }
+        
+        int ans = 0;
+        for (int n : numSet) {
+            if (!numSet.contains(n - 1)) {
+                int longest = 0;
+                while (numSet.contains(n + longest)) {
+                    longest++;
+                }
+                ans = Math.max(ans, longest);
+            }
+        }
+        return ans;
+    }
+}
+"""
+
+
+"""
+
+method 3: DSU
+
+import java.util.HashMap;
+
+class DSU {
+    int[] parent;
+    int[] size;
+
+    public DSU(int n) {
+        parent = new int[n];
+        size = new int[n];
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+            size[i] = 1;
+        }
+    }
+
+    public int findParent(int n) {
+        if (n == parent[n]) {
+            return n;
+        }
+        parent[n] = findParent(parent[n]);
+        return parent[n];
+    }
+
+    public void union(int n1, int n2) {
+        int p1 = findParent(n1);
+        int p2 = findParent(n2);
+        if (size[p1] < size[p2]) {
+            parent[p1] = p2;
+            size[p2] += size[p1];
+        } else {
+            parent[p2] = p1;
+            size[p1] += size[p2];
+        }
+    }
+}
+
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        int n = nums.length;
+        if (n == 0) return 0;
+
+        DSU dsu = new DSU(n);
+        HashMap<Integer, Integer> numToIndex = new HashMap<>();
+        
+        for (int i = 0; i < n; i++) {
+            int num = nums[i];
+            if (numToIndex.containsKey(num)) continue;
+            
+            if (numToIndex.containsKey(num + 1)) {
+                dsu.union(i, numToIndex.get(num + 1));
+            }
+            if (numToIndex.containsKey(num - 1)) {
+                dsu.union(i, numToIndex.get(num - 1));
+            }
+            numToIndex.put(num, i);
+        }
+        
+        int maxSize = 0;
+        for (int i = 0; i < n; i++) {
+            if (i == dsu.parent[i]) {
+                maxSize = Math.max(maxSize, dsu.size[i]);
+            }
+        }
+        return maxSize;
+    }
+}
+
+"""

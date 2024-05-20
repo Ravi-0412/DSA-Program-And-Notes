@@ -24,3 +24,30 @@ class Solution:
         return max_length
 
 
+# Java.
+"""
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        Map<Character, Integer> hashmap = new HashMap<>();
+        int maxLength = 0;
+        int i = 0, j = 0, n = s.length();
+
+        while (j < n) {
+            hashmap.put(s.charAt(j), hashmap.getOrDefault(s.charAt(j), 0) + 1);
+
+            while (hashmap.size() < j - i + 1) { // it can only happen if window contains duplicate char
+                hashmap.put(s.charAt(i), hashmap.get(s.charAt(i)) - 1);
+                if (hashmap.get(s.charAt(i)) == 0) {
+                    hashmap.remove(s.charAt(i));
+                }
+                i++;
+            }
+
+            maxLength = Math.max(maxLength, j - i + 1);
+            j++;
+        }
+
+        return maxLength;
+    }
+}
+"""

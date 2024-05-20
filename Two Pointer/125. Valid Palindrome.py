@@ -29,4 +29,49 @@ class Solution:
         return s== s[::-1]
 
         
+# Java
+"""
+# method 2:
+# palindrome means age piche dono se same
+# isliye ek pointer start pe rakho and ek end pe check karo dono index pe ele same h ki nhi agar alphanumeric h tb
 
+class Solution {
+    public boolean isPalindrome(String s) {
+        int l = 0, r = s.length() - 1;
+        while (l < r) {
+            while (l < r && !Character.isLetterOrDigit(s.charAt(l))) {  // First make 'l' point to any alphanumeric
+                l++;
+            }
+            while (l < r && !Character.isLetterOrDigit(s.charAt(r))) {  // First make 'r' point to any alphanumeric
+                r--;
+            }
+            if (Character.toLowerCase(s.charAt(l)) != Character.toLowerCase(s.charAt(r))) {
+                return false;
+            }
+            l++;
+            r--;
+        }
+        return true;
+    }
+}
+
+
+# Method 3:
+class Solution {
+    public boolean isPalindrome(String s) {
+        // Remove non-alphanumeric characters and convert to lowercase
+        StringBuilder sb = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (Character.isLetterOrDigit(c)) {
+                sb.append(Character.toLowerCase(c));
+            }
+        }
+        
+        String cleanedString = sb.toString();
+        // Check if the cleaned string is equal to its reverse
+        return cleanedString.equals(new StringBuilder(cleanedString).reverse().toString());
+    }
+}
+
+
+"""

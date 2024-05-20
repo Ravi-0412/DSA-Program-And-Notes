@@ -1,6 +1,12 @@
 # logic: if in any window if no of characters other than the most frequent char is <=k then that is valid case 
 # and we can update our ans, we can replace these char with the most repeating char.
 
+# My confusio:
+# Note: No need to keep track of 'character' by which we are getting the maximum ans.
+# If maxFreq becomes very bog then also np because internal while loop won't run and
+# whole window will be part of our ans.
+# Also no need to update 'maxFreq' while sliding window from left.
+
 # Time = Space = O(n)
 
 class Solution:
@@ -21,3 +27,31 @@ class Solution:
             j+= 1
         return maxLength
 
+
+# Java 
+""""
+class Solution {
+    public int characterReplacement(String s, int k) {
+        int i = 0, j = 0;
+        Map<Character, Integer> freqCount = new HashMap<>();
+        int maxFreq = 0;   // will store the maximum frequency of any char in current window.
+        int maxLength = 0;  // will store the answer
+
+        while (j < s.length()) {
+            freqCount.put(s.charAt(j), freqCount.getOrDefault(s.charAt(j), 0) + 1);
+            maxFreq = Math.max(maxFreq, freqCount.get(s.charAt(j)));
+
+            // We can only make 'k' characters equal to the character having maxFreq, so remove the extra characters from the start of the window.
+            while ((j - i + 1) - maxFreq > k) {
+                freqCount.put(s.charAt(i), freqCount.get(s.charAt(i)) - 1);
+                i++;
+            }
+
+            maxLength = Math.max(maxLength, j - i + 1);
+            j++;
+        }
+
+        return maxLength;
+    }
+}
+"""

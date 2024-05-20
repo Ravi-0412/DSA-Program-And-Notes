@@ -44,7 +44,7 @@ class Solution:
         return l and r
 
 
-# even if you do the bottom up same thing will happen
+# even if you do the bottom up same thing will happen. WIll give wrong only
 class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
         if root== None or (root.left== None and root.right== None):
@@ -107,3 +107,84 @@ class Solution:
 # Related Q:
 # 1) 1373. Maximum Sum BST in Binary Tree
 # It is based exactly on 'method 3' of this question.
+
+# Java
+"""
+// method 1:
+
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode pre = null;
+        
+        while (!stack.isEmpty() || root != null) {
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+            // If no left child, process the stack's top node and go to the right child
+            TreeNode curr = stack.pop();
+            if (pre != null && curr.val <= pre.val) {
+                // If current node's value is not greater than the previous node's value
+                return false;
+            }
+            pre = curr;
+            root = curr.right;
+        }
+        
+        // If all elements are in sorted order, the binary tree is a valid BST
+        return true;
+    }
+}
+
+// method 2:
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        return check(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
+    private boolean check(TreeNode root, long min, long max) {
+        if (root == null) {
+            return true;
+        }
+        if (root.val <= min || root.val >= max) {
+            return false;
+        }
+        // For the left subtree, the maximum allowed value is root.val
+        // For the right subtree, the minimum allowed value is root.val
+        return check(root.left, min, root.val) && check(root.right, root.val, max);
+    }
+}
+
+// method 3:
+class Solution {
+    private boolean ans = true;
+
+    public boolean isValidBST(TreeNode root) {
+        check(root);
+        return ans;
+    }
+
+    private long[] check(TreeNode root) {
+        if (root == null) {
+            // Base case: return [Long.MAX_VALUE, Long.MIN_VALUE] for an empty node
+            return new long[] {Long.MAX_VALUE, Long.MIN_VALUE};
+        }
+
+        long[] left = check(root.left);
+        long[] right = check(root.right);
+
+        if (root.val <= left[1] || root.val >= right[0]) {
+            ans = false;
+        }
+
+        // Return the minimum and maximum values in the current subtree
+        return new long[] {Math.min(left[0], root.val), Math.max(root.val, right[1])};
+    }
+}
+
+"""

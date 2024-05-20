@@ -37,10 +37,10 @@ class Solution:
         start = pre.next   # storing the first node of the sublist 
         # Now find the last node till where we have to reverse
         cur = pre
-        while pos < right -1:   # you can also go from '0' to right-1' but to save extra O(n), we did like this.
+        while pos < right:   # you can also go from '0' to right-1' but to save extra O(n), we did like this.
             cur = cur.next
             pos += 1
-        end = cur.next
+        end = cur
         temp = end.next   # storing the 1st ele right of sublist
         end.next = None  # so that it only reverse till 'end' starting from 'start' node.  
 

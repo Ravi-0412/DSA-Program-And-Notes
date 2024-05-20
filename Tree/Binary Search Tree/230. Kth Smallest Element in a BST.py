@@ -71,4 +71,39 @@ class Solution:
 
 # Related Q:
 # 1) Kth largest element in BST
+# Here first call for right then for left.
+
+
+# Java
+"""
+// method 4:
+
+class Solution {
+    private int ans = -1;
+    private int count;
+
+    public int kthSmallest(TreeNode root, int k) {
+        this.count = k;
+        findKthSmallest(root);
+        return ans;
+    }
+
+    private void findKthSmallest(TreeNode root) {
+        if (root.left != null) {
+            findKthSmallest(root.left);
+        }
+
+        count--;
+        if (count == 0) {
+            ans = root.val;
+            return;
+        }
+
+        if (root.right != null) {
+            findKthSmallest(root.right);
+        }
+    }
+}
+
+"""
 

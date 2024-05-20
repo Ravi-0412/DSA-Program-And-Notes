@@ -36,3 +36,45 @@ class Solution:
             least_so_far= min(least_so_far, num)
             max_profit= max(max_profit, num- least_so_far)   # keep updating the ans
         return max_profit
+
+
+# java
+"""
+# Method 2:
+class Solution {
+    public int maxProfit(int[] prices) {
+        int buyDay = 0;
+        int ans = 0;
+        
+        for (int i = 0; i < prices.length; i++) {
+            if (prices[i] < prices[buyDay]) {
+                // update the buyDay
+                buyDay = i;
+            } else {
+                // update the ans
+                ans = Math.max(ans, prices[i] - prices[buyDay]);
+            }
+        }
+        
+        return ans;
+    }
+}
+
+
+# Method 3:
+class Solution {
+    public int maxProfit(int[] prices) {
+        int maxProfit = 0;
+        int leastSoFar = prices[0];
+        
+        // Iterate through the array
+        for (int num : prices) {
+            // Update leastSoFar to be the minimum price encountered so far
+            leastSoFar = Math.min(leastSoFar, num);
+            // Calculate the potential profit and update maxProfit
+            maxProfit = Math.max(maxProfit, num - leastSoFar);
+        }
+        return maxProfit;
+    }
+}
+"""

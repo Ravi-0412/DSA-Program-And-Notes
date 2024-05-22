@@ -17,14 +17,14 @@ class MedianFinder:
         else:
             return (self.nums[mid] + self.nums[mid-1])/2
 
-# method 2: you can optimise the above solution
-# instead of sorting the list each time median is called
-# just add the number in the list in sorted order only
-# this operation will take O(n) each time 
-# so overall time : O(n*n)= O(n^2)
-        
-# method 3: using "sortedList"
-# very easy (method 1 only but time complexity is optimised due to "SortedList").
+# method 2:
+# If we can find any data structure which :
+# 1) Automtically store element in sorted order in less than O(n) 
+# 2) add, delete operation in O(n) then we can solve this question.
+
+# So "sortedList" comes into mind in python.
+# It maintaion sorted order autoamtically and supports add, delete operation in O(logn).
+
 # time: O(n*logk)
 
 from sortedcontainers import SortedList
@@ -43,7 +43,7 @@ class MedianFinder:
         return (self.lst[n//2 -1] + self.lst[n//2])/2
 
 
-# method 4:
+# method 3:
 # Most important for interview.
 
 # Logic: If we can get two middle in case of even no of elements and middle one in case of odd no of elements
@@ -143,3 +143,46 @@ class MedianFinder:
 
 # "2102. Sequentially Ordinal Rank Tracker" :
 # only one element matter to us for our ans.
+
+
+# java
+"""
+// Not able to find data structure which function same as 'sortedList' in java.
+# We can use TreeSet to maintain a sorted collection of numbers and add/ delete operation in O(logn) but TreeSet does not allow duplicates.
+# so Treeset won't work here.
+
+// method 3: Using two heaps
+
+class MedianFinder {
+    private PriorityQueue<Integer> maxHeap;
+    private PriorityQueue<Integer> minHeap;
+    
+    public MedianFinder() {
+        // Max-heap (contains the smaller half of the numbers)
+        maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        // Min-heap (contains the larger half of the numbers)
+        minHeap = new PriorityQueue<>();
+    }
+    
+    public void addNum(int num) {
+        if (minHeap.size() == maxHeap.size()) {
+            // First push 'num' into maxHeap then pop one element from maxHeap and at last add that to minHeap.
+            maxHeap.offer(num);
+            minHeap.offer(maxHeap.poll());
+        } else {
+            // First push 'num' into minHeap then pop one element from minHeap and at last add that to maxHeap.
+            minHeap.offer(num);
+            maxHeap.offer(minHeap.poll());
+        }
+    }
+    
+    public double findMedian() {
+        if (minHeap.size() != maxHeap.size()) {
+            // Median is in minHeap at the top
+            return minHeap.peek();
+        }
+        // If lengths are equal, return the average
+        return (minHeap.peek() + maxHeap.peek()) / 2.0;
+    }
+}
+"""

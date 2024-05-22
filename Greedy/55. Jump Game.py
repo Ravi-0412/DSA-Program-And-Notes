@@ -1,4 +1,4 @@
-
+# Method 1:
 # memoising :
 # time: O(n^2)
 class Solution:
@@ -21,12 +21,13 @@ class Solution:
         return dp[ind]
 
 # now by greedy
+# Method 2:
 # in case when we have to reach the goal then try to start just before goal only,
-#  as seeing only next cell we can make a decision or we can reduce our problem && try to reach the starting point.
+#  as seeing only next cell we can make a decision and try to reach the starting point.
 # this we used to do in graph.
 # time: O(N)
 
-# we are checking from index 'n-2' like we can reach the target from here or not.
+# we are checking from index 'n-2' and checking from each index whether we can reach the target from here or not.
 # if we can reach the target then make the curr index as target otherwise target will be same only.
 # at last check if our target is equal to '0' or not.
 
@@ -34,12 +35,13 @@ class Solution:
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
         n= len(nums)
-        target= n-1
+        target = n-1
         for i in range(n-2, -1, -1):
             if i+ nums[i]>= target:  # if we can reach the target from index 'i' then make 'i' as target.
                 target= i
         return target== 0
 
+# Method 3:
 # more better:
 # logic: tmko bs last point pe pahunch jana h steps leke.
 # bs step lene se phle dhyan me rakhna h ki at least us index tak pahunche h ki nhi jahan se hm next step lenge.
@@ -55,18 +57,4 @@ class Solution:
                 return False
             reached= max(i + nums[i], reached)   # max we have reached till now
             if reached >= target:  # we have reached the target
-                return True
-
-
-# my mistake: 
-# but will not work for [0]. have to modify
-class Solution:
-    def canJump(self, nums: List[int]) -> bool:
-        n, target= len(nums), len(nums) -1
-        maxReached= 0
-        for i in range(len(nums)):
-            maxReached= max(maxReached, i + nums[i])
-            if maxReached < i +1:  # frog must reach to atleast next index to utilise the steps of next index.
-                return False
-            if maxReached >= target:  # we have reached the target
                 return True

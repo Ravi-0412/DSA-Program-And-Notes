@@ -1,15 +1,19 @@
+# Method 1: 
 # very simple and easy. Just same as we do on pen and paper by taking choices for each boxes.
 # logic: hmko 'len(arr)' no of boxes fill karna jo array me h wahi sb ele se.
-#  remaining position ke liye koi bhi ele le sakte h and kisi ele ko choose karne ke bad ,
+#  remaining position ke liye koi bhi ele le sakte h and kisi ele ko choose karne ke bad
 # usko aage nhi le sakte remaining boxes ko fill karne ke liye.
 # isi tarah mera smaller subproblem generate hoga.
 
+# in short vvi: At any time remaining position to fill will be equal to len(arr) and
+# we can fill those positions one by one using elements of array.
+
 # time: O(n! * n)  # n! = no of permutation and n= copying each permuatation
 # space: n!
+
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
         ans= []
-
         def permutation(arr, per):
             if not arr: 
                 # means we have found the ans. Filled all the req places.
@@ -23,29 +27,66 @@ class Solution:
         permutation(nums, [])
         return ans
 
+# Method 2: 
 # To avoid copying the array after excluding the current included ele we can use set to check whether that has been added to 'per' or not.
 # trying to fill remaining with all the ele if that ele is not used yet in that permutation.
 # Since only distinct ele it will work fine when we will check the ele value.
-def permutations2(arr,ans,included):
-    if len(ans)== len(arr):  # measn we have got one of the permutations
-        print(ans)
-        print(included, "set")
-        return
-    for i in range(len(arr)):
-        if arr[i] not in included:
-            included.add(arr[i])
-            ans.append(arr[i])
-            permutations2(arr,ans,included)
-            # while backtracking remove arr[i]
-            included.remove(arr[i]) 
-            ans.remove(arr[i])    # if you will make this change inside function call only then, no need to remove.
 
-# arr= [1,2,3]
-# included= set()  # will also conatain the permutation only.
-# permutations2(arr,[],included)
+# This is the most optimised among all because all other methods involve slicing.
+
+# Not evvi: This logic will help in avoiding duplicate also i.e Q: "47. Permutations II".
+
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+    
+        def permutation(per):
+            if len(per) == len(nums):
+                ans.append(per)
+                return
+            for i in range(len(nums)):
+                if nums[i] not in included:
+                    included.add(nums[i])
+                    permutation(per + [nums[i]])
+                    included.remove(nums[i]) 
+
+        n = len(nums)   
+        ans = []
+        included = set()
+        permutation([])
+        return ans
 
 
-# method 2:
+# Note vvi: Pushing and poping in separate line in 'per' is making ans = []
+# Reason: removing element from 'per' while backtrack is also removing ele from 'ans' and finally
+# answer is getting = [].
+
+# note vvi: So avoid adding / poping in separate line in python specially with lists.
+# Just add while calling function, it will get automatically get poped while backtrack and won't modify any related data structure.
+
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+    
+        def permutation(per):
+            if len(per) == len(nums):
+                ans.append(per)
+                return
+            for i in range(len(nums)):
+                if nums[i] not in included:
+                    included.add(nums[i])   # this one 
+                    per.append(nums[i])
+                    permutation(per)
+                    # while backtracking remove arr[i]
+                    included.remove(nums[i]) 
+                    per.remove(nums[i])    # and this one
+
+        n = len(nums)   
+        ans = []
+        included = set()
+        permutation([])
+        return ans
+
+
+# method 3:
 
 # logic: just we are putting the upcoming letter(1st letter in remaining array) at all the gap formed by
 # the already stored letter in answer.
@@ -56,24 +97,28 @@ def permutations2(arr,ans,included):
 
 # this will not remove duplicates as we are not checking 
 # anything before filling we are just filling all the possible gaps
-def permutations(given, per):
-    if not given: # if given string is empty 
-        print(per)
-        return
-    ch= given[0]   # upcoming char i.e 1st letter of remaining array
-    # run a loop to call function again and again to put at diff positions
-    for i in range(len(per)+1):    # filling the cur ele at 'i'th space.
-        left= per[0:i]           # after this substring will put the 'ch'
-        right= per[i:]    # and before this
-        # after putting that char at one possible gap, call the function to fill the next char at new available position
-        permutations(given[1:], left + ch + right)
 
-# permutations("abc", "")
-# permutations("abca", "")
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+    
+        def permutation(given , per):
+            if not given: # if given string is empty 
+                ans.append(per)
+                return
+            ch = given[0]   # upcoming char i.e 1st letter of remaining array
+            # run a loop to call function again and again to put at diff positions
+            for i in range(len(per)+1):    # filling the cur ele at 'i'th space.
+                left = per[0:i]           # after this substring will put the 'ch'
+                right = per[i:]           # and before this
+                # after putting that char at one possible gap, call the function to fill the next char at new available position
+                permutation(given[1:], left + [ch] + right)
+
+        ans = []
+        permutation(nums, [])
+        return ans
 
 
 # taking the ans list inside the function only.
-# this also submitted on leetcode
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
         return self.helper(nums,[])
@@ -86,7 +131,7 @@ class Solution:
         ch= [nums[0]]    
         for i in range(len(per)+1):
             left,right= per[:i], per[i:]
-            ans+= self.helper(nums[1:], left + ch+ right)   
+            ans += self.helper(nums[1:], left + ch+ right)   
         return ans
 
 
@@ -114,24 +159,110 @@ def permutations(given, ans):
 # print(permutations("aba", ""))  
 
 
-# method 4: Most optimised
-# Visualise this properly.
 
-# Here no extra space
-# logic: we are trying to bring every ele at every possible index by swapping and
-#  when index== len(arr) means we have done required no of swap to get a ans.
-def permutations3(ind,arr):
-    if ind== len(arr):
-        print(arr)
-        return 
-    # bring the cur ele at index 'ind' at all possible position.
-    for i in range(ind,len(arr)):
-        arr[i],arr[ind]= arr[ind],arr[i]
-        permutations3(i+1,arr)          # calling the function for 'i+1' not 'ind + 1' .
-        arr[i],arr[ind]= arr[ind],arr[i]
+# Java
+"""
+// method 1:
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        
+        // Helper method for generating permutations
 
-arr= [1,2,3]
-permutations3(0,arr)
+
+        permuteHelper(nums, new ArrayList<>(), ans);
+        
+        return ans;
+    }
+    
+    private void permuteHelper(int[] arr, List<Integer> per, List<List<Integer>> ans) {
+        if (arr.length == 0) {
+            // Base case: no elements left to permute, add current permutation to result
+            ans.add(new ArrayList<>(per));
+            return;
+        }
+        
+        // Iterate through the array and create permutations
+        for (int i = 0; i < arr.length; i++) {
+            // Create a new array without the current element
+            int[] newArr = new int[arr.length - 1];
+            for (int j = 0, k = 0; j < arr.length; j++) {
+                if (j != i) {
+                    newArr[k++] = arr[j];
+                }
+            }
+            
+            // Add current element to the current permutation
+            per.add(arr[i]);
+            
+            // Recurse with the new array and updated permutation
+            permuteHelper(newArr, per, ans);
+            
+            // Remove the current element to backtrack
+            per.remove(per.size() - 1);
+        }
+    }
+}
+
+// method 2:
+
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Set<Integer> included = new HashSet<>();
+        
+        // Start the permutation process
+        permutation(new ArrayList<>(), nums, included, ans);
+        
+        return ans;
+    }
+    
+    private void permutation(List<Integer> per, int[] nums, Set<Integer> included, List<List<Integer>> ans) {
+        if (per.size() == nums.length) {
+            // If the current permutation has the same length as nums, add it to the results
+            ans.add(new ArrayList<>(per));
+            return;
+        }
+        
+        // Try adding each number in nums to the current permutation if it's not already included
+        for (int i = 0; i < nums.length; i++) {
+            if (!included.contains(nums[i])) {
+                included.add(nums[i]);    // Mark the number as included
+                per.add(nums[i]);         // Add the number to the current permutation
+                
+                permutation(new ArrayList<>(per), nums, included, ans); // Recurse with the updated permutation
+                
+                // Backtrack by removing the last added number
+                included.remove(nums[i]);
+                per.remove(per.size() - 1);
+            }
+        }
+    }
+} 
+
+
+// method 2: Other way 
+
+public List<List<Integer>> permute(int[] nums) {
+   List<List<Integer>> list = new ArrayList<>();
+   backtrack(list, new ArrayList<>(), nums);
+   return list;
+}
+
+private void backtrack(List<List<Integer>> list, List<Integer> tempList, int [] nums){
+   if(tempList.size() == nums.length){
+      list.add(new ArrayList<>(tempList));
+   } else{
+      for(int i = 0; i < nums.length; i++){ 
+         if(tempList.contains(nums[i])) continue; // element already exists, skip
+         tempList.add(nums[i]);
+         backtrack(list, tempList, nums);
+         tempList.remove(tempList.size() - 1);
+      }
+   }
+} 
+
+"""
 
 
 

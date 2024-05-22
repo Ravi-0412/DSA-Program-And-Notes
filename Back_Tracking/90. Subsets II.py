@@ -35,3 +35,36 @@ class Solution:
 # Note: Apply same logic in all questions where dupliacates are allowed and asking for unique subsets/combinations.
 # i.e a) sorting 2) move to distinct number in case of not-take.
 # e.g: 1) 40. Combination Sum II
+
+
+# Java
+"""
+public class Solution {
+
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums); // Sort the nums array
+        List<List<Integer>> res = new ArrayList<>();
+
+        dfs(0, nums, new ArrayList<>(), res);
+
+        return res;
+    }
+
+    private void dfs(int i, int[] nums, List<Integer> subset, List<List<Integer>> res) {
+        if (i == nums.length) {
+            res.add(new ArrayList<>(subset)); // Add a copy of the subset to the result list
+            return;
+        }
+
+        subset.add(nums[i]); // Include the current element
+        dfs(i + 1, nums, subset, res); // Recursive call with the next index and the updated subset
+        subset.remove(subset.size() - 1); // Backtrack
+
+        // Skip duplicates
+        while (i + 1 < nums.length && nums[i + 1] == nums[i]) {
+            i++;
+        }
+        dfs(i + 1, nums, subset, res); // Recursive call with the next index and the same subset
+    }
+}
+"""

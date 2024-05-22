@@ -39,5 +39,44 @@ class Solution:
         return res
 
 
+# Java
+"""
+public class Solution {
+    
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates); // Sort the candidates array
+        List<List<Integer>> res = new ArrayList<>();
+        
+        dfs(0, candidates, target, new ArrayList<>(), res);
+        
+        return res;
+    }
+
+    private void dfs(int i, int[] candidates, int target, List<Integer> subset, List<List<Integer>> res) {
+        if (target == 0) {
+            res.add(new ArrayList<>(subset)); // Add a copy of the subset to the result list
+            return;
+        }
+        
+        if (i == candidates.length) {
+            return;
+        }
+        
+        // When you include the current index element
+        if (candidates[i] <= target) {
+            subset.add(candidates[i]);
+            dfs(i + 1, candidates, target - candidates[i], subset, res);
+            subset.remove(subset.size() - 1); // Backtrack
+        }
+
+        // When you don't include the current index element
+        while (i + 1 < candidates.length && candidates[i + 1] == candidates[i]) {
+            i++;
+        }
+        dfs(i + 1, candidates, target, subset, res);
+    }
+"""
+
+
 
 

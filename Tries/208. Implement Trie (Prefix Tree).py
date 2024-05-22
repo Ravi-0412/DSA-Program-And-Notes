@@ -96,3 +96,70 @@ for w in forbidden:
 
 # See use here :
 https://leetcode.com/problems/length-of-the-longest-valid-substring/solutions/3771520/python-hashmap-and-trie-solutions/
+
+
+# java
+"""
+class TrieNode {
+    // HashMap to store children nodes
+    public Map<Character, TrieNode> children;
+    // Boolean to mark the end of a word
+    public boolean isEndOfWord;
+
+    public TrieNode() {
+        children = new HashMap<>();
+        isEndOfWord = false;
+    }
+}
+
+class Trie {
+
+    private TrieNode root;
+
+    public Trie() {
+        // Initialize the root node
+        root = new TrieNode();
+    }
+
+    // Method to insert a word into the trie
+    public void insert(String word) {
+        TrieNode cur = root;
+        for (char c : word.toCharArray()) {
+            if (!cur.children.containsKey(c)) {
+                // Insert 'c' into children and make 'c' point to a new TrieNode
+                cur.children.put(c, new TrieNode());
+            }
+            // Move cur to the next child in both cases
+            cur = cur.children.get(c);
+        }
+        // Mark the end of the word
+        cur.isEndOfWord = true;
+    }
+
+    // Method to search for a word in the trie
+    public boolean search(String word) {
+        TrieNode cur = root;
+        for (char c : word.toCharArray()) {
+            if (!cur.children.containsKey(c)) {
+                return false;
+            }
+            cur = cur.children.get(c);
+        }
+        // Check if the current node marks the end of the word
+        return cur.isEndOfWord;
+    }
+
+    // Method to check if there is any word in the trie that starts with the given prefix
+    public boolean startsWith(String prefix) {
+        TrieNode cur = root;
+        for (char c : prefix.toCharArray()) {
+            if (!cur.children.containsKey(c)) {
+                return false;
+            }
+            cur = cur.children.get(c);
+        }
+        // All characters of the prefix are present
+        return true;
+    }
+}
+"""

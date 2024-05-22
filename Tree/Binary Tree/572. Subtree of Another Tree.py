@@ -39,7 +39,7 @@ class Solution:
                 if root== None:   # for None node, using a speacial char 'N'
                     ans.append("N")  
                     return
-                ans.append(",")   # Adding to distinguish for cases like: root = "12", subroot = "2"
+                ans.append(";")   # Adding to distinguish for cases like: root = "12", subroot = "2" . Only difference from 'serialising Question".
                 ans.append(str(root.val))    # since we have to return in string
                 Preorder(root.left)
                 Preorder(root.right)
@@ -68,7 +68,7 @@ class Solution:
             # only we need to check in string 's' and that will start from 'n+1'.
             for i in range(n + 1, total):  
                 if z[i] == n:  # len(serialize_subRoot)
-                    # then actual index in haystack will be excluding the len(serialize_subRoot) + 1(special symbol)
+                    # then actual index in 'subRoot' will be excluding the len(serialize_subRoot) + 1(special symbol)
                     return True   # Actual starting index: i - n - 1
             return False
         
@@ -123,7 +123,7 @@ public class Solution {
             ans.add("N");  // using a special char 'N' for None node
             return;
         }
-        ans.add(",");  // Adding to distinguish for cases like: root = "12", subroot = "2"
+        ans.add(";");  // Adding to distinguish for cases like: root = "12", subroot = "2"
         ans.add(String.valueOf(root.val));
         Preorder(root.left, ans);
         Preorder(root.right, ans);

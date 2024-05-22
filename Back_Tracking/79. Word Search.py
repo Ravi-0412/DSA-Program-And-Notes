@@ -98,40 +98,52 @@ class Solution:
 
 # Java version
 
-# class Solution {
-#     static boolean[][] visited;
-#     public boolean exist(char[][] board, String word) {
-#         int rows = board.length, cols = board[0].length ;
-#         visited = new boolean[rows][cols] ;
+"""
+// method 1: With optimised space for visited set.
+
+class Solution {
+    public boolean exist(char[][] board, String word) {
+        int row = board.length;
+        int col = board[0].length;
         
-#         for(int i = 0 ; i < rows; i ++) {
-#             for(int j = 0; j < cols ; j ++) {
-#                 if(board[i][j] == word.charAt(0) && search(board, word, i, j, 0)) {
-#                     return true ;
-#                 }
-#             }
-#         }
-#         return false;
+        for (int r = 0; r < row; r++) {
+            for (int c = 0; c < col; c++) {
+                if (dfs(board, word, r, c, 0)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
-#     }
+    private boolean dfs(char[][] board, String word, int r, int c, int index) {
+        // If we have checked all characters in the word, return true
+        if (index == word.length()) {
+            return true;
+        }
 
-#     public boolean search(char[][] board, String word, int i, int j, int ind) {
-#         if(ind == word.length()) {
-#             return true;
-#         }
-#         if(i < 0 || i >= board.length || j < 0 || j >= board[0].length || board[i][j] != word.charAt(ind) || visited[i][j]) {
-#             return false;
-#         }
-#         visited[i][j] = true;
-#         if(search(board, word, i - 1, j, ind + 1)  ||
-#             search(board, word, i + 1, j, ind + 1) ||
-#             search(board, word, i , j -1, ind + 1) ||
-#             search(board, word, i , j + 1, ind + 1)) {
-#                 return true;
-#             }
-#         visited[i][j] = false;
-#         return false;
-#     }
-# }
+        // Boundary checks and character match check
+        if (r < 0 || r >= board.length || c < 0 || c >= board[0].length || board[r][c] != word.charAt(index)) {
+            return false;
+        }
 
-# Try java one by removing visited and using special char to mark visited.
+        // Save the current character and mark the cell as visited
+        char temp = board[r][c];
+        board[r][c] = '#';
+
+        // Explore all possible directions: left, right, up, down
+        int[][] directions = {{r, c - 1}, {r, c + 1}, {r - 1, c}, {r + 1, c}};
+        for (int[] dir : directions) {
+            int newRow = dir[0];
+            int newCol = dir[1];
+            if (dfs(board, word, newRow, newCol, index + 1)) {
+                return true;
+            }
+        }
+
+        // Backtrack: restore the character in the board
+        board[r][c] = temp;
+        return false;
+    }
+
+"""

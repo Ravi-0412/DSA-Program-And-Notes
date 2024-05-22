@@ -29,8 +29,41 @@ class Solution:
             return
         # if we include the current ele, then add arr[ind] into the ans
         if arr[0]<=k:   # i was skipping this condition. my mistake
-                        # without this condition it will go into infinite loop will never stop
+                        # without this condition it will go into infinite loop will never stop because you can take same ele any number of tiems.
             self.SubsequenceSum(arr,k-arr[0],path+ [arr[0]],res)   # don't incr the index as repitition is allowed
         # if we don't include the current ele 
         self.SubsequenceSum(arr[1:],k,path,res)
 
+
+# java
+""""
+public class Solution {
+    
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        subsequenceSum(candidates, target, new ArrayList<>(), res, 0);
+        return res;
+    }
+
+    private void subsequenceSum(int[] arr, int k, List<Integer> path, List<List<Integer>> res, int i) {
+        // If the target sum is reached, add the current path to the result
+        if (k == 0) {
+            res.add(new ArrayList<>(path));
+            return;
+        }
+        if(i == arr.length)
+            return ;
+        if (arr[i] <= k) {
+            // Include the current element in the path
+            path.add(arr[i]);
+            // Recursively call the function with the reduced target and the same index
+            // because repetition of elements is allowed
+            subsequenceSum(arr, k - arr[i], path, res, i);
+            // Backtrack: remove the last added element from the path
+            path.remove(path.size() - 1);
+        }
+        // if we not include the current element
+        subsequenceSum(arr, k , path, res, i + 1);
+        }
+}
+"""

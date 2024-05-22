@@ -3,8 +3,6 @@
 
 # Note: All will be unique combination only because we are taking in increasing order only.
 
-# Note: method of '39. Combination Sum' won't work here because here we are taking care of issues.
-
 # time : O(n, k)  => 'n' choose 'k'.
 
 class Solution:
@@ -25,3 +23,29 @@ class Solution:
         for num in range(1, n + 1): 
             combination(num, k-1, [num])
         return ans
+    
+
+# java
+"""
+public class Solution {
+    
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> ans = new ArrayList<>();
+        combination(1, n, k, new ArrayList<>(), ans);
+        return ans;
+    }
+
+    private void combination(int num, int n, int remainingNo, List<Integer> comb, List<List<Integer>> ans) {
+        if (remainingNo == 0) {
+            // We got one combination
+            ans.add(new ArrayList<>(comb));
+            return;
+        }
+        // We can take the next number from any of the greater remaining numbers till 'n'.
+        for (int i = num; i <= n; i++) {
+            comb.add(i);
+            combination(i + 1, n, remainingNo - 1, comb, ans);
+            comb.remove(comb.size() - 1); // Backtrack
+        }
+    }
+"""

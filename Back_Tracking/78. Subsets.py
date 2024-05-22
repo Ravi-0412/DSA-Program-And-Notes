@@ -1,25 +1,8 @@
-# Q: find all the subsets of given string
+# method 1:
 # logic: just make the recursion tree by including the first letetr 
 # and 'not including' the 1st letter .
 # and whenever you will find the given string empty then that will be our one of the subset.
 
-# def subset(str1,ans):
-#     if not str1:  # if empty then that will be one of the subset and that will be in 'ans'
-#         print(ans)
-#         return
-#     subset(str1[1:], ans + str1[0])  # when you include the current character
-#     subset(str1[1:], ans)   # when you don't include the current character
-
-# str1= input("enter any string: ")
-# ans= ""
-# print("all the subsets of given string are: ") 
-# subset(str1,ans)
-# # subset("abc",ans)
-
-
-# 2nd method: to store the result into an list
-# very better one,just applied the above logic
-# very concise and useful way.
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
         res= []
@@ -36,7 +19,7 @@ class Solution:
         dfs(0, [])  
         return res
 
-# Method 3 : Using Bit Masking
+# Method 2 : Using Bit Masking
 
 # n : len(nums)
 # every subset is represented by a binary number of 'n' bits.
@@ -55,7 +38,7 @@ class Solution:
         ans = []
         for num in range(1 << n):
             temp = []
-            # add the number whose 'index' bit is set is set in num
+            # add the number whose 'index' bit is set in num
             for i in range(n):
                 # if 'i'th bit is set in 'num then nums[i] is part of this subset.
                 if (num >> i) & 1:
@@ -63,7 +46,7 @@ class Solution:
             ans.append(temp)
         return ans
 
-
+# method 3:
 # iterative way:
 
 # logic: Accept and reject is happening with 'ans so far'
@@ -91,17 +74,16 @@ class Solution:
 # space- O(n*2^n), where 2^n is the total no of subsets and 
 # n is the space taken by each subset
 
-# def subset(arr):
-#     outer= [[]]   # our final ans will contain list of list
-#     for num in arr:   # for each number in the array
-#         n= len(outer) 
-#         for i in range(n):
-#             internal= outer[i].copy()  # copy the internal list of outer list one by one
-#             internal.append(num)       # and append the number to all the existing list
-#             outer.append(internal)    # and at alst append the internal created list to the outer list
-#     return outer
-# arr= [1,2,3]
-# print(subset(arr))
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        outer= [[]]   # our final ans will contain list of list
+        for num in nums:   # for each number in the array
+            n= len(outer) 
+            for i in range(n):
+                internal= outer[i].copy()  # copy the internal list of outer list one by one
+                internal.append(num)       # and append the number to all the existing list
+                outer.append(internal)    # and at alst append the internal created list to the outer list
+        return outer
 
 
 # my mistake
@@ -129,3 +111,78 @@ class Solution:
 
 # Related Q: 
 # 1) 90. Subsets II
+
+
+# Java
+"""
+// method 1:
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        dfs(nums, 0, new ArrayList<>(), res);
+        return res;
+    }
+
+    private void dfs(int[] nums, int index, List<Integer> subset, List<List<Integer>> res) {
+        if (index == nums.length) {
+            res.add(new ArrayList<>(subset));  // Make a copy of the current subset
+            return;
+        }
+        
+        // Include the current index element
+        subset.add(nums[index]);
+        dfs(nums, index + 1, subset, res);
+        
+        // Exclude the current index element
+        subset.remove(subset.size() - 1);
+        dfs(nums, index + 1, subset, res);
+    }
+}
+
+// method 2:
+public class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        int n = nums.length;
+        List<List<Integer>> ans = new ArrayList<>();
+        
+        for (int num = 0; num < (1 << n); num++) {
+            List<Integer> temp = new ArrayList<>();
+            for (int i = 0; i < n; i++) {
+                if ((num >> i & 1) == 1) {
+                    temp.add(nums[i]);
+                }
+            }
+            ans.add(temp);
+        }
+        
+        return ans;
+    }
+}
+
+// method 3:
+public class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> outer = new ArrayList<>();
+        outer.add(new ArrayList<>());  // Start with an empty subset
+
+        for (int num : nums) {
+            int n = outer.size();
+            for (int i = 0; i < n; i++) {
+                // Make a copy of the current subset
+                List<Integer> internal = new ArrayList<>(outer.get(i));
+                // Add the current number to the copied subset
+                internal.add(num);
+                // Add the new subset to the list of subsets
+                outer.add(internal);
+            }
+        }
+        
+        return outer;
+    }
+}
+
+"""

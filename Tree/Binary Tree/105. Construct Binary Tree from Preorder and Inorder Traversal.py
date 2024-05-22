@@ -24,11 +24,9 @@ class Solution:
 # We can optimise this to O(n) using map.
 # Just store each element of inorder as key and its index as value in hashmap.
 
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
+# Note vvi: if you will first add 'right' child than left then it won't work because
+# you are taking help of preorder index and preorder index goes from left to right.
+# Take any example and see.
 
 class Solution:
     def __init__(self):
@@ -64,6 +62,36 @@ class Solution:
 
 # Java
 """
+// method 1: In O(n)
+public class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        if (inorder == null || preorder == null || inorder.length == 0 || preorder.length == 0)
+            return null;
+        
+        HashMap<Integer, Integer> inorderIndexMap = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            inorderIndexMap.put(inorder[i], i);
+        }
+        
+        return buildTreeRecursive(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1, inorderIndexMap);
+    }
+    
+    private TreeNode buildTreeRecursive(int[] preorder, int preStart, int preEnd, int[] inorder, int inStart, int inEnd, HashMap<Integer, Integer> inorderIndexMap) {
+        if (preStart > preEnd || inStart > inEnd)
+            return null;
+        
+        TreeNode root = new TreeNode(preorder[preStart]);
+        int rootIndexInInorder = inorderIndexMap.get(root.val);
+        int leftSubtreeSize = rootIndexInInorder - inStart;
+        
+        root.left = buildTreeRecursive(preorder, preStart + 1, preStart + leftSubtreeSize, inorder, inStart, rootIndexInInorder - 1, inorderIndexMap);
+        root.right = buildTreeRecursive(preorder, preStart + leftSubtreeSize + 1, preEnd, inorder, rootIndexInInorder + 1, inEnd, inorderIndexMap);
+        
+        return root;
+    }
+}
+
+
 // method 2:
 class Solution {
     private int preorderIndex;

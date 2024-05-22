@@ -43,3 +43,35 @@ class Solution:
 # 2) 282. Expression Add Operators
 # 3) 140. Word Break II
 
+
+# Java
+"""
+class Solution {
+    private int n;
+    private List<List<String>> ans;
+
+    public List<List<String>> partition(String s) {
+        n = s.length() ;
+        ans = new ArrayList<>();
+        backtrack(0, s, new ArrayList<String>());
+        return ans;   
+    }
+    public void backtrack(int ind, String s, List<String> par) {
+        if(ind == n){
+            // directly adding will give wrong ans because in java list are passed by referene.
+            ans.add(new ArrayList<>(par));
+            return ;
+        }
+        for(int j = ind ; j < n; j ++){
+            String substr = s.substring(ind, j + 1);
+            // cchecking palindrome
+            if(substr.equals(new StringBuilder(substr).reverse().toString())) {
+                par.add(substr);
+                backtrack(j + 1, s, par) ;
+                par.remove(par.size() - 1) ;
+            }
+        }
+    }
+}
+
+"""

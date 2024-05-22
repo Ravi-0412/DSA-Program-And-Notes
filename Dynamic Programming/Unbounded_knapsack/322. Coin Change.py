@@ -47,7 +47,37 @@ class Solution:
         return dp[n][amount]
 
 
-# other way: just change in base case
+# Other way
+# Logic: For every coin we have two choice either take or not take.
+# And we can only take any coin 'if coins[n-1] <= amount'.
+# Ans will be minimum(take, notTake) => return this at last
+
+# Note: Wh returning directly is working in above method?
+# Reason: because if case of when we can take current coin 'if coins[n-1] <= amount' we are 
+# taking both the case i.e when we take it or when we don't take it, covering both cases.
+
+# otherwise not take this coin.
+
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        n= len(coins)
+        minimum = self.MinCoins(coins,amount,n)
+        if minimum == float('inf'):    # it means that amount is not possible so return -1.
+            return -1
+        return minimum
+    
+    def MinCoins(self,coins,amount,n):
+        if amount == 0:
+            return 0
+        if n== 0:   # return a very large val which will indicate sum amount is not possible
+            return float('inf')
+        take , notTake = float('inf'), float('inf')
+        if coins[n-1] <= amount:
+            take = min(take, 1 + self.MinCoins(coins,amount-coins[n-1], n))   # not taking minimum will give wrong ans.
+        notTake = min(notTake, self.MinCoins(coins, amount, n-1))
+        return min(take, notTake)
+
+# Memoisation
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
         n= len(coins)
@@ -56,70 +86,17 @@ class Solution:
         if minimum== float('inf'):    # it means that amount is not possible so return -1.
             return -1
         return minimum
-    
+
     def MinCoins(self,coins,amount,n, dp):
-        if n== 1:  # now we are left with some amount and one coin in our hand 
-            return float('inf') if amount % coins[0] != 0 else amount// coins[0]   # if amount is divisible by the weight of available coin return that 
-                                                                               # else not possible to form that amount so return very large value
-        # now everything is same as before
+        if amount== 0:
+            return 0
+        if n== 0:   # retuen a very large val which will indicate sum amount is not possible
+            return float('inf')
         if dp[n][amount] != -1:
             return dp[n][amount]
-        elif coins[n-1] <= amount:
-            dp[n][amount]= min(1 + self.MinCoins(coins,amount-coins[n-1],n, dp) ,self.MinCoins(coins,amount,n-1, dp))
-        else:
-            dp[n][amount]= self.MinCoins(coins, amount, n-1, dp)
+        take , notTake = float('inf'), float('inf')
+        if coins[n-1] <= amount:
+            take = min(take, 1 + self.MinCoins(coins,amount-coins[n-1], n, dp))
+        notTake = min(notTake, self.MinCoins(coins, amount, n-1, dp))
+        dp[n][amount] =  min(take, notTake)
         return dp[n][amount]
-
-
-
-# My mistake:
-# 2nd case 'coins[ind] <= amount' will also run everytime but we have to run only one cases not both.
-# That's why geting 'recursion depth increases'.
-class Solution:
-    def coinChange(self, coins: List[int], amount: int) -> int:
-
-        @lru_cache(None)
-        def solve(ind , amount):
-            if amount == 0:
-                return 0
-            if ind == len(coins):
-                return float('inf')
-            ans = float('inf')
-            if coins[ind] > amount:
-            # Only one option don't take
-                ans = solve(ind + 1, amount)
-            # else coins[ind] <= amount:
-            # we have two choice either take the cur one or not
-            ans = min(ans , 1 + solve(ind, amount- coins[ind]) , solve(ind + 1 , amount))   # this will run always...
-            return ans
-
-        ans = solve(0 , amount)
-        return ans if ans != float('inf') else -1
-    
-
-# Above method correct one
-class Solution:
-    def coinChange(self, coins: List[int], amount: int) -> int:
-
-        @lru_cache(None)
-        def solve(ind , amount):
-            if amount == 0:
-                return 0
-            if ind == len(coins):
-                return float('inf')
-            ans = float('inf')
-            if coins[ind] > amount:
-            # Only one option don't take
-                ans = solve(ind + 1, amount)
-                # return ans
-            if coins[ind] <= amount:
-            # we have two choice either take the cur one or not
-                ans = min(ans , 1 + solve(ind, amount- coins[ind]) , solve(ind + 1 , amount))
-            return ans
-
-        ans = solve(0 , amount)
-        return ans if ans != float('inf') else -1
-
-
-# Note vvi : Why returning directly (method :1) is working.
-# Since here only one case will execute and after that our ans will follow that path only so we can return direct also.

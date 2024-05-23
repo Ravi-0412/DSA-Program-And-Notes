@@ -67,5 +67,87 @@ class Solution:
         if rowZero:
             for c in range(n):
                 matrix[0][c]= 0
-        
 
+
+# Java
+"""
+// Method 2:
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        boolean[] zeroRow = new boolean[m];  // zeroRow[r] means all elements of row 'r' must be set to zero.
+        boolean[] zeroCol = new boolean[n];  // zeroCol[c] means all elements of col 'c' must be set to zero.
+
+        // First, find the rows and columns that need to be zeroed
+        for (int r = 0; r < m; r++) {
+            for (int c = 0; c < n; c++) {
+                if (matrix[r][c] == 0) {
+                    zeroRow[r] = true;
+                    zeroCol[c] = true;
+                }
+            }
+        }
+
+        // Now, set the elements of those rows and columns to zero
+        for (int r = 0; r < m; r++) {
+            for (int c = 0; c < n; c++) {
+                if (zeroRow[r] || zeroCol[c]) {
+                    matrix[r][c] = 0;
+                }
+            }
+        }
+    }
+}
+
+
+// Method 3:
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        boolean rowZero = false;
+        boolean colZero = false;
+
+        // Identify the rows and columns that need to be zeroed
+        for (int r = 0; r < m; r++) {
+            for (int c = 0; c < n; c++) {
+                if (matrix[r][c] == 0) {
+                    matrix[0][c] = 0;  // Mark the column
+                    matrix[r][0] = 0;  // Mark the row
+                    if (r == 0) {
+                        rowZero = true;  // First row has a zero
+                    }
+                    if (c == 0) {
+                        colZero = true;  // First column has a zero
+                    }
+                }
+            }
+        }
+
+        // Set matrix elements to zero based on the markers in the first row and column
+        for (int r = 1; r < m; r++) {
+            for (int c = 1; c < n; c++) {
+                if (matrix[r][0] == 0 || matrix[0][c] == 0) {
+                    matrix[r][c] = 0;
+                }
+            }
+        }
+
+        // Handle the first column if it needs to be zeroed
+        if (colZero) {
+            for (int r = 0; r < m; r++) {
+                matrix[r][0] = 0;
+            }
+        }
+
+        // Handle the first row if it needs to be zeroed
+        if (rowZero) {
+            for (int c = 0; c < n; c++) {
+                matrix[0][c] = 0;
+            }
+        }
+    }
+}
+
+"""

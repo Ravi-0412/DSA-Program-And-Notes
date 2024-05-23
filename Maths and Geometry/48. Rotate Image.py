@@ -22,6 +22,7 @@
 # 1) So try swapping all rows and now think how can you get the final ans.
 # 2) you will see if we can take transpose after that then we can get the final ans.
 
+# Method 1: 
 class Solution:
     def rotate(self, A):
         row,col= len(A), len(A[0])
@@ -38,8 +39,9 @@ class Solution:
             for c in range(r, col):   # starting from 'r' to avoid swaping twice for already swapped element.
                 # column 'c' me hmko 'r' se element to swap karna h.
                 A[r][c], A[c][r]= A[c][r], A[r][c]
-        
-# another way of writing the same logic
+
+
+# Method 2: another way of writing the same logic
 class Solution:
     def rotate(self, A):
         row,col= len(A), len(A[0])
@@ -52,7 +54,7 @@ class Solution:
 
 
 # Note vvvi: 
-# just think how you will two steps combining 'reversing_rows/reversing_cols/transpose' to get the ans.
+# just think how you will combine two steps 'reversing_rows/reversing_cols/transpose' to get the ans.
 
 # 1) For clockwise:
 # a) 90: Reverse Rows + Transpose
@@ -67,3 +69,41 @@ class Solution:
 # other way for both clockwise and anticlock wise:
 # 180 => rotate 2 times by '90'
 # 270 => rotate 3 times by '90' and so on.
+
+# Java
+"""
+// Method 1:
+
+class Solution {
+    public void rotate(int[][] matrix) {
+        int row = matrix.length;
+        int col = matrix[0].length;
+
+        // First, reverse the rows.
+        int i = 0;
+        int j = row - 1;
+        while (i < j) {
+            int[] temp = matrix[i];
+            matrix[i] = matrix[j];
+            matrix[j] = temp;
+            i++;
+            j--;
+        }
+
+        // Now, take the transpose of the matrix.
+        for (int r = 0; r < row; r++) {
+            for (int c = r; c < col; c++) {  // start from 'r' to avoid swapping twice
+                int temp = matrix[r][c];
+                matrix[r][c] = matrix[c][r];
+                matrix[c][r] = temp;
+            }
+        }
+    }
+}
+
+
+// Method 2:
+// In Python, A.reverse() reverses the rows of the matrix. In Java, we need to manually swap rows from the start with rows from the end.
+
+"""
+

@@ -15,7 +15,8 @@
 # Diagram in notes. page : 165
 
 # How to solve ?
-# Vvi: Just think intervals as real life event then to attend the maximum no of events you will 
+# Vvi: Just think intervals as real life event then to attend the maximum no of events ,
+# you will attend the event having lesser ending time.
 
 # logic: once you find any overlapping intervals, just delete the one having larger end value.
 # How to think? 
@@ -24,7 +25,8 @@
 
 # More explanation:
 # Now, let's say there's an optimal solution different from ours that keeps an interval i with an end time later than the one we chose
-# (let's call our interval x). We can replace i with x in this solution, and it's guaranteed not to create more overlaps because x ends earlier than i. 
+# (let's call our interval x). We can replace i with x in this solution, 
+# and it's guaranteed not to create more overlaps because x ends earlier than i. 
 
 # greedy about:  always pick the interval with the earliest end time as we an start the upcoming interval earlier and faster.
 
@@ -32,7 +34,8 @@
 # The greedy choice property means that a local optimum can lead to a global optimum. For this problem,
 # the local optimum is to always select the interval with the earliest end time that doesn't overlap with the current one. 
 # This choice leaves as much space as possible for the remaining intervals. 
-# If we can prove that making the greedy choice at each step leads to the solution of the overall problem, then we've shown the greedy choice property.
+# If we can prove that making the greedy choice at each step leads to the solution of the overall problem, 
+# then greedy will work perfectly.
 
 # Method 1:
 # sorting based on starting time.

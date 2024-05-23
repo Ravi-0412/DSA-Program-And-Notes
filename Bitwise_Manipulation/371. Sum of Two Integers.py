@@ -11,7 +11,9 @@ class Solution:
             b= temp
         return a
 
+
 # the same approach got submitted in Java.
+"""
 class Solution {
     public int getSum(int a, int b) {
       while(b !=0 ) {
@@ -23,3 +25,4 @@ class Solution {
     }
 }
 
+"""

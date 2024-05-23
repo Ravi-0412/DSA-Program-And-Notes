@@ -21,7 +21,7 @@ def missing(n):
 missing(n)
 
 
-# leetcode solution(2nd method) : using XOR operation
+# 2nd method : using XOR operation
 # time: O(n)
 class Solution:
     def missingNumber(self, nums: List[int]) -> int:
@@ -41,15 +41,16 @@ class Solution:
         return num
 
 
-# my mikstake 
-# note: always take xor as a whole for final ans , don't take xor one by one.
-
-# this logic is giving the incorrect ans after finding x1 don't know why
-# x2=0
-# while taking xor one by one, it is giving incorrect ans
-# for i in range(n):
-#     x2^= x1^nums[i]
-# return x2
+# Other way of writing above code:
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
+        n= len(nums)
+        x1=0
+        for i in range(n+1):
+            x1= x1^i
+        for i in range(n):
+            x1= x1^nums[i]
+        return x1
 
 # METHOD 3: Sort the number in store in another aray now compare the sorted array with original array
 # index at which there will be mismatch return that number from the original array 

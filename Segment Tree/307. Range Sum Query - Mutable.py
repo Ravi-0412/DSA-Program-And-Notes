@@ -20,35 +20,9 @@ class NumArray:
 
     def sumRange(self, left: int, right: int) -> int:
         return self.prefixSum[right + 1] - self.prefixSum[left]
-        
-
-# Method 2: using sum function of python (got accepted.)
-# sum function is very very fast 
-
-# Note: Not a good method
-
-# note: for finding ans , if range is less than n//2 then directly calculating from nums array like "return sum(self.nums[left: right + 1])".
-# if greater then we are taking the help of whole sum array and subtracting the sum which is not in range.
-
-class NumArray:
-    
-    def __init__(self, nums: List[int]):
-        self.nums= nums
-        self.sums= sum(nums)
-        
-
-    def update(self, index: int, val: int) -> None:
-        self.sums+= val - self.nums[index]
-        self.nums[index]= val
-        
-
-    def sumRange(self, left: int, right: int) -> int:
-        if right - left < len(self.nums)//2:
-            return sum(self.nums[left: right + 1])
-        return self.sums - sum(self.nums[: left]) - sum(self.nums[right + 1 : ])
 
 
-# Method 3: segement Tree (Q is based on this only)
+# Method 2: segement Tree (Q is based on this only)
 
 # vvi: Now from here intro of segment tree starts
 
@@ -62,6 +36,8 @@ class NumArray:
 # But using segment tree we can do this in  O(logn).
 
 # Note: Draw diagram from 'Rachit Jain or Kunal' video in notes
+
+# space = O(2*n - 1)
 
 class Node(object):
     def __init__(self, startInterval, endInterval):
@@ -163,10 +139,11 @@ class NumArray(object):
 # 3) updateVal
 # Here we are checking the cases on 'index' not on 'node interval ' like :
 # i) if index is completely outside the node interval
-# ii) if inside the node inetrval => under this finding the ele 1st recursively.
+# ii) if inside the node interval => under this finding the ele 1st recursively.
 
 # Note: This is the difference between 'RangeSum' function and 'updateVal' function.
-# keep this in mind and also the reasons why in both we are checking differently and why 'mid' is not required in 'RangeSum' and 'updateVal' function.
+# keep this in mind and also the reasons why in both we are checking differently and 
+# why 'mid' is not required in 'RangeSum' and 'updateVal' function.
 
 # Some points regarding this method of implementing the segment tree:
 # 1) follows the full binary tree property (all node will have exactly two node except the leaf node)
@@ -249,12 +226,12 @@ class SegmentTree:
 # Note: difference between 'Segment tree' and 'fenwick tree' is that 
 # 1) in fenwick tree for finding range sum(i, j), we get by
 # 'RangeSum(j) ( 0 to j)' - 'RangeSum(i)'.
-# we need to go only freom given node(index) to parent to find the RangeSum(i).
+# we need to go only from given node(index) to parent to find the RangeSum(i).
 
 # 2) searching time i.e getting query is less in fenwick than segment 
 # fenwick : O(logn), segment : O(4*logn)
-# Because : we need to go only freom given node(index) to parent to find the RangeSum(i).
-# Here we don;t go in other subtree like 'segment tree' (with that much cases).
+# Because : we need to go only from given node(index) to parent to find the RangeSum(i).
+# Here we don't go in other subtree like 'segment tree' (with that much cases).
 
 # 2) Creation time is more in fenwick than segment
 # fenwick : O(n*logn), segment : O(n)
@@ -291,7 +268,7 @@ class SegmentTree:
 # steps:
 # i) find 2's complement of 'i' => '-i'
 # ii) And(&) with original given index 'i' => 'i & -1'
-# iii) subtract(-) with original given index => parent(i) = i - (i & -i)
+# iii) subtract(-) with original given index => parent(i) = i - (i & -i)   # only diff from 'next'. here we are subtracting
 
 
 # Note: Draw diagram from Tushar video in notes
@@ -338,6 +315,7 @@ class NumArray:
         # We will get ans in BIT method by getSum(right) - getSum(left - 1)   , just like prefixSum way
         # for 'getSum(i)' we need to go bottom up starting from node 'i' to root and keep adding the value.
         return self.getSum(right) - self.getSum(left - 1)
+                            # for understanding 'right + 1' - 'left' because we are storing value one index ahead.
     
 
 # Template to use in other Q

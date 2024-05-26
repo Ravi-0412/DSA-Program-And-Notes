@@ -1,4 +1,4 @@
-# 1st method: using hashmap like as usual for all probelms of this type.
+# 1st method: using hashmap like as usual for all problems of this type.
 
 class Solution:
     def twoSum(self, numbers: List[int], target: int) -> List[int]:
@@ -24,7 +24,7 @@ class Solution:
     def twoSum(self, numbers: List[int], target: int) -> List[int]:
         n= len(numbers)
         start, end= 0, n-1
-        while start< end:  #  start can't be equal to end as we can't use the same ele twice
+        while start < end:  #  start can't be equal to end as we can't use the same ele twice
             
             # in this case our ans will lie before end since array is sorted so incr start will incr the more 
             if numbers[start] + numbers[end] > target:

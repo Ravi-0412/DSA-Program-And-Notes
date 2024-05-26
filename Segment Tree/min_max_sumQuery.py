@@ -7,95 +7,8 @@
 
 # Use fenwick tree in operations other than 'min/max'.
 
-# My mistake:
-class segmentTree:
-    
-    def __init__(self, nums):
-        self.nums = nums
-        self.n = len(nums)
-        self.BITMin = [float('inf')] *(self.n + 1)
-        # BITMin[i] will store minimum value for a range
-        self.BITMax = [float('-inf')] *(self.n + 1)
-        # BITMax[i] will store maximum value for a range
-        self.BITSum = [0] *(self.n + 1)    # BITSum[i] will store sum for a range
-        
-        # create BIT for min/max and sum
-        for i in range(self.n):
-            self.createBITMinMax(i, nums[i])  # for min/max
-            self.createBITSum(i, nums[i])     # for sum
-    
-    def createBITMinMax(self, i, val):
-        i += 1   # because BIT is following 1 based indexing not '0' based.
-        while i <= self.n:
-            self.BITMin[i] = min(self.BITMin[i], val)
-            self.BITMax[i] = max(self.BITMax[i], val)
-            i += (i & -i)    # next index where we need to update
-    
-    def createBITSum(self, i, val):
-        i += 1   # because BIT is following 1 based indexing not '0' based.
-        while i <= self.n:
-            self.BITSum[i] += val
-            i += (i & -i)    # next index where we need to update
-    
-    def update(self, i, val):
-        diff = val - self.nums[index]
-        self.nums[i] = val
-        
-        # We have to update min, nax & sum
-        # 1) updating min/max
-        # Here we will check with new valuw
-        self.createBITMinMax(i, val)
-        
-        # 1) updating sum
-        # Here we will update with 'diff'
-        self.createBITSum(i, diff)
 
-    def getMin(self, i):
-        ans = float('inf')
-        i += 1
-        while i > 0:   # going bottom up so index value will decrease
-            ans=  min(ans, self.BITMin[i])
-            parent = i - (i & -i)
-            i = parent
-        return ans
-        
-    def getMax(self, i):
-        ans = float('-inf')
-        i += 1
-        while i > 0:   # going bottom up so index value will decrease
-            ans=  max(ans, self.BITMax[i])
-            parent = i - (i & -i)
-            i = parent
-        return ans
-    
-    def getSum(self, i):
-        sum = 0
-        i += 1
-        while i > 0:   # going bottom up so index value will decrease
-            sum += self.BITSum[i]
-            parent = i - (i & -i)
-            i = parent
-        return sum
-    
-    def getRangeSum(self, i, j):
-        return self.getSum(j) - self.getSum(i - 1)
-    
-    def getRangeMin(self, i, j):
-        return min(self.getMin(j) , self.getMin(i -1))
-    
-    def getRangeMax(self, i, j):
-        return max(self.getMax(j) , self.getMax(i -1))
-
-nums = [12, 0, 1, 3, 5, 7, 9, 11]
-s = segmentTree(nums)
-i, j = 2, 5
-print(s.BITMin, s.BITMax, s.BITSum)
-print("sum between range {} and {} is: ".format(i, j), s.getRangeSum(i, j))
-print("MinEle between range {} and {} is: ".format(i, j), s.getRangeMin(i, j))
-print("MaxEle between range {} and {} is: ".format(i, j), s.getRangeMax(i, j))
-
-
-# Correct code to get min/max/sum in a given range Using 'segment Tree'.
+# code to get min/max/sum in a given range Using 'segment Tree'.
 # Use this template in case of min/max/sum
 
 # Just similar logic to "307.Range Sum Query"
@@ -105,7 +18,7 @@ class Node:
         self.total = 0    # RangeSum of given interval
         self.start = startInterval    # start interval of that node
         self.end = endInterval        # end interval of that node
-        self.MinVal = float
+        self.MinVal = float('inf')
         self.MaxVal = float('-inf')
         self.left = None
         self.right = None

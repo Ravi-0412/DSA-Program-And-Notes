@@ -17,7 +17,7 @@ class Solution:
         dictSet = set(wordDict)
         ans = []
 
-        def backtrack(i, sent):
+        def backtrack(i, sent):  # sent: sentence
             if i == n:
                 ans.append(" ".join(sent))
                 return
@@ -30,3 +30,33 @@ class Solution:
 # Similar Questions:
 # 1) "139. Word Break"
 
+# java
+"""
+
+public class Solution {
+    public List<String> wordBreak(String s, List<String> wordDict) {
+        int n = s.length();
+        Set<String> dictSet = new HashSet<>(wordDict);
+        List<String> ans = new ArrayList<>();
+
+        backtrack(0, s, dictSet, new ArrayList<>(), ans);
+
+        return ans;
+    }
+
+    private void backtrack(int i, String s, Set<String> dictSet, List<String> sent, List<String> ans) {
+        int n = s.length();
+        if (i == n) {
+            ans.add(String.join(" ", sent));
+            return;
+        }
+        for (int j = i; j < n; j++) {
+            if (dictSet.contains(s.substring(i, j + 1))) {
+                sent.add(s.substring(i, j + 1)); // Include the current word in the sentence
+                backtrack(j + 1, s, dictSet, sent, ans); // Recursive call for the next part of the string
+                sent.remove(sent.size() - 1); // Backtrack: Remove the last added word to explore other possibilities
+            }
+        }
+    }
+}
+"""

@@ -50,4 +50,5 @@ class Solution:
 # 4)  2762. Continuous Subarrays
 # 5) 2958. Length of Longest Subarray With at Most K Frequency
 # 6) 2962. Count Subarrays Where Max Element Appears at Least K Times
+# 7) 1208. Get Equal Substrings Within Budget
 

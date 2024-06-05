@@ -19,7 +19,6 @@ class Solution:
         for c in p:
 	        hashmap[c]= 1+ hashmap.get(c,0)
         count, ans= len(hashmap),[]  # count is initialised to len(hashmap), it means itna diff char hmko khojna h and agar us char cahr ka count zero ho gya matlab ek char mil gya
-	   # print(hashmap)    
         while(j<len(s)):
 	        if s[j] in hashmap:
 	            hashmap[s[j]] -= 1   # this may go negative also means we have seen extra s[j] than required and this will help in upcoming window since we will have already these ele present
@@ -41,4 +40,45 @@ class Solution:
 
 
 # Note: ye fixed sliding window isliye h ki hmko har char proper quantity me chahiye together i.e hmko char window size= len(p)
-# me ans check karna hoga 
+# me ans check karna hoga.
+
+# Java
+""""
+
+public class Solution {
+    public List<Integer> findAnagrams(String s, String p) {
+        int i = 0, j = 0;
+        Map<Character, Integer> hashmap = new HashMap<>();
+        for (char c : p.toCharArray()) {
+            hashmap.put(c, hashmap.getOrDefault(c, 0) + 1);
+        }
+        int count = hashmap.size();
+        List<Integer> ans = new ArrayList<>();
+        
+        while (j < s.length()) {
+            if (hashmap.containsKey(s.charAt(j))) {
+                hashmap.put(s.charAt(j), hashmap.get(s.charAt(j)) - 1);
+                if (hashmap.get(s.charAt(j)) == 0) {
+                    count--;
+                }
+            }
+            
+            if (j + 1 >= p.length()) {
+                if (count == 0) {
+                    ans.add(i);
+                }
+                
+                if (hashmap.containsKey(s.charAt(i))) {
+                    hashmap.put(s.charAt(i), hashmap.get(s.charAt(i)) + 1);
+                    if (hashmap.get(s.charAt(i)) == 1) {
+                        count++;
+                    }
+                }
+                i++;
+            }
+            j++;
+        }
+        return ans;
+    }
+}
+"""

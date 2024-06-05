@@ -61,7 +61,7 @@ class Solution:
             if rightmost_set_bit & num:
                 set= set ^ num
             else:
-                not_set= not_set ^ num
+                not_set = not_set ^ num
         # our number will get stored in set and not_set
         # now to return the repeating number first then missing.
         if set in A:  # means repeating
@@ -70,19 +70,56 @@ class Solution:
             return [not_set, set]
 
 
-# Note: How it is different from 'Q: 260. single number 3'.
-# in that Q every ele is occuring two times except two. And no of ele that will have bit set at rightmost bit set of xor_result will be odd only 
-# and no of ele for whcih bit is not set will be also odd only so we can directly get the ans on one separation.
+# Method 2: Java
+"""
+class Solution {
+    public int[] repeatedNumber(int[] A) {
+        int n = A.length;
+        int x1 = 0; // xor of all elements of array
+        for (int num : A) {
+            x1 = x1 ^ num;
+        }
 
-# But here one is missing and one is repeating and no of ele having bit set and not set can be anything like odd or even.
-# so in this we can't get ans directly.
+        int x2 = 0; // xor from '1' to 'n'
+        for (int i = 1; i <= n; i++) {
+            x2 = x2 ^ i;
+        }
 
-# logic: 
-# so when we do xor two times then in one part every number will occur two times except the missing one(will occur one time), 
-# so from here we will get the missing one when we will take xor of all in this part and we did the same only in solution.
-# And in 2nd part every number will occur two times except the repeating one(it will occur three times).
-# so from here we will get the repeating one when we will take xor of all in this part and we did the same only in solution.
+        int xorResult = x1 ^ x2; // this will contain 'xor' of 'missing & repeating number'.
+        
+        // now we have to find our ans from the above xor.
+        int rightmostSetBit = xorResult & (-xorResult); // it is number whose only one bit is set.
+        
+        // separate the arr number into two buckets having bit set at rightmost bit of 'xorResult'.
+        int set = 0, notSet = 0;
+        for (int num : A) {
+            if ((rightmostSetBit & num) != 0) {
+                set = set ^ num;
+            } else {
+                notSet = notSet ^ num;
+            }
+        }
 
-# and to know which one is repeating and which one is missing, just check whether that is present in the array or not.
+        // now add number from '1' to 'n' in these two buckets to separate the number.
+        for (int i = 1; i <= n; i++) {
+            if ((rightmostSetBit & i) != 0) {
+                set = set ^ i;
+            } else {
+                notSet = notSet ^ i;
+            }
+        }
+
+        // our number will get stored in set and notSet
+        // now to return the repeating number first then missing.
+        for (int num : A) {
+            if (num == set) { // means set is the repeating number
+                return new int[]{set, notSet};
+            }
+        }
+        // means notSet is the repeating number
+        return new int[]{notSet, set};
+    }
+}
+"""
 
 

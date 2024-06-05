@@ -33,3 +33,8 @@ class Solution:
                 stack.append(s[i])
                 visited.add(s[i])
         return "".join(stack)
+
+
+# Related Q:
+# 1) 1081. Smallest Subsequence of Distinct Characters
+# Exactly same question 

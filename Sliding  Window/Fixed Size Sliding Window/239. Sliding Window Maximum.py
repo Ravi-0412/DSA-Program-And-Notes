@@ -2,8 +2,25 @@
 # Check for max in every window
 # Time : O(n - k + 1)*k
 
+# Method 3:
+# using 'SortedList' in python.
+from sortedcontainers import SortedList
 
-# Method 2: 
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        n = len(nums)
+        sorted_list = SortedList([])
+        for i in range(k):
+            sorted_list.add(nums[i])
+        ans = []
+        ans.append(sorted_list[- 1])
+        for i in range(k, n):
+            sorted_list.add(nums[i])
+            sorted_list.remove(nums[i - k])
+            ans.append(sorted_list[-1])
+        return ans 
+
+# Method 3: 
 # Optimisation. Accepted 
 # Easier one
 # Use heap for finding the max ele in each window.
@@ -33,11 +50,10 @@ class Solution:
             # Now top of heap will be ans for cur window
             ans.append(-maxHeap[0][0])
         return ans
-    
 
 # Understand 'method 3' and 'method 4' later.
 
-# Method 3:
+# Method 4:
 # say NUMS : 1, 3, -1, -3, 5, 3, 6, 7
 
 # 1) divide array into blocks of K starting from index 0.
@@ -111,7 +127,7 @@ class Solution:
         return ans
 
 
-# Method 4: 
+# Method 5: 
 # Using Mono deque
 
 # See the method '3' of q : "1425. Constrained Subsequence Sum" for better understanding.
@@ -139,3 +155,77 @@ class Solution:
                 i+= 1
             j+= 1
         return ans
+
+
+# Java
+"""
+// Method 3: 
+
+public class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int n = nums.length;
+        int[] ans = new int[n - k + 1];
+        PriorityQueue<int[]> maxHeap = new PriorityQueue<>((a, b) -> b[0] - a[0]);
+
+        // Insert first 'k' elements in 'maxHeap' to get the answer for the 1st window.
+        // We need to remove elements that are out of the window, so we insert indices as well.
+        for (int i = 0; i < k; i++) {
+            maxHeap.offer(new int[]{nums[i], i});
+        }
+        ans[0] = maxHeap.peek()[0];  // for 1st window
+
+        // Now find the answer for remaining windows
+        for (int i = k; i < n; i++) {
+            // First, add the current element into the heap, because this can also be the answer for the current window.
+            maxHeap.offer(new int[]{nums[i], i});
+
+            // Then remove elements from the heap which are not part of the current window if they are on top of the heap.
+            // Elements out of the current window can be in the heap even after removal from the top,
+            // but if not on top, then they won't affect our answer.
+            // Due to this, for each element, time complexity will be 'log n' not 'log k' as there can be more than 'k' elements in the heap.
+            while (!maxHeap.isEmpty() && maxHeap.peek()[1] <= i - k) {
+                maxHeap.poll();
+            }
+
+            // Now the top of the heap will be the answer for the current window.
+            ans[i - k + 1] = maxHeap.peek()[0];
+        }
+        return ans;
+    }
+}
+
+
+// Method 5:
+
+public class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        Deque<Integer> deque = new ArrayDeque<>(); // will store indices of elements in monotonically decreasing order
+        int n = nums.length;
+        int[] ans = new int[n - k + 1];
+        int index = 0;
+
+        for (int j = 0; j < n; j++) {
+            // Remove elements from the deque that are smaller than the current element
+            while (!deque.isEmpty() && nums[j] > nums[deque.peekLast()]) {
+                deque.pollLast();
+            }
+
+            // Add the current element at the end of the deque
+            deque.offerLast(j);
+
+            // If the window has hit size k, update the results
+            if (j + 1 >= k) {
+                // The element at the front of the deque is the largest
+                ans[index++] = nums[deque.peekFirst()];
+                
+                // Remove the elements which are out of this window
+                if (deque.peekFirst() == j - k + 1) {
+                    deque.pollFirst();
+                }
+            }
+        }
+        return ans;
+    }
+}
+
+"""

@@ -46,3 +46,42 @@ class Solution:
                 break
         print(longestPalindrome)
         return ans
+
+# Java
+"""
+public class Solution {
+    public int longestPalindrome(String[] words) {
+        HashMap<String, Integer> freq = new HashMap<>();
+        int ans = 0;
+        StringBuilder longestPalindrome = new StringBuilder();
+        
+        for (String word : words) {
+            String reversedWord = new StringBuilder(word).reverse().toString();
+            if (freq.containsKey(reversedWord)) {
+                longestPalindrome.insert(0, word);
+                longestPalindrome.append(reversedWord);
+                ans += 4;
+                freq.put(reversedWord, freq.get(reversedWord) - 1);
+                if (freq.get(reversedWord) == 0) {
+                    freq.remove(reversedWord);
+                }
+            } else {
+                freq.put(word, freq.getOrDefault(word, 0) + 1);
+            }
+        }
+        
+        // Add any one palindromic word to the already formed palindrome.
+        for (String s : freq.keySet()) {
+            if (s.equals(new StringBuilder(s).reverse().toString())) {
+                ans += 2;
+                int n = longestPalindrome.length();
+                longestPalindrome.insert(n / 2, s);
+                break;
+            }
+        }
+        
+        System.out.println(longestPalindrome.toString());
+        return ans;
+    }
+}
+"""

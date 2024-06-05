@@ -41,7 +41,6 @@ class Solution:
         for word in words[1:]:
             res= res & Counter(word)
         return list(res.elements())
-    
 
 
 # note: if would have asked for "only distinct char present in all words ".

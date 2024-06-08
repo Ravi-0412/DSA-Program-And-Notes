@@ -58,6 +58,58 @@ adj= [[0,1,10],[0,2,5],[1,3,1],[1,2,2],[2,1,3],[2,4,2],[2,3,9],[3,4,4],[4,0,7],[
 print(ShortestPath1(adj, 5, 0))
 
 
+# Storing path also for each node i.e source -> distance
+# Logic: Just store parent for each node and traverse back from each node till you reach parent of source.
+# Just same we find for other shortest path like bfs etc.
+
+# time: 0(E*logV + V^2) , V^2: for printing path for each node.
+
+from collections import defaultdict
+import heapq
+
+def ShortestPath1(adj,n, src):
+    edges= defaultdict(list)  
+    for u,v,w in adj:
+        edges[u].append((v,w))
+    parent = [-1] * n
+    distance= [9999999]*n
+    distance[src]= 0   
+    minHeap= [(0,src, -1)]  
+    visited= set()  
+    while minHeap:
+        w1, n1, p1 = heapq.heappop(minHeap)    
+        if n1 in visited:    
+            continue
+        distance[n1] = w1
+        parent[n1] = p1
+        visited.add(n1)     
+        for n2, w2 in edges[n1]:
+            if n2 not in visited:  
+                heapq.heappush(minHeap,(w1 + w2, n2, n1))
+    # return distance
+    
+    # print shortest path from source to each node
+    for i in range(n):
+        path = []
+        cur = i
+        # continue till you reaches parent of source i.e '-1' 
+        while cur != -1:
+            path.append(cur)
+            cur = parent[cur]
+        print("path and distance of node {} from source {} is : {} and {}".format(i, src, path[::-1], distance[i]))
+        
+# adj= [[0,1,10],[0,2,5],[1,3,1],[1,2,2],[2,1,3],[2,4,2],[2,3,9],[3,4,4],[4,0,7],[4,3,6]]
+# n = 5 
+# src = 0
+# adj = [[0, 1, 2], [1, 4, 5], [1, 2, 4], [0, 3, 1], [3, 2, 3], [2, 4, 1]]
+# n = 5
+# src = 0
+adj = [[0, 1, 2], [1, 2, 4], [0, 3, 1], [3, 2, 3]]
+n = 4
+src = 0
+print("shostest from source to each node: ", ShortestPath1(adj, n, src))
+
+
 # Note vvi: We don't mark visited when we see the node for 1st time itself in case, 
 # when there are possibility of getting more better path OR
 #  when we are not able to decide the exact min time(or distance) in which we will see the same node again.

@@ -28,6 +28,13 @@ def count_children(n):
         ans[key] = val
     return ans[1: ]
     
-n = 5
+# n = 5
 # n = 4
+n = 6
 print(count_children(n))
+
+# Alternative and best solution:
+# ans  = fibonacii pattern of 'n' in reverser order.
+# e.g: n = 4 =>  3,2,1,1
+# n = 5 => 5,3,2,1,1
+# n = 6 => 8, 5, 3, 2, 1, 1

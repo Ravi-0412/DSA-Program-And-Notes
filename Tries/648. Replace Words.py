@@ -71,7 +71,7 @@ class Solution:
 # that why convert the sentence into list.
 
 
-# for word in sentence:   # this will give letter not word. (what the fuckimng mistake i was making).
+# for word in sentence:   # this will give letter not word. (what the fucking mistake i was making).
     for i in range(len(sentence)):  # same here
         word= sentence[i]
         prefix= trie.search(word)

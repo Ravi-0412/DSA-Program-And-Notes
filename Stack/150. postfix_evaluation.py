@@ -8,30 +8,6 @@
 # Note: Here no need to worry about 'precedence and associativity' because we convert from
 # 'infix to postfix' only to get rid of these things so that we can calculate ans directly after seeing an operator.
 
-class Solution: 
-    def evaluatePostfix(self, S):
-        stack= []  # store the operand not operator like infix to postfix
-        for i in range(len(S)):
-            if '0'<= S[i]<= '9':
-                stack.append(int(S[i]))
-            else:  # means there is operator
-                op2= stack.pop()
-                op1= stack.pop()
-                if S[i]== '+' :
-                    res= op1 + op2
-                if S[i]== '-' :
-                    res= op1 - op2
-                if S[i]== '*' :
-                    res= op1 * op2
-                if S[i]== '/' :
-                    res= op1 // op2
-                
-                stack.append(res)
-        return stack[-1]
-
-
-# for leetcode
-# when num can be negative also.
 class Solution:
     def evalRPN(self, tokens: List[str]) -> int:
         stack= []  # store the operand not operator like infix to postfix
@@ -54,8 +30,6 @@ class Solution:
                 stack.append(int(c))
 
         return stack[-1]
-
-
 
 # my mistakes
 class Solution:
@@ -81,4 +55,53 @@ class Solution:
 
         return stack[-1]
 
-        
+# How isdigit() work in python?
+# The str.isdigit() method in Python checks if all the characters in the string are digits. 
+# It returns True if the string consists of digits only, and False otherwise.
+# vi:  However, it does not account for negative signs or decimal points, 
+# which means it will return False for negative numbers or floating-point numbers.
+
+# e.g: 
+print("-123".isdigit())  # Output: False
+print("123".isdigit())   # Output: True
+print("123.45".isdigit())  # Output: False
+
+
+# Java
+"""
+import java.util.*;
+
+class Solution {
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> stack = new Stack<>();
+        Set<String> operators = new HashSet<>(Arrays.asList("+", "-", "*", "/"));
+
+        for (String token : tokens) {
+            if (operators.contains(token)) {
+                int op2 = stack.pop();
+                int op1 = stack.pop();
+                int res = 0;
+                switch (token) {
+                    case "+":
+                        res = op1 + op2;
+                        break;
+                    case "-":
+                        res = op1 - op2;
+                        break;
+                    case "*":
+                        res = op1 * op2;
+                        break;
+                    case "/":
+                        res = op1 / op2;
+                        break;
+                }
+                stack.push(res);
+            } else {
+                stack.push(Integer.parseInt(token));
+            }
+        }
+
+        return stack.pop();
+    }
+}
+"""

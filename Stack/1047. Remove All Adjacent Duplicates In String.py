@@ -17,4 +17,5 @@ class Solution:
 
 
 # Related Q:
-# 2390. Removing Stars From a String
+# 1) 2390. Removing Stars From a String
+# 2) 3174. Clear Digits

@@ -63,7 +63,7 @@ class Solution:
 
 
 # writing like this will give error.
-# writing in two diff line chnages globally like list only.
+# writing in two diff line chages globally like list only.
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
         ans= []
@@ -88,3 +88,31 @@ class Solution:
 
 # Related Q:
 # 1) Print N-bit binary numbers having more 1s than 0s
+
+
+# java
+"""
+import java.util.ArrayList;
+import java.util.List;
+
+public class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> ans = new ArrayList<>();
+        backtrack(0, 0, "", ans, n);
+        return ans;
+    }
+
+    private void backtrack(int openP, int closeP, String paran, List<String> ans, int n) {
+        if (openP == closeP && openP == n) {
+            ans.add(paran);
+            return;
+        }
+
+        if (openP < n) {
+            backtrack(openP + 1, closeP, paran + "(", ans, n);
+        }
+        if (closeP < openP) {
+            backtrack(openP, closeP + 1, paran + ")", ans, n);
+        }
+    }
+"""

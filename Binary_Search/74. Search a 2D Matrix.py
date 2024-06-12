@@ -21,7 +21,7 @@ class Solution:
         for i in range(row):  # O(m)
             if matrix[i][0] <= target <= matrix[i][col-1]:
                 return self.binary_search(matrix[i], target)
-    
+
     def binary_search(self,arr,key):
         n= len(arr)
         low=0
@@ -114,11 +114,11 @@ class Solution:
 # e.g : i ) 74. Search a 2D Matrix   ii) 240. Search a 2D Matrix II
 # iii) 378. Kth Smallest Element in a Sorted Matrix iv ) 668. Kth Smallest Number in Multiplication Table
     
-# 1) When sorted in descending order row wise and column wise then ,
+# 2) When sorted in descending order row wise and column wise then ,
 # Start traverse from bottom - left.
 # e.g : i) 1351. Count Negative Numbers in a Sorted Matrix
     
-# you can other way also but this way will be easier.
+# you can do other way also but this way will be easier.
 
 
 # Method 3: Using binary search directly

@@ -16,9 +16,9 @@
 
 # move the array 0 at front ,1 in the middle and 2 at the last
 # final goal is to make this 'low' and 'high' pointer points to 
-# 1st and last index of all consecutive 1's respectively
+# 1st and last index of all consecutive 1's respectively.
 # before low all will be zero and low will point to the first one
-# after high all will be 2, high will point to the last one
+# after high all will be 2, high will point to the last one at last.
 
 # This is known as  " dutch partitioning algorithm".
 

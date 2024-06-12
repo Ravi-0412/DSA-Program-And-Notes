@@ -1,9 +1,10 @@
 # very simple, time: O(n)
-# any bar can go 'left smaller next' to its left and 'right smaller next' to its right.
-# so just find the 'left smaller next' and 'right smaller next' for each element.
 
-# Short: just we are checking if we conside the cur bar as height how much width we can get
+# Logic: if we conside the cur bar as height how much width we can get
 # i.e how much we can go in left or right.
+
+# Any bar can go 'left smaller next' to its left and 'right smaller next' to its right.
+# so just find the 'left smaller next' and 'right smaller next' for each element.
 
 class Solution:
     def largestRectangleArea(self, heights):
@@ -98,4 +99,4 @@ def largestRectangleArea(self, heights):
 
 
 # Related Q:
-# "1793. Maximum Score of a Good Subarray", 
+# "1793. Maximum Score of a Good Subarray" 

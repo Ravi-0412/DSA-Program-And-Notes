@@ -121,7 +121,7 @@ class Solution:
 # you can do other way also but this way will be easier.
 
 
-# Method 3: Using binary search directly
+# Method 4: Using binary search directly
 # How we can we think of this ?
 # Ans: Using the observation 'when we will put all elements in an 1d array row wise then they will in increasing order only'.
 # so we can treat this maxtrix as just 1D sorted array when we will traverse row wise.
@@ -154,3 +154,58 @@ class Solution:
 # Similar Q: 
 # 1) "240. Search a 2D Matrix II"
 # exactly same thing as 'method 2'.
+
+
+# java
+""""
+// method 3:
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        int down = 0, left = cols - 1;
+        
+        while (down < rows && left >= 0) {
+            if (matrix[down][left] == target) {
+                return true;
+            }
+            if (matrix[down][left] > target) {
+                left--;
+            } else {
+                down++;
+            }
+        }
+        
+        return false;
+    }
+}
+
+
+// Method 4:
+
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        int start = 0, end = rows * cols - 1;
+
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            int r = mid / cols;
+            int c = mid % cols;
+
+            if (matrix[r][c] == target) {
+                return true;
+            } else if (matrix[r][c] > target) {
+                end = mid - 1;
+            } else {
+                start = mid + 1;
+            }
+        }
+
+        return false;
+    }
+}
+
+
+"""

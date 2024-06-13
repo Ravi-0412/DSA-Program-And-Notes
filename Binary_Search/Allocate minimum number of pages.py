@@ -75,6 +75,7 @@ class Solution:
 # 6) 1482. Minimum Number of Days to Make m Bouquets
 # 7) 774-minimize-max-distance-to-gas-station
 # 8) The Painter's Partition Problem-II
+# 9) 1760. Minimum Limit of Balls in a Bag
 
 
 

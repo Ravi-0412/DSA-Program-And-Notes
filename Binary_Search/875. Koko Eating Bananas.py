@@ -7,7 +7,7 @@
 class Solution:
     def minEatingSpeed(self, piles: List[int], h: int) -> int:
         start, end, n= 1, max(piles), len(piles)
-        while start< end:
+        while start  < end:
             mid= start+ (end-start)//2
             if self.isValid(piles, h, mid):
                 end= mid

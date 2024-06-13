@@ -7,7 +7,8 @@ class TimeMap:
 
     def set(self, key: str, value: str, timestamp: int) -> None:
         self.hashmap[key].append([value, timestamp])
-        
+    
+    # Just like we find the floor
     def get(self, key: str, timestamp: int) -> str:
         if key not in self.hashmap: return ""
         start, end= 0, len(self.hashmap[key]) -1
@@ -19,4 +20,4 @@ class TimeMap:
                 end=  mid-1
             else:
                 start= mid +1
-        return self.hashmap[key][end][0] if end>=0 else  ""  # if return "" then it means this timestamp is smallest one and doesn't exist also.
+        return self.hashmap[key][end][0] if end >=0 else  ""  

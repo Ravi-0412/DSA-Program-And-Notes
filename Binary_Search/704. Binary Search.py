@@ -64,7 +64,7 @@ def binary_search(arr,key):
     n= len(arr)
     low=0
     up= n-1
-    while low< up:
+    while low < up:
         mid= low+ (up-low)//2
         if(arr[mid]>= key):    
             up= mid         # agar hmko target ele hi find karna h kisi smaller index pe then do this
@@ -123,7 +123,7 @@ def binary_search(arr,key):
     n= len(arr)
     low=0
     up= n-1
-    while low< up:
+    while low < up:
         mid= low+ (up-low)//2
         if(arr[mid] <= key):    
             low= mid

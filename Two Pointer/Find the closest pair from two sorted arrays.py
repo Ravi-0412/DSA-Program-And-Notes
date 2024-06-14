@@ -1,5 +1,10 @@
 # just "two sum logic"
 
+# here closest_pair_sum can be greater or lesser than 'k'.
+# so after every possible sum update 'minDiff'.
+
+# Time : O(n)
+
 def printClosest(arr1, arr2, k):
     m, n= len(arr1), len(arr2)
     minDiff= float('inf')

@@ -1,5 +1,5 @@
 # Note vvi: In this type of questions, focus on most frequent char first.
-# And try to put them one after the other fre.
+# And try to put them one after the other first.
 
 # Here try to put the most frequent char just after other.
 

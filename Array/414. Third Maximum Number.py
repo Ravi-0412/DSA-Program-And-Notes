@@ -12,10 +12,42 @@ class Solution:
 		        # Update 'secondMax' to 'firstMax' and then 'firstMax' to cur 'num'.
 		        secondMax = firstMax
 		        firstMax  =  num
-		    elif num > secondMax and num != firstMax:
+		    elif num > secondMax and num != firstMax:  # checking num != firstMax to avoid duplicate
 		        # in this case we only need to update 'secondMax' to 'num'
 		        secondMax = num
 		return secondMax  # if '-1' then all elements are equal and there is no 2nd maximum.
+
+# if duplicate is also allowed then just change the 'elif' condition.
+# just don't check 'num != firstMax' 
+class Solution: 
+	def print2largest(self,arr, n):
+		firstMax, secondMax = -1, -1  
+		for num in arr:
+		    if num > firstMax:
+		        # 'num' is greatest number till now
+		        # so in this we will have to update both 'firstMax' and 'secondMax'
+		        # Update 'secondMax' to 'firstMax' and then 'firstMax' to cur 'num'.
+		        secondMax = firstMax
+		        firstMax  =  num
+		    elif num > secondMax :  # No need to check 'num != firstMax' to allow duplicate 
+		        # in this case we only need to update 'secondMax' to 'num'
+		        secondMax = num
+		return secondMax  # if '-1' then all elements are equal and there is no 2nd maximum.
+
+
+# for 1st and 2nd distinct minimum.
+# for duplicate remove the 'num != firstMin' from 'elif' condition like above(maximum).
+class Solution: 
+	def print2largest(self,arr, n):
+		firstMin, secondMin = 10**5 + 1, 10**5 + 1 
+		for num in arr:
+		    if num < firstMin:
+		        secondMin = firstMin
+		        firstMin  =  num
+		    elif num < secondMin and num != firstMin:  # checking num != firstMax to avoid duplicate
+		        # in this case we only need to update 'secondMax' to 'num'
+		        secondMin = num
+		return firstMin # if '-1' then all elements are equal and there is no 2nd maximum.
 
 
 # Now come to this question
@@ -88,3 +120,5 @@ class Solution(object):
         return v[2] if v[2] != float('-inf') else v[0]
 
 
+# Related q:
+# 1) 2706. Buy Two Chocolates

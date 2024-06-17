@@ -1,4 +1,4 @@
-# juist similar to "2402. Meeting Rooms III"
+# just similar to "2402. Meeting Rooms III"
 
 # logic: we need to keep track of all projects we can complete using curr 'w'.
 # for this we will maintain a  minHeap.

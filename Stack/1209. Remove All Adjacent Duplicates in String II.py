@@ -14,7 +14,7 @@
 class Solution:
     def removeDuplicates(self, s: str, k: int) -> str:
         n = len(s)
-        stack = []
+        stack = []  # [[char, count]]
         for i in range(n):
             if stack and stack[-1][0] == s[i]:
                 stack[-1][1] += 1

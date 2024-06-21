@@ -38,3 +38,36 @@ class Solution:
 # Related Q:
 # 1) 1081. Smallest Subsequence of Distinct Characters
 # Exactly same question 
+
+# Java
+# about 'join' in java
+# link: https://www.geeksforgeeks.org/java-string-join-examples/
+"""
+class Solution {
+    public String removeDuplicateLetters(String s) {
+        int n = s.length();
+        Stack<Character> stack = new Stack<>();
+        Set<Character>  set = new HashSet<>();
+        Map<Character, Integer> lastIndex = new HashMap<>();
+        for(int i = 0; i < n; i ++) {
+            lastIndex.put(s.charAt(i), i);
+        }
+        for(int i = 0; i < n; i ++) {
+            Character c = s.charAt(i) ;
+            if(!set.contains(c)) {
+                while(!stack.isEmpty() && stack.peek() > c && lastIndex.get(stack.peek()) > i) {
+                    set.remove(stack.pop()) ;
+                }
+                stack.push(c);
+                set.add(c);
+            }
+        }
+        // return String.join(",", stack);   // 'join' works on string not on character
+        StringBuilder ans = new StringBuilder();
+        for(Character c : stack){
+            ans.append(c);
+        }
+        return ans.toString();
+    }
+}
+"""

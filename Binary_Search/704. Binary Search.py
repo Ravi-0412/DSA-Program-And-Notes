@@ -178,7 +178,7 @@ def binary_search(nums,target):
     end= len(nums)-1
     while start<= end:
         mid= start+ (end-start)//2
-        if nums[mid]<= target:
+        if nums[mid]<= target:   # isPossible(mid): 
             start= mid+1  # for finding larger index. means we have to find beyond mid
         else:
             end= mid-1

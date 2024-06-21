@@ -5,7 +5,7 @@
 # e.g [3, 30] , ans = 330 not 303. so we have to comparer after concatenation.
 
 # Note: Just you have to sort elements based on string concatenation.
-# so you can use nay sorting algorithm for this.
+# so you can use any sorting algorithm for this.
 
 # Method 1:
 
@@ -51,7 +51,7 @@ class Solution:
 
         nums = [str(num) for num in nums]
         nums.sort(key = cmp_to_key(cmp_func))
-        return str(int("".join(nums)))
+        return str(int("".join(nums)))   # first convert into 'int' to avoid recurring '0' at start.
     
 # Method 2: Insertion sort
 class Solution:
@@ -91,7 +91,7 @@ public class Solution {
                 // Concatenate both ways and compare
                 String order1 = x + y;
                 String order2 = y + x;
-                return order2.compareTo(order1); // We want to sort in descending order because we have written 'order2' first.
+                return order2.compareTo(order1); // We want to sort in descending order so we have written 'order2' first.
             }
         };
 

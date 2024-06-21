@@ -59,7 +59,7 @@ class Solution:
 # 1) For clockwise:
 # a) 90: Reverse Rows + Transpose
 # b) 180: Reverse Rows + Reverse columns
-# c) 270 : Transpose + Reverse Columns
+# c) 270 : Transpose + Reverse Columns(180 + 90. so if we do 90 rotation to 180 then impact of reverse rows will be get cancelled)
 
 # For anticlocwise: Just do opposite operation of clockwise.
 # 90 => reverse columns + transpose

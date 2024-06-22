@@ -47,3 +47,11 @@ class Solution:
             return ans
 
         return atMostSubarray(nums, goal) - atMostSubarray(nums, goal - 1)
+    
+
+# Note: in these types of questions where you are told to find exactly 'k' 
+# Then try to think like this only i.e AtMost(k) - AtMost(k - 1).
+
+# Related Q: 
+# 1) 992. Subarrays with K Different Integers
+# 2) 1248. Count Number of Nice Subarrays

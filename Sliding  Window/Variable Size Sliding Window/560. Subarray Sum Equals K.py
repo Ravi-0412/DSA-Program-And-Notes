@@ -21,8 +21,7 @@ k = 33
 # print(SubArray_Sum(arr,k))     
 
 
-# sliding window but is not valid for negative numbers. valid if all number is +ve(> 0).
-# don't getting the correct output, tried a lot(got was missing one condition)
+# sliding window but valid only if all number is +ve(> 0).
 # time : O(n)
 def Count_SubArray(arr,k):
     i,j,win_sum,ans= 0,0,0,0
@@ -66,7 +65,9 @@ class Solution:
 
 
 # Note: Extension of this Q and related Q
-# 1) Count Subarrays with Given XOR
-# 2) 525. Contiguous Array
-# 3) 974. Subarray Sums Divisible by K
-# 4) vvi:  "1074. Number of Submatrices That Sum to Target"
+# 1) 930. Binary Subarrays With Sum
+# 2) 1248. Count Number of Nice Subarrays
+# 3) Count Subarrays with Given XOR
+# 4) 525. Contiguous Array
+# 5) 974. Subarray Sums Divisible by K
+# 6) vvi:  "1074. Number of Submatrices That Sum to Target"

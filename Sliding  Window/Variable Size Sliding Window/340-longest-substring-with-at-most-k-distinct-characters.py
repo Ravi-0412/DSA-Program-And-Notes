@@ -14,9 +14,6 @@ class Solution:
                 if freq[s[i]]== 0:
                     del freq[s[i]]
                 i+= 1
-            # if len(freq)<= k and j - i + 1 > len(longest):
-            #     longest= s[i: j +1]
-            #     ans= max(ans, j- i+ 1)
             ans= max(ans, j- i+ 1)  # for length we can update directly as here len(freq) <= k only.
             j+= 1
         return ans

@@ -30,7 +30,8 @@ class Solution:
 # Combination of : 340-longest-substring-with-at-most-k-distinct-characters1 + 713. Subarray Product Less Than K
 
 # Logic: 
-# Count of SubArrays with K Distinct Elements = Count of SubArrays with At Most K Distinct Elements - Count of SubArrays with At Most K-1 Distinct Elements
+# Count of SubArrays with K Distinct Elements = 
+# Count of SubArrays with At Most K Distinct Elements - Count of SubArrays with At Most K-1 Distinct Elements
 
 # Note : Whenever you are not able to find the ans directly then try to reduce it in other form i.e
 # a) Think of finding its complement and get ans from that

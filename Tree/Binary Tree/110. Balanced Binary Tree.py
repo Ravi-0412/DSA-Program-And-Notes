@@ -80,6 +80,7 @@ class Solution:
         return check(root)!= -1  # if not equal to '-1' means balanced
 
 
+# Method 3:
 # Simplest way of writing above logic using 'ans' as global variable.
 # Do by this only
 
@@ -98,28 +99,3 @@ class Solution:
 
         maxDepth(root)
         return self.ans
-
-
-# my misatke:
-# was returning 'False' in case 
-class Solution:
-    def isBalanced(self, root: Optional[TreeNode]) -> bool:
-        # just apply the logic of maxDepth
-        def check(root):  
-            if root== None:  
-                return 0
-    
-            left= check(root.left)  
-            if not left:  # when root will be None then it will make that root= None balanced since height of None= 0 
-                return False
-            right= check(root.right)  
-            if not right:
-                return False
-
-            if abs((left-right))> 1: 
-                return false
-
-            # if balanced then return the max height 
-            return 1+ max(left,right)  # calculating the height
-            
-        return check(root)  # if not equal to '-1' means balanced

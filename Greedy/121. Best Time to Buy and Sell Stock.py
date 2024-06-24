@@ -29,3 +29,25 @@ class Solution:
             least_so_far= min(least_so_far, num)
             max_profit= max(max_profit, num- least_so_far)   # keep updating the ans
         return max_profit
+
+
+# Java
+"""
+public class Solution {
+    public int maxProfit(int[] prices) {
+        if (prices == null || prices.length == 0) {
+            return 0;
+        }
+
+        int maxProfit = 0;
+        int leastSoFar = prices[0];
+
+        for (int price : prices) {
+            leastSoFar = Math.min(leastSoFar, price);
+            maxProfit = Math.max(maxProfit, price - leastSoFar);
+        }
+
+        return maxProfit;
+    }
+}
+"""

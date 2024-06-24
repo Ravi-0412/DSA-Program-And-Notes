@@ -91,3 +91,80 @@ class LRUCache:
             self.Delete(lst_used)
             # now delete Lru from hashmap also
             del self.cache[lst_used.key]    # only in this case we need to delete from hashmap
+
+
+# Java
+"""
+import java.util.HashMap;
+
+class Node {
+    int key;
+    int val;
+    Node prev;
+    Node next;
+
+    Node(int key, int val) {
+        this.key = key;
+        this.val = val;
+        this.prev = null;
+        this.next = null;
+    }
+}
+
+class LRUCache {
+    private int capacity;
+    private HashMap<Integer, Node> cache;
+    private Node lru;
+    private Node mru;
+
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        this.cache = new HashMap<>();
+        this.lru = new Node(0, 0);
+        this.mru = new Node(0, 0);
+        this.lru.next = this.mru;
+        this.mru.prev = this.lru;
+    }
+
+    private void insert(Node node) {
+        Node prev = this.mru.prev;
+        prev.next = node;
+        this.mru.prev = node;
+        node.prev = prev;
+        node.next = this.mru;
+    }
+
+    private void delete(Node node) {
+        Node prev = node.prev;
+        Node next = node.next;
+        prev.next = next;
+        next.prev = prev;
+    }
+
+    public int get(int key) {
+        if (!this.cache.containsKey(key)) {
+            return -1;
+        }
+        Node node = this.cache.get(key);
+        this.delete(node);
+        this.insert(node);
+        return node.val;
+    }
+
+    public void put(int key, int value) {
+        if (this.cache.containsKey(key)) {
+            this.delete(this.cache.get(key));
+        }
+        Node node = new Node(key, value);
+        this.cache.put(key, node);
+        this.insert(node);
+        if (this.cache.size() > this.capacity) {
+            Node lru = this.lru.next;
+            this.delete(lru);
+            this.cache.remove(lru.key);
+        }
+    }
+}
+
+
+"""

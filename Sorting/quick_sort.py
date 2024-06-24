@@ -40,11 +40,65 @@ def partition(arr,low,up):
 def quick_sort(arr,low,up):
     if(low < up):  # checking if there is more than one element.
         q= partition(arr,low,up)
-        quick_sort(arr,0,q-1)
+        quick_sort(arr,low,q-1)
         quick_sort(arr,q+1,up)
 
 
+# Java
+"""
+class Solution {
+    public void quickSort(int[] arr, int low, int up) {
+        if (low < up) { // Checking if there is more than one element
+            int q = partition(arr, low, up);
+            quickSort(arr, low, q - 1);
+            quickSort(arr, q + 1, up);
+        }
+    }
 
+    private int partition(int[] arr, int low, int up) {
+        int i = low, j = up;
+        int pivot = arr[low];
 
+        while (i < j) {
+            // Find the first element from the right that is <= pivot
+            while (arr[j] > pivot) {
+                j--;
+            }
+            // Find the first element from the left that is > pivot
+            while (i < j && arr[i] <= pivot) {
+                i++;
+            }
+            if (i < j) {
+                // Swap elements to bring smaller elements to the left and larger to the right
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+        // Swap the pivot element to its correct position
+        arr[low] = arr[j];
+        arr[j] = pivot;
 
+        return j;
+    }
 
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        int[] arr = {10, 7, 8, 9, 1, 5};
+        int n = arr.length;
+
+        System.out.println("Unsorted array: ");
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+
+        solution.quickSort(arr, 0, n - 1);
+
+        System.out.println("\nSorted array: ");
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+    }
+}
+
+"""

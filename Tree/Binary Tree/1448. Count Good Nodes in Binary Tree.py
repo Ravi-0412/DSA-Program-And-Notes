@@ -22,3 +22,27 @@ class Solution:
         dfs(root,root.val)
         return self.count
 
+# Java
+"""
+class Solution {
+    private int count;
+
+    public int goodNodes(TreeNode root) {
+        count = 0;
+        dfs(root, root.val);
+        return count;
+    }
+
+    private void dfs(TreeNode node, int maxSeen) {
+        if (node == null) {
+            return;
+        }
+        if (node.val >= maxSeen) {
+            count++;
+            maxSeen = node.val;
+        }
+        dfs(node.left, maxSeen);
+        dfs(node.right, maxSeen);
+    }
+}
+"""

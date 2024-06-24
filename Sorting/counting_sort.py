@@ -31,6 +31,48 @@ arr= [0,1,4,2,1,0,5,3,2,1,4,5,1,0,2,7]
 counting_sort(arr)
 
 
+# Java
+"""
+import java.util.Arrays;
 
+class Solution {
+    public void countingSort(int[] arr) {
+        int n = arr.length;
+        
+        // Find the maximum element in the array
+        int max_ele = Arrays.stream(arr).max().getAsInt();
+        
+        // Create a count array to store the count of occurrences of each element
+        int[] count = new int[max_ele + 1];
+        
+        // Step 1: Store the count of each element in the count array
+        for (int num : arr) {
+            count[num]++;
+        }
+        System.out.println("Count of occurrences of each element: " + Arrays.toString(count));
+        
+        // Step 2: Modify the count array to store the number of elements smaller than or equal to each element
+        for (int i = 1; i < count.length; i++) {
+            count[i] += count[i - 1];
+        }
+        System.out.println("Number of elements smaller than or equal to each element: " + Arrays.toString(count));
+        
+        // Step 3: Create the result array based on the count array
+        int[] result = new int[n];
+        for (int i = n - 1; i >= 0; i--) {
+            result[count[arr[i]] - 1] = arr[i];
+            count[arr[i]]--;
+        }
+        System.out.println("Sorted array: " + Arrays.toString(result));
+    }
 
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        int[] arr = {4, 2, 2, 8, 3, 3, 1};
+        System.out.println("Original array: " + Arrays.toString(arr));
 
+        solution.countingSort(arr);
+    }
+}
+
+"""

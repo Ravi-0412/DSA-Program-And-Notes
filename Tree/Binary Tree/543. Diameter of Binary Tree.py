@@ -42,3 +42,27 @@ class Solution:
 # Related Q:
 # 1) 124. Binary Tree Maximum Path Sum
 # 2) 2246. Longest Path With Different Adjacent Characters
+
+
+# Java
+"""
+class Solution {
+    int ans;
+
+    public int diameterOfBinaryTree(TreeNode root) {
+        ans = 0;
+        height(root);
+        return ans;
+    }
+
+    private int height(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = height(root.left);
+        int right = height(root.right);
+        ans = Math.max(ans, left + right);
+        return 1 + Math.max(left, right);
+    }
+}
+"""

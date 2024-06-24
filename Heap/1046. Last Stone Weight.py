@@ -34,3 +34,37 @@ class Solution:
                 y= y-x
                 heapq.heappush(stones,-y)
         return -1*stones[0] if stones else 0
+
+
+# java
+""""
+
+import java.util.PriorityQueue;
+
+class Solution {
+    public int lastStoneWeight(int[] stones) {
+        // Use a max-heap with a custom comparator using a lambda expression
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);
+
+        // PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());  this will also work 
+        
+        // Add all stones to the max-heap
+        for (int stone : stones) {
+            maxHeap.add(stone);
+        }
+        
+        // Simulate the process of smashing stones
+        while (maxHeap.size() > 1) {
+            int y = maxHeap.poll(); // largest stone
+            int x = maxHeap.poll(); // second largest stone
+            if (x != y) {
+                maxHeap.add(y - x); // push the remaining weight back to the heap
+            }
+        }
+        
+        // Return the weight of the last stone, or 0 if no stones are left
+        return maxHeap.isEmpty() ? 0 : maxHeap.poll();
+    }
+}
+
+"""

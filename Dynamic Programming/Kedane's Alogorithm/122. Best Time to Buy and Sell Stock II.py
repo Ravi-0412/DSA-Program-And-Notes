@@ -64,7 +64,7 @@ def maxProfit(self, prices: List[int]) -> int:
 
 # Note vvi: since we can hold max one stock at a time, so to know stock has been bought already, we need one variable to check. 
 
-# we also have to keep track of 'last bought date' so calculate the profit but no need of extra varible.
+# we also have to keep track of 'last bought date' to calculate the profit but no need of extra varible.
 # To handle this we can subtract the price of day on which we will buy and call the further function.
 
 # Note vvi: Here in recursive function, we are not buying and selling on same but still will give correct ans.
@@ -84,15 +84,13 @@ class Solution:
     def helper(self, prices, ind, buy):
         if ind== len(prices):
             return 0
-        profit= 0
         # if buying is allowed then we have two choices. 1)buy 2) don't buy
         # while buying you are investing so add with '-ve' and make buy= False 
         if buy:
-            profit= max(-prices[ind] + self.helper(prices, ind+1, False), 0+ self.helper(prices, ind+1, True))
+            return max(-prices[ind] + self.helper(prices, ind+1, False), 0+ self.helper(prices, ind+1, True))
         # if buying is not allowed (only sell is allowed) then we have two choices. 1)sell today 2) dont sell today 
         else:
-            profit= max(prices[ind] + self.helper(prices, ind+1, True), 0+ self.helper(prices, ind+1, False))
-        return profit
+            return max(prices[ind] + self.helper(prices, ind+1, True), 0+ self.helper(prices, ind+1, False))
 
 # shorter and concise
 class Solution:

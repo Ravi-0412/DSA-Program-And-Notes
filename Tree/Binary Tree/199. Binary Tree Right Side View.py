@@ -5,17 +5,7 @@
 
 # why ? Because all other nodes at same level won't be visible.
 
-# unusual way python work(shocked)
-# i was thinking when we will print the value of 'i' outside the function then it will be '4'(value passed inside range)
-# but it stops at max possible value only
-for i in range(4):
-    print(i,"in")
-print(i)   # will print '3' only
-
-
-# optimising the space complexity in above method
-# we are unnecessarily adding all the node in level array at each level but we only need the last node value at each level
-# and last node val, we will get after each 'for' loop
+# Method 1: 
 from collections import deque
 class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
@@ -24,27 +14,7 @@ class Solution:
         ans= []
         q= deque([root])
         while q:
-            for i in range(len(q)):  # we have to print level by level in a list
-                curr= q.popleft()
-                if curr.left:
-                    q.append(curr.left)
-                if curr.right:
-                    q.append(curr.right)
-            ans+= [curr.val]  # last poped node will be the rightmost node
-        return ans
-
-
-# or you can append in ans before for loop also
-# better one.
-from collections import deque
-class Solution:
-    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
-        if root== None:
-            return root
-        ans= []
-        q= deque([root])
-        while q:
-            ans+= [q[-1].val]   # appending the last node value at each level
+            ans += [q[-1].val]   # appending the last node value at each level
             for i in range(len(q)):  # we have to print level by level in a list
                 curr= q.popleft()
                 if curr.left:
@@ -59,7 +29,8 @@ from collections import deque
 class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
         ans= []
-        # just preorder traversal only. just we are traversing first right before left because we have to add right node first if exist
+        # just preorder traversal only. just we are traversing first right before left because
+        #  we have to add right node first if exist
         def dfs(root, level): 
             if root== None:
                 return
@@ -73,6 +44,7 @@ class Solution:
         return ans
 
 
+
 # Method 2:
 # this can also be done by the vertical order approaches 
 # here key= vertical_level and value will be a pair of (hori_level, node.val)
@@ -80,3 +52,37 @@ class Solution:
 # after that print the value with max horizonatl level that's it 
 # but time complexity of this will go O(n*logn)
 
+# java
+# Method 1:
+"""
+class Solution {
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+        if (root == null) {
+            return ans;
+        }
+        
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+        
+        while (!q.isEmpty()) {
+            int levelSize = q.size();
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode curr = q.poll();
+                if (i == levelSize - 1) {
+                    ans.add(curr.val); // add the last node value at each level
+                }
+                if (curr.left != null) {
+                    q.add(curr.left);
+                }
+                if (curr.right != null) {
+                    q.add(curr.right);
+                }
+            }
+        }
+        
+        return ans;
+    }
+}
+
+"""

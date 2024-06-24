@@ -27,3 +27,5 @@ class Solution:
 # have to understand these solutions
 # https://leetcode.com/problems/copy-list-with-random-pointer/discuss/43484/C%2B%2B-6-lines-recursive-solution-using-memoization
 # https://leetcode.com/problems/copy-list-with-random-pointer/discuss/43491/A-solution-with-constant-space-complexity-O(1)-and-linear-time-complexity-O(N)
+
+# java

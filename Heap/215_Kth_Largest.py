@@ -4,7 +4,7 @@ def findKthLargest(self, nums: List[int], k: int) -> int:
         return sorted(nums)[-k]
     
 
-# 2nd method: make a min heap and delete the k-1 element
+# 2nd method: make a max heap and delete the k-1 element
 # after that return the top ele of the array, that will be the kth largest element
 
 # methid 3: using min Heap
@@ -72,5 +72,76 @@ class Solution:
         arr[j], arr[low]= arr[low], arr[j]
         return j
 
+# Java
+# Method 3:
+"""
+import java.util.PriorityQueue;
 
+public class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        // Creating a min heap
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
 
+        // Insert elements into the min heap
+        for (int num : nums) {
+            minHeap.add(num);
+            // If the size of the heap exceeds k, remove the smallest element (top of heap)
+            if (minHeap.size() > k) {
+                minHeap.poll();
+            }
+        }
+
+        // The root of the heap will be the kth largest element
+        return minHeap.peek();
+    }
+}
+"""
+
+# Method 4: Quick Select
+"""
+public class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        int n = nums.length;
+        int kthLargestIndex = n - k; // Convert kth largest to index based on 0-based indexing
+
+        return quickSelect(nums, 0, n - 1, kthLargestIndex);
+    }
+
+    private int quickSelect(int[] arr, int low, int high, int k) {
+        if (low <= high) {
+            int q = partition(arr, low, high);
+            if (q == k) {
+                return arr[q];
+            } else if (q > k) {
+                return quickSelect(arr, low, q - 1, k);
+            } else {
+                return quickSelect(arr, q + 1, high, k);
+            }
+        }
+        return -1; // Handle edge case, should not occur in valid input
+    }
+
+    private int partition(int[] arr, int low, int high) {
+        int pivot = arr[low];
+        int i = low, j = high;
+        while (i < j) {
+            while (i < j && arr[j] > pivot) {
+                j--;
+            }
+            while (i < j && arr[i] <= pivot) {
+                i++;
+            }
+            if (i < j) {
+                swap(arr, i, j);
+            }
+        }
+        swap(arr, low, j);
+        return j;
+    }
+
+    private void swap(int[] arr, int x, int y) {
+        int temp = arr[x];
+        arr[x] = arr[y];
+        arr[y] = temp;
+    }
+"""

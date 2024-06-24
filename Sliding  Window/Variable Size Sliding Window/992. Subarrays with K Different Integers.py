@@ -49,13 +49,13 @@ class Solution:
 class Solution:
     def subarraysWithKDistinct(self, nums: List[int], k: int) -> int:
 
-        def subarraysWithDistinctK(nums, k):
+        def subarraysWithAtMostDistinct(nums, k):
             freq= {}
             i, j= 0, 0
             ans= -1
             longest= ""  # will give any such string
             while j < len(nums):
-                freq[nums[j]]= 1 + freq.get(nums[j], 0)
+                freq[nums[j]] = 1 + freq.get(nums[j], 0)
                 while len(freq) > k:
                     freq[nums[i]]-= 1
                     if freq[nums[i]]== 0:
@@ -65,7 +65,7 @@ class Solution:
                 j+= 1
             return ans
         
-        return subarraysWithDistinctK(nums, k) - subarraysWithDistinctK(nums, k -1)
+        return subarraysWithAtMostDistinct(nums, k) - subarraysWithAtMostDistinct(nums, k -1)
     
 # Other way:
 # Number of subarrays having distinct elements equal to k =

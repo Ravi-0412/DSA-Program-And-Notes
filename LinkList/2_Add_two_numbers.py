@@ -29,4 +29,32 @@ class Solution:
 # To read about divmod
 # https://www.tutorialsteacher.com/python/divmod-method
 
+# java
+"""
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode ans = new ListNode(0); // creating a dummy node to handle inserting at first
+        ListNode cur = ans;
+        int carry = 0;
+        ListNode cur1 = l1, cur2 = l2;
+        while (cur1 != null || cur2 != null || carry != 0) {
+            int curSum = carry;
+            if (cur1 != null) {
+                curSum += cur1.val;
+                cur1 = cur1.next;
+            }
+            if (cur2 != null) {
+                curSum += cur2.val;
+                cur2 = cur2.next;
+            }
+            carry = curSum / 10;
+            int sum = curSum % 10;
+            cur.next = new ListNode(sum);
+            cur = cur.next;
+        }
+        return ans.next;
+    }
+}
+"""
+
 

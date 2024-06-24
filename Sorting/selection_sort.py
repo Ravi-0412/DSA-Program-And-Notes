@@ -22,3 +22,53 @@ for i in range(n):
 selection_sort(lst)
 print(lst)
 
+
+# Java
+"""
+import java.util.Arrays;
+
+public class Solution {
+    // Function to swap elements in an array
+    static void swap(int[] arr, int x, int y) {
+        int temp = arr[x];
+        arr[x] = arr[y];
+        arr[y] = temp;
+    }
+
+    // Function to perform selection sort
+    static void selectionSort(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            // Swap the found minimum element with the first element of the unsorted part
+            swap(arr, minIndex, i);
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {8, 4, 2, 1, 7, 5, 3, 6};
+
+        System.out.println("Original array:");
+        printArray(arr);
+
+        selectionSort(arr);
+
+        System.out.println("Sorted array in ascending order:");
+        printArray(arr);
+    }
+
+    // Utility function to print an array
+    static void printArray(int[] arr) {
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+        System.out.println();
+    }
+}
+
+"""

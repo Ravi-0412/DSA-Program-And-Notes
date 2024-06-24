@@ -12,14 +12,18 @@
 # 2) postTweet: we can take a hashmap and store the tweets done by user in a list, 
 # the most recent tweets done by user will be at the end of the list.
 # But to get the most recent feed we have to store the tweet done by a user with time also.
-# Since we can use only minHeap so we will reduce the time each time by '1' instead of inc.
+# Since we can use only minHeap so we will reduce the time each time by '1' instead of increment.
 
 # 3)getNewsFeed:
 # wo user jisko bhi follow kar rha, unlog ka 1o most recent tweet chahiye.
-# tweet done by a person, we have stored in a list and tweet at last of the list will be the most recent one.
-# for getting the most recent 10 tweets, we have to find the 10 most recent from all the lists of tweets done by person whom user follow.
+# for getting the most recent 10 tweets, we have to find the 10 most recent 
+# from all the lists of tweets done by person whom user follow.
+# Before adding into MinHeap, most recent tweet will be at last only.
 
-# Vvi: Now the problem reduces to "merge k sorted array".
+# Vvi: Now the problem reduces to "merge k sorted array" for 'getNewsFeed'.
+# Most recent tweet will be at the top for any person because we are storing in minHeap.
+
+# Why using minHeap: Just to avoid adding '-ve' value in case of maxHeap. can do by maxHeap also.
 
 # just compare the last tweet time of each person they follow
 # and most efficient way to do this is add all the recent tweet done by all the person they follow into a minHeap.
@@ -38,7 +42,7 @@ class Twitter:
     
     def postTweet(self, userId: int, tweetId: int) -> None:
         self.tweetMap[userId].append((self.time, tweetId))
-        self.time-= 1 # less time means most recent tweet, decr by '1' since in python only we can make minHeap
+        self.time -= 1 # less time means most recent tweet, decr by '1' since in python only we can make minHeap
         
     def getNewsFeed(self, userId: int) -> List[int]:
         res= []
@@ -76,4 +80,72 @@ class Twitter:
         if followeeId in self.followMap[followerId]:
             self.followMap[followerId].remove(followeeId)
 
+# Java
+"""
+import java.util.*;
+
+class Twitter {
+    private int time;
+    private Map<Integer, List<int[]>> tweetMap; // userId -> list of tweets [time, tweetId]
+    private Map<Integer, Set<Integer>> followMap; // followerId -> set of followeeIds
+
+    /** Initialize your data structure here. */
+    public Twitter() {
+        time = 0;
+        tweetMap = new HashMap<>();
+        followMap = new HashMap<>();
+    }
+    
+    /** Compose a new tweet. */
+    public void postTweet(int userId, int tweetId) {
+        tweetMap.putIfAbsent(userId, new ArrayList<>());
+        tweetMap.get(userId).add(new int[]{time, tweetId});
+        time ++;
+    }
+    
+    /** Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent. */
+    public List<Integer> getNewsFeed(int userId) {
+        List<Integer> res = new ArrayList<>();
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> b[0] - a[0]); // max heap based on time
         
+        followMap.putIfAbsent(userId, new HashSet<>());
+        followMap.get(userId).add(userId); // include user's own tweets
+        
+        for (int followeeId : followMap.get(userId)) {
+            if (tweetMap.containsKey(followeeId)) {
+                List<int[]> tweets = tweetMap.get(followeeId);
+                int index = tweets.size() - 1;
+                if (index >= 0) {
+                    int[] tweet = tweets.get(index);
+                    minHeap.offer(new int[]{tweet[0], tweet[1], followeeId, index - 1});
+                }
+            }
+        }
+        
+        while (!minHeap.isEmpty() && res.size() < 10) {
+            int[] tweet = minHeap.poll();
+            res.add(tweet[1]);
+            int followeeId = tweet[2];
+            int index = tweet[3];
+            if (index >= 0) {
+                int[] nextTweet = tweetMap.get(followeeId).get(index);
+                minHeap.offer(new int[]{nextTweet[0], nextTweet[1], followeeId, index - 1});
+            }
+        }
+        
+        return res;
+    }
+    
+    /** Follower follows a followee. If the operation is invalid, it should be a no-op. */
+    public void follow(int followerId, int followeeId) {
+        followMap.putIfAbsent(followerId, new HashSet<>());
+        followMap.get(followerId).add(followeeId);
+    }
+    
+    /** Follower unfollows a followee. If the operation is invalid, it should be a no-op. */
+    public void unfollow(int followerId, int followeeId) {
+        followMap.putIfAbsent(followerId, new HashSet<>());
+        followMap.get(followerId).remove(followeeId);
+    }
+}
+"""

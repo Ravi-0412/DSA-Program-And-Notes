@@ -1,5 +1,5 @@
 # quick_select is used to find the kth smallest or kth largest element 
-# in the time: o(n^2) ,but worst case can be avoided by using a random pivot. so average: 0(n^2)
+# in the time: o(n^2) ,but worst case can be avoided by using a random pivot. so average: 0(n)
 # here doing for kth largest element
 
 # Logic: If pivot of an element is 'n-k' then this means this ele is our ans i.e kth largest ele.
@@ -41,3 +41,44 @@ k= 2
 print("{}th largest element is ".format(k))
 print(quick_select(arr, 0, n - 1, k))
 
+
+# Java
+"""
+class Solution {
+    public int quickSelect(int[] arr, int low, int high, int k) {
+        if (low <= high) { // if the array contains at least one element
+            int q = partition(arr, low, high);
+            int n = arr.length;
+            if (q == n - k) { // pivot index element is equal to 'k' from the start
+                return arr[q];
+            }
+            if (q > n - k) { // element lies on the left side of the pivot index
+                return quickSelect(arr, low, q - 1, k);
+            } else { // element lies on the right side of the pivot index
+                return quickSelect(arr, q + 1, high, k);
+            }
+        }
+        return -1; // this case won't occur if the input is valid
+    }
+
+    private int partition(int[] arr, int low, int high) {
+        int pivot = arr[low];
+        int i = low, j = high;
+        while (i < j) {
+            while (arr[j] > pivot) {
+                j--;
+            }
+            while (i < j && arr[i] <= pivot) {
+                i++;
+            }
+            if (i < j) {
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+        arr[low] = arr[j];
+        arr[j] = pivot;
+        return j;
+    }
+"""

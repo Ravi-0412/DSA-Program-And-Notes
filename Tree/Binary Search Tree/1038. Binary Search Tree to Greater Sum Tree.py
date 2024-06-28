@@ -1,55 +1,32 @@
 # method 1: Brute force
-# steps: 1) find the inorder traversal and store them into an array say 'inorder'.
-# 2) search for index of each root.val in 'inorder' array , using binary search say 'idx'.
-# 3 ) Find the suffix sum to get the sum from the above index(all larger node) to last in o(1).
-# then root.val= suffix[idx]
-
-# time: O(n*logn), searching index of each ele .
-
 class Solution:
     def bstToGst(self, root: TreeNode) -> TreeNode:
-        # Find the inorder Traversal 
-        inorder= []
-        stack, cur= [], root
-        while stack or cur:
-            while cur:
-                stack.append(cur)
-                cur= cur.left
-            temp= stack.pop()
-            inorder.append(temp.val)
-            cur= temp.right
+        inorder = [0]*101  # if 'num' is present in bst then inorder[num] = num
 
-        # search the index of 'num' in sorted array i.e 'inorder' to find all numbers greater than num.
-        # Binary Search
-        def search(num):
-            start, end= 0, len(inorder) -1
-            while start < end:
-                mid= start + (end - start)//2
-                if inorder[mid] >= num:
-                    end= mid
-                else:
-                    start= mid + 1
-            return start
-        
-        # calculate the suffix sum to find sum of greater ele in O(1)
-        n= len(inorder)
-        suffix= [0]*n
-        suffix[n-1]= inorder[n-1]
-        for i in range(n-2, -1, -1):
-            suffix[i]= suffix[i + 1] + inorder[i]
-        
-        # function to change the value of nodes
-        def preorder(root):
+        def findInorder(root):
+            if not root:
+                return 0
+            inorder[root.val] = root.val
+            findInorder(root.left)
+            findInorder(root.right)
+
+        def update(root):
             if not root:
                 return 
-            idx= search(root.val)
-            print(root.val, idx)
-            root.val= suffix[idx]
-            preorder(root.left)
-            preorder(root.right)
-        
-        preorder(root)
+            root.val = inorder[root.val]    # this will be new value
+            update(root.left)
+            update(root.right)
+
+        findInorder(root)
+
+        for i in range(99, -1, -1):
+            inorder[i] = inorder[i] + inorder[i + 1]
+        # after this inorder[i] = sum from 'i' to last index.
+        # now update the value of all nodes
+        update(root)
         return root
+        
+
     
 
 # method 2:
@@ -62,17 +39,15 @@ class Solution:
 # space: O(height)
 
 class Solution:
+    value = 0
     def bstToGst(self, root: TreeNode) -> TreeNode:
-        self.pre= 0  # will store the sum of all values > root.val 
-
-        def ReverseInorder(root):
-            if root.right:
-                ReverseInorder(root.right)
-            # update the pre, and cur root val
-            self.pre= root.val= root.val + self.pre
-            if root.left:
-                ReverseInorder(root.left)
-        
-        ReverseInorder(root)
+        if root.right: 
+            self.bstToGst(root.right)
+        root.val = self.value = root.val + self.value
+        if root.left:
+            self.bstToGst(root.left)
         return root
 
+
+# same question
+# 1) 538. Convert BST to Greater Tree

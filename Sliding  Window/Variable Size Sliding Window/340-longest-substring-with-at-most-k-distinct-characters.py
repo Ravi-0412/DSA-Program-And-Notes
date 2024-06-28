@@ -17,4 +17,13 @@ class Solution:
             ans= max(ans, j- i+ 1)  # for length we can update directly as here len(freq) <= k only.
             j+= 1
         return ans
+    
+# Note : if asked this in circular array then , we can just add 'elements' from '0' to 'n-1' in original array at last 
+# and apply the same logic.
+# But in  this way our ans can exceed maximum ans i.e > len(arr).
+# e.g: [2,2,2,2,2]  
+# after appending: [2, 2, 2, 2, 2, 2, 2, 2, 2] so output= 9 but it ans should be = 5
+# so for handling this return like: return ans if ans <= len(arr) else len(arr)
 
+# Related Q:
+# 1) 904. Fruit Into Baskets   => Asked me in Dezerv coding Round

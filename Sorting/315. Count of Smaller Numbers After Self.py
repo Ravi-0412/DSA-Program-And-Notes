@@ -2,10 +2,10 @@
 
 # Difference in both questions: 
 # Note: While merging only we will get ans and element position changes while merge ,
-# and for updating the ans we need to keep tarck of index as well.
+# and for updating the ans we need to keep track of index as well.
 
 # so : 1) create another array with [nums[i], i] 
-# 2) Apply exact same 'method 1' for counting ans of '493.Reverse Pairs'.
+# 2) Apply exact same 'method 2' for counting ans of '493.Reverse Pairs'.
 # Only thing here add the count for that particular index.
 
 

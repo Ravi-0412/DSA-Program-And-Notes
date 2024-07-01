@@ -5,13 +5,13 @@
 
 
 # Two way to count the reverse pair:
-# 1) Just same as 'Inversion_count'
+# Method 1) Just same as 'Inversion_count'
 # vvi: Here for each element on right find the no of reverse pair.
 # so keep right_side same and move on left i.e 
 #  Find the 1st element from left which is > 2 * cur_element_on_right.
 # After that all remaining ele on left will be > 2 * cur_element_on_right.
 
-# 2) Here for each element on left find the no of reverse pair.
+# Method 2) Here for each element on left find the no of reverse pair.
 # so keep left_side same and move on right i.e 
 #  Find the 1st element from right which is <= 2 * cur_element_on_left.
 # After that all element on right that we passed will be count as ans for currrent_ele on left.
@@ -21,7 +21,8 @@
 # See the code
 
 
-# Note vvi: In these type of question , if you will first merge and then find the ans i.e 'inversion count' or 'no of smaller ele' etc based on Q
+# Note vvi: In these type of question , if you will first merge and then find the ans 
+# i.e 'inversion count' or 'no of smaller ele' etc based on Q.
 # Then you will get wrong ans. Because we will get ans while merging only.
 
 class Solution:

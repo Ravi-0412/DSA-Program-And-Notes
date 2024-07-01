@@ -1,4 +1,4 @@
-# more clarity for Q: if all numbers in the array is negative then return smallest poitsive i.e '1'.
+# more clarity for Q: if all numbers in the array is negative then return smallest positive i.e '1'.
 # if all number in range are present then return the greatest of all number beyond array i.e maxNo +1 
 
 
@@ -25,26 +25,11 @@ class Solution:
 # Observation: the missing integer must be in the range [1..n + 1]. (n = length of array)
 # So, If an integer is missing it must be in the range [1..n], if an integer is not missing then the answer is n+1.
 
-# Explanation: 
-# There is two possibilty:
-# 1) There is no missing integer in the array.
-# If there is no missing integers, this means that the array has all number from 1 to n.
-# This must mean that the array is full. Why, because in the range [1..n] there are exactly n numbers, 
-# and if you place n numbers in an array of length n, the array is by definition full.
+# How to solve?
 
-# in this case the solution is to return n+1 which is the first smallest integer
-
-# 2) There is a missing integer in the array.
-# If there is a missing integer (or more than one), the missing integer(s), let's call it X,
-# must be in the range 1..n. Why, because if the missing integer X is not in the range [1..n] 
-# that would imply that all integers [1..n] are in the array, which would mean that the array is full,
-# leaving no space to place X (since X is not in the range [1..n]).
-
-# Then the algorithm becomes:
-
-# Ignore all numbers <=0 and >n since they are outside the range of possible answers (which we proved was [1..n]). 
+# Ignore all numbers <=0 and > n since they are outside the range of possible answers (which we proved was [1..n]). 
 # We do this by replacing them with the value n+1.
-# For all other integers <n+1, mark their bucket (cell) to indicate the integer exists. (*see below)
+# For all other integers < n+1, mark their bucket (cell) to indicate the integer exists. (*see below)
 # Find the first cell not marked, that is the first missing integer. If you did not find an unmarked cell, 
 # there was no missing integer, so return n+1.
 
@@ -58,7 +43,7 @@ class Solution:
         for i in range(n):
             if nums[i] <=0 or nums[i] > n:
                 nums[i] = n + 1
-        # note: all number in the array are now positive, and on the range 1..n+1
+        # note: all number in the array are now positive, and in the range 1..n+1
         # 2. mark each cell appearing in the array, by converting the index for that number to negative
         for i in range(n):
             num = abs(nums[i]) # since modifying in place so might be -ve also

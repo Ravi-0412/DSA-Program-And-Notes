@@ -1,6 +1,6 @@
 # the best thing of this problem is we can apply binary search in this.
 
-# 1st method : return index of max elemet. O(n)
+# 1st method : return index of max element. O(n)
 
 # 2nd method: Binary Search
 # logic: check if mid is 'peak ele' or not.
@@ -13,12 +13,12 @@ class Solution:
         n, start, end= len(nums), 0, len(nums)-1
         while start<= end:
             mid= start + (end-start)//2
-            if mid >0 and mid < n-1:  # if mid is not the first and last ele
+            if mid > 0 and mid < n-1:  # if mid is not the first and last ele
                 if nums[mid] > nums[mid-1] and nums[mid] > nums[mid+1]: # peak ele will hold this condition
                     return mid
                 # move to the side containing bigger ele i.e due to which 'mid' didn't become the 'peak' element.
                 if nums[mid] <= nums[mid -1]:
-                    end= mid- 1
+                    end = mid- 1
                 else: # nums[mid] <= nums[mid +1]
                     start= mid+ 1
             # now handle the edge cases

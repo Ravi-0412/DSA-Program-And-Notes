@@ -154,6 +154,7 @@ class Solution:
 # Similar Q: 
 # 1) "240. Search a 2D Matrix II"
 # exactly same thing as 'method 2'.
+# 2) 1428. Leftmost Column with at Least a One
 
 
 # java

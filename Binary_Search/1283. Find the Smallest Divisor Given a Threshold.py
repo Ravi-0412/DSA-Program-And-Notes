@@ -20,7 +20,7 @@ class Solution:
         start, end= 1, max(nums)
         while start < end:
             mid= start + (end - start)//2
-            if isSum(mid) <= threshold:  # max we need to search till here only since we have to get close to threshold so increasing will lead to even more smaller.
+            if isSum(mid) <= threshold:  # if isPossible(mid) =>  then try to get more smaller
                 end= mid
             else:  # if isSum(mid) > threshold  => we need to decrease the sum for this we need to increase the mid .
                 start= mid + 1

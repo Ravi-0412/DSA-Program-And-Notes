@@ -52,8 +52,7 @@ class MinStack:
         if self.head == None:
             self.head = Node(val, val)
         else:
-            print(self.head.minimum,self.head.value,"minimum")
-            # make new node as head and current head to its nex.
+            # make new node as head and current head to its next.
             # first should store the minimum value till now
             self.head = Node(val, min(val, self.head.minimum), self.head)   
 

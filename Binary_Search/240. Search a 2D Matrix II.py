@@ -18,7 +18,7 @@ class Solution:
             elif matrix[down][left] > target: # it means target will be present on the previous col
                                         # as all col is also sorted and we need to search the ele 
                                         # lesser than current one
-                left-= 1
+                left -= 1
             elif matrix[down][left] < target:  # it means target will be present on the next rows
                                         # as all row  is also sorted and we need to search the 
                                         # ele greater than current one

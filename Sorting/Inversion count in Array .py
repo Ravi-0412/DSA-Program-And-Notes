@@ -22,9 +22,9 @@ class Solution:
         inv_count= 0
         if(low < up):   # to check if there is more than one element.
             mid= low+ (up-low)//2
-            inv_count+= self.merge_sort_count_inversion(arr, low, mid)
-            inv_count+= self.merge_sort_count_inversion(arr, mid+1, up)
-            inv_count+= self.merge(arr, low, mid, up)
+            inv_count += self.merge_sort_count_inversion(arr, low, mid)
+            inv_count += self.merge_sort_count_inversion(arr, mid+1, up)
+            inv_count += self.merge(arr, low, mid, up)
         return inv_count
     
     # left part should be smaller and if it doesn't mean there are inversions.

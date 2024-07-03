@@ -64,7 +64,7 @@ class Solution {
         }
         for(int j = ind ; j < n; j ++){
             String substr = s.substring(ind, j + 1);
-            // cchecking palindrome
+            // checking palindrome
             if(substr.equals(new StringBuilder(substr).reverse().toString())) {
                 par.add(substr);
                 backtrack(j + 1, s, par) ;

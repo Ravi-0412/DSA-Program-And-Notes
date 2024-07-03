@@ -60,24 +60,28 @@ class Solution:
 # Reason: removing element from 'per' while backtrack is also removing ele from 'ans' and finally
 # answer is getting = [].
 
-# note vvi: So avoid adding / poping in separate line in python specially with lists.
+# note vvi: 1) So avoid adding / poping in separate line in python specially with lists.
 # Just add while calling function, it will get automatically get poped while backtrack and won't modify any related data structure.
+
+# 2) or while adding into ans , add copy to avoid this scenario.
+# 
 
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
     
         def permutation(per):
             if len(per) == len(nums):
-                ans.append(per)
+                # ans.append(per)   # this will give empty ans
+                ans.append(per.copy())   # this will give correct ans
                 return
             for i in range(len(nums)):
                 if nums[i] not in included:
-                    included.add(nums[i])   # this one 
-                    per.append(nums[i])
+                    included.add(nums[i])   
+                    per.append(nums[i])   # this one 
                     permutation(per)
                     # while backtracking remove arr[i]
-                    included.remove(nums[i]) 
-                    per.remove(nums[i])    # and this one
+                    included.remove(nums[i])   # and this one
+                    per.remove(nums[i])    
 
         n = len(nums)   
         ans = []
@@ -162,48 +166,6 @@ def permutations(given, ans):
 
 # Java
 """
-// method 1:
-class Solution {
-    public List<List<Integer>> permute(int[] nums) {
-        List<List<Integer>> ans = new ArrayList<>();
-        
-        // Helper method for generating permutations
-
-
-        permuteHelper(nums, new ArrayList<>(), ans);
-        
-        return ans;
-    }
-    
-    private void permuteHelper(int[] arr, List<Integer> per, List<List<Integer>> ans) {
-        if (arr.length == 0) {
-            // Base case: no elements left to permute, add current permutation to result
-            ans.add(new ArrayList<>(per));
-            return;
-        }
-        
-        // Iterate through the array and create permutations
-        for (int i = 0; i < arr.length; i++) {
-            // Create a new array without the current element
-            int[] newArr = new int[arr.length - 1];
-            for (int j = 0, k = 0; j < arr.length; j++) {
-                if (j != i) {
-                    newArr[k++] = arr[j];
-                }
-            }
-            
-            // Add current element to the current permutation
-            per.add(arr[i]);
-            
-            // Recurse with the new array and updated permutation
-            permuteHelper(newArr, per, ans);
-            
-            // Remove the current element to backtrack
-            per.remove(per.size() - 1);
-        }
-    }
-}
-
 // method 2:
 
 class Solution {
@@ -230,7 +192,7 @@ class Solution {
                 included.add(nums[i]);    // Mark the number as included
                 per.add(nums[i]);         // Add the number to the current permutation
                 
-                permutation(new ArrayList<>(per), nums, included, ans); // Recurse with the updated permutation
+                permutation(per, nums, included, ans); // Recurse with the updated permutation
                 
                 // Backtrack by removing the last added number
                 included.remove(nums[i]);
@@ -238,28 +200,6 @@ class Solution {
             }
         }
     }
-} 
-
-
-// method 2: Other way 
-
-public List<List<Integer>> permute(int[] nums) {
-   List<List<Integer>> list = new ArrayList<>();
-   backtrack(list, new ArrayList<>(), nums);
-   return list;
-}
-
-private void backtrack(List<List<Integer>> list, List<Integer> tempList, int [] nums){
-   if(tempList.size() == nums.length){
-      list.add(new ArrayList<>(tempList));
-   } else{
-      for(int i = 0; i < nums.length; i++){ 
-         if(tempList.contains(nums[i])) continue; // element already exists, skip
-         tempList.add(nums[i]);
-         backtrack(list, tempList, nums);
-         tempList.remove(tempList.size() - 1);
-      }
-   }
 } 
 
 """

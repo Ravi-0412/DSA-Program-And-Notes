@@ -5,7 +5,7 @@
 # for this type of Q we always use multisource BFS.
 
 # Method 1: Simplest solution
-# Logic: word which will differ by single character all those words will come adjacen to each other.
+# Logic: word which will differ by single character all those words will come adjacent to each other.
 # So 1st make adjacency list by checking the difference and then apply mutisource bfs.
 
 # from two constraints: 
@@ -23,7 +23,7 @@ class Solution(object):
             return 0
         words.append(beginWord)
         n = len(words)
-        adj = collections.defaultdict(list)
+        adj = collections.defaultdict(list)   # [word: adjacent_words]
         for i in range(n):
             word1 = words[i]
             for j in range(i + 1, n):

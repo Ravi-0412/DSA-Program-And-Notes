@@ -12,6 +12,26 @@ class Solution:
             return self.helper(n-1,arr,sum)
         # Means we can consider this ele but we have choices i.e 1) Take it 2) Not take it.
         return self.helper(n-1,arr,sum- arr[n-1]) or self.helper(n-1,arr,sum)
+    
+
+# Other better way
+# do by this methd only for this type of question
+
+# We always has one choice to notTake and we can only take current ele if 'arr[i] <= sum'
+
+class Solution:
+    def isSubsetSum (self, N, arr, sum):
+        return self.helper(N, arr, sum)
+    def helper(self, n, arr, sum):
+        if sum== 0:
+            return True
+        if n== 0:  # means n== 0 and sum != 0
+            return False
+        take = False
+        if arr[n-1] <= sum:
+            take = self.helper(n-1,arr,sum - arr[n -1])
+        notTake = self.helper(n-1,arr,sum)
+        return take or notTake
 
 
 # memoized method:
@@ -94,3 +114,4 @@ class Solution:
                     cur[j]= pre[j-arr[i-1]] or pre[j]
             pre = cur.copy()
         return pre[sum] 
+

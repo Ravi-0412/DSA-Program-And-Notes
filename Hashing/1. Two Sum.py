@@ -16,6 +16,9 @@ def twoSum(self, nums: List[int], target: int) -> List[int]:
             else:  # if not present then store the array val as key with index as values
                 hashmap[nums[i]]= i   # since we have to return index so store index as value with remaining sum
 
+# Now if asked to find the no of such pair then keep track of count as well.
+# see 1st method of q: "2006. Count Number of Pairs With Absolute Difference K"
+
 
 # 1) Note vvi: whenever you are asked to check the pair or count the pair for any operation 
 # like 'Sum' ,'Subtraction' , 'multiplication' , 'division'

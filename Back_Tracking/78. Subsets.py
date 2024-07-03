@@ -86,20 +86,6 @@ class Solution:
         return outer
 
 
-# my mistake
-# class Solution:
-#     def subsets(self, nums: List[int]) -> List[List[int]]:
-#         ans= [[]]
-#         for i in range(len(nums)):
-#             local= ans.copy()      # copying like this is creating the reference for all 1D list inside the 2D array
-#                                    # so changing the value inside any 1D array in local will change the same 1D array in ans also
-#             for j in range(len(local)):
-#                 # print(num," num")
-#                 local[j].append(nums[i])
-#             ans+= local
-#         return ans
-
-
 # concise way of writing above code:
 # class Solution:
 #     def subsets(self, nums: List[int]) -> List[List[int]]:

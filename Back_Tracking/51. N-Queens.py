@@ -97,7 +97,7 @@ print(NQueens(board,0))
 
 class Solution:
     def solveNQueens(self, n: int) -> List[List[str]]:
-        all_board= []  # create to store the result. later we will append the ans array in this
+        all_board= []  # to store the result. 
         board= [['.' for j in range(n)] for i in range(n)]   # created inputs board
         self.helper(all_board,board,0)  # we will put col wise
                                         # starting from zero(row will always start from zero)
@@ -105,22 +105,20 @@ class Solution:
     
     def helper(self,all_board,board,col):
         if col== len(board):
+            # Add 'baord' into ans 'all_board'
             self.saveBoard(all_board, board)
             return 
         
         for row in range(len(board)):
             if self.isSafe(board,row,col):
                 board[row][col]= 'Q'
-                Solution().helper(all_board,board,col+1)
+                self.helper(all_board,board,col+1)
                 board[row][col]= '.'
 
     def saveBoard(self,all_board, board):
         new_board= []  # will contain all the ele of board row by row in single array
         for i in range(len(board)):
-            row= ""  # will store the content of row by row of 'board'
-            for j in range(len(board[0])):
-                row+= board[i][j]
-            new_board.append(row)  
+            new_board.append("".join(board[i]))
         all_board.append(new_board)
 
     def isSafe(self,board,row,col):    
@@ -153,3 +151,71 @@ class Solution:
 # 1) Placing n Knight in a 2d array such that they don't attack each other
 # 2) 37. Sudoku Solver
 # 3) M-Coloring Problem
+
+# java
+# Method 2:
+"""
+import java.util.*;
+
+public class Solution {
+    public List<List<String>> solveNQueens(int n) {
+        List<List<String>> allBoards = new ArrayList<>();
+        char[][] board = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                board[i][j] = '.';
+            }
+        }
+        helper(allBoards, board, 0);
+        return allBoards;
+    }
+
+    private void helper(List<List<String>> allBoards, char[][] board, int col) {
+        if (col == board.length) {
+            saveBoard(allBoards, board);
+            return;
+        }
+        for (int row = 0; row < board.length; row++) {
+            if (isSafe(board, row, col)) {
+                board[row][col] = 'Q';
+                helper(allBoards, board, col + 1);
+                board[row][col] = '.';
+            }
+        }
+    }
+     private void saveBoard(List<List<String>> allBoards, char[][] board) {
+        List<String> newBoard = new ArrayList<>();
+        for (int i = 0; i < board.length; i++) {
+            newBoard.add(new String(board[i]));
+        }
+        allBoards.add(newBoard);
+    }
+
+    private boolean isSafe(char[][] board, int row, int col) {
+        for (int i = 0; i < board.length; i++) {
+            if (board[row][i] == 'Q') {
+                return false;
+            }
+        }
+        int r = row, c = col;
+        while (r >= 0 && c >= 0) {
+            if (board[r][c] == 'Q') {
+                return false;
+            }
+            r--;
+            c--;
+        }
+        r = row;
+        c = col;
+        while (r < board.length && c >= 0) {
+            if (board[r][c] == 'Q') {
+                return false;
+            }
+            r++;
+            c--;
+        }
+        return true;
+    }
+}
+
+"""

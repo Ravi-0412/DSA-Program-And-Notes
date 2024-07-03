@@ -11,8 +11,8 @@ class Solution:
         ans= 0
         for j in range(len(nums)):
             positive_case_prev_sum= k + nums[j]   # checking if we have seen this num when we will open the modulus with +ve sign.
-            ans+= hashmap.get(positive_case_prev_sum, 0)
-            negative_case_prev_sum= nums[j] - k   # checking if we have seen this num when we will open the modulus with -ve sign.
+            ans += hashmap.get(positive_case_prev_sum, 0)
+            negative_case_prev_sum = nums[j] - k   # checking if we have seen this num when we will open the modulus with -ve sign.
             ans+= hashmap.get(negative_case_prev_sum, 0)
             # update the frequency of nums[i] in hashmap.
             hashmap[nums[j]]= 1 + hashmap.get(nums[j], 0)

@@ -52,7 +52,7 @@ class Solution:
         for i in range(row):
             pre[i]= triangle[row-1][i]
         for i in range(row-2,-1,-1):
-            curr= [0 for i in range(i+1)]   # as no of ele in each row will be equal to no of row 
+            curr= [0 for i in range(i+1)]   # as no of ele in each row will be equal to no of row in 0-indexing
             for j in range(i+1):  
                 curr[j]= triangle[i][j] + min(pre[j], pre[j+1])     # when you take the ith ind ele in next row
             pre= curr.copy()

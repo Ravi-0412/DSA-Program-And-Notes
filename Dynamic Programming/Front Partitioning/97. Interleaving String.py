@@ -1,5 +1,5 @@
 # i was getting how to do but not able to write.
-# REcursion me jyada dimag mat lagao bs likh do jo lage kam karega recusrsively nhi to recursion me kabhi bhi confidence nhi aayeaga.
+# REcursion me jyada dimag mat lagao bs likh do jo lage kam karega recursively nhi to recursion me kabhi bhi confidence nhi aayeaga.
 
 # logic: just check for char of s3 in s1 or s2 if it present in any of them then incr the pointer of that string.
 # there will be two cases either char in s3 can be present in s1 or s2.
@@ -19,6 +19,35 @@
 #  Two or more contiguous substring parts from same string can be combined into one substring.
 #  And hence, the condition |x - y| <=1 holds true.
 
+# Simplest one
+class Solution:
+    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
+        m, n, l = len(s1), len(s2), len(s3)
+        if m + n != l:
+            return False
+        
+        memo = {}
+        
+        def helper(i: int, j: int, k: int) -> bool:
+            if k == l:
+                return True
+            
+            if (i, j) in memo:   # no need to take 'k' since k will always equal to 'i + j' 
+                return memo[(i, j)]
+            
+            ans = False
+            if i < m and s1[i] == s3[k]:
+                ans = ans or helper(i + 1, j, k + 1)
+                
+            if j < n and s2[j] == s3[k]:
+                ans = ans or helper(i, j + 1, k + 1)
+            
+            memo[(i, j)] = ans
+            return ans
+        
+        return helper(0, 0, 0)
+
+# Method 2:
 # recursive:
 # time: O(2^(n+m)), At each step, we have two choices i.e take char from s1 or s2.
 class Solution:

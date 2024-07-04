@@ -1,8 +1,8 @@
-# tried a lot by using lcs but didn't found any logic
+
 
 # method 1: Recursion(String matching)
 # logic: if matched then nothing to do , just move forward in both the words
-# if not matched then we haev three choices i.e insert, delete or replace
+# if not matched then we have three choices i.e insert, delete or replace
 
 # The time complexity of above solution is exponential. In worst case, we may end up doing O(3^m) operations.
 #  The worst case happens when none of characters of two strings match. 
@@ -25,7 +25,8 @@ class Solution:
         if s[m-1]== t[n-1]: # matched then nothing to do , zero cost
             return self.helper(m-1, n-1, s, t)
         # if not matched then we have three option 1) either insert the same char of word2 in word1,
-        #  in this case no need to move ahead in word1 only move ahead in word2 because curr char of word 1 can be be the next char of word2.
+        #  in this case no need to move ahead in word1, only move ahead in word2 
+        # because curr char of word 1 can be be the next char of word2.
         # 2) delete the char in word1 and move ahead in word1 being at same position in word2
         # 3) replace the char in word1 by char of word2, in this case move ahead in word1 and word2 both
         return min(1+ self.helper(m, n-1, s, t), 1+ self.helper(m-1, n, s, t), 1+ self.helper(m-1, n-1, s, t))

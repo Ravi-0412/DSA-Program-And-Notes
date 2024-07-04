@@ -16,7 +16,7 @@ class Solution:
         # checking each gas station one by one, we can only choose any gas station if difference of gas[i] and cost[i]>= 0.
         for i in range(len(gas)):
             total+= gas[i]- cost[i]   # we are just taking diff
-            if total <0:  # means from this gas station we can't complete a circle
-                start= i+1
-                total= 0
+            if total < 0:  # means from this gas station 'start' we can't complete a circle
+                start = i+1
+                total = 0
         return start

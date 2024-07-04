@@ -2,8 +2,8 @@
 # How?
 # We only have two operations allowed '+' and '-' and we want their result = target 
 # so indirectly we are dividing array into two parts while calculating result i.e 
-# 1) all containing positive number & 2) all containing negative numbers and taking 'difference'
-# of both to check if it is equal to target.
+# 1) all containing positive number & 2) all containing negative numbers
+#  And taking 'difference' of both to check if it is equal to target.
 
 # So Q reduces to :"find the number of subsets with given diff. Here diff= 'Target'.
 

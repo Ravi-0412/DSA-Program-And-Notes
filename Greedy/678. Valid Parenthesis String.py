@@ -108,14 +108,14 @@ class Solution:
         openMin, openMax= 0, 0   # max and min no of ')' that can be accomodated.
         for i in range(len(s)):
             if s[i]== '(':
-                openMin+= 1
-                openMax+= 1
+                openMinv += 1
+                openMaxv += 1
             elif s[i]== ')':
-                openMin-= 1
-                openMax-= 1
+                openMin -= 1
+                openMax -= 1
             elif s[i]== '*':
-                openMin-= 1    # 'if '*' behaves as ')'. means one '(' is accomodated by '*'.
-                openMax+= 1    # 'if '*' behaves as '('. means one more matching of '(' is increased.
+                openMin -= 1    # 'if '*' behaves as ')'. means one '(' is accomodated by '*'.
+                openMax += 1    # 'if '*' behaves as '('. means one more matching of '(' is increased.
 
             if openMax < 0:
                 return False

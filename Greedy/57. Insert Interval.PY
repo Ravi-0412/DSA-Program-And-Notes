@@ -10,12 +10,11 @@ class Solution:
         output= [intervals[0]]  # to handle the edge case and make comparison easy
         for start, end in intervals[1:]:
             # check if ending of last added interval is >= than starting of the currnet one
-            if output[-1][1]>= start: # then merge , make end of last added one max(end of last addded, end)
-                output[-1][1]= max(output[-1][1], end)    # [[1,4],[2,3]]= [[1,4]]
+            if output[-1][1] >= start: # then merge , make end of last added one max(end of last addded, end)
+                output[-1][1] = max(output[-1][1], end)    # [[1,4],[2,3]]= [[1,4]]
             else: 
                 output.append([start, end])
         return output
-    
 
 # Method 2:
 # Using 'insort' method of 'bisect' module.
@@ -45,7 +44,6 @@ class Solution(object):
                 # if not overlapping then simply add into the ans
                 output.append([start, end])
         return output
-
 
 # Method 3:
 # Time: O(n)

@@ -1,6 +1,6 @@
 # Brute force: o(n^2)
 
-# greedy: only that triplet can be the ans that can will have value at all of its three places <= triplet value.
+# greedy: only that triplet can be the ans that will have value at all of its three places <= triplet value.
 # time: O(n)
 class Solution:
     def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:

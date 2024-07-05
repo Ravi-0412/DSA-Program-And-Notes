@@ -37,6 +37,7 @@ class Solution:
 class Solution:
     def isHappy(self, n: int) -> bool:
 
+        # Just giving 'sumOfSquareOfDigit(n)'
         def next(n):
             next_no = 0
             while n:

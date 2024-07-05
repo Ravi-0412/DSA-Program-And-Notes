@@ -1,14 +1,18 @@
-# time: O(n)= space
-# Note: in same way you can form rectangle.
-
-# Do on pen and paper to understand properly.
+# Methoe 1: Better one
 
 # Logic: for given point, find if there exist any diagonal.
-# if diagonal exist then multiply with occurences of diagonal and points and add into the ans.
+# Note: we can say two points (x1, y1) & (x2, y2) are diagonal of a square if:
+# abs(x1 - x2) == abs(y1 - y2). Just checking diff between values of 'x' and 'y' coordinate should be same for equal length.
+# If they are diagonal then:
+# 1) length of square we can form taking these two points as diagonals = abs(x1 - x2) or abs(y1- y2).
+# 2) Other two sides of square will be '(x1, y2)' and '(x2, y1)'.
 
+# so for finding the total count , multiply the occurences of other diagonal and other two points.
 # Time: add: O(1)
 # count: O(T), where T <= 5000 is total number of points after calling add.
 # Space: O(T)
+
+# Note: in same way you can form rectangle.
 
 from collections import defaultdict
 class DetectSquares:
@@ -31,9 +35,73 @@ class DetectSquares:
             # if exists then add the count of those in the result(after multiplying).
             # coordinates of other two points will be (x, py) and (px, y),
             # if they will form square with the these two points(diagonal one) i.e (x, y) and (px, py)
-            res+= cnt * self.ptsCount[(x, py)] * self.ptsCount[(px, y)]  # just like we can choose one element from given frequency.
+            res += cnt * self.ptsCount[(x, py)] * self.ptsCount[(px, y)]  # just like we can choose one element from given frequency.
         return res
 
+# Java
+"""
+import java.util.HashMap;
+import java.util.Map;
+
+class DetectSquares {
+    private final Map<String, Integer> points;
+
+    public DetectSquares() {
+        points = new HashMap<>();
+    }
+
+    public void add(int[] point) {
+        String key = point[0] + "," + point[1];
+        points.put(key, points.getOrDefault(key, 0) + 1);
+    }
+
+    public int count(int[] point) {
+        int res = 0;
+        int px = point[0], py = point[1];
+
+        for (String key : points.keySet()) {
+            String[] parts = key.split(",");
+            int x = Integer.parseInt(parts[0]);
+            int y = Integer.parseInt(parts[1]);
+
+            if (px == x || py == y || Math.abs(px - x) != Math.abs(py - y)) {
+                continue;
+            }
+
+            res += points.get(key) *
+                   points.getOrDefault(x + "," + py, 0) *
+                   points.getOrDefault(px + "," + y, 0);
+        }
+
+        return res;
+    }
+}
+"""
+
+# other way of writing using simple dictionary :{}
+from collections import defaultdict
+class DetectSquares:
+    def __init__(self):
+        # self.ptsCount= Counter()  # store the no of occurence of each point
+        self.ptsCount = {}
+        
+    def add(self, point: List[int]) -> None:
+        self.ptsCount[tuple(point)] = 1 + self.ptsCount.get(tuple(point), 0)
+        
+    def count(self, point: List[int]) -> int:
+        res= 0 
+        px, py= point
+        # find if there any diagonal exist for this point.
+        # diagonal will be only present if abs(px -x)== abs(py -y) i.e horizontal and vertical length should be equal.
+        for (x, y), cnt in self.ptsCount.items():
+            if (abs(px -x)!= abs(py - y)) or px== x or py==y :  # 2nd case for +ve area. it can form square with its duplictes but area will be '0'.
+                continue
+            # now we have found the diagonal, now search if other two points exists.
+            # if exists then add the count of those in the result(after multiplying).
+            # coordinates of other two points will be (x, py) and (px, y),
+            # if they will form square with the these two points(diagonal one) i.e (x, y) and (px, py)
+            res += cnt * self.ptsCount.get((x, py), 0) * self.ptsCount.get((px, y), 0)
+        return res
 
 # Differenec between 'Counter()' and 'defaultdict(int)'.
 # Both Counter and defaultdict(int) can work fine here, but there are few differences between them:
@@ -43,7 +111,7 @@ class DetectSquares:
 # b) Counter won't add new keys to the dict when you query for missing keys. 
 # So, if your queries include keys that may not be present in the dict then better use Counter.
 
-# Method 2:
+# Method 2: 
 # Given p1, try all points p2 (same x-axis) then compute the positions of 2 remain points p3, p4.
 
 # To compute count(p1):

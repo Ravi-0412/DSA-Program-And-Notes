@@ -1,13 +1,13 @@
 # method 1: but giving recursion depth exceeded.
 class Solution:
     def myPow(self, x: float, n: int) -> float:
-        if n<0: 
+        if n < 0: 
             # Just what we do to evaluate the negative power.
-            x=1/x
-            n= -n
-        if n==1:   # base case
+            x = 1/x
+            n = -n
+        if n == 1:   # base case
             return x
-        if n%2==1:  # if power is odd.
+        if n %2 == 1:  # if power is odd.
             return x* self.myPow(x,n//2) *self.myPow(x,n//2)
         return self.myPow(x,n//2) * self.myPow(x,n//2)
 
@@ -29,10 +29,7 @@ class Solution:
 
 # 2nd method- time: O(logn)
 
-# understand this properly later
-
 # Using Bit
-# https://leetcode.com/problems/powx-n/solutions/1337794/java-c-simple-o-log-n-easy-faster-than-100-explained/
 
 # Basic Idea is to divide the work using binary representation of exponents
 # i.e. 1 ) keep multiplying pow with x, if the bit is odd, and 2 )  multiplying x with itself until we get bit =  0

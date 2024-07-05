@@ -1,6 +1,9 @@
 # my mistakes: i was thinking like 'find the max no of overlapping interval at once' and subtract '-1'.
 # which is same as "253. meeting rooms 2"
-# but it won't work. => Why ? 
+# Reason: if some interval is very big then it make make a lot of intervals overlapping so our ans will be more than expected.
+#e.g: [1, 10], [2, 3], [3, 4], [4,5]... 
+# [1, 10] will make all interval overlapping so our ans will increase.
+# But if we remove [1, 10] then all interval will non-overlapping
 
 # Reason: Because intervals in one room can come after any interval of other room.
 
@@ -37,19 +40,35 @@
 # If we can prove that making the greedy choice at each step leads to the solution of the overall problem, 
 # then greedy will work perfectly.
 
-# Method 1:
+# Method 1:  Better one
+
+class Solution:
+    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
+        intervals = sorted(intervals, key = lambda x : x[1])   
+        preEnd= intervals[0][1]  # will keep track of last added inetrval.
+        count = 1  # will count the max no of non-overlapping intervals. 
+                   # Starting from '1 because if not overlap then at 1st time we will have to add both the intervals.
+        for start, end in intervals[1:]:
+            # if they are not overlapping
+            if start >= preEnd: 
+                preEnd = end
+                count += 1
+            # if overlapping,  skip the cur one since pre ending interval will be before only and we already taken that.
+        return len(intervals) - count
+
+# Method 2: Same meaning as above
 # sorting based on starting time.
 
 class Solution:
     def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
         intervals.sort()
-        preEnd= intervals[0][1] 
+        preEnd = intervals[0][1] 
         ans= 0
         for start, end in intervals[1:]:
             if start>= preEnd:  # if they are not overlapping
-                preEnd= end
+                preEnd = end
             else:  # if they are overlapping
-                ans+= 1
+                ans += 1
                 # delete the one having larger ending time and keep the one having lesser ending time.
                 preEnd= min(preEnd, end)  # No need of this as earlier one will have lesser ending time
         return ans
@@ -75,40 +94,3 @@ class Solution:
                 # delete the one having larger ending time and keep the one having lesser ending time.
                 preEnd= min(preEnd, end)  
         return len(intervals) - count
-    
-
-# Method 3:  way of doing 
-# Since we will take the interval having lesser end in case of overlapping so we can sort them based on ending time only in increasing order.
-
-class Solution:
-    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
-        intervals = sorted(intervals, key = lambda x : x[1])   
-        preEnd= intervals[0][1]  # will keep track of last added inetrval.
-        count = 1  # will count the max no of non-overlapping intervals. 
-                   # Starting from '1 because if not overlap then at 1st time we will have to add both the intervals.
-        for start, end in intervals[1:]:
-            # if they are not overlapping
-            if start >= preEnd: 
-                preEnd= end
-                count += 1
-            # if overlapping,  skip the cur one since pre ending interval will be before only and we already taken that.
-        return len(intervals) - count
-
-
-
-# To directly get the ans. 
-# Method 3 only.
-class Solution:
-    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
-        intervals = sorted(intervals, key = lambda x : x[1])
-        # 1st interval must be included we can't remove 1st one.
-        preEnd= intervals[0][1]  # will keep track of last added inetrval.
-        ans= 0
-        for start, end in intervals[1:]:
-            # if they are not overlapping, no need to remove
-            if start >= preEnd: 
-                preEnd= end
-            else:
-                # if overlapping then we have to remove
-                ans += 1
-        return ans

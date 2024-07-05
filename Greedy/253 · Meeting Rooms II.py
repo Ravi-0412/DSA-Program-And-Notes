@@ -46,7 +46,7 @@ class Solution:
         end=   sorted([i.end   for i in intervals])
         ans, count= 0, 0
         s, e= 0, 0  # pointer to start and end array
-        while s< len(start):  # till we have started all the meetings
+        while s < len(start):  # till we have started all the meetings
             # overlapping so we will need one new room.
             if start[s] < end[e]:
                 count+= 1  # allocated new room for overlapping meeting 

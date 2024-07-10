@@ -82,7 +82,7 @@ class LRUCache:
 
         if key in self.cache:
             self.Delete(self.cache[key])
-        self.cache[key]= Node(key,value)  # Adding into cache. no need to write inside if because dictionary doesn't store duplicates key,val pair.
+        self.cache[key]= Node(key,value)  
         self.Insert(self.cache[key])
         # after inserting check if capacity of cache is greater than given capacity.
         if len(self.cache) > self.cap:
@@ -91,6 +91,23 @@ class LRUCache:
             self.Delete(lst_used)
             # now delete Lru from hashmap also
             del self.cache[lst_used.key]    # only in this case we need to delete from hashmap
+
+
+    # other way of writing put but above one is more concise
+    # def put(self, key, value): 
+    #     if key in self.cache:
+    #            self.Delete(self.cache[key])
+    #         self.cache[key] = Node(key,value)
+    #         self.Insert(self.cache[key])
+    #     else:
+    #         self.cache[key] = Node(key,value)
+    #         if len(self.cache) > self.cap:
+    #         # delete the Lru from the list i.e node just after the Lru pointer
+    #         lst_used= self.Lru.next  # storing the node that we have to delete. lst_used: least recently used
+    #         self.Delete(lst_used)
+    #         # now delete Lru from hashmap also
+    #         del self.cache[lst_used.key]    # only in this case we need to delete from hashmap
+    #         self.Insert(self.cache[key])
 
 
 # Java

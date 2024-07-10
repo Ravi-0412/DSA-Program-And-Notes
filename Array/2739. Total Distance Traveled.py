@@ -23,4 +23,7 @@ class Solution:
 
 class Solution:
     def distanceTraveled(self, mainTank: int, additionalTank: int) -> int:
-        return (mainTank + min((mainTank -1)//4, additionalTank)) *10
+        return (mainTank + min((mainTank -1)//4, additionalTank)) * 10
+
+# similar q:
+# 1) 3100. Water Bottles II

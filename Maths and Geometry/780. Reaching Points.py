@@ -15,7 +15,9 @@ class Solution:
                     dq.append((x + y, y))
         return False
 
-# Method 2: Optimisation
+# Method 2: Optimisation 
+# Go reverse i.e from (tx, ty) -> (sx, sy).
+# while going reverse the operation also like : '+' -> '-'
 # Logic: 1) We can reach every point through one way only (if '0' is not allowed).
 # 2) so we can go bottom up and and try to reduce (tx, ty) to some nearby points (sx, sy).
 # i.e we can start from (tx,ty) and go up till you hit one of the condition like sx >= tx or sy>= ty.
@@ -30,6 +32,8 @@ class Solution:
 
 # ii) sy == ty and sx <= tx
 # in this case , (ty-sy)%sx == 0
+
+# time: O(log(n)) where n = Max(tx,ty)
 
 class Solution:
     def reachingPoints(self, sx: int, sy: int, tx: int, ty: int) -> bool:

@@ -1,6 +1,6 @@
 # very nice Q.
 # logic: overall, there are totally 4 scenarios will happen: 1.(+,+) 2.(-,-) 3.(+,-) 4.(-,+)  => see this combination as resultant also 
-# But collision will hapen in 3rd case only.(not in 4th case)
+# But collision will hapen in 3rd case only.(not even in 4th case)
 # i.e if we traverse from left to right in array then for collision 1st asteroid (left one) must be moveing towards right,
 # and 2nd one must be moving towards left. (+, -)
 # why? => just draw on paper .

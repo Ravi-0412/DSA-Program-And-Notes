@@ -51,14 +51,88 @@ class Solution:
         ans= 0
         while l < r:
             # shift the minimum pointer and find the ans at minimum pointer
-            if maxLeft > maxRight:  # then at 'r' we can store max water according to its maxRight one
+            if maxLeft > maxRight:  # then at 'r-1' we can store max water according to its maxRight one
                 # it means the water level is based on the right side (the right bar is smaller) then move right side.
-                r-= 1  
-                maxRight= max(maxRight, height[r])
-                ans+= maxRight- height[r]
+                r -= 1  
+                maxRight = max(maxRight, height[r])
+                ans += maxRight - height[r]
             else:  # then at 'l' it can store max water according to its maxLeft minimum one
                 # it means the water level is based on the left side (the left bar is smaller) then move left side
                 l+= 1
-                maxLeft= max(maxLeft, height[l])
-                ans+= maxLeft- height[l]
+                maxLeft = max(maxLeft, height[l])
+                ans += maxLeft- height[l]
         return ans
+    
+
+# java
+"""
+// Method 1:
+
+class Solution {
+    public int trap(int[] height) {
+        int n = height.length;
+        int[] levels = new int[n];
+        int[] leftGreatest = leftGreatest(height, n);
+        int[] rightGreatest = rightGreatest(height, n);
+
+        for (int i = 0; i < n; i++) {
+            levels[i] = Math.min(leftGreatest[i], rightGreatest[i]) - height[i];
+        }
+
+        int totalWater = 0;
+        for (int level : levels) {
+            totalWater += level;
+        }
+        return totalWater;
+    }
+
+    private int[] leftGreatest(int[] height, int n) {
+        int[] left = new int[n];
+        left[0] = height[0];  // For the first element, the left greatest is the element itself
+        for (int i = 1; i < n; i++) {
+            left[i] = Math.max(left[i - 1], height[i]);  // Compare with previous one and update
+        }
+        return left;
+    }
+
+    private int[] rightGreatest(int[] height, int n) {
+        // Same logic as above function, just traverse the array from right to left
+        int[] right = new int[n];
+        right[n - 1] = height[n - 1];  // For the last element, the right greatest is the element itself
+        for (int i = n - 2; i >= 0; i--) {
+            right[i] = Math.max(right[i + 1], height[i]);
+        }
+        return right;
+    }
+}
+
+// Method 2:
+class Solution {
+    public int trap(int[] height) {
+        if (height == null || height.length == 0) return 0;
+        int l = 0, r = height.length - 1, n = height.length;
+        int maxLeft = height[0], maxRight = height[n - 1];
+        int ans = 0;
+
+        while (l < r) {
+            // Shift the minimum pointer and find the answer at the minimum pointer
+            if (maxLeft > maxRight) {  // The water level is based on the right side (right bar is smaller)
+                r--;
+                maxRight = Math.max(maxRight, height[r]);
+                ans += maxRight - height[r];
+            } else {  // The water level is based on the left side (left bar is smaller)
+                l++;
+                maxLeft = Math.max(maxLeft, height[l]);
+                ans += maxLeft - height[l];
+            }
+        }
+        return ans;
+    }
+}
+
+
+"""
+
+
+# Similar questions asked in interviews:
+# 1) https://www.csestack.org/snow-between-hills-coding-challenge/#google_vignette

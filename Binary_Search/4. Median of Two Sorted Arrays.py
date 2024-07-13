@@ -27,7 +27,7 @@ class Solution:
 
         # If we write 'while l <= r' then, it won't work because here with the help of 
         while True:
-            i= l+ (r-l) //2   # mid of smaller array. last ele in left partition of 'A'.
+            i = l+ (r-l) //2   # mid of smaller array. last ele in left partition of 'A'.
             j= half- i- 2     # point to the last index in array 'B' in the left partition.  '-2' since indexing are from '0'.
                             # we must include this much ele from 'B' to get 'half' no of ele in cumulative array.
                             # j = half - (i + 1) - 1

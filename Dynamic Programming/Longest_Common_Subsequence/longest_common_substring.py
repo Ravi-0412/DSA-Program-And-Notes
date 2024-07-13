@@ -1,10 +1,9 @@
 # logic: since we only need consecutive so if there is match then take the pre value 
 # otherwise(if not match), make it zero . 
 # but at last it may not give the final ans as in between we are making the value as zero also.
-# ans will be the max of whole 2d Dp. so for this keep storing the ans in nay other variable say 'final'
+# ans will be the max of whole 2d Dp. so for this keep storing the ans in any other variable say 'count'
 
 # method 1: Recursion
-# tried a lot by taking count varible inside it but didn't able to solve . problem was in 'not matching case'
 class Solution:
     def longestCommonSubstr(self, S1, S2, n, m):
         return self.lcs(S1,S2,n,m,0)

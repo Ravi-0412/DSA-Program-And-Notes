@@ -23,14 +23,6 @@ class Solution:
         return self.climbStairs(n-1) + self.climbStairs(n-2)
 
 
-# my mistakes
-class Solution:
-    def climbStairs(self, n: int) -> int:
-        if n==0 or n==1:
-            return n
-        return 1 + self.climbStairs(n-1) + self.climbStairs(n-2)   # this was adding extra one at each branch call 
-
-
 # method2: memoization(Top Down)
 class Solution:
     def climbStairs(self, n: int) -> int:

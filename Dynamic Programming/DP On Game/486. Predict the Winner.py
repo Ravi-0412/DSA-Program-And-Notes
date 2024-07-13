@@ -3,7 +3,8 @@
 # q: if there is atleast one possible way in which player1 can score more then player1 will win.
 
 # logic: we have to maximise the score of player1.
-# so if player1 1) choose first ele('i') then next time he can choose  'i+2' or 'j' if player 2 choose 'i+1' and 'i+1' or 'j-1' if player2 choose 'j'.
+# so if player1 1) choose first ele('i') then next time he can choose  'i+2' or 'j' 
+# if player2 choose 'i+1' and 'i+1' or 'j-1' if player2 choose 'j'.
 # and 2) choose last ele('j') then next time he can choose 'i' or 'j-1' if player 2 choose 'j-1' and 'i+1' or 'j-1' if player2 choose 'i'.
 
 # vvi: since 2nd player will maximise his score in every move then 1st player will get min of two cases after player2 choose.
@@ -86,10 +87,12 @@ class Solution:
 
 
 # method 2: other way of finding the score of player1.
-# logic: when player1 turn we will add the value of choice that he choose(since we are finding the score of player1 only) and will take max of choices
+# logic: when player1 turn we will add the value of choice that he choose
+# (since we are finding the score of player1 only) and will take max of choices
 # because he will try to maximise his score at his turn.
-# And when it is player2 turn then we will not add the score (since it's is score of player2 not player1) and we will take minimum of min of his choices
-# because player1 will get minimim after player2 turn since both are playing optimally.
+# And when it is player2 turn then we will not add the score 
+# (since it's is score of player2 not player1) and we will take minimum of his choices
+# because player1 will get minimum after player2 turn since both are playing optimally.
 
 # just like we will play the game.
 class Solution:

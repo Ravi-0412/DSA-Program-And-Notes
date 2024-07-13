@@ -119,7 +119,7 @@ class MedianFinder:
 
 # my mistake method 4:
 # was adding directly first into the 'minHeap' then was checking length .
-# may the wrong ans in case of odd ele because median can be in the 'maxHeap' in this case.
+# may give wrong ans in case of odd ele because median can be in the 'maxHeap' in this case.
 class MedianFinder:  
     def __init__(self):
         self.maxHeap, self.minHeap= [], []
@@ -159,7 +159,7 @@ class MedianFinder {
     
     public MedianFinder() {
         // Max-heap (contains the smaller half of the numbers)
-        maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        maxHeap = new PriorityQueue<>((a,b)-> b - a);
         // Min-heap (contains the larger half of the numbers)
         minHeap = new PriorityQueue<>();
     }

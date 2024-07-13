@@ -95,3 +95,6 @@ public class Solution {
 }
 
 """
+
+# similar q
+# 1) Smallest subarray with sum greater than x

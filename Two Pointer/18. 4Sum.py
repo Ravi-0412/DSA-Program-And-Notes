@@ -9,9 +9,9 @@
 class Solution:
     def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
         nums.sort()
-        ans, quad= [], []
+        ans = []
 
-        def kSum(k, start, target):
+        def kSum(k, start, target, quad):
             # k==2. just apply two sum approach for sorted array avoiding duplicates(Did in Three sum).
             # it is just acting as base action. No return, it will automatically return after while loop.
             if k== 2:
@@ -36,14 +36,61 @@ class Solution:
                     if i > start and nums[i]== nums[i -1]:
                         # if we take this 'nums[i]' as first element then it will give duplicate.
                         continue
-                    quad.append(nums[i])
-                    kSum(k-1, i+ 1, target- nums[i])  # added one ele so decrease 'k' by '1' and target by 'nums[i]'.
-                    quad.pop()  
+                    kSum(k-1, i+ 1, target- nums[i], quad + [nums[i]])  # added one ele so decrease 'k' by '1' and target by 'nums[i]'. 
                 return # after traversing the loop exit i.e simply return to check for next possible ans.
 
-        kSum(4, 0, target)   # k=4, starting from index= 0, passing target also since it will keep changing.
+        kSum(4, 0, target, [])   # k=4, starting from index= 0, passing target also since it will keep changing.
                             # 'k' tells how many more ele we need to find starting from index 'start' to make sum = target.
                             # 'start' is just same as outer index of our for loop solution.
         return ans
+
+# Java
+"""
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        Arrays.sort(nums);
+        List<List<Integer>> ans = new ArrayList<>();
+        kSum(4, 0, (long)target, new ArrayList<>(), nums, ans);
+        return ans;
+    }
+    
+    private void kSum(int k, int start, long target, List<Integer> quad, int[] nums, List<List<Integer>> ans) {
+        if (k == 2) {
+            int l = start, r = nums.length - 1;
+            while (l < r) {
+                long sum = (long)nums[l] + nums[r];
+                if (sum < target) {
+                    l++;
+                } else if (sum > target) {
+                    r--;
+                } else {
+                    List<Integer> tempQuad = new ArrayList<>(quad);
+                    tempQuad.add(nums[l]);
+                    tempQuad.add(nums[r]);
+                    ans.add(tempQuad);
+                    l++;
+                    while (l < r && nums[l] == nums[l - 1]) {
+                        l++;
+                    }
+                }
+            }
+        } else {
+            for (int i = start; i < nums.length - k + 1; i++) {
+                if (i > start && nums[i] == nums[i - 1]) {
+                    continue;
+                }
+                List<Integer> tempQuad = new ArrayList<>(quad);
+                tempQuad.add(nums[i]);
+                kSum(k - 1, i + 1, target - nums[i], tempQuad, nums, ans);
+            }
+        }
+    }
+}
+
+"""
 
 

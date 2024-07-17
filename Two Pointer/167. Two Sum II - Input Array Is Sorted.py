@@ -155,7 +155,8 @@ def count_pairs_with_sum(arr1, arr2, target):
     
     return count
 
-# Note vvi: whenever you get this type of Q then try to fix one ele somehow and find the other two ele using "Two sum" for sorted/unsorted array.
+# Note vvi: whenever you get this type of Q then try to fix one ele somehow 
+# and find the other two ele using "Two sum" for sorted/unsorted array.
 # Just try to reduce into "two sum" problem.
 # e.g: "15. 3Sum", "18. 4Sum", "Count Triplets"
 

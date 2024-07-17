@@ -1,12 +1,21 @@
-# just convert the problems of 2D into 1D like 'largest rectangle in histogram' rule for converting.
+# Logic: Brute force
+# Find the area of each possible rectangle and take maximum i.e 
+# area of rectangle from (0, 0) to (i, j) where 0<= i < row and 0 <= j < col.
+
+# But for getting height of rectangle 
 # add the heights(+1) to the pre heights if value of matrix at that position is = 1 
 # else heights at that index will be equal to zero.
+
 # Assume that you are making building so if base height is zero , you can't make the building
 # so height at that position will be equal to zero
 
 # just find the area of 1st row then '1st + 2nd row' then '1st + 2nd+ 3rd row' and so on'
-# and go on updating the heights like you are making a building
-# max_area of all the above will give the ans
+# and go on updating the heights like you are making a building.
+
+# For each rectangle question reduces to:'84.largest rectangle in histogram'.
+
+# Time: O(row*col)
+
 class Solution:
     def maximalRectangle(self, matrix: List[List[str]]) -> int:
         row,col,max_area= len(matrix), len(matrix[0]), 0

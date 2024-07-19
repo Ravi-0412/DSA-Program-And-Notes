@@ -24,8 +24,13 @@ public class Solution {
     }
 }
 
-// Method 2:
 
+"""
+
+# Method 2:
+# for each character store the count and 1st index in hashmap.
+
+"""
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,7 +62,6 @@ public class Solution {
         return result == s.length() ? -1 : result;
     }
 }
-
 
 """
 

@@ -54,3 +54,9 @@ class Solution:
                     up= mid -1
             return -1
         
+# Note: why here we can't apply direct binary search in single traversal 
+# like "33.search in rotated sorted array" ?
+# Reason: Here we can't say if one part is unsorted then other part will be sorted.
+# if sorted then we can apply binary search but here we can't say.
+
+

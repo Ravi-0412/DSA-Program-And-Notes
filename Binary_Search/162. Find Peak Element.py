@@ -11,8 +11,8 @@ class Solution:
         if len(nums)== 1:
             return 0
         n, start, end= len(nums), 0, len(nums)-1
-        while start<= end:
-            mid= start + (end-start)//2
+        while start <= end:
+            mid = start + (end-start)//2
             if mid > 0 and mid < n-1:  # if mid is not the first and last ele
                 if nums[mid] > nums[mid-1] and nums[mid] > nums[mid+1]: # peak ele will hold this condition
                     return mid

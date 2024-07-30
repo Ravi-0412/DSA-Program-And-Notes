@@ -1,3 +1,5 @@
+# we are allowed to go in all four directions.
+
 # logic: from every cell, we are checking can be get our desired word starting from that cell?
 
 # Note: we are not marking visited when we see any cell for 1st time because that cell can be used later for forming another

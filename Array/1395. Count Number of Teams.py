@@ -5,20 +5,11 @@ class Solution:
         count = 0
         for i in range(n-2):
             for j in range(i + 1, n- 1):
-                if rating[i] >= rating[j]:
-                    continue
                 for k in range(j+1, n):
-                    if rating[j] >= rating[k]:
-                        continue
-                    count += 1
-        for i in range(n-2):
-            for j in range(i + 1, n- 1):
-                if rating[j] >= rating[i]:
-                    continue
-                for k in range(j+1, n):
-                    if rating[k] >= rating[j]:
-                        continue
-                    count += 1
+                    if rating[i] > rating[j] > rating[k]:
+                        count += 1
+                    if rating[i] < rating[j] < rating[k]:
+                        count += 1
         return count
 
 

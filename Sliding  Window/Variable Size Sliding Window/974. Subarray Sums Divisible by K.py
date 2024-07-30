@@ -8,14 +8,14 @@ class Solution:
         modulusCount= {0: 1}   # {modulo_sum: count}
         curSum= 0
         for i in range(len(nums)):
-            curSum+= nums[i]
-            curSum= curSum % k
+            curSum += nums[i]
+            curSum = curSum % k
             if curSum in modulusCount:
                 count= modulusCount[curSum]
-                ans+= count
-                modulusCount[curSum]+= 1
+                ans += count
+                modulusCount[curSum] += 1
             else:
-                modulusCount[curSum]= 1
+                modulusCount[curSum] = 1
         return ans
     
 

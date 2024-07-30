@@ -26,7 +26,7 @@ class Trie:
             bit= (num>> i) & 1
             # for maximum xor, we need the opposite of this 'bit'.
             if (1-bit) in cur.children:
-                max_xor= max_xor | (1<< i)
+                max_xor = max_xor | (1<< i)
                 cur= cur.children[1- bit]
             else:
                 cur= cur.children[bit]
@@ -35,15 +35,123 @@ class Trie:
 class Solution:
     def findMaximumXOR(self, nums: List[int]) -> int:
         trie= Trie()
+        ans = 0
         for num in nums:
             trie.insert(num)
-
-        ans= 0
-        for num in nums:
-            ans= max(ans, trie.getMax(num))
+            ans= max(ans, trie.getMax(num))      
         return ans
 
-# same logic is getting submitted in c++ and java.
+
+# This same logic just we took two element to represent '0' and '1' at each node.
+# do it this way only if you get tle
+class TrieNode:
+    def __init__(self):
+        self.children = [None, None]
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+    
+    def insert(self, num):
+        curr = self.root
+        for i in range(31, -1, -1):
+            bit = (num >> i) & 1
+            if curr.children[bit] is None:
+                curr.children[bit] = TrieNode()
+            curr = curr.children[bit]
+    
+    def get_max_xor(self, num):
+        curr = self.root
+        ans = 0
+        for i in range(31, -1, -1):
+            bit = (num >> i) & 1
+            if curr.children[1 - bit]:
+                ans |= (1 << i)
+                curr = curr.children[1 - bit]
+            else:
+                curr = curr.children[bit]
+        return ans
+
+class Solution:
+    def findMaximumXOR(self, nums):
+        max_ans = 0
+        trie = Trie()
+        
+        for num in nums:
+            trie.insert(num)
+            max_ans = max(max_ans, trie.get_max_xor(num))
+        
+        return max_ans
+
+
+# java
+"""
+import java.util.*;
+
+class TrieNode {
+    TrieNode[] next;
+
+    public TrieNode() {
+        next = new TrieNode[2];
+    }
+}
+
+class Trie {
+    private TrieNode root;
+
+    public Trie() {
+        root = new TrieNode();
+    }
+
+    public void insert(int num) {
+        TrieNode curr = root;
+        for (int i = 31; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+            if (curr.next[bit] == null) {
+                curr.next[bit] = new TrieNode();
+            }
+            curr = curr.next[bit];
+        }
+    }
+
+    public int getMaxXor(int num) {
+        TrieNode curr = root;
+        int ans = 0;
+        for (int i = 31; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+            if (curr.next[1 - bit] != null) {
+                ans |= (1 << i);
+                curr = curr.next[1 - bit];
+            } else {
+                curr = curr.next[bit];
+            }
+        }
+        return ans;
+    }
+}
+
+public class Solution {
+    public int findMaximumXOR(int[] nums) {
+        int maxAns = 0;
+        int n = nums.length;
+        Trie trie = new Trie();
+
+        for (int i = 0; i < n; i++) {
+            trie.insert(nums[i]);
+            maxAns = Math.max(maxAns, trie.getMaxXor(nums[i]));
+        }
+
+        return maxAns;
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        int[] nums = {3, 10, 5, 25, 2, 8};
+        System.out.println(solution.findMaximumXOR(nums)); // Output should be 28
+    }
+}
+
+"""
 
 
 # method 2: using bit

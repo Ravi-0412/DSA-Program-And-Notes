@@ -46,7 +46,7 @@ def maxProfit(self, prices: List[int]) -> int:
 
 # shorter way of writing above code
 def maxProfit(self, prices: List[int]) -> int:
-        profit= 0
+        profit = 0
         for i in range(1, len(prices)):
             profit+= max((prices[i]- prices[i-1]), 0)
         return profit
@@ -189,6 +189,48 @@ class Solution:
                 curr[buy]= profit
             pre= curr.copy()
         return pre[1]  
+
+
+# java
+# memoisation
+"""
+class Solution {
+    public int maxProfit(int[] prices) {
+        int n = prices.length;
+        int[][] dp = new int[n][2];
+        
+        // Initialize dp array with -1 (equivalent to -1 in the Python solution)
+        for (int i = 0; i < n; i++) {
+            dp[i][0] = -1;
+            dp[i][1] = -1;
+        }
+        
+        return helper(prices, 0, 1, dp);
+    }
+
+    private int helper(int[] prices, int ind, int buy, int[][] dp) {
+        if (ind == prices.length) {
+            return 0;
+        }
+
+        if (dp[ind][buy] != -1) {
+            return dp[ind][buy];
+        }
+
+        int profit = 0;
+        if (buy == 1) {
+            profit = Math.max(-prices[ind] + helper(prices, ind + 1, 0, dp), 
+                              helper(prices, ind + 1, 1, dp));
+        } else {
+            profit = Math.max(prices[ind] + helper(prices, ind + 1, 1, dp), 
+                              helper(prices, ind + 1, 0, dp));
+        }
+
+        dp[ind][buy] = profit;
+        return profit;
+    }
+}
+"""
 
 # further optimise space to four variable since we only need four variable to calculate the ans
 

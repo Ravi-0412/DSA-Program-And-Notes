@@ -39,3 +39,36 @@ class Solution:
                 count+= self.helper(s, k,n, dp)
         dp[i]= count
         return dp[i]
+
+# Java
+"""
+class Solution {
+    public int numDecodings(String s) {
+        int n = s.length();
+        int[] dp = new int[n + 1];
+        Arrays.fill(dp, -1);
+        return helper(s, 0, n, dp);
+    }
+
+    private int helper(String s, int i, int n, int[] dp) {
+        if (i == n) {
+            return 1;
+        }
+        if (s.charAt(i) == '0') {
+            return 0;
+        }
+        if (dp[i] != -1) {
+            return dp[i];
+        }
+        int count = 0;
+        for (int k = i + 1; k <= n; k++) {
+            if (1 <= Integer.parseInt(s.substring(i, k)) && Integer.parseInt(s.substring(i, k)) <= 26) {
+                count += helper(s, k, n, dp);
+            }
+        }
+        dp[i] = count;
+        return dp[i];
+    }
+}
+
+"""

@@ -24,72 +24,7 @@ class Solution:
         return dp[x][y]
 
 
-# Method 2: Recursive one
-# for every ele we have two choices whether we can include the cur ele or not.
-# 1) if there is option to consider the cur ele then again, we have to two choices: 1) take or not take
-# 2) else not take 
-
-# How to write the function?
-# we need to keep tarck of pre ele we have included then only we can make decision whether to take cur ele or not.
-# so we need one more parameter in function with cur index.
-
-# Time: O(2^n)
-class Solution:
-    def lengthOfLIS(self, nums: List[int]) -> int:
-
-        def solve(pre, cur):
-            if cur == len(nums):
-                return 0
-            # If no problem in including the cur ele, then two choices
-            # pre == -1 means no ele included till now.
-            if pre == -1 or nums[cur] > nums[pre]:
-                return max(1 + solve(cur, cur + 1), solve(pre, cur + 1))
-            # else only option is to exclude the cur ele.
-            return solve(pre, cur + 1)   # nums[pre] >= nums[cur]. so only option is exclude the cur one.
-        return solve(-1, 0)
-    
-# memoising the above one.
-# time: O(n^2). giving Tle don't know why.
-# '+1' shift for 'pre'.
-class Solution:
-    def lengthOfLIS(self, nums: List[int]) -> int:
-
-        def solve(pre, cur):
-            if cur == len(nums):
-                return 0
-            if dp[pre + 1][cur] != -1:
-                return dp[pre + 1][cur]
-            if pre == -1 or nums[cur] > nums[pre]:
-                dp[pre + 1][cur] = max(1 + solve(cur, cur + 1), solve(pre, cur + 1))
-                return dp[pre + 1][cur]
-            dp[pre + 1][cur]= solve(pre, cur + 1)
-            return dp[pre + 1][cur]
-            
-        n = len(nums)
-        dp = [[-1 for j in range(n + 1)] for i in range(n + 1)]
-        return solve(-1, 0)
-        
-# Note: There is no need of taking 'ans' variable to take maximum out of all like this.
-# Because there is more than one function call in 'if', so we can compare directly.
-class Solution:
-    def lengthOfLIS(self, nums: List[int]) -> int:
-
-        def solve(pre, cur):
-            if cur == len(nums):
-                return 0
-            ans = 0  # taking ans = 1 will give error because of the case when we are not allowed to take that.
-            if pre == -1 or nums[cur] > nums[pre]:
-                ans = max(ans, 1 + solve(cur, cur + 1), solve(pre, cur + 1))
-                # return ans
-            ans = max(ans, solve(pre, cur + 1))
-            return ans              # returning only is fine but in case of above memoised one it will not work because their value will get updated again.
-                                    # But here it is taking max of all possibility then returning so will work fine.
-                                    # in above memoised one , we can do like this also if we compare 
-                                    # i.e dp[pre + 1][cur]= max(dp[pre + 1][cur], solve(pre, cur + 1)). Then no need to return at both place.
-        return solve(-1, 0) 
-
-# method 3: Better one
-# Just the same above logic only, different way to write.
+# method 2: Better one
 
 # Note vvvi: This is better one template in case of 'take' and 'notTake'  which there is 'notTake' option always there.
 # So just find the condition for 'take' and return the max(take, notTake)

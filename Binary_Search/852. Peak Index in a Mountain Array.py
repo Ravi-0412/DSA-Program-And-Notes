@@ -12,7 +12,7 @@ class Solution:
             mid= start+ (end-start)//2
             # in which direction  we should move 
             # will depend on the value of arr[mid] and arr[mid+1]
-            if nums[mid]> nums[mid+1]: 
+            if nums[mid] > nums[mid+1]: 
             # means we are in decr part of array
             # so our ans will lie on the left hand side of mid including 'mid'
                 end= mid

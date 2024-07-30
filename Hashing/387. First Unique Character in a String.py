@@ -4,12 +4,19 @@
 # Get the frequency of each character.
 # Then find the first character that has a frequency of one.
 
-# Method 2:
-# store freq and first_index of each char in map.
+class Solution:
+    def firstUniqChar(self, s: str) -> int:
+        freq = [0] * 26
+        for char in s:
+            freq[ord(char) - ord('a')] += 1
+        for i, char in enumerate(s):
+            if freq[ord(char) - ord('a')] == 1:
+                return i
+        return -1
 
 
 # java
-""""
+"""
 // Method 1:
 
 public class Solution {
@@ -23,6 +30,10 @@ public class Solution {
         return -1;
     }
 }
+"""
+
+# Method 2:
+# store freq and first_index of each char in map.
 
 
 """

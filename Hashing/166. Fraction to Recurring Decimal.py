@@ -5,14 +5,14 @@
 # that whenever a same remainder comes up, we know there is a repeating fractional part.
 
 # How to detect and handle repitition.
-i) Detecting Repetition:
-After appending each digit to res, the method checks if num (the current remainder) already exists in map.
-If map.containsKey(num) is true, it means that num has been seen before, 
-indicating the start of a repeating sequence of decimals.
-  
-ii) Handling Repetition:
-When repetition is detected, the method retrieves the index from map where num was first encountered.
-It then inserts "(" at that index in res to mark the beginning of the repeating sequence and can return the ans from here only.
+# i) Detecting Repetition:
+# After appending each digit to res, the method checks if num (the current remainder) already exists in map.
+# If map.containsKey(num) is true, it means that num has been seen before, 
+# indicating the start of a repeating sequence of decimals.
+
+# ii) Handling Repetition:
+# When repetition is detected, the method retrieves the index from map where num was first encountered.
+# It then inserts "(" at that index in res to mark the beginning of the repeating sequence and can return the ans from here only.
 
 # Time: 
 

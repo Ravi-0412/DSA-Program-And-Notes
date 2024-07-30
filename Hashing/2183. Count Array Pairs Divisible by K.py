@@ -20,7 +20,7 @@ class Solution:
         frequency= collections.defaultdict(int)
         ans= 0
         for n in nums:
-            Gcd= math.gcd(n, k)  # ex: 10 = k and we have nums[i] as 12 so gcd will be 2
+            Gcd = math.gcd(n, k)  # ex: 10 = k and we have nums[i] as 12 so gcd will be 2
             want= k // Gcd       # what do we want from upper ex: we need 5
             for num in frequency:
                 if num % want== 0:

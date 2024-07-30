@@ -3,7 +3,7 @@
 
 # If we will try to values from more than one neighbours then we will get wrong ans(more than expected).
 
-Complexity:
+# Complexity:
 
 # Time: O(3^k), where k <= 25 is the number of cells that have gold.
 # The first cell has up to 4 neighbors to go to, the (k-3) other cells have up to 3 neighbors to go to 

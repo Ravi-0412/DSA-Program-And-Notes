@@ -23,6 +23,11 @@ class Solution:
 
 # method 2:
 # mine approach and better one.
+
+# Why we are able to do like this?
+# Roman numerals are usually written largest to smallest from left to right i.e s[i] > s[i + 1].
+# But if s[i] < s[i + 1] then it means s[i] & s[i + 1] together forming 4, 9, 40,90, 400, 90.
+
 class Solution:
     def romanToInt(self, s: str) -> int:
         roman = {'M': 1000,'D': 500 ,'C': 100,'L': 50,'X': 10,'V': 5,'I': 1}

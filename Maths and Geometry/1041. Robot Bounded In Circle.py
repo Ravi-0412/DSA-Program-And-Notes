@@ -1,17 +1,17 @@
 # The key observation is that the "trajectory of the path does not matter 
-but the direction after one run of the instruction does!".
+# but the direction after one run of the instruction does!".
 # Ans: Just return true if the final position does not change or the facing direction is different from the beginning.
 
 # How?
-i) After all the instructions, if robot is at (0,0), that means the robot will be at (0,0) after every cycle, so must be true.
-ii) After all the instructions, if robot is not at (0,0) and face north, 
-say it's at (x,y), that means after every cycle, robot moves [x-0, y-0] but its direction is still the starting direction (north), 
-that means it will keep moving further away from (0,0) infinitely if we continue to repeat the loop, therefore false.
-iii) After all the instructions, if robot is not at (0,0) and face non-north, then it means:
-      if direction is east, that means robot turns right after every cycle i.e (from north to east), 
-      (from east -> south), (from south -> west), from(west -> North).
-so eventually it will stay in the same area instead of moving further away from (0,0) infinitely
-      same thing for every other non-north directions.
+# i) After all the instructions, if robot is at (0,0), that means the robot will be at (0,0) after every cycle, so must be true.
+# ii) After all the instructions, if robot is not at (0,0) and face north, 
+# say it's at (x,y), that means after every cycle, robot moves [x-0, y-0] but its direction is still the starting direction (north), 
+# that means it will keep moving further away from (0,0) infinitely if we continue to repeat the loop, therefore false.
+# iii) After all the instructions, if robot is not at (0,0) and face non-north, then it means:
+#       if direction is east, that means robot turns right after every cycle i.e (from north to east), 
+#       (from east -> south), (from south -> west), from(west -> North).
+# so eventually it will stay in the same area instead of moving further away from (0,0) infinitely
+#       same thing for every other non-north directions.
 
 # Simplest code
 # java
@@ -69,7 +69,7 @@ class Solution {
 
 class Solution:
     def isRobotBounded(self, instructions: str) -> bool:
-        # Directions: 0 - up, 1 - left, 2 - down, 3 - right
+        # Directions: 0 - up(North), 1 - left(West), 2 - down(South), 3 - right(East)
         dir = [[0, 1], [-1, 0], [0, -1], [1, 0]]
         i = 0  # Direction index, starting facing upwards
         

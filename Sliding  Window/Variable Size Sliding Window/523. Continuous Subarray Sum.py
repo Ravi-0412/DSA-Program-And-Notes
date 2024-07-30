@@ -23,14 +23,14 @@ class Solution:
                                # we may get modulus= 0 later so to handle that initially we are mapping {0:-1}
         curSum= 0
         for i in range(len(nums)):
-            curSum+= nums[i]
-            curSum= curSum % k
+            curSum += nums[i]
+            curSum = curSum % k
             if curSum in sumTillIndex:  # duplicate remainder
-                pre= sumTillIndex[curSum]
+                pre = sumTillIndex[curSum]
                 if i - pre >= 2:
                     return True
             else:
-                sumTillIndex[curSum]= i 
+                sumTillIndex[curSum] = i 
         return False
 
 

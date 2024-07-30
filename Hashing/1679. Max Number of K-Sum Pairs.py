@@ -1,11 +1,7 @@
-# method 1: Brute force
-# time: O(n^2)
-# just check every pair from each index.
-
-# method 2: sort the array and apply "Two Sum for sorted array"
+# method 1: sort the array and apply "Two Sum for sorted array"
 # time: O(n*logn)
 
-# method 3: 
+# method 2: 
 
 # just applied normal two sum.
 # but instead of storing 'index' as value, storing frequency since there can be more than same pair.
@@ -19,7 +15,7 @@ class Solution:
         numFrequency= collections.defaultdict(int)
         count= 0
         for n in nums:
-            remainingSum= k - n
+            remainingSum = k - n
             if remainingSum in numFrequency:
                 count+= 1
                 numFrequency[remainingSum]-= 1

@@ -43,7 +43,7 @@ class Solution:
 
 
 # This same logic just we took two element to represent '0' and '1' at each node.
-# do it this way only if you get tle
+# do it this way only if you get tle in other questions as well involving bit + trie.
 class TrieNode:
     def __init__(self):
         self.children = [None, None]
@@ -142,12 +142,6 @@ public class Solution {
         }
 
         return maxAns;
-    }
-
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        int[] nums = {3, 10, 5, 25, 2, 8};
-        System.out.println(solution.findMaximumXOR(nums)); // Output should be 28
     }
 }
 

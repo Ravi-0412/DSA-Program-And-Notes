@@ -3,8 +3,8 @@
 
 # My confusio:
 # Note: No need to keep track of 'character' by which we are getting the maximum ans.
-# If maxFreq becomes very bog then also np because internal while loop won't run and
-# whole window will be part of our ans.
+# If maxFreq becomes very big then also np because internal while loop won't run and
+# whole window will be part of our ans which will be less than our ans till now.
 # Also no need to update 'maxFreq' while sliding window from left.
 
 # Time = Space = O(n)

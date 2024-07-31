@@ -10,10 +10,11 @@ class Solution:
         if n < 3:
             return 0
         up, down = [0] * n , [0]*n
+        # finding the no of elements smaller while going up
         for i in range(1, n):
             if arr[i] > arr[i - 1]:
                 up[i] = up[i-1] + 1
-
+        # finding the no of elements smaller while coming down
         for i in range(n-2, -1, -1):
             if arr[i] > arr[i + 1]:
                 down[i] = down[i + 1] + 1

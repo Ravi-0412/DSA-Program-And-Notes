@@ -15,8 +15,7 @@ class Solution:
         def dfs(r,c):
             if r<0 or r>=row or c<0 or c>= col or board[r][c]!= "O":
                 return 
-            if board[r][c]== "O":   # we are not checking the symbol before calling the function so we have to check here as it can be "X" also
-                board[r][c]= "V"     # any special symbol
+            board[r][c]= "V"     # any special symbol
             directions= [[-1,0],[1,0],[0,-1],[0,1]]    # up,down,left,right
             for dr,dc in directions:
                 r1,c1= r+dr, c+dc
@@ -39,3 +38,54 @@ class Solution:
 
 
 # Can do by multisource bfs. Append all the boundary 'O' into queue and go on.
+
+
+# java
+""""
+class Solution {
+    private int row, col;
+    private char[][] board;
+    
+    public void solve(char[][] board) {
+        this.row = board.length;
+        if (row == 0) return;
+        this.col = board[0].length;
+        this.board = board;
+
+        // Code starts from here
+        for (int r = 0; r < row; r++) {
+            for (int c = 0; c < col; c++) {
+                // We only have to call dfs at the edges (1st row, last row, 1st col, last col)
+                if (board[r][c] == 'O' && (r == 0 || r == row - 1 || c == 0 || c == col - 1)) {
+                    dfs(r, c);
+                }
+            }
+        }
+        
+        // Flip all 'O' to 'X' and 'V' (visited) back to 'O'
+        for (int r = 0; r < row; r++) {
+            for (int c = 0; c < col; c++) {
+                if (board[r][c] == 'O') {
+                    board[r][c] = 'X';
+                }
+                if (board[r][c] == 'V') {
+                    board[r][c] = 'O';
+                }
+            }
+        }
+    }
+    
+    // Helper function to perform DFS
+    private void dfs(int r, int c) {
+        if (r < 0 || r >= row || c < 0 || c >= col || board[r][c] != 'O') {
+            return;
+        }
+        board[r][c] = 'V'; // Mark as visited with a special symbol
+        int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // Up, down, left, right
+        for (int[] direction : directions) {
+            dfs(r + direction[0], c + direction[1]);
+        }
+    }
+}
+
+"""

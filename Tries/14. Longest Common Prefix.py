@@ -100,3 +100,88 @@ class Solution:
         ans= ""
         ans= trie.LongestPrefix(shortest, ans)
         return ans
+
+
+# Java
+# Method 2:
+"""
+public class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        if (strs == null || strs.length == 0) return "";
+        String ans = "";
+        for (int i = 0; i < strs[0].length(); i++) {
+            for (String w : strs) {
+                if (i == w.length() || strs[0].charAt(i) != w.charAt(i)) {
+                    return ans;
+                }
+            }
+            ans += strs[0].charAt(i);
+        }
+        return ans;
+    }
+"""
+
+# method 3:
+"""
+import java.util.HashMap;
+import java.util.Map;
+
+class TrieNode {
+    Map<Character, TrieNode> children;
+    boolean isEndOfWord;
+
+    public TrieNode() {
+        children = new HashMap<>();
+        isEndOfWord = false;
+    }
+}
+
+class Trie {
+    TrieNode root;
+
+    public Trie() {
+        root = new TrieNode();
+    }
+
+    public void insert(String word) {
+        TrieNode cur = root;
+        for (char c : word.toCharArray()) {
+            if (!cur.children.containsKey(c)) {
+                cur.children.put(c, new TrieNode());
+            }
+            cur = cur.children.get(c);
+        }
+        cur.isEndOfWord = true;
+    }
+
+    public String longestPrefix(String word) {
+        TrieNode cur = root;
+        StringBuilder ans = new StringBuilder();
+        for (char c : word.toCharArray()) {
+            if (cur.children.size() > 1) {
+                return ans.toString();
+            }
+            ans.append(c);
+            cur = cur.children.get(c);
+        }
+        return ans.toString();
+    }
+}
+
+public class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        if (strs == null || strs.length == 0) return "";
+        Trie trie = new Trie();
+        for (String s : strs) {
+            trie.insert(s);
+        }
+        String shortest = strs[0];
+        for (String s : strs) {
+            if (s.length() < shortest.length()) {
+                shortest = s;
+            }
+        }
+        return trie.longestPrefix(shortest);
+    }
+}
+"""

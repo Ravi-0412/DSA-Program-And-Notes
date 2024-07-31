@@ -27,7 +27,7 @@ class Solution:
         return ans
 
 
-# method 2: 
+# method 2: good one
 # same way we solved 'Jump Game'.
 class Solution:
     def jump(self, nums: List[int]) -> int:

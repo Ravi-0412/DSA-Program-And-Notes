@@ -42,7 +42,8 @@ class Solution {
                     stack.pop();
                 }
             } else {
-                stack.push(new int[]{c, 1});
+                stack.push(new int[]{c, 1});    // c is converted to its ASCII value
+                // if c is 'a', its ASCII value is 97. So, new int[]{'a', 1} becomes new int[]{97, 1}
             }
         }
 
@@ -50,7 +51,7 @@ class Solution {
         while (!stack.isEmpty()) {
             int[] top = stack.pop();
             for (int i = 0; i < top[1]; i++) {
-                result.append((char) top[0]);
+                result.append((char) top[0]);     // Convert ASCII value back to character
             }
         }
 

@@ -164,7 +164,7 @@ arr= [10, 10,20,20,20,20]
 key= 20
 print(binary_search(arr, key))
 
-# Template 4: most powerful after template 2.
+# Template 4: to find the last index       # most powerful after template 2.
 #  Just consice way of above method(merge two if into one if).
 # agar mil bhi jaye to 'low' ko aage badhate rhna h . isliye start wale condition me equal to lga do.
 # template 1 only. yhi template ko use karna h ans milne ke bad bhi or bhi bda answer khojne ke liye.

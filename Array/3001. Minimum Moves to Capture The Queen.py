@@ -1,5 +1,6 @@
 # Approach
-# Note: 1) Max possilbe move is 2. What ever is the configuration, queen can be captured in 2 moves
+# Note: 1) Max possible move is 2. What ever is the configuration, queen can be captured in 2 moves
+# using Rook.
 # 2) Now when ever the two pieces are head to head and the third pice is not in between them 
 # then we can capture queen in 1 step. This can be possible in 4 different ways :
 # a) rook and queen in same row
@@ -14,12 +15,12 @@
 
 class Solution:
     def minMovesToCaptureTheQueen(self, a: int, b: int, c: int, d: int, e: int, f: int) -> int:
-        # case1 : Rock is in same row as queen
+        # case a : Rook is in same row as queen
         if a == e:
             # check if bishop in between rock and queen. if yes then 2 else 1
             # (rook -> bishop -> queen ) or (queen -> bishop -> rook)
             return 2 if a == c and (b < d < f or b > d > f) else 1
-        # case2 : Rock is in same column as queen
+        # case2 : Rook is in same column as queen
         if b == f:
             # check if bishop in between rock and queen. if yes then 2 else 1
             # (rook -> bishop -> queen ) or (queen -> bishop -> rook)

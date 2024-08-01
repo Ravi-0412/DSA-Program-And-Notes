@@ -20,11 +20,12 @@ class Solution:
             n= -n
         if n==0: 
             return 1
-        smallAns= self.myPow(x, n//2)
+        smallAns = self.myPow(x, n//2)
+        smallAns = smallAns * smallAns
         if n%2 == 1:  
-            return x* smallAns* smallAns
+            return x* smallAns
         # if even
-        return smallAns* smallAns
+        return smallAns
 
 
 # 2nd method- time: O(logn)

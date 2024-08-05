@@ -100,7 +100,7 @@ class Solution:
             visited.add(num)
         return ans 
 
-# Java
+# Java: Two sum
 """
 class Solution {
     public int[] twoSum(int[] nums, int target) {
@@ -119,3 +119,8 @@ class Solution {
     }
 }
 """
+
+# Related Question:
+# 1) 2006. Count Number of Pairs With Absolute Difference K
+# 2) Print all unique pairs with given sum
+# 3) 167. Two Sum II - Input Array Is Sorted

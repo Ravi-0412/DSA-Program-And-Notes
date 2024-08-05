@@ -31,17 +31,17 @@ class Solution {
       int c; 
       while(b !=0 ) {
         c = (a&b);     # storing the carry
-        a = a ^ b;     # first find the sum assuming 
+        a = a ^ b;     # first find the sum assuming no carry
         b = (c) << 1;  # Move the carry to one position left 
       }
       return a; 
     }
 }
 
-# Note: All methods won't work in pythin if number is negative.
+# Note: All methods won't work in python if number is negative.
 # Reason: In python integers have arbitrary precision, meaning they can grow as large as the memory allows. 
 # This is in contrast to languages like Java, C, or C++, where integers are typically of fixed size (e.g., 32-bit or 64-bit).
-# e.g: In Java, the int type is a 32-bit signed integer (−231 to 231−1231−1 (i.e., -2,147,483,648 to 2,147,483,647)). 
+# e.g: In Java, the int type is a 32-bit signed integer (−2^31 to 2^31−1 (i.e., -2,147,483,648 to 2,147,483,647)). 
 
 # int maxInt = 2147483647; // 2^31 - 1
 # int result = maxInt + 1; // Results in -2147483648 due to overflow in java
@@ -70,7 +70,7 @@ class Solution {
 
 #   c)  Add 1:
 #         11111111111111111111111111111010 + 1 = 11111111111111111111111111111011
-# d) so, the 32-bit two's complement representation of −5−5 is : 11111111111111111111111111111011
+# d) so, the 32-bit two's complement representation of −5 is : 11111111111111111111111111111011
 
 # Converting Back to Decimal
 

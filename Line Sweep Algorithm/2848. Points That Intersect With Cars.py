@@ -1,0 +1,1 @@
+# just apply same logic as '1854. Maximum Population Year' and add count of point whose value > 0.

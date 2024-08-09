@@ -1,6 +1,6 @@
 # First part solution where len(word) <= 26 and all characters are different.
 
-# Logic : we have '8' keys (2- 9) and on these '8' keys we can place 26 characters
+# Logic : we have '8' keys (2- 9) and on these '8' keys, we can place 26 characters i.e 
 # '3' char on 6 keys and 4 character on '2' keys.
 
 
@@ -45,14 +45,18 @@ class Solution:
             return 8 + (n - 8) *2
         if n <= 24:
             return 8 + 8*2 + (n- 16) * 3
-        if n == 25:
-            return 8 + 8*2 + 8 * 3 + 1 * 4
-        return 8 + 8*2 + 8 * 3 + 2 * 4
+        return 8 + 8*2 + 8 * 3 + (n - 24) * 4     
+                                    # (n - 24): we will have to type '4' times and number of such char will be either 1 or 2
         
 
 # Actual question
     
-# Just same way as above with just one modification.
+"""
+Just same way as above with just one modification.
+Just add the push count(1, 2, ,3, 4) with frequency in above same logic.
+i.e character having highest 8th frequency we will have to push 'one' time, and so on.
+""" 
+
 
 # Logic: First we will try to put character having maximum freq at 1st position
 # to minimise the push.

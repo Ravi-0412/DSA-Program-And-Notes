@@ -25,7 +25,7 @@ class Solution:
             if num != mn and num != mx:
                 return num
 
-# Method 3: 
+# Method 3: Better one
 # Logic: If we take any three number then out of that one will be our ans.
 # But how to make sure which can be our ans?
 # Ans: Middle ele will be our ans because other elements can be minimum or maximum.
@@ -37,6 +37,32 @@ class Solution:
         if len(nums) < 3:
             return -1
         return sorted(nums[: 3])[1]
+
+# java
+"""
+class Solution {
+    public int findNonMinOrMax(int[] nums) {
+        // Check if the array has fewer than 3 elements
+        if (nums.length < 3) {
+            return -1;
+        }
+
+        // Extract the first three elements
+        int a = nums[0];
+        int b = nums[1];
+        int c = nums[2];
+
+        // Find and return the middle value
+        if ((a > b && a < c) || (a < b && a > c)) {
+            return a;
+        } else if ((b > a && b < c) || (b < a && b > c)) {
+            return b;
+        } else {
+            return c;
+        }
+    }
+}
+"""
     
 # method 4: optimising method '2' using logic of method '3'.
 # we only need to do the above for 1st three ele.

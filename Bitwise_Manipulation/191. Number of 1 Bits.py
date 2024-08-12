@@ -26,6 +26,13 @@ class Solution:
 # No of time loop execute =  to the no of set bits  
 # Logic: as n is formed from 'n-1' by changing one bit and so on every iteration one '1' will get cancelled out when we will take '&',
 # as while taking add and updating, the value tends towards zero very fast as bits changes.
+
+# More better logic:
+"""
+For eavery two consecutive numbers, we are sure that there are (n - 1) 1's which are common between the two numbers
+where n is the total number of 1's in the larger number.
+"""
+
 # time: o(1)
 
 class Solution:

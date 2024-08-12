@@ -4,7 +4,7 @@ class Solution:
         if head== None or head.next==None:
             return head
         dummy= ListNode(0)  # need dummy node because 1st node can also have duplicates in this we will have to delete head also
-        dummy.next= head
+        dummy.next= head     # need this to compare for first time
         pre= dummy  # pre will always point to the pre distinct ele having no duplicates.
         # and if no duplicates then it will always point to one node before current
 
@@ -23,10 +23,46 @@ class Solution:
             current= current.next   
         return dummy.next
 
+# java
+"""
+public class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        ListNode dummy = new ListNode(0); // need dummy node because 1st node can also have duplicates in this we will have to delete head also
+        dummy.next = head; // need this to compare for first time
+        ListNode pre = dummy; // pre will always point to the pre distinct ele having no duplicates.
+                              // and if no duplicates then it will always point to one node before current
+        ListNode current = head;
+
+        while (current != null) {
+            while (current.next != null && current.next.val == pre.next.val) { // if duplicates only update current pointer
+                current = current.next;
+            }
+
+            // after updating check whether pre and current are adjacent or not
+            // as this while loop can break because of the 1st condition also
+
+            if (pre.next == current) { // means no duplicates (if pre and current are adjacent)
+                pre = current;
+            } else { // means till current it is duplicates
+                pre.next = current.next;
+            }
+
+            current = current.next;
+        }
+
+        return dummy.next;
+    }
+}
+"""
+
 # my mistake: I was trying to do using only one while loop 
 
 
-# method 2: 
+# method 2: More easier
 class Solution:
     def deleteDuplicates(self, head): 
         dummy = ListNode(0);  # construct a dummy node
@@ -44,25 +80,4 @@ class Solution:
             else:  # if different make pre like this since pre.next will be already pointing to our one of the ans
                 pre = pre.next   # to connect next ele after pre.next
             cur = cur.next
-        return dummy.next
-
-# method 3:very better one and easy to understand
-# https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/discuss/1002902/Python-2-pointers-solution-explained
-# read the explanation inside the above link
-
-class Solution:
-    def deleteDuplicates(self, head):
-        dummy = ListNode(-1)
-        dummy.next = head
-        fast, slow = head, dummy
-        while fast:
-            while fast.next and fast.val == fast.next.val:
-                fast = fast.next
-            if slow.next == fast:
-                # no duplicates
-                slow, fast = slow.next, fast.next
-            else:
-                # Skipping duplicates. Tilll 'fast' there is duplicate.
-                slow.next = fast.next
-                fast = slow.next
         return dummy.next

@@ -1,9 +1,24 @@
 # Logic : Kisi ek din 2 event nhi ho sakta i.e Already booked day pe koi or event nhi ho sakta.
 # we only need to book the cur event if it is not overlapping with any of the booked event.
 
-# Method 1:
+# # to check two event overlapping or not in single line 
+"""
+Given 2 segment [left1, right1], [left2, right2],
+how can we check whether they overlap?
 
-# Note: Remember this short form to check 'ovelapping interval', will be helpful in a lot of questions.
+If these two intervals overlap then, there should exist a value x such that:
+left1 <= x <= right1 && left2 <= x <= right2
+which implies 'max(left1, left2) <= x <= min(right1, right 2)'.
+
+# since left1 <= right1 and left2 <= right2 is already given.
+# so we only need to check : left1 <= right2 && left2 <= right1
+
+These two are the sufficient and necessary conditions,
+for two interval overlaps.
+
+"""
+
+# Method 1:
 
 #To visualise overlapping draw on paper.
 # Time: O(n^2)
@@ -15,18 +30,47 @@ class MyCalendar:
     def book(self, start: int, end: int) -> bool:
         # check if it is overlapping with any of the booked events
         for s, e in self.booked:
-            # overlap tabhi karega jb start chota ho 'e' se and 'end' bda ho 's' se. This will handle all cases
-            # checking '>/<' not '>= /<=' because we can start the next event same day pre event is ending(= is allowed).
-            if end > s and start < e:  
+            # check if they are overlapping
+            if end > s and e > start:  
                 return False
         # booked one ko dal do list me
         self.booked.append((start, end))
         return True
 
-# MEthod 2: optimising the above one
+# Java
+"""
+import java.util.ArrayList;
+import java.util.List;
+
+class MyCalendar {
+
+    private List<int[]> booked;
+
+    public MyCalendar() {
+        booked = new ArrayList<>();
+    }
+
+    public boolean book(int start, int end) {
+        // Iterate over the list of already booked events
+        for (int[] event : booked) {
+            int s = event[0];
+            int e = event[1];
+            // Check if there is an overlap
+            if (end > s && e > start) {
+                return false;  // Overlapping, cannot book
+            }
+        }
+        // If no overlap, add the event to the list
+        booked.add(new int[]{start, end});
+        return true;
+    }
+}
+"""
+
+# Method 2: optimising the above one
 # Logic: If somehow we can store events in sorted order acc to 'start'
 # then we can find the possible position after which we can keep the booking of cur event.
-# Cur one must have at least start date >= start date of 'position-1'.
+# Cur one must have at least start date > start date of 'position-1'.
 
 # After getting the position we can check whether we can keep the cur event at that position or not.
 
@@ -104,5 +148,64 @@ class MyCalendar:
             self.root = Node(start, end)
             return True
         return self.isBookingPossible(start , end , self.root)
+
+# java
+"""
+class Node {
+    int s, e;
+    Node left, right;
+
+    public Node(int s, int e) {
+        this.s = s;
+        this.e = e;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+class MyCalendar {
+
+    private Node root;
+
+    public MyCalendar() {
+        this.root = null;
+    }
+
+    private boolean isBookingPossible(int start, int end, Node cur) {
+        // Case 1: If the new event starts after the current event ends
+        if (start >= cur.e) {
+            // It should be placed on the right side of the BST
+            if (cur.right != null) {
+                return isBookingPossible(start, end, cur.right);
+            } else {
+                cur.right = new Node(start, end);
+                return true;
+            }
+        }
+        // Case 2: If the new event ends before the current event starts
+        else if (end <= cur.s) {
+            // It should be placed on the left side of the BST
+            if (cur.left != null) {
+                return isBookingPossible(start, end, cur.left);
+            } else {
+                cur.left = new Node(start, end);
+                return true;
+            }
+        }
+        // If neither condition is met, the booking is not possible due to overlap
+        return false;
+    }
+
+    public boolean book(int start, int end) {
+        // If there's no root, this is the first event, so we can book it
+        if (root == null) {
+            root = new Node(start, end);
+            return true;
+        }
+        // Otherwise, check if the booking is possible by traversing the tree
+        return isBookingPossible(start, end, root);
+    }
+}
+"""
 
 # Method 4: Try by Segment Tree

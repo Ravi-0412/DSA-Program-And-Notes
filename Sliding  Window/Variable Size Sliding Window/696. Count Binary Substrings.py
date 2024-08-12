@@ -23,3 +23,63 @@ class Solution:
             # will form valid substring with adjacent only and number = min(i-1, i)
             ans += min(consecutive_count[i - 1] , consecutive_count[i])
         return ans        
+    
+# Method 2: Optimising space
+# we only care about current_count and pre_count.
+# so just use two variables instead of using an array.
+
+class Solution:
+    def countBinarySubstrings(self, s: str) -> int:
+        cur = 1  # Current sequence length
+        pre = 0  # Previous sequence length
+        res = 0  # Result to store the count of valid substrings
+
+        # Iterate through the string starting from the second character
+        for i in range(1, len(s)):
+            # If current character is the same as the previous one, increment `cur`
+            if s[i] == s[i - 1]:
+                cur += 1
+            else:
+                # Otherwise, add the minimum of `cur` and `pre` to `res`
+                res += min(cur, pre)
+                # Update `pre` to the length of the current sequence
+                pre = cur
+                # Reset `cur` to 1 for the new sequence
+                cur = 1
+
+        # Add the last comparison between the final `cur` and `pre` to `res`
+        res += min(cur, pre)
+
+        return res
+
+
+# java
+"""
+class Solution {
+    public int countBinarySubstrings(String s) {
+        int cur = 1;   // Current sequence length
+        int pre = 0;   // Previous sequence length
+        int res = 0;   // Result to store the count of valid substrings
+
+        // Iterate through the string starting from the second character
+        for (int i = 1; i < s.length(); i++) {
+            // If current character is the same as the previous one, increment `cur`
+            if (s.charAt(i) == s.charAt(i - 1)) {
+                cur++;
+            } else {
+                // Otherwise, add the minimum of `cur` and `pre` to `res`
+                res += Math.min(cur, pre);
+                // Update `pre` to the length of the current sequence
+                pre = cur;
+                // Reset `cur` to 1 for the new sequence
+                cur = 1;
+            }
+        }
+
+        // Add the last comparison between the final `cur` and `pre` to `res`
+        res += Math.min(cur, pre);
+
+        return res;
+    }
+}
+"""

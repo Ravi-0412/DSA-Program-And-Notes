@@ -4,13 +4,13 @@
 
 # method 2: Power of two has 2's complement equal to the num itself
 # but there is no direct way to find 2's complemnt and compare so take '&' of  num with 2's comp(-n) 
-# and that should be equal to no itself
+# and that should be equal to no itself.
 
-# method 3:
+# method 3: Best
 # for no in power of 2, it has one bit more than the its pre no
 # so '&'  with pre no should always give 0
 
-# method 3: 
+# method 4: 
 # for no in power of 2, it has one bit more than the its pre no
 # so '&'  with pre no should always give 0 and pre no contain all 1's only at bit position where power of two contain all 0's only
 # so neagtion of pre num with the given no should be equal to the number itself

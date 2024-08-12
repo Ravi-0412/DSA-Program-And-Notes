@@ -1,10 +1,12 @@
 # method 1: 
+# Time: O(log(4))
 class Solution:
     def isPowerOfFour(self, n: int) -> bool:
         return n >0 and log(n  ,4) == int(log(n, 4))
 
 # Method 2:
 # Recursion
+# Time: O(log(4))
 class Solution:
     def isPowerOfFour(self, n: int) -> bool:
         if n == 1:
@@ -16,6 +18,8 @@ class Solution:
 # Logic: 1) There must be only one '1' if we convert 'n' into its binary and 
 # This case also means 'n' must be power of '2' i.e (n & n-1 == 0).
 # 2) 'n-1' must be divisible by '3'. (1,4,16,64,...)
+
+# Time: O(1)
 
 class Solution:
     def isPowerOfFour(self, n: int) -> bool:
@@ -38,6 +42,10 @@ class Solution:
 
 class Solution:
     def isPowerOfFour(self, n: int) -> bool:
-        # return n > 0 and (n & n-1 == 0 and (n & 0X55555555 != 0))
         return n > 0 and (n & n-1 == 0 and (n & 0X55555555 == n))     
-        
+
+
+# method 5:
+# find the no of consecutive zeros from MSB(right), if even then it is power of 4 else not.
+# .eg:1 -> 0 , 4 -> 2, 16 -> 4 , 64 -> 6 etc.
+# time: O(32*n)

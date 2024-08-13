@@ -25,7 +25,7 @@ class Solution:
             ans+= 1
             l,r= r +1, farthest   # 'l' will equal to 'r+1' so avoid calculation till 'l' again since for till 'l' we have already calculated before.
         return ans
-
+ 
 
 # method 2: good one
 # same way we solved 'Jump Game'.

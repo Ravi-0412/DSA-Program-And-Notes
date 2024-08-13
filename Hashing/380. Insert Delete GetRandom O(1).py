@@ -53,17 +53,19 @@ class RandomizedSet:
         if val not in self.numToIndex:
             return False
         
-        
-        
         last_elem_in_list = self.randomList[-1]
         index_of_elem_to_remove = self.numToIndex[val]
+
         # swap the last ele with element that we want to remove.
         # Then element that we want to remove will go at last.
         self.randomList[-1], self.randomList[index_of_elem_to_remove] = val, self.randomList[-1]
+
         # update the index of last element(now will be at 'index_of_elem_to_remove')
         self.numToIndex[last_elem_in_list] = index_of_elem_to_remove
+
         # Then pop to remove this element. O(1) because removing from last
         self.randomList.pop()
+
         # delete the element from map
         del self.numToIndex[val]
         return True
@@ -144,10 +146,11 @@ class RandomizedSet:
         if val not in self.numToIndex or not self.numToIndex[val]:
             return False
 
-        index_to_remove = self.numToIndex[val].pop()
+        index_to_remove = self.numToIndex[val].pop()   # getting last index of 'val'
         last_elem = self.randomList[-1]
 
         if index_to_remove != len(self.randomList) - 1:
+            # Bring at last that we have to remove by swapping
             self.randomList[index_to_remove] = last_elem
             self.numToIndex[last_elem].remove(len(self.randomList) - 1)
             self.numToIndex[last_elem].add(index_to_remove)
@@ -194,7 +197,7 @@ class RandomizedSet {
             return false;
         }
 
-        int indexToRemove = numToIndices.get(val).iterator().next();
+        int indexToRemove = numToIndices.get(val).iterator().next();   // getting the 1st index for 'val'
         numToIndices.get(val).remove(indexToRemove);
 
         int lastElem = randomList.get(randomList.size() - 1);
@@ -217,3 +220,6 @@ class RandomizedSet {
 }
 
 """
+
+# Related Q:
+# 1) 519. Random Flip Matrix

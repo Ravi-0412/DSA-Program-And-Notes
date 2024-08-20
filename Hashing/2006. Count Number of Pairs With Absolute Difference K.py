@@ -33,7 +33,13 @@ class Solution:
             count[n]+= 1
         ans= 0
         # starting from 'k+1' because of number will start from index '1'.
-        # We get get abs diff = k only when there exist ele at 'i' and 'i-k'
+        # We get get abs diff = k only when there exist ele at 'i' and 'i-k' 
+        # just checking at i == j and i == j - k
         for i in range(k+1, 101):  
             ans+= count[i] * count[i-k]   # all possible pair will contribute to ans. 
         return ans
+
+
+# Related q: 
+# 1) 532. K-diff Pairs in an Array
+# just extension of this

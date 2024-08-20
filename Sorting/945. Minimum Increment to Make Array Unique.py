@@ -1,6 +1,10 @@
-# Logic: Sort the array , now q reduces to to make all element in strictly increasing order.
-# for this check current ele with pre_updated_ele if <= prev then,
-# we need moves = (pre - nums[i]) + 1 to make current(nums[i]) one greater than prev.
+# Logic: 
+"""
+Answer will be equal to make all element in strictly increasing order.
+for this sort the array & try to make next element = prev + 1.
+we need moves = (pre - nums[i]) + 1 to make current(nums[i]) one greater than prev.
+"""
+# 
 
 # Time: O(n*logn)
 
@@ -16,3 +20,5 @@ class Solution:
                 ans +=  moves
             pre = nums[i] + moves
         return ans
+    
+# Note: Later try by other approaches in sheet.

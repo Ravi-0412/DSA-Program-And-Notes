@@ -47,8 +47,9 @@ def find_pairs_with_sum(arr, k):
             right -= 1
 
 
-# method 2: 
+# method 2: Optimised
 # store all pair in set
+# Time : O(n)
 def find_pairs_with_sum(arr, k):
     seen = {}
     output_pairs = set()  # to keep track of printed pairs
@@ -68,7 +69,7 @@ def find_pairs_with_sum(arr, k):
         else:
             seen[num] = 1
 
-# Other way of writing above 
+# Other way of writing above but tim = O(n*logn)
 def paired_elements(arr, target_sum):
     # Sort the array
     arr.sort()

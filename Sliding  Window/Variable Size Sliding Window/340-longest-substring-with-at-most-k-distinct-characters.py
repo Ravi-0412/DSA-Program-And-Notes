@@ -2,7 +2,7 @@
 # only change the condition i.e len(hashmap)<=k
 
 class Solution:
-    def longestKSubstr(self, s, k):
+    def lengthOfLongestSubstringKDistinct(self, s, k):
         freq= {}
         i, j= 0, 0
         ans= -1
@@ -17,6 +17,38 @@ class Solution:
             ans= max(ans, j- i+ 1)  # for length we can update directly as here len(freq) <= k only.
             j+= 1
         return ans
+
+# java
+"""
+import java.util.HashMap;
+
+class Solution {
+    public int lengthOfLongestSubstringKDistinct(String s, int k) {
+        HashMap<Character, Integer> freq = new HashMap<>();
+        int i = 0, j = 0, ans = -1;
+        
+        while (j < s.length()) {
+            // Add the current character to the frequency map
+            char currentChar = s.charAt(j);
+            freq.put(currentChar, freq.getOrDefault(currentChar, 0) + 1);
+
+            // If the number of unique characters exceeds k, shrink the window
+            while (freq.size() > k) {
+                char charAtI = s.charAt(i);
+                freq.put(charAtI, freq.get(charAtI) - 1);
+                if (freq.get(charAtI) == 0) {
+                    freq.remove(charAtI);
+                }
+                i++;
+            }
+            ans = Math.max(ans, j - i + 1);
+            j++;
+        }
+        
+        return ans;
+    }
+}
+"""
     
 # Note : if asked this in circular array then , we can just add 'elements' from '0' to 'n-1' in original array at last 
 # and apply the same logic.

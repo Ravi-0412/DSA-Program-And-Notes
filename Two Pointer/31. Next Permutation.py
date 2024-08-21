@@ -4,9 +4,9 @@
 # and for finding this we can start from righmost side.
 
 # Note: No need to traverse whole number we only need to rearrange numbers from index 'i -1' to last index such that
-# nums[i] > nums[i -1] i.e find the 1st index 'i-1' which breaks the descending order rule from last.
-# it means we have got a bigger number at 'i-1' so we can rearrange ele from index 'i-1' to last index to get
-# our ans i. next greater number.
+# nums[i] > nums[i -1] i.e find the 1st index 'i-1' which breaks the ascending order rule from last.
+# it means we have got a smaller number at 'i-1' so we can rearrange ele from index 'i-1' to last index to get
+# our ans i.e next greater number.
 
 # Steps:
 # 1) 
@@ -21,10 +21,10 @@
 # So find the 1st element greater than 'nums[i-1]' from right.
 # ie. we have to search j' from last such that nums[j] > nums[i-1] 
 
-# 3) Now we hav found correct number for index 'i-1' which is at index 'j'.
+# 3) Now we have found correct number for index 'i-1' which is at index 'j'.
 # so swap(i-1, j)
 
-# 4) After swapping number from index 'i' to last will be in descending order only
+# 4) After swapping, number from index 'i' to last will be in descending order only
 # So to get minimum number value from index 'i' to last, we will have to reverse array from index 'i' to last.
 
 # 5) Finally you will get the ans.

@@ -13,9 +13,9 @@ class Solution:
                     current1.next= current1.next.next   # assuming the next node after that we checked may be distinct
                 else:
                     # here current1 already be pointing to the distinct node than 'current' so simply we have to current1 one step ahead
-                    current1= current1.next
+                    current1 = current1.next
             # now current.next will point to the next distinct ele 
-            current= current.next
+            current = current.next
         return head
 
 
@@ -37,8 +37,6 @@ class Solution:
             current= current.next
         return head
 
-
-
 # method 2:
 # sort the list and apply the concept of removing duplicates from the sorted list
 # time: O(nlogn)
@@ -48,3 +46,21 @@ class Solution:
 # store the visited ele in set and for each ele whether that is present in set or not
 # time: O(n), space: O(n)
 
+def removeDuplicates(self, head):
+        # Base case of empty list or
+        # list with only one element
+        if self.head is None or self.head.next is None:
+            return head
+        # Hash to store seen values
+        hash = set()
+        current = head
+        hash.add(self.head.data)
+        while current.next is not None:
+
+            if current.next.data in hash:
+                current.next = current.next.next
+            else:
+                hash.add(current.next.data)
+                current = current.next
+
+        return head

@@ -1,4 +1,5 @@
-# observation : we must cross each row and each column between given positions to get from the startPos to the homePos. 
+# observation : we must cross each row and each column between given positions to go
+#  from the startPos to the homePos. 
 # So, we will always incur cost of each row and column between home and start positions atleast once.
 
 # It must also be observed that it's always best to travel through rows and column in the direction 

@@ -49,7 +49,7 @@
 #  why are we don't directly finding the parent from parent array?
 # Ans: when we combine two node from different component then we are not able to update the 
 # remaining nodes of 'node having lesser size/rank' to new ultimate parent. 
-# Also while finding parent only the nodes that belong to that component, there parent get updated.
+# Also while finding parent, only the nodes that belong to that component there parent get updated.
 
 
 # time for union: O(4 alpha) nearly = O(1), space: O(n)
@@ -145,7 +145,7 @@ class DSU:
         if self.size[p1] < self.size[p2]:
             self.parent[p1]= p2  
             self.size[p2]+= self.size[p1]   
-        else :   # rank[p1]>= rank[p2]
+        else :   # size[p1]>= size[p2]
             self.parent[p2]= p1   
             self.size[p1]+= self.size[p2]
         # return True
@@ -161,7 +161,7 @@ class DSU:
 # because we have to find parent and all , and they can be found out using index only.
 
 # Note: if given something which changes dynamically and we have to find and after each operation
-#  and if we have to combine(dynamically) them, then must think once of  'disjoint set'.
+#  and if we have to combine(dynamically) , then must think once of  'disjoint set'.
 
 # Application of DSU:
 # 1) used to detect cycle in undirected or directed graph.

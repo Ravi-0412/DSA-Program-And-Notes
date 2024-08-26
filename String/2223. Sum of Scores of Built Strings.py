@@ -58,7 +58,7 @@ class Solution:
 # a suffix of 's' starting at 'i'.
 
 # Note : Here we are not making any extra string with 'special char'.
-# We need to find traverse in same string only.
+# We need to find by traversing in same string only.
 
 # Time : O(n^2)
 

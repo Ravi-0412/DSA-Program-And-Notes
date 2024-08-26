@@ -1,4 +1,4 @@
-# The important thing is to consider all edge cases while thinking this problem through,
+# The important thing is to consider all edge cases while thinking this problem,
 # including: negative integer, possible overflow, etc.
 
 # Use HashMap to store a remainder and its associated index while doing the division so 

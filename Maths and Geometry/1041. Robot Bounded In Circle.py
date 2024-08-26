@@ -70,7 +70,7 @@ class Solution {
 class Solution:
     def isRobotBounded(self, instructions: str) -> bool:
         # Directions: 0 - up(North), 1 - left(West), 2 - down(South), 3 - right(East)
-        dir = [[0, 1], [-1, 0], [0, -1], [1, 0]]
+        dir = [[0, 1], [-1, 0], [0, -1], [1, 0]]  # taking initial direction as North and G = 1 , made this array.
         i = 0  # Direction index, starting facing upwards
         
         # Initial position of the robot

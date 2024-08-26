@@ -37,3 +37,39 @@ class Solution:
             if count > 1:
                 ans += len(str(count))
         return ans
+
+# Java
+"""
+class Solution {
+    public int compress(char[] chars) {
+        int ansIndex = 0;
+        int i = 0;
+        
+        while (i < chars.length) {
+            char curChar = chars[i];
+            int count = 0;
+            
+            // Count occurrences of the current character
+            while (i < chars.length && chars[i] == curChar) {
+                i++;
+                count++;
+            }
+            
+            // Place the current character at the answer index
+            chars[ansIndex] = curChar;
+            ansIndex++;
+            
+            // If count is more than 1, convert it to characters and append
+            if (count > 1) {
+                String countStr = String.valueOf(count);
+                for (char c : countStr.toCharArray()) {
+                    chars[ansIndex] = c;
+                    ansIndex++;
+                }
+            }
+        }
+        
+        return ansIndex;
+    }
+}
+"""

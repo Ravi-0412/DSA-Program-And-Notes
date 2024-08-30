@@ -41,6 +41,6 @@ class Solution:
                     stack.pop()
         return stack
 
-
-
+# Similar / extended Q
+# 1) 2751. Robot Collisions
 

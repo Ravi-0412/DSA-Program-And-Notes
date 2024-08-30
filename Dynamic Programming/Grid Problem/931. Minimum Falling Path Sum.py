@@ -1,5 +1,5 @@
 #Logic: we are going top-bottom.
-# for any cell (i, j), ans = matrix[i][j] + matrix[i][j] +  min(matrix[i - 1][j], matrix[i - 1][j + 1], matrix[i - 1][j - 1])
+# for any cell (i, j), ans = matrix[i][j] +  min(matrix[i - 1][j], matrix[i - 1][j + 1], matrix[i - 1][j - 1])
 # Note: we have to handle the case for first row and last row
 
 class Solution:

@@ -3,7 +3,8 @@
 # which represent values and weights associated with n items respectively.
 #  Also given an integer W which represents knapsack capacity, 
 # find out the maximum value subset of val[] such that sum of the weights of 
-# this subset is smaller than or equal to W. You cannot break an item, either pick the complete item or don’t pick it (0-1) property
+# this subset is smaller than or equal to W. 
+# Note: You cannot break an item, either pick the complete item or don’t pick it (0-1) property
 
 # method1: by recursion
 # just like subsequence and subset. basically we are finding this only from the value array
@@ -65,5 +66,26 @@ class Solution:
         return dp[n][W]  # we started the Recursive call from (n,w) so return dp[n][w]
 
 
+# Better one
+# Logic: for each element we have two choice : 1) NotTake and 2) take
+# and we can only take 'nth' element 'if wt[n-1] <= W:'.
+# ans = max(notTake, take)
 
-
+# Note: Always try to do this type of question by this approach only (notTake & take).
+class Solution:
+    def knapSack(self,W, wt, val):
+        n = len(wt)
+        dp = [[-1 for j in range(W+1)] for i in range(n+1)]  # initialising the answer matrix  
+        return self.helper(W,wt,val,n,dp)
+        
+    def helper(self,W,wt,val,n,dp):
+        if W==0 or n==0:  # if bag is full or there is no item to place
+            return 0
+        if dp[n][W]!= -1:  # means value for that function is already calculated
+            return dp[n][W]
+        notTake = self.helper(W, wt, val, n-1, dp)
+        take = 0
+        if wt[n-1] <= W:
+            take =  val[n-1] + self.helper(W - wt[n-1], wt, val, n-1, dp)
+        dp[n][W] = max(take, notTake)
+        return dp[n][W] 

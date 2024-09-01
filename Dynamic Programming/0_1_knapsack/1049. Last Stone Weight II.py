@@ -1,3 +1,5 @@
+# Logic: 
+"""
 Say you have four stones a,b,c,d.
 first you smash b against c, you get (b-c)
 now you smash (b-c) against a
@@ -9,6 +11,8 @@ ideally we want sum of each set to be sum(stones)/2 so that they cancel each oth
 
 So to solve the problem we try to 'select a set of stones such that their sum comes as close as possible to sum(stones)/2'.
 Clearly this subproblem is analogous to the knapsack problem.
+
+"""
 
 # How to do this?
 # we can reduce this further more to ' partition an array into 2 subsets whose difference is minima.
@@ -23,51 +27,38 @@ Clearly this subproblem is analogous to the knapsack problem.
 
 # Finally reduces to find: 'Minium sum Partition'.
 
-# Method 1: 
+# So question reduces to find closest sum (sum of numbers) to (SUM/2).
+# for finding closest sum to sum(arr)/2. we can do like.
 
+# Using method of 'Minimum sum partition"
+# Method 1: 
 class Solution:
     def lastStoneWeightII(self, stones: List[int]) -> int:
-        n= len(stones)
-        return self.minDifference(stones, n)
-
-    def minDifference(self,arr,n):
-        total= sum(arr)
-        possible_subset_sum= self.isSubsetSum(n,arr,total) 
-        # possible_subset_sum will contain the array with possible_sum till total
-        subset_to_check= (total)//2+1   # we have to check till middle only 
-        possibe_till_half= []   # this will store the number for which subset sum 
-                                                # is possible till middle of total(except 1st index) 
-        # print(possibe_till_half)
-        for i in range(subset_to_check):
-            if possible_subset_sum[i]== True:
-                possibe_till_half.append(i)
-        min_diff= 999999999
-        # print(possibe_till_half)
-        for num in possibe_till_half:
-            min_diff= min(min_diff, total-2*num)
+        total_sum = sum(stones)  # Calculate the total sum of all stones
+        half_sum = total_sum // 2  # Target half of the total sum
+        
+        # Initialize the DP array
+        dp = [False] * (half_sum + 1)
+        dp[0] = True  # Subset sum of 0 is always possible (empty set)
+        
+        # Fill the DP array
+        for stone in stones:
+            # Traverse backwards to avoid overwriting values that we need to check in the same iteration
+            for j in range(half_sum, stone - 1, -1):
+                dp[j] = dp[j] or dp[j - stone]
+        
+        # Find the maximum subset sum that is possible and <= half_sum
+        max_subset_sum = 0
+        for i in range(half_sum + 1):
+            if dp[i]:
+                max_subset_sum = i
+        
+        # Calculate the minimum difference
+        min_diff = total_sum - 2 * max_subset_sum
+        
         return min_diff
-    
-    def isSubsetSum (self,N, arr, sum):
-        # 1st initialse the matrix properly
-        dp= [[-1 for j in range(sum+1) ] for i in range(N+1)]
-        for i in range(N+1):
-            for j in range(sum+1):
-                if i==0:
-                    dp[i][j]= False
-                if j==0:
-                    dp[i][j]= True
-        # now just same as 0/1 Knapsack           
-        for i in range(1,N+1):
-            for j in range(1,sum+1):
-                if arr[i-1]> j:
-                    dp[i][j]= dp[i-1][j]
-                else:
-                    dp[i][j]= dp[i-1][j-arr[i-1]] or dp[i-1][j]
-        return dp[N]  # this will contain the possible subset sum for numbers till total(boolean array)
-                  # since we are returning the last row and last row will give the ans for all possible subset sum till total
 
-# method 2: question reduces to find closest sum (sum of numbers) to (SUM/2).
-# for finding closest sum to sum(arr)/2. we can do like.
+# Method 2: 
 
 class Solution:
     def lastStoneWeightII(self, stones: List[int]) -> int:
@@ -80,5 +71,5 @@ class Solution:
                     dp[i][j]= dp[i-1][j]
                 else:   # when we have choice to include the curr ele or not.
                     dp[i][j]= max(dp[i-1][j], dp[i-1][j- stones[i-1]] + stones[i-1])   # we have to find the closest sum so taking max.
-        return abs(total- 2*dp[n][mid])    # ans will be equal to this one.   (some maths done in notes).
-    
+        return abs(total- 2*dp[n][mid])    # ans will be equal to this one.  
+

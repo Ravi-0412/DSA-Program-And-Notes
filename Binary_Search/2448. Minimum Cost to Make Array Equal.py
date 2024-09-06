@@ -56,7 +56,7 @@ class Solution:
 # Repeatly doing this while left < right,
 # until we find the minimum value and return it.
 
-# Note vvi: This method is known as trinary search, if we check f(mid1) and f(mid2).
+# Note vvi: This method is known as ternary search, if we check f(mid1) and f(mid2).
 
 
 class Solution:

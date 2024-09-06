@@ -19,7 +19,7 @@ class Solution:
             ans= min(ans, curCost)
         return ans
     
-
+# Method 2: 
 # Little bit optimising the above solution.
 # Taking only element of same array and making them equal.
 
@@ -33,10 +33,8 @@ class Solution:
             ans= min(ans, curCost)
         return ans
     
-
+# Method 3: 
 # Optimising using binary Search
-# https://leetcode.com/problems/minimum-cost-to-make-array-equal/solutions/2734162/java-c-python-binary-search/
-# https://leetcode.com/problems/minimum-cost-to-make-array-equal/solutions/2734091/Pivot-vs.-W-Median-vs.-Binary-Search/
 
 # Assume the final equal values are x
 # the total cost function y = f(x) is a convex function(upward parabola) i.e 
@@ -83,12 +81,11 @@ class Solution:
 
 
 # method 3: Weighted median
-# https://leetcode.com/problems/minimum-cost-to-make-array-equal/solutions/2734183/python3-weighted-median-o-nlogn-with-explanations/.
 
 # logic: Think of the cost array as the weight of the corresponding num in the nums array. 
 # For example when nums = [1, 3, 5, 2] and cost = [2, 3, 1, 14], suppose we want to increase 1 in nums to 2, 
 # we know that the cost for this operation is 2. However, this is equivalent as 
-# if there are two 1’s in nums and we increase both of them to 2. 
+# if there are two 1’s in nums and we increase both of them to 2 with cost of '1'. 
 # Therefore, the minimum total cost such that all the elements of the array nums become equal is equivalent 
 # to the minimum total cost such that all the elements of the array 
 # nums = [1, 1, 3, 3, 3, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2] become equal, 
@@ -101,12 +98,12 @@ class Solution:
 # Since the cost is not the same, we need to find a weighted median.
 
 # How will find the 'weighted median'?
-# To find a weighted median(target, we sort elements, "repeating" each element based on its weight.
-# For [1,3,5,2], [2,3,1,4] case, the repeated array looks like this: [1,1,2,2,2,2,3,3,3,5].
+# To find a weighted median(target), we sort elements, "repeating" each element based on its weight.
+# For nums: [1,3,5,2], cost:  [2,3,1,4] case, the repeated array looks like this: [1,1,2,2,2,2,3,3,3,5].
 
 # Note: Now aggregate the current weight going from one side, and stop when current > total // 2.
 
-# After that caluculate the cost of making all ele equal to this 'target'.
+# After that calculate the cost of making all ele equal to this 'target'.
 
 class Solution:
     def minCost(self, nums: List[int], cost: List[int]) -> int:

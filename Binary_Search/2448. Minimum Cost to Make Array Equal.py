@@ -119,6 +119,50 @@ class Solution:
         # Now find the cost of making all ele equal to 'target'.
         return sum(abs(num - target) * c for num, c in arr)
 
+# java
+"""
+import java.util.Arrays;
+
+class Solution {
+    public long minCost(int[] nums, int[] cost) {
+        // Create an array of pairs (num, cost)
+        int n = nums.length;
+        long[][] arr = new long[n][2];
+        for (int i = 0; i < n; i++) {
+            arr[i][0] = nums[i];
+            arr[i][1] = cost[i];
+        }
+
+        // Sort the array based on the nums
+        Arrays.sort(arr, (a, b) -> Long.compare(a[0], b[0]));
+
+        // Calculate the total cost
+        long totalCost = 0;
+        for (long c : cost) {
+            totalCost += c;
+        }
+
+        // Find the target element
+        long curSum = 0;
+        long target = 0;
+        for (long[] pair : arr) {
+            curSum += pair[1];
+            if (curSum > totalCost / 2) {
+                target = pair[0];
+                break;
+            }
+        }
+
+        // Calculate the minimum cost to make all elements equal to the target
+        long minCost = 0;
+        for (long[] pair : arr) {
+            minCost += Math.abs(pair[0] - target) * pair[1];
+        }
+
+        return minCost;
+    }
+}
+"""
 
 # Related Q: 
 "462. Minimum Moves to Equal Array Elements II", 

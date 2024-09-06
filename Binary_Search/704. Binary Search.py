@@ -60,6 +60,11 @@ def binary_search(arr,key):
 # here after while loop will break then 'low' and 'high' will become equal.
 # so any one of them will point to 'key' if key is present.
 
+# Note: low/high will give first element >= key.
+# Note: And in case key > max(arr) then it will give last index.
+# in this case to make low point beyond than 'n-1' , make up = n
+# e.g: 2602. Minimum Operations to Make All Array Elements Equal.
+
 def binary_search(arr,key):
     n= len(arr)
     low=0
@@ -173,12 +178,16 @@ print(binary_search(arr, key))
 # Note: after while loop, end will point to the last index of target.
 # as before while loop exit start had last index value since equal to(<=) condition with 'start') and
     # 'start' will point to the first greater ele than the 'target'.
+
+# Note: end will give first element <= key.
+# Note: And in case key > min(arr) then end = 0.
+
 def binary_search(nums,target):
     start= 0
     end= len(nums)-1
     while start<= end:
         mid= start+ (end-start)//2
-        if nums[mid]<= target:   # isPossible(mid): 
+        if nums[mid] <= target:   # isPossible(mid): 
             start= mid+1  # for finding larger index. means we have to find beyond mid
         else:
             end= mid-1
@@ -189,8 +198,13 @@ arr= [10, 10, 10,10,20,20,20,20,20]
 key= 10
 print(binary_search(arr, key))
 
+# Template 5
 # Q: To find the 1st index of any target element
 # agar mil bhi jaye to 'up' ko  ghatate(decrease) karte rhna h . isliye start wale condition me equal to lga do.
+
+# Note: low will give first element >= key.
+# Note: And in case key > max(arr) then low = n
+
 def binary_search(arr,key):
     n= len(arr)
     low=0
@@ -213,3 +227,6 @@ def binary_search(arr,key):
 
 # like agar ye condition agar follow kar rha then is side check karna h agar nhi kar rha to dusre side check karna h..
 # then must apply Binary Search.
+
+# Note Latest: Template1, template4, Template5 is enough to solve all the questions.
+# So replace answers of all questions slowly slowly using these three templates only.

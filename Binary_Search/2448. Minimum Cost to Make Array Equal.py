@@ -21,7 +21,7 @@ class Solution:
     
 
 # Little bit optimising the above solution.
-# Taking only number of same array and making them equal.
+# Taking only element of same array and making them equal.
 
 class Solution:
     def minCost(self, nums: List[int], cost: List[int]) -> int:

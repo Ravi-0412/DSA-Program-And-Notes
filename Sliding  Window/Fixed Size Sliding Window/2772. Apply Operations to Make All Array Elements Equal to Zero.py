@@ -41,7 +41,7 @@ class Solution:
                     # Basically storing:  sum of previous k - 1 element i.e A[i - 1] + A[i - 2] + A[i - k + 1] after each step
         for i in range(n):
             if impact > nums[i] :
-                # cur number will be negative
+                # cur number will become negative after subtracting impact so not possible
                 return False
             nums[i] = nums[i] - impact  # After impact cur ele value will equal to this only. 
                                         # This is also the extra impact that it will add to existing impact..
@@ -49,7 +49,6 @@ class Solution:
             # we have to remove the impact of 'i-k' element for next ele . Since ele of that ele will be till this index only.
             if i - (k -1) >= 0:
                 impact -= nums[i - (k -1)]
-        print(impact) 
         return impact == 0  # if impact != 0 means for making last ele = 0 , we need to reduce some more ele beyond our array.
 
 

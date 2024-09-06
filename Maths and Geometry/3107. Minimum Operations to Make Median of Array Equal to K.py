@@ -1,4 +1,4 @@
-# Logic: Just add cost of : 1) Making medina = k   2) Making left part decreasing a/c median value
+# Logic: Just add cost of : 1) Making median = k   2) Making left part decreasing a/c median value
 # 3) Making right part increasing a/c median value
 
 class Solution:
@@ -6,11 +6,11 @@ class Solution:
         n = len(nums)
         nums.sort()
         ans = abs(k - nums[n//2])   # making median = k
+        nums[n //2] = k
         if ans == 0:
             return 0
 
         def makeLeftPartDecreasing(j, nums):
-            nums[n //2] = k
             cnt = 0
             for i in range(j , -1, -1):
                 if nums[i] >  nums[i + 1]:
@@ -20,7 +20,6 @@ class Solution:
             return cnt
         
         def makeRightPartIncreasing(j, nums):
-            nums[n //2] = k
             cnt = 0
             for i in range(j , len(nums)):
                 if nums[i] <  nums[i - 1]:

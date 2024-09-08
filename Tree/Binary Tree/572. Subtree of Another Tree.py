@@ -6,10 +6,7 @@ class Solution:
     def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
         if root== None: return False    # simply return will also work
         # check if tree starting from root is same tree as subroot
-        if self.isIdentical(root,subRoot)== True:
-            return True
-        # if root is not same then check for either of its children
-        return self.isSubtree(root.left,subRoot) or self.isSubtree(root.right, subRoot)  
+        return self.isIdentical(root,subRoot) or self.isSubtree(root.left,subRoot) or self.isSubtree(root.right, subRoot)  
     
     def isIdentical(self,root1, root2):
         # if any of them is None then both should be None for same tree

@@ -12,66 +12,9 @@
 # So first we will convert all cell into an integer like 0,1,2,3.......
 # to find and do the union.
 
-# logic: wherever there is '1', treat them all as independent island initially.
-# and later if we can combine those with its neighbour and keep reducing the count by '1'.
-
-# Note: reducing the count by '1' in both the direction we we can merge two.
-# but count will reduce in total '1' only i.e '1' for curent node(since we increased the count auto for each node) and '1' if it will get merged to  any of two.
-
-
-# Note : we are checking only in two directions(where we will not check next time), && if we check in all four directions then will get 
-# incorrect ans because value checked will get repeated.
-
-class DSU:
-    def __init__(self, n):
-        self.parent=  [i for i in range(n)]
-        self.size=    [1 for i in range(n)]   
-    
-    def findUPar(self, n):   
-        if n== self.parent[n]:   
-            return n
-        self.parent[n]= self.findUPar(self.parent[n])   
-        return self.parent[n]
-    
-    def unionBySize(self, n1, n2):
-        p1, p2= self.findUPar(n1), self.findUPar(n2)
-        if p1== p2:   # we can't do union since they belong to the same component.
-            return 0  # means we can't decrease the component since we can't combine
-        if self.size[p1] < self.size[p2]:
-            self.parent[p1]= p2  
-            self.size[p2]+= self.size[p1]   
-        else :   # rank[p1]>= rank[p2]
-            self.parent[p2]= p1   
-            self.size[p1]+= self.size[p2]
-        return 1   # we can decrease the component by '1' since we can combine them.
-
-class Solution:
-    def numIslands(self, grid: List[List[str]]) -> int:
-        m, n= len(grid), len(grid[0])
-        dsu= DSU(m*n)
-
-        count= 0
-        for i in range(m):
-            for j in range(n):
-                if grid[i][j]== "1":
-                    count+= 1  # initially first incr the count.
-                    x1= i*n + j  # number of curr cell 
-                    # now try to bring the adjacent cell to this curr cell into one .
-                    # we only need to go down and right. no need to go in all four directions since those cell will be already checked before.
-
-                    # going down (i+1, j)
-                    if i + 1<= m-1 and grid[i+1][j]== "1":
-                        x2= x1 + n  # no of this cell
-                        count-= dsu.unionBySize(x1, x2)
-                    # going right (i, j+1)
-                    if j + 1<= n-1 and grid[i][j +1]== "1":
-                        x2= x1 + 1  # no of this cell
-                        count-= dsu.unionBySize(x1, x2)
-        return count
-
-
-# Method 2: counting the distinct parent .
-# But here we will try to find the distinct parent not from parent array itself(like "Q: no of provinces") then it will give the incorrect ans.
+# Method 1: counting the distinct parent .
+# But here we will try to find the distinct parent not from parent array itself(like "Q: no of provinces") 
+# then it will give the incorrect ans.
 # As where there will be "0" in grid that will be the parent of itself and that also be get counted in the ans.
 
 # only that will be part of ans who is parent of himself and value at that grid cell== "1".
@@ -102,34 +45,21 @@ class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
         m, n= len(grid), len(grid[0])
         dsu= DSU(m*n)
-
+        directions = [[-1, 0], [1, 0], [0, -1], [0, 1]]  # up, down, left, right
         for i in range(m):
             for j in range(n):
                 if grid[i][j]== "1":
-                    x1= i*n + j  # number of curr cell 
+                    x1 = i*n + j  # number of curr cell 
                     # now try to bring the adjacent cell to this curr cell into one .
-                    # we only need to go down and right. no need to go in all four directions since those cell will be already checked before.
-
-                    # going down (i+1, j)
-                    if i + 1<= m-1 and grid[i+1][j]== "1":
-                        x2= x1 + n  # no of this cell
-                        dsu.unionBySize(x1, x2)
-                    # going right (i, j+1)
-                    if j + 1<= n-1 and grid[i][j +1]== "1":
-                        x2= x1 + 1  # no of this cell
-                        dsu.unionBySize(x1, x2)
+                    for dr, dc in directions:
+                        nr, nc = i + dr , j + dc
+                        if 0 <= nr < m and 0 <= nc < n and grid[nr][nc] == "1":
+                            x2 = nr * n + nc
+                            dsu.unionBySize(x1, x2)
         
-        # Now count the no of cell which is the parent of itself.
+        # Now count the no of cell which is the parent of itself when grid[i][j] == "1"
         # That will give the no of ultimate parent and that will be our ans.
         count= 0
-
-        # Directly counting will give the error.,
-        # total_cell= m*n
-        # for p in range(total_cell):
-        #     if p== dsu.parent[p]:
-        #         count+= 1
-        # return count
-
         for i in range(m):
             for j in range(n):
                 x1= i*n + j  # number of curr cell.
@@ -137,5 +67,19 @@ class Solution:
                     count+= 1
         return count
 
+# Note: Here if we will try to solve by method of '959. Regions Cut By Slashes'
+# i.e taking 'count' as member of DSU and incrementing count when we will find any cycle then it will give wrong ans
+# Will give very high number than expected.
 
+"""
+class DSU:
+    def __init__(self, n):
+        self.parent=  [i for i in range(n)]
+        self.size=    [1 for i in range(n)]
+        self.count = 0
+"""
 
+# Reason: Because here comparing with 4 adjacent cell and not a single point like '959. Regions Cut By Slashes'
+# so there will be lot of repeating in this.
+
+# That's why easiest way to find ans is by counting number of distinct parents.

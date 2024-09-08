@@ -1,24 +1,9 @@
-# o(n): 1st method
-# but this can overflow 
-n= int(input("enter the value of n \n"))
-lst= []
-for i in range(n-1):
-    x=int(input("enter the number \n"))
-    lst.append(x)
-print(lst)
-# y=sum(lst)
-# def missing(n):
-#     sum1=(n*(n+1))/2
-#     x= sum1-y
-#     for i in range(1,n+1):
-#         if x==i:
-#             break
-#     print("missing number is: ",i)
-def missing(n):
-    sum1=(n*(n+1))/2
-    print("mising no is:",sum1-sum(lst))
-# print(sum(lst))
-missing(n)
+# Method 1:
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
+        n = len(nums)
+        return (n*(n+ 1))//2 - sum(nums)  # sum of natural number till n - sum(nums)
+        
 
 
 # 2nd method : using XOR operation

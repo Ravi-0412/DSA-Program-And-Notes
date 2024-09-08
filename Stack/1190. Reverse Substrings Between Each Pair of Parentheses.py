@@ -2,7 +2,8 @@
 
 class Solution:
     def reverseParentheses(self, s: str) -> str:
-        stack = [""]  # Addding empty string to get original straing only when we append something to it.
+        stack = [""]  # Addding empty string to get original string only when we append something to it.
+                      # otherwise we won't be able to add the current pop string with stack top because stack will be empty.
         for c in s:
             if c == '(':
                 stack.append("")

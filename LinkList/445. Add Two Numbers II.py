@@ -132,6 +132,123 @@ class Solution:
             res = addToFront(nodeValue, res)
         return res
 
+# Java 
+# Approach 1
+"""
+class Solution {
+    
+    // Helper function to reverse a linked list
+    private ListNode reverseList(ListNode head) {
+        ListNode prev = null, curr = head;
+        while (curr != null) {
+            ListNode nextTemp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nextTemp;
+        }
+        return prev;
+    }
+    
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        // Reverse the input linked lists
+        ListNode reversedL1 = reverseList(l1);
+        ListNode reversedL2 = reverseList(l2);
+        
+        // Dummy node to build the result list
+        ListNode ans = new ListNode(0);
+        ListNode cur = ans;
+        int carry = 0;
+        
+        // Traverse both reversed lists
+        while (reversedL1 != null || reversedL2 != null || carry != 0) {
+            int sum = carry;
+            if (reversedL1 != null) {
+                sum += reversedL1.val;
+                reversedL1 = reversedL1.next;
+            }
+            if (reversedL2 != null) {
+                sum += reversedL2.val;
+                reversedL2 = reversedL2.next;
+            }
+            
+            carry = sum / 10;
+            cur.next = new ListNode(sum % 10);
+            cur = cur.next;
+        }
+        
+        // Reverse the result list and return it
+        return reverseList(ans.next);
+    }
+}
+
+"""
+
+# Approach 3:
+"""
+class Solution {
+    
+    // Helper function to calculate the size of the list
+    private int size(ListNode node) {
+        int n = 0;
+        while (node != null) {
+            n++;
+            node = node.next;
+        }
+        return n;
+    }
+    
+    // Helper function to add a node to the front of the list
+    private ListNode addToFront(int value, ListNode node) {
+        ListNode newNode = new ListNode(value);
+        newNode.next = node;
+        return newNode;
+    }
+    
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        // Calculate the sizes of both lists
+        int s1 = size(l1);
+        int s2 = size(l2);
+        
+        // Create a list with values from both lists, aligned from left to right
+        ListNode res = null;
+        ListNode cur1 = l1, cur2 = l2;
+        
+        // Traverse both lists
+        while (s1 > 0 || s2 > 0) {
+            int curSum = 0;
+            if (s1 >= s2) {
+                curSum += cur1.val;
+                cur1 = cur1.next;
+                s1--;
+            }
+            if (s2 > s1) {
+                curSum += cur2.val;
+                cur2 = cur2.next;
+                s2--;
+            }
+            res = addToFront(curSum, res);
+        }
+        
+        // Propagate carry from LSB to MSB
+        ListNode result = null;
+        int carry = 0;
+        
+        while (res != null || carry != 0) {
+            int sumValue = carry;
+            if (res != null) {
+                sumValue += res.val;
+                res = res.next;
+            }
+            carry = sumValue / 10;
+            int nodeValue = sumValue % 10;
+            result = addToFront(nodeValue, result);
+        }
+        
+        return result;
+    }
+}
+
+"""
 
 # Similar Q in array:
 # 1) "66. Plus One".

@@ -179,8 +179,8 @@ print(binary_search(arr, key))
 # as before while loop exit start had last index value since equal to(<=) condition with 'start') and
     # 'start' will point to the first greater ele than the 'target'.
 
-# Note: end will give first element <= key.
-# Note: And in case key > min(arr) then end = 0.
+# Note: end will give first element >= target.
+# Note: And in case target > max(arr) then end = n.
 
 def binary_search(nums,target):
     start= 0
@@ -202,8 +202,8 @@ print(binary_search(arr, key))
 # Q: To find the 1st index of any target element
 # agar mil bhi jaye to 'up' ko  ghatate(decrease) karte rhna h . isliye start wale condition me equal to lga do.
 
-# Note: low will give first element >= key.
-# Note: And in case key > max(arr) then low = n
+# Note: low will give first element <= target.
+# Note: And in case key < min(arr) then low = 0.
 
 def binary_search(arr,key):
     n= len(arr)

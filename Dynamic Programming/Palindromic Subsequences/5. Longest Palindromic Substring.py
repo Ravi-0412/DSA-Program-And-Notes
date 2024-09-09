@@ -42,7 +42,75 @@ class Solution:
                 l-= 1
                 r+= 1
         return ans
-    
+
+# Better to write above code
+"""
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+
+        def longestPal(l, r):
+            while l >= 0 and r < len(s) and s[l] == s[r]:
+                l -= 1
+                r += 1
+            return s[l + 1:r]
+
+        ans = ""
+        for i in range(len(s)):
+            # Check for odd-length palindrome
+            odd_pal = longestPal(i, i)
+            # Check for even-length palindrome
+            even_pal = longestPal(i, i + 1)
+
+            # Update the answer if the found palindrome is longer
+            if len(odd_pal) > len(ans):
+                ans = odd_pal
+            if len(even_pal) > len(ans):
+                ans = even_pal
+
+        return ans
+"""
+
+# Java
+"""
+class Solution {
+    public String longestPalindrome(String s) {
+        if (s == null || s.length() < 1) {
+            return "";
+        }
+
+        String ans = "";
+        
+        for (int i = 0; i < s.length(); i++) {
+            // Check for odd-length palindrome
+            String oddPal = longestPal(s, i, i);
+            // Check for even-length palindrome
+            String evenPal = longestPal(s, i, i + 1);
+
+            // Update the answer if the found palindrome is longer
+            if (oddPal.length() > ans.length()) {
+                ans = oddPal;
+            }
+            if (evenPal.length() > ans.length()) {
+                ans = evenPal;
+            }
+        }
+
+        return ans;
+    }
+
+    private String longestPal(String s, int l, int r) {
+        // Expand around the center (l, r) and find the longest palindrome
+        while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
+            l--;
+            r++;
+        }
+        // Return the palindrome substring
+        return s.substring(l + 1, r);
+    }
+}
+"""
+
+
 # Method 2: Using DP
 # logic: 
 """
@@ -69,5 +137,42 @@ class Solution:
                         Max_Len = i-j+1
                         Max_Str = s[j:i+1]
         return Max_Str
+
+# Java 
+"""
+class Solution {
+    public String longestPalindrome(String s) {
+        if (s == null || s.length() <= 1) {
+            return s;
+        }
+
+        int n = s.length();
+        boolean[][] dp = new boolean[n][n];
+        int maxLen = 1;
+        String maxStr = s.substring(0, 1);
+
+        // Iterate over the string
+        for (int i = 0; i < n; i++) {
+            dp[i][i] = true;  // Every single character is a palindrome
+
+            // Check for substrings ending at i
+            for (int j = 0; j < i; j++) {
+                if (s.charAt(j) == s.charAt(i) && (i - j <= 2 || dp[j + 1][i - 1])) {
+                    dp[j][i] = true;  // Update DP table
+
+                    // Update the longest palindrome substring found
+                    if (i - j + 1 > maxLen) {
+                        maxLen = i - j + 1;
+                        maxStr = s.substring(j, i + 1);
+                    }
+                }
+            }
+        }
+
+        return maxStr;
+    }
+}
+
+"""
 
 # later try in O(n). SOlution in sheet.

@@ -143,8 +143,8 @@ class MKAverage:
         self.m = m  # Total number of elements to consider in the sliding window
         self.k = k  # The number of smallest and largest elements to ignore
         self.window = deque()  # Stores the most recent 'm' elements
-        self.sum_tree = Fenwick(10**5 + 1)  # Fenwick Tree for managing sums of elements
-        self.count_tree = Fenwick(10**5 + 1)  # Fenwick Tree for managing counts of elements
+        self.sum_tree = Fenwick(10**5 + 1)  # tree[i] : sum of number till number 'i'.
+        self.count_tree = Fenwick(10**5 + 1)  # tree[i] : Count of number <= 'i'.
 
     def addElement(self, num: int) -> None:
         # Add an element to the sliding window

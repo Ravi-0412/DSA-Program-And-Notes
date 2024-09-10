@@ -1,3 +1,24 @@
+# Brute force
+class MKAverage:
+
+    def __init__(self, m: int, k: int):
+        self.n = m
+        self.k = k
+        self.q = deque()
+
+    def addElement(self, num: int) -> None:
+        if len(self.q)==self.n:
+            self.q.popleft()
+        self.q.append(num)
+
+    def calculateMKAverage(self) -> int:
+        if len(self.q)<self.n:
+            return -1
+        arr = sorted(list(self.q))
+        l = len(arr) - 2*self.k
+        s = sum(arr[self.k:self.n-self.k])
+        return s//l
+
 # Logic: Just focus on how we will get sum of those remaining ele for which we have to find the average.
 
 # Intutition: We need to remove the ele from start if len(data_structure) > m.
@@ -12,7 +33,14 @@
 # So finally we will store all upcoming element into sorted list and will check if it's length is > m
 # then we will remove the possible ele and make decision accordingly.
 
-# see the code for more clear explanation.
+# explanation:
+"""
+use both a deque and a SortedList to keep track of the last m numbers, FIFO. It's trivial to maintain the total sum of them. 
+To maintain the sum of the smallest/largest k numbers, we examine the index at which the new number will be inserted
+into the SortedList and the index at which the oldest number will be removed from the SortedList. 
+If the new number to be inserted will become one of the smallest/largest k numbers,
+we add it to self.first_k/self.last_k and subtract out the current kth smallest/largest number. 
+"""
 
 from sortedcontainers import SortedList
 

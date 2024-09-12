@@ -16,6 +16,9 @@ which are the frequency maps of diff[1..i] and diff[(i+1)..(N-1)] respectively.
 
 We scan from left to right. For each A[i], we try to update ans with L[d] + R[-d] where d = k - A[i], 
 and update the frequency maps.
+
+Link: https://leetcode.com/problems/maximum-number-of-ways-to-partition-an-array/solutions/1499365/c-frequency-map-o-n/
+Go through example in above to understand more properly.
 """
 # Time = Space = O(n)
 

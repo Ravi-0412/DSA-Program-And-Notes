@@ -45,3 +45,27 @@ class Solution:
                 cnt += 1
             up, down, left, right= up + 1, down -1, left + 1, right -1
         return res
+
+# concise way
+# logic : 
+"""
+Why 'dx, dy = -dy, dx'?
+Initial slope m1 is dy/dx
+after a 90 deg rotation the slope becomes m2
+since the angle between the lines is 90 degree
+m1 * m2 = -1
+m2 = -1/m1 = -dx/dy
+"""
+
+class Solution:
+    def generateMatrix(self, n):
+        matrix = [[0] * n for _ in range(n)]
+        x, y, dx, dy = 0, 0, 1, 0
+        for i in range(n * n):
+            matrix[y][x] = i + 1
+            # if index goes out of bound or it visites the already modified cell
+            # change the direction by 90 degree
+            if (x + dx < 0 or x + dx >= n or y + dy < 0 or y + dy >= n or matrix[y + dy][x + dx] != 0):
+                dx, dy = -dy, dx
+            x, y = x + dx, y + dy
+        return matrix

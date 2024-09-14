@@ -1,4 +1,4 @@
-# Logic
+# Logic : Similar to "1014. Best Sightseeing Pair"
 """
 for 'X+1'th row (points[X + 1]) to pick say 'curr'
 for the index i in curr, we have:

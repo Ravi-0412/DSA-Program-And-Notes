@@ -56,13 +56,14 @@ since the angle between the lines is 90 degree
 m1 * m2 = -1
 m2 = -1/m1 = -dx/dy
 """
+# Time: O(n^2)
 
 class Solution:
     def generateMatrix(self, n):
         matrix = [[0] * n for _ in range(n)]
         x, y, dx, dy = 0, 0, 1, 0
         for i in range(n * n):
-            matrix[y][x] = i + 1
+            matrix[y][x] = i + 1    # Initailly going right keeping 'y' same 
             # if index goes out of bound or it visites the already modified cell
             # change the direction by 90 degree
             if (x + dx < 0 or x + dx >= n or y + dy < 0 or y + dy >= n or matrix[y + dy][x + dx] != 0):

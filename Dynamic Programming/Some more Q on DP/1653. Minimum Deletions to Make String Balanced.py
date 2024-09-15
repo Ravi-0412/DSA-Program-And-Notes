@@ -133,3 +133,6 @@ class Solution:
                  # Fine for 'b' in the tail
                 cntb += 1
         return res
+
+# Similar Q:
+# 1)926. Flip String to Monotone Increasing

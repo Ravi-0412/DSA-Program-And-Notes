@@ -20,8 +20,11 @@ we can find the sequence of steps: 1,1,2,2,3,3,4,4,5,5....
 Note: We will start with steps = 1 and we will increase the step when we will start going west or
 When we will complete a spiral i.e after going all directions.
 """
+# Time O(max(R,C)^2)
+# Space O(R*C) for output
 
 # Method 1: Similar code as 'Spiral 1 and spiral 2'
+
 class Solution(object):
     
     def spiralMatrixIII(self, R, C, r0, c0):

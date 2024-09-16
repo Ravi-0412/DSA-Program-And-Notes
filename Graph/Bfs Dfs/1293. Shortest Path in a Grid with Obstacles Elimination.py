@@ -1,5 +1,8 @@
 # Just same as normal bfs, onky diff here we need to keep track of 'no of obstacles that we had eliminated till now'
 # as well with cell indexes (i, j) .
+
+# time: O(m*n*k) = space 
+
 class Solution:
     def shortestPath(self, grid: List[List[int]], k: int) -> int:
         m, n = len(grid), len(grid[0])
@@ -35,6 +38,12 @@ Because when we memoize using (i, j, obstacles) it will treat same cell (i, j) w
 as identical regardless of how it was approached.
 Note: But we can get more better ans (shorter path) from other directions having 'same number of obstacle eliminations (k)'.
 So we need to maintain the previous direction also (up, down, left, right) also through we had reached the cell (i, j).
+
+q) But why with bfs it is working with only three parameter (i, j, obstacles_eliminated).
+Reason: When BFS reaches a cell, it guarantees that it's reached with the fewest steps possible.
+SO once BFS reaches a cell, it never needs to consider coming back to that cell with fewer steps.
+But DFS explores paths in a depth-first manner, which means it can explore a long path before realizing that a shorter path was possible.
+
 Correct solution below
 """
 class Solution:
@@ -63,7 +72,8 @@ class Solution:
         return ans if ans != float('inf') else -1
 
 
-# Correct solutionj using 'dfs' using four parameter i.e with direction as well.
+# Correct solution using 'dfs' using four parameter i.e with direction as well.
+# time: O(m*n*k*4) = space 
 class Solution:
     def __init__(self):
         # Define the four possible movement directions: down, up, right, and left

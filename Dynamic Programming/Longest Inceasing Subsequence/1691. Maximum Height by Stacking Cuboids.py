@@ -39,3 +39,101 @@ class Solution:
                 if cuboids[j][0] <= cuboids[i][0] and cuboids[j][1] <= cuboids[i][1] and cuboids[j][2] <= cuboids[i][2]:
                     LIS[i] = max(LIS[i], LIS[j] + cuboids[i][2])
         return max(LIS)
+
+# java
+"""
+import java.util.Arrays;
+
+class Solution {
+    public int maxHeight(int[][] cuboids) {
+        // Step 1: Sort each cuboid's dimensions so that cuboid[0] <= cuboid[1] <= cuboid[2]
+        for (int[] cuboid : cuboids) {
+            Arrays.sort(cuboid);  // Sorting each cuboid's dimensions
+        }
+
+        // Step 2: Sort the cuboids array
+        Arrays.sort(cuboids, (a, b) -> {
+            if (a[0] != b[0]) return a[0] - b[0];  // Sort by the first dimension
+            if (a[1] != b[1]) return a[1] - b[1];  // Then by the second dimension
+            return a[2] - b[2];  // Finally by the third dimension
+        });
+
+        // Step 3: Apply Dynamic Programming to find the maximum possible height
+        int n = cuboids.length;
+        int[] dp = new int[n];  // dp[i] represents the max height we can achieve with cuboid i on top
+        for (int i = 0; i < n; i++) {
+            dp[i] = cuboids[i][2];  // The minimum height is the height of the cuboid itself
+        }
+
+        // Step 4: Build the LIS based on cuboid stacking rules
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                // We can stack cuboid j on cuboid i if all dimensions of j are <= those of i
+                if (cuboids[j][0] <= cuboids[i][0] &&
+                    cuboids[j][1] <= cuboids[i][1] &&
+                    cuboids[j][2] <= cuboids[i][2]) {
+                    dp[i] = Math.max(dp[i], dp[j] + cuboids[i][2]);
+                }
+            }
+        }
+
+        // Step 5: Return the maximum height possible
+        int maxHeight = 0;
+        for (int height : dp) {
+            maxHeight = Math.max(maxHeight, height);
+        }
+
+        return maxHeight;
+    }
+}
+
+"""
+
+# java: Method 2
+"""
+import java.util.Arrays;
+
+class Solution {
+    public int maxHeight(int[][] cuboids) {
+        // Step 1: Sort each cuboid's dimensions so that cuboid[0] <= cuboid[1] <= cuboid[2]
+        for (int[] cuboid : cuboids) {
+            Arrays.sort(cuboid);  // Sorting each cuboid's dimensions
+        }
+
+        // Step 2: Sort the cuboids array
+        Arrays.sort(cuboids, (a, b) -> {
+            if (a[0] != b[0]) return a[0] - b[0];  // Sort by the first dimension
+            if (a[1] != b[1]) return a[1] - b[1];  // Then by the second dimension
+            return a[2] - b[2];  // Finally by the third dimension
+        });
+
+        // Step 3: Apply Dynamic Programming to find the maximum possible height
+        int n = cuboids.length;
+        int[] dp = new int[n];  // dp[i] represents the max height we can achieve with cuboid i on top
+        for (int i = 0; i < n; i++) {
+            dp[i] = cuboids[i][2];  // The minimum height is the height of the cuboid itself
+        }
+
+        // Step 4: Build the LIS based on cuboid stacking rules
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                // We can stack cuboid j on cuboid i if all dimensions of j are <= those of i
+                if (cuboids[j][0] <= cuboids[i][0] &&
+                    cuboids[j][1] <= cuboids[i][1] &&
+                    cuboids[j][2] <= cuboids[i][2]) {
+                    dp[i] = Math.max(dp[i], dp[j] + cuboids[i][2]);
+                }
+            }
+        }
+
+        // Step 5: Return the maximum height possible
+        int maxHeight = 0;
+        for (int height : dp) {
+            maxHeight = Math.max(maxHeight, height);
+        }
+
+        return maxHeight;
+    }
+}
+
+"""

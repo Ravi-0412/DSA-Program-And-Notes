@@ -31,7 +31,62 @@ class Solution:
                 temp= temp*int(num)
                 stack.append(temp)
         return "".join(stack)
+# Java
+"""
+import java.util.Stack;
 
+class Solution {
+    public String decodeString(String s) {
+        Stack<Character> stack = new Stack<>();
+        
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            
+            if (ch != ']') {
+                // Push each character onto the stack
+                stack.push(ch);
+            } else {
+                // We encountered ']', so we need to decode the substring
+                
+                // Collect the characters to form the string to be repeated
+                StringBuilder temp = new StringBuilder();
+                while (stack.peek() != '[') {
+                    temp.append(stack.pop());
+                }
+                
+                // Pop the '['
+                stack.pop();
+
+                // Collect the digits (which can be more than one digit) to form the multiplier
+                StringBuilder numStr = new StringBuilder();
+                while (!stack.isEmpty() && Character.isDigit(stack.peek())) {
+                    numStr.append(stack.pop());
+                }
+
+                // Reverse the number string and convert it to an integer
+                int num = Integer.parseInt(numStr.reverse().toString());
+
+                // Reverse the collected string and repeat it
+                String repeatedStr = temp.reverse().toString().repeat(num);
+
+                // Push the repeated string back onto the stack
+                for (char c : repeatedStr.toCharArray()) {
+                    stack.push(c);
+                }
+            }
+        }
+        
+        // Build the final result by appending characters (in the correct order)
+        StringBuilder result = new StringBuilder();
+        while (!stack.isEmpty()) {
+            result.append(stack.pop());
+        }
+        
+        // Reverse the result at the end to get the correct final string
+        return result.reverse().toString();
+    }
+}
+"""
 
 # Method 2:
 # Better one. Just similar logic as "772. Basic Calculator III".
@@ -68,7 +123,44 @@ class Solution(object):
                 current_string += char
         
         return current_string
+# Java
+"""
+import java.util.Stack;
 
+class Solution {
+    public String decodeString(String s) {
+        Stack<Object> stack = new Stack<>();  // Use a single stack to store both strings and integers
+        StringBuilder currentString = new StringBuilder();
+        int k = 0;
+        
+        for (char ch : s.toCharArray()) {
+            if (Character.isDigit(ch)) {
+                // Build the number k
+                k = k * 10 + (ch - '0');
+            } else if (ch == '[') {
+                // Push the current string and k onto the stack
+                stack.push(currentString.toString());
+                stack.push(k);
+                // Reset currentString and k for the new frame
+                currentString = new StringBuilder();
+                k = 0;
+            } else if (ch == ']') {
+                // Pop the multiplier k
+                int repeatTimes = (int) stack.pop();
+                // Pop the last string
+                String lastString = (String) stack.pop();
+                // Repeat the current string k times and append it to the last string
+                currentString = new StringBuilder(lastString).append(currentString.toString().repeat(repeatTimes));
+            } else {
+                // Append the character to the current string
+                currentString.append(ch);
+            }
+        }
+        
+        return currentString.toString();
+    }
+}
+"""
 
 # Similar Question:
 # 856. Score of Parentheses

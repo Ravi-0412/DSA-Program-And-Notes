@@ -84,6 +84,77 @@ class Solution(object):
             # Next possible word must have matches == 'matches' with most_overlapping words
             candidates = [w for w in candidates if pair_matches(s, w) == matches]   
 
+# Java
+"""
+import java.util.*;
+
+class Solution {
+
+    // Main method to find the secret word
+    public void findSecretWord(String[] wordlist, Master master) {
+        // Convert the array to a list to work with dynamic candidate lists
+        List<String> candidates = new ArrayList<>(Arrays.asList(wordlist));
+
+        // Keep guessing until we find the correct word
+        while (!candidates.isEmpty()) {
+            String guessWord = mostOverlapWord(candidates); // Guess the word with the most overlap
+            int matches = master.guess(guessWord); // Get the number of matching characters
+
+            if (matches == 6) {
+                // If all characters match, we've found the secret word
+                return;
+            }
+
+            // Filter the candidate list to only include words that match the current guess
+            List<String> newCandidates = new ArrayList<>();
+            for (String word : candidates) {
+                if (pairMatches(guessWord, word) == matches) {
+                    newCandidates.add(word);
+                }
+            }
+            candidates = newCandidates; // Update candidates for the next guess
+        }
+    }
+
+    // Helper method to count the number of matching characters between two words
+    private int pairMatches(String a, String b) {
+        int matches = 0;
+        for (int i = 0; i < a.length(); i++) {
+            if (a.charAt(i) == b.charAt(i)) {
+                matches++;
+            }
+        }
+        return matches;
+    }
+
+    // Helper method to select the word that has the most overlap with others
+    private String mostOverlapWord(List<String> candidates) {
+        int[][] counts = new int[6][26]; // Frequency matrix for characters in each position
+        for (String word : candidates) {
+            for (int i = 0; i < word.length(); i++) {
+                counts[i][word.charAt(i) - 'a']++; // Count the occurrence of each character at each position
+            }
+        }
+
+        String bestWord = "";
+        int bestScore = 0;
+
+        // Calculate the score for each word based on character frequency at each position
+        for (String word : candidates) {
+            int score = 0;
+            for (int i = 0; i < word.length(); i++) {
+                score += counts[i][word.charAt(i) - 'a']; // Sum frequency of characters in the same positions
+            }
+            if (score > bestScore) {
+                bestScore = score;
+                bestWord = word;
+            }
+        }
+        return bestWord;
+    }
+}
+
+"""
 
 # Method 2: Taking the random word (Above one is easier and good for interview)
 # Other Approaches are hard to understand and explain in interview.

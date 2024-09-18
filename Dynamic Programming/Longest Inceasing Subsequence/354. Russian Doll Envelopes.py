@@ -120,3 +120,50 @@ class Solution:
                 ans+= 1
                 pre= (envelopes[i][0], envelopes[i][1])
         return ans
+        
+# Java correct solution
+"""
+import java.util.Arrays;
+
+class Solution {
+    public int maxEnvelopes(int[][] envelopes) {
+        // Step 1: Sort the envelopes by width (ascending). If the widths are equal, sort by height (descending).
+        Arrays.sort(envelopes, (a, b) -> {
+            if (a[0] == b[0]) {
+                return b[1] - a[1]; // Sort by height in descending order if widths are the same
+            } else {
+                return a[0] - b[0]; // Sort by width in ascending order
+            }
+        });
+        
+        // Step 2: Extract the heights array (since widths are sorted, now we only care about heights for LIS)
+        int[] heights = new int[envelopes.length];
+        for (int i = 0; i < envelopes.length; i++) {
+            heights[i] = envelopes[i][1];
+        }
+        
+        // Step 3: Find the length of the longest increasing subsequence in heights
+        return lengthOfLIS(heights);
+    }
+    
+    // Helper method to find the length of the longest increasing subsequence (LIS)
+    private int lengthOfLIS(int[] nums) {
+        int[] lis = new int[nums.length];
+        int size = 0;
+        
+        for (int num : nums) {
+            int idx = Arrays.binarySearch(lis, 0, size, num);
+            if (idx < 0) {
+                idx = -(idx + 1);  // binarySearch returns negative insertion point if not found
+            }
+            lis[idx] = num;  // Place the number in its correct position in the lis array
+            if (idx == size) {
+                size++;  // Increase the size if a new element is added at the end of the lis array
+            }
+        }
+        
+        return size;  // The size of the lis array will be the length of the LIS
+    }
+}
+
+"""

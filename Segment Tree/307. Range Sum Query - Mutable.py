@@ -27,7 +27,7 @@ class NumArray:
 # vvi: Now from here intro of segment tree starts
 
 # why came ?
-# In case when are updating and we want query result also then it reduces the time complexity a lot.
+# In case when we are updating and we want query result also then it reduces the time complexity a lot.
 
 # If we use the prefixSum method then in this case if we want to update then,
 # we have to update all prefixSum value from that index to last index by diff= val- nums[index]
@@ -78,6 +78,7 @@ class NumArray(object):
         n= len(nums)
         self.root = createSegmentTree(nums, 0, n -1)
 
+    # just first seacrh the given index.
     def update(self, index: int, val: int) -> None:
         # There will be two cases
         def updateValue(node, index , val):
@@ -132,9 +133,10 @@ class NumArray(object):
 # No need of finding 'mid' in these cases.
 # After finding the mid , we make left node from index (l, mid) and right node from (mid + 1, r)
 
-# 2) RangeSum
+# 2) RangeSum(l, r)
 # In this for base case we are checking cases on node interval like: i) completely inside
 # ii) completely outside   iii) overlapping      with given range
+# Note: Here in each function call we are passing the same range for left and right i.e (l, r)
 
 # 3) updateVal
 # Here we are checking the cases on 'index' not on 'node interval ' like :
@@ -239,7 +241,8 @@ class SegmentTree:
 # 3)
 # Note vvi: You can't use 'Fenwick Tree' (Binary Indexed Tree) for finding 'min/max' in a given range.
 # Reason: 
-# it relies on the fact that the acummulative frequency from a to b is 'f(b)- f(a-1)', and that property is not valid for the min/max functions
+# it relies on the fact that the acummulative frequency from a to b is 'f(b)- f(a-1)', 
+# and that property is not valid for the min/max functions
 # i.e it stores value in range . if BIT[i] stores values in some range say (a, b) then, it will equal to 'f(b)- f(a-1)'.
 
 # Note: tree will get formed correctly only but you will not get desired result in a range for 'min/max'.
@@ -254,7 +257,7 @@ class SegmentTree:
 
 # How we get 'next' of index i'.
 # i) find 2's complement of 'i' => '-i'
-# ii) And(&) with original given index 'i' => 'i & -1'
+# ii) And(&) with original given index 'i' => 'i & -i'
 # iii) Add(+) with original given index => next(i) = i + (i & -i)
 
 
@@ -262,13 +265,16 @@ class SegmentTree:
 # we are taking sum of values from parent not from 'next'.
 
 # How to get parent of 'i'.
-# Ans: just swap the rightmost set bit to get the parent.
+# Ans: just swap the rightmost set bit to get the parent i.e unset last set bit 
 # How to get this using bit?
 
 # steps:
 # i) find 2's complement of 'i' => '-i'
 # ii) And(&) with original given index 'i' => 'i & -1'
 # iii) subtract(-) with original given index => parent(i) = i - (i & -i)   # only diff from 'next'. here we are subtracting
+
+# or in short
+#  i &= i -1    # unset last set bit 
 
 
 # Note: Draw diagram from Tushar video in notes
@@ -307,8 +313,9 @@ class NumArray:
         i += 1
         while i > 0:   # going bottom up so index value will decrease
             sum += self.BIT[i]
-            parent = i - (i & -i)
-            i = parent
+            # parent = i - (i & -i)
+            # i = parent
+            i &= i - 1
         return sum
 
     def sumRange(self, left: int, right: int) -> int:
@@ -348,8 +355,7 @@ class segmentTree:
         i += 1
         while i > 0:   # going bottom up so index value will decrease
             sum += self.BIT[i]
-            parent = i - (i & -i)
-            i = parent
+            i &= i - 1   # unset last set bit
         return sum
 
     def sumRange(self, left: int, right: int) -> int:

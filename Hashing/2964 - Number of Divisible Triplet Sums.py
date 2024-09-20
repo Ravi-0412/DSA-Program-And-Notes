@@ -21,8 +21,8 @@ class Solution:
         return ans
 
 # Java
-Note: Here we need to convert the remainder to actual needed one.
-Python automatically give that so no needed in python.
+# Note: Here we need to convert the remainder to actual needed one.
+# Python automatically give that so no needed in python.
 
 """
 import java.util.HashMap;

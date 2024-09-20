@@ -153,6 +153,146 @@ if __name__ == "__main__":
     l1.ReverseN(l1.head,5)
     l1.show()
 
+# java
+"""
+// Node class for LinkedList
+class Node {
+    int data;       // Data stored in the node
+    Node next;      // Pointer to the next node in the list
+
+    // Constructor to initialize Node object
+    public Node(int data) {
+        this.data = data;  // Assign the data
+        this.next = null;  // Initialize next as null
+    }
+}
+
+// LinkedList class
+class LinkedList {
+    Node head;      // Head of the LinkedList (points to the first node)
+
+    // Constructor to initialize LinkedList object
+    public LinkedList() {
+        this.head = null;  // Initially the list is empty
+    }
+
+    // Check if the LinkedList is empty
+    public boolean isEmpty() {
+        return head == null;
+    }
+
+    // Insert a new node at the beginning of the LinkedList
+    public void insertAtBeginning(int data) {
+        Node node = new Node(data);   // Create a new node
+        node.next = head;             // The new node's next will point to the current head
+        head = node;                  // Now, the head points to the newly inserted node
+    }
+
+    // Insert a new node at the end of the LinkedList
+    public void insertLast(int data) {
+        Node node = new Node(data);  // Create a new node
+        if (head == null) {
+            head = node;             // If the list is empty, set the head to the new node
+        } else {
+            Node current = head;     // Start from the head and traverse to the end of the list
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = node;     // At the end, point the last node to the new node
+        }
+    }
+
+    // Insert values from an array into the LinkedList, wiping out current values
+    public void insertValues(int[] data_list) {
+        head = null;                 // Clear the existing list by setting head to null
+        for (int num : data_list) {
+            insertLast(num);         // Insert each element of the array at the end of the list
+        }
+    }
+
+    // Display the elements of the LinkedList
+    public void show() {
+        if (head == null) {
+            System.out.println("Linked list is empty");
+            return;
+        }
+        Node current = head;
+        StringBuilder llstr = new StringBuilder();
+        while (current != null) {
+            llstr.append(current.data).append("-->");
+            current = current.next;
+        }
+        llstr.append("null");  // Append "null" at the end to indicate the end of the list
+        System.out.println(llstr.toString());
+    }
+
+    // Get the length of the LinkedList
+    public int getLength() {
+        Node current = head;
+        int count = 0;
+        while (current != null) {
+            count++;
+            current = current.next;
+        }
+        System.out.println("Number of elements in linked list is: " + count);
+        return count;
+    }
+
+    // Remove the node at the given index
+    public void removeAt(int index) {
+        if (head == null) {
+            System.out.println("List is empty");
+            return;
+        }
+        if (index == 0) {
+            head = head.next;  // If index is 0, just move the head to the next node
+            return;
+        }
+        Node current = head;
+        Node prev = null;
+        for (int i = 0; i < index; i++) {
+            prev = current;            // Track the node before the node to be removed
+            current = current.next;    // Move to the next node
+            if (current == null) {     // If the index is out of range
+                System.out.println("Index out of bounds");
+                return;
+            }
+        }
+        prev.next = current.next;  // Link the previous node to the node after the current node
+    }
+
+    // Main function to test LinkedList functionality
+    public static void main(String[] args) {
+        LinkedList l1 = new LinkedList();
+
+        // Test case: insert at beginning
+        l1.insertAtBeginning(5);
+        l1.insertAtBeginning(85);
+        l1.show(); // Expected output: 85-->5-->null
+
+        // Test case: insert at last
+        l1.insertLast(67);
+        l1.insertLast(23);
+        l1.show(); // Expected output: 85-->5-->67-->23-->null
+
+        // Test case: insert values from an array
+        int[] arr = {1, 2, 3, 4, 5, 6, 7};
+        l1.insertValues(arr);
+        l1.show(); // Expected output: 1-->2-->3-->4-->5-->6-->7-->null
+
+        // Additional test case: insert values from a smaller array
+        int[] arr2 = {1, 2};
+        l1.insertValues(arr2);
+        l1.show(); // Expected output: 1-->2-->null
+
+        // Additional test case: insert values from another array
+        int[] arr3 = {1, 2, 3};
+        l1.insertValues(arr3);
+        l1.show(); // Expected output: 1-->2-->3-->null
+    }
+}
+"""
+
 
 
 

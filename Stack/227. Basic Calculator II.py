@@ -86,7 +86,60 @@ class Solution:
 
                 num, lastOperator= 0, c
         return sum(stack)
-    
+# Java
+"""
+import java.util.Stack;
+
+public class Solution {
+    public int calculate(String s) {
+        Stack<Integer> stack = new Stack<>();
+        int num = 0;
+        char lastOperator = '+';
+        char[] allOperators = {'+', '-', '*', '/'};
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+
+            if (Character.isDigit(c)) {
+                num = num * 10 + (c - '0'); // Build the number
+            }
+
+            // If c is an operator or it's the last character
+            if (isOperator(c) || i == s.length() - 1) {
+                switch (lastOperator) {
+                    case '+':
+                        stack.push(num);
+                        break;
+                    case '-':
+                        stack.push(-num);
+                        break;
+                    case '*':
+                        stack.push(stack.pop() * num);
+                        break;
+                    case '/':
+                        stack.push(stack.pop() / num);
+                        break;
+                }
+                num = 0; // Reset number
+                lastOperator = c; // Update last operator
+            }
+        }
+
+        // Sum all values in the stack
+        int result = 0;
+        while (!stack.isEmpty()) {
+            result += stack.pop();
+        }
+
+        return result;
+    }
+
+    private boolean isOperator(char c) {
+        return c == '+' || c == '-' || c == '*' || c == '/';
+    }
+}
+
+"""
 
 # Similar / extended Q:
 # 772 · Basic Calculator III

@@ -1,3 +1,5 @@
+# Problem description: A jump starts with an odd jump and alternates with an even jump until you get to the end of the line or you can no longer take a step.
+
 # Logic: In the Problem the next jump position is decided on the basis of the parity of jump(Odd/Even):
 
 # Odd Number Jump: Next Greater Smallest position.(ceiling value)
@@ -75,8 +77,8 @@ class Solution:
 
 # Note for finding the 'nextGreaterSmallest' and 'nextSmallerGreatest' on right.
 # you will have to first sort the indices according to their values.
-# Like for 'nextGreaterSmallest' , we will sort in ascending order because we want the greater ele to come right side &&
-# for 'nextSmallerGreatest' , we will sort in descending order order because we want the smaller ele to come right side.
+# Like for 'nextGreaterSmallest' , we will sort in ascending order because we want the greater ele to come right side first&&
+# for 'nextSmallerGreatest' , we will sort in descending order order because we want the smaller ele to come right side first.
 
 # After this we can use stack .
 

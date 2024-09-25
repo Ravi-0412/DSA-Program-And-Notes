@@ -8,6 +8,37 @@
 # we can find 'Next Greater Smallest position' and 'nextSmalllerGreatest' and can store in separate arrays.
 # See its code at bottom and logic.
 
+# Note for finding the 'nextGreaterSmallest' and 'nextSmallerGreatest' on right.
+# you will have to first sort the indices according to their values.
+# Like for 'nextGreaterSmallest' , we will sort in ascending order because we want the greater ele to come right side first&&
+# for 'nextSmallerGreatest' , we will sort in descending order order because we want the smaller ele to come right side first.
+
+# After this we can use stack .
+
+
+# Explanation for:  'nextGreaterSmallest':
+# arr = [10,13,12,14,15]
+# 1) sorting indices by values and storing in a list
+# sorted_indices= sorted(range(n), key=lambda x: arr[x]) =  [0, 2, 1, 3, 4]
+# 2) finding next_greater_smallest using stack:
+# we will get ans = [2,3,3,4,-1]  # index on right for 'nextGreaterSmallest'.
+# Now convert into array elements(actual value)
+# final ans_value = [12, 14, 14, 15, -1]
+
+# def nextElement(indices):
+#     ans = [None] * n
+#     stack = []
+#     # directly targeting the value of arr 'indices' as it has index as value
+#     for i in indices:
+#         while stack and i > stack[-1]:
+#             # means 'i' is right side of index 'stack[-1]' and since already sorted will get 
+#             # nextGreaterSmallest' or nextSmalllestGreater  based on what 'indices is sorted'   
+#             ans[stack.pop()] = i 
+#             stack.append(i)  # the current index value can be ans for next coming
+#         return ans
+
+# Note: if we sort the indices based on decreasing order of values then same function we can use for finding ''nextSmallerGreatest'.
+
 # Note vvi: Finally, When we have possible jump position for each index compute if we can reach to the end index by taking odd or even jump starting from any position.
 
 # Therefore, the Recurrence Relation for odd and even jump position computation are as follows:
@@ -73,37 +104,56 @@ class Solution:
         # contain the number of valid jumps to reach the end
         return sum([i[0] for i in dp])
     
+# Java
+"""
+import java.util.*;
+
+public class Solution {
+    public int oddEvenJumps(int[] arr) {
+        int n = arr.length;
+        int[] oddNext = nextElement(arr, true);  // Odd jumps: sorted in increasing order
+        int[] evenNext = nextElement(arr, false); // Even jumps: sorted in decreasing order
+
+        boolean[][] dp = new boolean[n][2];
+        dp[n - 1][0] = dp[n - 1][1] = true;
+
+        for (int i = n - 2; i >= 0; i--) {
+            if (oddNext[i] != -1) dp[i][0] = dp[oddNext[i]][1];
+            if (evenNext[i] != -1) dp[i][1] = dp[evenNext[i]][0];
+        }
+
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (dp[i][0]) count++;
+        }
+        return count;
+    }
+
+    private int[] nextElement(int[] arr, boolean increasing) {
+        int n = arr.length;
+        Integer[] indices = new Integer[n];
+        for (int i = 0; i < n; i++) indices[i] = i;
+
+        if (increasing) {
+            Arrays.sort(indices, (a, b) -> arr[a] == arr[b] ? a - b : arr[a] - arr[b]);
+        } else {
+            Arrays.sort(indices, (a, b) -> arr[a] == arr[b] ? a - b : arr[b] - arr[a]);
+        }
+
+        int[] ans = new int[n];
+        Arrays.fill(ans, -1);
+        Stack<Integer> stack = new Stack<>();
+        for (int i : indices) {
+            while (!stack.isEmpty() && i > stack.peek()) {
+                ans[stack.pop()] = i;
+            }
+            stack.push(i);
+        }
+
+        return ans;
+    }
+}
+
+"""
 
 
-# Note for finding the 'nextGreaterSmallest' and 'nextSmallerGreatest' on right.
-# you will have to first sort the indices according to their values.
-# Like for 'nextGreaterSmallest' , we will sort in ascending order because we want the greater ele to come right side first&&
-# for 'nextSmallerGreatest' , we will sort in descending order order because we want the smaller ele to come right side first.
-
-# After this we can use stack .
-
-
-# Explanation for:  'nextGreaterSmallest':
-# arr = [10,13,12,14,15]
-# 1) sorting indices by values and storing in a list
-# sorted_indices= sorted(range(n), key=lambda x: arr[x]) =  [0, 2, 1, 3, 4]
-# 2) finding next_greater_smallest using stack:
-# we will get ans = [2,3,3,4,-1]  # index on right for 'nextGreaterSmallest'.
-# Now convert into array elements(actual value)
-# final ans_value = [12, 14, 14, 15, -1]
-
-# def nextElement(indices):
-#     ans = [None] * n
-#     stack = []
-#     # directly targeting the value of arr 'indices' as it has index as value
-#     for i in indices:
-#         while stack and i > stack[-1]:
-#             # means 'i' is right side of index 'stack[-1]' and since already sorted will get 
-#             # nextGreaterSmallest' or nextSmalllestGreater  based on what 'indices is sorted'   
-#             ans[stack.pop()] = i 
-#             stack.append(i)  # the current index value can be ans for next coming
-#         return ans
-
-
-
-# Note: if we sort the indices based on decreasing order of values then same function we can use for finding ''nextSmallerGreatest'.

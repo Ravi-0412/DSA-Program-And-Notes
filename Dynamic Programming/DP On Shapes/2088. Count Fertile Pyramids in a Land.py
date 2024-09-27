@@ -18,8 +18,10 @@ class Solution:
         # Will count no of reverse pyramid in given 'grid'.
         def count(grid):
             ans = 0
+            # apex can't be in 0th row
             for i in range(1, m):
-                for j in range(1, n-1):  # last column can't be apex 
+                # apex can't be in last column
+                for j in range(1, n-1):  
                     if grid[i][j] and grid[i-1][j]:
                         # find the height of pyramid that we can get if (i, j) is apex
                         grid[i][j] = min(grid[i-1][j-1] , grid[i-1][j + 1]) + 1  # min height from (left, right) + 1

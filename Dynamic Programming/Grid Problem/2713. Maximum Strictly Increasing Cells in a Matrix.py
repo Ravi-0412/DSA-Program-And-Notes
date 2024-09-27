@@ -71,6 +71,8 @@ class Solution:
             for (i, j) in valToIndices[num]:
                 # max we can go from (i, j) is max(row[i], col[j]) + 1
                 # for smaller value we already calculated so for cur value max we can go is this only.
+                # Num can take all cell traversed by element smaller than 'num' .
+                # Here taking the decreasing order values
                 dp[i][j]= 1 + max(rows[i], cols[j]) 
                 ans= max(ans, dp[i][j])
             # now update the value of rows and cols array.

@@ -1,16 +1,19 @@
+# Time: O(n * (n*n) + n*logn)
+
 class Solution:
     def smallestTrimmedNumbers(self, nums, queries):
         res = []
         n = len(nums)
         
         for q in queries:
+            k, trimLength = q[0] , q[1]
             pq = []
             for i in range(n):
-                trimmed_num = nums[i][-q[1]:]  # Get the last q[1] characters
+                trimmed_num = nums[i][-trimLength :]  # Get the last q[1] characters
                 pq.append((trimmed_num, i))
             
             pq.sort()  # Sort primarily by the trimmed number, and secondarily by index
-            res.append(pq[q[0] - 1][1])  # Get the index of the k-th smallest trimmed number
+            res.append(pq[k - 1][1])  # Get the index of the k-th smallest trimmed number
             
         return res
 

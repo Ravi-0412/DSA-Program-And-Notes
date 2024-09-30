@@ -21,3 +21,61 @@ class TimeMap:
             else:
                 start= mid +1
         return self.hashmap[key][end][0] if end >=0 else  ""  
+
+# Java
+"""
+import java.util.*;
+
+class TimeMap {
+    // A HashMap where the key is a String and the value is a list of pairs (value, timestamp)
+    private Map<String, List<Pair>> hashmap;
+
+    // Constructor
+    public TimeMap() {
+        hashmap = new HashMap<>();
+    }
+
+    // Method to store key-value with timestamp
+    public void set(String key, String value, int timestamp) {
+        if (!hashmap.containsKey(key)) {
+            hashmap.put(key, new ArrayList<>());
+        }
+        hashmap.get(key).add(new Pair(value, timestamp));
+    }
+
+    // Method to get the value associated with the given key and timestamp
+    public String get(String key, int timestamp) {
+        if (!hashmap.containsKey(key)) {
+            return "";
+        }
+        
+        List<Pair> pairs = hashmap.get(key);
+        int start = 0, end = pairs.size() - 1;
+        
+        // Binary search to find the correct timestamp or closest one below it
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (pairs.get(mid).timestamp == timestamp) {
+                return pairs.get(mid).value;
+            } else if (pairs.get(mid).timestamp > timestamp) {
+                end = mid - 1;
+            } else {
+                start = mid + 1;
+            }
+        }
+        
+        return end >= 0 ? pairs.get(end).value : "";
+    }
+
+    // Helper class to represent a (value, timestamp) pair
+    private class Pair {
+        String value;
+        int timestamp;
+
+        Pair(String value, int timestamp) {
+            this.value = value;
+            this.timestamp = timestamp;
+        }
+    }
+}
+"""

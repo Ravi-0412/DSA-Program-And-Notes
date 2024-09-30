@@ -15,7 +15,7 @@ class Solution:
     def maxDiff(self, num: int) -> int:
         a = b = str(num)
 
-        # finding the largest number
+        # find the left-most digit in it that is not a 9 and replace all occurences of that digit with 9.
         for digit in a:
             if digit != "9":
                 # replace all occurence of 'digit' with '9'.

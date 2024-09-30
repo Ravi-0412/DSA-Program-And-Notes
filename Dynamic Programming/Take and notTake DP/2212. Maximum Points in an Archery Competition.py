@@ -1,5 +1,8 @@
 # Logic : 
 """
+Logic: Bob has two choice either : i) don't take current score or 
+ii) take current score
+
 To take any score 'k' , bob has to use more number of arrows than 'aliceArrows[k]'
 i.e 'aliceArrows[k] + 1' minimum arrows for maximum score .
 But skipping any score(Bob loses this score) and taking other can also lead to better answer.

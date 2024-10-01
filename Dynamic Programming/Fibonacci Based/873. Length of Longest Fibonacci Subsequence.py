@@ -69,7 +69,7 @@ return the max(all posible dp[r][i])
 class Solution:
     def lenLongestFibSubseq(self, nums: List[int]) -> int:
         n = len(nums)
-        dp = [[2]*n for _ in range(n)]
+        dp = [[2]*n for _ in range(n)]   # default length will be two only between every pair.
         ans = 0
         for i in range(2,n):
             l, r = 0, i-1

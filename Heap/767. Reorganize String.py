@@ -53,6 +53,8 @@ class Solution:
 # Method 2: 
 # Most optimised
 
+# Note: Keep this Q and logic in mind, it is used in a lot of problems.
+
 # Logic: 
 # We construct the resulting string in sequence: at position 0, 2, 4, ... and then 1, 3, 5, ...
 # In this way, we can make sure there is always a gap between the same characters
@@ -99,10 +101,6 @@ class Solution:
                 ind += 2
                 frequency[c] -= 1
         return "".join(ans)
-
-
-# Note: Keep this Q and logic in mind, it is used in a lot of problems.
-
 
 # Java equivalent of 2nd method: 
 

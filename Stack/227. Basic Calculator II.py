@@ -141,5 +141,78 @@ public class Solution {
 
 """
 
+
+# Optimising to O(1) space
+"""
+We only need last calculated value say 'tempsum' to do operation with current operator that we will see.
+And for ans just maintain one variable say 'sum'.
+"""
+
+class Solution:
+    def calculate(self, s: str) -> int:
+        sum_ = 0
+        temp_sum = 0
+        num = 0
+        last_sign = '+'
+        
+        for i, c in enumerate(s):
+            if c.isdigit():
+                num = num * 10 + int(c)
+                
+            if i == len(s) - 1 or (not c.isdigit() and c != ' '):
+                if last_sign == '+':
+                    sum_ += temp_sum
+                    temp_sum = num
+                elif last_sign == '-':
+                    sum_ += temp_sum
+                    temp_sum = -num
+                elif last_sign == '*':
+                    temp_sum *= num
+                elif last_sign == '/':
+                    temp_sum = int(temp_sum / num)  # Use int to truncate towards 0
+                
+                last_sign = c
+                num = 0
+        
+        sum_ += temp_sum
+        return sum_
+# Java
+"""
+public class Solution {
+    public int calculate(String s) {
+        int sum = 0;
+        int tempSum = 0;
+        int num = 0;
+        char lastSign = '+';
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (Character.isDigit(c)) num = num * 10 + c - '0';
+            if (i == s.length() - 1 || !Character.isDigit(c) && c!=' ') {
+                switch(lastSign) {
+                    case '+':
+                        sum+=tempSum;
+                        tempSum = num;
+                        break;
+                    case '-':
+                        sum+=tempSum;
+                        tempSum = -num;
+                        break;
+                    case '*':
+                        tempSum *= num;
+                        break;
+                    case '/':
+                        tempSum /= num;
+                        break;
+                }
+                lastSign = c;
+                num=0;
+            }
+        }
+        sum+=tempSum;
+        return sum;
+    }
+}
+"""
+
 # Similar / extended Q:
 # 772 · Basic Calculator III

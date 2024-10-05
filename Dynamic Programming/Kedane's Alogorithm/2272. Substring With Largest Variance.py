@@ -24,42 +24,106 @@
 
 # More explanation in notes: page no = 157
 
+from collections import Counter
 
 class Solution:
     def largestVariance(self, s: str) -> int:
-        freq = Counter(s)   # to check if picked char exist or not
-        charSet = list(set(s))
-        n = len(charSet)
+        # Step 1: Calculate frequency of each character
+        freq = Counter(s)
+
+        # Step 2: Create a set of unique characters from the string
+        charSet = set(s)
+        
         ans = 0
-        for i in range(n):
-            for j in range(i +1, n):
-                c1, c2 = charSet[i], charSet[j]
-                # we only calculate the variance if char is different and
-                # 2) we can only apply Kedane's if picked char exist.
-                if c1 == c2 :
-                    continue
-                # Now traverse the whole string and apply kedane's
-                # we will apply kedanes two time. 
-                # one for reversed string also to handle the cases "baa", "abbbbb","aabbbbb", etc.
-                for k in range(2):
-                    count1, count2 = 0, 0 # will keep track of count of c1 and c2 in substring we have traversed till now
+
+        # Step 3: Iterate over pairs of distinct characters
+        for c1 in charSet:
+            for c2 in charSet:
+                if c1 == c2:
+                    continue  # We only calculate variance for distinct characters
+
+                # Step 4: Perform Kadane's algorithm twice, one normal and one reversed
+                for _ in range(2):
+                    count1, count2 = 0, 0  # Track the counts of c1 and c2 in the current substring
                     for c in s:
                         if c == c1:
                             count1 += 1
                         if c == c2:
                             count2 += 1
-                        # check if count1 < count 2 then reset both count = 0
-                        # like we do in Kedane's when curSum < 0 then we make curSum = 0
-                        if count1 < count2 :
-                            count1 , count2 = 0, 0
-                        # check if count of both char is >0 .
+
+                        # Step 5: Reset counts if count1 < count2
+                        if count1 < count2:
+                            count1, count2 = 0, 0
+
+                        # Step 6: Update the answer when both counts are positive
                         if count1 > 0 and count2 > 0:
                             ans = max(ans, count1 - count2)
-                    
-                    # Now reverse the string and do the same process again
-                    s = s[::-1]
-            return ans
 
+                    # Step 7: Reverse the string and repeat
+                    s = s[::-1]
+
+        return ans
+
+# Java
+"""
+import java.util.*;
+
+public class Solution {
+    public int largestVariance(String s) {
+        // Step 1: Calculate frequency of each character
+        Map<Character, Integer> freq = new HashMap<>();
+        for (char c : s.toCharArray()) {
+            freq.put(c, freq.getOrDefault(c, 0) + 1);
+        }
+
+        // Step 2: Create a set of unique characters from the string
+        Set<Character> charSet = new HashSet<>();
+        for (char c : s.toCharArray()) {
+            charSet.add(c);
+        }
+
+        int ans = 0;
+
+        // Step 3: Iterate over pairs of distinct characters
+        for (char c1 : charSet) {
+            for (char c2 : charSet) {
+                if (c1 == c2) {
+                    continue; // We only calculate variance for distinct characters
+                }
+
+                // Step 4: Perform Kadane's algorithm twice, one normal and one reversed
+                for (int k = 0; k < 2; k++) {
+                    int count1 = 0, count2 = 0; // Track the counts of c1 and c2 in the current substring
+                    for (char c : s.toCharArray()) {
+                        if (c == c1) {
+                            count1++;
+                        }
+                        if (c == c2) {
+                            count2++;
+                        }
+
+                        // Step 5: Reset counts if count1 < count2
+                        if (count1 < count2) {
+                            count1 = 0;
+                            count2 = 0;
+                        }
+
+                        // Step 6: Update the answer when both counts are positive
+                        if (count1 > 0 && count2 > 0) {
+                            ans = Math.max(ans, count1 - count2);
+                        }
+                    }
+
+                    // Step 7: Reverse the string and repeat
+                    s = new StringBuilder(s).reverse().toString();
+                }
+            }
+        }
+
+        return ans;
+    }
+}
+"""
 
 
 

@@ -36,7 +36,7 @@ class Solution:
                 c1, c2 = charSet[i], charSet[j]
                 # we only calculate the variance if char is different and
                 # 2) we can only apply Kedane's if picked char exist.
-                if c1 == c2 or freq[c1] == 0 or freq[c2] == 0:
+                if c1 == c2 :
                     continue
                 # Now traverse the whole string and apply kedane's
                 # we will apply kedanes two time. 

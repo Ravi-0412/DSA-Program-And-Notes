@@ -32,8 +32,10 @@ class Solution(object):
                 if prefix in d and suffix in d:
                     return True
                 if prefix in d and dfs(suffix):
+                # agar prefix present h but suffix present nhi h then, suffix ke liye alag se call karo.
                     return True
                 if suffix in d and dfs(prefix):
+                # agar suffix present h but prefix present nhi h then, prefix ke liye alag se call karo.
                     return True
             
             return False

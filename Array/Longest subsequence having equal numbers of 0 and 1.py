@@ -16,3 +16,10 @@ def largestSubsequence(arr,n):
         else:
             countzero += 1
     return min(countone, countzero) * 2
+
+
+arr = [ 1, 0, 0, 1, 0, 0, 0, 1 ]
+n = len(arr)
+print("largest Subsequences having" +
+        " equal number of 0 & 1 is ",
+        largestSubsequence(arr, n))

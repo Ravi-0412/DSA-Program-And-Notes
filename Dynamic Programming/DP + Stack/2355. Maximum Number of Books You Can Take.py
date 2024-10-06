@@ -38,7 +38,7 @@ class Solution:
             if prev != -1:
                 noOfEle = i - prev    # no of elements in subarray forming AP with cd = 1 having last element as books[i]
                 firstValue = books[i] - noOfEle + 1   # starting value of this AP
-                sum = ((firstValue + books[i]) * noOfEle) // 2
+                sum = ((firstValue + books[i]) * noOfEle) // 2    # sum of AP with common diff = 1 given first and last element.
                 dp[i] = max(sum, sum + dp[prev])
             else:
                 # means all elements from index '0' to index 'i' forms AP with cd = 1

@@ -1,5 +1,16 @@
 # Explantion in notes, page no = 168
 
+# Logic:
+"""
+It becomes evident that for every such closed interval (l, r), we need to pick all the books in the shelf r, i.e., all of books[r].
+Having fixed an r, we want to know what is the maximum number of books we can pick in the interval (0, r), 
+and use it for calculating the same information for all possible values of r in (0, n - 1). Hence, dynamic programming.
+
+For every index i, we need the index j < i, such that dp[i] can be derived from dp[j] using a summation. Basically 
+for any index i, j is the first index to the left of i where books[j] < books[i] - i + j. 
+This index j is obtained using a monotonic stack.
+"""
+
 # Time : O(n)
 class Solution:
     def maximumBooks(self, books):

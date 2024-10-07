@@ -1,3 +1,32 @@
+# Logic: 
+"""
+When K == 1, theres only 1 mailbox. So, we put it in the median of the what we are currently checking. For example [4,8,20], we put the mailbox at 8, and then we calculate the difference accordingly.
+
+When K == len(houses), this is also trivial, you can put a mailbox at every house, so distance will be 0.
+
+So with base cases considered, we now go to higher numbers of K. What if K == 2? Then we can portion one part of the house into one group, put a mailbox there, and the remaining houses will be another group putting another mailbox. E.g
+
+[1, 300, 301, 302] can be thought as:
+[1], [300, 301, 302] OR
+[1, 300], [301, 302] OR
+[1, 300, 301], [302]
+
+So this is when K == 2. Right now we can visually see that the first answer is the best.
+
+Consider further, if K == 3. Then decide where we want to put the first group, and then solve the subproblems recursively. Same example as above.
+
+[1] (first group) [300,301,302] will be split into another 2 groups. So it will recursively call
+[300] [301, 302]
+[300, 301] [302]
+
+OR
+[1, 300] - > first group, [301, 302] - > split this into another 2 groups. Then
+[301], [302]
+
+Note: In general, we pick a place to form one group, then, the remaining elements must form K - 1 groups, 
+and we try to minimise the answer.
+"""
+
 # Time: O(n^3)
 
 class Solution:

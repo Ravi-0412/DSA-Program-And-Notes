@@ -1,4 +1,4 @@
-# Logic: 
+# Logic: Similar to "2013. Detect Squares"
 """
 # In case of rectangle any two points can be diagonal, won't follow property like square 'abs(x1 - x2) == abs(y1 - y2)'.
 # So consider each possible diagonal pair then other two points will be same as square i.e '(x1, y2)' and '(x2, y1)'.

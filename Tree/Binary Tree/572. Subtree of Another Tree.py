@@ -25,6 +25,8 @@ class Solution:
 # Because we have to take care of structure also i.e they should be structurally same.
 # VVI: For this serialize both 'root' and 'subRoot' and apply Z-Algo in serialized one.
 
+# Note: Understand properly each line
+
 # Time: O(m+ n)
 
 class Solution:

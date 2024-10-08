@@ -25,7 +25,17 @@ class Solution:
 # Because we have to take care of structure also i.e they should be structurally same.
 # VVI: For this serialize both 'root' and 'subRoot' and apply Z-Algo in serialized one.
 
-# Note: Understand properly each line
+# Note: why we need to add extra line i.e ans.append(";")
+"""
+take example , where root = "12", subroot = "2" then 
+i) without separator(;)
+serialized_root = 12,N,N and serialized_subroot = 2,N,N 
+So it will be match and it will give 'True' but it should be 'False' only.
+
+ii) if we add separator(;) then 
+serialized_root = ;,12,N,N and serialized_subroot =  ;,2,N,N
+Then it won't be a match because including ';' subroot won't match.
+"""
 
 # Time: O(m+ n)
 

@@ -19,6 +19,7 @@ class Solution:
 """
 if head elements are not consecutive then we need to start from 'intial head' from that node.
 Means from each node we have to check from 'initial head'.
+It means we need to check from each node.
 """
 
 # Time: O(m * min(n, h)), where n is size of binary tree, m is size of linked list

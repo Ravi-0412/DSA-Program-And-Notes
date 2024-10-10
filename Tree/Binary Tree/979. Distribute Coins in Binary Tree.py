@@ -22,7 +22,7 @@ class Solution:
             l = distribute(root.left)
             r = distribute(root.right)
             self.ans += root.val + abs(l) + abs(r) - 1  # sum of moves at this root
-            return root.val + l + r - 1   # final n of moves that it will send to its parent.
+            return root.val + l + r - 1   # final no of moves that it will send to its parent.
 
         self.ans = 0
         distribute(root)

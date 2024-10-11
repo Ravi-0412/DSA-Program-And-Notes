@@ -32,6 +32,7 @@ class Solution:
 
 
 # Method 2: Optimising to O(1) space
+# Link: https://leetcode.com/problems/candy/solutions/135698/simple-solution-with-one-pass-using-o-1-space/
 # Logic:
 """
 The fundamental idea is that we aren't bothering with calculating each child's 

@@ -1,6 +1,6 @@
 # Reccursive -> Maximum Reccursion Depth Exceeded
 
-# 1) ceiling:
+# 1) ceiling: 
 
 class Solution:
     def __init__(self):
@@ -16,19 +16,20 @@ class Solution:
             self.ceil = root
             return self.getSuccessor(root.left,val)
 
-# Iterative
+# Iterative : submitted on gfg
 
 class Solution:
-    def getSuccessor(self, root, val):
+    def findCeil(self,root, val):
+        # code here
         ceil = -1
         while root:
-            if root.val == val:
+            if root.key == val:
                 # root = root.right  # if asked to get strictly greater
                 return val
-            elif root.val < val:
+            elif root.key < val:
                 root = root.right
             else:
-                ceil = root.val
+                ceil = root.key
                 root = root.left
 
         return ceil

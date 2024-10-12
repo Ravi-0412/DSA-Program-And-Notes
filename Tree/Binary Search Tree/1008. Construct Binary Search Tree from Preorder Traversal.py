@@ -1,5 +1,7 @@
-# Method1: 
-#  just find out the inorder traversal by sorting the array and Apply "convert into binary tree given preorder and inorder".
+# Method 1:
+#  just find out the inorder traversal by sorting the array and Apply "convert into binary tree given preorder and inorder"
+# of binary tree.
+# Time: O(n* logn)
 
 class Solution:
     def bstFromPreorder(self, preorder: List[int]) -> Optional[TreeNode]:
@@ -26,37 +28,120 @@ class Solution:
 # method 3: Take each ele in preorder and apply the normal method to form BST i.e insert node in BST one by one.
 # time: O(n*logn).
 
-# method 4: 
-# time: O(n)
+# Method 4:
+
+"""
+Idea is simple: 
+1) First item in preorder list is the root to be considered.
+2) For next item in preorder list, there are 2 cases to consider:
+2.a) If value is less than last item in stack, it is the left child of last item.
+2.b) If value is greater than last item in stack, pop it.
+      The last popped item will be the parent and the item will be the right child of the parent.
+"""
+
+"""
+How to think of this logic?
 # Q. How to come up with this logic?
 # Ans: Just given the preorder, draw the BST on paper and analyse how you are putting the nodes and 
 # which Data Structure we can use to get BST directly from preorder.
 
 # Q. why we are directly adding when num is samller and poping before adding when num is greater?
 # Ans: if smaller means that must be the left child of the just previous ele in stack , 
-# Because we are doing acc to the preorder and in preorder we will move to left after root and it is BST so smaller ele will be on left.(root, left right,)
+# Because we are doing acc to the preorder and in preorder we will move to left after root and 
+# it is BST so smaller ele will be on left.(root, left right,)
 # vvi: until we find any ele greater than top of stack, all those num will be go as left child only(like skew tree).
 # And we will find any ele greater then we will search for the node to which 'num' will be the right child.  
 # (now direction of tree will change).
 # i.e we will find the last smaller ele from the current num. 'num' will be the right child of that ele.
 
 # That's why we are using stack.
+"""
+
+# Time = space = O(n)
 
 class Solution:
-    def bstFromPreorder(self, preorder: List[int]) -> Optional[TreeNode]:
-        root=  TreeNode(preorder[0])  # first ele will be the root only.
-        stack= [root]
-        for num in preorder[1:]:
-            node= TreeNode(num)
-            if num < stack[-1].val:  # means num will be the left child
-                stack[-1].left= node
-            else: # Finding the last smaller ele than 'num' in stack for which 'num' can be the right child.
-                #  so pop until you find any greater ele than 'num'.
-                while stack and num > stack[-1].val:
-                    last= stack.pop()
-                # last will be the just smaller than 'num' and num will be the right of 'last' only.
-                last.right= node
-            stack.append(node)
+    def bstFromPreorder(self, preorder: List[int]) -> TreeNode:
+        root = TreeNode(preorder[0])
+        stack = [root]
+        for value in preorder[1:]:
+            if value < stack[-1].val:
+                stack[-1].left = TreeNode(value)
+                stack.append(stack[-1].left)
+            else:
+                while stack and stack[-1].val < value:
+                    last = stack.pop()
+                last.right = TreeNode(value)
+                stack.append(last.right)
         return root
 
+# Java
+"""
+class Solution {
+    public TreeNode bstFromPreorder(int[] preorder) {
+        if (preorder == null || preorder.length == 0) return null;
+
+        TreeNode root = new TreeNode(preorder[0]);
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+
+        for (int i = 1; i < preorder.length; i++) {
+            TreeNode node = new TreeNode(preorder[i]);
+            if (preorder[i] < stack.peek().val) {
+                stack.peek().left = node;
+                stack.push(node);
+            } else {
+                TreeNode last = null;
+                while (!stack.isEmpty() && stack.peek().val < preorder[i]) {
+                    last = stack.pop();
+                }
+                last.right = node;
+                stack.push(node);
+            }
+        }
+
+        return root;
+    }
+}
+"""
+
+
+# Method 5: Optimising space to O(1)
+# Time: O(n), space = O(1) 
+
+class Solution:
+    def __init__(self):
+        self.i = 0
+
+    def bstFromPreorder(self, preorder: List[int]) -> Optional[TreeNode]:
+        return self.build(preorder, float('inf'))
+
+    def build(self, preorder: List[int], bound: int) -> Optional[TreeNode]:
+        if self.i == len(preorder) or preorder[self.i] > bound:
+            return None
+        root = TreeNode(preorder[self.i])
+        self.i += 1
+        root.left = self.build(preorder, root.val)
+        root.right = self.build(preorder, bound)
+        return root
+
+# Java
+"""
+class Solution {
+    private int i = 0;
+
+    public TreeNode bstFromPreorder(int[] preorder) {
+        return build(preorder, Integer.MAX_VALUE);
+    }
+
+    private TreeNode build(int[] preorder, int bound) {
+        if (i == preorder.length || preorder[i] > bound) {
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[i++]);
+        root.left = build(preorder, root.val);
+        root.right = build(preorder, bound);
+        return root;
+    }
+}
+"""
 

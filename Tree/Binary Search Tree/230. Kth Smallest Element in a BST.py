@@ -67,7 +67,38 @@ class Solution:
         self.ans = -1
         findKthSmallest(root, k)
         return self.ans
+        
+# Solution by taking 'k' as parameter and without ans as global variable
+"""
+Why are we returning root.val, k both , why are we not only returning root.val?
+In each recursive call, k needs to be updated and passed to the next call
+(because k decreases as we visit nodes). If we don't return the updated k, 
+we won't know which node is the k-th smallest as the recursion unwinds.
+Return Early (root.val): The value of the k-th smallest element can only be found at one point, 
+and we need to pass that result up through the recursion without continuing the traversal once it's found.
+"""
+class Solution:
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
 
+        def findKthSmallest(root, k):
+            if not root:
+                return None, k
+            
+            # Explore the left subtree
+            left, k = findKthSmallest(root.left, k)
+            if left is not None:
+                return left, k  # If k-th smallest is found in left subtree, return it
+            
+            # Decrement k as we process the current node
+            k -= 1
+            if k == 0:
+                return root.val, k  # If the current node is the k-th smallest, return it
+            
+            # Explore the right subtree
+            return findKthSmallest(root.right, k)
+
+        result, _ = findKthSmallest(root, k)
+        return result
 
 # Related Q:
 # 1) Kth largest element in BST

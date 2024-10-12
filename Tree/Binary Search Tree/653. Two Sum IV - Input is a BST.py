@@ -23,7 +23,7 @@
 
 class BSTIterator:
     def __init__(self, root, reverse):  # taking reverse also so that we don't have to make separate function 
-                                        # for getting 'next' and 'prev'
+                                        # for getting 'next' and 'prev', for smallest and greatest one.
         self.stack= []
         self.reverse= reverse
         self.PushAll(root)

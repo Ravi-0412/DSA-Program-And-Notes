@@ -13,6 +13,8 @@ Idea is simple:
       The last popped item will be the parent and the item will be the right child of the parent.
 """
 
+# Time = space = O(n)
+
 class Solution:
     def bstFromPreorder(self, preorder: List[int]) -> TreeNode:
         root = TreeNode(preorder[0])
@@ -57,3 +59,45 @@ class Solution {
     }
 }
 """
+
+
+# Method 2: Optimising space to O(n)
+# Time: O(n), space = O(1) 
+
+class Solution:
+    def __init__(self):
+        self.i = 0
+
+    def bstFromPreorder(self, preorder: List[int]) -> Optional[TreeNode]:
+        return self.build(preorder, float('inf'))
+
+    def build(self, preorder: List[int], bound: int) -> Optional[TreeNode]:
+        if self.i == len(preorder) or preorder[self.i] > bound:
+            return None
+        root = TreeNode(preorder[self.i])
+        self.i += 1
+        root.left = self.build(preorder, root.val)
+        root.right = self.build(preorder, bound)
+        return root
+
+# Java
+"""
+class Solution {
+    private int i = 0;
+
+    public TreeNode bstFromPreorder(int[] preorder) {
+        return build(preorder, Integer.MAX_VALUE);
+    }
+
+    private TreeNode build(int[] preorder, int bound) {
+        if (i == preorder.length || preorder[i] > bound) {
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[i++]);
+        root.left = build(preorder, root.val);
+        root.right = build(preorder, bound);
+        return root;
+    }
+}
+"""
+

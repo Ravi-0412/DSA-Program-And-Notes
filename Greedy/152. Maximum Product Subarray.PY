@@ -1,4 +1,3 @@
-# thought a lot but didn't come up by myself.
 
 # logic: negative no is making problem like if product till now is min but next time it can become the ans if next ele will be negative.
 # that's why maintaining two varaibel to store the curr_max and curr_min till now.

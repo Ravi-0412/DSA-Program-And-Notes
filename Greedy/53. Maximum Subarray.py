@@ -61,7 +61,37 @@ def maxSubArray(self, nums: List[int]) -> int:
             max_sum= max(max_sum, dp[i])
         return max_sum
 
+# Note: If we want to fidn the "Smallest sum contiguous subarray". (GFG Q)
+# https://practice.geeksforgeeks.org/problems/smallest-sum-contiguous-subarray/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
 
+# we can apply the excatly similar logic as above
+class Solution:
+    def smallestSumSubarray(self, A, N):
+        total= sum(A)
+        curSum= A[0]
+        minSum= A[0]
+        for i in range(1, N):
+            if curSum > 0:  # we have to decrease 'curSum'.
+                curSum= A[i]
+            else:
+                curSum+= A[i]
+            minSum= min(minSum, curSum)
+        return minSum
+
+
+# shortcut of above
+class Solution:
+    def smallestSumSubarray(self, A, N):
+        total= sum(A)
+        curSum= A[0]
+        minSum= A[0]
+        for i in range(1, N):
+            curSum= min(curSum + A[i], A[i])
+            minSum= min(minSum, curSum)
+        return minSum
+
+
+# Try by divide & conquer later
 
 
 

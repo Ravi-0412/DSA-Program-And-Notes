@@ -16,4 +16,46 @@ class Solution:
             if prefix[i -1] > nums[i]:
                 ans = max(ans , prefix[i])
         return ans
+
+# Java
+"""
+class Solution:
+    def largestPerimeter(self, nums: List[int]) -> int:
+        nums.sort()
+        sum_val = 0
+        ans = -1
         
+        for num in nums:
+            if num < sum_val:
+                ans = num + sum_val
+            sum_val += num
+            
+        return ans
+"""
+
+# Method 2: Optimising space to o(1)
+class Solution:
+    def largestPerimeter(self, nums: List[int]) -> int:
+        nums.sort()
+        sum_val = 0
+        ans = -1
+        
+        for num in nums:
+            if num < sum_val:
+                ans = num + sum_val
+            sum_val += num
+            
+        return ans
+
+# Method 2: Going backward
+
+class Solution:
+    def largestPerimeter(self, nums: List[int]) -> int:
+        nums.sort()
+        _sum = sum(nums)
+        n = len(nums)
+        for i in range(n - 1, 1, -1):
+            _sum -= nums[i]
+            if _sum > nums[i]:
+                return _sum + nums[i]
+        return -1

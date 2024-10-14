@@ -1,4 +1,4 @@
-# submitted on lintcode
+# submitted on Neetcode.io
 
 # if starting time of any meeting is < ending time of previous ongoing meeting then person can't atttend all meetings.
 # And we can only compare if we know the timing of prevoius meeeting.

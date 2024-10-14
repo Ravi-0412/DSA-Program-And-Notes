@@ -3,7 +3,7 @@
 just same as :"1151. Minimum Swaps to Group All 1's Together' except this is circular.
 how to handle circular case?
 => if subarray starts from last index then it will need 'k-1' element from start to checking.
-where = total_no_one.
+where k = total_no_one.
 for this just append first 'k-1' element into data at last and apply same logic as '"1151. Minimum Swaps to Group All 1's Together'.
 """
 

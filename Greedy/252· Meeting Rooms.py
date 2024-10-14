@@ -16,3 +16,21 @@ class Solution:
                 return False
         return True
 
+# Java
+"""
+public class Solution {
+    public boolean canAttendMeetings(List<Interval> intervals) {
+        // Sort intervals by their start time using a lambda function
+        Collections.sort(intervals, (a, b) -> a.start - b.start);
+
+        // Check for overlapping intervals
+        for (int i = 1; i < intervals.size(); i++) {
+            if (intervals.get(i).start < intervals.get(i - 1).end) {
+                return false;  // If an overlap is found, return false
+            }
+        }
+
+        return true;  // No overlaps found, return true
+    }
+}
+"""

@@ -17,3 +17,32 @@ class Solution:
                 if v== target[i]:
                     ans.add(i)  # adding the index to ans
         return len(ans)== 3
+
+# Method 2:
+"""
+The idea is to take as much tuples as possible, but keep in mind that some of them are forbidden.
+By forbidden I mean, that if we take this tuple, then maximum in one of the 3 places will be greater that what we need to get.
+So, algorithm looks like this:
+
+1) Iterate over all triplets once and create forbidden set.
+2) Iterate over all triplets once again and update maximums.
+3) Check that what we have in the end is equal to what we want.
+
+Complexity
+Time complexity is O(n), because we traverse our triplets twice. 
+Space complexity is O(n) as well to keep forbidden set.
+"""
+
+class Solution:
+    def mergeTriplets(self, triplets, T):
+        forbidden = set()
+        for i, [x, y, z] in enumerate(triplets):
+            if x > T[0] or y > T[1] or z > T[2]:
+                forbidden.add(i)
+        
+        a, b, c = 0, 0, 0
+        for i, (x, y, z) in enumerate(triplets):
+            if i not in forbidden:
+                a, b, c = max(a, x), max(b, y), max(c, z)
+                
+        return [a, b, c] == T

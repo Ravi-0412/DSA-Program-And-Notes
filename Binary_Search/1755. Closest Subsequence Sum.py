@@ -55,4 +55,53 @@ class Solution:
         
         return res
 
+# Without using inbuilt binary search function
+class Solution:
+    def minAbsDifference(self, nums: List[int], goal: int) -> int:
+        
+        def dfs(i, cur_sum, nums, ans):
+            if i == len(nums):
+                ans.append(cur_sum)
+                return
+            dfs(i+1, cur_sum + nums[i], nums, ans)   # when we include the current element
+            dfs(i+1, cur_sum, nums, ans)     # when we don't include the current element
+        
+        def binary_search_left(arr, target):
+            # Custom implementation of bisect_left
+            low, high = 0, len(arr)
+            while low < high:
+                mid = (low + high) // 2
+                if arr[mid] < target:
+                    low = mid + 1
+                else:
+                    high = mid
+            return low
+        
+        n = len(nums)
+        sum1 = []  # will store all possible sums of subsequences for the first half
+        sum2 = []  # will store all possible sums of subsequences for the second half
+        dfs(0, 0, nums[:n//2], sum1)
+        dfs(0, 0, nums[n//2:], sum2)
+
+        # Now traverse any of the arrays and sort the other half to find the closest sum for each element
+        res = float('inf')
+        sum2.sort()
+
+        for num in sum1:
+            new_goal = goal - num
+
+            # Find the closest number to 'new_goal' in sum2 using binary search
+            i = binary_search_left(sum2, new_goal)
+
+            # Check the difference with the ceiling value (if it exists)
+            if i < len(sum2):
+                res = min(res, abs(new_goal - sum2[i]))
+            
+            # Check the difference with the floor value (if it exists)
+            if i > 0:
+                res = min(res, abs(new_goal - sum2[i-1]))
+
+        return res
+
+
 # Note: can apply DP also but memory will go out of bound.

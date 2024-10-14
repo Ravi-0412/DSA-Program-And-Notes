@@ -7,6 +7,7 @@ class Solution:
         res = [x * k for k in range(n)]  # res[k] means the result for k times operation
         # find the cost for each ele and it should be minimum only so will take min(cur_val, val_after_rotation)
         for i in range(n):
+            # calculating the minimum cost to collect a specific chocolate (at index i) after k rotations.
             cur = nums[i]
             for k in range(n):
                 cur = min(cur, nums[(i + k) % n]) 

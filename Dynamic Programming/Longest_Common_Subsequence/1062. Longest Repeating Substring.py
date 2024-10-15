@@ -59,5 +59,50 @@ class Solution:
         return max_len
 
 # Method 3: Optimised solution in O(n*logn) 
-# Done in question " 1044. Longest Duplicate Substring"
+# Same method one :  question " 1044. Longest Duplicate Substring"
+
+class Solution:
+    def longestRepeatingSubstring(self, s: str) -> int:
+        n = len(s)  # Length of the input string
+        base, mod = 26, 2**63 - 1  # Base for hash (26 for 26 lowercase letters), large prime modulus
+        
+        def search(L: int) -> bool:
+            """ 
+            Helper function to check if there is a repeating substring of length L.
+            Uses rolling hash (Rabin-Karp) to detect duplicates.
+            Returns True if a duplicate is found, False otherwise.
+            """
+            current_hash, baseL = 0, pow(base, L, mod)  # Initialize the hash, and precompute base^L % mod
+            seen_hashes = set()  # Set to store hashes of substrings we've seen
+
+            # Step 1: Compute the hash for the first substring of length L
+            for i in range(L):
+                current_hash = (current_hash * base + ord(s[i]) - ord('a')) % mod  # Calculate initial hash
+            seen_hashes.add(current_hash)  # Store the hash of the first substring
+
+            # Step 2: Slide over the string, updating the hash for each new substring of length L
+            for i in range(1, n - L + 1):
+                # Rolling hash: add the new character and remove the old character
+                current_hash = (current_hash * base + ord(s[i + L - 1]) - ord('a')) % mod  # Add new char
+                current_hash = (current_hash - (ord(s[i - 1]) - ord('a')) * baseL) % mod  # Remove old char
+
+                # Check if the new hash has been seen before
+                if current_hash in seen_hashes:
+                    return True  # Found a duplicate substring with this hash
+                seen_hashes.add(current_hash)  # Add the new hash to the set
+            
+            return False  # No duplicate substring of length L was found
+
+        # Binary search for the longest length of repeating substring
+        low, high, result = 1, n - 1, 0
+        
+        while low <= high:
+            mid = (low + high) // 2  # Check the middle value of the current range
+            if search(mid):  # If we find a duplicate substring of length mid
+                result = mid  # Update result, since we found a repeating substring
+                low = mid + 1  # Try to find a longer one, search in the upper half
+            else:
+                high = mid - 1  # No repeating substring of this length, search in the lower half
+        
+        return result  # Return the length of the longest repeating substring
 

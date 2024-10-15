@@ -57,3 +57,7 @@ class Solution:
                     max_len = max(max_len, dp[i][j])  # Update max_len if we found a longer substring
         
         return max_len
+
+# Method 3: Optimised solution in O(n*logn) 
+# Done in question " 1044. Longest Duplicate Substring"
+

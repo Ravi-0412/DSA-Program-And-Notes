@@ -32,36 +32,39 @@
 
 
 # method 2: To print the string also
-def LongestRepeatingSubsequence(s1):
-    x=y= len(s1)
-    dp= lcs(x,x,s1,s1)
-    print("length of longest repeating subsequences is: ",dp[x][y])
-    print("one of the longest repeating subsequences is: ", printing_longest_repeating_subsequence(x,y,s1,s1,dp))
+class Solution:
+    def LongestRepeatingSubsequence(self, str):
+        x = y = len(str)
+        dp = self.lcs(x, x, str, str)
+        # print("Length of longest repeating subsequence is: ")
+        return dp[x][y]
+        # print("One of the longest repeating subsequences is: ", self.printing_longest_repeating_subsequence(x, y, str, str, dp))
     
-
-def printing_longest_repeating_subsequence(x,y,s1,s2,dp):  # will print the one of the longest repeating subsequences, not all
-                                                           # for printing do same as we have done while printing all longest common subsequences
-    i,j,ans= x,y, ""
-    while(i>0 and j>0):   # just logic of lcs, traverse the path in reverse direction
-        if s1[i-1]== s2[j-1] and i!=j:  # exacly same as printing lcs
-            ans= s1[i-1] + ans
-            i,j= i-1, j-1
-        else:
-            if dp[i][j-1]>= dp[i-1][j]:
-                j-= 1
+    def printing_longest_repeating_subsequence(self, x, y, s1, s2, dp):  
+        # Will print one of the longest repeating subsequences, not all
+        i, j, ans = x, y, ""
+        while i > 0 and j > 0:
+            # Traverse the DP table in reverse direction (similar to LCS)
+            if s1[i-1] == s2[j-1] and i != j:  
+                ans = s1[i-1] + ans
+                i, j = i-1, j-1
             else:
-                i-= 1
-    return ans
+                if dp[i][j-1] >= dp[i-1][j]:
+                    j -= 1
+                else:
+                    i -= 1
+        return ans
 
-def lcs(x,y,s1,s2):
-    dp= [[0 for j in range(y+1)] for i in range(x+1)]
-    for i in range(1,x+1):
-        for j in range(1,y+1):
-            if s1[i-1]== s2[j-1] and i!=j:  # the variation from lcs
-                dp[i][j]= 1+ dp[i-1][j-1]
-            else: # this will cover the above if also when i==j and when s1[i-1]!=s2[j-1]
-                dp[i][j]= max(dp[i-1][j], dp[i][j-1])
-    return dp
+    def lcs(self, x, y, s1, s2):
+        dp = [[0 for j in range(y+1)] for i in range(x+1)]
+        for i in range(1, x+1):
+            for j in range(1, y+1):
+                # Slight variation of LCS where we ensure that i != j to avoid picking the same character at the same index
+                if s1[i-1] == s2[j-1] and i != j:
+                    dp[i][j] = 1 + dp[i-1][j-1]
+                else:
+                    dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+        return dp
 
 # LongestRepeatingSubsequence("AABEBCDD")
 # LongestRepeatingSubsequence("aabb")

@@ -3,6 +3,15 @@
 
 # Optimised one : Using Binary Search + Robin-Karp rolling hash method 
 # Time: O(n*logn)
+"""
+Complexity Analysis:
+
+Binary Search in range 1 and N, so it's O(logN)
+Rolling hash : O(N)
+
+Overall Time: O(NlogN)
+Space: O(N)
+"""
 
 class Solution:
     def longestDupSubstring(self, s: str) -> str:

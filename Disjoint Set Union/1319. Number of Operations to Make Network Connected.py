@@ -105,3 +105,75 @@ class Solution:
             if p== dsu.parent[p]:
                 component+= 1
         return component -1
+
+# Java
+"""
+class DSU {
+    private int[] parent;
+    private int[] size;
+
+    // Constructor to initialize DSU
+    public DSU(int n) {
+        parent = new int[n];
+        size = new int[n];
+        for (int i = 0; i < n; i++) {
+            parent[i] = i; // Each node is its own parent initially
+            size[i] = 1;   // Size of each component is initially 1
+        }
+    }
+
+    // Method to find the ultimate parent (with path compression)
+    public int findUPar(int n) {
+        if (n == parent[n]) {
+            return n; // If the node is its own parent, return it
+        }
+        // Path compression
+        parent[n] = findUPar(parent[n]);
+        return parent[n];
+    }
+
+    // Method to perform union by size
+    public void unionBySize(int n1, int n2) {
+        int p1 = findUPar(n1);
+        int p2 = findUPar(n2);
+        
+        if (p1 == p2) {
+            return; // They are already in the same component
+        }
+        
+        // Union by size
+        if (size[p1] < size[p2]) {
+            parent[p1] = p2; // Attach p1's tree to p2's tree
+            size[p2] += size[p1]; // Update size
+        } else {
+            parent[p2] = p1; // Attach p2's tree to p1's tree
+            size[p1] += size[p2]; // Update size
+        }
+    }
+}
+
+class Solution {
+    public int makeConnected(int n, List<List<Integer>> connections) {
+        if (connections.size() < n - 1) {
+            return -1; // Not enough connections to connect all computers
+        }
+
+        DSU dsu = new DSU(n);
+        
+        // Union each connection
+        for (List<Integer> connection : connections) {
+            dsu.unionBySize(connection.get(0), connection.get(1));
+        }
+
+        int component = 0;
+        // Count how many unique components there are
+        for (int i = 0; i < n; i++) {
+            if (i == dsu.findUPar(i)) {
+                component++;
+            }
+        }
+
+        return component - 1; // To connect all components, we need (components - 1) connections
+    }
+}
+"""

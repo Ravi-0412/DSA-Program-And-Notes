@@ -179,6 +179,8 @@ class Solution {
         return dp[cur][0];
     }
 }
+
+
 """
 
 # Method 2:
@@ -199,107 +201,3 @@ class Solution:
         # only one choice we can't include this ele
         return self.helper(curr + 1, pre, jobs)
 
-# Optimising using binary search
-"""
-class Solution:
-    def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
-        # Create a list of jobs and sort them by their start time
-        jobs = sorted(zip(startTime, endTime, profit))  # List of tuples (start, end, profit)
-        
-        n = len(jobs)
-        
-        # Memoization table
-        dp = [-1] * n  # Initialize with -1 to indicate not computed
-
-        def binary_search_next(curr: int) -> int:
-            # Binary search to find the next job that starts after jobs[curr][1]
-            low, high = curr + 1, n - 1
-            while low <= high:
-                mid = (low + high) // 2
-                if jobs[mid][0] >= jobs[curr][1]:
-                    high = mid - 1
-                else:
-                    low = mid + 1
-            return low  # Return the index of the next job
-
-        def helper(curr: int) -> int:
-            if curr >= n:
-                return 0
-            if dp[curr] != -1:
-                return dp[curr]
-
-            # Option 1: Skip the current job
-            not_take = helper(curr + 1)
-
-            # Option 2: Take the current job
-            next_job_index = binary_search_next(curr)  # Find the next non-conflicting job
-            take = jobs[curr][2] + helper(next_job_index)
-
-            # Store the result in dp
-            dp[curr] = max(not_take, take)
-            return dp[curr]
-
-        return helper(0)
-"""
-
-# Java
-"""
-class Solution {
-    public int jobScheduling(int[] startTime, int[] endTime, int[] profit) {
-        int n = startTime.length;
-        
-        // Create a 2D array for jobs and sort them based on start time
-        int[][] jobs = new int[n][3];
-        for (int i = 0; i < n; i++) {
-            jobs[i][0] = startTime[i]; // Start time
-            jobs[i][1] = endTime[i];   // End time
-            jobs[i][2] = profit[i];     // Profit
-        }
-
-        // Sort jobs based on start time
-        Arrays.sort(jobs, (a, b) -> Integer.compare(a[0], b[0]));
-
-        // Memoization array
-        int[] dp = new int[n];
-        Arrays.fill(dp, -1);
-
-        return helper(0, jobs, dp);
-    }
-
-    // Binary search to find the next job that starts after the current job ends
-    private int binarySearchNext(int[][] jobs, int cur) {
-        int low = cur + 1, high = jobs.length - 1;
-        while (low <= high) {
-            int mid = (low + high) / 2;
-            if (jobs[mid][0] >= jobs[cur][1]) {
-                high = mid - 1; // Move left
-            } else {
-                low = mid + 1; // Move right
-            }
-        }
-        return low; // Return index of the next job
-    }
-
-    // Recursive function to calculate maximum profit
-    private int helper(int cur, int[][] jobs, int[] dp) {
-        if (cur >= jobs.length) {
-            return 0;
-        }
-
-        if (dp[cur] != -1) {
-            return dp[cur]; // Return already computed value
-        }
-
-        // Option 1: Skip the current job
-        int notTake = helper(cur + 1, jobs, dp);
-
-        // Option 2: Take the current job
-        int nextJobIndex = binarySearchNext(jobs, cur); // Find the next non-conflicting job
-        int take = jobs[cur][2] + helper(nextJobIndex, jobs, dp);
-
-        // Store the maximum profit in dp array
-        dp[cur] = Math.max(notTake, take);
-        return dp[cur];
-    }
-
-"""

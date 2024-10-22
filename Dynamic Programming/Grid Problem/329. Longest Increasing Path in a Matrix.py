@@ -54,6 +54,58 @@ class Solution:
             maxLength = max(maxLength, self.dfs(row, col, mat[r][c], mat))     # incr count by 1 and call the next function.
         dp[r][c]= 1 + maxLength
         return dp[r][c]
+
+# Java
+"""
+
+class Solution {
+    public int longestIncreasingPath(int[][] matrix) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return 0; // Handle edge case for empty matrix
+        }
+
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        int[][] dp = new int[rows][cols]; // Memoization table
+        int ans = 1; // At least 1 since each cell contributes at least itself
+
+        // Check for the longest increasing path from every cell
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                ans = Math.max(ans, dfs(r, c, -1, matrix, dp)); // Start DFS from each cell
+            }
+        }
+
+        return ans;
+    }
+
+    private int dfs(int r, int c, int pre, int[][] mat, int[][] dp) {
+        // Check boundaries and if the current cell is greater than the previous cell
+        if (r < 0 || r >= mat.length || c < 0 || c >= mat[0].length || mat[r][c] <= pre) {
+            return 0;
+        }
+
+        // Return the cached result if already computed
+        if (dp[r][c] != 0) {
+            return dp[r][c];
+        }
+
+        int maxLength = 0; // To find the maximum length from this cell
+        int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // Up, down, left, right
+
+        for (int[] dir : directions) {
+            int row = r + dir[0];
+            int col = c + dir[1];
+            // Recursively calculate the length from the next cell
+            maxLength = Math.max(maxLength, dfs(row, col, mat[r][c], mat, dp));
+        }
+
+        // Store the result in the dp table, adding 1 for the current cell
+        dp[r][c] = 1 + maxLength;
+        return dp[r][c];
+    }
+}
+"""
     
 # Related Q:
 # 1) 2328. Number of Increasing Paths in a Grid

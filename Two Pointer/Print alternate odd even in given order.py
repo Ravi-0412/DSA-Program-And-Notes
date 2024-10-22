@@ -47,3 +47,6 @@ def print_interleaved_odd_even(arr):
             ans.append(arr[even_index])
         even_index += 1
     return ans
+
+# Related Question:
+# 1) Rearrange positive and negative numbers alternately

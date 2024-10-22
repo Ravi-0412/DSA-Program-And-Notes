@@ -116,3 +116,32 @@ class Solution:
                 # cur ele can't be the winning condidate, it will just reduce the vote of cur winning condidate i.e cur majority ele
                 count -= 1
         return m
+
+# Java
+"""
+class Solution {
+    public int majorityElement(int[] nums) {
+        Integer m = 1000000001;  // This will hold the majority element
+        int count = 0;     // This will hold the count of the current candidate
+        
+        for (int n : nums) {
+            if (n == m) {
+                // Vote of the majority element will increase
+                count++;
+            } 
+            // If the current candidate is not m and count is 0, then the current element becomes the majority
+            else if (count == 0) {
+                m = n;   // Current element will become the majority element (current winning candidate)
+                count = 1; // Reset count for the new candidate
+            } 
+            // If the current candidate is not m and count > 0, then the count for m will decrease
+            else { 
+                // Current element can't be the winning candidate, it will just reduce the vote of the current winning candidate
+                count--;
+            }
+        }
+        
+        return m; // Return the majority element
+    }
+}
+"""

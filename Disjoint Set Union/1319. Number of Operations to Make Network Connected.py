@@ -153,27 +153,31 @@ class DSU {
 }
 
 class Solution {
-    public int makeConnected(int n, List<List<Integer>> connections) {
-        if (connections.size() < n - 1) {
+    public int makeConnected(int n, int[][] connections) {
+        // Step 1: Check if we have enough connections
+        if (connections.length < n - 1) {
             return -1; // Not enough connections to connect all computers
         }
 
+        // Step 2: Initialize DSU
         DSU dsu = new DSU(n);
         
-        // Union each connection
-        for (List<Integer> connection : connections) {
-            dsu.unionBySize(connection.get(0), connection.get(1));
+        // Step 3: Union each connection
+        for (int[] connection : connections) {
+            dsu.unionBySize(connection[0], connection[1]);
         }
 
-        int component = 0;
-        // Count how many unique components there are
+        // Step 4: Count how many unique components there are
+        int componentCount = 0;
         for (int i = 0; i < n; i++) {
             if (i == dsu.findUPar(i)) {
-                component++;
+                componentCount++; // Increment for each root parent
             }
         }
 
-        return component - 1; // To connect all components, we need (components - 1) connections
+        // To connect all components, we need (components - 1) connections
+        return componentCount - 1; 
     }
 }
+
 """

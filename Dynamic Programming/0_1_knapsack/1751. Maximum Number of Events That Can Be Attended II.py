@@ -64,7 +64,54 @@ class Solution:
 
         return solve(0, k)
 
+# Using custom binary search for interview
+"""
+class Solution:
+    def maxValue(self, events: List[List[int]], k: int) -> int:
+        
+        # Custom binary search function to find the next event index
+        # Just we find the last index.
+        def find_next_event_index(start_time):
+            left, right = 0, len(startDate) - 1
+            while left <= right:
+                mid = (left + right) // 2
+                if startDate[mid] > start_time:  # We need to find the first event that starts after current event ends
+                    right = mid -1
+                else:
+                    left = mid + 1
+            return right + 1  # 'right' will point to last index having startTime = start_time. So 'right + 1' will give the next one
 
+        # Sort events according to start time and then by end time
+        events.sort(key=lambda x: (x[0], x[1]))
+        startDate = [start for start, end, value in events]
+
+        # Initialize the memoization table
+        n = len(events)
+        dp = [[-1] * (k + 1) for _ in range(n + 1)]
+
+        def solve(cur, k):
+            # Base case: either we have traversed all events or we have chosen the maximum number of events allowed.
+            if cur >= n or k == 0:
+                return 0
+            
+            # Check if we've already computed this state
+            if dp[cur][k] != -1:
+                return dp[cur][k]
+            
+            # Option 1: Don't take the current event
+            option1 = solve(cur + 1, k)
+            
+            # Option 2: Take the current event and find the next event we can take
+            next_event_index = find_next_event_index(events[cur][1])
+            option2 = events[cur][2] + solve(next_event_index, k - 1)
+            
+            # Store the result in the dp table and return it
+            dp[cur][k] = max(option1, option2)
+            return dp[cur][k]
+
+        return solve(0, k)
+        
+"""
 
 # My doubt
 # After finding the next , i am not breaking the loop.
@@ -117,3 +164,50 @@ class Solution:
             return max(jobs[curr][2] + self.helper(curr + 1, curr, jobs, k - 1), self.helper(curr + 1, pre, jobs, k))
         # only one choice we can't include this ele
         return self.helper(curr + 1, pre, jobs)
+
+# Memoising above one using binary search
+"""
+class Solution:
+    def maxValue(self, events: List[List[int]], k: int) -> int:
+        
+        # Custom binary search function to find the next event index
+        def find_next_event_index(start_time):
+            left, right = 0, len(startDate) - 1
+            while left <= right:
+                mid = (left + right) // 2
+                if startDate[mid] > start_time:  
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            return right + 1  
+
+        # Sort events according to start time and then by end time
+        events.sort(key=lambda x: (x[0], x[1]))
+        startDate = [start for start, end, value in events]
+
+        # Initialize the memoization table
+        n = len(events)
+        dp = [[-1] * (k + 1) for _ in range(n + 1)]
+
+        def solve(cur, k):
+            # Base case: either we have traversed all events or we have chosen the maximum number of events allowed.
+            if cur >= n or k == 0:
+                return 0
+            
+            # Check if we've already computed this state
+            if dp[cur][k] != -1:
+                return dp[cur][k]
+            
+            # Option 1: Don't take the current event
+            option1 = solve(cur + 1, k)
+            
+            # Option 2: Take the current event and find the next event we can take
+            next_event_index = find_next_event_index(events[cur][1])     #  next = bisect.bisect_right(startDate, events[cur][1])
+            option2 = events[cur][2] + solve(next_event_index, k - 1)
+            
+            # Store the result in the dp table and return it
+            dp[cur][k] = max(option1, option2)
+            return dp[cur][k]
+
+        return solve(0, k)
+"""

@@ -50,6 +50,52 @@ class Solution:
         dp[r][c]= 1 + min(self.dfs(matrix, r+1, c, dp), self.dfs(matrix, r, c+1, dp), self.dfs(matrix, r+1, c+1, dp))  # down, right, lower diagonal
         return dp[r][c]
 
+# Java
+"""
+class Solution {
+    public int countSquares(int[][] matrix) {
+        int row = matrix.length;
+        int col = matrix[0].length;
+        int[][] dp = new int[row + 1][col + 1];
+        
+        // Initialize dp array with -1 (similar to Python's -1 initialization)
+        for (int i = 0; i <= row; i++) {
+            for (int j = 0; j <= col; j++) {
+                dp[i][j] = -1;
+            }
+        }
+
+        int ans = 0;
+        for (int r = 0; r < row; r++) {
+            for (int c = 0; c < col; c++) {
+                if (matrix[r][c] == 1) {
+                    ans += dfs(matrix, r, c, dp);
+                }
+            }
+        }
+
+        return ans;
+    }
+    
+    private int dfs(int[][] matrix, int r, int c, int[][] dp) {
+        // Check for out of bounds or if cell is not 1
+        if (r < 0 || r >= matrix.length || c < 0 || c >= matrix[0].length || matrix[r][c] != 1) {
+            return 0;
+        }
+        
+        // If the value is already computed, return it
+        if (dp[r][c] != -1) {
+            return dp[r][c];
+        }
+        
+        // Recursively calculate the value using down, right, and diagonal right-down moves
+        dp[r][c] = 1 + Math.min(Math.min(dfs(matrix, r + 1, c, dp), dfs(matrix, r, c + 1, dp)), dfs(matrix, r + 1, c + 1, dp));
+        
+        return dp[r][c];
+    }
+}
+"""
+
 # method 3: Tabulation (Bottom Up)
 # in above approaches, we are just adding the ans of every cell to our final ans.
 # and ans of any cell, we are calculating by seeing the three values (down, right and right diagonal).
@@ -64,6 +110,30 @@ class Solution:
                     dp[r][c]= 1 + min(dp[r+1][c], dp[r][c+1], dp[r+1][c+1])
                     ans+= dp[r][c]
         return ans
+
+# Java
+"""
+class Solution {
+    public int countSquares(int[][] matrix) {
+        int row = matrix.length;
+        int col = matrix[0].length;
+        int[][] dp = new int[row + 1][col + 1];  // Initialized with 0 by default in Java
+        
+        int ans = 0;
+        // Iterate from bottom-right to top-left of the matrix
+        for (int r = row - 1; r >= 0; r--) {
+            for (int c = col - 1; c >= 0; c--) {
+                if (matrix[r][c] == 1) {
+                    dp[r][c] = 1 + Math.min(Math.min(dp[r + 1][c], dp[r][c + 1]), dp[r + 1][c + 1]);
+                    ans += dp[r][c];
+                }
+            }
+        }
+        
+        return ans;
+    }
+}
+"""
 
 # method 4: Tabulation (top Down)
 # time: O(m*n)= space
@@ -100,3 +170,41 @@ class Solution:
                     dp[r][c]= 1+ min(dp[r-1][c], dp[r][c-1], dp[r-1][c-1])   # up, left, upper-left diagonal
                     ans+= dp[r][c]
         return ans
+
+# Other way of writing above code
+class Solution:
+    def countSquares(self, matrix: List[List[int]]) -> int:
+        row, col = len(matrix), len(matrix[0])
+        dp = [[0 for j in range(col + 1)] for i in range(row + 1)]
+        ans= 0
+        for r in range(1, row + 1):
+            for c in range(1, col + 1):
+                if matrix[r-1][c-1] == 1:
+                    dp[r][c]= 1+ min(dp[r-1][c], dp[r][c-1], dp[r-1][c-1])   # up, left, upper-left diagonal
+                    ans+= dp[r][c]
+        return ans
+
+# Java
+"""
+class Solution {
+    public int countSquares(int[][] matrix) {
+        int row = matrix.length;
+        int col = matrix[0].length;
+        int[][] dp = new int[row + 1][col + 1];  // Initialized with 0 by default in Java
+        
+        int ans = 0;
+        // Iterate from top-left to bottom-right
+        for (int r = 1; r <= row; r++) {
+            for (int c = 1; c <= col; c++) {
+                // Adjust matrix indices since dp is 1-based
+                if (matrix[r - 1][c - 1] == 1) {
+                    dp[r][c] = 1 + Math.min(Math.min(dp[r - 1][c], dp[r][c - 1]), dp[r - 1][c - 1]);
+                    ans += dp[r][c];
+                }
+            }
+        }
+        
+        return ans;
+    }
+}
+"""

@@ -31,6 +31,8 @@ class Solution:
         return 1 + min(self.dfs(matrix, r+1, c), self.dfs(matrix, r, c+1), self.dfs(matrix, r+1, c+1))  
 
 # method 2: memoization
+# Time : O(m*n)
+
 class Solution:
     def countSquares(self, matrix: List[List[int]]) -> int:
         row, col= len(matrix), len(matrix[0])

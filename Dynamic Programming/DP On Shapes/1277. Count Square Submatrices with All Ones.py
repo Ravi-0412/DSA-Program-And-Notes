@@ -1,6 +1,6 @@
 # Logic: Har ek cell (r, c) se check kar rhe ki maximum kitne side ka square form kar sakte h.
 # Iske liye hmko 3 direction ka length ka min lena hoga i.e (diagonally upper-left, upper_cell, left_cell) => 
-# min(r-1, c-1, r, c- 1, r-1, c) and current cell ka '1' add karna hoga agar cur cell (r, c) ka value '1' h tb.
+# min(r-1, c-1), (r, c- 1), (r-1, c)) and current cell ka '1' add karna hoga agar cur cell (r, c) ka value '1' h tb.
 
 # Let cur cell se ans = 3 then means including this cell we can form squre of side of length '3'.
 # But yahan number puch rha square ka then ye side '1' ka square  , side '2' and side '3' ka square form kar sakta h adjacent cell

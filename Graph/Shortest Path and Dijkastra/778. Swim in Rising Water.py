@@ -71,6 +71,9 @@ class Solution:
                     visited.add((r,c))  # mark visite here only as there can't be any more optimal path possible for (r,c) because we have to include the curr cell value also.
                     heapq.heappush(minHeap,(min_till_needed,(r,c)))
 
+# Related Q:
+# 1) 3341. Find Minimum Time to Reach Last Room I
+# 2) 3342. Find Minimum Time to Reach Last Room II
 
 # Related Q:
 # Note: Analyse these question properly like why in one q we are getting ans on 1st time and why in other getting after poping.

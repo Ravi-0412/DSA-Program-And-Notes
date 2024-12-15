@@ -9,6 +9,11 @@
 # After getting the valid window, just add the length of valid window to our ans 
 # because every combination of that subarray can be part of our ans.
 
+"""
+Note: we have to keep track of frequency also because if subarray is invalid then, we will need to remove all occurences of
+1st element of subarray.
+"""
+
 # Time: O(n^2)  , in reality will be less than this.
 class Solution:
     def continuousSubarrays(self, nums: List[int]) -> int:

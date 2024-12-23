@@ -96,6 +96,43 @@ class Solution:
     
 # Later try to do by tabulation also. Solution in sheet.
 
+# java: memoisation
+"""
+class Solution {
+    public boolean isInterleave(String s1, String s2, String s3) {
+        if (s1.length() + s2.length() != s3.length()) {
+            return false;
+        }
+        int[][] dp = new int[s1.length() + 1][s2.length() + 1];
+        for (int i = 0; i <= s1.length(); i++) {
+            for (int j = 0; j <= s2.length(); j++) {
+                dp[i][j] = -1; // Initialize DP array with -1
+            }
+        }
+        return helper(0, 0, s1, s2, s3, dp);
+    }
+
+    private boolean helper(int i, int j, String s1, String s2, String s3, int[][] dp) {
+        if (i == s1.length() && j == s2.length()) {
+            return true;
+        }
+        if (dp[i][j] != -1) {
+            return dp[i][j] == 1;
+        }
+        if (i < s1.length() && s1.charAt(i) == s3.charAt(i + j) && helper(i + 1, j, s1, s2, s3, dp)) {
+            dp[i][j] = 1;
+            return true;
+        }
+        if (j < s2.length() && s2.charAt(j) == s3.charAt(i + j) && helper(i, j + 1, s1, s2, s3, dp)) {
+            dp[i][j] = 1;
+            return true;
+        }
+        dp[i][j] = 0;
+        return false;
+    }
+}
+"""
+
 
 # Note: same code will work at codestudio.
 # https://www.codingninjas.com/codestudio/problem-details/interleaving-two-strings_1062567

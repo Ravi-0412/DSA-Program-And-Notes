@@ -94,7 +94,42 @@ class Solution:
         dp[i][j]= False
         return False
     
-# Later try to do by tabulation also. Solution in sheet.
+# Tabulation
+class Solution:
+    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
+        if len(s1) + len(s2) != len(s3):
+            return False
+        
+        dp = [[False for _ in range(len(s2) + 1)] for _ in range(len(s1) + 1)]
+        dp[len(s1)][len(s2)] = True # base case 
+        
+        for i in range(len(s1), -1, -1):
+            for j in range(len(s2), -1, -1):
+                if i < len(s1) and s1[i] == s3[i + j] and dp[i + 1][j]:
+                    dp[i][j] = True  # Match current character in s1
+                elif j < len(s2) and s2[j] == s3[i + j] and dp[i][j + 1]:
+                    dp[i][j] = True  # Match current character in s2
+        
+        return dp[0][0]
+
+# Note: If you will write tabulation like this then, it won't work.
+class Solution:
+    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
+        if len(s1) + len(s2) != len(s3):
+            return False
+        
+        dp = [[False for _ in range(len(s2) + 1)] for _ in range(len(s1) + 1)]
+        dp[len(s1)][len(s2)] = True # base case 
+        
+        for i in range(len(s1) - 1, -1, -1):
+            for j in range(len(s2) -1, -1, -1):
+                if s1[i] == s3[i + j] and dp[i + 1][j]:
+                    dp[i][j] = True  # Match current character in s1
+                elif s2[j] == s3[i + j] and dp[i][j + 1]:
+                    dp[i][j] = True  # Match current character in s2
+        
+        return dp[0][0]
+        
 
 # java: memoisation
 """
@@ -129,6 +164,32 @@ class Solution {
         }
         dp[i][j] = 0;
         return false;
+    }
+}
+"""
+
+# Java Tabulation
+"""
+class Solution {
+    public boolean isInterleave(String s1, String s2, String s3) {
+        if (s1.length() + s2.length() != s3.length()) {
+            return false;
+        }
+        
+        boolean[][] dp = new boolean[s1.length() + 1][s2.length() + 1];
+        dp[s1.length()][s2.length()] = true; // Base case
+        
+        for (int i = s1.length(); i >= 0; i--) {
+            for (int j = s2.length(); j >= 0; j--) {
+                if (i < s1.length() && s1.charAt(i) == s3.charAt(i + j) && dp[i + 1][j]) {
+                    dp[i][j] = true; // Match current character in s1
+                } else if (j < s2.length() && s2.charAt(j) == s3.charAt(i + j) && dp[i][j + 1]) {
+                    dp[i][j] = true; // Match current character in s2
+                }
+            }
+        }
+        
+        return dp[0][0];
     }
 }
 """

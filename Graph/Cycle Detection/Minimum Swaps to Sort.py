@@ -29,7 +29,6 @@ class Solution:
         swaps = 0
         i = 0
         
-        # Replace for loop with a while loop
         while i < n:
             # If the current element is already in the correct position
             if v[i][1] == i:
@@ -41,8 +40,6 @@ class Solution:
                 # Swap the current element with the correct element
                 correct_index = v[i][1]
                 v[i], v[correct_index] = v[correct_index], v[i]
-                
-                # Do not increment `i` to recheck the current position
         
         return swaps
 
@@ -83,8 +80,6 @@ class Solution {
                 Pair temp = v.get(i);
                 v.set(i, v.get(v.get(i).index));
                 v.set(temp.index, temp);
-                
-                // Do not increment `i` to recheck the current position
             }
         }
         

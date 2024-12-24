@@ -12,6 +12,9 @@ Now it may happen that even after swapping the element is not in the correct pos
 In a way we first sort the array and then compare it with the orignal array to to find the swaps.
 """
 
+# Noe VVI: After iteration will be over, then 'v' may or may not be sorted.
+# But will gi
+
 # Tme: O(n*logn)
 
 class Solution:
@@ -144,7 +147,45 @@ class Solution:
 
         return swaps
 
-# java
+# this is failing the last test case, don't know why.
+class Solution:
+    
+    # Function to find the minimum number of swaps required to sort the array.
+    def minSwaps(self, arr):
+        n = len(arr)
+        # Create a dictionary to store the value-to-index mapping
+        value_to_index = {value: index for index, value in enumerate(arr)}
+        
+        # Sort the array to determine the target positions
+        sorted_arr = sorted(arr)
+        
+        # To keep track of visited indices
+        visited = [False] * n
+        minimum_swaps = 0
+
+        for i in range(n):
+            # Skip if already in the correct position or already visited
+            if visited[i] or arr[i] == sorted_arr[i]:
+                continue
+            
+            # Initialize variables for the cycle
+            cycle_size = 0
+            current = i
+
+            # Follow the cycle to count its size
+            while not visited[current]:
+                visited[current] = True
+                next_index = value_to_index[sorted_arr[current]]
+                current = next_index
+                cycle_size += 1
+            
+            # If cycle size > 1, add (cycle_size - 1) to the swaps
+            if cycle_size > 1:
+                minimum_swaps += cycle_size - 1
+
+        return minimum_swaps
+
+# java: correct one
 """
 import java.util.*;
 

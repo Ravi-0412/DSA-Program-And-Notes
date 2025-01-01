@@ -20,3 +20,28 @@ class Solution:
             ans = max(ans, prefixZeroCount[i + 1] + suffixOneCount[i + 1]) 
         return ans
             
+# Method : Space optimised and in single pass
+# time = O(n)
+# Space = O(1)
+
+# Logic:
+"""
+Logic behind this -
+Result = Max of (ZerosOnLeft + OnesOnRight)
+= Max of (ZerosOnLeft + (TotalOnes - OnesOnLeft))
+= Max of (ZerosOnLeft - OnesOnLeft) + TotalOnes (as TotalOnes is constant)
+"""
+
+class Solution:
+    def maxScore(self, s: str) -> int:
+        zeros, ones, max_score = 0, 0, float('-inf')
+    
+        for i, char in enumerate(s):
+            if char == '0':
+                zeros += 1
+            else:
+                ones += 1
+            if i != len(s) - 1:
+                max_score = max(zeros - ones, max_score)
+        
+        return max_score + ones

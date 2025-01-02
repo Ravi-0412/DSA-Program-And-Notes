@@ -5,7 +5,7 @@
 # Queries are just same finding the prefixSum between two index 'i' and 'j' both inclusive.
 # which= prefixSum[j + 1] - prefixSum[i], when we use 1-based indexing in prefixSum.
 
-# time: O(n + m)
+# time: O(n + m), space : O(n)
 
 class Solution:
     def vowelStrings(self, words: List[str], queries: List[List[int]]) -> List[int]:
@@ -23,4 +23,38 @@ class Solution:
             ans.append(count)
         return ans
 
+# Java
+"""
+class Solution {
+    public int[] vowelStrings(String[] words, int[][] queries) {
+        int n = words.length;
+        int[] prefixCount = new int[n + 1]; // Using 1-based indexing
+        
+        // Build the prefix count array
+        for (int i = 0; i < n; i++) {
+            String word = words[i];
+            if (isVowel(word.charAt(0)) && isVowel(word.charAt(word.length() - 1))) {
+                prefixCount[i + 1] = 1 + prefixCount[i];
+            } else {
+                prefixCount[i + 1] = prefixCount[i];
+            }
+        }
+        
+        // Process the queries
+        int[] result = new int[queries.length];
+        for (int k = 0; k < queries.length; k++) {
+            int i = queries[k][0];
+            int j = queries[k][1];
+            result[k] = prefixCount[j + 1] - prefixCount[i];
+        }
+        
+        return result;
+    }
+    
+    // Helper method to check if a character is a vowel
+    private boolean isVowel(char c) {
+        return "aeiou".indexOf(c) != -1;
+    }
+}
 
+"""

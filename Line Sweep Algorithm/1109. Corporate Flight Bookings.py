@@ -56,5 +56,8 @@ class Solution:
             answer[i] += answer[i - 1]
         return answer
 
+# Similar question
+# 1. 2381. Shifting Letters II
+
 
         

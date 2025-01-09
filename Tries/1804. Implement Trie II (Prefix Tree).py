@@ -45,7 +45,7 @@ class Trie:
         # cur.prefix_count-= 1    # we have already updated prefix_count for this node loop itself.
         cur.word_count-= 1
 
-    # A node has more than more ans(wordCount or prefixCount) so just return 'node' itself because we don't know what ans we will have to return from this node.
+    # A node has more than one variable or ans(wordCount or prefixCount) so just return 'node' itself because we don't know what ans we will have to return from this node.
 
     def search(self, word: str) -> bool:
         cur= self.root

@@ -10,6 +10,11 @@ bottomSum: If robot 2 moves on the bottom row.
 Note: See below link for visualisation
 Link: https://leetcode.com/problems/grid-game/solutions/1486340/c-java-python-robot1-minimize-topsum-and-bottomsum-of-robot-2-picture-explained/?envType=daily-question&envId=2025-01-22 
 
+Note: Using DP, we can find the maximum points of Robot1 taking care of sum of values of two paths(from bottom right) i.e right and down.
+But there is we can find minimum points for Robot2 after making all those cells '0' that was taken by Robot1.
+
+Note: Robot2 should get less points than Robot1.
+
 Time: O(n), space: O(1)
 """
 

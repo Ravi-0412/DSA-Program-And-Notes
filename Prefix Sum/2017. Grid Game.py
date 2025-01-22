@@ -1,7 +1,7 @@
 # logic:
 """
 1) Please note that robot 1 and robot 2 can only move down once.
-2)There are total n possible paths of Robot 1. Each possible path of Robot 1, Robot 2 can only get one of following total points:
+2)There are total n possible paths(take down at any column) of Robot 1. Each possible path of Robot 1, Robot 2 can only get one of following total points:
 topSum: If robot 2 moves on the top row.
 bottomSum: If robot 2 moves on the bottom row.
 3) It means, total points that Robot 2 can get = max(topSum, bottomSum).

@@ -38,11 +38,13 @@ class Solution:
         return mat
 
 # Method 2: Better one (Space optimised to O(1))
-# normal bfs
+from typing import List
+from collections import deque
+
 class Solution:
     def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
         m, n = len(mat), len(mat[0])
-        DIR = [0, 1, 0, -1, 0]
+        DIR = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 
         q = deque([])
         for r in range(m):
@@ -54,9 +56,10 @@ class Solution:
 
         while q:
             r, c = q.popleft()
-            for i in range(4):
-                nr, nc = r + DIR[i], c + DIR[i + 1]
-                if nr < 0 or nr == m or nc < 0 or nc == n or mat[nr][nc] != -1: continue
+            for dr, dc in DIR:
+                nr, nc = r + dr, c + dc
+                if nr < 0 or nr == m or nc < 0 or nc == n or mat[nr][nc] != -1: 
+                    continue
                 mat[nr][nc] = mat[r][c] + 1
                 q.append((nr, nc))
         return mat
@@ -77,7 +80,7 @@ Then we iterate cells from top to bottom, and from left to right, we calculate t
 Then we iterate cells from bottom to top, and from right to left, we update the distance of a cell based on its right and bottom neighbors.
 
 """
-class Solution:  # 520 ms, faster than 96.50%
+class Solution: 
     def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
         m, n = len(mat), len(mat[0])
 
@@ -182,3 +185,6 @@ class Solution { // 5 ms, faster than 99.66%
     }
 }
 """
+
+# similar questions:
+1) 1765. Map of Highest Peak 

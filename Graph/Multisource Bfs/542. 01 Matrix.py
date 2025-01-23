@@ -33,3 +33,61 @@ class Solution:
                         de.append((r1, c1))
                         count_1-= 1'
         return mat
+
+# Java
+"""
+import java.util.*;
+
+class Solution {
+    public int[][] updateMatrix(int[][] mat) {
+        int rows = mat.length;
+        int cols = mat[0].length;
+        boolean[][] visited = new boolean[rows][cols];
+        Queue<int[]> queue = new LinkedList<>();
+        int countOnes = 0;
+        
+        // Initialize the queue with all '0' cells and count '1' cells
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                if (mat[r][c] == 0) {
+                    queue.offer(new int[] {r, c});
+                    visited[r][c] = true;
+                } else {
+                    countOnes++;
+                }
+            }
+        }
+
+        int[][] directions = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+        int time = 0;
+
+        // Perform BFS to update the matrix
+        while (!queue.isEmpty() && countOnes > 0) {
+            time++;
+            int size = queue.size();
+
+            for (int i = 0; i < size; i++) {
+                int[] cell = queue.poll();
+                int row = cell[0];
+                int col = cell[1];
+
+                for (int[] dir : directions) {
+                    int newRow = row + dir[0];
+                    int newCol = col + dir[1];
+
+                    if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols 
+                        && !visited[newRow][newCol] && mat[newRow][newCol] == 1) {
+                        
+                        mat[newRow][newCol] = time;
+                        visited[newRow][newCol] = true;
+                        queue.offer(new int[] {newRow, newCol});
+                        countOnes--;
+                    }
+                }
+            }
+        }
+
+        return mat;
+    }
+}
+"""

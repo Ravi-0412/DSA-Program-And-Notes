@@ -59,3 +59,6 @@ class Solution:
                     island += 1
                     maxArea = max(maxArea, DFS(r,c))
         return maxArea
+
+# Related q:
+1) 2658. Maximum Number of Fish in a Grid 

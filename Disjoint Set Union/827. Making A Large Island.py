@@ -123,11 +123,6 @@ class Solution {
         
         int[][] directions = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}}; // Left, Right, Up, Down
 
-        // Function to check if a cell is within bounds
-        boolean isValid(int r, int c) {
-            return r >= 0 && r < m && c >= 0 && c < n;
-        }
-
         // Step 1: Form connected components from existing '1's
         for (int r = 0; r < m; r++) {
             for (int c = 0; c < n; c++) {
@@ -136,7 +131,7 @@ class Solution {
                     for (int[] dir : directions) {
                         int dr = r + dir[0], dc = c + dir[1];
                         int ind1 = dr * n + dc;
-                        if (isValid(dr, dc) && grid[dr][dc] == 1) {
+                        if (isValid(dr, dc, m, n) && grid[dr][dc] == 1) {
                             dsu.unionBySize(ind, ind1);
                         }
                     }
@@ -159,7 +154,7 @@ class Solution {
 
                     for (int[] dir : directions) {
                         int dr = r + dir[0], dc = c + dir[1];
-                        if (isValid(dr, dc) && grid[dr][dc] == 1) {
+                        if (isValid(dr, dc, m, n) && grid[dr][dc] == 1) {
                             int adjParent = dsu.findUPar(dr * n + dc);
                             if (!visitedParents.contains(adjParent)) {
                                 combinedSize += dsu.getSize(adjParent);
@@ -173,6 +168,11 @@ class Solution {
         }
 
         return max_size;
+    }
+
+    // Helper method (placed outside largestIsland)
+    private boolean isValid(int r, int c, int m, int n) {
+        return r >= 0 && r < m && c >= 0 && c < n;
     }
 }
 """

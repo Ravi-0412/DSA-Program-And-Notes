@@ -70,3 +70,109 @@ class Solution:
                                 max_size= max(max_size, combinedSize)
                                 visited_parent.add(adj_parent)
         return max_size
+
+# Java
+"""
+import java.util.*;
+
+class DSU {
+    private int[] parent;
+    private int[] size;
+
+    public DSU(int n) {
+        parent = new int[n];
+        size = new int[n];
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+            size[i] = 1;
+        }
+    }
+
+    public int findUPar(int n) {
+        if (parent[n] == n) {
+            return n;
+        }
+        parent[n] = findUPar(parent[n]);  // Path compression
+        return parent[n];
+    }
+
+    public void unionBySize(int n1, int n2) {
+        int p1 = findUPar(n1);
+        int p2 = findUPar(n2);
+        if (p1 == p2) {
+            return;
+        }
+        if (size[p1] < size[p2]) {
+            parent[p1] = p2;
+            size[p2] += size[p1];
+        } else {
+            parent[p2] = p1;
+            size[p1] += size[p2];
+        }
+    }
+
+    public int getSize(int node) {
+        return size[findUPar(node)];
+    }
+}
+
+class Solution {
+    public int largestIsland(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        DSU dsu = new DSU(m * n);
+        
+        int[][] directions = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}}; // Left, Right, Up, Down
+
+        // Function to check if a cell is within bounds
+        boolean isValid(int r, int c) {
+            return r >= 0 && r < m && c >= 0 && c < n;
+        }
+
+        // Step 1: Form connected components from existing '1's
+        for (int r = 0; r < m; r++) {
+            for (int c = 0; c < n; c++) {
+                if (grid[r][c] == 1) {
+                    int ind = r * n + c;
+                    for (int[] dir : directions) {
+                        int dr = r + dir[0], dc = c + dir[1];
+                        int ind1 = dr * n + dc;
+                        if (isValid(dr, dc) && grid[dr][dc] == 1) {
+                            dsu.unionBySize(ind, ind1);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Step 2: Find the largest component initially
+        int max_size = 0;
+        for (int i = 0; i < m * n; i++) {
+            max_size = Math.max(max_size, dsu.getSize(i));
+        }
+
+        // Step 3: Try converting each '0' into '1' and calculate the new size
+        for (int r = 0; r < m; r++) {
+            for (int c = 0; c < n; c++) {
+                if (grid[r][c] == 0) {
+                    Set<Integer> visitedParents = new HashSet<>();
+                    int combinedSize = 1; // Including the current cell
+
+                    for (int[] dir : directions) {
+                        int dr = r + dir[0], dc = c + dir[1];
+                        if (isValid(dr, dc) && grid[dr][dc] == 1) {
+                            int adjParent = dsu.findUPar(dr * n + dc);
+                            if (!visitedParents.contains(adjParent)) {
+                                combinedSize += dsu.getSize(adjParent);
+                                visitedParents.add(adjParent);
+                            }
+                        }
+                    }
+                    max_size = Math.max(max_size, combinedSize);
+                }
+            }
+        }
+
+        return max_size;
+    }
+}
+"""

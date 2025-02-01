@@ -39,7 +39,9 @@ class Solution:
         matrix = [[0 for j in range(cols)] for i in range(rows)]
         n= rows * cols   # total no of cell 
         dsu = DSU(n)
-        count = 0
+        count = 0  # har operation se phle 'ans' btayega. 
+        # Har operator ke bad 'count' ko incement karnenge for 'given cell' and then adjacent wale ko check karenge, 
+        # agar wala bhi ek island h then uske saath merge hoga and count to ek decrease karenge. 
         ans = []
         for r,c in operators:
             # matrix[r][c]= 1

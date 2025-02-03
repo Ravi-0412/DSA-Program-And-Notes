@@ -21,8 +21,8 @@ class Solution:
     def longestMonotonicSubarray(self, nums: List[int]) -> int:
         n, ans, inc, dec=len(nums), 1, 1, 1
         for i in range(1, n):
-            A=nums[i]>nums[i-1]
-            B=nums[i]<nums[i-1]
+            A=nums[i] > nums[i-1]   # A = 1 if condition follows, else 0
+            B=nums[i] < nums[i-1]   # B = 1 if condition follows, else 0
             inc=A*inc+1
             dec=B*dec+1
             ans=max(ans, dec, inc)

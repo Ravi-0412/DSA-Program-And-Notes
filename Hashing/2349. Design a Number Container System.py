@@ -33,6 +33,27 @@ class NumberContainers:
         return -1
 
   # Java
+"""
+Common Methods of TreeSet:
+Method	Description
+boolean add(E e)	Adds the specified element to the set if it is not already present.
+boolean remove(Object o)	Removes the specified element from the set if it is present.
+void clear()	Removes all elements from the set.
+boolean contains(Object o)	Returns true if the set contains the specified element.
+E first()	Returns the first (lowest) element in the set.
+E last()	Returns the last (highest) element in the set.
+E lower(E e)	Returns the greatest element less than the given element, or null.
+E floor(E e)	Returns the greatest element less than or equal to the given element.
+E higher(E e)	Returns the smallest element greater than the given element.
+E ceiling(E e)	Returns the smallest element greater than or equal to the given element.
+int size()	Returns the number of elements in the set.
+boolean isEmpty()	Returns true if the set contains no elements.
+Iterator<E> iterator()	Returns an iterator over the elements in ascending order.
+Iterator<E> descendingIterator()	Returns an iterator over the elements in descending order.
+SortedSet<E> headSet(E toElement)	Returns a view of the portion of the set whose elements are less than toElement.
+SortedSet<E> tailSet(E fromElement)	Returns a view of the portion of the set whose elements are greater than or equal to fromElement.
+SortedSet<E> subSet(E fromElement, E toElement)	Returns a view of the portion of the set whose elements range from fromElement (inclusive) to toElement (exclusive).
+"""
   """
   import java.util.*;
 

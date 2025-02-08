@@ -95,12 +95,13 @@ public class Solution {
         Map<Integer, Integer> ballsColored = new HashMap<>();
         // Map to track the count of each color
         Map<Integer, Integer> coloredCount = new HashMap<>();
-        // List to store the result of distinct colors after each query
-        List<Integer> result = new ArrayList<>();
         
-        for (int[] query : queries) {
-            int ball = query[0];
-            int color = query[1];
+        // Result array to store the number of distinct colors after each query
+        int[] result = new int[queries.length];
+        
+        for (int i = 0; i < queries.length; i++) {
+            int ball = queries[i][0];
+            int color = queries[i][1];
             
             // If the ball has a previous color, decrement the count of that color
             if (ballsColored.containsKey(ball)) {
@@ -117,17 +118,11 @@ public class Solution {
             // Increment the count of the new color
             coloredCount.put(color, coloredCount.getOrDefault(color, 0) + 1);
             
-            // Add the number of distinct colors to the result
-            result.add(coloredCount.size());
+            // Store the number of distinct colors after this query
+            result[i] = coloredCount.size();
         }
         
-        // Convert the result list to an array and return
-        int[] res = new int[result.size()];
-        for (int i = 0; i < result.size(); i++) {
-            res[i] = result.get(i);
-        }
-        
-        return res;
+        return result;
     }
 }
 """

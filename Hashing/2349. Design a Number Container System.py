@@ -6,6 +6,11 @@ For change, we use the first map to get the previous number for the index.
 
 Then, we remove that index from the second map for the previous number.
 
+Q) Why 'if not self.num_to_indices[old]:
+                del self.num_to_indices[old]' is needed?
+Ans: If there is no index associated with this number and, if we call the 'find()' then,
+it will give 'list index out of range' because 'self.num_to_indices[number] == null  and you are returning self.num_to_indices[number][0]'.
+
 Time of change() and find(): O(logn)
 """
 
@@ -14,13 +19,14 @@ from sortedcontainers import SortedList
 class NumberContainers:
 
     def __init__(self):
-        self.num_to_indices = defaultdict(SortedList)
+        self.num_to_indices = defaultdict(SortedList) # dictionary that stores a mapping from numbers to the indices (positions) where those numbers are located.
         self.index_to_num = {}
 
     def change(self, index: int, number: int) -> None: 
         if index in self.index_to_num:
-            old = self.index_to_num[index]
-            self.num_to_indices[old].discard(index)
+            # then remove this index from 'indices of current number which is at current index'
+            old = self.index_to_num[index]   # get the number
+            self.num_to_indices[old].discard(index)  # remove this index from indices of 'old'numner
             if not self.num_to_indices[old]:
                 del self.num_to_indices[old]
         self.num_to_indices[number].add(index)

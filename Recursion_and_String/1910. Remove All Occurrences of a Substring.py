@@ -31,3 +31,4 @@ class Solution:
         
 
 # Later try in O(m+n) using KMP.
+# Link: https://leetcode.com/problems/remove-all-occurrences-of-a-substring/solutions/1299275/true-o-n-m-kmp/ 

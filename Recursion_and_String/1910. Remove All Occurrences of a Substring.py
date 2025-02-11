@@ -7,6 +7,18 @@ class Solution:
             i= s.index(part)      # find the index where part is present in 's'.
             s= s[:i] + s[i+ p :]  # remove the part from the 's'.
         return s
+# Java
+"""
+class Solution {
+    public String removeOccurrences(String s, String part) {
+        while (s.contains(part)) {
+            int i = s.indexOf(part); // Find the index where 'part' is present in 's'.
+            s = s.substring(0, i) + s.substring(i + part.length()); // Remove the 'part' from 's'.
+        }
+        return s;
+    }
+}
+"""
 
 # just converted the above logic into recursion.
 class Solution:

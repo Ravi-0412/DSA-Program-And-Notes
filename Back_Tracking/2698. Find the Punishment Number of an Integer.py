@@ -2,7 +2,8 @@
 # 2) we have to check whether we can "partitioned square into contiguous substrings such that 
 # the sum of the integer values of these substrings equals i."
 
-# for checking the partition possible: split from each remainining index using recursion.
+# Note: Just we are generating each possible substring one after another and taking their sum.
+# for this split from each remainining index using recursion.
 # Time= O(n^2), n= len(square)
 
 # why Brute force is getting accepted?
@@ -18,7 +19,7 @@ class Solution:
         def partitionPossible(num, i, res):
             if num== '':
                 return i== res  # will return True if i==res else False
-            # Try to partition into contiguos substring from each index
+            # Try to partition into contiguos substring from each index. Just taking sum of all possible substring generated one after another.
             for j in range(1, len(num) + 1):
                 if partitionPossible(num[j: ], i, res + int(num[: j])):
                     # If any of the partition return True, then return True
@@ -34,24 +35,43 @@ class Solution:
         return ans
 
 
-# My mistake:
-class Solution:
-    def punishmentNumber(self, n: int) -> int:
+# Java
+"""
+class Solution {
+    public int punishmentNumber(int n) {
+        int ans = 0;
+        
+        // Loop through numbers from 1 to n
+        for (int i = 1; i <= n; i++) {
+            int square = i * i;
+            // Check if partitioning is possible for the square of the current number
+            if (partitionPossible(String.valueOf(square), i, 0)) {
+                ans += square;
+            }
+        }
+        
+        return ans;
+    }
+    
+    // Helper function to check if partitioning is possible
+    private boolean partitionPossible(String num, int i, int res) {
+        // If the number is empty, check if the sum of the partitions equals i
+        if (num.isEmpty()) {
+            return i == res;
+        }
+        
+        // Try to partition into contiguous substrings
+        for (int j = 1; j <= num.length(); j++) {
+            // Recursively try all partitions
+            if (partitionPossible(num.substring(j), i, res + Integer.parseInt(num.substring(0, j)))) {
+                return true;  // Return true if a valid partition is found
+            }
+        }
+        
+        // Return false if no valid partition is found
+        return false;
+    }
+}
 
-        def partitionPossible(num, i):
-            if num== '':
-                return False
-            # Try to partition into contiguos substring from each index
-            for j in range(1, len(num) + 1):
-                if int(num[: j]) + partitionPossible(num[j: ], i):   # if true then that will get added with '1' increasing the value.
-                    # If any of the partition return True, then return True
-                    return True
-            # no such partition possible
-            return False
+"""
 
-        ans= 0
-        for i in range(1, n +1):
-            square= i * i
-            if partitionPossible(str(square), i):
-                ans+= square
-        return ans

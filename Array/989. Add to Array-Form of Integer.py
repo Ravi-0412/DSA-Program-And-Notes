@@ -51,3 +51,49 @@ class Solution:
             num = [a] + num
         
         return num
+
+# Other way (More better)
+from typing import List
+
+class Solution:
+    def addToArrayForm(self, num: List[int], k: int) -> List[int]:
+        result = []
+        i = len(num) - 1
+        
+        while i >= 0 or k > 0:
+            if i >= 0:
+                k += num[i]
+                i -= 1
+            
+            result.append(k % 10)
+            k //= 10
+        
+        result.reverse()
+        return result
+
+
+# Java
+"""
+import java.util.*;
+
+class Solution {
+    public List<Integer> addToArrayForm(int[] num, int k) {
+        int n = num.length;
+        List<Integer> result = new ArrayList<>();
+        
+        for (int i = n - 1; i >= 0; i--) {
+            k += num[i]; 
+            result.add(k % 10);
+            k /= 10;
+        }
+        
+        while (k > 0) {
+            result.add(k % 10);
+            k /= 10;
+        }
+        
+        Collections.reverse(result);
+        return result;
+    }
+}
+"""

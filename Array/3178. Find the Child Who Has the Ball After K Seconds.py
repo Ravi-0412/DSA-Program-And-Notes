@@ -20,14 +20,18 @@ class Solution:
 # for each back and forth, time taken = (n - 1) i.e time to go from '0' to 'n-1' = n - 1 & time to return from 'n -1' to '0' = n -1
 # so just find the rounds we can completed back and forth &&
 # remainder 'k' which will tell how much time left after this much round.
+
+# Also 'k % (2* n-1))' will have same effect as 'k' because one round time = '2*(n-1)'
 # Then just return the 'k' based on rounds completed is even or odd.
 
 # Note: In this type of questions apply same logic
 
 class Solution:
     def numberOfChild(self, n: int, time: int) -> int:
-        rounds = time // (n - 1)  how many rounds have we passed back and forth
-        k = time % (n -1)  # index starting from left or right at the last round
+        rounds = time // (n - 1)  # how many rounds have we passed back and forth
+        k = time % (n -1)  # Calculate the remaining steps after the last complete trip
+        # If the number of complete back-and-forth trips is even. The ball is passed forward from the start. So simply return 'k'(Remaining steps).
+        # If the number of complete back-and-forth trips is odd. The ball is passed backward from the end . So return 'n-k-1' . '-1' for 0 based indexing.
         return k if rounds % 2 == 0 else n - k - 1   # 'n-k-1' to convert into '0' based indexing in case of reverse
 
 

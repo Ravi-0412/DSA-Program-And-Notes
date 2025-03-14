@@ -9,11 +9,11 @@ class Solution:
         for i in A:
             if i not in hashmap:  # searches for 'i' in keys of dictionary
                                   # not in values
-                hashmap[i]= 1
+                hashmap[i] = 1
             else:
-                hashmap[i]+=1
+                hashmap[i] +=1
         for key,value in hashmap.items():
-            if value>middle_index:
+            if value > middle_index:
                 return key
         return -1
 

@@ -49,6 +49,7 @@ class Solution {
 # Logic: Bs har customer ke liye socho ki kb aaya wo and kb usko khana mila ,
 # wahi us customer ka waiting time hoga.
 
+"""
 class Solution {
     public double averageWaitingTime(int[][] customers) {
         long n = customers.length;
@@ -63,3 +64,20 @@ class Solution {
         return (double) total / n;
     }
 }
+"""
+
+# python 
+class Solution:
+    def averageWaitingTime(self, customers):
+        n = len(customers)
+        total = 0  # Total waiting time
+        last_finishing_time = 0  # Last order finishing time
+        
+        for customer in customers:
+            cook_start_time = max(last_finishing_time, customer[0])
+            last_finishing_time = cook_start_time + customer[1]
+            # Waiting time = (start cooking time + cooking duration) - arrival time
+            total += (cook_start_time + customer[1]) - customer[0]
+        
+        return total / n
+

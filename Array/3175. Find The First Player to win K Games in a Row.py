@@ -41,10 +41,20 @@ class Solution:
 
 
 # method 2: Best and concise
-# Logic: If we don't find the winner after one pass,
-# the winner will be max(A), bacause no one will beats him anymore.
 
-# just do operation for one pass on paper then you will get clear visualization of it.
+"""
+Logic: If we don't find the winner after one pass,
+the winner will be max(A), bacause no one will beats him anymore.
+
+Note: When you will do the operation for one loop using deque then, you will find that 
+first element of deque is maximum element only, in case you don't get answer in one pass.
+
+Reason: No one will be able to replace the first element after one pass since we are comparing only first and 2nd element.
+
+just do operation for one pass on paper then you will get clear visualization of it.
+"""
+
+# 
 
 class Solution:
     def findWinningPlayer(self, skills: List[int], k: int) -> int:

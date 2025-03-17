@@ -35,13 +35,51 @@ class Solution:
                 # third condidate came other than one and two.
                 # so will minimise the vote of both.
                 count1, count2= count1 -1, count2 -1
-        # if condidate1== condidate2 and condidate1!= -1:
-        #     return [condidate1]
-        # ans= []
-        # if nums.count(condidate1) > len(nums)//3:
-        #     ans.append(condidate1)
-        # if nums.count(condidate2) > len(nums)//3:
-        #     ans.append(condidate2)
-        # return ans
-
         return [n for n in (condidate1, condidate2) if nums.count(n) > len(nums) // 3]   # shortcut of above lines.
+
+# Java
+"""
+import java.util.ArrayList;
+import java.util.List;
+
+class Solution {
+    public List<Integer> majorityElement(int[] nums) {
+        int count1 = 0, count2 = 0;
+        Integer candidate1 = null, candidate2 = null;
+
+        // Step 1: Find the two candidates
+        for (int n : nums) {
+            if (candidate1 != null && n == candidate1) {
+                count1++;
+            } else if (candidate2 != null && n == candidate2) {
+                count2++;
+            } else if (count1 == 0) {
+                candidate1 = n;
+                count1 = 1;
+            } else if (count2 == 0) {
+                candidate2 = n;
+                count2 = 1;
+            } else {
+                count1--;
+                count2--;
+            }
+        }
+
+        // Step 2: Verify if the candidates appear more than n/3 times
+        List<Integer> result = new ArrayList<>();
+        int threshold = nums.length / 3;
+        count1 = 0;
+        count2 = 0;
+
+        for (int n : nums) {
+            if (candidate1 != null && n == candidate1) count1++;
+            if (candidate2 != null && n == candidate2) count2++;
+        }
+
+        if (count1 > threshold) result.add(candidate1);
+        if (count2 > threshold) result.add(candidate2);
+
+        return result;
+    }
+}
+"""

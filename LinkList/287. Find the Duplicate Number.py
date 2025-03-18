@@ -33,7 +33,7 @@ class Solution(object):
 # Note: now this Q reduces to , find the starting node in a cyclic linklist that will be the ans.
 
 # for this , 1) first find the intersection point of slow and fast pointer 
-# 2) now take one pointer from start say as 'slow2' and move 'slow' and 'slow2' one step ahead till they meet 
+# 2) now take one pointer from start say as 'slow1' and move 'slow' and 'slow1' one step ahead till they meet 
 # 3) the node at which they will meet will be the starting node of the cycle
 
 # Note: the distance of 'node at which cycle start' from start and from the node where 'slow' and 'fast' has intersected will be always same
@@ -53,7 +53,7 @@ class Solution:
         slow1= 0
         while True:
             slow= nums[slow]
-            slow2= nums[slow2]
+            slow1= nums[slow2]
             if slow== slow1:
                 return slow
 

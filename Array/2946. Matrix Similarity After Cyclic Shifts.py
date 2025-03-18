@@ -15,11 +15,14 @@ class Solution:
                     return False
         return True
 
-
-# We can do in one loop also
-# suppose we are at 'j'th index in a row 'i' then 
-# 1) if we do right shift then 'j'th ele must be equal to '(j + k) % n'.
-# 2) if we do left shift then '(j + k) % n'th ele must be equal to 'j'.
+"""
+We can do in one loop also
+suppose we are at 'j'th index in a row 'i' then 
+1) if we do right shift then 'j'th ele must be equal to '(j + k) % n'.
+2) if we do left shift then '(j + k) % n'th ele must be equal to 'j'.
+So we need to only check if 'mat[i][j] != mat[i][ind]' where 'ind = (j + k) % n', that's sufficient
+whether row is odd or even.
+"""
 
 class Solution:
     def areSimilar(self, mat: List[List[int]], k: int) -> bool:

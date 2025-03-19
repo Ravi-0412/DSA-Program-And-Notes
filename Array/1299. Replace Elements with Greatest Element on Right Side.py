@@ -15,3 +15,22 @@ class Solution:
             max_ele_seen_so_far = max(max_ele_seen_so_far, temp)
         return arr
 
+# Java
+"""
+class Solution {
+
+    public int[] replaceElements(int[] arr) {
+        int n = arr.length;
+        int maxElementSeenSoFar = arr[n - 1];
+        arr[n - 1] = -1; // Last element is always -1
+        
+        for (int i = n - 2; i >= 0; i--) {
+            int temp = arr[i]; // Store current element before overwriting
+            arr[i] = maxElementSeenSoFar;
+            maxElementSeenSoFar = Math.max(maxElementSeenSoFar, temp);
+        }
+        
+        return arr;
+    }
+}
+"""

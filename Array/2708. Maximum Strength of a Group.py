@@ -23,16 +23,22 @@ class Solution:
         return abs(mul) // abs(largestNegative)
 
 
-# method 2:
+# method 2: Handling all the corner cases 
+"""
+We need to handle : When array contains only zero. 
+For this keep track of largest_number in array and number_of_negative_number.
+
+Other everything is same , just update multiplication when num != 0.
+"""
 # Time: O(n)
 
-# Handling all the corner cases 
+
 class Solution:
     def maxStrength(self, nums: List[int]) -> int:
         if len(nums) == 1:
             return nums[0]
         mul= 1  # will store the multiplication of whole array except zero.
-        largest= max(nums) # will give the max ele in whole array.
+        largest= max(nums) # will give the max ele in whole array. This will be useful if array contains only zero.
         negativeCount= 0
         largestNegative= -9 # will give the largest negative number considering sign i.e -1 > -2
         for num in nums:

@@ -3,7 +3,7 @@
 # a) Decremental operations:Choose 1 element from the array and decrease its value by 1.
 # b) Reducing operation: Half the values of all the elements of array.
 
-# it will be better to apply operation 'b' only when all elements are odd.
+# it will be better to apply operation 'b' only when all elements are even.
 
 # steps:
 # 1) if all number is even , divide all ele by '2'. Incr ans by '1' .

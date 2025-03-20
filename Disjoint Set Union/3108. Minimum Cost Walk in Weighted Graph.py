@@ -30,7 +30,8 @@ class DSU:
         else:
             self.parent[yy] = xx
         # to avoid checking conditions like to whom to add weight, update 'weights' for both 'xx' and 'yy'.
-        self.weights[xx] = self.weights[yy] = self.weights[xx] & self.weights[yy] & weight   
+        self.weights[xx] = self.weights[yy] = self.weights[xx] & self.weights[yy] & weight
+        # in case of equal rank give any node priority.
         if self.rank[xx] == self.rank[yy]:
             self.rank[xx] += 1
     def minimum_cost_of_walk(self, x, y):

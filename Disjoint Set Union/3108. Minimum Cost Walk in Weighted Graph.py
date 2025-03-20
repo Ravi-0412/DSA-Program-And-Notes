@@ -9,6 +9,8 @@ Since talking about component then 1st thing comes in mind is 'union-find'.
 But here we just have to take '&' of all , we won't check here 'cycle' in union 
 because we have to find 'walk' and vertices can repeat.
 So we will take '&' of all edges given.
+
+Time complexity: O(N + E + Q), where E is the number of edges and Q is the number of queries
 """
 
 

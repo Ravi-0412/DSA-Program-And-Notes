@@ -26,14 +26,13 @@ class DSU:
     def union(self, x, y, weight):
         xx, yy = self.find(x), self.find(y)
         if self.rank[xx] < self.rank[yy]:
-            self.parent[xx] = yy        
+            self.parent[xx] = yy
+            self.rank[yy] += self.rank[xx]        
         else:
+            self.rank[xx] += self.rank[yy]    
             self.parent[yy] = xx
         # to avoid checking conditions like to whom to add weight, update 'weights' for both 'xx' and 'yy'.
         self.weights[xx] = self.weights[yy] = self.weights[xx] & self.weights[yy] & weight
-        # in case of equal rank give any node priority.
-        if self.rank[xx] == self.rank[yy]:
-            self.rank[xx] += 1
     def minimum_cost_of_walk(self, x, y):
         if x == y: 
             return 0
@@ -52,45 +51,6 @@ class Solution:
         return [uf.minimum_cost_of_walk(x, y) for x, y in query]
     
 
-# I was trying to do like below but getting wrong ans
-class DSU:
-    def __init__(self, n):
-        self.parent=    [i for i in range(n)]
-        self.size=      [1 for i in range(n)]
-        self.andValue = [2**32 -1] * n
-    
-    def findParent(self, n):   
-        if n== self.parent[n]:   
-            return n
-        self.parent[n]= self.findParent(self.parent[n])   
-        return self.parent[n]
-    
-    def union(self, n1, n2, w):  
-        p1, p2= self.findParent(n1), self.findParent(n2)
-        if self.size[p1] < self.size[p2]:
-            self.parent[p1] = p2  
-            self.size[p2] += self.size[p1]
-        else :   # rank[p1]>= rank[p2]
-            self.parent[p2]= p1   
-            self.size[p1]+= self.size[p2]
-        self.andValue[p2] = self.andValue[p1] = self.andValue[p2] & self.andValue[p1] & w
-
-class Solution:
-    def minimumCost(self, n: int, edges: List[List[int]], query: List[List[int]]) -> List[int]:
-        dsu = DSU(n)
-        for u, v , w in edges:
-            dsu.union(u, v, w)
-            
-        print(dsu.parent, dsu.andValue, "parent")   
-        ans = []
-        for u, v in query:
-            if u == v:
-                ans.append(0)
-            elif dsu.parent[u] == dsu.parent[v]:
-                ans.append(dsu.andValue[dsu.parent[u]])
-            else:
-                ans.append(-1)
-        return ans
 
         
     

@@ -4,7 +4,7 @@
 
 # method 2: 
 # just store the rows and cols for which we have to make all ele zero.
-# time: O(n), space= O(m+n)
+# time: O(m*n), space= O(m+n)
 class Solution:
     def setZeroes(self, matrix: List[List[int]]) -> None:
         m, n= len(matrix), len(matrix[0])
@@ -24,17 +24,38 @@ class Solution:
 
 
 # method 3:
-# instead of taking rows and cols array separately to mark ,we can do marking inplace .
-# whenver we we will find any ele 'zero' we will mark the 1st ele of that row and col as zero denoting,
-#  we have to make all ele of this row and col to 'zero' later.
+"""
+instead of taking rows and cols array separately to mark ,we can do marking inplace .
+whenver we we will find any ele 'zero' we will mark the 1st ele of that row and col as zero denoting,
+ we have to make all ele of this row and col to 'zero' later.
 
-# In this way our whole 1st row ans 1st column will tell what all rows and column we have to make zero.
-# Here for marking it's also taking O(m + n) space but it is inplace.
+In this way our whole 1st row ans 1st column will tell what all column and rows respectively, we have to make zero.
+Here for marking it's also taking O(m + n) space but it is inplace.
 
-# Note: we will start updating from (1,1) because 0th row and 0th col we have used for marking.
-# So if we start marking from '0'th row and '0'th col then it may unnecessarily make 0th row and 0th column zero.
+Note: we will start updating from (1,1) because 0th row and 0th col we have used for marking.
+So if we start marking from '0'th row and '0'th col then it may unnecessarily make a lot of rows and column zero because it will override the value.
+So we will handle whether we have to mark '0'th row and '0'th column separately.
 
-# So we will handle whether we have to mark '0'th row and '0'th column separately.
+e.g: matrix = [
+    [1, 2, 3],
+    [4, 0, 6],
+    [7, 8, 9]
+]
+1) if we start from (1,1) then, When we find matrix[1][1] = 0, we mark the first row and first column:
+matrix = [
+    [1, 0, 3],   
+    [0, 0, 6],
+    [7, 8, 9]
+]
+
+2) If we start from (0,0) then ,matrix[0][1] = 0 and immediately start zeroing out the row and column, corrupting the markers and causing the wrong cells to be zeroed out.
+matrix = [
+    [0, 0, 0],   # Wrong! The first row is corrupted before we finish processing.
+    [0, 0, 0],
+    [7, 8, 9]
+]
+
+"""
 
 class Solution:
     def setZeroes(self, matrix: List[List[int]]) -> None:

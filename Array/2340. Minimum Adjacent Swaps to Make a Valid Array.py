@@ -1,4 +1,4 @@
-
+# Note: just focus on minimum and maximum element.
 # ans = bring the last maximum ele at 'n-1'th index + bring the 1st minimum ele at '0'th index
 
 # VVI: But while bringing the 1st minimum ele(say at index 'i') at '0'th index last maximum ele may also get swapped
@@ -31,3 +31,47 @@ arr = [9]
 arr = [1,3,5,2,8]
 arr = [10, 8, 6, 2, 2, 12, 9, 12]
 print("minimum no of swaps needed is : ", s.minimumSwaps(arr))
+
+# Java
+"""
+class Solution {
+    public int minimumSwaps(int[] nums) {
+        int n = nums.length;
+        int minEle = Integer.MAX_VALUE, maxEle = Integer.MIN_VALUE;
+        int firstIndexMin = n - 1, lastIndexMax = 0;
+
+        // Find the minimum and maximum elements
+        for (int num : nums) {
+            minEle = Math.min(minEle, num);
+            maxEle = Math.max(maxEle, num);
+        }
+
+        // Find the first occurrence of minEle and last occurrence of maxEle
+        for (int i = 0; i < n; i++) {
+            if (nums[i] == minEle) {
+                firstIndexMin = Math.min(firstIndexMin, i);
+            }
+            if (nums[i] == maxEle) {
+                lastIndexMax = Math.max(lastIndexMax, i);
+            }
+        }
+
+        // Calculate swaps
+        int swaps = (n - 1 - lastIndexMax) + firstIndexMin;
+
+        // Adjust swap count if the last max element gets swapped automatically
+        if (lastIndexMax < firstIndexMin) {
+            swaps -= 1;
+        }
+
+        return swaps;
+    }
+
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        int[] nums = {3, 4, 5, 1, 2, 6}; // Example input
+        System.out.println(sol.minimumSwaps(nums)); // Output the result
+    }
+}
+
+"""

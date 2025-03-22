@@ -3,28 +3,22 @@
 
 # Time : O(n * 3* limit)
 
+from functools import lru_cache
+
 class Solution:
     def distributeCandies(self, n: int, limit: int) -> int:
         
         @lru_cache(None)
-        def dp(n, c):  # No of ways to distribute 'n' candies among 'c' children.
-            if n == 0 :
-                # if 'c' == 0, it means we have distributed all candies properly so return 1
-                # if c > 0 then give all '0' candies and this is also '1' way
-                # if c < 0 then there is no way so return '0'
-                return c >= 0
-            if n < 0 or c == 0:
-                # If n < 0 then there is no way irespectivee of no of children.
-                # if c == 0 then from condition till now n > 0 so there is no way
-                return 0
-            # from here it will execute for n > 0 and  c > 0.
-            ans = 0
-            for l in range(limit + 1):
-                ans += dp(n - l, c - 1)
+        def dp(n, c):  
+            if c == 0:  
+                return 1 if n == 0 else 0  # If no children left, valid only if no candies left
+            if n == 0:  
+                return 1 # Give no children any candy so this is also one way
+            # Distribute candies from 0 to 'limit' for the current child
+            ans = sum(dp(n - l, c - 1) for l in range(limit + 1))
             return ans
                 
-        
-        return dp(n, 3) 
+        return dp(n, 3)
 
 # Methods without dp and easier one
 
@@ -51,7 +45,6 @@ class Solution:
 # Logic: Distribute to first two children and then check remaining one is valid distribution for 3rd or not.
 
 # Time : O(n^2)
-
 class Solution:
     def distributeCandies(self, n: int, limit: int) -> int:
         ans = 0
@@ -64,12 +57,10 @@ class Solution:
                     ans += 1
         return ans
 
-
 # Method 4: 
 # Most optimised
 
 # Time: O(n)
-
 class Solution:
     def distributeCandies(self, n: int, limit: int) -> int:
         ans = 0
@@ -84,7 +75,6 @@ class Solution:
             # No need to worry about 3rd person, once we allocate to first and second the remaining will automatically given to third one.
             ans += secondMax - secondMin + 1
         return ans
-
 
 # Try to understand O(1) approach using maths
 # https://leetcode.com/problems/distribute-candies-among-children-ii/solutions/4276868/100-beat-o-1-detail-explanation-combination-simple-and-easy/

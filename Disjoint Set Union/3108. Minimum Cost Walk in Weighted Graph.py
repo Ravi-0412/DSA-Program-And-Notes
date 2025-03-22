@@ -11,6 +11,9 @@ because we have to find 'walk' and vertices can repeat.
 So we will take '&' of all edges given.
 
 Time complexity: O(N + E + Q), where E is the number of edges and Q is the number of queries
+
+Note: If we are asked to find maximum 'OR' for each query then, solution will be exacty same. Just we need take OR instead of 'AND'.
+Because 'OR' value increases when we include maximum possible element, same way 'AND' decreases.
 """
 
 

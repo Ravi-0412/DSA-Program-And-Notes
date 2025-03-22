@@ -46,14 +46,14 @@ class Solution:
 import java.util.*;
 
 class Solution {
-    public List<Integer> colorTheArray(int n, int[][] queries) {
-        List<Integer> ans = new ArrayList<>();
+    public int[] colorTheArray(int n, int[][] queries) {
+        int[] ans = new int[queries.length];
         int curAns = 0;
         int[] nums = new int[n];
-
-        for (int[] query : queries) {
-            int index1 = query[0];
-            int color = query[1];
+        
+        for (int i = 0; i < queries.length; i++) {
+            int index1 = queries[i][0];
+            int color = queries[i][1];
             int pre = (index1 > 0) ? nums[index1 - 1] : 0;
             int next = (index1 < n - 1) ? nums[index1 + 1] : 0;
             // If 'index1' is already colored and has the same color as previous index
@@ -74,8 +74,8 @@ class Solution {
             if (nums[index1] == next) {
                 curAns++;
             }
-            ans.add(curAns);
-        }
+            ans[i] = curAns;
+        }   
         return ans;
     }
 }

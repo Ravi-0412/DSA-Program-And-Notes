@@ -25,3 +25,30 @@ class Solution:
         max_ver_side =  getMaxSide(vBars)
         side = min(max_hori_side , max_ver_side)
         return side * side
+
+# Java
+"""
+import java.util.*;
+
+class Solution {
+    public int maximizeSquareHoleArea(int n, int m, int[] hBars, int[] vBars) {
+        return (int) Math.pow(Math.min(getMaxSide(hBars), getMaxSide(vBars)), 2);
+    }
+
+    private int getMaxSide(int[] bars) {
+        if (bars.length == 0) return 2; // Minimum side length is 2
+        Arrays.sort(bars);
+        int ans = 2, count = 1;
+
+        for (int i = 1; i < bars.length; i++) {
+            if (bars[i] == bars[i - 1] + 1) {
+                count++;
+                ans = Math.max(ans, count + 1);
+            } else {
+                count = 1;
+            }
+        }
+        return ans;
+    }
+}
+"""

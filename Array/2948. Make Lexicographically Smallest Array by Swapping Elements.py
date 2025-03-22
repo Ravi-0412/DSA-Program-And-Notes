@@ -2,8 +2,14 @@
 """
 Link: https://leetcode.com/problems/make-lexicographically-smallest-array-by-swapping-elements/solutions/6325811/visual-explanation-grouping-and-reordering-detailed-solution/?envType=daily-question&envId=2025-01-25
 
+The key insight is that:
 
-e.g: arr = [1, 2, 3, 5, 9]
+i)  Sorting the array by values ensures we have the lexicographical order.
+ii) By grouping elements based on the maxDifference constraint, we can limit swaps to valid elements.
+iii)Extracting elements in the order of their indices while respecting group priorities guarantees the smallest lexicographical result.
+
+
+e.g: arr = [5, 3, 9, 1, 2], threshold = 3
 1) Step 1: Create Value-Index Pairs
 value_index_pairs = [(5, 0), (3, 1), (9, 2), (1, 3), (2, 4)]
 2) Step 2: Sort the Pairs by Value
@@ -40,14 +46,7 @@ Sorted indices: [0, 1, 3, 4]
 Values: [1, 2, 3, 5]
 
 Assign:
-
-arr[0] = 1
-
-arr[1] = 2
-
-arr[3] = 3
-
-arr[4] = 5
+arr[0] = 1, arr[1] = 2, arr[3] = 3, arr[4] = 5
 
 For Group 2:
 
@@ -55,9 +54,7 @@ Sorted indices: [2]
 
 Values: [9]
 
-Assign:
-
-arr[2] = 9
+Assign: arr[2] = 9
 
 6) Final Array: arr = [1, 2, 9, 3, 5]
 """
@@ -164,3 +161,27 @@ class Solution {
     }
 }
 """
+
+# short version
+class Solution:
+    def lexicographicallySmallestArray(self, a: List[int], k: int) -> List[int]:
+        b = []
+        n = len(a)
+        for i in range(n):
+            b.append((a[i],i))
+        b = sorted(b,key=lambda x: x[0])
+        
+        c = [[b[0]]]   # c[0]: one group , c[1]: another group
+        for i in range(1,n):
+            if b[i][0]-b[i-1][0] <= k:
+                c[-1].append(b[i])
+            else:
+                c.append([b[i]])
+        for t in c:
+            ind = []
+            for x,y in t:
+                ind.append(y)
+            ind.sort()
+            for i in range(len(ind)):
+                a[ind[i]] = t[i][0]
+        return a

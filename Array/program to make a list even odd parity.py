@@ -20,3 +20,21 @@ def min_operations_to_alternate(arr):
 # Example test case
 items = [6, 5, 9, 7, 3]
 print(min_operations_to_alternate(items))  # Output: Minimum operations required
+
+
+# wrong . It will not give optimal ans because it's not considering both cases.
+def min_operations_to_alternate(arr):
+    n = len(arr)
+    operations = 0
+
+    for i in range(1, n):
+        # Check if the current and previous elements have the same parity
+        if (arr[i] % 2) == (arr[i - 1] % 2):
+            arr[i] //= 2  # Perform operation: floor(item / 2)
+            operations += 1  # Count the operation
+
+    return operations
+
+# Example test case
+items = [6, 5, 9, 7, 3]
+print(min_operations_to_alternate(items))  # Output: Number of operations

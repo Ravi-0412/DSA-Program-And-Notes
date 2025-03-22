@@ -1,7 +1,5 @@
 # Logic:
 """
-Link: https://leetcode.com/problems/make-lexicographically-smallest-array-by-swapping-elements/solutions/6325811/visual-explanation-grouping-and-reordering-detailed-solution/?envType=daily-question&envId=2025-01-25
-
 The key insight is that:
 
 i)  Sorting the array by values ensures we have the lexicographical order.
@@ -185,3 +183,5 @@ class Solution:
             for i in range(len(ind)):
                 a[ind[i]] = t[i][0]
         return a
+
+# Later try by union-find

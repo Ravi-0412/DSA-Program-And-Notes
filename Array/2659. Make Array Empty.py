@@ -21,6 +21,43 @@ class Solution:
         return count
 
 # Method 2: can be done using simple sorting 
+"""
+Intuition
+There n elements at first,
+so there will take at least n operations.
+And it take n operations rotate all elements once.
+
+
+Explanation
+Initialize res as n at first,
+and we record every elements position, pos[A[i]] = i.
+
+Then we iterate all element from small to big in A,
+if the position decrease,
+this mean we will rotate all remining element to the begin,
+and this bring us back to out begining intuition above,
+we will increase res by the number of remaining elements.
+
+
+Example
+A = [7,8,9]
+this A takes 3 operation.
+
+Now we insert 4,5,6 in A,
+no matter what position but keep their order
+Maybe A = [4,5,7,8,9,6]
+Now it take one round to remove 4,5,6 then 7,8,9
+so it needs 6 + 3 = 9 operations
+
+Now we insert 1,2,3 in A,
+no matter what position but keep their order
+so it needs 9 + 6 + 3 = 18 operations
+
+
+Complexity
+Time O(nlogn)
+Space O(n)
+"""
 from typing import List
 
 class Solution:
@@ -38,8 +75,8 @@ class Solution:
         
         for i in range(n):
             curr_index = indexed_nums[i][1]
-            
             # If the current index moves backward, additional operations are required
+            # = no of remaining element i.e (n-i)
             if curr_index < prev_index:
                 count += (n - i)
             

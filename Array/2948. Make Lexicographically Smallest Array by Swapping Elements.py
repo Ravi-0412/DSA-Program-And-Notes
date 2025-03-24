@@ -78,7 +78,7 @@ class Solution:
             else: # start a new group from here
                 # i) Add current group into groups_pair
                 grouped_pairs.append(current_group) 
-                ii) Start a new group from 'i' element
+                # ii) Start a new group from 'i' element
                 current_group = [value_index_pairs[i]]
         grouped_pairs.append(current_group)
 

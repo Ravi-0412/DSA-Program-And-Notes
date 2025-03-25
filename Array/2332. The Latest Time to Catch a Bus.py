@@ -1,18 +1,20 @@
 # Logic:
+"""
 # Return the latest time you may arrive at the bus station to catch a bus is same as: 
-# "Return the maximum late possible time for which you can board the bus".
-# i.e latest == late
+"Return the maximum late possible time for which you can board the bus".
+i.e latest == late
 
-# How to approach?
-# Here we have to come as late as possible and still be able to board on the bus.
-# We have to come late, so definitely the optimal approach is to board on the last bus as far as possible.
-# Cases:
-# 1) Last bus is not full: We can reach at bus time, but we have to make sure that our time should not clash with any other passenger.
-# 2) Last bus is full: We have to reach before the last person which is on board and 
-# we have to make sure that our time should not clash with any other passenger.
+How to approach?
+Here we have to come as late as possible and still be able to board on the bus.
+We have to come late, so definitely the optimal approach is to board on the last bus as far as possible.
+Cases:
+1) Last bus is not full: We can reach at bus time, but we have to make sure that our time should not clash with any other passenger.
+2) Last bus is full: We have to reach before the last person which is on board and 
+we have to make sure that our time should not clash with any other passenger.
 
-# TC: O(NlogN) + O(MlogM)
-# SC: O(1)
+TC: O(NlogN) + O(MlogM)
+SC: O(1)
+"""
 
 class Solution:
     def latestTimeCatchTheBus(self, buses: List[int], passengers: List[int], capacity: int) -> int:
@@ -104,5 +106,38 @@ class Solution:
                 end = mid - 1
         return end
 
+# Java
+"""
+import java.util.*;
 
+class Solution {
+    public int latestTimeCatchTheBus(int[] buses, int[] passengers, int capacity) {
+        Arrays.sort(buses);
+        Arrays.sort(passengers);
+        
+        int cur = 0, cap = 0;
+        for (int time : buses) {
+            cap = capacity;
+            while (cur < passengers.length && passengers[cur] <= time && cap > 0) {
+                cur++;
+                cap--;
+            }
+        }
+
+        // Determine the latest possible time to catch the last bus
+        int best = (cap > 0) ? buses[buses.length - 1] : passengers[cur - 1];
+
+        // Ensure the latest time is not occupied by another passenger
+        Set<Integer> passengerSet = new HashSet<>();
+        for (int p : passengers) {
+            passengerSet.add(p);
+        }
+
+        while (passengerSet.contains(best)) {
+            best--;
+        }
+
+        return best;
+    }
+"""
 # Do by binary search also.

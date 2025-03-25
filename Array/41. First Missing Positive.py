@@ -21,19 +21,19 @@ class Solution:
         return maxNo + 1
 
 # Method 2:
+"""
+Observation: the missing integer must be in the range [1..n + 1]. (n = length of array)
+So, If an integer is missing it must be in the range [1..n], if an integer is not missing then the answer is n+1.
 
-# Observation: the missing integer must be in the range [1..n + 1]. (n = length of array)
-# So, If an integer is missing it must be in the range [1..n], if an integer is not missing then the answer is n+1.
+How to solve?
+Ignore all numbers <=0 and > n since they are outside the range of possible answers (which we proved was [1..n]). 
+We do this by replacing them with the value n+1.
+For all other integers < n+1, mark their bucket (cell) to indicate the integer exists. (*see below)
+Find the first cell not marked, that is the first missing integer. If you did not find an unmarked cell, 
+there was no missing integer, so return n+1.
 
-# How to solve?
-
-# Ignore all numbers <=0 and > n since they are outside the range of possible answers (which we proved was [1..n]). 
-# We do this by replacing them with the value n+1.
-# For all other integers < n+1, mark their bucket (cell) to indicate the integer exists. (*see below)
-# Find the first cell not marked, that is the first missing integer. If you did not find an unmarked cell, 
-# there was no missing integer, so return n+1.
-
-# Time = O(n), space : O(1)
+Time = O(n), space : O(1)
+"""
 
 class Solution:
     def firstMissingPositive(self, nums: List[int]) -> int:
@@ -59,6 +59,45 @@ class Solution:
                 return i + 1
         # 4. no positive numbers were found, which means the array contains all numbers 1..n
         return n + 1
+
+# Java
+"""
+import java.util.*;
+
+class Solution {
+    public int firstMissingPositive(int[] nums) {
+        int n = nums.length;
+
+        // Step 1: Replace non-positive numbers and numbers greater than n with (n+1)
+        for (int i = 0; i < n; i++) {
+            if (nums[i] <= 0 || nums[i] > n) {
+                nums[i] = n + 1;
+            }
+        }
+
+        // Step 2: Mark existing numbers by making the index corresponding to the number negative
+        for (int i = 0; i < n; i++) {
+            int num = Math.abs(nums[i]); // Take absolute value in case it was modified before
+            if (num > n) continue;  // Ignore numbers out of range
+            
+            int index = num - 1; // Convert number to zero-based index
+            if (nums[index] > 0) { // Prevent double negatives
+                nums[index] = -nums[index]; // Mark the number as found
+            }
+        }
+
+        // Step 3: Find the first missing positive number
+        for (int i = 0; i < n; i++) {
+            if (nums[i] > 0) {
+                return i + 1;
+            }
+        }
+
+        // Step 4: If all numbers from 1 to n are present, return n+1
+        return n + 1;
+    }
+}
+"""
 
 
 # Try by this approach also in python.

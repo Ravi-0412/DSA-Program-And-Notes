@@ -27,7 +27,9 @@ So, If an integer is missing it must be in the range [1..n], if an integer is no
 
 How to solve?
 Ignore all numbers <=0 and > n since they are outside the range of possible answers (which we proved was [1..n]). 
-We do this by replacing them with the value n+1.
+We do this by replacing them with the value n+1. Because we need to assign negative value at that index, so it will create probelm
+if number will be already negative or > n.(index out of bound or incorrect answer).
+
 For all other integers < n+1, mark their bucket (cell) to indicate the integer exists. (*see below)
 Find the first cell not marked, that is the first missing integer. If you did not find an unmarked cell, 
 there was no missing integer, so return n+1.

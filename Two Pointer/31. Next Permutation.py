@@ -1,36 +1,53 @@
 # Logic:  
-# Since we have to include all the given number in permutation.
-# Logic: This Q reduces to 'Find the next greater number than the given number only using the digit of the given number'.
-# and for finding this we can start from righmost side.
+"""
+Sbse smallest matlab last se hi replacement khojna hoga, kyonki starting se replace kiye to number bda ho jayega.
+e.g: [9, 4, 8, 3, 6, 5, 2, 1]
+Next greater = [9, 4, 8,5,1,2,3,6]
+Think how we will reach till here?
+i) '3' ko replace karna hoga iske next greater se i. 5
+'3' kaise milega?
+Ans: Last se agar traverse karenge tb ascending order ka flow yhi pe tutega matlab is number se next bda chahiye from right side.(say 'i-1')
+ii) For finding next number, again traverse from last , say 'j'.
+iii) Now swap these two.(i-1, j)
+iv) after swapping to make sure that formed number is next greater, we need to make number from index 'i' to last in increasing order(if we see from front)
+which is in decreasing order as of now. For this just reverse number from index 'i' to last.
+v) We will get our ans.
 
-# Note: No need to traverse whole number we only need to rearrange numbers from index 'i -1' to last index such that
-# nums[i] > nums[i -1] i.e find the 1st index 'i-1' which breaks the ascending order rule from last.
-# it means we have got a smaller number at 'i-1' so we can rearrange ele from index 'i-1' to last index to get
-# our ans i.e next greater number.
+#Below explanation for coding purpose.
 
-# Steps:
-# 1) 
-# i.e find 'i-1' such that nums[i] > nums[i - 1]  then ,
-# (from index 'i' to last ele, element will be in descending order.
+Since we have to include all the given number in permutation.
+Logic: This Q reduces to 'Find the next greater number than the given number only using the digit of the given number'.
+and for finding this we can start from righmost side.
 
-# Now we have to rearrange all numbers from 'i-1' to last to get the ans.
-# Numbers before 'i-1' won't matter in ans. Replacing with any number before 'i-1' will give larger number than expected.
+Note: No need to traverse whole number we only need to rearrange numbers from index 'i -1' to last index such that
+nums[i] > nums[i -1] i.e find the 1st index 'i-1' which breaks the ascending order rule from last.
+it means we have got a smaller number at 'i-1' so we can rearrange ele from index 'i-1' to last index to get
+our ans i.e next greater number.
 
-# 2) We will have to bring 1st number greater than nums[i-1] from right side i.e from index 'i' to last
-# at index 'i-1'.
-# So find the 1st element greater than 'nums[i-1]' from right.
-# ie. we have to search j' from last such that nums[j] > nums[i-1] 
+Steps:
+1) 
+i.e find 'i-1' such that nums[i] > nums[i - 1]  then ,
+(from index 'i' to last ele, element will be in descending order.
 
-# 3) Now we have found correct number for index 'i-1' which is at index 'j'.
-# so swap(i-1, j)
+Now we have to rearrange all numbers from 'i-1' to last to get the ans.
+Numbers before 'i-1' won't matter in ans. Replacing with any number before 'i-1' will give larger number than expected.
 
-# 4) After swapping, number from index 'i' to last will be in descending order only
-# So to get minimum number value from index 'i' to last, we will have to reverse array from index 'i' to last.
+2) We will have to bring 1st number greater than nums[i-1] from right side i.e from index 'i' to last
+at index 'i-1'.
+So find the 1st element greater than 'nums[i-1]' from right.
+ie. we have to search j' from last such that nums[j] > nums[i-1] 
 
-# 5) Finally you will get the ans.
+3) Now we have found correct number for index 'i-1' which is at index 'j'.
+so swap(i-1, j)
 
-# For visualisation take e.g : [9, 4, 8, 3, 6, 5, 2, 1]
-# i = 4, j = 5
+4) After swapping, number from index 'i' to last will be in descending order only
+So to get minimum number value from index 'i' to last, we will have to reverse array from index 'i' to last.
+
+5) Finally you will get the ans.
+
+For visualisation take e.g : [9, 4, 8, 3, 6, 5, 2, 1]
+i = 4, j = 5
+"""
 
 class Solution:
     def nextPermutation(self, nums: List[int]) -> None:

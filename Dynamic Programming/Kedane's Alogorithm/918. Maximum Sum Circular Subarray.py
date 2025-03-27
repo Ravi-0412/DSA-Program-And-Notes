@@ -1,30 +1,46 @@
-# note => Ans for this will always >= ans of part 1:  "53. Maximum Subarray" since we can join ele in circular also here.
+"""
+Note: if we do like we do usually for simplicity i.e add elements from index '0' to 'n-1' to the last of given integer and 
+apply same logic as normal array then, it won't work.
+Reason: Elements from starting may get added twice. So we have to think some other way.
+e.g: [5,-3,5]
+if we do like this then ans = 12 but expected = 10.
 
-# Explanation
-# There are two case.
-# Case 1. The first is that the subarray take only a middle part, and we know how to find the max subarray sum.
-# ans = "53. Maximum Subarray" 
-# Case2. The second is that the subarray take a part of head array and a part of tail array.
-# We can transfer this case to the part 1.
-# The maximum result equals to the total sum minus the minimum subarray sum.
+Now come to solution: 
+note => Ans for this will always >= ans of part 1:  "53. Maximum Subarray" since we can join ele in circular also here.
 
-# For case 2: Find the minimum subarray sum and subtract from 'toal sum of array'.
+Explanation
+There are two case.
+Case 1. The first is that the subarray take only a middle part, and we know how to find the max subarray sum.
+ans = "53. Maximum Subarray" 
+Case2. The second is that the subarray take a part of head array and a part of tail array.
+We can transfer this case to the part 1.
+The maximum result equals to the total sum minus the minimum subarray sum.
 
-# So the max subarray circular sum equals to
-# ans = max( Non circular max sum + circular max sum ) i.e max(the max subarray sum, the total sum - the min subarray sum)
+For case 2: Find the minimum subarray sum and subtract from 'toal sum of array'.
 
-# so we have to keep track of both 'minSum' and 'maxSum'.
+So the max subarray circular sum equals to
+ans = max( Non circular max sum + circular max sum ) i.e max(the max subarray sum, the total sum - the min subarray sum)
 
-# Corner case in above one: 
-# Just one to pay attention:
-# If all numbers are negative, maxSum = max(A) and minSum = sum(A).
-# In this case, max(maxSum, total - minSum) = 0, which means the sum of an empty subarray.
-# According to the description, We need to return the max(A), instead of sum of am empty subarray.
-# So we return the maxSum to handle this corner case.
+so we have to keep track of both 'minSum' and 'maxSum'.
 
-# How we handle next and previous element in circular array?
-# Next: the next element of nums[i] is:  nums[(i + 1) % n] 
-# the previous element of nums[i] is:    nums[(i - 1 + n) % n].
+Note: If we only consider case-2 , then why that is not enough?
+There are may reason: if single element is minSum and maxSum then , it will give less ans. 
+There are other reason as well think.
+
+e.g : [1,-2,3,-2]
+if we consider only case 2 then, ans = 2 but expected = 3.
+
+Corner case in above one: 
+Just one to pay attention:
+If all numbers are negative, maxSum = max(A) and minSum = sum(A).
+In this case, max(maxSum, total - minSum) = 0, which means the sum of an empty subarray.
+According to the description, We need to return the max(A), instead of sum of am empty subarray.
+So we return the maxSum to handle this corner case.
+
+How we handle next and previous element in circular array?
+Next: the next element of nums[i] is:  nums[(i + 1) % n] 
+the previous element of nums[i] is:    nums[(i - 1 + n) % n].
+"""
 
 # time: O(n)
 class Solution:

@@ -1,6 +1,10 @@
 # Logic:  
 """
+Since we have to include all the given number in permutation.
+This Q reduces to 'Find the next greater number than the given number only using the digit of the given number'.
+and for finding this we can start from righmost side.
 Sbse smallest matlab last se hi replacement khojna hoga, kyonki starting se replace kiye to number bda ho jayega.
+
 e.g: [9, 4, 8, 3, 6, 5, 2, 1]
 Next greater = [9, 4, 8,5,1,2,3,6]
 Think how we will reach till here?
@@ -14,10 +18,6 @@ which is in decreasing order as of now. For this just reverse number from index 
 v) We will get our ans.
 
 #Below explanation for coding purpose.
-
-Since we have to include all the given number in permutation.
-Logic: This Q reduces to 'Find the next greater number than the given number only using the digit of the given number'.
-and for finding this we can start from righmost side.
 
 Note: No need to traverse whole number we only need to rearrange numbers from index 'i -1' to last index such that
 nums[i] > nums[i -1] i.e find the 1st index 'i-1' which breaks the ascending order rule from last.

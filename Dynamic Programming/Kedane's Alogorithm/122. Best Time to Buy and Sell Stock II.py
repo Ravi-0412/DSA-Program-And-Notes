@@ -70,7 +70,7 @@ To handle this we can subtract the price of day on which we will buy and call th
 Note vvi: Here in recursive function, we are not buying and selling on same but still will give correct ans.
 
 e.g: [1, 7, 9]. This function will call  the ans like : 'buy on day1 and sell on day3' which is eqivalent to 
-'buy on day1 & sell on day2' + 'buy on day2 and sell on day3' because value are increasing.
+'buy on day1 & sell on day2' + 'buy on day2 and sell on day3'.
 same for e.g: [1, 7, 9, 12]. will give ans according to 'buy on day1 & sell on day4' which is eqivalent to purchasing and selling on next day.
 
 Note vvi: Keep this method in mind, this is basic of lot of similar q like this.

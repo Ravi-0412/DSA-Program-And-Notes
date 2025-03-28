@@ -13,7 +13,7 @@ class Solution:
         output= [intervals[0]]  # to handle the edge case and make comparison easy
         for start, end in intervals[1:]:
             # check if ending of last added interval is >= than starting of the currnet one 
-            if output[-1][1]>= start: 
+            if output[-1][1] >= start: 
 		# i.e if overlapping then merge , make end of last added one max(end of last addded, end)
                 output[-1][1]= max(output[-1][1], end)    # [[1,4],[2,3]]= [[1,4]]
             else:

@@ -23,16 +23,12 @@ class Solution:
         return self.helper(prices, 0, k, 1, dp)  # 2nd para: ind, 3rd: buying is allowed or not, 4th: no of transactions allowed
     
     def helper(self, prices, ind, txn, buy, dp):
-        if txn== 0:
-            dp[ind][txn][buy]= 0
-            return dp[ind][txn][buy]
-        if ind== len(prices):
-            dp[ind][txn][buy]= 0
-            return dp[ind][txn][buy]
+        if txn == 0 or ind == len(prices):
+            return 0
         if dp[ind][txn][buy] != -1:
             return dp[ind][txn][buy]
         if buy:
-            dp[ind][txn][buy]= max(-prices[ind] + self.helper(prices, ind+1, txn, 0, dp), 0+ self.helper(prices, ind+1, txn, 1, dp))
+            dp[ind][txn][buy]= max(-prices[ind] + self.helper(prices, ind+1, txn, 0, dp), 0 + self.helper(prices, ind+1, txn, 1, dp))
         else:
             dp[ind][txn][buy]=  max(prices[ind] + self.helper(prices, ind+1, txn-1, 1, dp), 0+ self.helper(prices, ind+1, txn, 0, dp))
         return dp[ind][txn][buy]

@@ -52,28 +52,29 @@ def maxProfit(self, prices: List[int]) -> int:
         return profit
 
 
-# Method 3:
+# Method 3: DP
 
-# now by DP.
-# How to think about DP?
-# Ans: on every day we have two choices i.e either 1) buy or 2) sell.
-# 1) Buy: if buy is allowed (if stock is not purchased before)
-# In this we have two choices: i) We can buy on this day ii) We don't buy on this day
-# 2) Not buy: (means only sell is allowed).
-# In this also we have two choices: i) we sell on this day ii) we don't sell on this day. 
+"""
+How to think about DP?
+Ans: on every day we have two choices i.e either 1) buy or 2) sell.
+1) Buy: if buy is allowed (if stock is not purchased before)
+In this we have two choices: i) We can buy on this day ii) We don't buy on this day
+2) Not buy: (means only sell is allowed).
+In this also we have two choices: i) we sell on this day ii) we don't sell on this day. 
 
-# Note vvi: since we can hold max one stock at a time, so to know stock has been bought already, we need one variable to check. 
+Note vvi: since we can hold max one stock at a time, so to know stock has been bought already, we need one variable to check. 
 
-# we also have to keep track of 'last bought date' to calculate the profit but no need of extra varible.
-# To handle this we can subtract the price of day on which we will buy and call the further function.
+we also have to keep track of 'last bought date' to calculate the profit but no need of extra varible.
+To handle this we can subtract the price of day on which we will buy and call the further function.
 
-# Note vvi: Here in recursive function, we are not buying and selling on same but still will give correct ans.
+Note vvi: Here in recursive function, we are not buying and selling on same but still will give correct ans.
 
-# e.g: [1, 7, 9]. This function will call give the ans like : 'buy on day1 and sell on day3' which is eqivalent to 
-# 'buy on day1 & sell on day2' + 'buy on day2 and sell on day3' because value are increasing.
-# same for e.g: [1, 7, 9, 12]. will give ans according to 'buy on day1 & sell on day4' which is eqivalent to purchasing and selling on next day.
+e.g: [1, 7, 9]. This function will call  the ans like : 'buy on day1 and sell on day3' which is eqivalent to 
+'buy on day1 & sell on day2' + 'buy on day2 and sell on day3' because value are increasing.
+same for e.g: [1, 7, 9, 12]. will give ans according to 'buy on day1 & sell on day4' which is eqivalent to purchasing and selling on next day.
 
-# Note vvi: Keep this method in mind, this is basic of lot of similar q like this.
+Note vvi: Keep this method in mind, this is basic of lot of similar q like this.
+"""
 
 # Recursive way. Time: O(2^n), space: O(n)
 class Solution:

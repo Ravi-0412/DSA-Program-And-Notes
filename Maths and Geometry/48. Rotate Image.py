@@ -1,26 +1,29 @@
+"""
+logic: first reverse rows then take transpose.
+
+Reversing means: 1st row will become last row, last row will become 1st row.
+2nd row wil become 2nd last row, 2nd last row will become 2nd row and so on.
+
+Tranpose of a matrix = Rotation along diagonal :
+1st row ele => 1st col
+2nd row ele => 2nd col and so on.
+
+Intuition: All rotations are composite reflections (in fact, all transformations are composite reflections);
+Not vvi: in these types of question , you will get answer in two steps and 
+these step will be combination of 'reverse_rows/reverse_col/tranpose'.
+
+So think all these types of question in above combination only.
+
+ In this question, a reflection across the vertical line of symmetry(reverse rows), then a reflection across the diagonal(transpose). 
+
+VVI: How to think (generalisation)?
+Think in terms of reversing row/col/transpose like how can you get 1st ele.
+Here we can get 1st element from 1st element at last row.
+1) So try swapping all rows and now think how can you get the final ans.
+2) you will see if we take transpose then, we can get the final ans.
+
 # time: O(n)
-# logic: first reverse rows then take transpose.
-
-# Reversing means: 1st row will become last row, last row will become 1st row.
-# 2nd row wil become 2nd last row, 2nd last row will become 2nd row and so on.
-
-# Tranpose of a matrix = Rotation along diagonal :
-# 1st row ele => 1st col
-# 2nd row ele => 2nd col and so on.
-
-# Intuition: All rotations are composite reflections (in fact, all transformations are composite reflections);
-# Not vvi: in these types of question , you will get answer in two steps and 
-# these step will be combination of 'reverse_rows/reverse_col/tranpose'.
-
-# So think all these types of question in above combination only.
-
-#  in this case, a reflection across the vertical line of symmetry(reverse rows), then a reflection across the diagonal. 
-
-# VVI: How to think (generalisation):
-# Think in terms of reversing row/col/transpose like how can you get 1st ele.
-# Here we can get 1st element from 1st element at last row.
-# 1) So try swapping all rows and now think how can you get the final ans.
-# 2) you will see if we can take transpose after that then we can get the final ans.
+"""
 
 # Method 1: 
 class Solution:
@@ -54,21 +57,25 @@ class Solution:
 
 
 # Note vvvi: 
-# just think how you will combine two steps 'reversing_rows/reversing_cols/transpose' to get the ans.
+"""
+just think how you will combine two steps 'reversing_rows/reversing_cols/transpose' to get the ans.
 
-# 1) For clockwise:
-# a) 90: Reverse Rows + Transpose
-# b) 180: Reverse Rows + Reverse columns
-# c) 270 : Transpose + Reverse Columns(180 + 90. so if we do 90 rotation to 180 then impact of reverse rows will be get cancelled)
+1) For clockwise:
+a) 90: Reverse Rows + Transpose
+b) 180: Reverse Rows + Reverse columns
+c) 270 : Transpose + Reverse Columns(180 + 90. so if we do 90 rotation to 180 then impact of reverse rows will be get cancelled)
 
-# For anticlocwise: Just do opposite operation of clockwise.
-# 90 => reverse columns + transpose
-# 180 => Reverse columns + reverse rows
-# 270 => Reverse columns + Transpose
+For anticlocwise: Just do opposite operation of clockwise.
+90 => reverse columns + transpose
+180 => Reverse columns + reverse rows
+270 => Reverse columns + Transpose
 
-# other way for both clockwise and anticlock wise:
-# 180 => rotate 2 times by '90'
-# 270 => rotate 3 times by '90' and so on.
+other way for both clockwise and anticlock wise:
+180 => rotate 2 times by '90'
+270 => rotate 3 times by '90' and so on.
+
+Link: https://blogs.sas.com/content/iml/2013/10/18/rotating-matrices.html#:~:text=For%20example%2C%20the%20adjacent%20diagram,the%20rows%20and%20then%20transposing.
+"""
 
 # Java
 """

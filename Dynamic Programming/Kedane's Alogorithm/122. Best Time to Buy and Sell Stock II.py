@@ -139,8 +139,7 @@ class Solution:
 
     def helper(self, prices, ind, buy, dp):
         if ind== len(prices):
-            dp[ind][buy]= 0
-            return dp[ind][buy]
+            return 0
         profit= 0
         if dp[ind][buy]!= -1:
             return dp[ind][buy]

@@ -18,3 +18,35 @@ class Solution:
                 ans += 1
             # else: skip simply because we can't attend cur meeting
         return ans
+
+#java
+"""
+import java.util.Arrays;
+import java.util.Comparator;
+
+class Solution {
+    public int maximumMeetings(int n, int[] start, int[] end) {
+        int[][] meetings = new int[n][2];
+
+        for (int i = 0; i < n; i++) {
+            meetings[i][0] = start[i];
+            meetings[i][1] = end[i];
+        }
+
+        // Sort meetings based on their ending time
+        Arrays.sort(meetings, Comparator.comparingInt(a -> a[1]));
+
+        int count = 1;  // At least one meeting can be attended
+        int lastEndTime = meetings[0][1];
+
+        for (int i = 1; i < n; i++) {
+            if (meetings[i][0] > lastEndTime) {  // Can attend this meeting
+                count++;
+                lastEndTime = meetings[i][1];
+            
+        }
+        return count;
+    }
+}
+
+"""

@@ -23,7 +23,7 @@ just like we are trying to merge this curr balloon with last  arrow end point(ba
 Hm balloon ko minEnd point of any ballons se throw karna start karenge hmesha, merge nhi hone pe(kyonki yhi min ending point hoga us time pe).
 
 Note: If we sort according to starting point and apply the same logic then, it won't give correct ans.
-Reason: if 1st point has bigger ending point then many point then we will miss those points giving incorrect ans.
+Reason: if 1st point has bigger ending point then many point which has lesser end point, we will miss those points giving incorrect ans.
 
 """
 

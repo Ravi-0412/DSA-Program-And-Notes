@@ -17,18 +17,21 @@ class Solution:
         return output
 
 # Method 2:
-# Using 'insort' method of 'bisect' module.
-# insort(list, num, beg, end) :- This function returns the sorted list after inserting number in appropriate position, 
-# if the element is already present in the list, the element is inserted at the rightmost possible position. 
+"""
+Using 'insort' method of 'bisect' module.
+insort(list, num, beg, end) :- This function returns the sorted list after inserting number in appropriate position, 
+if the element is already present in the list, the element is inserted at the rightmost possible position. 
 
-# Do insertion in O(logn).
+Do insertion in O(logn).
 
-# Note: 'bisect' module function works only on sorted array.
+Note: 'bisect' module function works only on sorted array.
+Read about 'bisect' module:
+https://www.geeksforgeeks.org/bisect-algorithm-functions-in-python/ 
 
-# Time: O(logn + n) => O(n) only
+After that question reduces to 'Merge overalpping intervals'.
 
-# Read about 'bisect' module:
-# https://www.geeksforgeeks.org/bisect-algorithm-functions-in-python/
+Time: O(logn + n) => O(n) only
+"""
 
 import bisect
 class Solution(object):
@@ -46,12 +49,15 @@ class Solution(object):
         return output
 
 # Method 3:
-# Time: O(n)
-# Just check all interval with 'newInterval' whether that will go right/left of newInterval OR
-# they will overlap.
+"""
+Just check all interval with 'newInterval' whether that will go right/left of newInterval OR
+they will overlap.
 
-# Store left and right in separate 2d arrays and last
-# insert updated 'newInetrval' values and return .
+Store left and right in separate 2d arrays and last
+insert updated 'newInetrval' values and return .
+
+# Time: O(n)
+"""
 
 class Solution:
     def insert(self, intervals, newInterval):

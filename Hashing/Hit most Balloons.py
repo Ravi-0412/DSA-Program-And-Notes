@@ -1,14 +1,16 @@
-# Note: there can be duplicate points also.
+"""
+Note: there can be duplicate points also.
 
-# Indirectly we have to find :" Count maximum points on same line".
+Indirectly we have to find :" Count maximum points on same line".
 
-# Two points can be on same line with slope say 'x' if slope of line connecting these two point will be also = "x".
+Two points can be on same line with slope say 'x' if slope of line connecting these two point will be also = "x".
 
-# we can start(throw balloons) from any point and check how many points(balloons) we can get on same line.
-# Here it will check for every direction possible indirectly because we are calculating the slope for each pair possible
-#  and storing frequency of that slope.
+we can start(throw balloons) from any point and check how many points(balloons) we can get on same line.
+Here it will check for every direction possible indirectly because we are calculating the slope for each pair possible
+ and storing frequency of that slope.
 
-# To store the count points with same slope, we can use hashmap('slopeCount).
+To store the count points with same slope, we can use hashmap('slopeCount).
+"""
 
 # time: O(n^2)
 # space: O(n)

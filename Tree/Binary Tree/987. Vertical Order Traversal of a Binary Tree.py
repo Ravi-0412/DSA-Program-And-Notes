@@ -134,7 +134,6 @@ class Solution {
 
 # do by iterative way later all the view based q
 
-
 # Related Q:
 # 1) Top View of Binary Tree
 # ans: you have to print the 1st node at each horizontal level from top(minimum x_coodinate)

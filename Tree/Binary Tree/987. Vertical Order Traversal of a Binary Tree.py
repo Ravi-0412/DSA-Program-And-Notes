@@ -1,17 +1,19 @@
 # Brute force :
-# find the minimum horizontal distance and maximum horizontal distance, 
-# by taking distance of left child as '-1' and for right child as '+1'.
-# Minimum will be for leftmost leaf node and max will be rightmost leaf node
+"""
+find the minimum horizontal distance and maximum horizontal distance, 
+by taking distance of left child as '-1' and for right child as '+1'.
+Minimum will be for leftmost leaf node and max will be rightmost leaf node
 
-# vvi: for coordinates: just stand at root(assume root as origin as given also) (0,0) and reverse the axis i.e row -> x and col -> y.
-# horizontal -> y axis and vertical is x-axis.
-# Same way we convert the coordinates into matrix.
+vvi: for coordinates: just stand at root(assume root as origin as given also) (0,0) and reverse the axis i.e row -> x and col -> y.
+horizontal -> y axis and vertical is x-axis.
+Same way we convert the coordinates into matrix.
 
-# so just think we are printing horizonatlly from min_horizontal to max_horizontal
+so just think we are printing horizonatlly from min_horizontal to max_horizontal
 
-# now for each horizonatl distance in range find all the nodes matching to given horizontal distance and add into the ans
-# time: O(n^2) , for each horizontal level we find the nodes that matches with given horizonatl level
-# but this will not print the node in sorted value when they belong to same vertical and horizonatl level (work on GFG but not on leetcode).
+now for each horizonatl distance in range find all the nodes matching to given horizontal distance and add into the ans
+time: O(n^2) , for each horizontal level we find the nodes that matches with given horizonatl level
+Note: this will not print the node in sorted value when they belong to same vertical and horizonatl level (work on GFG but not on leetcode).
+"""
 
 class Solution:
     def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
@@ -51,17 +53,19 @@ class Solution:
 
 
 # method 2:
-# time; O(n*logn). for hashmap buliding its O(n) only but for adding into ans we have to sort the node at each level so n*logn.
+"""
+time; O(n*logn). for hashmap buliding its O(n) only but for adding into ans we have to sort the node at each level so n*logn.
 
-# hashmap will store all the nodes at same horizontal level with (vertical_level, node_val)
-# since we have to print horizontally(from min_x to max_x) so made horizonatl_level as key. 
+hashmap will store all the nodes at same horizontal level with (vertical_level, node_val)
+since we have to print horizontally(from min_x to max_x) so made horizonatl_level as key. 
 
-# And while printing, we will print the node from top to bottom at each level i.e min_vertical to max_vertical.
-# That's why we are adding "vertical_level value" also with node value.
+And while printing, we will print the node from top to bottom at each level i.e min_vertical to max_vertical.
+That's why we are adding "vertical_level value" also with node value.
 
-# and in case of  same x and y , we have to take the node with minimum value x.
-# for this, so before adding any value to the ans sort the each key pair by vertical_level
+and in case of  same x and y , we have to take the node with minimum value x.
+for this, so before adding any value to the ans sort the each key pair by vertical_level
 
+"""
 class Solution:
     def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
         self.min_h, self.max_h= 0, 0  # minimum horizonatl level and maximum horizontal level
@@ -80,13 +84,53 @@ class Solution:
         dfs(root,0,0)   # just a traversla can say preorder
 
         ans, level= [],[]
-        # now print the all nodes horizonatl level wise, and store the value by key before adding into ans for saem vertcial level
+        # now print the all nodes horizonatl level wise, and store the value by key before adding into ans for same vertcial level
         for hori in range(self.min_h, self.max_h + 1):
             for key, val in sorted(dic[hori]):    # will sort the the value according to the 1st ele in value
                 level.append(val)
             ans.append(level) 
             level = []  # make level empty after each horizontal level to store the ans for next level
         return ans
+
+# Java
+"""
+class Solution {
+    private int minHD, maxHD;
+    private Map<Integer, List<int[]>> map = new HashMap<>();
+    
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        minHD = 0;
+        maxHD = 0;
+        dfs(root, 0, 0);
+        
+        List<List<Integer>> ans = new ArrayList<>();
+        for (int hori = minHD; hori <= maxHD; hori++) {
+            List<int[]> nodes = map.getOrDefault(hori, new ArrayList<>());
+            nodes.sort((a, b) -> a[0] != b[0] ? a[0] - b[0] : a[1] - b[1]);
+            List<Integer> level = new ArrayList<>();
+            for (int[] node : nodes) {
+                level.add(node[1]);
+            }
+            ans.add(level);
+        }
+        return ans;
+    }
+    
+    private void dfs(TreeNode root, int lvl_h, int lvl_v) {
+        if (root == null) {
+            return;
+        }
+        minHD = Math.min(minHD, lvl_h);
+        maxHD = Math.max(maxHD, lvl_h);
+        
+        map.putIfAbsent(lvl_h, new ArrayList<>());
+        map.get(lvl_h).add(new int[]{lvl_v, root.val});
+        
+        dfs(root.left, lvl_h - 1, lvl_v + 1);
+        dfs(root.right, lvl_h + 1, lvl_v + 1);
+    }
+}
+"""
 
 # do by iterative way later all the view based q
 

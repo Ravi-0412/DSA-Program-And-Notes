@@ -21,6 +21,24 @@ def PreorderIterative(self,root):
         if curr.left:
             stack.append(curr.left)
 
+# Easier way
+def PreorderIterative(self, root):
+    if root is None:
+        return 
+    
+    stack = []
+    curr = root
+    
+    while curr or stack:
+        while curr:
+            print(curr.data, end=" ")  # Process current node
+            stack.append(curr)  # Push current node to stack
+            curr = curr.left  # Move to left child
+        
+        curr = stack.pop()  # Backtrack
+        curr = curr.right  # Move to right child
+
+
 # do by recursive inside the given function only and store the ans in a list(Leetcode q)
 # same way we can do for other traversals.
 class Solution:
@@ -65,25 +83,25 @@ class Solution:
 # easier one. just the conversion of iterative form when we start from root.left
 # logic: just keep on going left and when left is none then pop the last added one(just same as recursive code, think little)
 
-# class Solution:
-#     def InOrder(self,root):
-#         if root== None:
-#             return []
-#         ans=  []
-#         stack= []
-#         stack.append(root)
-#         curr= root
-#         while stack :
-#             if curr.left== None:
-#                 temp= stack.pop()
-#                 ans.append(temp.data)
-#                 if temp.right:
-#                     curr= temp.right
-#                     stack.append(temp.right)
-#             else:
-#                 stack.append(curr.left)
-#                 curr= curr.left
-#         return ans
+class Solution:
+    def InOrder(self,root):
+        if root== None:
+            return []
+        ans=  []
+        stack= []
+        stack.append(root)
+        curr= root
+        while stack :
+            if curr.left== None:
+                temp= stack.pop()
+                ans.append(temp.data)
+                if temp.right:
+                    curr= temp.right
+                    stack.append(temp.right)
+            else:
+                stack.append(curr.left)
+                curr= curr.left
+        return ans
 
 
 # another concise way of iterative approach of inorder traversal. 
@@ -147,5 +165,28 @@ class Solution:
             if curr.right:
                 stack.append(curr.right)
         return ans[::-1]
+
+# Simpler way
+from typing import Optional, List
+
+class Solution:
+    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        if root is None:
+            return []
+        
+        stack, ans = [], []
+        curr = root
+
+        while curr or stack:
+            while curr:
+                ans.append(curr.val)  # Process current node (reverse of postorder)
+                stack.append(curr)  # Push to stack
+                curr = curr.right  # Move to right child first
+            
+            curr = stack.pop()  # Backtrack
+            curr = curr.left  # Move to left child
+        
+        return ans[::-1]  # Reverse to get postorder (left → right → root)
+
 
 

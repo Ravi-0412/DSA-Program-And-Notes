@@ -34,36 +34,38 @@ class Solution:
         return 1 + max(self.maxDepth(root.left),self.maxDepth(root.right))
 
 # method 2: O(n)
-# there is lot of repitition in above method.
+"""
+There is lot of repitition in above method.
 
-# Note vvi: To make decision on a node , we need maximum node count from its left and right subtree.
+Note vvi: To make decision on a node , we need maximum node count from its left and right subtree.
 
-# note: we have to take care of "True/False" as well as height at the same time.
+note: we have to take care of "True/False" as well as height at the same time.
 
-# just the height logic only , instead of  returning booleans we are returning in integer 
-# so that if subtree is unbalanced then it automatically make its parent unbalanced automatically.
+just the height logic only , instead of  returning booleans we are returning in integer 
+so that if subtree is unbalanced then it automatically make its parent unbalanced automatically.
 
-# and also we have to return the height also which will be a positive number so replaced the boolean return value 
-# with integer return to handle all these cases.
+and also we have to return the height also which will be a positive number so replaced the boolean return value 
+with integer return to handle all these cases.
 
-# bottom up approach , ans from bottom is getting updated to upper level.. Can say DP only.
-# here we only need left and right tree ans to make a decision for current root that's why not storing ans anywhere.
+bottom up approach , ans from bottom is getting updated to upper level.
+here we only need left and right tree ans to make a decision for current root that's why not storing ans anywhere.
 
-# Note VVI(Generalisation of DP in tree): calculate for left and right part of a node
-# then make a decision for cur node i.e (update the ans) based on left and right part and return the ans to upper level (to parent).
+Note VVI(Generalisation of DP in tree): calculate for left and right part of a node
+then make a decision for cur node i.e (update the ans) based on left and right part and return the ans to upper level (to parent).
 
-# Note: updating the ans and returning to the upper level might be different 
-# so always make another function(say helper function) if you got that both will be different and keep 'ans' as global variable.
-#  in helper function, just keep updating the ans after getting value from left and right part and return the value according to the function.
+Note: updating the ans and returning to the upper level might be different 
+so always make another function(say helper function) if you got that both will be different and keep 'ans' as global variable.
+ in helper function, just keep updating the ans after getting value from left and right part and return the value according to the function.
 
-# Note: we will return when any of the subtree will be balanced.
+Note: we will return when any of the subtree will be balanced.
 
-# Note: '-1' means tree is unbalanced. we can return any integer that can't be height (means any negative integer) like -1,-2....
-# all will work fine.
+Note: '-1' means tree is unbalanced. we can return any integer that can't be height (means any negative integer) like -1,-2....
+all will work fine.
 
-# Note: we can't return True/False based on True/false because in Python True->1 and False->0 and '0' and '1' can be our height also.
+Note: we can't return True/False based on True/false because in Python True->1 and False->0 and '0' and '1' can be our height also.
 
-# '-1' means tree is unbalanced 
+'-1' means tree is unbalanced 
+"""
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
         # just apply the logic odf maxDepth

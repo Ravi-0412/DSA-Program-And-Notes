@@ -18,6 +18,26 @@ class Solution:
             level= []   # to store the ans of next level
         return ans
 
+# Java
+"""
+class Solution:
+    def largestValues(self, root: Optional[TreeNode]) -> List[int]:
+        if not root:
+            return 
+        q= deque([root])
+        ans = []
+        while q:
+            maxi = float('-inf')
+            for i in range(len(q)):  # we have to print level by level in a list
+                cur= q.popleft()
+                maxi = max(maxi, cur.val)
+                if cur.left:
+                    q.append(cur.left)
+                if cur.right:
+                    q.append(cur.right)
+            ans.append(maxi)
+        return ans"""
+
 
 # Related q:
 # 1) 515. Find Largest Value in Each Tree Row
@@ -40,6 +60,40 @@ class Solution:
             ans.append(maxi)
         return ans
 
+"""
+import java.util.*;
+
+class Solution {
+    public List<Integer> largestValues(TreeNode root) {
+        if (root == null) {
+            return new ArrayList<>();
+        }
+        
+        List<Integer> ans = new ArrayList<>();
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        
+        while (!q.isEmpty()) {
+            int size = q.size();
+            int maxi = Integer.MIN_VALUE;
+            
+            for (int i = 0; i < size; i++) {
+                TreeNode cur = q.poll();
+                maxi = Math.max(maxi, cur.val);
+                
+                if (cur.left != null) {
+                    q.offer(cur.left);
+                }
+                if (cur.right != null) {
+                    q.offer(cur.right);
+                }
+            }
+            ans.add(maxi); // Store the maximum value of the current level
+        }
+        return ans;
+    }
+}
+"""
 
 # 2) 513. Find Bottom Left Tree Value
 # simplied: Find the 1st node of last level

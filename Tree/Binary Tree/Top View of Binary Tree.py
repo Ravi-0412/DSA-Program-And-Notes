@@ -1,18 +1,20 @@
-# # just totally same as vertical order traversal(copied that code only)
+"""
+just totally same as vertical order traversal(copied that code only)
 
-# logic: root pe baith jao and h jo node tmko dikhe usko print karna h..tm sirf har horizonatal pe sirf ek hi node top wala hi dekh paoge.
-# so, you have to print the 1st node at each horizontal level from top(minimum x_coodinate) that's it. 
-# since remaining node at same horizontal level won't be visible when we will from see from top.
+logic: root pe baith jao and h jo node tmko dikhe usko print karna h..tm sirf har horizonatal pe sirf ek hi node top wala hi dekh paoge.
+so, you have to print the 1st node at each horizontal level from top(minimum x_coodinate) that's it. 
+since remaining node at same horizontal level won't be visible when we will from see from top.
 
-# just calculate the minimum and maximum horizontal level 
-# now for each each horizonatl level in the range (mi_hori to max_hori), print the 1st node 
-# time: O(n^2)
+just calculate the minimum and maximum horizontal level 
+now for each each horizonatl level in the range (mi_hori to max_hori), print the 1st node 
+time: O(n^2)
 
 
-# method 2:
-# just store the (coor_y, node.val) as value wrt coor_x in a dictionary
-# after that print the 1st node value for each value
-# Time: O(n*logn)
+method 2:
+just store the (coor_y, node.val) as value wrt coor_x in a dictionary
+after that print the 1st node value for each value
+Time: O(n*logn)
+"""
 
 # checked the output in leetcode giving correct one but at GFg giving error don't know why
 class Solution:

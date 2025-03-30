@@ -1,10 +1,12 @@
 # my mistaek: i didn't get the q properly
 
-# logic: just you have to find the max width at each level.
-# And if we number all the nodes using array notation then,
-# width at that level= num(right most node i.e last node at that level)- num(leftmost node i.e first node) + 1
+"""
+logic: just you have to find the max width at each level.
+And if we number all the nodes using array notation then,
+width at that level= num(right most node i.e last node at that level)- num(leftmost node i.e first node) + 1
 
-# for this we can use Level Order Traversal. easiest one
+for this we can use Level Order Traversal. easiest one 
+"""
 
 class Solution:
     def widthOfBinaryTree(self, root: Optional[TreeNode]) -> int:

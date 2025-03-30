@@ -1,5 +1,5 @@
 # just the same logic as method 2 Q" path from root to node"
-# only differnec here is we don't have to stop after finding any leaf node
+# only differnec here is we don't have to stop after finding any node.
 # we have to continue our search i.e we have to visit every node
 
 # Method 1: 

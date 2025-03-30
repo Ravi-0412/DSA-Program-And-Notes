@@ -39,16 +39,19 @@ class Solution:
 
 
 # 2nd method: very better and very logical 
-# optimising the space complexity to O(1)
-# here we are sure that both the nodes are present in the tree so we can utilise this.
+"""
+Optimising the space complexity to O(1)
+Here we are sure that both the nodes are present in the tree so we can utilise this.
 
-# LCA: wo node hoga jahan pe bottom se dono node 1st time differ karenge i.e means is node ka left subtree ek node ko contain karega and right subtree dusre node ko.
-# so just apply bottom up Approach and if at any node if its both the left and right subtree give not None , it means curr node is LCA.
+LCA: wo node hoga jahan pe bottom se dono node 1st time differ karenge i.e means is node ka left subtree ek node ko contain karega 
+and right subtree dusre node ko.
+So just apply bottom up Approach and if at any node if its both the left and right subtree give not None , it means curr node is LCA.
 
-# one of the node can be the LCA also, so in this case one will have 'None'(doesn't contain any of the node) and other will have 'Not None'.
-# then in this case the node with 'not None' will be LCA.
+One of the node can be the LCA also, so in this case one will have 'None'(doesn't contain any of the node) and other will have 'Not None'.
+then in this case the node with 'not None' will be LCA.
 
-# Note: Here once we find the and then we will start returning ans from there itself.
+Note: Here once we find the and then we will start returning ans from there itself.
+"""
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':

@@ -132,6 +132,52 @@ class Solution {
 }
 """
 
+# Java code using 'Treemap and Heap'
+"""
+import java.util.*;
+
+class Solution {
+    // TreeMap to store nodes based on horizontal distance (lvl_h) and vertical distance (lvl_v)
+    private Map<Integer, TreeMap<Integer, PriorityQueue<Integer>>> map = new TreeMap<>();
+    
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        // Perform DFS traversal to populate the map
+        dfs(root, 0, 0);
+        
+        List<List<Integer>> ans = new ArrayList<>();
+        // Iterate over horizontal distances in sorted order
+        for (TreeMap<Integer, PriorityQueue<Integer>> ys : map.values()) {
+            List<Integer> level = new ArrayList<>();
+            // Iterate over vertical levels in sorted order
+            for (PriorityQueue<Integer> nodes : ys.values()) {
+                // Extract nodes in sorted order (since PriorityQueue sorts them automatically)
+                while (!nodes.isEmpty()) {
+                    level.add(nodes.poll());
+                }
+            }
+            ans.add(level); // Add sorted nodes for this horizontal level to the answer
+        }
+        return ans;
+    }
+    
+    private void dfs(TreeNode root, int lvl_h, int lvl_v) {
+        if (root == null) {
+            return;
+        }
+        
+        // Insert node into the map at the correct (horizontal, vertical) position
+        map.putIfAbsent(lvl_h, new TreeMap<>());
+        map.get(lvl_h).putIfAbsent(lvl_v, new PriorityQueue<>());
+        map.get(lvl_h).get(lvl_v).offer(root.val);
+        
+        // Recursively traverse left and right children
+        dfs(root.left, lvl_h - 1, lvl_v + 1); // Move left: decrease horizontal level, increase vertical level
+        dfs(root.right, lvl_h + 1, lvl_v + 1); // Move right: increase horizontal level, increase vertical level
+    }
+}
+
+"""
+
 # do by iterative way later all the view based q
 
 # Related Q:

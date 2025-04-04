@@ -1,23 +1,25 @@
-# Time: O(n), space: O(n)
-# with the help of hashmap and doubly linked list
-# Q: just we have to implement the LRU cache replacement Algo that we studied in OS.
+"""
+with the help of hashmap and doubly linked list
+Q: just we have to implement the LRU cache replacement Algo that we studied in OS.
 
-# why hashmap + doubly linked list?
-# Ans: we have to return the value of get function in O(1) => hashmap
-# The problem with dictionaries is that they usually don’t guarantee order in which they manage keys. 
-# So we don’t have a way to quickly remove least-recently-used items.
-# So we will connect all (key, val) pair with doubly linked list.
-# we have to put in O(1) and remove in O(1) by maintaing the property i.e 
-# we have to swap / delete the nodes in O(1) => Doubly Linked List
+why hashmap + doubly linked list?
+Ans: we have to return the value of get function in O(1) => hashmap
+The problem with dictionaries is that they usually don’t guarantee order in which they manage keys. 
+So we don’t have a way to quickly remove least-recently-used items.
+So we will connect all (key, val) pair with doubly linked list.
+we have to put in O(1) and remove in O(1) by maintaing the property i.e 
+we have to swap / delete the nodes in O(1) => Doubly Linked List
 
-# Note: After inserting if capacity got more than allowed one then , we need to remove the least recently used
-# and insert the current (key, value) as most recently used.
-# Both should be done in O(1) and only doubly linklist can perform any delete operation in O(1).
-# So we can't use singly linklist, it will take O(capacity) for delete operation.
+Note: After inserting if capacity got more than allowed one then , we need to remove the least recently used
+and insert the current (key, value) as most recently used.
+Both should be done in O(1) and only doubly linklist can perform any delete operation in O(1).
+So we can't use singly linklist, it will take O(capacity) for delete operation.
 
-# Note: all key-value pair should be connected also in sequence they come 
-# so using value as node pointer to itself and connecting all by linked list.
+Note: all key-value pair should be connected also in sequence they come 
+so using value as node pointer to itself and connecting all by linked list.
 
+Time: O(1) for each 'get' and 'put' , Space = O(Capacity) because maximum element can be this only at a time.
+"""
 
 class Node:  # doubly Linked List with key-value pair.
     def __init__(self,key,val):

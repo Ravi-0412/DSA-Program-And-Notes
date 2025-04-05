@@ -1,12 +1,14 @@
 # method 1: By DFS
-# it can't be done by one array and with parent logic(like undirected graph) because
-# the adjacent node of current vertex can also be visited by other path but it may not be the cycle
-#  because in directed graph is one directional (btw two vertex) unlike undirected graph.
-# e.g: [[0,1], [0,2],[1,2]]
+"""
+it can't be done by one array and with parent logic(like undirected graph) because
+the adjacent node of current vertex can also be visited by other path but it may not be the cycle
+because in directed graph is one directional (btw two vertex) unlike undirected graph.
+e.g: [[0,1], [0,2],[1,2]]
 
-# so here we will need two array one dfs_visited to check if the adjacent node of curr node is 
-# visited in current DFS call or not.
-# if visited in curr DFS call then it contain a cycle otherwise not
+so here we will need two array one dfs_visited to check if the adjacent node of curr node is 
+visited in current DFS call or not.
+if visited in curr DFS call then it contain a cycle otherwise not.
+"""
 
 from collections import defaultdict
 class Graph:
@@ -34,7 +36,6 @@ class Graph:
         self.dfs_visited[src]= False
         # return False   # no need of this line 
 
-# you can start with any node, in dfs it doesn't matter in printing topological sort or detecting cycle
     def isCycle(self,n, adj):
         for i in range(n):
             if not self.visited[i]:
@@ -61,6 +62,63 @@ g.addEdge(7,8)
 # test case 2: more than one component
 print(g.AdjList)
 print(g.isCycle(9,g.AdjList))
+
+# Java
+"""
+import java.util.*;
+
+class Graph {
+    private int V;
+    private boolean[] visited;
+    private boolean[] dfsVisited;
+    private Map<Integer, List<Integer>> adjList;
+
+    public Graph(int n) {
+        V = n;
+        visited = new boolean[n];
+        dfsVisited = new boolean[n];
+        adjList = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            adjList.put(i, new ArrayList<>());
+        }
+    }
+
+    public void addEdge(int u, int v) {
+        adjList.get(u).add(v);
+    }
+
+    private boolean DFS_Visit(Map<Integer, List<Integer>> adj, int src) {
+        visited[src] = true;
+        dfsVisited[src] = true;
+
+        for (int u : adj.get(src)) {
+            if (!visited[u]) {
+                if (DFS_Visit(adj, u)) {
+                    return true; // Cycle detected
+                }
+            } else if (dfsVisited[u]) {
+                return true; // Cycle detected
+            }
+        }
+
+        dfsVisited[src] = false; // Unmark the node after backtracking
+        return false; // No cycle detected in this path
+    }
+
+    public boolean isCycle(int n) {
+        Arrays.fill(visited, false); // Reset visited array
+
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                if (DFS_Visit(adjList, i)) {
+                    return true; // Cycle detected
+                }
+            }
+        }
+        return false; // No cycle detected
+    }
+}
+"""
 
 
 # another way using dfs: this submitted in Q "269 Alien dictionary"

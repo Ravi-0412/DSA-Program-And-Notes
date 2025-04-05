@@ -1,13 +1,16 @@
-# can detect cycle even graph is given as component
-# method 1 : using BFS
-# time complexity is same as BFS
+"""
+Can detect cycle even graph is given as component
 
-# # logic: if adjacent node of any vertex is already visited and if it is not parent then there is a cycle .
-#  because if that is not parent and already visited then there must be another path also for reaching that adjacent node from curr node and 
-# since undirected graph is two way(btwn two node) so it will be a cycle only.
+method 1 : using BFS
+time complexity is same as BFS
 
-# this method can also be used to detect the no of connected components in the undirected graph
-# just count the no of times BFS is called that will be the ans
+logic: if adjacent node of any vertex is already visited and if it is not parent then there is a cycle .
+because if that is not parent and already visited then there must be another path also for reaching that adjacent node from curr node and 
+since undirected graph is two way(btwn two node) so it will be a cycle only.
+
+this method can also be used to detect the no of connected components in the undirected graph.
+just count the no of times BFS is called that will be the ans.
+"""
 
 
 from collections import defaultdict
@@ -63,37 +66,95 @@ print(g.AdjList)
 print(g.isCycle(11,g.AdjList))
 print(g.visited)
 
+# Java
+"""
+import java.util.*;
 
+class Graph {
+    private int V;
+    private boolean[] visited;
+    private Map<Integer, List<Integer>> adjList;
+
+    public Graph(int n) {
+        V = n;
+        visited = new boolean[n];
+        adjList = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            adjList.put(i, new ArrayList<>());
+        }
+    }
+
+    public void addEdge(int u, int v) {
+        adjList.get(u).add(v);
+        adjList.get(v).add(u);
+    }
+
+    public boolean BFS(int src) {
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{src, -1});
+
+        while (!q.isEmpty()) {
+            int[] current = q.poll();
+            int curr = current[0];
+            int parent = current[1];
+
+            for (int neighbor : adjList.get(curr)) {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    q.offer(new int[]{neighbor, curr});
+                } else if (neighbor != parent) {
+                    return true; // Found a cycle
+                }
+            }
+        }
+        return false; // No cycle found
+    }
+
+    public boolean isCycle() {
+        Arrays.fill(visited, false); // Reset visited array
+
+        for (int i = 0; i < V; i++) {
+            if (!visited[i]) {
+                visited[i] = true;
+                if (BFS(i)) {
+                    return true; // Cycle detected
+                }
+            }
+        }
+        return false; // No cycle detected
+    }
+}
+
+"""
 
 # # method 2: using DFS
-# # logic is exactly same as BFS
-# from collections import defaultdict
-# class Graph:
-#     def __init__(self,n):
-#         self.V= n
-#         self.visited= [False]*n
-#         self.AdjList= defaultdict(list)
+# logic is exactly same as BFS
+from collections import defaultdict
+class Graph:
+    def __init__(self,n):
+        self.V= n
+        self.visited= [False]*n
+        self.AdjList= defaultdict(list)
     
-#     def addEdge(self,u,v):
-#         self.AdjList[u].append(v)
-#         self.AdjList[v].append(u)
+    def addEdge(self,u,v):
+        self.AdjList[u].append(v)
+        self.AdjList[v].append(u)
 
-#     def DFS_Visit(self, adj,src,parent):
-#         self.visited[src]= True
-#         for u in adj[src]:
-#             if not self.visited[u]:
-#                 if self.DFS_Visit(adj, u, src):
-#                     return True
-#             elif u != parent:
-#                 return True
+    def DFS_Visit(self, adj,src,parent):
+        self.visited[src]= True
+        for u in adj[src]:
+            if not self.visited[u]:
+                if self.DFS_Visit(adj, u, src):
+                    return True
+            elif u != parent:
+                return True
 
-# you can start with any node, in dfs it doesn't matter in printing topological sort or detecting cycle
-#     def isCycle(self,n, adj):
-#         for i in range(n):
-#             if not self.visited[i]:    
-#                 if self.DFS_Visit(adj,i, -1):
-#                     return True       
-#         return False
+    def isCycle(self,n, adj):
+        for i in range(n):
+            if not self.visited[i]:    
+                if self.DFS_Visit(adj,i, -1):
+                    return True       
+        return False
 
 
 # g= Graph(11)
@@ -110,3 +171,71 @@ print(g.visited)
 # g.addEdge(7,10)
 # # print(g.AdjList)
 # print(g.isCycle(11,g.AdjList))
+
+# Java
+"""
+import java.util.*;
+
+class Graph {
+    private int V;
+    private boolean[] visited;
+    private Map<Integer, List<Integer>> adjList;
+
+    public Graph(int n) {
+        V = n;
+        visited = new boolean[n];
+        adjList = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            adjList.put(i, new ArrayList<>());
+        }
+    }
+
+    public void addEdge(int u, int v) {
+        adjList.get(u).add(v);
+        adjList.get(v).add(u);
+    }
+
+    private boolean DFS_Visit(Map<Integer, List<Integer>> adj, int src, int parent) {
+        visited[src] = true;
+        for (int u : adj.get(src)) {
+            if (!visited[u]) {
+                if (DFS_Visit(adj, u, src)) {
+                    return true;
+                }
+            } else if (u != parent) {
+                return true; // Found a cycle
+            }
+        }
+        return false;
+    }
+
+    public boolean isCycle(int n) {
+        Arrays.fill(visited, false); // Reset visited array
+
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                if (DFS_Visit(adjList, i, -1)) {
+                    return true; // Cycle detected
+                }
+            }
+        }
+        return false; // No cycle detected
+    }
+
+    public static void main(String[] args) {
+        Graph g = new Graph(6);
+        g.addEdge(0, 1);
+        g.addEdge(0, 2);
+        g.addEdge(1, 2);
+        g.addEdge(2, 3);
+        g.addEdge(3, 4);
+        g.addEdge(4, 5);
+
+        if (g.isCycle(6)) {
+            System.out.println("Graph contains a cycle.");
+        } else {
+            System.out.println("Graph does not contain a cycle.");
+        }
+    }
+}
+"""

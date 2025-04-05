@@ -1,5 +1,8 @@
 # method 1: using DFS
 """
+Note VVI: whenever you have to find the order of distinct elements, given some relation between them(or dependency)
+must think of topological sort.
+
 logic:  just run the DFS and when there is no adjacent node put the node into the stack
 At last print the stack in opposite direction.
 
@@ -84,19 +87,71 @@ g.addEdge(0,2)
 g.addEdge(0,1)
 g.addEdge(1,2)
 
+# Java
+"""
+import java.util.*;
 
+public class Graph {
+    private int V;
+    private boolean[] visited;
+    private List<List<Integer>> adjList;
+
+    public Graph(int n) {
+        this.V = n;
+        visited = new boolean[n];
+        adjList = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adjList.add(new ArrayList<>());
+        }
+    }
+
+    public void addEdge(int u, int v) {
+        adjList.get(u).add(v);
+    }
+
+    private void findTopoSort(int src, Stack<Integer> stack) {
+        visited[src] = true;
+
+        for (int u : adjList.get(src)) {
+            if (!visited[u]) {
+                findTopoSort(u, stack);
+            }
+        }
+
+        // Push the node onto the stack once all its adjacent nodes are processed
+        stack.push(src);
+    }
+
+    public void topoSort() {
+        Stack<Integer> stack = new Stack<>();
+
+        for (int i = 0; i < V; i++) {
+            if (!visited[i]) {
+                findTopoSort(i, stack);
+            }
+        }
+
+        while (!stack.isEmpty()) {
+            System.out.print(stack.pop() + " ");
+        }
+    }
+}
+"""
 # another way using dfs: this submitted in Q "269 Alien dictionary"
 
 
 # method 2 using BFS: Kahn's Algorithm
 """
-# logic: use the concept of indegree as the node with indegree 0 will come at first and
-# node with more indegree will come later and so
+logic: use the concept of indegree as the node with indegree 0 will come at first and
+node with more indegree will come later and so
 
-# This method can also be used to detect cycle in directed graph
-# just count the no of nodes added in the Q, if there will be cycle then count <n because  at some point 
-# there will not be any node whose indegree will be equal to '0' to put into the Q or call the bfs function.
-# here no need of visited set since we are adding only the node with 'indegree==0'.
+This method can also be used to detect cycle in directed graph.
+just count the no of nodes added in the Q, if there will be cycle then count <n because  at some point,
+there will not be any node whose indegree will be equal to '0' to put into the Q or call the bfs function.
+here no need of visited set since we are adding only the node with 'indegree==0'.
+
+Note: You can go level wise i.e Node with indegree '0' come at first then node with indegree = '1' and so on.
+This will useful in Q: 1136. Parallel Courses
 """
 from collections import defaultdict
 class Graph:
@@ -140,8 +195,7 @@ class Graph:
         else:
             print(ans)
 
-# Note: You can go level wise i.e Node with indegree '0' come at first then node with indegree = '1' and so on.
-# This will useful in Q: 1136. Parallel Courses
+
         
 # test case 1
 # g= Graph(6)
@@ -170,14 +224,78 @@ g.Indegree_count()
 g.FindTopoSort()
 
 
-# Note VVI: whenever you have to find the order of distinct elements, given some relation between them(or dependency)
-# must think of topological sort 
+# Java
+"""
+import java.util.*;
+
+public class Graph {
+    private int V;
+    private int[] indegree;
+    private List<List<Integer>> adjList;
+
+    public Graph(int n) {
+        this.V = n;
+        indegree = new int[n];
+        adjList = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adjList.add(new ArrayList<>());
+        }
+    }
+
+    public void addEdge(int u, int v) {
+        adjList.get(u).add(v);
+    }
+
+    // Calculate the indegree of all nodes
+    public void calculateIndegree() {
+        for (int i = 0; i < V; i++) {
+            for (int neighbor : adjList.get(i)) {
+                indegree[neighbor]++;
+            }
+        }
+    }
+
+    public void findTopoSort() {
+        calculateIndegree();  // Must be called before starting the topo sort
+
+        Queue<Integer> queue = new LinkedList<>();
+        List<Integer> result = new ArrayList<>();
+
+        // Add all nodes with indegree 0 to the queue
+        for (int i = 0; i < V; i++) {
+            if (indegree[i] == 0) {
+                queue.offer(i);
+            }
+        }
+
+        int count = 0;
+
+        while (!queue.isEmpty()) {
+            int u = queue.poll();
+            result.add(u);
+            count++;
+
+            for (int neighbor : adjList.get(u)) {
+                indegree[neighbor]--;
+                if (indegree[neighbor] == 0) {
+                    queue.offer(neighbor);
+                }
+            }
+        }
+
+        if (count != V) {
+            System.out.println("There exists a cycle in the graph");
+        } else {
+            System.out.println("Topological Sort: " + result);
+        }
+    }
+}
+
+"""
 
 # Note: Use this template in other Q of topological sort
 
 # 1) Dfs template
-
-    
     
 # method 2: bfs template
 from collections import defaultdict

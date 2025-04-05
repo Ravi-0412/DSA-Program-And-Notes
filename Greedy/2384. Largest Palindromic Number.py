@@ -1,7 +1,8 @@
 # 1st method
 """
 1) We will try to keep middle element as maximum as possible having odd frequency.
-2) Now try to form left_part sorting the elements(0 to 9 in fact), each number in left part will get added as: num * (freq //2).
+2) Now try to form left_part sorting the elements in descending order, each number in left part will get added as: num * (freq //2).
+Note: Number will be only from '9' to '0'.
 3) Handle the leading zero case.
 4) Ans = left_part + Middle + right_part(just reverse of left part).
 
@@ -11,17 +12,15 @@ from collections import Counter
 
 class Solution:
     def largestPalindromic(self, num: str) -> str:
-        # Step 1: Count frequency of each digit
+        # Count frequency of each digit
         freq = Counter(num)
         
-        # Step 2: Sort digits in descending order and store in variable
+        # Sort digits in descending order and store in variable
         sorted_digits = sorted(freq.keys(), reverse=True)
         
-        # Step 3: Initialize building components
         first_half = ""
         middle_digit = ""
         
-        # Step 4: Process each digit in sorted order
         for digit in sorted_digits:
             count = freq[digit]
             
@@ -32,10 +31,10 @@ class Solution:
             if count % 2 == 1 and not middle_digit:
                 middle_digit = digit
         
-        # Step 5: Remove leading zeros
+        # Remove leading zeros
         first_half = first_half.lstrip('0')
         
-        # Step 6: Handle edge cases and construct result
+        # Handle edge cases and construct result
         if not first_half:
             return middle_digit if middle_digit else "0"
         
@@ -108,7 +107,7 @@ int nonZeroIndex = 0;
   """
 
 # 2nd method: Using the fact that number will be from '0' to '9'.
-# so instead of sorting, traverse the digit in descending order from '0' to '9'.
+# so instead of sorting, traverse the digit in descending order from '9' to '0' directly.
 from collections import Counter
 
 class Solution:
@@ -136,7 +135,6 @@ class Solution:
         if not first_half and not mid:
             return '0'
         
-        # Return the palindrome
         return first_half + mid + first_half[::-1]
 
 # Java

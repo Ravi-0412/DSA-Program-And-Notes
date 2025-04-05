@@ -12,6 +12,7 @@ Space : O(n)
 """
 Related Question
 1) 1520. Maximum Number of Non-Overlapping Substrings
+Solution Link in sheet
 """
 
 from collections import defaultdict

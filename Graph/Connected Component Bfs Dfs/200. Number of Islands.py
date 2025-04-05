@@ -1,11 +1,9 @@
-# just you have to find the no of distinct connected components containing consecutive one's
-
-# simple and concise way of writing the above code
-# using Bfs
-
-# Same code will give ans for Q: 695. maxArea of island
-
-# Note: Make 'directions' array as global in all questions to avoiding creating again and again every time.
+"""
+just you have to find the no of distinct connected components containing consecutive one's
+Same code will give ans for Q: 695. maxArea of island
+Note: Make 'directions' array as global in all questions to avoiding creating again and again every time.
+"""
+# 1st Method: Using Bfs
 
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
@@ -41,10 +39,12 @@ class Solution:
         
 
 # method 2: using DFS
+"""
+for saving the space which is going in O(n*m), just make the changes just after visiting any grid like we had done in 'IsGraphBipartite'
+no need of extra visited set
+Note: always remember for counting q, in base case there will one condition of returning '0' and one in general.
+"""
 
-# for saving the space which is going in O(n*m), just make the changes just after visiting any grid like we had done in 'IsGraphBipartite'
-# no need of extra visited set
-# always remember for counting q, in base case there will one condition of returning '0' and one in general
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
         row,col= len(grid), len(grid[0])

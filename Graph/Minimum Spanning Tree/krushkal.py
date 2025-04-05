@@ -1,8 +1,10 @@
-# logic: we have to take the minimum edge first and include this in mst if after adding this edge, it doesn't form a cycle.
-# for take the minimum one always, we can either sort or use the minHeap and 
-# for checking whether adding an edge will lead to a cycle or not, then only thing come into mind is 'union-find' and 'path compression' method
+"""
+logic: we have to take the minimum edge first and include this in mst if after adding this edge, it doesn't form a cycle.
+i) for taking the minimum one always, we can either sort or use the minHeap and 
+ii) for checking whether adding an edge will lead to a cycle or not, then only thing come into mind is 'union-find' and 'path compression' method
 
-# submitted on gfg
+submitted on gfg
+"""
 class DSU:
     def __init__(self, n):
         self.parent=  [i for i in range(n)]
@@ -48,3 +50,75 @@ class Solution:
                 remaining_edge-= 1
         return mst
 
+# java
+"""
+import java.util.*;
+
+class DSU {
+    int[] parent, size;
+
+    public DSU(int n) {
+        parent = new int[n];
+        size = new int[n];
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+            size[i] = 1;
+        }
+    }
+
+    public int findUPar(int node) {
+        if (node == parent[node]) return node;
+        parent[node] = findUPar(parent[node]);  // Path compression
+        return parent[node];
+    }
+
+    public boolean unionBySize(int u, int v) {
+        int pu = findUPar(u);
+        int pv = findUPar(v);
+        if (pu == pv) return false;
+
+        if (size[pu] < size[pv]) {
+            parent[pu] = pv;
+            size[pv] += size[pu];
+        } else {
+            parent[pv] = pu;
+            size[pu] += size[pv];
+        }
+        return true;
+    }
+}
+
+class Solution {
+    public int spanningTree(int V, List<List<List<Integer>>> adj) {
+        List<int[]> edges = new ArrayList<>();
+
+        // Convert adjacency list to edge list with (cost, src, dest)
+        for (int i = 0; i < V; i++) {
+            for (List<Integer> edge : adj.get(i)) {
+                int v = edge.get(0);
+                int w = edge.get(1);
+                edges.add(new int[]{w, i, v});
+            }
+        }
+
+        // Sort edges by weight
+        edges.sort(Comparator.comparingInt(a -> a[0]));
+
+        DSU dsu = new DSU(V);
+        int mst = 0;
+        int remaining_edges = V - 1;
+
+        for (int[] edge : edges) {
+            int w = edge[0], u = edge[1], v = edge[2];
+            if (dsu.unionBySize(u, v)) {
+                mst += w;
+                remaining_edges--;
+                if (remaining_edges == 0) break;
+            }
+        }
+
+        return mst;
+    }
+}
+
+"""

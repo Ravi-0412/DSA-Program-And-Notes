@@ -1,18 +1,20 @@
-# just the topological sorting
-# how to reach think about topo sort?: 
-# Ans: we can only finish all the courses if there exist any order for completing all the courses.
-# and order is only possible when we will make a directed graph between the dependency given and graph should have no cycle.
-# and for finding any ordering with checking cycle , only thing comes into mind is 'Topological Sort'  
-# if no cycle then it is possible.
+"""
+just the topological sorting
+how to reach think about topo sort?: 
+Ans: we can only finish all the courses if there exist any order for completing all the courses.
+And order is only possible when we will make a directed graph between the dependency given and graph should have no cycle.
+And for finding any ordering with checking cycle , only thing comes into mind is 'Topological Sort'  
+if no cycle then it is possible.
 
-# Note vvi: But for this Q, we don't need to do topological sort,
-# Because here we only need to check if there exist cycle or not.
-# If no cycle then it is possible to complete all courses else not.
+Note vvi: But for this Q, we don't need to do topological sort,
+Because here we only need to check if there exist cycle or not.
+If no cycle then it is possible to complete all courses else not.
 
-# So we can apply simple bfs and dfs to check cycle in directed graph ()
+So we can apply simple bfs and dfs to check cycle in directed graph ()
 
-# But in Q. "210.course Schedule 2", we need to go by topological sort only since we have to find the completion order.
-# And order we can only get by topological sorting.
+But in Q. "210.course Schedule 2", we need to go by topological sort only since we have to find the completion order.
+And order we can only get by topological sorting.
+"""
 
 # method 1 :
 # dfs to check cycle

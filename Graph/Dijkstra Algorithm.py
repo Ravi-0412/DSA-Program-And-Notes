@@ -16,6 +16,9 @@ Note: Whenever we are asked to find the shortest path having no weight or equal 
 Reason: we go breadth wise to reach the other cell as soon as possible.
 
 If weighted then think of Dijkastra Algo.
+
+Related Q:
+1) 2092. Find All People With Secret
 """
 
 from collections import defaultdict
@@ -72,6 +75,57 @@ adj= [[0,1,10],[0,2,5],[1,3,1],[1,2,2],[2,1,3],[2,4,2],[2,3,9],[3,4,4],[4,0,7],[
 # print(ShortestPath(adj, 5, 0))
 print(ShortestPath1(adj, 5, 0))
 
+# Java
+"""
+public class Solution {
+    public int[] shortestPath1(int[][] adj, int n, int src) {
+        // Convert input edge list to adjacency list with weights
+        Map<Integer, List<int[]>> edges = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            edges.put(i, new ArrayList<>());
+        }
+
+        for (int[] e : adj) {
+            int u = e[0];
+            int v = e[1];
+            int w = e[2];
+            edges.get(u).add(new int[]{v, w});
+        }
+
+        int[] distance = new int[n];
+        Arrays.fill(distance, Integer.MAX_VALUE);
+        distance[src] = 0;  // will contain the shortest distance from source to all vertices
+
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+        minHeap.offer(new int[]{0, src});  // first element = weight, second = node
+
+        Set<Integer> visited = new HashSet<>();
+
+        while (!minHeap.isEmpty()) {
+            int[] top = minHeap.poll();
+            int w1 = top[0];
+            int n1 = top[1];
+
+            if (visited.contains(n1)) continue;
+
+            distance[n1] = w1;  // finalized shortest distance for n1
+            visited.add(n1);    // mark as visited only when we're about to relax outgoing edges
+
+            for (int[] edge : edges.get(n1)) {
+                int n2 = edge[0];
+                int w2 = edge[1];
+
+                if (!visited.contains(n2)) {
+                    minHeap.offer(new int[]{w1 + w2, n2});  // add with updated weight
+                }
+            }
+        }
+
+        return distance;
+    }
+}
+"""
+
 """
 Now if we want to print shortest path from source to any node.
 
@@ -127,8 +181,67 @@ n = 4
 src = 0
 print("shostest from source to each node: ", ShortestPath1(adj, n, src))
 
+# Java
+"""
+import java.util.*;
 
+public class Solution {
+    public void shortestPath1(int[][] adj, int n, int src) {
+        // Adjacency list with weights
+        Map<Integer, List<int[]>> edges = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            edges.put(i, new ArrayList<>());
+        }
 
+        for (int[] e : adj) {
+            int u = e[0], v = e[1], w = e[2];
+            edges.get(u).add(new int[]{v, w});
+        }
 
-# Related Q:
-# 1) 2092. Find All People With Secret
+        int[] parent = new int[n];
+        Arrays.fill(parent, -1);
+
+        int[] distance = new int[n];
+        Arrays.fill(distance, Integer.MAX_VALUE);
+        distance[src] = 0;
+
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> a[0] - b[0]); // (weight, node, parent)
+        minHeap.offer(new int[]{0, src, -1});
+
+        Set<Integer> visited = new HashSet<>();
+
+        while (!minHeap.isEmpty()) {
+            int[] top = minHeap.poll();
+            int w1 = top[0];
+            int n1 = top[1];
+            int p1 = top[2];
+
+            if (visited.contains(n1)) continue;
+
+            distance[n1] = w1;
+            parent[n1] = p1;
+            visited.add(n1);
+
+            for (int[] nei : edges.get(n1)) {
+                int n2 = nei[0];
+                int w2 = nei[1];
+                if (!visited.contains(n2)) {
+                    minHeap.offer(new int[]{w1 + w2, n2, n1});
+                }
+            }
+        }
+
+        // Print paths and distances
+        for (int i = 0; i < n; i++) {
+            List<Integer> path = new ArrayList<>();
+            int cur = i;
+            while (cur != -1) {
+                path.add(cur);
+                cur = parent[cur];
+            }
+            Collections.reverse(path);
+            System.out.println("Path and distance of node " + i + " from source " + src + " is : " + path + " and " + distance[i]);
+        }
+    }
+ }
+"""

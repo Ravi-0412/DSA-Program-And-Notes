@@ -9,6 +9,10 @@ we will only reach the nodes which was connected bidirectionally after transposi
 3) Call DFS acc to the largest finishing time got in step 1 on the transposed graph, time: O(n +E)
 Space : O(n)
 """
+"""
+Related Question
+1) 1520. Maximum Number of Non-Overlapping Substrings
+"""
 
 from collections import defaultdict
 class Graph:
@@ -68,3 +72,83 @@ g.addEdge(0,3)
 g.addEdge(3,4)
 g.KosaRaju(g.AdjList, 5)
 
+# java
+"""
+import java.util.*;
+
+public class Graph {
+    int V;
+    boolean[] visited;
+    boolean[] visitedReverse;
+    List<List<Integer>> adjList;
+
+    public Graph(int n) {
+        V = n;
+        visited = new boolean[n];
+        visitedReverse = new boolean[n];
+        adjList = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adjList.add(new ArrayList<>());
+        }
+    }
+
+    public void addEdge(int u, int v) {
+        adjList.get(u).add(v);
+    }
+
+    public void DFS(List<List<Integer>> adj, int src, Stack<Integer> stack) {
+        visited[src] = true;
+        for (int u : adj.get(src)) {
+            if (!visited[u]) {
+                DFS(adj, u, stack);
+            }
+        }
+        stack.push(src); // will contain node with largest finishing time at the top
+    }
+
+    public void printSCC(List<List<Integer>> transpose, int src) {
+        visitedReverse[src] = true;
+        System.out.print(src + " ");
+        for (int v : transpose.get(src)) {
+            if (!visitedReverse[v]) {
+                printSCC(transpose, v);
+            }
+        }
+    }
+
+    // start reading from here
+    public void KosaRaju(List<List<Integer>> adj, int n) {
+        Stack<Integer> stack = new Stack<>();
+
+        // Step 1: DFS and push nodes by finishing time
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                DFS(adj, i, stack);
+            }
+        }
+
+        // Step 2: Transpose the graph
+        List<List<Integer>> transpose = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            transpose.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j : adj.get(i)) {
+                transpose.get(j).add(i);
+            }
+        }
+
+        // Step 3: DFS on transposed graph using order in stack
+        System.out.println("The Strongly Connected Components are:");
+        while (!stack.isEmpty()) {
+            int u = stack.pop();
+            if (!visitedReverse[u]) {
+                System.out.println();
+                printSCC(transpose, u);
+            }
+        }
+    }
+}
+
+"""

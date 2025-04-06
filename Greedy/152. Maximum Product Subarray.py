@@ -1,7 +1,9 @@
+"""
+logic: negative no is making problem like if product till now is min but next time it can become the ans if next ele will be negative.
+that's why maintaining two varaibel to store the curr_max and curr_min till now.
+here we are becoming greedy as we can get our ans from both like curr_min and curr_max.
 
-# logic: negative no is making problem like if product till now is min but next time it can become the ans if next ele will be negative.
-# that's why maintaining two varaibel to store the curr_max and curr_min till now.
-# here we are becoming greedy as we can get our ans from both like curr_min and curr_max.
+"""
 class Solution:
     def maxProduct(self, nums: List[int]) -> int:
         ans= nums[0]

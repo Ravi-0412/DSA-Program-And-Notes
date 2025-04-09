@@ -11,3 +11,27 @@ class Solution:
 		        if Arr[i] > Arr[j]:
 		            dp[i] = max(dp[i], Arr[i] + dp[j])
         return max(dp)
+
+# Java
+"""
+import java.util.Arrays;
+
+public class Solution {
+    public int maxSumIS(int[] arr, int n) {
+        int[] dp = new int[n];
+        for (int i = 0; i < n; i++) {
+            dp[i] = arr[i];
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (arr[i] > arr[j]) {
+                    dp[i] = Math.max(dp[i], arr[i] + dp[j]);
+                }
+            }
+        }
+
+        return Arrays.stream(dp).max().getAsInt();
+    }
+}
+"""

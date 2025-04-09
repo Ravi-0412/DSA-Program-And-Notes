@@ -1,9 +1,9 @@
-# the same approach can be used to find th index of an element 
-# if even not in the sorted array like: if element would be in the 
-# array what would be its index
-# we are just doing the same thing only i.e; finding the proper
-# index of the given number
+"""
+The same approach can be used to find th index of an element 
+if even not in the sorted array like: if element would be in the array what would be its index
+we are just doing the same thing only i.e; finding the proper index of the given number
 
+"""
 # 1st method
 def floor_number(arr,num):
     n= len(arr)

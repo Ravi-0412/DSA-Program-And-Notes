@@ -72,6 +72,43 @@ class Solution:
             dp[n][sum]= self.MinCoins(n, arr, sum- arr[n-1], dp) + self.MinCoins(n -1, arr, sum, dp)
         return dp[n][sum]
 
+# Java
+"""
+public class Solution {
+    public int change(int amount, int[] coins) {
+        int N = coins.length;
+        int[][] dp = new int[N + 1][amount + 1];
+
+        for (int i = 0; i <= N; i++) {
+            for (int j = 0; j <= amount; j++) {
+                dp[i][j] = -1;
+            }
+        }
+
+        return countWays(N, coins, amount, dp);
+    }
+
+    private int countWays(int n, int[] arr, int sum, int[][] dp) {
+        if (sum == 0) {
+            return 1;
+        }
+        if (n == 0) {
+            return 0;
+        }
+        if (dp[n][sum] != -1) {
+            return dp[n][sum];
+        }
+
+        if (arr[n - 1] > sum) {
+            dp[n][sum] = countWays(n - 1, arr, sum, dp);
+        } else {
+            dp[n][sum] = countWays(n, arr, sum - arr[n - 1], dp) + countWays(n - 1, arr, sum, dp);
+        }
+
+        return dp[n][sum];
+    }
+}
+"""
 
 # method 3: Bottom up Approach
 class Solution:
@@ -93,6 +130,31 @@ class Solution:
                     dp[i][j]= dp[i][j-arr[i-1]] + dp[i-1][j]
         return dp[N][sum]
 
+# Java
+"""
+public class Solution {
+    public int change(int sum, int[] arr) {
+        int N = arr.length;
+        int[][] dp = new int[N + 1][sum + 1];
+
+        for (int i = 0; i <= N; i++) {
+            dp[i][0] = 1;
+        }
+
+        for (int i = 1; i <= N; i++) {
+            for (int j = 1; j <= sum; j++) {
+                if (arr[i - 1] > j) {
+                    dp[i][j] = dp[i - 1][j];
+                } else {
+                    dp[i][j] = dp[i][j - arr[i - 1]] + dp[i - 1][j];
+                }
+            }
+        }
+
+        return dp[N][sum];
+    }
+}
+"""
 
 
 # Similar Q: 

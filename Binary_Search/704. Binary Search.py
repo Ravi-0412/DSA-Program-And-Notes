@@ -237,12 +237,14 @@ def binary_search(arr,key):
     return low
 
 
-# Note VVI: Array sorted ho ya unsorted ho, agar tm dekh pa rhe ki ans is given range me lie karega and 
-# condition check karke agar decide kar pa rhe ho ki kon sa side move karna h.
-# then apply Binary Search, no matter array is sorted or not.
+"""
+Note VVI: Array sorted ho ya unsorted ho, agar tm dekh pa rhe ki ans is given range me lie karega and 
+condition check karke agar decide kar pa rhe ho ki kon sa side move karna h.
+then apply Binary Search, no matter array is sorted or not.
 
-# like agar ye condition agar follow kar rha then is side check karna h agar nhi kar rha to dusre side check karna h..
-# then must apply Binary Search.
+like agar ye condition agar follow kar rha then is side check karna h agar nhi kar rha to dusre side check karna h..
+then must apply Binary Search.
 
-# Note Latest: Template1, template4, Template5 is enough to solve all the questions.
-# So replace answers of all questions slowly slowly using these three templates only.
+Note Latest: Template1, template4, Template5 is enough to solve all the questions.
+So replace answers of all questions slowly slowly using these three templates only.
+"""

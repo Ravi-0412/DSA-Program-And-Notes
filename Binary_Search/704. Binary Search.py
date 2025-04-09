@@ -1,27 +1,30 @@
-# Note: in Binary search mid will give the ans always. so for making any decision or condition in 'if' or 'while' loop, 
-# just think from 'mid' i.e if it is not equal to mid then where to move for this 'if' condition.
+"""
+Note: in Binary search mid will give the ans always. so for making any decision or condition in 'if' or 'while' loop, 
+just think from 'mid' i.e if it is not equal to mid then where to move for this 'if' condition.
 
-# Note: for initialising 'low' and 'up' just find the range in which we can get the ans.
-# and initialise 'low'= min range value and 'up'= maximum range value.
-# After this use template 1 or template 2 or template 4 according to the Q.
-# Note: Using above three template you can solve almost all Q of binary search, just think which template we can use here analysing the Q.
+Note: for initialising 'low' and 'up' just find the range in which we can get the ans.
+and initialise 'low'= min range value and 'up'= maximum range value.
+After this use template 1 or template 2 or template 4 according to the Q.
+Note: Using above three template you can solve almost all Q of binary search, just think which template we can use here analysing the Q.
 
-# 'up' hmesha '>=' or '>' target' me update hoga and low '<=' or '<' target me update hoga, 
-# kyonki hmlog ko size hmesha decrease karna h.
-# (Question ka meaning bhi thoda dhyan me rakhna h). Opposite fashion me bhi kam kar sakta h.
-# e.g: "1283. Find the Smallest Divisor Given a Threshold".
+Note: 'up' hmesha '>=' or '>' target' me update hoga and low '<=' or '<' target me update hoga, 
+kyonki hmlog ko size hmesha decrease karna h.
+(Question ka meaning bhi thoda dhyan me rakhna h). Opposite fashion me bhi kam kar sakta h.
+e.g: "1283. Find the Smallest Divisor Given a Threshold".
+"""
 
 # Template 1:
-# Note: use this template in case if elements are not present then  we have to return some valid number, and
-# if present  then simply we will get the ans inside the while loop.
-# e.g: Q like: 1) find ceil and floor of a number in sorted array  2) find square root of a number  
-# 3) Find 1st bad version 4) 744. Find Smallest Letter Greater Than Target 5) 35. Search Insert Position
+"""
+Note: use this template in case if elements are not present then  we have to return some valid number, and
+if present  then simply we will get the ans inside the while loop.
+e.g: Q like: 1) find ceil and floor of a number in sorted array  2) find square root of a number  
+3) Find 1st bad version 4) 744. Find Smallest Letter Greater Than Target 5) 35. Search Insert Position
 
-# here while loop will only break when low>up then 'low' will give the ceil value(just greater than key) and 
-# 'high' will give the floor value(just less than key) since 
-# after while loop low will become '1' greater than 'high'.
+Note: here while loop will only break when low > up then 'low' will give the ceil value(just greater than key) and 
+'high' will give the floor value(just less than key) since after while loop, low will become '1' greater than 'high'.
 
-# in case of duplicate ele it will give any index where it will find the ans first.
+in case of duplicate ele it will give any index where it will find the ans first.
+"""
 def binary_search(arr,key):
     n= len(arr)
     low=0
@@ -42,39 +45,41 @@ def binary_search(arr,key):
 
 
 # Template 2:  most important and most powerful template
-# Note vvi: we use when we have to find the smallest amomg all possible ans.
+"""
+Note vvi: we use when we have to find the smallest amomg all possible ans.
 
-# here after while loop will break then 'low' and 'high' will become equal.
-# so any one of them will point to 'key' if key is present. After while loop both will point to the same thing.
+Note: here after while loop will break then 'low' and 'high' will become equal.
+so any one of them will point to 'key' if key is present. After while loop both will point to the same thing.
 
-# use this template when we are asked to return ans if present else simply return '-1'
-# (or something fixed value given to return in case if not present) or given ans exist for sure.
-# here we make decision after while loop only i.e what to return as final ans.
-# e.g: search for an element in an array.
+Note: use this template when we are asked to return ans if present else simply return '-1'
+(or something fixed value given to return in case if not present) or given ans exist for sure.
+here we make decision after while loop only i.e what to return as final ans.
+e.g: search for an element in an array.
 
-# Note: in case of duplicate elements, it will give the 1st index where ele is present.
-# because even after finding the ans(>=), we are continuing our checking and shrinking the mid(decreasing the up).
+Note: in case of duplicate elements, it will give the 1st index where ele is present.
+because even after finding the ans(>=), we are continuing our checking and shrinking the mid(decreasing the up).
 
-# agar ans mil bhi gya ho(>=) to or range shrink karke(up ko decr karke) even or chota dhundho.
+agar ans mil bhi gya ho(>=) to or range shrink karke(up ko decr karke) even or chota dhundho.
 
-# here after while loop will break then 'low' and 'high' will become equal.
-# so any one of them will point to 'key' if key is present.
+here after while loop will break then 'low' and 'high' will become equal.
+so any one of them will point to 'key' if key is present.
 
-# Note: low/high will give first element >= key.
-# Note: And in case key > max(arr) then it will give last index.
-# in this case to make low point beyond than 'n-1' , make up = n
-# e.g: 2602. Minimum Operations to Make All Array Elements Equal.
+Note: low/high will give first element >= key i.e if key is present then = key else first element > key.
+Note: And in case key > max(arr) then it will give last index.
+so in this case to make low point beyond than 'n-1' , make up = n
+e.g: 2602. Minimum Operations to Make All Array Elements Equal.
+"""
 
 def binary_search(arr,key):
     n= len(arr)
     low=0
     up= n-1
     while low < up:
-        mid= low+ (up-low)//2
-        if(arr[mid]>= key):    
+        mid = low+ (up-low)//2
+        if arr[mid] >= key :    
             up= mid         # agar hmko target ele hi find karna h kisi smaller index pe then do this
         else:
-            low= mid+1
+            low = mid+1
     return low if arr[low]== key else -1
     
 arr= [10, 10,20, 30, 50, 60, 80, 110, 110, 130, 140, 170]

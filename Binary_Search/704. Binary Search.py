@@ -31,7 +31,7 @@ def binary_search(arr,key):
     up= n-1
     while(low<= up):
         mid= low+ (up-low)//2
-        if arr[mid]== key:
+        if arr[mid] == key:
             return mid
         elif(arr[mid]> key):  # mid ans deta but mid hi bda h to ab kahan 'key' hmko mil sakta h. mid se phle
             up= mid-1
@@ -68,12 +68,20 @@ Note: low/high will give first element >= key i.e if key is present then = key e
 Note: And in case key > max(arr) then it will give last index.
 so in this case to make low point beyond than 'n-1' , make up = n
 e.g: 2602. Minimum Operations to Make All Array Elements Equal.
+
+Note: Most of the binary search problem can be solved using these two(1 and 2) template with exact one or with slight modification 
+in while loop condidtion or in 'if' condition or both.
+after each Q, find out which template we can use and what modification we have to make acc to the Q.
+
+
+here after while loop will break then 'low' and 'high' will become equal.
+so any one of them will point to 'key' if key is present.
 """
 
 def binary_search(arr,key):
     n= len(arr)
-    low=0
-    up= n-1
+    low = 0
+    up = n-1
     while low < up:
         mid = low+ (up-low)//2
         if arr[mid] >= key :    
@@ -88,9 +96,11 @@ print(binary_search(arr, key))
 
 
 # another form of template 2.
-# note: use this when we have to work on <= condition and (mid and condition is acting in opposite fashion), 
-# like incr mid will decrease the condition statement value and vice versa.
-# used in Q "1283. Find the Smallest Divisor Given a Threshold".
+"""
+note: use this when we have to work on <= condition and (mid and condition is acting in opposite fashion), 
+like incr mid will decrease the condition statement value and vice versa.
+used in Q "1283. Find the Smallest Divisor Given a Threshold".
+"""
 class Solution:
     def smallestDivisor(self, nums: List[int], threshold: int) -> int:
 
@@ -110,35 +120,30 @@ class Solution:
         return start
 
 
-# Note: Most of the binary search problem can be solved using these two(1 and 2) template with exact one or with slight modification 
-# in while loop condidtion or in 'if' condition or both.
-# after each Q, find out which template we can use and what modification we have to make acc to the Q.
 
-
-# here after while loop will break then 'low' and 'high' will become equal.
-# so any one of them will point to 'key' if key is present.
 
 # Template 3:  same as Template 2()
-# note: don't use this template. try to solve Q using template 1 and template 2 and template 4 only.
-# will give TLE in many cases.
+"""
+note: don't use this template. try to solve Q using template 1 and template 2 and template 4 only.
+will give TLE in many cases.
 
 
-# Note vvi: in case of duplicate elements, it will give the last index where ele is present.
-# because even after finding the ans, we are continuing our checking and increasing the mid(increasing the low).
-# but doesn't work always to get the last index. may get TLE also . e.g" [10,10], key= 10
-# so avoid this template to find the last index. 
-
+Note vvi: in case of duplicate elements, it will give the last index where ele is present.
+because even after finding the ans, we are continuing our checking and increasing the mid(increasing the low).
+VVI: But doesn't work always to get the last index. may get TLE also . e.g" [10,10], key= 10
+so avoid this template to find the last index. 
+"""
 
 def binary_search(arr,key):
     n= len(arr)
     low=0
     up= n-1
     while low < up:
-        mid= low+ (up-low)//2
+        mid = low+ (up-low)//2
         if(arr[mid] <= key):    
-            low= mid
+            low = mid
         else:
-            up= mid-1
+            up = mid-1
     return low if arr[low]== key else -1
     
 arr= [10, 10,20, 30, 50, 60, 80, 110, 110, 130, 140, 170]
@@ -149,9 +154,11 @@ key= 10
 # to find the last index. basic one.
 # template 1 only :
 
-# Note VVI: agar hmko or bda khojna ho to yhi template use karo "while start<= end" and 
-#  ek 'ans' variable leke update karte raho possible ans me and last me 'ans' ko return kar do.
-# "while low<up" galat  ans de deta h, mostly case me.
+"""
+Note VVI: agar hmko or bda khojna ho to yhi template use karo "while start <= end" and 
+ ek 'ans' variable leke update karte raho possible ans me and last me 'ans' ko return kar do.
+"while low < up" galat  ans de deta h, mostly case me.
+"""
 
 # NOte VVI: agar or chota hi khojna ho to template 2 lagao aankh moon ke. kabhi fail nhi hoga.
 def binary_search(nums,target):
@@ -162,40 +169,44 @@ def binary_search(nums,target):
         mid= start+ (end-start)//2
         # updaet ans and incr the start
         if nums[mid]== target:
-            ans= mid  
-            start= mid+1  # for finding larger index. means we have to find beyond mid
-        elif nums[mid]> target:
-            end= mid-1
+            ans = mid  
+            start = mid+1  # for finding larger index. means we have to find beyond mid
+        elif nums[mid] > target:
+            end = mid-1
         else:
-            start= mid+1
+            start = mid+1
     return ans
 
 arr= [10, 10,20,20,20,20]
 key= 20
 print(binary_search(arr, key))
 
-# Template 4: to find the last index       # most powerful after template 2.
-#  Just consice way of above method(merge two if into one if).
-# agar mil bhi jaye to 'low' ko aage badhate rhna h . isliye start wale condition me equal to lga do.
-# template 1 only. yhi template ko use karna h ans milne ke bad bhi or bhi bda answer khojne ke liye.
-# vvi: This template used in Q like: "Aggressive cows", ""
+# Template 4: to find the last index      
+# most powerful after template 2.
 
-# Note: after while loop, end will point to the last index of target.
-# as before while loop exit start had last index value since equal to(<=) condition with 'start') and
-    # 'start' will point to the first greater ele than the 'target'.
+"""
+Just consice way of above method(merge two if into one if).
+agar mil bhi jaye to 'low' ko aage badhate rhna h . isliye start wale condition me equal to lga do.
+template 1 only. yhi template ko use karna h ans milne ke bad bhi or bhi bda answer khojne ke liye.
+vvi: This template used in Q like: "Aggressive cows", ""
 
-# Note: end will give first element >= target.
-# Note: And in case target > max(arr) then end = n.
+Note: after while loop, end will point to the last index of target.
+as before while loop exit start had last index value since equal to(<=) condition with 'start') and
+'start' will point to the first greater ele than the 'target'.
+
+Note: end will give first element >= target.
+Note: And in case target > max(arr) then end = n.
+"""
 
 def binary_search(nums,target):
     start= 0
     end= len(nums)-1
-    while start<= end:
-        mid= start+ (end-start)//2
+    while start <= end:
+        mid = start+ (end-start)//2
         if nums[mid] <= target:   # isPossible(mid): 
-            start= mid+1  # for finding larger index. means we have to find beyond mid
+            start = mid+1  # for finding larger index. means we have to find beyond mid
         else:
-            end= mid-1
+            end = mid-1
 
     return end  
 
@@ -214,10 +225,10 @@ def binary_search(arr,key):
     n= len(arr)
     low=0
     up= n-1
-    while low<= up:
-        mid= low+ (up-low)//2
+    while low <= up:
+        mid = low+ (up-low)//2
         if(arr[mid]>= key):    
-            up= mid-1        # agar hmko target ele hi find karna h kisi smaller index pe then do this
+            up = mid-1        # agar hmko target ele hi find karna h kisi smaller index pe then do this
         else:
             low= mid+1
     # after while loop, low will point to the 1st index as before while loop exit 'up' was pointing 

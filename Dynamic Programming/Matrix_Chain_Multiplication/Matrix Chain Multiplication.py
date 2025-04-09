@@ -3,21 +3,46 @@
 
 class Solution:
     def matrixMultiplication(self, N, arr):
-        i,j= 1, N-1  # we can only subdivide before 'n-1' so took j= 'n-1'. can put braces from first matrix to 'one before last matrix)
+        i,j = 1, N-1  # we can only subdivide before 'n-1' so took j= 'n-1'. can put braces from first matrix to 'one before last matrix)
         return self.MCM(arr,i,j)  # calculating the minimum multiplication from 'i'th matrix to 'j'th matrix.
     def MCM(self,arr,start,end):
-        if start>= end:  # only one matrix remaining. "==" will also work.
+        if start >= end:  # only one matrix remaining. "==" will also work.
             return 0
         mn= 99999999999
         for k in range(start,end):
-            # start matrix se leke 'k' matrix tak + (k + 1) se leke 'j-1' tak
-            # (start , k) matrix tak jo result matrix milega uska dimension hoga: arr[start-1]*arr[k]
-            # (k + 1, end) matrix tak jo result matrix milega uska dimension hoga: arr[k] * arr[end]
-            # no of multiplication hoga dono ka: arr[start-1]*arr[k] * arr[end] i.e just conside above sub-matrix as separate matrix .
-            # And is dono ka resultant matrix ka jo dimension hoga: arr[start-1] * arr[end] .
-            tempAns= self.MCM(arr,start,k) + self.MCM(arr,k+1,end) + arr[start-1]*arr[k]*arr[end]   # will store all possible ans
+            """
+            start matrix se leke 'k' matrix tak + (k + 1) se leke 'j-1' tak
+            (start , k) matrix tak jo result matrix milega uska dimension hoga: arr[start-1]*arr[k]
+            (k + 1, end) matrix tak jo result matrix milega uska dimension hoga: arr[k] * arr[end]
+            no of multiplication hoga dono ka: arr[start-1]*arr[k] * arr[end] i.e just conside above sub-matrix as separate matrix .
+            And is dono ka resultant matrix ka jo dimension hoga: arr[start-1] * arr[end] .
+            """
+            tempAns = self.MCM(arr,start,k) + self.MCM(arr,k+1,end) + arr[start-1]*arr[k]*arr[end]   # will store all possible ans
             mn= min(mn,tempAns)   # take minimum of all ans.
         return mn
+
+# Java
+"""
+public class Solution {
+    public int matrixMultiplication(int N, int[] arr) {
+        return MCM(arr, 1, N - 1);
+    }
+
+    private int MCM(int[] arr, int start, int end) {
+        if (start >= end) {
+            return 0;
+        }
+
+        int min = Integer.MAX_VALUE;
+        for (int k = start; k < end; k++) {
+            int temp = MCM(arr, start, k) + MCM(arr, k + 1, end) + arr[start - 1] * arr[k] * arr[end];
+            min = Math.min(min, temp);
+        }
+
+        return min;
+    }
+}
+"""
 
 # method 2: memoization
 # time: O(n^3)
@@ -40,6 +65,38 @@ class Solution:
         dp[start][end]= mn
         return dp[start][end]
 
+# Java
+"""
+public class Solution {
+    public int matrixMultiplication(int N, int[] arr) {
+        int[][] dp = new int[N][N];
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                dp[i][j] = -1;
+            }
+        }
+        return MCM(arr, 1, N - 1, dp);
+    }
+
+    private int MCM(int[] arr, int start, int end, int[][] dp) {
+        if (start >= end) {
+            return 0;
+        }
+        if (dp[start][end] != -1) {
+            return dp[start][end];
+        }
+
+        int min = Integer.MAX_VALUE;
+        for (int k = start; k < end; k++) {
+            int temp = MCM(arr, start, k, dp) + MCM(arr, k + 1, end, dp) + arr[start - 1] * arr[k] * arr[end];
+            min = Math.min(min, temp);
+        }
+
+        dp[start][end] = min;
+        return dp[start][end];
+    }
+}
+"""
 
 # Tabulation:
 # Note: In MCM type Q, go from first valid input to first invalid input (both inclusive) or vice versa.
@@ -57,3 +114,25 @@ class Solution:
                     mn= min(mn,tempAns)
                 dp[start][end]= mn
         return dp[1][N-1]   # we have called the recursive function for this variable value. so simply return that
+
+# Java
+"""
+public class Solution {
+    public int matrixMultiplication(int N, int[] arr) {
+        int[][] dp = new int[N][N];
+
+        for (int start = N - 2; start >= 1; start--) {
+            for (int end = start + 1; end < N; end++) {
+                int min = Integer.MAX_VALUE;
+                for (int k = start; k < end; k++) {
+                    int temp = dp[start][k] + dp[k + 1][end] + arr[start - 1] * arr[k] * arr[end];
+                    min = Math.min(min, temp);
+                }
+                dp[start][end] = min;
+            }
+        }
+
+        return dp[1][N - 1];
+    }
+}
+"""

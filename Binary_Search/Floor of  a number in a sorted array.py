@@ -45,11 +45,11 @@ def getFloorAndCeil(arr, n, x):
             up= mid-1
         elif(arr[mid]<x):
             low= mid+1
-    if up>= 0:
+    if up >= 0:
         ans.append(arr[up])
-    if up< 0:
+    if up < 0:
         ans.append(-1)
-    if  low<n:
+    if low < n:
         ans.append(arr[low])
     if low>= n:
         ans.append(-1)

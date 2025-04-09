@@ -1,20 +1,22 @@
-# the same approach can be used to find the correct index of an element 
-# if even ele is not in the sorted array like: Q) if element would be in the array what would be its index?
-# we are just doing the same thing only i.e; finding the proper index of the given number
+"""
+the same approach can be used to find the correct index of an element 
+if even ele is not in the sorted array like: Q) if element would be in the array what would be its index?
+we are just doing the same thing only i.e; finding the proper index of the given number.
+"""
 
 # 1st one 
 def ceiling_number(arr,num):
     n= len(arr)
-    low= 0
-    high= n-1
-    while(low<= high):
+    low = 0
+    high = n-1
+    while low <= high:
         mid= int(low+ (high- low)/2)
-        if arr[mid]== num: 
+        if arr[mid] == num: 
             return arr[mid]
-        elif arr[mid]< num: 
-            low= mid+ 1
+        elif arr[mid] < num: 
+            low = mid+ 1
         else:
-            high= mid-1
+            high = mid-1
     return arr[low]
 
 
@@ -26,7 +28,7 @@ print(ceiling_number(arr,9))
 print(ceiling_number(arr,8))
 
 
-# 35. Search Insert Position
+# Q: 35. Search Insert Position
 # index of ceil value will give the ans
 # https://leetcode.com/problems/search-insert-position/
 

@@ -77,6 +77,39 @@ class Solution:
         notTake = min(notTake, self.MinCoins(coins, amount, n-1))
         return min(take, notTake)
 
+#java
+"""
+public class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int n = coins.length;
+        int minimum = minCoins(coins, amount, n);
+        return minimum == Integer.MAX_VALUE ? -1 : minimum;
+    }
+
+    private int minCoins(int[] coins, int amount, int n) {
+        if (amount == 0) {
+            return 0;
+        }
+        if (n == 0) {
+            return Integer.MAX_VALUE;
+        }
+
+        int take = Integer.MAX_VALUE;
+        int notTake = Integer.MAX_VALUE;
+
+        if (coins[n - 1] <= amount) {
+            int res = minCoins(coins, amount - coins[n - 1], n);
+            if (res != Integer.MAX_VALUE) {
+                take = 1 + res;
+            }
+        }
+
+        notTake = minCoins(coins, amount, n - 1);
+        return Math.min(take, notTake);
+    }
+}
+"""
+
 # Memoisation
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
@@ -100,3 +133,47 @@ class Solution:
         notTake = min(notTake, self.MinCoins(coins, amount, n-1, dp))
         dp[n][amount] =  min(take, notTake)
         return dp[n][amount]
+
+
+# Java
+"""
+public class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int n = coins.length;
+        int[][] dp = new int[n + 1][amount + 1];
+
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= amount; j++) {
+                dp[i][j] = -1;
+            }
+        }
+
+        int minimum = minCoins(coins, amount, n, dp);
+        return minimum == Integer.MAX_VALUE ? -1 : minimum;
+    }
+
+    private int minCoins(int[] coins, int amount, int n, int[][] dp) {
+        if (amount == 0) {
+            return 0;
+        }
+        if (n == 0) {
+            return Integer.MAX_VALUE;
+        }
+        if (dp[n][amount] != -1) {
+            return dp[n][amount];
+        }
+
+        int take = Integer.MAX_VALUE;
+        if (coins[n - 1] <= amount) {
+            int res = minCoins(coins, amount - coins[n - 1], n, dp);
+            if (res != Integer.MAX_VALUE) {
+                take = 1 + res;
+            }
+        }
+
+        int notTake = minCoins(coins, amount, n - 1, dp);
+        dp[n][amount] = Math.min(take, notTake);
+        return dp[n][amount];
+    }
+}
+"""

@@ -1,11 +1,13 @@
-# note: here in <= we are updating end= mid (we used to do this in >=). But it will work fine only.
-# since mid and condition is acting in opposite way like when we will incr the mid 
-# (condition value associated with mid will decr)  and so on.
-# So logically we are updating start and end for same reason only like we used to do this in all the Q.
+"""
+note: here in <= we are updating end= mid (we used to do this in >=). But it will work fine only.
+since mid and condition is acting in opposite way like when we will incr the mid 
+(condition value associated with mid will decr)  and so on.
+So logically we are updating start and end for same reason only like we used to do this in all the Q.
 
-# Vvi Reason: we will get max sum when our mid will less and min sum when our mid will be high.
-# vvi Range: start = 1 , when start = 1 then we will get maximum sum
-# end= max(sum), we will get minimum sum when our mid= max(nums). we will get sum = len(nums) so threshold >= len(nums)
+Vvi Reason: we will get max sum when our mid will less and min sum when our mid will be high.
+vvi Range: start = 1 , when start = 1 then we will get maximum sum
+end= max(sum), we will get minimum sum when our mid= max(nums). we will get sum = len(nums) so threshold >= len(nums)
+"""
 
 # time: O(n* log(max(nums)))
 class Solution:
@@ -21,17 +23,53 @@ class Solution:
         while start < end:
             mid= start + (end - start)//2
             if isSum(mid) <= threshold:  # if isPossible(mid) =>  then try to get more smaller
-                end= mid
+                end = mid
             else:  # if isSum(mid) > threshold  => we need to decrease the sum for this we need to increase the mid .
                 start= mid + 1
         return start
 
+# java
+"""
+import java.util.*;
+
+class Solution {
+
+    public int smallestDivisor(int[] nums, int threshold) {
+        int start = 1;
+        int end = Arrays.stream(nums).max().getAsInt(); // One-liner max
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+
+            if (getSum(nums, mid) <= threshold) {
+                end = mid;
+            } else {
+                start = mid + 1;
+            }
+        }
+        return start;
+    }
+
+    private int getSum(int[] nums, int divisor) {
+        int sum = 0;
+        for (int n : nums) {
+            sum += (n + divisor - 1) / divisor; // Ceiling division in java
+            //sum += (int) Math.ceil((double) n / divisor); // Using Math.ceil works with double
+
+        }
+        return sum;
+    }
+}
+"""
 
 # my mistake:
-# this template most of time lead to TLE by updating start or end by same value again and again.
-# Best use above template only. Just use above one acc to the logic of the Q.
-# in case we need to decrease our ans (>= or <=) acc to the Q, we will update our end = mid 
-# and where we have to increase our ans (< or >), we will update start= mid + 1.
+"""
+this template most of time lead to TLE by updating start or end by same value again and again.
+Same way when we tryu to get the last index in case of duplicate element.
+Best use above template only. Just use above one acc to the logic of the Q.
+in case we need to decrease our ans (>= or <=) acc to the Q, we will update our end = mid 
+and where we have to increase our ans (< or >), we will update start= mid + 1.
+"""
 class Solution:
     def smallestDivisor(self, nums: List[int], threshold: int) -> int:
 

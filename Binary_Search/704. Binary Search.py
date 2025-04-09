@@ -236,6 +236,10 @@ def binary_search(arr,key):
     # 'up' will point to the greatest number smaller than the target.
     return low
 
+"""
+Note: All problems can be solved using Template 1, Template 4 and Template 5.
+So later revise all binary search question and try to all the questions using these three templates only.
+"""
 
 """
 Note VVI: Array sorted ho ya unsorted ho, agar tm dekh pa rhe ki ans is given range me lie karega and 

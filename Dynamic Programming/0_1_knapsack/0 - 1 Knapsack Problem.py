@@ -1,22 +1,26 @@
 
-# In other words, given two integer arrays val[0..n-1] and wt[0..n-1] 
-# which represent values and weights associated with n items respectively.
-#  Also given an integer W which represents knapsack capacity, 
-# find out the maximum value subset of val[] such that sum of the weights of 
-# this subset is smaller than or equal to W. 
-# Note: You cannot break an item, either pick the complete item or don’t pick it (0-1) property
+"""
+In other words, given two integer arrays val[0..n-1] and wt[0..n-1] 
+which represent values and weights associated with n items respectively.
+ Also given an integer W which represents knapsack capacity, 
+find out the maximum value subset of val[] such that sum of the weights of 
+this subset is smaller than or equal to W. 
+Note: You cannot break an item, either pick the complete item or don’t pick it (0-1) property
+"""
 
 # method1: by recursion
-# just like subsequence and subset. basically we are finding this only from the value array
+"""
+just like subsequence and subset. basically we are finding this only from the value array
 
-# Logic: For every ele we have two choice : 1) include that or 2) Not include that
-# we can only include if sufficient weight in bag is available.
+Logic: For every ele we have two choice : 1) include that or 2) Not include that
+we can only include if sufficient weight in bag is available.
 
-# Time Complexity: O(2^n), no extra space but recursion  O(n)
+Time Complexity: O(2^n), no extra space but recursion  O(n)
+"""
 def knapSack(N, W, val, wt):  # max profit you can get with 'n' items having available bag size = w
     if N==0 or W==0:
         return 0
-    if wt[N-1]<= W: # we have two choices either to take this item or not
+    if wt[N-1] <= W: # we have two choices either to take this item or not
         return max(val[N-1]+ knapSack(N-1,W- wt[N-1],val,wt), knapSack(N-1,W,val, wt))
     else:  # only one option i.e we can't take this ele. Move to next ele.
         return knapSack(N-1,W,val, wt) 
@@ -26,6 +30,29 @@ W = 3
 values = [1,2,3]
 weight = [4,5,6]
 print(knapSack(N,W,values,weight))
+
+# Java
+"""
+class Solution {
+    public int knapSack(int N, int W, int[] val, int[] wt) {
+        // Base case: no items or no capacity
+        if (N == 0 || W == 0) {
+            return 0;
+        }
+
+        if (wt[N - 1] <= W) {
+            // Two choices: take or skip the item
+            return Math.max(
+                val[N - 1] + knapSack(N - 1, W - wt[N - 1], val, wt),
+                knapSack(N - 1, W, val, wt)
+            );
+        } else {
+            // Can't take the item, move to next
+            return knapSack(N - 1, W, val, wt);
+        }
+    }
+}
+"""
 
 
 # submitted on gfg
@@ -49,6 +76,37 @@ class Solution:
             dp[n][W]= max((val[n-1]+ self.helper(W-wt[n-1],wt,val,n-1,dp)), self.helper(W, wt, val,n-1,dp))
         return dp[n][W]   # we started the Recursive call from (n,w) so return dp[n][w]
 
+# Java
+"""
+class Solution {
+
+    public int knapSack(int W, int[] wt, int[] val, int n) {
+        int[][] dp = new int[n + 1][W + 1];
+        for (int i = 0; i <= n; i++) {
+            Arrays.fill(dp[i], -1);
+        }
+        return helper(W, wt, val, n, dp);
+    }
+
+    private int helper(int W, int[] wt, int[] val, int n, int[][] dp) {
+        if (W == 0 || n == 0) {
+            return 0;
+        }
+        if (dp[n][W] != -1) {
+            return dp[n][W];
+        }
+        if (wt[n - 1] > W) {
+            dp[n][W] = helper(W, wt, val, n - 1, dp);
+        } else {
+            dp[n][W] = Math.max(
+                val[n - 1] + helper(W - wt[n - 1], wt, val, n - 1, dp),
+                helper(W, wt, val, n - 1, dp)
+            );
+        }
+        return dp[n][W];
+    }
+}
+"""
 
 # another method: Tabulation (By Bottom up approach)
 # just write the base case and then replace by for loop and inside for loop just copy paste the code of recursion and replace function call by DP value
@@ -65,6 +123,27 @@ class Solution:
                     dp[i][j]= dp[i-1][j]
         return dp[n][W]  # we started the Recursive call from (n,w) so return dp[n][w]
 
+# Java
+"""
+class Solution {
+
+    public int knapSack(int W, int[] wt, int[] val, int n) {
+        int[][] dp = new int[n + 1][W + 1];
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= W; j++) {
+                if (wt[i - 1] <= j) {
+                    dp[i][j] = Math.max(val[i - 1] + dp[i - 1][j - wt[i - 1]], dp[i - 1][j]);
+                } else {
+                    dp[i][j] = dp[i - 1][j];
+                }
+            }
+        }
+
+        return dp[n][W];
+    }
+}
+"""
 
 # Better one
 # Logic: for each element we have two choice : 1) NotTake and 2) take
@@ -89,3 +168,34 @@ class Solution:
             take =  val[n-1] + self.helper(W - wt[n-1], wt, val, n-1, dp)
         dp[n][W] = max(take, notTake)
         return dp[n][W] 
+
+# Java
+"""
+class Solution {
+
+    public int knapSack(int W, int[] wt, int[] val) {
+        int n = wt.length;
+        int[][] dp = new int[n + 1][W + 1];
+        for (int i = 0; i <= n; i++) {
+            Arrays.fill(dp[i], -1);
+        }
+        return helper(W, wt, val, n, dp);
+    }
+
+    private int helper(int W, int[] wt, int[] val, int n, int[][] dp) {
+        if (W == 0 || n == 0) {
+            return 0;
+        }
+        if (dp[n][W] != -1) {
+            return dp[n][W];
+        }
+        int notTake = helper(W, wt, val, n - 1, dp);
+        int take = 0;
+        if (wt[n - 1] <= W) {
+            take = val[n - 1] + helper(W - wt[n - 1], wt, val, n - 1, dp);
+        }
+        dp[n][W] = Math.max(take, notTake);
+        return dp[n][W];
+    }
+}
+"""

@@ -21,18 +21,20 @@ class Solution:
 
 
 # my mistakes VVI:
-# if row and col will go out of bound then left or up will be '0' then it will return '0' since we are returning minimum value.
+"""
+if row and col will go out of bound then left or up will be '0' then it will return '0' since we are returning minimum value.
 
-# say you are at (0, 3) , from here you can go left and but can't go up.
-# for from left , you will get : sum from index '3 to 0' in row '0'
-# And from up you will get '0'.
-# Now since it is returning minimum , it will return '0' instead of sum from index '3 to 0' in row '0'.
+say you are at (0, 3) , from here you can go left and but can't go up.
+for from left , you will get : sum from index '3 to 0' in row '0'
+And from up you will get '0'.
+Now since it is returning minimum , it will return '0' instead of sum from index '3 to 0' in row '0'.
 
-# That's why we have to stop before reaching the invalid case. SO did like above one
+That's why we have to stop before reaching the invalid case. SO did like above one
 
-# OR
+OR
 
-# Better one: return very big value like 'float('inf)' then it will give correct ans.
+Better one: return very big value like 'float('inf)' then it will give correct ans.
+"""
 
 class Solution:
     def minPathSum(self, grid: List[List[int]]) -> int:
@@ -47,7 +49,29 @@ class Solution:
             # return 0   # will give wrong ans. less than required
             return float('inf')   # will give correct ans
         return grid[row][col] +  min(self.helper(row-1,col,grid), self.helper(row,col-1,grid))
-    
+
+# Java
+"""
+public class Solution {
+    public int minPathSum(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        return helper(m - 1, n - 1, grid);
+    }
+
+    private int helper(int row, int col, int[][] grid) {
+        if (row == 0 && col == 0) {
+            return grid[0][0];
+        }
+        if (row < 0 || col < 0) {
+            return Integer.MAX_VALUE;
+        }
+
+        int up = helper(row - 1, col, grid);
+        int left = helper(row, col - 1, grid);
+        return grid[row][col] + Math.min(up, left);
+    }
+}
+"""
 
 # My bottom- up dp solution.
 # Just above logic.
@@ -70,28 +94,6 @@ class Solution:
     
 # java
 """
-// 1) Recursive
-
-class Solution {
-    public int minPathSum(int[][] grid) {
-        int m = grid.length, n = grid[0].length;
-        return helper(m - 1, n - 1, grid);  // Going from 'm-1,n-1' to '0,0'
-    }
-
-    private int helper(int row, int col, int[][] grid) {
-        // When you have reached the 0th row and 0th col, return the value at that position
-        if (row == 0 && col == 0) {
-            return grid[row][col];
-        }
-        if (row < 0 || col < 0) {
-            return Integer.MAX_VALUE;   // Return a very large number to avoid out-of-bounds issues
-        }
-        return grid[row][col] + Math.min(helper(row - 1, col, grid), helper(row, col - 1, grid));
-    }
-}
-
-
-2) Recursive  + memoisation
 class Solution {
     public int minPathSum(int[][] grid) {
         int m = grid.length;

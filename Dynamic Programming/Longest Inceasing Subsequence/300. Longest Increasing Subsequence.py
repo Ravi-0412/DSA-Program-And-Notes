@@ -1,12 +1,15 @@
-# If we closely observe the problem then we can convert this problem to longest Common Subsequence Problem.
-# Firstly we will create another array of unique elements of original array and sort it. 
-# Now the longest increasing subsequence of our array must be present as a subsequence in our sorted array. 
-# That’s why our problem is now reduced to finding the common subsequence between the two arrays.
+"""
+If we closely observe the problem then we can convert this problem to longest Common Subsequence Problem.
+Firstly we will create another array of unique elements of original array and sort it. 
+Now the longest increasing subsequence of our array must be present as a subsequence in our sorted array. 
+That’s why our problem is now reduced to finding the common subsequence between the two arrays.
 
-# Time and Space: O(n^2)
-# submited successfully on GFG but giving TLE on Leetcode
+Time and Space: O(n^2)
+submited successfully on GFG but giving TLE on Leetcode
 
 # write the logic in notes in detail
+"""
+
 class Solution:
     #Function to find length of longest increasing subsequence.
     def longestSubsequence(self,a,n):
@@ -25,20 +28,20 @@ class Solution:
 
 
 # method 2: Better one
+"""
+Note vvvi: This is better one template in case of 'take' and 'notTake'  which there is 'notTake' option always there.
+So just find the condition for 'take' and return the max(take, notTake)
 
-# Note vvvi: This is better one template in case of 'take' and 'notTake'  which there is 'notTake' option always there.
-# So just find the condition for 'take' and return the max(take, notTake)
+How?
+There is no need to check the possibility of 'taking' and 'not taking' in possible case.
+There is always one choice to 'not take' and we can only take if follows the sequence.
 
-# How?
-# There is no need to check the possibility of 'taking' and 'not taking' in possible case.
-# There is always one choice to 'not take' and we can only take if follows the sequence.
+in case of pick and non_pick always write the pick case and non_pick case separately 
+if there are some condition involved before including or not_including any ele.
 
-# in case of pick and non_pick always write the pick case and non_pick case separately 
-# if there are some condition involved before including or not_including any ele.
-
-# time: O(2^n)
-# space: O(n)
-
+time: O(2^n)
+space: O(n)
+"""
 
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
@@ -125,13 +128,15 @@ class Solution {
 
 """
 
-# converting to Tabulation VVI: Top down 
-# little twist here: different from general pattern.
-# Rules: 1) write the base case
-# 2) convert the indices into for loop by seeing the starting and ending point of indices.
-# Here 'ind' will go from 'n-1' to '0'. 
-# And 'pre_ind' will go from 'n-1' to '-1' but it can't be equal to ind , it will be always less than the 'ind'..So it will from 'ind-1' to '-1'.
-# 3) copy paste the recurrence do coordinate shift of '1' in case of 'pre_ind'. That's it.
+"""
+converting to Tabulation VVI: Top down 
+little twist here: different from general pattern.
+Rules: 1) write the base case
+2) convert the indices into for loop by seeing the starting and ending point of indices.
+Here 'ind' will go from 'n-1' to '0'. 
+And 'pre_ind' will go from 'n-1' to '-1' but it can't be equal to ind , it will be always less than the 'ind'..So it will from 'ind-1' to '-1'.
+3) copy paste the recurrence do coordinate shift of '1' in case of 'pre_ind'. That's it.
+"""
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
         n= len(nums)
@@ -175,13 +180,13 @@ class Solution {
 """
 
 
-# Method 4:  (neetcode): 
-# method 2: submitted on leetcode
-# logic: traverse the array from right to left . just the conversion of above logic and optimising the space to O(n).
-# e.g: LIS[2] means nums[2] will get appened(+1) to any of the LIS ahead of it,
-# (i.e if all the ele of of any of the LIS will be grater than nums[2] then we will add +1).     
-# very better one    
-# # time: O(n^2)                                                   
+# Method 4: very better one    
+"""
+logic: traverse the array from right to left . just the conversion of above logic and optimising the space to O(n).
+e.g: LIS[2] means nums[2] will get appened(+1) to any of the LIS ahead of it,
+(i.e if all the ele of of any of the LIS will be grater than nums[2] then we will add +1).     
+time: O(n^2)    
+"""                                               
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
         LIS= [1]* len(nums)   # LIS[i] indicates that LIS that end at index 'i' from last
@@ -195,9 +200,11 @@ class Solution:
         return max(LIS)
 
 
-# if you traverse from starting left to right
-# write this logic in notes with printing the LIS, counting the number of LIS in detail
-# for every ele, we have two choices either include that into 'subse' or not include to the pre_answers
+"""
+if you traverse from starting left to right
+write this logic in notes with printing the LIS, counting the number of LIS in detail
+for every ele, we have two choices either include that into 'subse' or not include to the pre_answers.
+"""
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
         LIS= [1]* len(nums)   # LIS[i] indicates that LIS that end at index 'i' from start. 
@@ -241,35 +248,34 @@ class Solution {
 
 """
 
+"""
+best one: using binary search to find the proper position of curr index in case not follows the pattern 
+and removing the curr ele at that index in 'subsequence'.
 
-# best one: using binary search to find the proper position of curr index in case not follows the pattern 
-# and removing the curr ele at that index in 'subsequence'.
+How Binary search?
+Since LIS will be in strictly sorted order only.
+if cur ele follows the sequence i.e > pre added one then, we will add this directly i.e
+If 'num' is bigger than last ele of sub, we just extend our list 
+Otherwise, we will simply apply binary search to find the smallest element >= num and replace it.
 
-# How Binary search?
-# Since LIS will be in strictly sorted order only.
-# if cur ele follows the sequence i.e > pre added one then, we will add this directly i.e
-# If 'num' is bigger than last ele of sub, we just extend our list 
-# Otherwise, we will simply apply binary search to find the smallest element >= num and replace it.
+why this logic is giving correct ans?
+Ans: Replace karenge tb length to wahi rhega but smaller ele se replace karne pe next ele ka append hone ka chance increase kar jayega.
+kyonki chota se replace kar rhe. e.g: [2, 8] next ele is '3'. 
+after replacing => [2,3] ab agar next elements '3' se large hua to append kar denge directly,
+ but agar [2,8] hota tb sirf '8' se bda wale ko hi append kar pate. 
+Append kitna jayda ho rha last me wahi mera length ko increase karega..
 
-# why this logic is giving correct ans?
-# Ans: Replace karenge tb length to wahi rhega but smaller ele se replace karne pe next ele ka append hone ka chance increase kar jayega.
-# kyonki chota se replace kar rhe. e.g: [2, 8] next ele is '3'. 
-# after replacing => [2,3] ab agar next elements '3' se large hua to append kar denge directly,
-#  but agar [2,8] hota tb sirf '8' se bda wale ko hi append kar pate. 
-# Append kitna jayda ho rha last me wahi mera length ko increase karega..
+Note: if we will use 'bisect_right' then we get duplicates also if 'num' is already  in 'sub' so using 'bisect_left'
+ since we need to replace with smallest ele in sub >= num.
+If we use 'bisect_right' then, it will replace with next greater ele than 'num', so we may get duplicate like pre and num will be same only.
 
-# Note: if we will use 'bisect_right' then we get duplicates also if 'num' is already  in 'sub' so using 'bisect_left'
-#  since we need to replace with smallest ele in sub >= num.
-# If we use 'bisect_right' then, it will replace with next greater ele than 'num', so we may get duplicate like pre and num will be same only.
+Note vvi: 'sub' will give one of the 'LIS' .
 
-# Note vvi: 'sub' will give one of the 'LIS' .
+time: O(n*logn)
+space: O(n)
 
-# time: O(n*logn)
-# space: O(n)
-
-# bisect function: https://www.geeksforgeeks.org/bisect-algorithm-functions-in-python/
-# logic: https://leetcode.com/problems/longest-increasing-subsequence/discuss/1326308/C%2B%2BPython-DP-Binary-Search-BIT-Solutions-Picture-explain-O(NlogN).
-# vvi: https://leetcode.com/problems/longest-increasing-subsequence/solutions/1326552/optimization-from-brute-force-to-dynamic-programming-explained/
+bisect function: https://www.geeksforgeeks.org/bisect-algorithm-functions-in-python/
+"""
 
 import bisect
 class Solution:  
@@ -308,16 +314,16 @@ class Solution {
     }
     
     // Custom binary search function to find the index where num should be placed.
-    // just we find the 1st index
+    // just we find the 1st index .
     private int binarySearch(List<Integer> sub, int num) {
         int left = 0, right = sub.size() - 1;
         
-        while (left < right) {
+        while (left <= right) {
             int mid = left + (right - left) / 2;
-            if (sub.get(mid) < num) {
-                left = mid + 1;
+            if (sub.get(mid) >= num) {
+                right = mid - 1;
             } else {
-                right = mid;
+                left = mid + 1;
             }
         }
         

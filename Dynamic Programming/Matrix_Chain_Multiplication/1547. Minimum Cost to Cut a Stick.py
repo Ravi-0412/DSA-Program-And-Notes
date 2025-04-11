@@ -25,7 +25,7 @@ class Solution:
         for k in range(i, j):
             tempAns= self.helper(cuts, i, k) + self.helper(cuts, k+1, j) + cuts[j]- cuts[i-1]
             # tempAns= self.helper(cuts, i, k-1) + self.helper(cuts, k+1, j) + cuts[j]- cuts[i-1]   # i was writing this. last range should be invalid only and writing 'k-1' will make valid
-        mn= min(mn, tempAns)
+            mn = min(mn, tempAns)
         return mn
 
 # method 2: memoization
@@ -49,7 +49,51 @@ class Solution:
             mn= min(mn, tempAns)
         dp[i][j]= mn
         return dp[i][j]
+# java
+"""
+import java.util.Arrays;
 
+class Solution {
+    public int minCost(int n, int[] cuts) {
+        // Add the start (0) and end (n) points to the cuts array
+        int[] extendedCuts = new int[cuts.length + 2];
+        System.arraycopy(cuts, 0, extendedCuts, 1, cuts.length);
+        extendedCuts[0] = 0;
+        extendedCuts[extendedCuts.length - 1] = n;
+        
+        // Sort the cuts array
+        Arrays.sort(extendedCuts);
+        
+        int l = extendedCuts.length;
+        int[][] dp = new int[l][l];
+        
+        // Initialize dp with -1
+        for (int i = 0; i < l; i++) {
+            Arrays.fill(dp[i], -1);
+        }
+        
+        return helper(extendedCuts, 1, l - 1, dp);
+    }
+    
+    private int helper(int[] cuts, int i, int j, int[][] dp) {
+        if (i == j) {
+            return 0;
+        }
+        if (dp[i][j] != -1) {
+            return dp[i][j];
+        }
+        
+        int min = Integer.MAX_VALUE;
+        for (int k = i; k < j; k++) {
+            int tempAns = helper(cuts, i, k, dp) + helper(cuts, k + 1, j, dp) + (cuts[j] - cuts[i - 1]);
+            min = Math.min(min, tempAns);
+        }
+        
+        dp[i][j] = min;
+        return dp[i][j];
+    }
+}
+"""
 
 # Tabulation
 class Solution:
@@ -67,3 +111,36 @@ class Solution:
                     mn= min(mn, tempAns)
                 dp[i][j]= mn
         return dp[1][l-1]
+
+# java
+"""
+import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
+
+class Solution {
+    public int minCost(int n, int[] cuts) {
+        List<Integer> cutsList = new ArrayList<>();
+        for (int cut : cuts) cutsList.add(cut);
+        cutsList.add(0);
+        cutsList.add(n);
+        Collections.sort(cutsList);  // Using Collections.sort() instead
+        
+        int l = cutsList.size();
+        int[][] dp = new int[l][l];
+        
+        for (int i = l - 2; i >= 1; i--) {
+            for (int j = i + 1; j < l; j++) {
+                int min = Integer.MAX_VALUE;
+                for (int k = i; k < j; k++) {
+                    int cost = dp[i][k] + dp[k+1][j] + cutsList.get(j) - cutsList.get(i-1);
+                    min = Math.min(min, cost);
+                }
+                dp[i][j] = min;
+            }
+        }
+        
+        return dp[1][l-1];
+    }
+}
+"""

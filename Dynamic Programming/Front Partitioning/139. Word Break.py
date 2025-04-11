@@ -3,7 +3,7 @@
 
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
-        wordSet= set(wordDict)  # to check any substring present or not in O(1)
+        wordSet = set(wordDict)  # to check any substring present or not in O(1)
         n= len(s)
         return self.helper(0, n, s, wordSet) 
     
@@ -35,6 +35,37 @@ class Solution:
         dp[ind]= False
         return False
     
+# Java
+"""
+import java.util.*;
+
+public class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        Set<String> wordSet = new HashSet<>(wordDict);
+        int n = s.length();
+        Boolean[] dp = new Boolean[n + 1];
+        return helper(0, n, s, wordSet, dp);
+    }
+
+    private boolean helper(int index, int n, String s, Set<String> wordSet, Boolean[] dp) {
+        if (index == n) {
+            return true;
+        }
+        if (dp[index] != null) {
+            return dp[index];
+        }
+        for (int k = index + 1; k <= n; k++) {
+            if (wordSet.contains(s.substring(index, k)) && helper(k, n, s, wordSet, dp)) {
+                dp[index] = true;
+                return true;
+            }
+        }
+        dp[index] = false;
+        return false;
+    }
+}
+"""
+
 
 # Note vvi: 
 # Same method but when doing by taking actual string giving TLE.

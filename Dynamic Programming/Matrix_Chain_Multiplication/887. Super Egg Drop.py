@@ -1,28 +1,30 @@
-# Just extension of Q : "1884. Egg Drop With 2 Eggs and N Floors".
+"""
+Just extension of Q : "1884. Egg Drop With 2 Eggs and N Floors".
 
-# just same as "375. Guess Number Higher or Lower II".
-# logic: ans will depend on from which floor we start checking for remaining egg and remaining floor.
-# We need to try all possibility. 
+just same as "375. Guess Number Higher or Lower II".
+logic: ans will depend on from which floor we start checking for remaining egg and remaining floor.
+We need to try all possibility. 
 
-# will try to drop from each floor. There will be two condition:
-#  1) egg brakes on 'i'th floor. 
-#  We need to check with 'k-1' eggs and remaining floor to check = 'i-1' i.e f(k-1, i-1).
-# because our ans can't lie beyond 'i' so nned to check only 'i-1' floor.
+will try to drop from each floor. There will be two condition:
+ 1) egg brakes on 'i'th floor. 
+ We need to check with 'k-1' eggs and remaining floor to check = 'i-1' i.e f(k-1, i-1).
+because our ans can't lie beyond 'i' so nned to check only 'i-1' floor.
 
-# 2) egg doesn't brake on 'i'th floor.
-#  We need to check with 'k' eggs and remaining floor to check = 'n - i'(after 'i') i.e f(k, n -i).
+2) egg doesn't brake on 'i'th floor.
+ We need to check with 'k' eggs and remaining floor to check = 'n - i'(after 'i') i.e f(k, n -i).
 
-# we can think like given 'k' eggs and 'n' floor, how many minimum no eggs we have to drop to know the required floor.
+we can think like given 'k' eggs and 'n' floor, how many minimum no eggs we have to drop to know the required floor.
 
-# Note vvi: Har floor pe worst case lena h maximum of both choices(break or not break) but overall minimise karna h.
+Note vvi: Har floor pe worst case lena h maximum of both choices(break or not break) but overall minimise karna h.
 
-# Note :we want the worst possible case between the two sub-problems. 
-# And the overall answer is the best (min) of the worst (max) cases.
+Note :we want the worst possible case between the two sub-problems. 
+And the overall answer is the best (min) of the worst (max) cases.
 
-# Just exactly same as :"1884. Egg Drop With 2 Eggs and N Floors".
-# Just added on more varible 'k'.
+Just exactly same as :"1884. Egg Drop With 2 Eggs and N Floors".
+Just added on more varible 'k'.
 
-# Replace k -> 2 to get ans for "1884. Egg Drop With 2 Eggs and N Floors".
+Replace k -> 2 to get ans for "1884. Egg Drop With 2 Eggs and N Floors".
+"""
 
 class Solution:
     def superEggDrop(self, k: int, n: int) -> int:
@@ -67,6 +69,40 @@ class Solution:
         dp[k][n]= ans
         return dp[k][n]
 
+# Java
+"""
+public class Solution {
+    public int superEggDrop(int k, int n) {
+        int[][] dp = new int[k + 1][n + 1];
+        // Initialize all values to -1 to indicate uncomputed states
+        for (int i = 0; i <= k; i++) {
+            for (int j = 0; j <= n; j++) {
+                dp[i][j] = -1;
+            }
+        }
+        return f(k, n, dp);
+    }
+
+    private int f(int k, int n, int[][] dp) {
+        if (k == 1 || n <= 1) {
+            return n;
+        }
+        if (dp[k][n] != -1) {
+            return dp[k][n];
+        }
+        int ans = Integer.MAX_VALUE;
+        for (int i = 1; i <= n; i++) {
+            int breakCase = f(k - 1, i - 1, dp);
+            int notBreakCase = f(k, n - i, dp);
+            int tempAns = 1 + Math.max(breakCase, notBreakCase);
+            ans = Math.min(ans, tempAns);
+        }
+        dp[k][n] = ans;
+        return dp[k][n];
+    }
+}
+"""
+
 # optimising memoization using bottom up and binary search.
 # Instead of dropping from each possible floor, we can find the floor using binary search.
 # Time Complexity: O((n * k) * logn )
@@ -94,19 +130,62 @@ class Solution:
         # right and left denote the no of moves for f(k-1, mid) and f(k, n-mid).
         # if right > left then more move in checking 'n-mid' floor so we will update low= mid +1 (since we have to maximise the possible ans).
         # else update l= 'mid+1. we are just moving in part which have more no of moves to maximise the temporary ans.
-        while l<= h: 
+        while l <= h: 
             mid= (l+h)//2
             left=  self.f(k-1 , mid-1, dp)  # if egg broken, check for down floors of mid..
             right= self.f(k , n- mid, dp)   # if egg doesn't break , check for up floors of mid
             tempAns= 1+ max(left, right)     # store max of both 
             if right > left:  # since right is more than left and we need more in worst case
-                l= mid +1    # so l=mid+1 to gain more for worst case : upward
+                l = mid +1    # so l=mid+1 to gain more for worst case : upward
             else: # left >= right so we will go downward 
-                h= mid -1
+                h = mid -1
             ans= min(ans, tempAns)  # store minimum attempts
         dp[k][n]= ans
         return dp[k][n]
 
+# Java
+"""
+public class Solution {
+    public int superEggDrop(int k, int n) {
+        int[][] dp = new int[k + 1][n + 1];
+        for (int i = 0; i <= k; i++) {
+            for (int j = 0; j <= n; j++) {
+                dp[i][j] = -1;
+            }
+        }
+        return f(k, n, dp);
+    }
+
+    private int f(int k, int n, int[][] dp) {
+        if (k == 1 || n <= 1) {
+            return n;
+        }
+        if (dp[k][n] != -1) {
+            return dp[k][n];
+        }
+
+        int ans = Integer.MAX_VALUE;
+        int low = 1, high = n;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            int left = f(k - 1, mid - 1, dp);
+            int right = f(k, n - mid, dp);
+            int temp = 1 + Math.max(left, right);
+
+            if (right > left) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+
+            ans = Math.min(ans, temp);
+        }
+
+        dp[k][n] = ans;
+        return dp[k][n];
+    }
+}
+"""
 
 # method 2:
 # Try to understand this also later.

@@ -65,9 +65,11 @@ class Solution:
 
 
 # Note: Extension of this Q and related Q
-# 1) 930. Binary Subarrays With Sum
-# 2) 1248. Count Number of Nice Subarrays
-# 3) Count Subarrays with Given XOR
-# 4) 525. Contiguous Array
-# 5) 974. Subarray Sums Divisible by K
-# 6) vvi:  "1074. Number of Submatrices That Sum to Target"
+"""
+1) 930. Binary Subarrays With Sum
+2) 1248. Count Number of Nice Subarrays
+3) Count Subarrays with Given XOR
+4) 525. Contiguous Array
+5) 974. Subarray Sums Divisible by K
+6) vvi:  "1074. Number of Submatrices That Sum to Target"
+"""

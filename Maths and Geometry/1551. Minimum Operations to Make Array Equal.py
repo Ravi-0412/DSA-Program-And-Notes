@@ -10,7 +10,7 @@ finding median
 Related Question: 
 1) 2541. Minimum Operations to Make Array Equal II
 2) 296. Best Meeting Point
-3) 
+3) 2967. Minimum Cost to Make Array Equalindromic
 """
 
 # Method 1: 

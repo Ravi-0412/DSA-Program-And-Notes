@@ -17,5 +17,8 @@ class Solution:
 
 
 # Related Q:
-# 1) 2390. Removing Stars From a String
-# 2) 3174. Clear Digits
+"""
+1) 2390. Removing Stars From a String
+2) 3174. Clear Digits
+3) 1209. Remove All Adjacent Duplicates in String II
+"""

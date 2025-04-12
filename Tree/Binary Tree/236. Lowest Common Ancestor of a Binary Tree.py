@@ -72,4 +72,6 @@ class Solution:
         # so root will be LCA only, from here both node has went to different subtree.
         return root 
 
+# Related Q:
+1) 235. Lowest Common Ancestor of a Binary Search Tree
 

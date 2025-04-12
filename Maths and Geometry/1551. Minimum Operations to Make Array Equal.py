@@ -1,10 +1,16 @@
-# In this type of question where you have to each element equal and both
-# increment and decrement operation is allowed then 
-# just make all element equal to the median.
+
 
 """
+In this type of question where you have to each element equal and both
+increment and decrement operation is allowed then 
+just make all element equal to the median.
 finding median
 => Here due to symmetry median = n only. So no need to find by finding middle element.
+
+Related Question: 
+1) 2541. Minimum Operations to Make Array Equal II
+2) 296. Best Meeting Point
+3) 
 """
 
 # Method 1: 

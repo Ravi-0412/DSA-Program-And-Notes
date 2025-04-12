@@ -1,15 +1,15 @@
 # 1st method: Brute force, time: o(n^2)
 # # just find using two loops 
-# class Solution:
-#     def smallerNumbersThanCurrent(self, nums: List[int]) -> List[int]:
-#         res=[]
-#         for i in nums:
-#             count=0
-#             for j in nums:  
-#                 if(j<i):
-#                     count+=1
-#             res.append(count)
-#         return res
+class Solution:
+    def smallerNumbersThanCurrent(self, nums: List[int]) -> List[int]:
+        res=[]
+        for i in nums:
+            count=0
+            for j in nums:  
+                if(j<i):
+                    count+=1
+            res.append(count)
+        return res
 
 
 
@@ -17,20 +17,20 @@
 # Logic: Store the 1st occurence of every distinct ele when they are sorted.
 # Time: o(nlogn) , space : O(n)
 
-# class Solution:
-#     def smallerNumbersThanCurrent(self, nums: List[int]) -> List[int]:
-#         temp=list(nums)
-#         nums.sort()
-#         res= []
-#         n= len(nums)
-#         hashmap= {}
-#         for i in range(n):
-#             if nums[i] not in hashmap:
-#                 hashmap[nums[i]]=i
-#         for num in temp:
-#                 smaller= hashmap.[num]
-#                 res.append(smaller)
-#         return res
+class Solution:
+    def smallerNumbersThanCurrent(self, nums: List[int]) -> List[int]:
+        temp=list(nums)
+        nums.sort()
+        res= []
+        n= len(nums)
+        hashmap= {}
+        for i in range(n):
+            if nums[i] not in hashmap:
+                hashmap[nums[i]]=i
+        for num in temp:
+                smaller= hashmap.[num]
+                res.append(smaller)
+        return res
 
 
 

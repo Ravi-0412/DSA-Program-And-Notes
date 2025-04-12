@@ -102,3 +102,11 @@ class Solution(object):
 # https://leetcode.com/problems/partition-to-k-equal-sum-subsets/solutions/1494999/c-java-python-top-down-dp-bitmask-clean-concise/
 # https://leetcode.com/problems/partition-to-k-equal-sum-subsets/solutions/905981/iterative-dp-deep-analysis-4-solutions-2-ways-of-bit-masking-1-backtracking-1-knapsack/
 # https://leetcode.com/problems/partition-to-k-equal-sum-subsets/solutions/867956/python3-two-solutions-dp-with-bit-mask-48ms-dfs-backtracking-with-detailed-explanations/
+
+# Related Questions:
+"""
+1) 473. Matchsticks to Square
+2) 2305. Fair Distribution of Cookies
+3) 1723. Find Minimum Time to Finish All Jobs
+4) 1601. Maximum Number of Achievable Transfer Requests
+"""

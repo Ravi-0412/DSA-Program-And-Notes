@@ -354,4 +354,10 @@ class Solution:
             return max(solve(i + 1), 1 + solve(j))
         
         return solve(0)
-    
+
+# Related QUestions:
+"""
+1) Printing LIS
+2) 673. Number of Longest Increasing Subsequence
+3) 1027. Longest Arithmetic Subsequence
+"""

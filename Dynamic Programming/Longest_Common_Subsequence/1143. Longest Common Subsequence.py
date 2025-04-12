@@ -116,3 +116,7 @@ class Solution {
 
 # method 4: optimise the space
 
+"""
+1) Printing Longest Common Subsequence
+2) Longest Common Substring
+"""

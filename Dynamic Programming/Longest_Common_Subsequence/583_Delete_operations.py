@@ -1,8 +1,9 @@
+"""
+Note vvi: if only deletion is allowed , then for making both string same .  Make both equal to lcs.
+Because lcs will be the maximum length of string that we can get by using delete operation only to make both string same.
 
-# Note vvi: if only deletion is allowed , then for making both string same .  Make both equal to lcs.
-# Because lcs will be the maximum length of string that we can get by using delete operation only to make both string same.
-
-# so ans will be equal to the cost of onverting both strings to longest common subsequence
+so ans will be equal to the cost of onverting both strings to longest common subsequence
+"""
 
 # Time : O(N^2)
 
@@ -30,37 +31,36 @@ class Solution:
                     dp[i][j]= max(dp[i-1][j], dp[i][j-1])
         return dp[x][y]
 
-
-# Note vvvi: 
-
-# case 2:
-# if only insertion operations would have been allowed then 
-# for making both string equal , make both equal to "shortest common supersequences"
-# so, we will have to find the shortest common supersequences and we will 
-# have to insert the char in both the strings to make its length equal to shortest supersequences
-# total addition= (len(supersequences)- len(s1)) + (len(supersequences)- len(s2))
+"""
+case 2:
+if only insertion operations would have been allowed then 
+for making both string equal , make both equal to "shortest common supersequences"
+so, we will have to find the shortest common supersequences and we will 
+have to insert the char in both the strings to make its length equal to shortest supersequences
+total addition= (len(supersequences)- len(s1)) + (len(supersequences)- len(s2))
 
 
-# case 3: if both insertion and deletion is allowed then total no of  operation will equal to 1st case only i.e if only deletion will be allowed
-# steps: 1st make the 1st string equal to lcs, for this delete and  
-# no of delete_operation= len(s1)- lcs_lenth
-# now make the string 1 equal to string 2 by adding the extra char of string 2 other than lcs
-# so ono of insertion_operation= len(s2)- lcs_length
-# finally total_operation= delete_operation + insertion_operation  === 1st case only
+case 3: if both insertion and deletion is allowed then total no of  operation will equal to 1st case only i.e if only deletion will be allowed
+steps: 1st make the 1st string equal to lcs, for this delete and  
+no of delete_operation= len(s1)- lcs_lenth
+now make the string 1 equal to string 2 by adding the extra char of string 2 other than lcs
+so ono of insertion_operation= len(s2)- lcs_length
+finally total_operation= delete_operation + insertion_operation  === 1st case only
 
 
-# Method 2:
-# Note: Indirectly making both equal to lcs only. But did after a long time so forgot about lcs and came with method.
-# Logic : 1) when 1st char of both will be same then ans= f(s1[1: ] , s2[1 :]) as there is no need to delete any char in this case.
-# 2) if 1st char of both is not equal then we have two choices i.e a) delete 1st char in 's1' or b ) delete 1st char in 's2'.
-# why not deleting both because later char can become same like 'LCS' so minimum we will get in this case only.
+Method 2:
+Note: Indirectly making both equal to lcs only. But did after a long time so forgot about lcs and came with method.
+Logic : 1) when 1st char of both will be same then ans= f(s1[1: ] , s2[1 :]) as there is no need to delete any char in this case.
+2) if 1st char of both is not equal then we have two choices i.e a) delete 1st char in 's1' or b ) delete 1st char in 's2'.
+why not deleting both because later char can become same like 'LCS' so minimum we will get in this case only.
 
-# Base case: when any of string becomes empty then in this case only way to make them equal is to make both empty.
-#  we have to delete the length of other string to make both of them equal 
+Base case: when any of string becomes empty then in this case only way to make them equal is to make both empty.
+ we have to delete the length of other string to make both of them equal 
 
-# Logic is similar to 'lcs' but opposite.
+Logic is similar to 'lcs' but opposite.
 
-# Time: O(n^2)
+Time: O(n^2)
+"""
 
 class Solution:
     @lru_cache(None)

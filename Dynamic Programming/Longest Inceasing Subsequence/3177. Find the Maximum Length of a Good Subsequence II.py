@@ -87,31 +87,33 @@ public class Solution {
 }
 """
 
-# But above solution will tle in java also because
-# time = O(n*n*n) = O(5* 10^3 * 5* 10^3 * 50) = O(125 * 10^7) > O(10^8)
+"""
+But above solution will tle in java also because
+time = O(n*n*n) = O(5* 10^3 * 5* 10^3 * 50) = O(125 * 10^7) > O(10^8)
 
-# so somehow we have to optimise
-# Instead of checking with all the used index for current index 
-# check only with first index on left/right with each possible value of 'k'.
-# And for other element where current ele is equal or even not equal we can maintain 
-# and array with size 'k' which will tell what will be maximum value till now if you allow 'j' no of changes.
+so somehow we have to optimise
+Instead of checking with all the used index for current index 
+check only with first index on left/right with each possible value of 'k'.
+And for other element where current ele is equal or even not equal we can maintain 
+and array with size 'k' which will tell what will be maximum value till now if you allow 'j' no of changes.
 
-# Explanation of the Logic:
-# 1) Definition of dp[i][j]:
-# dp[i][j] represents the longest subsequence that starts from index i and allows up to j changes.
+Explanation of the Logic:
+1) Definition of dp[i][j]:
+dp[i][j] represents the longest subsequence that starts from index i and allows up to j changes.
 
-# 2) Two Cases for Computing dp[i][j]:
-# Previous Occurrence of the Same Number (nums[i]):
-# We maintain a hashmap named prev to track the previous position p of the same number nums[i].
-# If there's a previous occurrence of nums[i] at index p, dp[i][j] can be extended from dp[p][j] by adding 1 
-# to represent the current occurrence of nums[i].
-# Maximum Result So Far for Any Previous Number:
-# We maintain an array named max_dp to keep track of the maximum result so far for any previous number.
-# max_dp[j - 1] represents the maximum subsequence length with j - 1 changes allowed.
-# If j > 0, we can use this value to extend the current subsequence by adding 1 to it.
+2) Two Cases for Computing dp[i][j]:
+Previous Occurrence of the Same Number (nums[i]):
+We maintain a hashmap named prev to track the previous position p of the same number nums[i].
+If there's a previous occurrence of nums[i] at index p, dp[i][j] can be extended from dp[p][j] by adding 1 
+to represent the current occurrence of nums[i].
+Maximum Result So Far for Any Previous Number:
+We maintain an array named max_dp to keep track of the maximum result so far for any previous number.
+max_dp[j - 1] represents the maximum subsequence length with j - 1 changes allowed.
+If j > 0, we can use this value to extend the current subsequence by adding 1 to it.
 
-# 3) Tracking the Largest Result:
-# Throughout the iteration, we keep track of the largest dp[i][k] value encountered and return it as the final result.
+3) Tracking the Largest Result:
+Throughout the iteration, we keep track of the largest dp[i][k] value encountered and return it as the final result.
+"""
 
 class Solution:
     def maximumLength(self, nums: List[int], k: int) -> int:

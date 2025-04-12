@@ -119,3 +119,10 @@ arr= [2,5,8,3,2,4,1,7]
 #         ind = stack1.pop()
 #         next_smaller_right[ind] = i
 #     stack1.append(i)
+
+
+Questions that based on these:
+1) 496. Next Greater Element I
+2) 503. Next Greater Element II
+3) 739. Daily Temperatures 
+4) 901. Online Stock Span

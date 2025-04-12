@@ -362,4 +362,5 @@ class Solution:
 3) 1027. Longest Arithmetic Subsequence
 4) 368. Largest Divisible Subset
 5) 1048. Longest String Chain
+6) Longest Bitonic Subsequence
 """

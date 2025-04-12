@@ -178,5 +178,8 @@ class Solution {
 
 # later try in O(n). SOlution in sheet.
 
-# Related question:
-# 1) 647. Palindromic Substrings
+"""
+Related question:
+1) 647. Palindromic Substrings
+2) 1062. Longest Repeating Substring
+"""

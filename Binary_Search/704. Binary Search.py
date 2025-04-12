@@ -252,3 +252,6 @@ then must apply Binary Search.
 Note Latest: Template1, template4, Template5 is enough to solve all the questions.
 So replace answers of all questions slowly slowly using these three templates only.
 """
+
+# Other questions that need exact this binary search logic: 
+# 1) 34. Find First and Last Position of Element in Sorted Array

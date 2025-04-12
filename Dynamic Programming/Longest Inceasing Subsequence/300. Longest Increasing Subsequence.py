@@ -355,38 +355,3 @@ class Solution:
         
         return solve(0)
     
-
-# Extended q asked in amazon OA
-"""
-Some data analysts at Amazon are analyzing the outliers in data that contains two co-related features. 
-The features are represented as two arrays of n integers each, feature1, and feature2. 
-A data set is considered free of outliers if for any two indices iand/where 0 ≤ i < j < n,
- if feature1[i] > feature1[j]. then feature2[i] > feature2[j] or if feature1 [i] < feature1[1],
-   then feature2[i] < feature2[j].
-
-Note that if feature1[i] = feature1[j], then the data set is not considered to be free of outliers.
-
-Given the arrays, feature1 and feature2, find the length of the largest array of indices 11, 12, 13... ik, 
-such that data formed by these indices i.e. [feature1[11], feature1 [i2]....feature1[ik]]
- and [feature2[11], feature2[12]....feature2[ik]] is free of outliers.
-
-Suppose n = 5, feature1 = [4, 5, 3, 1, 2], and feature2 = [2, 1, 3, 4,5].
-
-It is optimal to choose the indices [3, 4]. The data for feature1 is [1, 2]
- and for feature2 is [4, 5]. Here feature1[0] < feature1[1] and feature2[0] <feature2[1], 
- therefore the condition holds true. Since is it not possible to select a larger subset 
- without violating the conditions, the answer is 2 i.e. the size of the chosen subset. 
-
- e.g: 
- feature1 = [4, 5, 3, 1, 2]
-feature2 = [2, 1, 3, 4, 5]
- output = 2
- 
- feature1 = [ 1,2,3,4,5], feature 2 = [5, 4, 3, 2, 1]
-output = 1
-
-feature1 = [3, 2, 1], feature2 = [6,5,4] 
-output = 3
-
-# solution in chatgpt history: Amazon OA
-"""

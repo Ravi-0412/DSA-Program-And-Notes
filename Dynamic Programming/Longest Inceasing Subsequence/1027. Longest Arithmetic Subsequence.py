@@ -1,25 +1,27 @@
-# This problem is similar to Longest Increasing Subsequence problem.
-# The difference is that we need to consider the arithmetic difference in this problem.
+"""
+This problem is similar to Longest Increasing Subsequence problem.
+The difference is that we need to consider the arithmetic difference in this problem.
 
-# LIS: me sirf bda dikha add kar diye but yahan difference bhi track karna hoga.
-# we need to keep track of difference as well with length i.e
-# Hmko har index pe, har possible difference ka AP ka length track karna hoga.
+LIS: me sirf bda dikha add kar diye but yahan difference bhi track karna hoga.
+we need to keep track of difference as well with length i.e
+Hmko har index pe, har possible difference ka AP ka length track karna hoga.
 
-# How to keep track of the length as well as the difference? 
-# We can use a hashmap, whose key is the (index, difference) and value is the length.
+How to keep track of the length as well as the difference? 
+We can use a hashmap, whose key is the (index, difference) and value is the length.
 
-# for two elements A[i] and A[j] where i < j, 
-# the difference between A[i] and A[j] (name it diff). 
-# If the hashmap at position j has the key 'diff', it means that there is 
-# an arithmetic subsequence ending at index j, with arithmetic difference 'diff' and length 'dp[j][diff]'. 
-# And we just add the length by 1. If hashmap does not have the key diff, then those two elements can form a 2-length arithmetic subsequence.
+for two elements A[i] and A[j] where i < j, 
+the difference between A[i] and A[j] (name it diff). 
+If the hashmap at position j has the key 'diff', it means that there is 
+an arithmetic subsequence ending at index j, with arithmetic difference 'diff' and length 'dp[j][diff]'. 
+And we just add the length by 1. If hashmap does not have the key diff, then those two elements can form a 2-length arithmetic subsequence.
 
-# Note: LIS me bda dekh ke add kar rhe the '+1' usi 'j' wale ka length me, 
-# Yahan diff dekh ke add karenge i.e agar same diff ka AP h tb add karenge.
+Note: LIS me bda dekh ke add kar rhe the '+1' usi 'j' wale ka length me, 
+Yahan diff dekh ke add karenge i.e agar same diff ka AP h tb add karenge.
 
-# here dp[(i, diff)]= gives the sequence length of possible diff ending at index 'i'.
+here dp[(i, diff)]= gives the sequence length of possible diff ending at index 'i'.
 
-# time: O(n^2)
+time: O(n^2)
+"""
 
 class Solution:
     def longestArithSeqLength(self, nums: List[int]) -> int:

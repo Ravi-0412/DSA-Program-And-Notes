@@ -4,21 +4,22 @@
 # Time: O(n^3)
 
 # Method 2: 
+"""
+this one is very easy and logical.
+just the another way to check whether a string is palindrome or not.
+normally we used to check by taking two pointer, one at the start and one at the end and we go till 'mid'.
 
-# this one is very easy and logical.
-# just the another way to check whether a string is palindrome or not.
-# normally we used to check by taking two pointer, one at the start and one at the end and we go till 'mid'.
+another way VVI: start checking from mid and move the pointer to it left and right 
+and check whether they are equal or not.
+using same logic: take each ele as mid and take two pointer left and right
+(initailisation will depend on what we are checking i.e even or odd len palindrome) 
+and move left pointer one position to left and right pointer one position to right.
 
-# another way VVI: start checking from mid and move the pointer to it left and right 
-# and check whether they are equal or not.
-# using same logic: take each ele as mid and take two pointer left and right
-# (initailisation will depend on what we are checking i.e even or odd len palindrome) 
-# and move left pointer one position to left and right pointer one position to right.
+logic: we are just calculating the max len of odd and even length palindrome from each index.
+just treat each index as mid and move left and right from that.
 
-# logic: we are just calculating the max len of odd and even length palindrome from each index.
-# just treat each index as mid and move left and right from that.
-
-#  time: O(n*n)
+ time: O(n*n)
+"""
 class Solution:
     def longestPalindrome(self, s: str) -> str:
         ans= ""

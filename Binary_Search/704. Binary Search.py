@@ -237,8 +237,8 @@ def binary_search(arr,key):
     return low
 
 """
-Note: All problems can be solved using Template 1, Template 4 and Template 5.
-So later revise all binary search question and try to all the questions using these three templates only.
+Note: All problems of binary search can be solved using Template 1, Template 4 and Template 5.
+So later revise and modify all binary search question and try to solve all the questions using these three templates only.
 """
 
 """

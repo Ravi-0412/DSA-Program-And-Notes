@@ -218,3 +218,65 @@ public class LFUCache {
 # Try to do in more concise way later
 # https://leetcode.com/problems/lfu-cache/solutions/166683/python-only-use-ordereddict-get-o-1-put-o-1-simple-and-brief-explained/
 # https://leetcode.com/problems/lfu-cache/solutions/369104/python-two-dicts-explanation/
+
+
+# Related Question
+"""
+1) Asked in FAANG. Exact same as LFU
+
+Imagine you're building an online music streaming app that allows users to store a playlist of their favorite songs. 
+The app has a feature that shows the most popular songs based on how often they’ve been played.
+
+
+However, the playlist can only hold a limited number of songs. 
+If the user tries to add more songs than the playlist can hold, the app needs to remove some songs to make room 
+for the new ones. 
+But the app has specific rules on which songs to remove:
+
+Least Played Songs: The song that has been played the least will be removed first.
+
+Tie-breaker: If multiple songs have been played the same number of times, the song that was added to the playlist 
+the longest time ago will be removed.
+
+Your Task
+Design a data structure called PlaylistManager to manage the playlist with the following operations:
+
+class PlaylistManager:
+    def __init__(self, capacity: int)
+    def get_song(self, song_id: int) -> int
+    def add_song(self, song_id: int, song_details: int) -> None
+**/
+
+
+Sample 1:
+const manager = new PlaylistManager(2);
+manager.add_song(1, 100); // Add song 1
+manager.add_song(2, 200); // Add song 2
+
+console.log(manager.get_song(1)); // Output: 1
+console.log(manager.get_song(2)); // Output: 2
+console.log(manager.get_song(3)); // Output: -1 (not present)
+
+Sample 2:
+const manager = new PlaylistManager(2);
+manager.add_song(1, 100); // song 1, freq 1      
+manager.add_song(2, 200); // song 2, freq 1
+manager.get_song(1);      // song 1, freq 2
+
+manager.add_song(3, 300); // should evict song 2 
+
+console.log(manager.get_song(1)); // Output: 1
+console.log(manager.get_song(2)); // Output: -1 (evicted)
+console.log(manager.get_song(3)); // Output: 3
+
+const manager = new PlaylistManager(2);
+manager.add_song(1, 100);
+manager.add_song(2, 200);
+manager.add_song(1, 150); // Updates freq of song 1
+
+manager.add_song(3, 300); // song 2 should be evicted
+
+console.log(manager.get_song(1)); // Output: 1
+console.log(manager.get_song(2)); // Output: -1
+console.log(manager.get_song(3)); // Output: 3
+"""

@@ -53,3 +53,50 @@ def findCelebrity(n, knows):
         if knows(p, i) or not knows(i, p):   # then 'p' can't be celebrity
             return -1
     return p
+
+# Method 2:
+# Optimsied to O(1) space
+
+def findCelebrity(n, knows):
+    # Assume the first person is the potential celebrity
+    candidate = 0
+    
+    for i in range(1, n):
+        # If the current candidate knows 'i', then 'i' could be the celebrity
+        if knows(candidate, i):
+            candidate = i
+        # Else, 'i' is not a celebrity, so keep the current candidate
+    
+    # Verify if the candidate is indeed a celebrity
+    for i in range(n):
+        if i == candidate:
+            continue  # Skip the candidate
+        
+        # If the candidate knows someone or someone doesn't know the candidate, they can't be a celebrity
+        if knows(candidate, i) or not knows(i, candidate):
+            return -1  # No celebrity found
+    
+    return candidate 
+
+# Java
+"""
+public class Solution extends Relation {
+    public int findCelebrity(int n) {
+        int candidate = 0;
+        
+        for (int i = 1; i < n; i++) {
+            if (knows(candidate, i)) {
+                candidate = i;
+            }
+        }
+        
+        for (int i = 0; i < n; i++) {
+            if (i != candidate && (knows(candidate, i) || !knows(i, candidate))) {
+                return -1;
+            }
+        }
+        
+        return candidate;
+    }
+}
+"""

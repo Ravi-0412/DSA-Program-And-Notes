@@ -1,11 +1,13 @@
 """
+Youtube Link: https://www.youtube.com/watch?v=CVA85JuJEn0 
 Note VVI: AVL ,  Red-Black Tree & B-Trees / B+ Trees are such data structure that stores elements in sorted order and supports:
 
 Insertion in O(log n)
 Deletion in O(log n)
 Search in O(log n)
 
-Time for all operation i.e insertion , searching and deletion is : O(logn)
+=> For printing data in sorted order in case of AVL & Red-Black tree , just use inorder traversal,
+because Binary search tree is base for both.
 
 Note:
 1) Insert: Insert in same way as we do in BST
@@ -19,6 +21,8 @@ a) Finding the node to be deleted. => just search the node
 b) Removing the node, handling the three standard BST deletion cases (leaf, one child, two children).
 c) Updating the heights of affected nodes.
 d) Rebalancing the tree if necessary.
+
+Time for all operation i.e insertion , searching and deletion is : O(logn)
 """
 
 class Node:

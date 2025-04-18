@@ -53,15 +53,19 @@ class AVL:
     def rotate(self, node):
         if self.height(node.left) - self.height(node.right) > 1:
             if self.height(node.left.left) >= self.height(node.left.right):
+                # left-left case so simply rotate one time right
                 return self.rightRotate(node)
             else:
-                node.left = self.leftRotate(node.left)
+                # left - right case from top. So rotate first Left and then Right(we do from bottom up and in opposite fashon to balance)
+                node.left = self.leftRotate(node.left)  # extra node will come as Left child of 'node' after LeftRotation.
                 return self.rightRotate(node)
         if self.height(node.right) - self.height(node.left) > 1:
             if self.height(node.right.right) >= self.height(node.right.left):
+                # right - right case so simply rotate one time left
                 return self.leftRotate(node)
             else:
-                node.right = self.rightRotate(node.right)
+                # right - left case from top. So rotate first right and then Left(we do from bottom up and in opposite fashon to balance)
+                node.right = self.rightRotate(node.right)  # extra node will come as right child of 'node' after rightRotation.
                 return self.leftRotate(node)
         return node  # if already balanced then return the (unchanged) node pointer
 

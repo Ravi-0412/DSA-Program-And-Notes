@@ -66,7 +66,7 @@ class LFUCache:
         self.freqTable[node.freq].insertAtLast(node)  # Inserting in new_freq. Will insert at last i.e most recently used for that freq. 
                                                       # because now it will be most recently used for that freq. same as 'LRU'
         if prevFreq == self.minFreq and self.freqTable[prevFreq].size == 0:
-            # If 'minFreq' was = prevFreq and there was only 'key' for 'minFreq' then we have to update the minFreq = 1
+            # If 'minFreq' was = prevFreq and there was only 'key' for 'minFreq' then we have to update the minFreq += 1
             self.minFreq += 1
         return node.val
         

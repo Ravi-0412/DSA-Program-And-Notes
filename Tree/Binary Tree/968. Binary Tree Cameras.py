@@ -1,41 +1,81 @@
-# Logic: each leaf node has only one of two ways it can be monitored:
-# i)  Place a camera on the leaf node.
-# ii) Place a camera on the parent node of the leaf node.
+"""
+Logic: each leaf node has only one of two ways it can be monitored:
+i)  Place a camera on the leaf node.
+ii) Place a camera on the parent node of the leaf node.
 
-# Bt placing on parent will be reduce the no of cameras because then more node can be monitored if leaf node.
+But placing on parent will be reduce the no of cameras because then more node can be monitored.
 
-# VVi: In similar way we have to decide whether it's better to put camera at node or its parent recursively 
-# for each monitored node.  We can then treat these nodes as 'new' leaf nodes and repeat the process.
+0: This node needs a camera
+1: This node has a camera
+2: This node is already monitored.
 
-# Note: It will be better to go bottom up because going top down it will be very difficult to decide and minimise ans.
+Going Bottom up, for each node: 
+i)   If any child needs a camera (i.e. child returned 0) → this node must have a camera
+ii)  If any child has a camera (i.e. child returned 1) → this node is covered
+iii) If both children are covered and do not have cameras → this node needs a camera
 
-# Q) how do we keep track of which nodes have been monitored?
-# We can use different values to track this.
-# 0 as unmonitored, 1 as monitored (camera), and 2 as monitored (no camera).
-
-# As I traverse up the binary tree, I can easily obtain the identity of the current node by obtaining the minimum of the two child nodes
-# (accounting for leaf nodes as edge cases) and deciding from there based on the list above.
-
-# time: O(n)
+time: O(n)
+"""
 
 class Solution:
     def minCameraCover(self, root: Optional[TreeNode]) -> int:
+        self.cameras = 0  # Counter to track the number of cameras placed
 
-        def dfs(root):
-            if not root:
-                return 0
-            ans= dfs(root.left) + dfs(root.right)
-            cur= min(root.left.val if root.left else float('inf'), root.right.val if root.right else float('inf') )
-            if cur== 0:
-                # at least one child node requires monitoring, this node must have a camera
-                ans+= 1
-                root.val= 1
-            elif cur== 1:
-                # at least one child node is a camera, this node is already monitored
-                root.val= 2
-            # if curr == float('inf'), the current node is a leaf node; let the parent node monitor this node
-            # if curr == 2, all child nodes are being monitored; treat the current node as a leaf node
-            return ans
+        def dfs(node):
+            if not node:
+                return 2  # Null nodes are considered covered
 
-        # ensure that root node is monitored, otherwise, add a camera onto root node
-        return dfs(root) + (root.val== 0)
+            left = dfs(node.left)   
+            right = dfs(node.right) 
+
+            # If any child needs a camera, place a camera at this node
+            if left == 0 or right == 0:
+                self.cameras += 1
+                return 1  # Node has a camera
+
+            # If any child has a camera, this node is covered
+            if left == 1 or right == 1:
+                return 2  # Node is covered
+
+            # If both children are covered but do not have cameras, this node needs a camera
+            return 0  # Node needs a camera
+
+        # After DFS, if root is still not covered, we need to place a camera at the root
+        if dfs(root) == 0:
+            self.cameras += 1
+
+        return self.cameras
+
+# Java
+"""
+class Solution {
+    private int cameras = 0;
+
+    public int minCameraCover(TreeNode root) {
+        // 0: needs camera, 1: has camera, 2: covered
+        if (dfs(root) == 0) {
+            cameras++;
+        }
+        return cameras;
+    }
+
+    private int dfs(TreeNode node) {
+        if (node == null) return 2;
+
+        int left = dfs(node.left);
+        int right = dfs(node.right);
+
+        if (left == 0 || right == 0) {
+            cameras++;
+            return 1; // place camera here
+        }
+
+        if (left == 1 || right == 1) {
+            return 2; // this node is covered
+        }
+
+        return 0; // this node needs a camera
+    }
+}
+"""
+

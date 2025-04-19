@@ -1,7 +1,7 @@
 
 
 """
-In this type of question where you have to each element equal and both
+In this type of question where you have to make each element equal and both
 increment and decrement operation is allowed then 
 just make all element equal to the median.
 finding median

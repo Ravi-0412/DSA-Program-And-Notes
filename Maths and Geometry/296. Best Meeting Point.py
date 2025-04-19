@@ -26,3 +26,53 @@ def findBestMeetingPoint(mat):
             if mat[i][j] == 1:
                 cost += abs(median_x - i) + abs(median_y - j)
     return cost
+
+# Java
+"""
+import java.util.*;
+
+public class MeetingPointFinder {
+
+    public static int findBestMeetingPoint(int[][] mat) {
+        int n = mat.length;
+        int m = mat[0].length;
+
+        List<Integer> x = new ArrayList<>();
+        List<Integer> y = new ArrayList<>();
+
+        // Collect coordinates of all the houses
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (mat[i][j] == 1) {
+                    x.add(i);
+                    y.add(j);
+                }
+            }
+        }
+
+        // Sort the coordinates
+        Collections.sort(x);
+        Collections.sort(y);
+
+        int medianX = getMedian(x);
+        int medianY = getMedian(y);
+
+        int cost = 0;
+
+        // Calculate total distance to the meeting point
+        for (int i = 0; i < x.size(); i++) {
+            cost += Math.abs(x.get(i) - medianX) + Math.abs(y.get(i) - medianY);
+        }
+
+        return cost;
+    }
+
+    private static int getMedian(List<Integer> list) {
+        int size = list.size();
+        if (size % 2 == 1) {
+            return list.get(size / 2);
+        } else {
+            return (list.get(size / 2) + list.get(size / 2 - 1)) / 2;
+        }
+    }
+"""

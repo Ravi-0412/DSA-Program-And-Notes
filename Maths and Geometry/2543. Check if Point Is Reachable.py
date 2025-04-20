@@ -31,3 +31,9 @@ private int gcd(int a, int b) {
 }
 
 """
+
+"""
+Related Questions:
+1) 780. Reaching Points
+2) 2849. Determine if a Cell Is Reachable at a Given Time
+"""

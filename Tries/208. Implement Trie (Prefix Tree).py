@@ -3,7 +3,8 @@
 class TrieNode:
     def __init__(self):
         self.children= {}  # will point to children. and can be max of 26('a' to 'z'). just like data in linklist
-        self.isEndOfWord= False   # will mark True if that node is the last node of the word otherwise False for each node. To diff between common node and node with ending word.
+        self.isEndOfWord= False   # will mark True if that node is the last node of the word otherwise False for each node. 
+                                 # To diff between common node and node with ending word.
 
 class Trie:
 
@@ -40,16 +41,19 @@ class Trie:
         return True
 
 
-# Note: we can use trie where we are sure that every numbr or ele or every word will be made only from a fixed thing like number or letter.
-# so that there is no need to create or check from scratch for every ele.
+"""
+Note: we can use trie where we are sure that every number or ele or every word will be made only from a fixed thing like number or letter.
+so that there is no need to create or check from scratch for every ele.
+e.g: 
+1) every word can be made only from letters 'a-z' i.e every ele in word will start from 'a-z' only. will have characters only from 'a-z'.
+2) Every number when treated as Binary will have bit only '0' and '1'.
+3) used in creating / searching word in dictionary
+4) used to predict the possible word based on few typed words. e.g: Google Search Engine.
+5) used to find the word 'starting with', 'Ending With' etc with a given substring.
+6) used to find whether any word matches to already present word fully (that word exist) or partially(any prefix exist)
+then we will use Trie if all word is made from same combination of characters.
 
-# 1) every word can be made only from letters 'a-z' i.e every ele in word will start from 'a-z' only. will have characters only from 'a-z'.
-# 2) Every number when treated as Binary will have bit only '0' and '1'.
-# 3) used in creating / searching word in dictionary
-# 4) used to predict the possible word based on few typed words. e.g: Google Search Engine.
-# 5) used to fine the word 'starting with', 'Ending With' etc with a given substring.
-# 6) used to find whether any word matches to already present word fully (that word exist) or partially(any prefix exist) then we will use Trie if all word is made from same combination of characters.
-
+"""
 
 # Template to use in other Q.
 # same as above just removed the comment.
@@ -80,6 +84,46 @@ class Trie:
             cur= cur.children[c]
         return cur.isEndOfWord   
 
+# Other way : Using array of 26 instead of map in case of children
+class TrieNode:
+    def __init__(self):
+        self.children = [None] * 26  # For 'a' to 'z'
+        self.isEndOfWord = False
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+        
+    def _char_to_index(self, ch):
+        return ord(ch) - ord('a')  # Map 'a' to 0, 'b' to 1, ..., 'z' to 25
+
+    def insert(self, word: str) -> None:
+        cur = self.root
+        for c in word:
+            index = self._char_to_index(c)
+            if not cur.children[index]:
+                cur.children[index] = TrieNode()
+            cur = cur.children[index]
+        cur.isEndOfWord = True
+
+    def search(self, word: str) -> bool:
+        cur = self.root
+        for c in word:
+            index = self._char_to_index(c)
+            if not cur.children[index]:
+                return False
+            cur = cur.children[index]
+        return cur.isEndOfWord
+
+    def startsWith(self, prefix: str) -> bool:
+        cur = self.root
+        for c in prefix:
+            index = self._char_to_index(c)
+            if not cur.children[index]:
+                return False
+            cur = cur.children[index]
+        return True  # Only checks if prefix path exists
+
 
 # Very short and another way of implementing tries
 # Have to understand very properly.
@@ -95,7 +139,7 @@ for w in forbidden:
 # Will insert each word in tries 'trie' and mark the end of word by special symbol '#'.  => can you other symbol as well.
 
 # See use here :
-https://leetcode.com/problems/length-of-the-longest-valid-substring/solutions/3771520/python-hashmap-and-trie-solutions/
+# https://leetcode.com/problems/length-of-the-longest-valid-substring/solutions/3771520/python-hashmap-and-trie-solutions/
 
 
 # java
@@ -159,6 +203,66 @@ class Trie {
             cur = cur.children.get(c);
         }
         // All characters of the prefix are present
+        return true;
+    }
+}
+"""
+
+"""
+class TrieNode {
+    TrieNode[] children;
+    boolean isEndOfWord;
+
+    public TrieNode() {
+        children = new TrieNode[26];
+        isEndOfWord = false;
+    }
+}
+
+public class Trie {
+    private TrieNode root;
+
+    public Trie() {
+        root = new TrieNode();
+    }
+
+    private int charToIndex(char ch) {
+        return ch - 'a';
+    }
+
+    public void insert(String word) {
+        TrieNode node = root;
+        for (char c : word.toCharArray()) {
+            int idx = charToIndex(c);
+            if (node.children[idx] == null) {
+                node.children[idx] = new TrieNode();
+            }
+            node = node.children[idx];
+        }
+        node.isEndOfWord = true;
+    }
+
+    public boolean search(String word) {
+        TrieNode node = root;
+        for (char c : word.toCharArray()) {
+            int idx = charToIndex(c);
+            if (node.children[idx] == null) {
+                return false;
+            }
+            node = node.children[idx];
+        }
+        return node.isEndOfWord;
+    }
+
+    public boolean startsWith(String prefix) {
+        TrieNode node = root;
+        for (char c : prefix.toCharArray()) {
+            int idx = charToIndex(c);
+            if (node.children[idx] == null) {
+                return false;
+            }
+            node = node.children[idx];
+        }
         return true;
     }
 }

@@ -25,4 +25,8 @@ class Solution {
 
 
 # Related q: 
-# 101. Symmetric Tree
+"""
+1) 101. Symmetric Tree
+2) Check if given tree is mirror or not
+3) 226. Invert Binary Tree
+"""

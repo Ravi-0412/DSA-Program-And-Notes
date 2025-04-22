@@ -1,20 +1,20 @@
-# Time: O(n* l)  , n= no of words and l= length of each word.
+"""
+why Trie?
+We have to check all prefixes of a word is is present in the array or not.
+Higher length prefix will form by adding one letter(last one) to the just previous prefix.
+so we are getting all prefix by adding one letter to the already existing prefix(word).
 
-# why Trie?
-# We have to check all prefixes of a word is is present in the array or not.
-# Higher length prefix will form by adding one letter(last one) to the just previous prefix.
-# so we are getting all prefix by adding one letter to the already existing prefix(word).
+So if we insert all the given words and check for each word whether all its prefixes has 'isEndOfWord= True' or not.
+Since we have to check all its prefix so best data structure is Trie.
 
-# So if we insert all the given words and check for each word whether all its prefixes has 'isEndOfWord= True' or not.
-# Since we have to check all its prefix so best data structure is Trie.
+So first insert all the words in the Trie and check for each word whether all its prefixes has 'isEndOfWord= True'.
 
-# So first insert all the words in the Trie and check for each word whether all its prefixes has 'isEndOfWord= True'.
+Note: Q in other words : "Given array of string and given another word . Check whether all the prefixes of this present in the array or not".
+we will do the same thing .
 
-# Note: Q in other words : "Given array of string and given another word . Check whether all the prefixes of this present in the array or not".
-# we will do the same thing .
-
-# Time: O(N * M), where N is length of words, M  is length of each word.
-# Space: O(N * M)
+Time: O(N * M), where N is length of words, M  is length of each word.
+Space: O(N * M)
+"""
 
 class TrieNode:
     def __init__(self):
@@ -69,6 +69,82 @@ words= ["np", "nhi", "nikn", "ninj"]
 # words= []
 print("longest word with all prefixes is: ", T.LongestWord(words))
 
+# Java
+"""
+import java.util.*;
+
+class TrieNode {
+    Map<Character, TrieNode> children;
+    boolean isEndOfWord;
+
+    public TrieNode() {
+        children = new HashMap<>();
+        isEndOfWord = false;
+    }
+}
+
+public class Trie {
+
+    private TrieNode root;
+
+    public Trie() {
+        root = new TrieNode();
+    }
+
+    public String longestWord(String[] words) {
+        // First, insert all the words into the Trie
+        for (String word : words) {
+            insert(word);
+        }
+
+        String longest = "";
+        for (String word : words) {
+            if (allPrefixesExist(word)) {
+                if (word.length() > longest.length()) {
+                    longest = word;
+                } else if (word.length() == longest.length() && word.compareTo(longest) < 0) {
+                    longest = word;
+                }
+            }
+        }
+
+        return longest.isEmpty() ? null : longest;
+    }
+
+    private void insert(String word) {
+        TrieNode curr = root;
+        for (char c : word.toCharArray()) {
+            curr.children.putIfAbsent(c, new TrieNode());
+            curr = curr.children.get(c);
+        }
+        curr.isEndOfWord = true;
+    }
+
+    private boolean allPrefixesExist(String word) {
+        TrieNode curr = root;
+        for (char c : word.toCharArray()) {
+            curr = curr.children.get(c);
+            if (curr == null || !curr.isEndOfWord) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Driver code
+    public static void main(String[] args) {
+        Trie T = new Trie();
+
+        // String[] words = {"n", "ni", "nin", "ninj", "ninja", "ninga"};
+        // String[] words = {"n", "ni", "nin", "ninj", "ninja", "ninga", "ninjas"};
+        String[] words = {"np", "nhi", "nikn", "ninj"};
+        // String[] words = {};
+
+        String result = T.longestWord(words);
+        System.out.println("Longest word with all prefixes is: " + result);
+    }
+}
+"""
 
 # method 2:
 # very good and concise
@@ -92,17 +168,17 @@ class Trie:
 class Solution:
     
     def longestWord(self, words):
-        trie= Trie()
+        trie = Trie()
         # First insert all the words in the Trie
         for word in words:
             trie.insert(word)
         
-        ans= ""
-        q= collections.deque([])
-        q.append(trie.root)  # will only contain the node that will some ending word exzcept root since we update all the things in next node.
+        ans = ""
+        q = collections.deque([])
+        q.append(trie.root)  # will only contain the node that will have same ending word except root since we update all the things in next node.
 
         while q:
-            cur= q.popleft()
+            cur = q.popleft()
             for child in cur.children.values():
                 if child.word:  # means this node contain some ending word.
                     if len(child.word) > len(ans) or (len(child.word) == len(ans) and child.word < ans):
@@ -110,6 +186,80 @@ class Solution:
                     q.append(child)
         return None if ans== "" else ans
 
+# Java
+"""
+import java.util.*;
+
+class TrieNode {
+    Map<Character, TrieNode> children;
+    String word;
+
+    public TrieNode() {
+        children = new HashMap<>();
+        word = null;
+    }
+}
+
+class Trie {
+    TrieNode root;
+
+    public Trie() {
+        root = new TrieNode();
+    }
+
+    public void insert(String word) {
+        TrieNode cur = root;
+        for (char c : word.toCharArray()) {
+            cur.children.putIfAbsent(c, new TrieNode());
+            cur = cur.children.get(c);
+        }
+        cur.word = word; // Store the whole word at the end node
+    }
+}
+
+public class Solution {
+
+    public String longestWord(String[] words) {
+        Trie trie = new Trie();
+
+        // Insert all words into the Trie
+        for (String word : words) {
+            trie.insert(word);
+        }
+
+        String ans = "";
+        Queue<TrieNode> q = new LinkedList<>();
+        q.add(trie.root);
+
+        while (!q.isEmpty()) {
+            TrieNode cur = q.poll();
+            for (TrieNode child : cur.children.values()) {
+                if (child.word != null) {
+                    // Update the answer if needed
+                    if (child.word.length() > ans.length() || 
+                        (child.word.length() == ans.length() && child.word.compareTo(ans) < 0)) {
+                        ans = child.word;
+                    }
+                    q.add(child);
+                }
+            }
+        }
+
+        return ans.isEmpty() ? null : ans;
+    }
+
+    // Driver code
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        // String[] words = {"n", "ni", "nin", "ninj", "ninja", "ninga"};
+        // String[] words = {"n", "ni", "nin", "ninj", "ninja", "ninga", "ninjas"};
+        String[] words = {"np", "nhi", "nikn", "ninj"};
+        // String[] words = {};
+        String result = sol.longestWord(words);
+        System.out.println("Longest word with all prefixes is: " + result);
+    }
+}
+"""
 
 # Note: Try to do by find the ans by using dfs after inserting..Link in the sheet.
 

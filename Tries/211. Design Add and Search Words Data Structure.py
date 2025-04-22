@@ -1,5 +1,7 @@
-# same way as we search but if there is '.' then we have to check all the possibility at that node.
-# that case we have check using dfs(backtrcaking).
+"""
+same way as we search but if there is '.' then we have to check all the possibility at that node, 
+that case we have to check using dfs(backtrcaking).
+"""
 
 # for searching: 1st write the logic of normal search then for  dot  "." write recursion.
 
@@ -15,7 +17,7 @@ class WordDictionary:
         self.root= TrieNode()
         
     def addWord(self, word: str) -> None:
-        cur= self.root
+        cur = self.root
         for c in word:
             if c not in cur.children:
                 cur.children[c]= TrieNode()
@@ -28,9 +30,9 @@ class WordDictionary:
         return self.dfs(word, 0, self.root)
     
     def dfs(self, word, ind, root):
-        cur= root
+        cur = root
         for i in range(ind, len(word)):
-            c= word[i]
+            c = word[i]
             if c!= '.':
                 if c not in cur.children:
                     return False

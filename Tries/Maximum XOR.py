@@ -1,19 +1,21 @@
-# why Tries?
-# ans: if we see the binary form of every number then all are  made from '0' or '1' only like all words is formed from letters 'a-z' only.
+"""
+why Tries?
+ans: if we see the binary form of every number then all are  made from '0' or '1' only like all words is formed from letters 'a-z' only.
 
-# logic: insert all element of first array into Trie.
-# After that take each number one by one from 2nd array and keep updating the ans.
+logic: insert all element of first array into Trie.
+After that take each number one by one from 2nd array and keep updating the ans.
 
-# Time Complexity: O(N*32) + O(M*32)
-# Reason: For inserting all the elements of arr1 into the trie take O(N*32) [32 Bit] 
-# and O(M*32) for finding the maxXOR for every element of arr2.
+Time Complexity: O(N*32) + O(M*32)
+Reason: For inserting all the elements of arr1 into the trie take O(N*32) [32 Bit] 
+and O(M*32) for finding the maxXOR for every element of arr2.
 
-# Space Complexity: O(N*32)
-# Reason: Since we are inserting all the elements of arr1 into trie where every element is of size 32 bit
-#  but the space complexity will be less than O(N*32) because they might have overlapped.
+Space Complexity: O(N*32)
+Reason: Since we are inserting all the elements of arr1 into trie where every element is of size 32 bit
+ but the space complexity will be less than O(N*32) because they might have overlapped.
 
-# Note vvi: for insertion , we will insert from leftmost side because for maximum xor we will try to get
-# '1' from leftmost side as soon as possible. 
+Note vvi: for insertion , we will insert from leftmost side because for maximum xor we will try to get
+'1' from leftmost side as soon as possible. 
+"""
 
 class TrieNode:
     def __init__(self):
@@ -62,7 +64,66 @@ def maxXOR(n, m, arr1, arr2):
         ans= max(ans, trie.getMax(num))
     return ans
     
+# Java
+"""
+import java.util.*;
 
+class TrieNode {
+    Map<Integer, TrieNode> children;
+
+    TrieNode() {
+        children = new HashMap<>();
+    }
+}
+
+class Trie {
+    TrieNode root;
+
+    Trie() {
+        root = new TrieNode();
+    }
+
+    void insert(int num) {
+        TrieNode cur = root;
+        for (int i = 31; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+            cur.children.putIfAbsent(bit, new TrieNode());
+            cur = cur.children.get(bit);
+        }
+    }
+
+    int getMax(int num) {
+        TrieNode cur = root;
+        int maxXor = 0;
+        for (int i = 31; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+            if (cur.children.containsKey(1 - bit)) {
+                maxXor |= (1 << i);
+                cur = cur.children.get(1 - bit);
+            } else {
+                cur = cur.children.get(bit);
+            }
+        }
+        return maxXor;
+    }
+}
+
+public class Solution {
+    public static int maxXOR(int n, int m, int[] arr1, int[] arr2) {
+        Trie trie = new Trie();
+        for (int num : arr1) {
+            trie.insert(num);
+        }
+
+        int ans = 0;
+        for (int num : arr2) {
+            ans = Math.max(ans, trie.getMax(num));
+        }
+
+        return ans;
+    }
+}
+"""
 
 
 

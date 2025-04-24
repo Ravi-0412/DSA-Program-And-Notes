@@ -1,20 +1,22 @@
-# we are allowed to go in all four directions.
+"""
+we are allowed to go in all four directions.
 
-# logic: from every cell, we are checking can be get our desired word starting from that cell?
+logic: from every cell, we are checking can be get our desired word starting from that cell?
 
-# Note: we are not marking visited when we see any cell for 1st time because that cell can be used later for forming another
-# letter of the word.
-# so mark only visited when you are going to see all its neighbour like Diskastra Algo.
+Note: we are not marking visited when we see any cell for 1st time because that cell can be used later for forming another
+letter of the word.
+so mark only visited when you are going to see all its neighbour like Diskastra Algo.
 
-# time: O(m*n.4^(m*n))
+time: O(m*n.4^(m*n))
 
-# Here blindly calling dfs so we have to check for invalid cases just after base case.
-# Good approach. Do like this only
+Here blindly calling dfs so we have to check for invalid cases just after base case.
+Good approach. Do like this only.
+"""
 
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
         row,col= len(board), len(board[0])
-        path= set()  # will be only empty after each function call.
+        path = set()  # will be only empty after each function call.
              # will tell whether we have visited that cell in current cycle or not. just like we are passing this empty path in each call.
         
         def dfs(r,c,word):
@@ -51,7 +53,7 @@ class Solution:
                 return True
             if r < 0 or r >= row or c < 0 or c>= col or board[r][c] == "#" or board[r][c] != word[0]:
                 return False
-            temp= board[r][c]
+            temp = board[r][c]
             board[r][c]= "#"
             directions= [[r,c-1], [r, c+1], [r-1, c], [r+1, c]]
             for nr, nc in directions:

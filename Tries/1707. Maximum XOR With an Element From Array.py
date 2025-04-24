@@ -54,3 +54,75 @@ class Solution:
                 j+= 1
             ans[i]= trie.getAns(xi)
         return ans
+
+# java
+"""
+import java.util.*;
+
+class TrieNode {
+    Map<Integer, TrieNode> children = new HashMap<>();
+}
+
+class Trie {
+    TrieNode root = new TrieNode();
+
+    public void insert(int num) {
+        TrieNode cur = root;
+        for (int i = 31; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+            cur.children.putIfAbsent(bit, new TrieNode());
+            cur = cur.children.get(bit);
+        }
+    }
+
+    public int getMaxXor(int num) {
+        if (root.children.isEmpty()) return -1;
+
+        TrieNode cur = root;
+        int maxXor = 0;
+        for (int i = 31; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+            int toggledBit = 1 - bit;
+            if (cur.children.containsKey(toggledBit)) {
+                maxXor |= (1 << i);
+                cur = cur.children.get(toggledBit);
+            } else {
+                cur = cur.children.getOrDefault(bit, null);
+            }
+        }
+        return maxXor;
+    }
+}
+
+class Solution {
+    public int[] maximizeXor(int[] nums, int[][] queries) {
+        Arrays.sort(nums);
+        int n = queries.length;
+        int[] result = new int[n];
+
+        // Create a combined list with index
+        int[][] extendedQueries = new int[n][3];
+        for (int i = 0; i < n; i++) {
+            extendedQueries[i][0] = queries[i][0]; // xi
+            extendedQueries[i][1] = queries[i][1]; // mi
+            extendedQueries[i][2] = i;             // original index
+        }
+
+        Arrays.sort(extendedQueries, Comparator.comparingInt(a -> a[1]));  // sort by mi
+
+        Trie trie = new Trie();
+        int index = 0;
+        for (int[] query : extendedQueries) {
+            int xi = query[0], mi = query[1], originalIdx = query[2];
+
+            while (index < nums.length && nums[index] <= mi) {
+                trie.insert(nums[index]);
+                index++;
+            }
+            result[originalIdx] = trie.getMaxXor(xi);
+        }
+
+        return result;
+    }
+}
+"""

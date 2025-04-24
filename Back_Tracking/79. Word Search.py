@@ -1,4 +1,4 @@
-"""
+3"""
 we are allowed to go in all four directions.
 
 logic: from every cell, we are checking can be get our desired word starting from that cell?

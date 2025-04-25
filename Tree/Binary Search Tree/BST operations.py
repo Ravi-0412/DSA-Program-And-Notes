@@ -111,9 +111,6 @@ for ele in arr:
 # b.SearchKey(root,20)
 # b.SearchKey(root,13)
 
-
-
-
 # b.deleteNode(root,24)
 print("inorder traversal Iterative is: ")
 b.InorderIterative(root)
@@ -139,3 +136,121 @@ def InorderIterative(self,root):
         ans.append(curr.val)
         root= curr.right  # move the pointer to check the right child.
     return ans
+
+# Java
+"""
+import java.util.*;
+
+class Node {
+    int data;
+    Node left, right;
+
+    public Node(int data) {
+        this.data = data;
+        left = right = null;
+    }
+}
+
+class BST {
+
+    public Node buildBSTRecursive(Node root, int ele) {
+        if (root == null) {
+            return new Node(ele);
+        }
+        if (ele < root.data) {
+            root.left = buildBSTRecursive(root.left, ele);
+        } else {
+            root.right = buildBSTRecursive(root.right, ele);
+        }
+        return root;
+    }
+
+    public Integer searchMin(Node root) {
+        if (root == null) return null;
+        if (root.left == null) return root.data;
+        return searchMin(root.left);
+    }
+
+    public Integer searchMax(Node root) {
+        if (root == null) return null;
+        if (root.right == null) return root.data;
+        return searchMax(root.right);
+    }
+
+    public Node searchKey(Node root, int key) {
+        if (root == null) {
+            System.out.println(key + " is not present or tree is empty");
+            return null;
+        }
+        if (root.data == key) {
+            return root;
+        } else if (key < root.data) {
+            return searchKey(root.left, key);
+        } else {
+            return searchKey(root.right, key);
+        }
+    }
+
+    public Node deleteNode(Node root, int key) {
+        if (root == null) return null;
+
+        if (key < root.data) {
+            root.left = deleteNode(root.left, key);
+        } else if (key > root.data) {
+            root.right = deleteNode(root.right, key);
+        } else {
+            // Node found
+            if (root.left == null && root.right == null) {
+                root = null;
+            } else if (root.left != null && root.right == null) {
+                root = root.left;
+            } else if (root.right != null && root.left == null) {
+                root = root.right;
+            } else {
+                Node temp = searchMaxNode(root.left); // get max from left
+                root.data = temp.data;
+                root.left = deleteNode(root.left, temp.data);
+            }
+        }
+        return root;
+    }
+
+    public Node searchMaxNode(Node root) {
+        if (root.right == null) return root;
+        return searchMaxNode(root.right);
+    }
+
+    public int totalNodes(Node root) {
+        if (root == null) return 0;
+        return 1 + totalNodes(root.left) + totalNodes(root.right);
+    }
+
+    public int leafNodes(Node root) {
+        if (root == null) return 0;
+        if (root.left == null && root.right == null) return 1;
+        return leafNodes(root.left) + leafNodes(root.right);
+    }
+
+    public int depth(Node root) {
+        if (root == null) return 0;
+        return 1 + Math.max(depth(root.left), depth(root.right));
+    }
+
+    public List<Integer> inorderIterative(Node root) {
+        List<Integer> ans = new ArrayList<>();
+        Stack<Node> stack = new Stack<>();
+
+        while (root != null || !stack.isEmpty()) {
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+            Node curr = stack.pop();
+            ans.add(curr.data);
+            root = curr.right;
+        }
+
+        return ans;
+    }
+}
+"""

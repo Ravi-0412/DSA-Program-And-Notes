@@ -32,7 +32,7 @@ class Solution:
 # method 2:
 
 # logic: We need to do the work from biggest to smallest, right to left.
-# pre will record the previous value the we get, which the total sum of bigger values.
+# pre(value) will record the previous value the we get, which the total sum of bigger values.
 # For each node, we update root.val with root.val + pre.
 
 # time: O(n)
@@ -48,6 +48,25 @@ class Solution:
             self.bstToGst(root.left)
         return root
 
+# Java
+"""
+class Solution {
+    private int value = 0;
+
+    public TreeNode bstToGst(TreeNode root) {
+        if (root.right != null) {
+            bstToGst(root.right);
+        }
+        value += root.val;
+        root.val = value;
+
+        if (root.left != null) {
+            bstToGst(root.left);
+        }
+        return root;
+    }
+}
+"""
 
 # same question
 # 1) 538. Convert BST to Greater Tree

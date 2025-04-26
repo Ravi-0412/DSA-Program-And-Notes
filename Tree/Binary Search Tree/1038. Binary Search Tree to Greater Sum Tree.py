@@ -68,5 +68,33 @@ class Solution {
 }
 """
 
+# Other way to write above code
+class Solution:
+    def bstToGst(self, root: TreeNode) -> TreeNode:
+        def dfs(node, rightSum):
+            if not node: return rightSum
+            rightSum = dfs(node.right, rightSum)
+            node.val += rightSum
+            return dfs(node.left, node.val)
+        dfs(root, 0)
+        return root
+
+"""
+class Solution {
+    public TreeNode bstToGst(TreeNode root) {
+        bstToGstHelper(root, 0);
+        return root;
+    }
+
+    // Returns right subtree sum after updating node
+    private int bstToGstHelper(TreeNode node, int rightSum) {
+        if (node == null) return rightSum;
+        rightSum = bstToGstHelper(node.right, rightSum);
+        node.val += rightSum;
+        return bstToGstHelper(node.left, node.val);
+    }
+}
+"""
+
 # same question
 # 1) 538. Convert BST to Greater Tree

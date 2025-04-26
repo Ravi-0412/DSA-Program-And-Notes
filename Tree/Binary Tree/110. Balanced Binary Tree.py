@@ -81,6 +81,29 @@ class Solution:
             
         return check(root)!= -1  # if not equal to '-1' means balanced
 
+# Java
+"""
+class Solution {
+    public boolean isBalanced(TreeNode root) {
+        return check(root) != -1;
+    }
+    
+    private int check(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        
+        int left = check(root.left);
+        int right = check(root.right);
+        
+        if (left == -1 || right == -1 || Math.abs(left - right) > 1) {
+            return -1;
+        }
+        
+        return 1 + Math.max(left, right);
+    }
+}
+"""
 
 # Method 3:
 # Simplest way of writing above logic using 'ans' as global variable.

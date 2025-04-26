@@ -7,7 +7,7 @@ But placing on parent will be reduce the no of cameras because then more node ca
 
 0: This node needs a camera
 1: This node has a camera
-2: This node is already monitored.
+2: This node is already monitored using neighbour camera.
 
 Going Bottom up, for each node: 
 i)   If any child needs a camera (i.e. child returned 0) → this node must have a camera

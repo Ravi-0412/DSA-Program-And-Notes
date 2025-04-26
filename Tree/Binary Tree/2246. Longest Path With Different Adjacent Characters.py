@@ -35,20 +35,22 @@ class Solution:
 
 # Optimising to O(n)
 
-# Just an extension of "543. Diameter of Binary Tree".
-# Only differnce one node can have more than 2 children.
+"""
+Just an extension of "543. Diameter of Binary Tree".
+Only differnce one node can have more than 2 children.
 
-# Logic: In a generic tree there are more than 2 nodes however 
-# the longest path can only be found from 2 of the longest nodes for each node.
+Logic: In a generic tree there are more than 2 nodes however 
+the longest path, can only be found from 2 of the longest paths for each node.
 
-# So for each node, keep track of 2 longest path going through that node 
-# then ans for that node = best + second_best + 1.
+So for each node, keep track of 2 longest path going through that node 
+then ans for that node = best + second_best + 1.
 
-# Implementation is similar to ""543. Diameter of Binary Tree".
+Implementation is similar to ""543. Diameter of Binary Tree".
 
-# Note: Here we are making directed graph and after finding ans for children , forwarding that to parent & so on.
+Note: Here we are making directed graph and after finding ans for children , forwarding that to parent & so on.
 
-# Time = O(n)
+Time = O(n)
+"""
 
 class Solution:
     def longestPath(self, parent: List[int], s: str) -> int:

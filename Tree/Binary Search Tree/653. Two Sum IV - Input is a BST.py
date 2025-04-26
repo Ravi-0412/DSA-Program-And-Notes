@@ -1,25 +1,27 @@
-# method 1: store the inorder 
-# now problem reduces to "Two sum"
-# then apply the two pointer approach for find the pair since inorder will be a sorted array 
-# space= time= O(n)
+"""
+method 1: store the inorder 
+now problem reduces to "Two sum"
+then apply the two pointer approach for find the pair since inorder will be a sorted array 
+space= time= O(n)
 
-# method 2:
-# just store the remaining sum w.r.t each number you pop for inorder 
-# After poping check whether that number is present in the hashmap for not
-# if already presen then it means sum exist otherwise add the curr poped node into stack
+method 2:
+just store the remaining sum w.r.t each number you pop for inorder 
+After poping check whether that number is present in the hashmap for not
+if already presen then it means sum exist otherwise add the curr poped node into stack
 
 
-# method 3: just use the 'BST iterator' i.e 'next' and 'prev'
-# next will give element from start i.e smallest one and 'prev' will give element from last i.e largest one.
-# Now problem reduces to "Two sum" with two pointer approach 'next' and 'prev'.
+method 3: just use the 'BST iterator' i.e 'next' and 'prev'
+next will give element from start i.e smallest one and 'prev' will give element from last i.e largest one.
+Now problem reduces to "Two sum" with two pointer approach 'next' and 'prev'.
 
-# for getting the 'prev' just push all the right ele first and for any node you pop 
-# push their 'left'. 
-# just the opposite of 'next'.
+for getting the 'prev' just push all the right ele first and for any node you pop 
+push their 'left'. 
+just the opposite of 'next'.
 
-# time: O(n)
-# space: O(H)*2= O(H)
-# this Q is based on this approach only since in this we are using a lot of property of BST
+time: O(n)
+space: O(H)*2= O(H)
+this Q is based on this approach only since in this we are using a lot of property of BST
+"""
 
 class BSTIterator:
     def __init__(self, root, reverse):  # taking reverse also so that we don't have to make separate function 

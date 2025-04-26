@@ -45,6 +45,7 @@ class Solution:
 
 
 # even if you do the bottom up same thing will happen. WIll give wrong only
+# e.g: root = [5,4,6,null,null,3,7], exepected = False
 class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
         if root== None or (root.left== None and root.right== None):
@@ -65,7 +66,7 @@ class Solution:
 # Method 2: Top - Down
 # i) Store the minimum and maximum seen till now.
 # ii) If at any node if you see ki: current node ka value 'minimum' se bhi chota h ya 'maximum' se bhi bda h.
-# Then it means kahin na kahin current tak aane me bst rule ka palan nhi hua h.
+# Then it means kahin na kahin current tak aane me bst rule follow nhi hua h.
 # Time: O(n)
 
 class Solution:

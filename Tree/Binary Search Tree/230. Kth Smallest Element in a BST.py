@@ -102,6 +102,14 @@ class Solution:
         result, _ = findKthSmallest(root, k)
         return result
 
+"""
+Note : Q) Why 2nd is working and 1st one is not.
+i) left, k = findKthSmallest(root.left, k)   => Replacing k with the updated value returned by the recursive call.
+ii) ❌ First version: k is passed by value and modified locally — changes aren't reflected across recursive calls, so the count is lost.
+
+✅ Second version: Returns the updated k along with the result — each call gets the new k, maintaining correct state across recursion.
+"""
+
 # Related Q:
 # 1) Kth largest element in BST
 # Here first call for right then for left.

@@ -5,20 +5,22 @@
 
 # Method 2:
 
-# reducing the space complexity to O(H)
-# first push all the left ele of root i.e inorder traversal rule
-# for 'next' just pop the node and push its right. like we do in inorder iterative traversal.
+"""
+reducing the space complexity to O(H)
+first push all the left ele of root i.e inorder traversal rule
+for 'next' just pop the node and push its right. like we do in inorder iterative traversal.
 
-# here we only pushing all the left node not all the nodes initially and when 'next' is called,
-# this will make sure that space complexity doesn't go beyond O(H).
+here we only pushing all the left node not all the nodes initially and when 'next' is called,
+this will make sure that space complexity doesn't go beyond O(H).
 
-# Just similar way as "230. Kth smallest element in BST"
+Just similar way as "230. Kth smallest element in BST"
 
-# Here we need to 'pop' last inserted one for 'next' so we will use stack.
+Here we need to 'pop' last inserted one for 'next' so we will use stack.
 
-# space: O(H)
-# time: O(1) average case. we are pushing 'n' ele and we are calling 'next' function 'n' times
+space: O(H)
+time: O(1) average case. we are pushing 'n' ele and we are calling 'next' function 'n' times
 
+"""
 class BSTIterator:
     def __init__(self, root: Optional[TreeNode]):
         self.stack= []
@@ -38,6 +40,37 @@ class BSTIterator:
         while curr:
             self.stack.append(curr)
             curr= curr.left
+
+# Java
+"""
+import java.util.Stack;
+
+class BSTIterator {
+    private Stack<TreeNode> stack = new Stack<>();
+
+    public BSTIterator(TreeNode root) {
+        pushLeft(root);
+    }
+
+    public int next() {
+        TreeNode node = stack.pop();
+        pushLeft(node.right);  // Push left path of right child
+        return node.val;
+    }
+
+    public boolean hasNext() {
+        return !stack.isEmpty();
+    }
+
+    private void pushLeft(TreeNode node) {
+        while (node != null) {
+            stack.push(node);
+            node = node.left;
+        }
+    }
+}
+
+"""
 
 # the above approach can be used to solve:
 

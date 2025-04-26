@@ -43,6 +43,7 @@ class Solution:
             root = TreeNode(preorder[0])
             # Split into left and right parts
             i = 1
+            # find 1st element greater than root
             while i < len(preorder) and preorder[i] < root.val:
                 i += 1
 

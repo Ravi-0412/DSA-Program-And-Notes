@@ -30,6 +30,8 @@ class Solution:
 """
 Note: For any node all smaller element will go on left side and all greater element will go on right side.
 Time = O(n), space : O(1)
+
+Note: In similar way we can do when postorder will be given.
 """
 
 class Solution:

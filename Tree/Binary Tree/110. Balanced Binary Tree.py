@@ -124,3 +124,27 @@ class Solution:
 
         maxDepth(root)
         return self.ans
+
+# Java
+"""
+class Solution {
+    private boolean ans = true;
+    
+    public boolean isBalanced(TreeNode root) {
+        maxDepth(root);
+        return ans;
+    }
+    
+    private int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int l = maxDepth(root.left);
+        int r = maxDepth(root.right);
+        if (Math.abs(l - r) > 1) {
+            ans = false;
+        }
+        return 1 + Math.max(l, r);
+    }
+}
+"""

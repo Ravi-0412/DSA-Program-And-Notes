@@ -1,23 +1,9 @@
 # time: O(n^2).
 # we are visiting every node only once but we are copying the path into 'ans'.
-# Each time it can cost O(n), since no of leaf is O(n/2) ..
+# Each time it can cost O(n) for copying after finding any answer.
 # so time: O(n^2)
 
 # logic: keep adding the node value into ans and keep decr the target.
-class Solution:
-    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
-        ans, path= [], []
-        self.AllPath(root, targetSum, path, ans)
-        return ans
-    
-    def AllPath(self, root, target, path, ans):
-        if root== None:  # this should be the 1st base case.
-            return
-        if target== root.val and root.left== None and root.right== None: # value is equal to remaining target and root is a leaf.
-            ans.append(path + [root.val]) 
-            return
-        self.AllPath(root.left, target- root.val, path + [root.val], ans)
-        self.AllPath(root.right, target- root.val, path + [root.val], ans)
 
 
 # my mistake : This will print the every path two times
@@ -39,9 +25,58 @@ class Solution:
         self.AllPath(root.left, target- root.val, path + [root.val], ans)
         self.AllPath(root.right, target- root.val, path + [root.val], ans)
 
+# correct solution
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
+        ans, path= [], []
+        self.AllPath(root, targetSum, path, ans)
+        return ans
+    
+    def AllPath(self, root, target, path, ans):
+        if root== None:  # this should be the 1st base case.
+            return
+        if target== root.val and root.left== None and root.right== None: # value is equal to remaining target and root is a leaf.
+            ans.append(path + [root.val]) 
+            return
+        self.AllPath(root.left, target- root.val, path + [root.val], ans)
+        self.AllPath(root.right, target- root.val, path + [root.val], ans)
+
+
+# Java 
+"""
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> path = new ArrayList<>();
+        allPath(root, targetSum, path, ans);
+        return ans;
+    }
+    
+    private void allPath(TreeNode root, int target, List<Integer> path, List<List<Integer>> ans) {
+        if (root == null) {
+            return;
+        }
+        
+        // Create a new list with the current path and add current node's value
+        List<Integer> newPath = new ArrayList<>(path);
+        newPath.add(root.val);
+        
+        if (target == root.val && root.left == null && root.right == null) {
+            ans.add(newPath);
+            return;
+        }
+        
+        allPath(root.left, target - root.val, newPath, ans);
+        allPath(root.right, target - root.val, newPath, ans);
+    }
+}
+"""
 
 
 # Try to do iteratively using bfs and using stack also.(link in sheet)
+
 # Think yourself and do.
 
 

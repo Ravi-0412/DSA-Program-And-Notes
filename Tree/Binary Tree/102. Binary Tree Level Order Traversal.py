@@ -20,23 +20,40 @@ class Solution:
 
 # Java
 """
-class Solution:
-    def largestValues(self, root: Optional[TreeNode]) -> List[int]:
-        if not root:
-            return 
-        q= deque([root])
-        ans = []
-        while q:
-            maxi = float('-inf')
-            for i in range(len(q)):  # we have to print level by level in a list
-                cur= q.popleft()
-                maxi = max(maxi, cur.val)
-                if cur.left:
-                    q.append(cur.left)
-                if cur.right:
-                    q.append(cur.right)
-            ans.append(maxi)
-        return ans"""
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        if (root == null) {
+            return new ArrayList<>();  // Return empty list instead of null
+        }
+        
+        List<List<Integer>> ans = new ArrayList<>();
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        
+        while (!q.isEmpty()) {
+            int size = q.size();
+            List<Integer> level = new ArrayList<>();
+            
+            for (int i = 0; i < size; i++) {
+                TreeNode curr = q.poll();
+                level.add(curr.val);
+                if (curr.left != null) {
+                    q.offer(curr.left);
+                }
+                if (curr.right != null) {
+                    q.offer(curr.right);
+                }
+            }
+            
+            ans.add(level);
+        }
+        
+        return ans;
+    }
+}
+"""
 
 
 # Related q:

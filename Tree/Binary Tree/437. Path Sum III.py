@@ -59,4 +59,40 @@ class Solution:
         dfs(root, 0)   # 0: preSum
         return self.count
 
+# Java
+"""
+import java.util.*;
+
+class Solution {
+    private int count = 0;
+    
+    public int pathSum(TreeNode root, int targetSum) {
+        Map<Long, Integer> preSumFreq = new HashMap<>();
+        preSumFreq.put(0L, 1); // Important: handle case when path from root matches target
+        dfs(root, 0L, targetSum, preSumFreq);
+        return count;
+    }
+    
+    private void dfs(TreeNode root, long currSum, int targetSum, Map<Long, Integer> preSumFreq) {
+        if (root == null) {
+            return;
+        }
+        
+        currSum += root.val;
+        
+        // Check if there was a prefix sum that leads to current sum - target
+        count += preSumFreq.getOrDefault(currSum - targetSum, 0);
+        
+        // Update current prefix sum frequency
+        preSumFreq.put(currSum, preSumFreq.getOrDefault(currSum, 0) + 1);
+        
+        // Traverse left and right
+        dfs(root.left, currSum, targetSum, preSumFreq);
+        dfs(root.right, currSum, targetSum, preSumFreq);
+        
+        // Backtrack - remove the current sum frequency for parent calls
+        preSumFreq.put(currSum, preSumFreq.get(currSum) - 1);
+    }
+}
+"""
         

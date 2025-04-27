@@ -1,11 +1,13 @@
-# just same logic as 'level order traversal'
-# we have to calculate ans for each level in same way(exact same code).
+"""
+just same logic as 'level order traversal'
+we have to calculate ans for each level in same way(exact same code).
 
-# only thing we have to change the direction of output at alternate level
-# i.e we have to print in revese at alternate level
-# for this we have taken a variable count
-# if count is even means we have to print from left to right(as usual)
-# if count is odd means we have to print from right to left(so in this case first reverse the levelwise ans and then append in final ans)
+only thing we have to change the direction of output at alternate level
+i.e we have to print in revese at alternate level
+for this we have taken a variable count
+if count is even means we have to print from left to right(as usual)
+if count is odd means we have to print from right to left(so in this case first reverse the levelwise ans and then append in final ans).
+"""
 
 # time: O(n)
 class Solution:
@@ -48,4 +50,39 @@ def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
             direction*= -1  # for adding in reverse order in next iteration
         return ans
 
+# Java
+"""
+import java.util.*;
 
+class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if (root == null) return ans;
+
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        int direction = 1; // 1 for left to right, -1 for right to left
+
+        while (!q.isEmpty()) {
+            int size = q.size();
+            List<Integer> level = new ArrayList<>();
+
+            for (int i = 0; i < size; i++) {
+                TreeNode curr = q.poll();
+                level.add(curr.val);
+
+                if (curr.left != null) q.offer(curr.left);
+                if (curr.right != null) q.offer(curr.right);
+            }
+
+            if (direction == -1) {
+                Collections.reverse(level);
+            }
+            ans.add(level);
+            direction *= -1;
+        }
+
+        return ans;
+    }
+}
+"""

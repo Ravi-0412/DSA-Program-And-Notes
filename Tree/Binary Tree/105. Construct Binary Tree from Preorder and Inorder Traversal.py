@@ -1,10 +1,12 @@
 # method 1:
-# time: O(n^2). Because we are finding index each time 
-# just do on pen and paper for visualisation like how slicing is doing perfect work.
-# same logic as we used to do in GATE exam i.e:
-# Preorder will decide the which ele will be the parent of the upcoming tree.
-# preorder[0] will be the parent always.
-# inorder will decide the which ele will go the left and right of the parent.
+"""
+time: O(n^2). Because we are finding index each time 
+just do on pen and paper for visualisation like how slicing is doing perfect work.
+same logic as we used to do in GATE exam i.e:
+Preorder will decide the which ele will be the parent of the upcoming tree.
+preorder[0] will be the parent always.
+inorder will decide the which ele will go the left and right of the parent.
+"""
 
 class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
@@ -21,16 +23,18 @@ class Solution:
             return root
 
 # Method 2:
-# We can optimise this to O(n) using map.
-# Just store each element of inorder as key and its index as value in hashmap.
+"""
+We can optimise this to O(n) using map.
+Just store each element of inorder as key and its index as value in hashmap.
 
-# Note vvi: if you will first add 'right' child than left then it won't work because
-# you are taking help of preorder index and preorder index goes from left to right.
-# Take any example and see.
+Note vvi: if you will first add 'right' child than left then it won't work because
+you are taking help of preorder index and preorder index goes from left to right.
+Take any example and see.
+"""
 
 class Solution:
     def __init__(self):
-        self.preorderIndex = 0
+        self.preorderIndex = 0  # to know which element from preorder to use now as the root.
         self.inorderIndexMap = {}
 
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
@@ -62,7 +66,7 @@ class Solution:
 
 # Java
 """
-// method 1: In O(n)
+// method 1: In O(n^2)
 public class Solution {
     public TreeNode buildTree(int[] preorder, int[] inorder) {
         if (inorder == null || preorder == null || inorder.length == 0 || preorder.length == 0)
@@ -125,4 +129,26 @@ class Solution {
         return root;
     }
 }
+"""
+
+# Follow up question that came into my mind while solving this question:
+"""
+What if duplicates are also present?
+
+Problem:
+
+A value might appear multiple times in the inorder array.
+The simple {value: index} map breaks, because it only stores one index per value.
+Thus you cannot uniquely determine which occurrence of the value corresponds to the current node you are building.
+
+Solution:
+- Maintain preorderIndex as you do normally.
+- For the current preorder[preorderIndex] value:
+    - search it *inside* the current inorder segment [left, right].
+    - use the first occurrence you find (or carefully designed depending on left/right bias).
+- Once found:
+    - Recursively build the left subtree (left part of inorder).
+    - Recursively build the right subtree (right part of inorder).
+- Move preorderIndex forward at every new node.
+
 """

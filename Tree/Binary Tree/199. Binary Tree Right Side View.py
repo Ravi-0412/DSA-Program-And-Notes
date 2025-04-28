@@ -86,3 +86,28 @@ class Solution {
 }
 
 """
+
+# java: Method 2
+""
+
+class Solution {
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+        dfs(root, 0, ans);
+        return ans;
+    }
+    
+    private void dfs(TreeNode node, int level, List<Integer> ans) {
+        if (node == null) {
+            return;
+        }
+        // If this is the first node at this level, add it
+        if (level == ans.size()) {
+            ans.add(node.val);
+        }
+        // Go right first, then left
+        dfs(node.right, level + 1, ans);
+        dfs(node.left, level + 1, ans);
+    }
+}                                                                                                                                                                                         
+"""

@@ -1,11 +1,13 @@
-# how to think about DSU.
-# for simplicity replace the name->0,1,2... for each account.
-# just traverse through mails for each account and keep mapping with its account_no if doesn't eaxist in map.
-# if exist in map then connect those account into one component by calling the function union.
+"""
+How to think about DSU ?
+for simplicity replace the name->0,1,2... for each account.
+just traverse through mails for each account and keep mapping with its account_no if doesn't eaxist in map.
+if exist in map then connect those account into one component by calling the function union.
 
-# after creating map, find all the merged mail of each account into a list of list by traversing through the items in map.
-# VVI: But add mail to the ultimate parent.. 
-# And at last add name before merged  mail.
+after creating map, find all the merged mail of each account into a list of list by traversing through the items in map.
+VVI: But add mail to the ultimate parent. 
+And at last add name before merged  mail.
+"""
 
 class DSU:
     def __init__(self, n):
@@ -69,5 +71,76 @@ class Solution:
             ans.append(merged_account)
         return ans
 
+# Java
+"""
+import java.util.*;
 
+class DSU {
+    int[] parent, size;
+
+    DSU(int n) {
+        parent = new int[n];
+        size = new int[n];
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+            size[i] = 1;
+        }
+    }
+
+    int findUPar(int node) {
+        if (parent[node] == node) return node;
+        return parent[node] = findUPar(parent[node]);
+    }
+
+    void unionBySize(int u, int v) {
+        int pu = findUPar(u), pv = findUPar(v);
+        if (pu == pv) return;
+        if (size[pu] < size[pv]) {
+            parent[pu] = pv;
+            size[pv] += size[pu];
+        } else {
+            parent[pv] = pu;
+            size[pu] += size[pv];
+        }
+    }
+}
+
+class Solution {
+    public List<List<String>> accountsMerge(List<List<String>> accounts) {
+        int n = accounts.size();
+        DSU dsu = new DSU(n);
+        Map<String, Integer> mailToIndex = new HashMap<>();
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 1; j < accounts.get(i).size(); j++) {
+                String mail = accounts.get(i).get(j);
+                if (!mailToIndex.containsKey(mail)) {
+                    mailToIndex.put(mail, i);
+                } else {
+                    dsu.unionBySize(i, mailToIndex.get(mail));
+                }
+            }
+        }
+
+        Map<Integer, List<String>> merged = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : mailToIndex.entrySet()) {
+            String mail = entry.getKey();
+            int parent = dsu.findUPar(entry.getValue());
+            merged.computeIfAbsent(parent, x -> new ArrayList<>()).add(mail);
+        }
+
+        List<List<String>> result = new ArrayList<>();
+        for (Map.Entry<Integer, List<String>> entry : merged.entrySet()) {
+            List<String> emails = entry.getValue();
+            Collections.sort(emails);
+            List<String> account = new ArrayList<>();
+            account.add(accounts.get(entry.getKey()).get(0));
+            account.addAll(emails);
+            result.add(account);
+        }
+
+        return result;
+    }
+}
+"""
 # Later try by DFS also.

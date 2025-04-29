@@ -1,10 +1,14 @@
-# was easy only but i was not getting how to do it
-# for Serialise: just store the preorder with 'none' value also.
-# for Deserialise: just make tree from above returned string. 
-# Since we have returned using preorder, so we will make tree also keeping in mind how values will go the subtrees.
-# in preorder we keep on going left so whenever we will get any 'Non-None' node means that will go the left side and when we will get 'None' then they will go to the left.
-# (for this same thing will happen i.e NOT None to left ...)
-# time: O(n)
+"""
+was easy only but i was not getting how to do it.
+for Serialise: just store the preorder with 'none' value also.
+
+for Deserialise: just make tree from above returned string. 
+Since we have Serialised using preorder, so we will make tree also keeping in mind how values will go the subtrees.
+in preorder we keep on going left so whenever we will get any 'Non-None' node means that will go the left side and 
+when we will get 'None' then they will go to the right.
+(for this same thing will happen i.e NOT None to left ...)
+time: O(n)
+"""
 class Codec: 
     def serialize(self, root):
         ans= []  # later will join this by any delimiter and return

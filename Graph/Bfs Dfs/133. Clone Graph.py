@@ -23,7 +23,29 @@ class Solution:
 
         return clone(node) if node else None
 
-
+# Java
+"""
+class Solution {
+    public HashMap<Integer, Node> map = new HashMap<>();
+    
+    public Node cloneGraph(Node node) {
+        return clone(node);
+    }
+    
+    public Node clone(Node node) {
+        if (node == null) return null;
+        
+        if (map.containsKey(node.val)) 
+            return map.get(node.val);
+        
+        Node newNode = new Node(node.val, new ArrayList<Node>());
+        map.put(newNode.val, newNode);
+        for (Node neighbor : node.neighbors) 
+            newNode.neighbors.add(clone(neighbor));
+        return newNode;
+    }
+}
+"""
 
 # method 2: using BFS
 # same logic as above.
@@ -48,6 +70,35 @@ class Solution:
         return nodeCopy  # return the 1st node like we were also given only the one reference node
         
 
+# Java
+"""
+class Solution {
+    public Node cloneGraph(Node node) {
+        if (node == null) return null;
+        
+        Map<Node, Node> map = new HashMap<>();
+        Node nodeCopy = new Node(node.val);
+        map.put(node, nodeCopy);
+
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(node);
+
+        while (!queue.isEmpty()) {
+            Node curr = queue.poll();
+            for (Node neighbor : curr.neighbors) {
+                if (!map.containsKey(neighbor)) {
+                    Node neighborCopy = new Node(neighbor.val);
+                    map.put(neighbor, neighborCopy);
+                    queue.offer(neighbor);
+                }
+                map.get(curr).neighbors.add(map.get(neighbor));
+            }
+        }
+
+        return nodeCopy;
+    }
+}
+"""
 
 # my mistakes: i got my mistake
 class Solution:
@@ -73,29 +124,3 @@ class Solution:
                 clone_curr.neighbors.append(clones[nei])
         return copy
 
-
-# Java
-"""
-// Method 1:
-
-class Solution {
-    public HashMap<Integer, Node> map = new HashMap<>();
-    
-    public Node cloneGraph(Node node) {
-        return clone(node);
-    }
-    
-    public Node clone(Node node) {
-        if (node == null) return null;
-        
-        if (map.containsKey(node.val)) 
-            return map.get(node.val);
-        
-        Node newNode = new Node(node.val, new ArrayList<Node>());
-        map.put(newNode.val, newNode);
-        for (Node neighbor : node.neighbors) 
-            newNode.neighbors.add(clone(neighbor));
-        return newNode;
-    }
-}
-"""

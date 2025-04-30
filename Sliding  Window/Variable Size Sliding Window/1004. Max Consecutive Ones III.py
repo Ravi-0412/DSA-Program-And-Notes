@@ -22,7 +22,68 @@ class Solution:
             ans = max(ans, j- i + 1)
             j += 1
         return ans
-    
+
+# Java
+"""
+class Solution {
+    public int longestOnes(int[] nums, int k) {
+        int n = nums.length;
+        int i = 0, j = 0;
+        int count = 0;  // number of zeros in the current window
+        int ans = 0;
+
+        while (j < n) {
+            if (nums[j] == 0) {
+                count++;
+            }
+
+            while (i <= j && count > k) {
+                if (nums[i] == 0) {
+                    count--;
+                }
+                i++;
+            }
+
+            ans = Math.max(ans, j - i + 1);
+            j++;
+        }
+
+        return ans;
+    }
+}
+"""
+
+# Follow up: Find all the indices of the 0s that were flipped to 1 in order to get the longest subarray of consecutive 1s.
+
+from typing import List
+
+class Solution:
+    def longestOnes(self, nums: List[int], k: int) -> List[int]:
+        n = len(nums)
+        left = 0
+        zero_count = 0
+        max_len = 0
+        best_left = 0
+
+        for right in range(n):
+            if nums[right] == 0:
+                zero_count += 1
+
+            while zero_count > k:
+                if nums[left] == 0:
+                    zero_count -= 1
+                left += 1
+
+            if right - left + 1 > max_len:
+                max_len = right - left + 1
+                best_left = left
+
+        # Collect the indices of zeros that were flipped in the best window
+        flipped_indices = [
+            i for i in range(best_left, best_left + max_len) if nums[i] == 0
+        ]
+        return flipped_indices
+
 
 # Note vvi: Whenever you have to find the 'largest subarray length of a single consecutive ele'
 # where you can change other ele then apply this logic only.

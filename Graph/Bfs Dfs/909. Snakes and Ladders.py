@@ -53,6 +53,56 @@ class Solution:
                     visited.add(nextSquare)
         return -1
 
+# Java
+"""
+import java.util.*;
+
+class Solution {
+    public int snakesAndLadders(int[][] board) {
+        int n = board.length;
+
+        Queue<int[]> q = new LinkedList<>();
+        Set<Integer> visited = new HashSet<>();
+        q.offer(new int[]{1, 0});
+        visited.add(1);
+
+        while (!q.isEmpty()) {
+            int[] curr = q.poll();
+            int square = curr[0], steps = curr[1];
+
+            for (int i = 1; i <= 6; i++) {
+                int nextSquare = square + i;
+                if (nextSquare > n * n) continue;
+
+                int[] coords = getCoordinates(nextSquare, n);
+                int r = coords[0], c = coords[1];
+                if (board[r][c] != -1) {
+                    nextSquare = board[r][c];
+                }
+
+                if (nextSquare == n * n) {
+                    return steps + 1;
+                }
+
+                if (!visited.contains(nextSquare)) {
+                    visited.add(nextSquare);
+                    q.offer(new int[]{nextSquare, steps + 1});
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    private int[] getCoordinates(int square, int n) {
+        int r = (square - 1) / n;
+        int c = (square - 1) % n;
+        int row = n - 1 - r;
+        int col = r % 2 == 0 ? c : n - 1 - c;
+        return new int[]{row, col};
+    }
+}
+"""
 
 # my mistake: i was finding the exact col by taking the 'row_no' from top i.e 
 # after calculating the exact row no from top.

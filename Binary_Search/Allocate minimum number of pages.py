@@ -1,29 +1,31 @@
-# Time: O(n *log(sum(arr)- max(arr)))
-# the best thing about this q is binary search is applicable even array is unsorted
+"""
+Time: O(n *log(sum(arr)- max(arr)))
+the best thing about this q is binary search is applicable even array is unsorted
 
-# you can reduce this problem into: Divide the given array into 'm' subarrays such that 
-# 1)'max sum of the splitted subarrays should be minimum' OR 2) 'sum of absolute diff of any two divided subarrays should be minimum'.
+you can reduce this problem into: Divide the given array into 'm' subarrays such that 
+1)'max sum of the splitted subarrays should be minimum' OR 2) 'sum of absolute diff of any two divided subarrays should be minimum'.
 
-# how binary search?: just like we did in '378. k smallest element'. 
-# we can find mid and check it is valid to allocate this much max no of pages acc to the mid if valid then we will find the next smaller
-# else we will search for pages greater than mid.
+how binary search?: just like we did in '378. k smallest element'. 
+we can find mid and check it is valid to allocate this much max no of pages acc to the mid if valid then we will find the next smaller
+else we will search for pages greater than mid.
 
 
-# logic: # since every student should allocated at least one book so we can start checking
-# between max(A) and sum(A) for min greatest , no need from  0 to sum(A).
-# start= max(A) , since we have to give atleast one book to each stident.
-# end= sum(A), there is only one student.
+logic: # since every student should allocated at least one book so we can start checking
+between max(A) and sum(A) for min greatest , no need from  0 to sum(A).
+start= max(A) , since we have to give atleast one book to each stident.
+end= sum(A), there is only one student.
 
-# mid is denoting the max no of pages a student can be allocated.
-# if it is valid to allocate pages for the given mid(max_page) then 
-# we will search for another minimum in left side of mid
-# and will store that mid as temporary ans in the 'res'.   
-# else we will search for greater minimum on right side of the mid
-# at last we will return the res
+mid is denoting the max no of pages a student can be allocated.
+if it is valid to allocate pages for the given mid(max_page) then 
+we will search for another minimum in left side of mid
+and will store that mid as temporary ans in the 'res'.   
+else we will search for greater minimum on right side of the mid
+at last we will return the res
 
-# note: Actually we are checking 'after allocating maximum of no pages as 'mid' to a student , Are we able to divide among all students?'.
-# If yes then we will decrease the 'mid' and if no then we will increase the mid.
-# in this we are minmising the maximum pages allocated to a student.
+note: Actually we are checking 'after allocating maximum of no pages as 'mid' to a student , Are we able to divide among all students?'.
+If yes then we will decrease the 'mid' and if no then we will increase the mid.
+in this we are minmising the maximum pages allocated to a student.
+"""
 
 # 2nd template only.
 

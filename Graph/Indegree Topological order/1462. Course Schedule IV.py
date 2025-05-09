@@ -1,3 +1,11 @@
+"""
+1st thought but it won't work.
+If we store inorder in an array say array: inorder then, for query(i, j), we 
+will check if index of 'j' > index of 'i' in inorder then ans = True else False.
+
+But it won't work for multiple component and when there will be more than one node at the same level.
+"""
+
 # Method 1:
 
 # Logic:
@@ -100,6 +108,7 @@ class Solution(object):
         return ans
 
 # Java
+"""
 import java.util.*;
 
 class Solution {
@@ -146,4 +155,5 @@ class Solution {
         return ans;
     }
 }
+"""
 

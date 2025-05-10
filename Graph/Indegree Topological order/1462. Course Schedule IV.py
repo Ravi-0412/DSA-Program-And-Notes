@@ -44,11 +44,11 @@ print(s)  # Output: {1, 2, 3, 4, 5, 6, 7, 8, 9}
 class Solution:
     def checkIfPrerequisite(self, numCourses: int, prerequisites: list[list[int]], queries: list[list[int]]) -> list[bool]:
         # Initialize the reachability map
-        reachable = {i: set() for i in range(numCourses)}
+        reachable = {i: set() for i in range(numCourses)}   # node: setofPreReq
 
        # Build direct reachability chains
-        for prereq in prerequisites:
-            reachable[prereq[1]].add(prereq[0])
+        for u, v in prerequisites:
+            reachable[v].add(u)     # 'v' ka preReq 'U' h
 
         # Propagate reachability to account for indirect prerequisites
         for i in range(numCourses):
@@ -58,10 +58,51 @@ class Solution:
 
         # Answer the queries
         result = []
-        for query in queries:
-            result.append(query[0] in reachable[query[1]])
+        for u, v in queries:
+            result.append(u in reachable[v])
 
         return result
+
+# Java
+"""
+import java.util.*;
+
+class Solution {
+    public List<Boolean> checkIfPrerequisite(int numCourses, int[][] prerequisites, int[][] queries) {
+        // Initialize the reachability map
+        List<Set<Integer>> reachable = new ArrayList<>();
+        for (int i = 0; i < numCourses; i++) {
+            reachable.add(new HashSet<>());
+        }
+
+        // Build direct reachability chains
+        for (int[] pre : prerequisites) {
+            int u = pre[0];
+            int v = pre[1];
+            reachable.get(v).add(u);  // 'u' is a prerequisite of 'v'
+        }
+
+        // Propagate reachability to account for indirect prerequisites
+        for (int i = 0; i < numCourses; i++) {
+            for (int j = 0; j < numCourses; j++) {
+                if (reachable.get(j).contains(i)) {
+                    reachable.get(j).addAll(reachable.get(i));
+                }
+            }
+        }
+
+        // Answer the queries
+        List<Boolean> result = new ArrayList<>();
+        for (int[] query : queries) {
+            int u = query[0];
+            int v = query[1];
+            result.add(reachable.get(v).contains(u));
+        }
+
+        return result;
+    }
+}
+"""
 
 # Method 2:
 """

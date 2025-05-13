@@ -1,15 +1,17 @@
 # Q: find the total months required when we will complete all the courses of last level.
 
-# my mistake:
-# i was doing batch(level) by level 
-# Explanation:  The time taken for the batch will be maximum time taken for any course in the batch. 
-# Thus solving batch-wise, the minimum total time taken to complete all the courses will be the sum of time taken for each batch.
+"""
+my mistake:
+i was doing batch(level) by level 
+Explanation:  The time taken for the batch will be maximum time taken for any course in the batch. 
+Thus solving batch-wise, the minimum total time taken to complete all the courses will be the sum of time taken for each batch.
 
-# This greedy approach won't work.
-# e.g : Input: n = 5, relations = [[1,2],[2,5],[3,4],[4,5]], time = [2, 7, 10, 2, 3]
-# if we apply this logic then ans = 20 .
+This greedy approach won't work.
+e.g : Input: n = 5, relations = [[1,2],[2,5],[3,4],[4,5]], time = [2, 7, 10, 2, 3]
+if we apply this logic then ans = 20 .
 
-# Read this: https://leetcode.com/problems/parallel-courses-iii/solutions/1816306/reason-for-10th-test-case-failure-reason-for-wrong-answer/
+Read this: https://leetcode.com/problems/parallel-courses-iii/solutions/1816306/reason-for-10th-test-case-failure-reason-for-wrong-answer/
+"""
 
 class Solution:
     def minimumTime(self, n: int, relations: List[List[int]], time: List[int]) -> int:
@@ -47,6 +49,7 @@ class Solution:
 
 
 # Correct method:
+"""
 
 # Note: 1st draw above example on pen and paper  for proper visualisation.
 
@@ -69,6 +72,7 @@ class Solution:
 
 # So for handling this we need to keep track of maxTime taken by any course to complete.
 # Then our ans = max(max Time taken by any course to complete) means in this time we can complete all the courses.
+"""
 
 class Solution:
     def minimumTime(self, n: int, relations: List[List[int]], time: List[int]) -> int:
@@ -103,19 +107,79 @@ class Solution:
                     
         return months
 
+# java
+"""
+import java.util.*;
+
+public class Solution {
+    public int minimumTime(int n, int[][] relations, int[] time) {
+        List<List<Integer>> adjList = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adjList.add(new ArrayList<>());
+        }
+
+        for (int[] rel : relations) {
+            int prev = rel[0] - 1;
+            int next = rel[1] - 1;
+            adjList.get(prev).add(next);
+        }
+
+        int[] indegree = new int[n];
+        for (int i = 0; i < n; i++) {
+            for (int neighbor : adjList.get(i)) {
+                indegree[neighbor]++;
+            }
+        }
+
+        Queue<Integer> queue = new LinkedList<>();
+        int[] maxTime = Arrays.copyOf(time, n);
+
+        for (int i = 0; i < n; i++) {
+            if (indegree[i] == 0) {
+                queue.offer(i);
+            }
+        }
+
+        int months = 0;
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int u = queue.poll();
+                months = Math.max(months, maxTime[u]);
+                for (int neighbor : adjList.get(u)) {
+                    indegree[neighbor]--;
+                    maxTime[neighbor] = Math.max(maxTime[neighbor], maxTime[u] + time[neighbor]);
+                    if (indegree[neighbor] == 0) {
+                        queue.offer(neighbor);
+                    }
+                }
+            }
+        }
+
+        return months;
+    }
+}
+"""
+
 
 # Method 2: Good way
-# our ans = total months required when we will complete all the courses of last level.
-# And for reaching the last level we need to go through some paths i.e we have to complete all the prerequisite.
+"""
+our ans = total months required when we will complete all the courses of last level.
+And for reaching the last level we need to go through some paths i.e we have to complete all the prerequisite.
 
-# vvi: So we can reduce this Q to : 
-# "Find the maximum path sum we can get".
+vvi: So we can reduce this Q to : 
+"Find the maximum path sum we can get".
 
-# For max_path_sum we need to check from course with indegree '0' i.e at 1st level to course at last level i.e highest indegree.
+For max_path_sum we need to check from course with indegree '0' i.e at 1st level to course at last level i.e highest indegree.
     
-# Note vvi: Whenever you have to add the current value by taking min/max from all sub-problems then apply this method only.
-# Note: Keep this method in mind, will help in lot of problems.
+Note vvi: Whenever you have to add the current value by taking min/max from all sub-problems then apply this method only.
+Note: Keep this method in mind, will help in lot of problems.
 
+
+Note vvi: when time 't' will be equal for all the courses then 
+ans = no_level * t.
+"""
 
 class Solution:
     def minimumTime(self, n: int, relations: List[List[int]], time: List[int]) -> int:
@@ -144,10 +208,55 @@ class Solution:
         for course in range(n):  
             dfs(course)
         return max(dp)
-    
 
-# Note vvi: when time 't' will be equal for all the courses then 
-# ans = no_level * t.
+# java
+"""
+import java.util.*;
+
+public class Solution {
+    public int minimumTime(int n, int[][] relations, int[] time) {
+        List<List<Integer>> adjList = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adjList.add(new ArrayList<>());
+        }
+
+        for (int[] rel : relations) {
+            int prev = rel[0] - 1;
+            int next = rel[1] - 1;
+            adjList.get(prev).add(next);
+        }
+
+        int[] dp = new int[n];
+        Arrays.fill(dp, -1);
+
+        int maxTime = 0;
+        for (int i = 0; i < n; i++) {
+            maxTime = Math.max(maxTime, dfs(i, adjList, dp, time));
+        }
+
+        return maxTime;
+    }
+
+    private int dfs(int course, List<List<Integer>> adjList, int[] dp, int[] time) {
+        if (dp[course] != -1) {
+            return dp[course];
+        }
+
+        if (adjList.get(course).isEmpty()) {
+            dp[course] = time[course];
+            return dp[course];
+        }
+
+        int maxPathSum = 0;
+        for (int next : adjList.get(course)) {
+            maxPathSum = Math.max(maxPathSum, dfs(next, adjList, dp, time));
+        }
+
+        dp[course] = time[course] + maxPathSum;
+        return dp[course];
+    }
+}
+"""
     
 
 # Related Q:

@@ -1,24 +1,25 @@
-# Note: In one semester you can study any number of courses as long as you have studied all the prerequisites for the course you are studying.
+"""
+Note: In one semester you can study any number of courses as long as you have studied all the prerequisites for the course you are studying.
 
-# E.g: in 1st sem you can study all those courses which is not dependent on any course i.e doesn't require any prerequisite.
-# in other way courses having indegree == 0
-# in 2nd sem , we can study all those courses whose prerequisite courses has been already studied i.e courses having indegree == 1
-# and so on.
+E.g: in 1st sem you can study all those courses which is not dependent on any course i.e doesn't require any prerequisite.
+in other way courses having indegree == 0
+in 2nd sem , we can study all those courses whose prerequisite courses has been already studied i.e courses having indegree == 1
+and so on.
 
-# Note: for better visulation draw diagram.
+Note: for better visulation draw diagram.
 
-# Ans: the minimum number of semesters needed to study all courses is determined by the longest acyclic path, i.e, 
-# we are looking for the longest acyclic path with each edge’s weight being 1.
+Ans: the minimum number of semesters needed to study all courses is determined by the longest acyclic path, i.e, 
+we are looking for the longest acyclic path with each edge’s weight being 1.
 
+Observation: prerequisite thing(means topological sort) + longest/shortest path with equal weight (bfs)
 
-# Observation: prerequisite thing(means topological sort) + longest/shortest path with equal weight (bfs)
+Note : In other words wew can say it is forming levels and we have to find last level i.e level at which last course exist.
 
-# Note : In other words wew can say it is forming levels and we have to find last level i.e level at which last course exist.
+for level wise , we can use multisource bfs.
+Can use simple bfs also, in this case take one more vaiable length in queue and one more variable to update the ans.
 
-# for level wise , we can use multisource bfs.
-# Can use simple bfs also, in this case take one more vaiable length in queue and one more variable to update the ans.
-
-# Only converted the code of topogical sort into multisource bfs.
+Only converted the code of topogical sort into multisource bfs.
+"""
 
 from collections import defaultdict
 import collections
@@ -59,5 +60,59 @@ def parallelCourses(n, prerequisites):
         if count!= n: 
             return -1
         return semester
+
+# Java
+"""
+import java.util.*;
+
+public class ParallelCourses {
+    public int parallelCourses(int n, int[][] prerequisites) {
+        List<List<Integer>> adjList = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adjList.add(new ArrayList<>());
+        }
+
+        for (int[] edge : prerequisites) {
+            int first = edge[0] - 1;
+            int second = edge[1] - 1;
+            adjList.get(first).add(second);
+        }
+
+        int[] indegree = new int[n];
+        for (int i = 0; i < n; i++) {
+            for (int neighbor : adjList.get(i)) {
+                indegree[neighbor]++;
+            }
+        }
+
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            if (indegree[i] == 0) {
+                queue.offer(i);
+            }
+        }
+
+        int semester = 0;
+        int count = 0;
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int node = queue.poll();
+                count++;
+                for (int neighbor : adjList.get(node)) {
+                    indegree[neighbor]--;
+                    if (indegree[neighbor] == 0) {
+                        queue.offer(neighbor);
+                    }
+                }
+            }
+            semester++;
+        }
+
+        return count != n ? -1 : semester;
+    }
+}
+"""
 
 

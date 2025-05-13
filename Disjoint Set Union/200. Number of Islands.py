@@ -1,23 +1,25 @@
 # Method 1: Already done using BFS and DFS before.
 
 # method 2: using union-find.
-# m= rows, n= cols
-# What differences from 'No of provinces'?
-# Ans: Here there can be more than 'm'(rows) island, infact there can be max nearly (m*n)//2 island.(nearly half of all cell).
-# so here we will make parent and size array of size (m*n) itself. But there was only 'n' city.
-# Also in that Q. we have to combine cities (i,j) into one so was passing (i, j) in union function.
-# But here we have to combine all cell so we have to the pass the cell index in terms of 'i' and 'j'. 
-# But we can't do because for finding parent we have to pass as a integer only. So converted all cell into an integer.
+"""
+m= rows, n= cols
+What differences from 'No of provinces'?
+Ans: Here there can be more than 'm'(rows) island, infact there can be max nearly (m*n)//2 island.(nearly half of all cell).
+so here we will make parent and size array of size (m*n) itself. But there was only 'n' city.
+Also in that Q. we have to combine cities (i,j) into one so was passing (i, j) in union function.
+But here we have to combine all cell so we have to the pass the cell index in terms of 'i' and 'j'. 
+But we can't do because for finding parent we have to pass as a integer only. So converted all cell into an integer.
 
-# So first we will convert all cell into an integer like 0,1,2,3.......
-# to find and do the union.
+So first we will convert all cell into an integer like 0,1,2,3.......
+to find and do the union.
 
-# Method 1: counting the distinct parent .
-# But here we will try to find the distinct parent not from parent array itself(like "Q: no of provinces") 
-# then it will give the incorrect ans.
-# As where there will be "0" in grid that will be the parent of itself and that also be get counted in the ans.
+Method 1: counting the distinct parent .
+But here we will try to find the distinct parent not from parent array itself(like "Q: no of provinces") 
+then it will give the incorrect ans.
+As where there will be "0" in grid that will be the parent of itself and that also be get counted in the ans.
 
-# only that will be part of ans who is parent of himself and value at that grid cell== "1".
+only that will be part of ans who is parent of himself and value at that grid cell== "1".
+"""
 
 class DSU:
     def __init__(self, n):

@@ -1,13 +1,15 @@
-# logic: when we form tree according the hierarchy then ans= "max cost from root to leaf" where cost= time
-# i.e Max path sum from root to leaf.
-# Just similar to 2nd approach of q: "2050. Parallel Courses III".
+"""
+logic: when we form tree according the hierarchy then ans= "max cost from root to leaf" where cost= time
+i.e Max path sum from root to leaf.
+Just similar to 2nd approach of q: "2050. Parallel Courses III".
 
-# Just converted the above one into graph and solved.
+Just converted the above one into graph and solved.
 
-# How to form adjacency list? (here hierarchy)
-# Just see who will pass inform to all other.
-# say if 'i' will pass info to 'j' then add 'j' adjacent to 'i'.
-# It will be a directed graph + no_cyclic. so no need of visited set.
+How to form adjacency list? (here hierarchy)
+Just see who will pass inform to all other.
+say if 'i' will pass info to 'j' then add 'j' adjacent to 'i'.
+It will be a directed graph + no_cyclic. so no need of visited set.
+"""
 
 
 # time: O(n)
@@ -31,6 +33,39 @@ class Solution:
                                                                         # if 'direct_emp' has no subordinate.
         return ans
 
+# Java
+"""
+import java.util.*;
+
+class Solution {
+    public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
+        Map<Integer, List<Integer>> hierarchy = new HashMap<>();
+        for (int i = 0; i < manager.length; i++) {
+            if (manager[i] == -1) continue;
+            hierarchy.computeIfAbsent(manager[i], k -> new ArrayList<>()).add(i);
+        }
+
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(new int[]{informTime[headID], headID});
+        int ans = 0;
+
+        while (!queue.isEmpty()) {
+            int[] current = queue.poll();
+            int time = current[0], id = current[1];
+            ans = Math.max(ans, time);
+
+            if (hierarchy.containsKey(id)) {
+                for (int emp : hierarchy.get(id)) {
+                    queue.add(new int[]{time + informTime[emp], emp});
+                }
+            }
+        }
+
+        return ans;
+    }
+}
+"""
+
 # method 2:  using dfs
 
 class Solution:
@@ -48,6 +83,34 @@ class Solution:
             return ans
 
         return dfs(headID)
+
+# Java
+"""
+import java.util.*;
+
+class Solution {
+    public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
+        Map<Integer, List<Integer>> hierarchy = new HashMap<>();
+
+        for (int i = 0; i < manager.length; i++) {
+            if (manager[i] == -1) continue;
+            hierarchy.computeIfAbsent(manager[i], k -> new ArrayList<>()).add(i);
+        }
+
+        return dfs(headID, hierarchy, informTime);
+    }
+
+    private int dfs(int u, Map<Integer, List<Integer>> hierarchy, int[] informTime) {
+        int ans = 0;
+        if (hierarchy.containsKey(u)) {
+            for (int v : hierarchy.get(u)) {
+                ans = Math.max(ans, informTime[u] + dfs(v, hierarchy, informTime));
+            }
+        }
+        return ans;
+    }
+}
+"""
 
 # Other way of writing this
 # Better one. Just same as ""2050. Parallel Courses III"." 2nd method.
@@ -67,7 +130,34 @@ class Solution:
             return informTime[u] + max_time
 
         return dfs(headID)
-    
+
+# Java
+"""
+import java.util.*;
+
+class Solution {
+    public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
+        Map<Integer, List<Integer>> hierarchy = new HashMap<>();
+
+        for (int i = 0; i < manager.length; i++) {
+            if (manager[i] == -1) continue;
+            hierarchy.computeIfAbsent(manager[i], k -> new ArrayList<>()).add(i);
+        }
+
+        return dfs(headID, hierarchy, informTime);
+    }
+
+    private int dfs(int u, Map<Integer, List<Integer>> hierarchy, int[] informTime) {
+        int maxTime = 0;
+        if (hierarchy.containsKey(u)) {
+            for (int v : hierarchy.get(u)) {
+                maxTime = Math.max(maxTime, dfs(v, hierarchy, informTime));
+            }
+        }
+        return informTime[u] + maxTime;
+    }
+}
+"""
 
 # my mistake in dfs code
 # it will give ' sum of time of all inform time'.

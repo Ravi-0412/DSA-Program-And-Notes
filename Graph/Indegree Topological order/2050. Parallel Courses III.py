@@ -51,27 +51,26 @@ class Solution:
 # Correct method:
 """
 
-# Note: 1st draw above example on pen and paper  for proper visualisation.
+Note: 1st draw above example on pen and paper  for proper visualisation.
 
-# Explanation for ans = 20: If we take all available courses as a single batch, 
-# and then extend the new batch by adding courses with all prerequisites fulfilled,
-# then the time taken will be max⁡(2,10) + max⁡(7,2) + max⁡(3) = 10+7+3 = 20
+Explanation for ans = 20: If we take all available courses as a single batch, 
+and then extend the new batch by adding courses with all prerequisites fulfilled,
+then the time taken will be max⁡(2,10) + max⁡(7,2) + max⁡(3) = 10+7+3 = 20
 
-# note vvi: However, we can realize that by end of 12 months, we can complete courses [1, 2, 3, 4]. Then complete [5] afterwards.
-#  Thus, the minimum time taken is 12+3=15 Hence, 15 is the optimal solution.
+note vvi: However, we can realize that by end of 12 months, we can complete courses [1, 2, 3, 4]. Then complete [5] afterwards.
+ Thus, the minimum time taken is 12+3=15 Hence, 15 is the optimal solution.
 
+vvi How?
+Bottom-line: Solving batch-by-batch and taking the maximum time taken for any course in the batch, 
+and then summing up the time taken for each batch, is not optimal. 
+The logical intuition of failure of THIS VERSION of Greedy is that the moment one course 
+in the current batch is being learned, we may complete other courses which are not in the 
+current batch but available NOW because its prerequisites are satisfied by some just-completed 
+courses of the current batch. It's not necessary to wait for all courses in the current 
+batch to be completed to start newly available courses.
 
-# vvi How?
-# Bottom-line: Solving batch-by-batch and taking the maximum time taken for any course in the batch, 
-# and then summing up the time taken for each batch, is not optimal. 
-# The logical intuition of failure of THIS VERSION of Greedy is that the moment one course 
-# in the current batch is being learned, we may complete other courses which are not in the 
-# current batch but available NOW because its prerequisites are satisfied by some just-completed 
-# courses of the current batch. It's not necessary to wait for all courses in the current 
-# batch to be completed to start newly available courses.
-
-# So for handling this we need to keep track of maxTime taken by any course to complete.
-# Then our ans = max(max Time taken by any course to complete) means in this time we can complete all the courses.
+So for handling this we need to keep track of maxTime taken by any course to complete.
+Then our ans = max(max Time taken by any course to complete) means in this time we can complete all the courses.
 """
 
 class Solution:

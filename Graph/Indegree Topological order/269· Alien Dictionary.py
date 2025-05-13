@@ -1,17 +1,19 @@
-# logic: whenever you have to find the sorted sequence (or order of sequence) given distinct node/val and relation between them, 
-# just think of topological sorting
-# from the relation you can make the directed graph seeing which one should come first and which one should come later
-# and after that you can apply the method to find the sequence
+"""
+logic: whenever you have to find the sorted sequence (or order of sequence) given distinct node/val and relation between them, 
+just think of topological sorting
+from the relation you can make the directed graph seeing which one should come first and which one should come later
+and after that you can apply the method to find the sequence
 
-# in this q, node will the char where both the word will differ
-# and direction will be from word1[i] to word2[i] where word1 and word2 are adjacent word(word2 coming later in lexographic order)
+in this q, node will the char where both the word will differ
+and direction will be from word1[i] to word2[i] where word1 and word2 are adjacent word(word2 coming later in lexographic order)
 
-# After making adjacency list this q reduces to: find the order of char .
-# For this just use topological sort using bfs and dfs.
+After making adjacency list this q reduces to: find the order of char .
+For this just use topological sort using bfs and dfs.
 
-# Time complexity:
-# Say the number of characters in the dictionary (including duplicates) is n. Building the graph takes O(n). 
-# Topological sort takes O(V + E). V <= n. E also can't be larger than n. So the overall time complexity is O(n).
+Time complexity:
+Say the number of characters in the dictionary (including duplicates) is n. Building the graph takes O(n). 
+Topological sort takes O(V + E). V <= n. E also can't be larger than n. So the overall time complexity is O(n).
+"""
 
 class Solution:
     def alienOrder(self, words: List[str]) -> str:

@@ -44,16 +44,16 @@ class Solution:
         def dfs(char):
             if char in visited: 
                 # return the value wrt to that char
-                # True means, this char is visited in same cycle means cycle and 
-                # False means simply skip as this char as well as its adjacent node is already visited
+                # True means, this char is visited in same function call means cycle and 
+                # False means simply skip because this char as well as its adjacent node is already visited
                 return visited[char] 
-            visited[char] = True
+            visited[char] = True   # visited this char 
 
             for neighChar in adj[char]:
                 if dfs(neighChar):    # means cycle
                     return True
 
-            visited[char] = False
+            visited[char] = False   # visited char as well as its adjacent character
             res.append(char)
 
         # cycle detection and printing code starts from here

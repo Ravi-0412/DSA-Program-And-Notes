@@ -6,7 +6,7 @@ j : Tens digit
 k : Units digit (only evens)
 """
 
-# Time: O(9*10*10) , space: O(10)
+# Time: O(9*10*5) , space: O(10)
 
 class Solution:
     def findEvenNumbers(self, digits: List[int]) -> List[int]:

@@ -125,3 +125,6 @@ public class Solution {
     }
 }
 """
+
+# Can be done using multisource bfs also.
+# Link: https://leetcode.com/problems/sliding-puzzle/solutions/146652/java-8ms-bfs-with-algorithm-explained/

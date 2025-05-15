@@ -1,21 +1,23 @@
 # Methoe 1: Better one
 
-# Logic: for given point, find if there exist any diagonal.
-# Note: we can say two points (x1, y1) & (x2, y2) are diagonal of a square if:
-# abs(x1 - x2) == abs(y1 - y2). Just checking diff between values of 'x' and 'y' coordinate should be same for equal length.
-# If they are diagonal then:
-# 1) length of square we can form taking these two points as diagonals = abs(x1 - x2) or abs(y1- y2).
-# 2) Other two sides of square will be '(x1, y2)' and '(x2, y1)'.
+"""
+Logic: for given point, find if there exist any diagonal.
+Note: we can say two points (x1, y1) & (x2, y2) are diagonal of a square if:
+abs(x1 - x2) == abs(y1 - y2). Just checking diff between values of 'x' and 'y' coordinate should be same for equal length.
+If they are diagonal then:
+1) length of square we can form taking these two points as diagonals = abs(x1 - x2) or abs(y1- y2).
+2) Other two sides of square will be '(x1, y2)' and '(x2, y1)'.
 
-# so for finding the total count , multiply the occurences of other diagonal and other two points.
-# Time: add: O(1)
-# count: O(T), where T <= 5000 is total number of points after calling add.
-# Space: O(T)
+so for finding the total count , multiply the occurences of other diagonal and other two points.
+Time: add: O(1)
+count: O(T), where T <= 5000 is total number of points after calling add.
+Space: O(T)
 
-# Note: in same way you can form rectangle.
-# In case of rectangle any two points can be diagonal, won't follow property like square 'abs(x1 - x2) == abs(y1 - y2)'.
-# So consider each possible diagonal pair then other two points will be same as square i.e '(x1, y2)' and '(x2, y1)'.
-# Do Q: '939. Minimum Area Rectangle' based on rectangle.
+Note: in same way you can form rectangle.
+In case of rectangle any two points can be diagonal, won't follow property like square 'abs(x1 - x2) == abs(y1 - y2)'.
+So consider each possible diagonal pair then other two points will be same as square i.e '(x1, y2)' and '(x2, y1)'.
+Do Q: '939. Minimum Area Rectangle' based on rectangle.
+"""
 
 from collections import defaultdict
 class DetectSquares:

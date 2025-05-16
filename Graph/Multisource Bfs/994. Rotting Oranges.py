@@ -1,20 +1,25 @@
+"""
+Note: DFS you can't apply here 
+and bfs you will have to store all the rotten oranges at once in the queue, next all adjacent rotten oranges at once and so on .
+and also you need to call BFS only once time as all the oranges that can got rotten(connected one) will also become rotten
+as we are pushing all the rotten oranges at once that time.
+simple way: just find the oranges that can got rotten in time=1 , time=2 and so on
 
+Note: All fresh oranges that is not connected to any of the rotten oranges directly or indirectly thwy won't get rotten.
+So we need to call bfs only for one time, if fresh one is connected directly or indirectly they will got rotten else not.
 
-#Note: DFS you can't apply here 
-# and bfs you will have to store all the rotten oranges at once in the queue, next all adjacent rotten oranges at once and so on .
-# and also you need to call BFS only once time as all the oranges that can got rotten(connected one) will also become rotten
-# as we are pushing all the rotten oranges at once that time.
-# simple way: just find the oranges that can got rotten in time=1 , time=2 and so on
+also you can think like that : fresh oranges that are at level 1 from any of the rotten oranges will got rotten in one unit of time, 
+and oranges at level 2 will got rotten in two unit of time and so on .
 
-# Note: All fresh oranges that is not connected to any of the rotten oranges directly or indirectly thwy won't get rotten.
-# So we need to call bfs only for one time, if fresh one is connected directly or indirectly they will got rotten else not.
+Use multisource bfs
 
-# also you can think like that : fresh oranges that are at level 1 from any of the rotten oranges will got rotten in one unit of time, 
-# and oranges at level 2 will got rotten in two unit of time and so on .
+Note: if you will writw : "while q" only and at last you return 'time -1' then it will give wrong ans
+when there is no rotten oranges or no fresh oranges. 
+so checking fresh also with 'queue'.
 
-# Use multisource bfs
+time: O(m*n)
+"""
 
-# time: O(m*n)
 class Solution:
     def orangesRotting(self, grid: List[List[int]]) -> int:
         row,col= len(grid), len(grid[0])
@@ -46,7 +51,53 @@ class Solution:
 
         return time if fresh == 0 else -1  # if no fresh oranges is left
 
+# Java
+"""
+import java.util.*;
 
-# Note: if you will writw : "while q" only and at last you return 'time -1' then it will give wrong ans
-# when there is no rotten oranges or no fresh oranges. 
-# so checking fresh also with 'queue'.
+class Solution {
+    public int orangesRotting(int[][] grid) {
+        int rows = grid.length, cols = grid[0].length;
+        Queue<int[]> queue = new LinkedList<>();
+        int time = 0, fresh = 0;
+
+        // Add all rotten oranges to the queue and count the fresh ones
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                if (grid[r][c] == 2) {
+                    queue.offer(new int[]{r, c});
+                }
+                if (grid[r][c] == 1) {
+                    fresh++;
+                }
+            }
+        }
+
+        // Directions: up, down, left, right
+        int[][] directions = {{-1,0},{1,0},{0,-1},{0,1}};
+
+        while (!queue.isEmpty() && fresh > 0) {
+            time++;
+
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int[] pos = queue.poll();
+                int r1 = pos[0], c1 = pos[1];
+
+                for (int[] dir : directions) {
+                    int r = r1 + dir[0], c = c1 + dir[1];
+
+                    if (r >= 0 && r < rows && c >= 0 && c < cols && grid[r][c] == 1) {
+                        grid[r][c] = 2;
+                        fresh--;
+                        queue.offer(new int[]{r, c});
+                    }
+                }
+            }
+        }
+
+        return fresh == 0 ? time : -1;
+    }
+}
+"""
+

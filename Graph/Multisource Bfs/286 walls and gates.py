@@ -10,8 +10,6 @@ how came with this: since using bfs we can mark all the grid at level one in 1st
 by doing with multisource bfs we can get the optimal ans directly for each grid 
 if you do with single source bfs then it won't work in time O(m*n)
 
-submitted on coding ninja and lintcode
-
 No need to make visited set , grid will behave as visited set automatically 
 when we will check the value.. if value is changed then visited else not
 but it is always better to don't change the data given to you in terms of industry point of view.

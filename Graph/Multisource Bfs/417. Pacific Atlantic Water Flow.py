@@ -1,14 +1,16 @@
-# Q meaning: you have to return all that grid in a 2D matrix from which water can flow to both pacific and atlantic ocean
-# we are going reverse i.e from ocean to the cells
-# so curr height of cell should be >= preHeight of the cell
-# logic: find the cell that can reach the pacific and atlantic respectively and 
-# at last find the cell that can reach both and add them into the ans
+"""
+Q meaning: you have to return all that grid in a 2D matrix from which water can flow to both pacific and atlantic ocean
+we are going reverse i.e from ocean to the cells
+so curr height of cell should be >= preHeight of the cell
+logic: find the cell that can reach the pacific and atlantic respectively and 
+at last find the cell that can reach both and add them into the ans
 
-# very better logic as we are going from ocean to the cell then for next adjacent node, 
-# we will have to check with height of preCell only, if height >= to  preCell than the curr cell can also reach the respective ocean
-# exactly  same as "No of island", only change in height checking condition
+very better logic as we are going from ocean to the cell then for next adjacent node, 
+we will have to check with height of preCell only, if height >= to  preCell than the curr cell can also reach the respective ocean
+exactly  same as "No of island", only change in height checking condition
 
-# time: O(m*n), space: O(m*n)
+time: O(m*n), space: O(m*n)
+"""
 class Solution:
     def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
         row, col= len(heights), len(heights[0])

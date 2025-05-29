@@ -1,21 +1,22 @@
+"""
+At any time you see, find the shortest steps/path you should immediately think Breadth-First-Search or dijkastra.
+logic: beginword will be at level '0' and now just keep all the words which can be formed by changing one char at level 1 ,
+ word which can be formed by changing two char at level 2 and so on.
+for this type of Q we always use multisource BFS.
 
-# At any time you see, find the shortest steps/path you should immediately think Breadth-First-Search or dijkastra.
-# logic: beginword will be at level '0' and now just keep all the words which can be formed by changing one char at level 1 ,
-#  word which can be formed by changing two char at level 2 and so on.
-# for this type of Q we always use multisource BFS.
+Method 1: Simplest solution
+Logic: word which will differ by single character all those words will come adjacent to each other.
+So 1st make adjacency list by checking the difference and then apply mutisource bfs.
 
-# Method 1: Simplest solution
-# Logic: word which will differ by single character all those words will come adjacent to each other.
-# So 1st make adjacency list by checking the difference and then apply mutisource bfs.
+from two constraints: 
+1) endWord.length == beginWord.length
+2) wordList[i].length == beginWord.length
+it is clear that beginWord and all words in wordList are of same length.
 
-# from two constraints: 
-# 1) endWord.length == beginWord.length
-# 2) wordList[i].length == beginWord.length
-# it is clear that beginWord and all words in wordList are of same length.
+First time when we will see the 'endWOrd' that will be the ans only.
 
-# First time when we will see the 'endWOrd' that will be the ans only.
-
-# Time: O(n^2 * m). n= len(wordList) , m = len(each word) => more than 10**8 so TLE
+Time: O(n^2 * m). n= len(wordList) , m = len(each word) => more than 10**8 so TLE
+"""
 
 class Solution(object):
     def ladderLength(self, beginWord, endWord, words):

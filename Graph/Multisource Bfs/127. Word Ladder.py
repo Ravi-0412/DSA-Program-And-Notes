@@ -54,21 +54,22 @@ class Solution(object):
         return 0
     
 
-# optimising the above solution:
-# Logic: Instead of checking character difference between each pair of word
-# check what all possible words we can get which is in 'wordList' by changing an character of a word.
+"""
+optimising the above solution:
+Logic: Instead of checking character difference between each pair of word
+check what all possible words we can get which is in 'wordList' by changing an character of a word.
 
+Time Complexity :- BigO(M^2 * N), where M is size of dequeued word & N is size of our word list
+Space Complexity :- BigO(M * N) where M is no. of character that we had in our string & N is the size of our wordList.
 
-# Time Complexity :- BigO(M^2 * N), where M is size of dequeued word & N is size of our word list
-# Space Complexity :- BigO(M * N) where M is no. of character that we had in our string & N is the size of our wordList.
-
-# Can do using normal bfs also taking extra variable by herew multisource bfs is making more sense.
+Can do using normal bfs also taking extra variable by herew multisource bfs is making more sense.
+"""
 
 class Solution(object):
     def ladderLength(self, beginWord, endWord, wordList):
         if endWord not in wordList:   # corner case
             return 0
-        dic= collections.defaultdict(list)
+        dic = collections.defaultdict(list)
         # append the 'beginword' into the 'wordlist'
         wordList.append(beginWord)
         # now store the word w.r.t to the pattern they can make by changing one one charater into the dictionary
@@ -105,10 +106,12 @@ class Solution(object):
         return 0   # return default if there is no any sequence is present
 
 # method 2: Better one. Do by this only
-# logic: Try to replace each char of each word from 'a' to 'z'.
-# and check if the new_word formed by replacing exist in wordlist or not.
+"""
+logic: Try to replace each char of each word from 'a' to 'z'.
+and check if the new_word formed by replacing exist in wordlist or not.
 
-# Did using normal bfs can do by mutisource bfs also
+Did using normal bfs , can do by mutisource bfs also.
+"""
 
 class Solution(object):
     def ladderLength(self, beginWord, endWord, wordList):

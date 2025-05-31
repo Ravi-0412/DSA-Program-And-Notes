@@ -1,11 +1,12 @@
 # time= space= O(n)
 
-# since we need the given array as integer, so for this first converted into string and then to integer.
-# then add with 'k'.
-# after that then again convert the num we go6 after addition into string and then convert into list 
-# finally return ans
-
-# Not a good way because of this much conversion.
+"""
+since we need the given array as integer, so for this first converted into string and then to integer.
+then add with 'k'.
+after that then again convert the num we go6 after addition into string and then convert into list 
+finally return ans
+Not a good way because of this much conversion.
+"""
 
 class Solution:
     def addToArrayForm(self, num: List[int], k: int) -> List[int]:
@@ -14,7 +15,39 @@ class Solution:
         ans= [int(c) for c in s]   # fianlly converted the atring ans into list 
         return ans
 
+# Java
+"""
+class Solution {
+    public List<Integer> addToArrayForm(int[] num, int k) {
+        List<Integer> result = new ArrayList<>();
+        int n = num.length;
+        int i = n - 1;
+        while (i >= 0 || k > 0) {
+            if (i >= 0) k += num[i--];
+            result.add(0, k % 10);
+            k /= 10;
+        }
+        return result;
+    }
+}
+"""
 
+# C++ 
+"""
+class Solution {
+public:
+    vector<int> addToArrayForm(vector<int>& num, int k) {
+        vector<int> result;
+        int i = num.size() - 1;
+        while (i >= 0 || k > 0) {
+            if (i >= 0) k += num[i--];
+            result.insert(result.begin(), k % 10);
+            k /= 10;
+        }
+        return result;
+    }
+};
+"""
 # Method 2: Same as "445. Add Two Numbers II".
 # Shortcut and very good  method
 

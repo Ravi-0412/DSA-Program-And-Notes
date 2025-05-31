@@ -24,6 +24,47 @@ class Solution:
         return stack==[]    # will return true if matches to the right side
                     # i.e if stack is empty then return true else return false
 
+"""
+# Java
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        Stack<Integer> stack = new Stack<>();
+        ListNode current = head;
+        while (current != null) {
+            stack.push(current.val);
+            current = current.next;
+        }
+        current = head;
+        while (current != null && stack.pop() == current.val) {
+            current = current.next;
+        }
+        return stack.isEmpty();
+    }
+}
+
+# C++
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        stack<int> stk;
+        ListNode* current = head;
+        while (current != nullptr) {
+            stk.push(current->val);
+            current = current->next;
+        }
+        current = head;
+        while (current != nullptr && stk.top() == current->val) {
+            stk.pop();
+            current = current->next;
+        }
+        return stk.empty();
+    }
+};
+
+# Method 1 Analysis:
+# Time: O(N) — two passes through the list
+# Space: O(N) — stack holds all node values
+"""
 
 # concise way of writing 1st method
 # Can store value in string also and compare at last.
@@ -39,7 +80,13 @@ class Solution:
 
 
 # method 2: Time- o(n), space- o(1)
-
+"""
+Find the middle of the linked list using slow and fast pointers.
+Reverse the second half of the list in-place.
+Compare the first half and the reversed second half node-by-node.
+If all corresponding nodes match, the list is palindrome.
+This method uses O(1) extra space.
+"""
 # NO need to make 'next' of last node of 1st part as None as this will get
 # automatically handled in during comparion because of 'and' in while loop.
 
@@ -80,4 +127,82 @@ class Solution:
             first1= first1.next
             first2= first2.next
         return True
+"""
+# Java
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        ListNode middle = middleNode(head);
+        ListNode reversedSecond = reverseList(middle);
+        return compareLists(head, reversedSecond);
+    }
+    
+    private ListNode middleNode(ListNode head) {
+        ListNode slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+    
+    private ListNode reverseList(ListNode head) {
+        ListNode prev = null, curr = head;
+        while (curr != null) {
+            ListNode nxt = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nxt;
+        }
+        return prev;
+    }
+    
+    private boolean compareLists(ListNode head1, ListNode head2) {
+        while (head1 != null && head2 != null) {
+            if (head1.val != head2.val) return false;
+            head1 = head1.next;
+            head2 = head2.next;
+        }
+        return true;
+    }
+}
 
+# C++
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        ListNode* middle = middleNode(head);
+        ListNode* reversedSecond = reverseList(middle);
+        return compareLists(head, reversedSecond);
+    }
+    
+    ListNode* middleNode(ListNode* head) {
+        ListNode *slow = head, *fast = head;
+        while (fast != nullptr && fast->next != nullptr) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return slow;
+    }
+    
+    ListNode* reverseList(ListNode* head) {
+        ListNode *prev = nullptr, *curr = head;
+        while (curr != nullptr) {
+            ListNode* nxt = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = nxt;
+        }
+        return prev;
+    }
+    
+    bool compareLists(ListNode* head1, ListNode* head2) {
+        while (head1 != nullptr && head2 != nullptr) {
+            if (head1->val != head2->val) return false;
+            head1 = head1->next;
+            head2 = head2->next;
+        }
+        return true;
+    }
+};
+
+"""

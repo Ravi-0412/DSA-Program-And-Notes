@@ -105,6 +105,53 @@ class Solution(object):
                             
         return 0   # return default if there is no any sequence is present
 
+# Java
+"""
+import java.util.*;
+
+class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        if (!wordList.contains(endWord)) return 0;
+        
+        Map<String, List<String>> map = new HashMap<>();
+        wordList.add(beginWord);
+        
+        for (String word : wordList) {
+            for (int i = 0; i < beginWord.length(); i++) {
+                String pattern = word.substring(0, i) + "*" + word.substring(i + 1);
+                map.computeIfAbsent(pattern, k -> new ArrayList<>()).add(word);
+            }
+        }
+        
+        Set<String> visited = new HashSet<>();
+        Queue<String> queue = new LinkedList<>();
+        queue.add(beginWord);
+        visited.add(beginWord);
+        int level = 1;
+        
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int s = 0; s < size; s++) {
+                String word = queue.poll();
+                for (int i = 0; i < word.length(); i++) {
+                    String pattern = word.substring(0, i) + "*" + word.substring(i + 1);
+                    for (String nei : map.getOrDefault(pattern, new ArrayList<>())) {
+                        if (!visited.contains(nei)) {
+                            if (nei.equals(endWord)) return level + 1;
+                            queue.add(nei);
+                            visited.add(nei);
+                        }
+                    }
+                }
+            }
+            level++;
+        }
+        
+        return 0;
+    }
+}
+"""
+
 # method 2: Better one. Do by this only
 """
 logic: Try to replace each char of each word from 'a' to 'z'.
@@ -141,3 +188,46 @@ class Solution(object):
                             visited.add(nextWord)
             shortest_path += 1                
         return 0   # return default if there is no any sequence is present
+
+# Java
+"""
+import java.util.*;
+
+class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        Set<String> wordSet = new HashSet<>(wordList);
+        if (!wordSet.contains(endWord)) return 0;
+        
+        Set<String> visited = new HashSet<>();
+        Queue<String> queue = new LinkedList<>();
+        queue.offer(beginWord);
+        visited.add(beginWord);
+        
+        int shortestPath = 1;
+        
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int s = 0; s < size; s++) {
+                String word = queue.poll();
+                char[] wordChars = word.toCharArray();
+                for (int i = 0; i < wordChars.length; i++) {
+                    char originalChar = wordChars[i];
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        wordChars[i] = c;
+                        String nextWord = new String(wordChars);
+                        if (wordSet.contains(nextWord) && !visited.contains(nextWord)) {
+                            if (nextWord.equals(endWord)) return shortestPath + 1;
+                            queue.offer(nextWord);
+                            visited.add(nextWord);
+                        }
+                    }
+                    wordChars[i] = originalChar;
+                }
+            }
+            shortestPath++;
+        }
+        
+        return 0;
+    }
+}
+"""

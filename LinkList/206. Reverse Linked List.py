@@ -71,11 +71,11 @@ Method 1 Analysis:
 
 # method 2: Iterative(submitted on leetcode)
 """
-Start with two pointers: pre as None and current as head.
-Traverse the list node by node.
-For each node, reverse its pointer to point to the previous node.
-Move the pointers forward until all nodes are reversed.
-Return the new head, which is the last processed node.
+method 2: We'll reverse the list by changing the links directly
+Start with two pointers: one for the previous node (pre = None) and one for the current node (curr = head)
+As we move traverse the list, we keep flipping the pointers so that each node points to the one before it
+Keep doing this till we reach the end of the list
+In the end, pre will be pointing to the new head
 """
 # time: o(n), space: o(1)
 class Solution:
@@ -127,10 +127,13 @@ Method 2 Analysis:
 
 # Method 3: Iterative
 """
-Create a dummy node before the head to simplify pointer manipulation.
-Keep three pointers: pre (before reversed part), start (first node of the reversed part), and then (node to be reversed next).
-Iteratively move then nodes to the front of the reversed section by changing their pointers.
-Repeat until all nodes are reversed. Return dummy.next as the new head.
+Create a dummy node before the head to make handling edge cases easier
+We'll use three pointers:
+  pre - the node right before the part we're reversing
+  start - the first node in the part we're currently reversing
+  then - the next node that needs to be moved to the front of the reversed section
+Keep doing this until we've moved all nodes to the front
+At the end, dummy.next will point to the new head of the reversed list
 """
 # Do on pen and paper and understand.
 # Understand this later properly.
@@ -219,11 +222,13 @@ Method 3 Analysis:
 # Method 3: By recursion
 # just the conversion of above iterative into recursive.
 """
-Use recursion to reverse the linked list starting from the head.
-Pass two pointers, pre and current, where pre tracks the reversed part and current the rest.
-Recursively call the function moving forward until the end (current is None).
-On the way back, reverse the pointers by pointing current.next to pre.
-Return the new head after all nodes are processed.
+Use recursion to reverse the list starting from the head
+Keep track of two pointers:
+  pre - the part we've already reversed
+  current - the part we still need to process
+Recursively call the function, moving forward until current reaches the end
+Then, as the calls return, flip the pointers so current.next points back to pre
+In the end, return the new head once everything's reversed
 """
 # Bottom up(like we do in Tree till we reach the leaf node or 'None' ).
 

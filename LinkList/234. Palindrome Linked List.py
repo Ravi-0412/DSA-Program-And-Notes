@@ -81,11 +81,11 @@ class Solution:
 
 # method 2: Time- o(n), space- o(1)
 """
-Find the middle of the linked list using slow and fast pointers.
-Reverse the second half of the list in-place.
-Compare the first half and the reversed second half node-by-node.
-If all corresponding nodes match, the list is palindrome.
-This method uses O(1) extra space.
+To check if the list is a palindrome:
+First, find the middle using slow and fast pointers
+Then, reverse the second half of the list right there (in-place)
+Next, compare the nodes from the start and from the reversed second half one by one
+we only use a constant amount of extra space (O(1))
 """
 # NO need to make 'next' of last node of 1st part as None as this will get
 # automatically handled in during comparion because of 'and' in while loop.

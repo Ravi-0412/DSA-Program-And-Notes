@@ -36,44 +36,46 @@ class Solution:
         
 # JAVA
 
-
-# class Solution {
-#     public boolean canJump(int[] nums) {
-#         int n = nums.length;
-#         int curr = nums[0];
-#         int i = 0;
-#         while (i <= curr && i < n) {
-#             curr = Math.max(curr, i + nums[i]);
-#             i++;
-#         }
-#         return i >= n;
-#     }
-# }
+'''
+class Solution {
+    public boolean canJump(int[] nums) {
+        int n = nums.length;
+        int curr = nums[0];
+        int i = 0;
+        while (i <= curr && i < n) {
+            curr = Math.max(curr, i + nums[i]);
+            i++;
+        }
+        return i >= n;
+    }
+}
+'''
 
 
 
 # C++ 
 
 
+'''
+include <vector>
+include <algorithm>
+using namespace std;
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int n = nums.size();
+        int curr = nums[0];
+        int i = 0;
 
-#include <vector>
-#include <algorithm>
-# using namespace std;
-# class Solution {
-# public:
-#     bool canJump(vector<int>& nums) {
-#         int n = nums.size();
-#         int curr = nums[0];
-#         int i = 0;
+        while (i <= curr && i < n) {
+            curr = max(curr, i + nums[i]);
+            i++;
+        }
 
-#         while (i <= curr && i < n) {
-#             curr = max(curr, i + nums[i]);
-#             i++;
-#         }
-
-#         return i >= n;
-#     }
-# };
+        return i >= n;
+    }
+};
+'''
 
 
 
@@ -90,14 +92,16 @@ class Solution:
 
 # Dynamic Programming Approach: (1d DP)
 
-# We initialize a dp array where each value represents whether you can jump to the end from that index.
+'''
+We initialize a dp array where each value represents whether you can jump to the end from that index.
 
-# Start from the second last index (n-2) and go backward.
+Start from the second last index (n-2) and go backward.
 
-# For each index i, check if you can jump to an index j such that dp[j] is True.
-# If yes, set dp[i] = True.
+For each index i, check if you can jump to an index j such that dp[j] is True.
+If yes, set dp[i] = True.
 
-# Finally, return dp[0] — it tells us whether we can reach the end from the beginning.
+Finally, return dp[0] — it tells us whether we can reach the end from the beginning.
+'''
 
 
 # CODE:
@@ -124,24 +128,25 @@ class Solution:
 
 # JAVA
 
-
-# class Solution {
-#     public boolean canJump(int[] nums) {
-#         int n = nums.length;
-#         boolean[] dp = new boolean[n];
-#         dp[n - 1] = true; // Last index can always reach itself
-#         for (int i = n - 2; i >= 0; i--) {
-#             int furthestJump = Math.min(i + nums[i], n - 1);
-#             for (int j = i + 1; j <= furthestJump; j++) {
-#                 if (dp[j]) {
-#                     dp[i] = true;
-#                     break;
-#                 }
-#             }
-#         }
-#         return dp[0];
-#     }
-# }
+'''
+class Solution {
+    public boolean canJump(int[] nums) {
+        int n = nums.length;
+        boolean[] dp = new boolean[n];
+        dp[n - 1] = true; // Last index can always reach itself
+        for (int i = n - 2; i >= 0; i--) {
+            int furthestJump = Math.min(i + nums[i], n - 1);
+            for (int j = i + 1; j <= furthestJump; j++) {
+                if (dp[j]) {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        return dp[0];
+    }
+}
+'''
 
 
 
@@ -152,28 +157,29 @@ class Solution:
 
 
 
-
-#include <vector>
-#include <algorithm>
-# using namespace std;
-# class Solution {
-# public:
-#     bool canJump(vector<int>& nums) {
-#         int n = nums.size();
-#         vector<bool> dp(n, false);
-#         dp[n - 1] = true; // Last index can reach itself
-#         for (int i = n - 2; i >= 0; i--) {
-#             int furthestJump = min(i + nums[i], n - 1);
-#             for (int j = i + 1; j <= furthestJump; j++) {
-#                 if (dp[j]) {
-#                     dp[i] = true;
-#                     break;
-#                 }
-#             }
-#         }
-#         return dp[0];
-#     }
-# };
+'''
+include <vector>
+include <algorithm>
+using namespace std;
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int n = nums.size();
+        vector<bool> dp(n, false);
+        dp[n - 1] = true; // Last index can reach itself
+        for (int i = n - 2; i >= 0; i--) {
+            int furthestJump = min(i + nums[i], n - 1);
+            for (int j = i + 1; j <= furthestJump; j++) {
+                if (dp[j]) {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        return dp[0];
+    }
+};
+'''
 
 
 

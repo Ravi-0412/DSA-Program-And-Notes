@@ -164,85 +164,76 @@ print("Height of AVL tree after deletion:", avl.height(root))
 """
 class Node {
     int value;
-    int height;
-    Node left, right;
+    int height;  // height from node to leaf
+    Node left;
+    Node right;
 
-    Node(int val) {
-        value = val;
-        height = 1;
+    Node(int value) {
+        this.value = value;
+        this.height = 1;
     }
 }
 
 class AVL {
-    int height(Node node) {
-        if (node == null)
-            return 0;
+
+    int height(Node node) {  // height from node to leaf
+        if (node == null) return 0;
         return node.height;
     }
 
     Node insert(Node node, int value) {
-        if (node == null)
-            return new Node(value);
-
+        if (node == null) return new Node(value);
         if (value < node.value)
             node.left = insert(node.left, value);
         else
             node.right = insert(node.right, value);
 
-        node.height = 1 + Math.max(height(node.left), height(node.right));
-        return rotate(node);
+        node.height = Math.max(height(node.left), height(node.right)) + 1;  // update the height of node before balancing
+        return rotate(node);  // then rotate the node if balanced and return new updated node
     }
 
     Node rotate(Node node) {
-        int balance = height(node.left) - height(node.right);
-
-        // Left heavy
-        if (balance > 1) {
+        if (height(node.left) - height(node.right) > 1) {
             if (height(node.left.left) >= height(node.left.right)) {
+                // left-left case so simply rotate one time right
                 return rightRotate(node);
             } else {
-                node.left = leftRotate(node.left);
+                // left - right case from top. So rotate first Left and then Right(we do from bottom up and in opposite fashon to balance)
+                node.left = leftRotate(node.left);  // extra node will come as Left child of 'node' after LeftRotation.
                 return rightRotate(node);
             }
         }
-
-        // Right heavy
-        if (balance < -1) {
+        if (height(node.right) - height(node.left) > 1) {
             if (height(node.right.right) >= height(node.right.left)) {
+                // right - right case so simply rotate one time left
                 return leftRotate(node);
             } else {
-                node.right = rightRotate(node.right);
+                // right - left case from top. So rotate first right and then Left(we do from bottom up and in opposite fashon to balance)
+                node.right = rightRotate(node.right);  // extra node will come as right child of 'node' after rightRotation.
                 return leftRotate(node);
             }
         }
-
-        return node;
+        return node;  // if already balanced then return the (unchanged) node pointer
     }
 
-    Node rightRotate(Node y) {
-        Node x = y.left;
-        Node T2 = x.right;
-
-        x.right = y;
-        y.left = T2;
-
-        y.height = Math.max(height(y.left), height(y.right)) + 1;
-        x.height = Math.max(height(x.left), height(x.right)) + 1;
-
-        return x;
+    Node rightRotate(Node parent) {
+        Node left_child = parent.left;
+        Node left_right_child = left_child.right;
+        left_child.right = parent;
+        parent.left = left_right_child;
+        parent.height = Math.max(height(parent.left), height(parent.right)) + 1;
+        left_child.height = Math.max(height(left_child.left), height(left_child.right)) + 1;
+        return left_child;  // this will become parent after rotation so return this node
     }
 
-    Node leftRotate(Node x) {
-        Node y = x.right;
-        Node T2 = y.left;
-
-        y.left = x;
-        x.right = T2;
-
-        x.height = Math.max(height(x.left), height(x.right)) + 1;
-        y.height = Math.max(height(y.left), height(y.right)) + 1;
-
-        return y;
+    Node leftRotate(Node parent) {
+        Node right_child = parent.right;
+        Node right_left_child = right_child.left;
+        right_child.left = parent;
+        parent.right = right_left_child;
+        parent.height = Math.max(height(parent.left), height(parent.right)) + 1;
+        right_child.height = Math.max(height(right_child.left), height(right_child.right)) + 1;
+        return right_child;  // this will become parent after rotation so return this node
     }
 
     Node minValueNode(Node node) {
@@ -253,53 +244,49 @@ class AVL {
     }
 
     Node delete(Node node, int value) {
-        if (node == null)
-            return node;
+        if (node == null) return node;
 
         if (value < node.value)
             node.left = delete(node.left, value);
         else if (value > node.value)
             node.right = delete(node.right, value);
         else {
-            // Node with one child or none
-            if (node.left == null || node.right == null) {
-                Node temp = (node.left != null) ? node.left : node.right;
-                if (temp == null)
-                    return null;
-                else
-                    node = temp;
-            } else {
-                Node temp = minValueNode(node.right);
-                node.value = temp.value;
-                node.right = delete(node.right, temp.value);
+            if (node.left == null) {
+                Node temp = node.right;
+                node = null;
+                return temp;
+            } else if (node.right == null) {
+                Node temp = node.left;
+                node = null;
+                return temp;
             }
+            Node temp = minValueNode(node.right);
+            node.value = temp.value;
+            node.right = delete(node.right, temp.value);
         }
 
-        node.height = 1 + Math.max(height(node.left), height(node.right));
+        node.height = Math.max(height(node.left), height(node.right)) + 1;
         return rotate(node);
     }
 
     Node search(Node node, int value) {
-        if (node == null || node.value == value)
-            return node;
+        if (node == null || node.value == value) return node;
         if (value < node.value)
             return search(node.left, value);
         return search(node.right, value);
     }
 
-    void inOrder(Node node) {
+    void inorder(Node node) {  // New method to print tree values in sorted order
         if (node != null) {
-            inOrder(node.left);
+            inorder(node.left);
             System.out.print(node.value + " ");
-            inOrder(node.right);
+            inorder(node.right);
         }
     }
-}
 
-public class Main {
     public static void main(String[] args) {
-        AVL avl = new AVL();
         Node root = null;
+        AVL avl = new AVL();
 
         // Insert values
         for (int i = 0; i < 1000; i++) {
@@ -308,18 +295,17 @@ public class Main {
 
         System.out.println("Height of AVL tree after insertion: " + avl.height(root));
 
-        // Print all values in-order
+        // Print all values in tree
         System.out.println("Values in AVL tree (in-order):");
-        avl.inOrder(root);
-        System.out.println();
+        avl.inorder(root);
 
         // Search for a value
-        int searchValue = 500;
-        Node found = avl.search(root, searchValue);
-        if (found != null)
-            System.out.println("Value " + searchValue + " found in AVL tree.");
+        int search_value = 500;
+        Node found_node = avl.search(root, search_value);
+        if (found_node != null)
+            System.out.println("\nValue " + search_value + " found in AVL tree.");
         else
-            System.out.println("Value " + searchValue + " not found in AVL tree.");
+            System.out.println("\nValue " + search_value + " not found in AVL tree.");
 
         // Delete values
         for (int i = 0; i < 600; i++) {
@@ -328,5 +314,172 @@ public class Main {
 
         System.out.println("Height of AVL tree after deletion: " + avl.height(root));
     }
+}
+"""
+# C++ code
+"""
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+class Node {
+public:
+    int value;
+    int height;  // height from node to leaf
+    Node* left;
+    Node* right;
+
+    Node(int value) {
+        this->value = value;
+        height = 1;
+        left = right = nullptr;
+    }
+};
+
+class AVL {
+public:
+    int height(Node* node) {  // height from node to leaf
+        if (node == nullptr)
+            return 0;
+        return node->height;
+    }
+
+    Node* insert(Node* node, int value) {
+        if (node == nullptr)
+            return new Node(value);
+        if (value < node->value)
+            node->left = insert(node->left, value);
+        else
+            node->right = insert(node->right, value);
+
+        node->height = max(height(node->left), height(node->right)) + 1;  // update the height of node before balancing
+        return rotate(node);  // then rotate the node if balanced and return new updated node
+    }
+
+    Node* rotate(Node* node) {
+        if (height(node->left) - height(node->right) > 1) {
+            if (height(node->left->left) >= height(node->left->right)) {
+                // left-left case so simply rotate one time right
+                return rightRotate(node);
+            } else {
+                // left - right case from top. So rotate first Left and then Right(we do from bottom up and in opposite fashon to balance)
+                node->left = leftRotate(node->left);  // extra node will come as Left child of 'node' after LeftRotation.
+                return rightRotate(node);
+            }
+        }
+        if (height(node->right) - height(node->left) > 1) {
+            if (height(node->right->right) >= height(node->right->left)) {
+                // right - right case so simply rotate one time left
+                return leftRotate(node);
+            } else {
+                // right - left case from top. So rotate first right and then Left(we do from bottom up and in opposite fashon to balance)
+                node->right = rightRotate(node->right);  // extra node will come as right child of 'node' after rightRotation.
+                return leftRotate(node);
+            }
+        }
+        return node;  // if already balanced then return the (unchanged) node pointer
+    }
+
+    Node* rightRotate(Node* parent) {
+        Node* left_child = parent->left;
+        Node* left_right_child = left_child->right;
+        left_child->right = parent;
+        parent->left = left_right_child;
+        parent->height = max(height(parent->left), height(parent->right)) + 1;
+        left_child->height = max(height(left_child->left), height(left_child->right)) + 1;
+        return left_child;  // this will become parent after rotation so return this node
+    }
+
+    Node* leftRotate(Node* parent) {
+        Node* right_child = parent->right;
+        Node* right_left_child = right_child->left;
+        right_child->left = parent;
+        parent->right = right_left_child;
+        parent->height = max(height(parent->left), height(parent->right)) + 1;
+        right_child->height = max(height(right_child->left), height(right_child->right)) + 1;
+        return right_child;  // this will become parent after rotation so return this node
+    }
+
+    Node* minValueNode(Node* node) {
+        Node* current = node;
+        while (current->left != nullptr)
+            current = current->left;
+        return current;
+    }
+
+    Node* deleteNode(Node* node, int value) {
+        if (node == nullptr) return node;
+
+        if (value < node->value)
+            node->left = deleteNode(node->left, value);
+        else if (value > node->value)
+            node->right = deleteNode(node->right, value);
+        else {
+            if (node->left == nullptr) {
+                Node* temp = node->right;
+                delete node;
+                return temp;
+            } else if (node->right == nullptr) {
+                Node* temp = node->left;
+                delete node;
+                return temp;
+            }
+
+            Node* temp = minValueNode(node->right);
+            node->value = temp->value;
+            node->right = deleteNode(node->right, temp->value);
+        }
+
+        node->height = max(height(node->left), height(node->right)) + 1;
+        return rotate(node);
+    }
+
+    Node* search(Node* node, int value) {
+        if (node == nullptr || node->value == value)
+            return node;
+        if (value < node->value)
+            return search(node->left, value);
+        return search(node->right, value);
+    }
+
+    void inorder(Node* node) {  // New method to print tree values in sorted order
+        if (node != nullptr) {
+            inorder(node->left);
+            cout << node->value << " ";
+            inorder(node->right);
+        }
+    }
+};
+
+int main() {
+    Node* root = nullptr;
+    AVL avl;
+
+    // Insert values
+    for (int i = 0; i < 1000; i++) {
+        root = avl.insert(root, i);
+    }
+
+    cout << "Height of AVL tree after insertion: " << avl.height(root) << endl;
+
+    // Print all values in tree
+    cout << "Values in AVL tree (in-order):" << endl;
+    avl.inorder(root);
+    cout << endl;
+
+    // Search for a value
+    int search_value = 500;
+    Node* found_node = avl.search(root, search_value);
+    if (found_node)
+        cout << "Value " << search_value << " found in AVL tree." << endl;
+    else
+        cout << "Value " << search_value << " not found in AVL tree." << endl;
+
+    // Delete values
+    for (int i = 0; i < 600; i++) {
+        root = avl.deleteNode(root, i);
+    }
+
+    cout << "Height of AVL tree after deletion: " << avl.height(root) << endl;
 }
 """

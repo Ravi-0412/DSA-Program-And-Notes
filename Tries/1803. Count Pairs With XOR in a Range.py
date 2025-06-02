@@ -131,3 +131,177 @@ class Solution:
 
 # Later try by bit also.
 # https://leetcode.com/problems/count-pairs-with-xor-in-a-range/solutions/1119771/17-line-python-consider-all-possible-bit-masks/
+
+
+# Java Code 
+"""
+import java.util.*;
+
+class TrieNode {
+    Map<Integer, TrieNode> children;
+    int cnt;
+
+    TrieNode() {
+        children = new HashMap<>();
+        cnt = 0;
+    }
+}
+
+class Trie {
+    TrieNode root;
+
+    public Trie() {
+        root = new TrieNode();
+    }
+
+    // will insert in binary from leftmost side and each num is stored in '32' bit binary.
+    public void insert(int num) {
+        TrieNode cur = root;
+        for (int i = 31; i >= 0; i--) {
+            int bit = (num >> i) & 1;   // getting the bit at 'i'th position.
+            if (!cur.children.containsKey(bit)) {
+                cur.children.put(bit, new TrieNode());
+            }
+            cur = cur.children.get(bit);
+            cur.cnt += 1;
+        }
+    }
+
+    // will count the pair with num having xor < k(strictly less than k)
+    public int countLess(int num, int k) {
+        int count = 0;
+        TrieNode cur = root;   // This always pointing to 'None'
+        for (int i = 31; i >= 0; i--) {
+            if (cur == null) {
+                break;  // And here getting break so getting '0'.
+            }
+            int bit = (num >> i) & 1;  // getting the 'i'th bit from left side for 'num'
+            int cmp = (k >> i) & 1;    // getting the 'i'th bit from left side for 'val'
+            // Which side we have to move and what all numbers we have to add will depend on 'cmp'
+            // 1) if 'cmp' == 1
+            if (cmp == 1) {
+                // for getting less other no should have same bit as cur number
+                // i.e all number which will be same bit as cur number will contribute to ans
+                // add all those numbers which has same bit as 'num'
+                if (cur.children.containsKey(bit)) {
+                    count += cur.children.get(bit).cnt;
+                }
+                // Now for finding more possible numbers, will move in other direction(1-bit)  as 
+                // for cmp ==1 , we will get more numbers in this direction only
+                cur = cur.children.getOrDefault(1 - bit, null);
+            } else {
+                // Here we can't add all numbers like above as that will not guarantee strictly lesser number
+                // so will continue moving in same direction of 'bit'.
+                cur = cur.children.getOrDefault(bit, null);
+            }
+        }
+        return count;
+    }
+}
+
+class Solution {
+    public int countPairs(int[] nums, int low, int high) {
+        Trie trie = new Trie();
+        int ans = 0;
+        for (int num : nums) {
+            ans += trie.countLess(num, high + 1) - trie.countLess(num, low);
+            trie.insert(num);
+        }
+        return ans;
+    }
+}
+
+"""
+
+# C++ Code 
+
+"""
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+class TrieNode {
+public:
+    unordered_map<int, TrieNode*> children;
+    int cnt;
+
+    TrieNode() {
+        cnt = 0;
+    }
+};
+
+class Trie {
+public:
+    TrieNode* root;
+
+    Trie() {
+        root = new TrieNode();
+    }
+
+    // will insert in binary from leftmost side and each num is stored in '32' bit binary.
+    void insert(int num) {
+        TrieNode* cur = root;
+        for (int i = 31; i >= 0; i--) {
+            int bit = (num >> i) & 1;   // getting the bit at 'i'th position.
+            if (cur->children.find(bit) == cur->children.end()) {
+                cur->children[bit] = new TrieNode();
+            }
+            cur = cur->children[bit];
+            cur->cnt += 1;
+        }
+    }
+
+    // will count the pair with num having xor < k(strictly less than k)
+    int countLess(int num, int k) {
+        int count = 0;
+        TrieNode* cur = root;   // This always pointing to 'None'
+        for (int i = 31; i >= 0; i--) {
+            if (!cur) {
+                break;  // And here getting break so getting '0'.
+            }
+            int bit = (num >> i) & 1;  // getting the 'i'th bit from left side for 'num'
+            int cmp = (k >> i) & 1;    // getting the 'i'th bit from left side for 'val'
+            // Which side we have to move and what all numbers we have to add will depend on 'cmp'
+            // 1) if 'cmp' == 1
+            if (cmp == 1) {
+                // for getting less other no should have same bit as cur number
+                // i.e all number which will be same bit as cur number will contribute to ans
+                // add all those numbers which has same bit as 'num'
+                if (cur->children.find(bit) != cur->children.end()) {
+                    count += cur->children[bit]->cnt;
+                }
+                // Now for finding more possible numbers, will move in other direction(1-bit)  as 
+                // for cmp ==1 , we will get more numbers in this direction only
+                if (cur->children.find(1 - bit) != cur->children.end()) {
+                    cur = cur->children[1 - bit];
+                } else {
+                    cur = nullptr;
+                }
+            } else {
+                // Here we can't add all numbers like above as that will not guarantee strictly lesser number
+                // so will continue moving in same direction of 'bit'.
+                if (cur->children.find(bit) != cur->children.end()) {
+                    cur = cur->children[bit];
+                } else {
+                    cur = nullptr;
+                }
+            }
+        }
+        return count;
+    }
+};
+
+class Solution {
+public:
+    int countPairs(vector<int>& nums, int low, int high) {
+        Trie trie;
+        int ans = 0;
+        for (int num : nums) {
+            ans += trie.countLess(num, high + 1) - trie.countLess(num, low);
+            trie.insert(num);
+        }
+        return ans;
+    }
+};
+
+"""

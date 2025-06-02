@@ -75,3 +75,104 @@ Key Methods
     release(): Releases a permit, returning it to the semaphore.
     tryAcquire(): Acquires a permit if one is available and returns true, otherwise returns false.
 """
+
+
+#C++ Code
+"""
+#include <functional>
+#include <mutex>
+#include <condition_variable>
+
+class ZeroEvenOdd {
+private:
+    int n;
+    // Simulated semaphores using counter flags
+    int zeroCount = 1;
+    int evenCount = 0;
+    int oddCount = 0;
+    std::mutex mtx;
+    std::condition_variable cv;
+
+public:
+    ZeroEvenOdd(int n) {
+        this->n = n;
+        // Initialize semaphores
+        this->zeroCount = 1; // Start with 1 to allow zero to be printed first, passing > 0 to allow zero thread to run first
+        this->evenCount = 0; // Start with 0 to block even printing initially
+        this->oddCount = 0;  // Start with 0 to block odd printing initially
+    }
+
+    // This method will be called by the thread responsible for printing zero
+    void zero(std::function<void(int)> printNumber) {
+        for (int i = 1; i <= n; i++) {
+            std::unique_lock<std::mutex> lock(mtx);
+            cv.wait(lock, [&]() { return zeroCount > 0; }); // Wait until it's this thread's turn to print
+            zeroCount--; // simulate acquire
+            printNumber(0); // Print zero
+            if (i % 2 == 0) {
+                evenCount++; // If the number is even, signal the even thread
+            } else {
+                oddCount++; // If the number is odd, signal the odd thread
+            }
+            cv.notify_all();
+        }
+    }
+
+    // This method will be called by the thread responsible for printing even numbers
+    void even(std::function<void(int)> printNumber) {
+        for (int i = 2; i <= n; i += 2) {
+            std::unique_lock<std::mutex> lock(mtx);
+            cv.wait(lock, [&]() { return evenCount > 0; }); // Wait until it's this thread's turn to print
+            evenCount--; // simulate acquire
+            printNumber(i); // Print the even number
+            zeroCount++; // Signal the zero thread to continue
+            cv.notify_all();
+        }
+    }
+
+    // This method will be called by the thread responsible for printing odd numbers
+    void odd(std::function<void(int)> printNumber) {
+        for (int i = 1; i <= n; i += 2) {
+            std::unique_lock<std::mutex> lock(mtx);
+            cv.wait(lock, [&]() { return oddCount > 0; }); // Wait until it's this thread's turn to print
+            oddCount--; // simulate acquire
+            printNumber(i); // Print the odd number
+            zeroCount++; // Signal the zero thread to continue
+            cv.notify_all();
+        }
+    }
+};
+
+"""
+# About 'semaphore' class in C++
+"""
+What is a Semaphore?
+
+A semaphore is a synchronization primitive that can be used to control access to a common resource in concurrent programming. 
+It maintains a set of permits (represented by a counter), which threads can acquire and release.
+
+    Permits: The counter value indicates the number of threads that can access the resource simultaneously.
+    Acquire: Decreases the counter (wait operation). If the counter is zero, the thread is blocked until another thread releases.
+    Release: Increases the counter (signal operation), potentially unblocking a waiting thread.
+
+C++ Semaphore Support
+
+In C++, semaphores are available through the POSIX semaphore API (on POSIX-compliant systems) using the <semaphore.h> header.
+
+Initialization
+
+    sem_t sem;
+    sem_init(&sem, 0, permits); 
+    // Initializes a semaphore with a given number of permits. 
+    // The second parameter is 0 for thread-shared (within process).
+
+Key Functions
+
+    sem_wait(&sem): Acquires a permit if one is available, blocking the thread until a permit becomes available.
+    sem_post(&sem): Releases a permit, incrementing the counter and potentially unblocking a waiting thread.
+    sem_trywait(&sem): Attempts to acquire a permit without blocking. Returns 0 on success, or -1 if no permits are available.
+
+Destruction
+
+    sem_destroy(&sem): Destroys the semaphore and releases associated resources.
+"""

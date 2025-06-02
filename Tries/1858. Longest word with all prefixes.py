@@ -187,6 +187,7 @@ class Solution:
         return None if ans== "" else ans
 
 # Java
+#Method 1
 """
 import java.util.*;
 
@@ -260,6 +261,211 @@ public class Solution {
     }
 }
 """
+#Method 2
+"""
+import java.util.*;
 
+class TrieNode {
+    Map<Character, TrieNode> children = new HashMap<>();
+    String word = null;
+}
+
+class Trie {
+    TrieNode root;
+
+    public Trie() {
+        root = new TrieNode();
+    }
+
+    public void insert(String word) {
+        TrieNode cur = root;
+        for (char c : word.toCharArray()) {
+            cur.children.putIfAbsent(c, new TrieNode());
+            cur = cur.children.get(c);
+        }
+        cur.word = word;
+    }
+}
+
+public class Solution {
+    public String longestWord(List<String> words) {
+        Trie trie = new Trie();
+        for (String w : words) {
+            trie.insert(w);
+        }
+        String ans = "";
+        Queue<TrieNode> q = new LinkedList<>();
+        q.offer(trie.root);
+
+        while (!q.isEmpty()) {
+            TrieNode cur = q.poll();
+            for (TrieNode child : cur.children.values()) {
+                if (child.word != null) {
+                    if (child.word.length() > ans.length() || 
+                        (child.word.length() == ans.length() && child.word.compareTo(ans) < 0)) {
+                        ans = child.word;
+                    }
+                    q.offer(child);
+                }
+            }
+        }
+        return ans.equals("") ? null : ans;
+    }
+
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        List<String> words = Arrays.asList("np", "nhi", "nikn", "ninj");
+        System.out.println("longest word with all prefixes is: " + sol.longestWord(words));
+    }
+}
+
+"""
+
+# C++ Code 
+#Method 1
+"""
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+#include <string>
+using namespace std;
+
+class TrieNode {
+public:
+    unordered_map<char, TrieNode*> children;
+    bool isEndOfWord = false;
+    TrieNode() {}
+};
+
+class Trie {
+public:
+    TrieNode* root;
+    Trie() {
+        root = new TrieNode();
+    }
+
+    void insert(const string& word) {
+        TrieNode* cur = root;
+        for (char c : word) {
+            if (cur->children.find(c) == cur->children.end()) {
+                cur->children[c] = new TrieNode();
+            }
+            cur = cur->children[c];
+        }
+        cur->isEndOfWord = true;
+    }
+
+    bool ifAllPrefixExists(const string& word) {
+        TrieNode* cur = root;
+        for (char c : word) {
+            cur = cur->children[c];
+            if (!cur->isEndOfWord) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    string LongestWord(const vector<string>& words) {
+        // insert all words
+        for (const auto& word : words) {
+            insert(word);
+        }
+        string longest = "";
+        for (const auto& word : words) {
+            if (ifAllPrefixExists(word)) {
+                if ((int)word.length() > (int)longest.length()) {
+                    longest = word;
+                } else if ((int)word.length() == (int)longest.length() && longest > word) {
+                    longest = word;
+                }
+            }
+        }
+        return longest == "" ? "null" : longest;
+    }
+};
+
+int main() {
+    Trie T;
+    vector<string> words = {"np", "nhi", "nikn", "ninj"};
+    cout << "longest word with all prefixes is: " << T.LongestWord(words) << endl;
+    return 0;
+}
+
+"""
+
+#Method 2
+"""
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+#include <queue>
+#include <string>
+using namespace std;
+
+class TrieNode {
+public:
+    unordered_map<char, TrieNode*> children;
+    string word = "";  // use empty string as None
+    TrieNode() {}
+};
+
+class Trie {
+public:
+    TrieNode* root;
+    Trie() {
+        root = new TrieNode();
+    }
+
+    void insert(const string& word) {
+        TrieNode* cur = root;
+        for (char c : word) {
+            if (cur->children.find(c) == cur->children.end()) {
+                cur->children[c] = new TrieNode();
+            }
+            cur = cur->children[c];
+        }
+        cur->word = word;  // store word at end node
+    }
+};
+
+class Solution {
+public:
+    string longestWord(vector<string>& words) {
+        Trie trie;
+        for (auto& w : words) {
+            trie.insert(w);
+        }
+
+        string ans = "";
+        queue<TrieNode*> q;
+        q.push(trie.root);
+
+        while (!q.empty()) {
+            TrieNode* cur = q.front();
+            q.pop();
+
+            for (auto& [ch, child] : cur->children) {
+                if (!child->word.empty()) {
+                    if ((int)child->word.size() > (int)ans.size() || 
+                        ((int)child->word.size() == (int)ans.size() && child->word < ans)) {
+                        ans = child->word;
+                    }
+                    q.push(child);
+                }
+            }
+        }
+        return ans == "" ? "null" : ans;
+    }
+};
+
+int main() {
+    Solution sol;
+    vector<string> words = {"np", "nhi", "nikn", "ninj"};
+    cout << "longest word with all prefixes is: " << sol.longestWord(words) << endl;
+    return 0;
+}
+
+"""
 # Note: Try to do by find the ans by using dfs after inserting..Link in the sheet.
 

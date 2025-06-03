@@ -73,7 +73,33 @@ class Solution {
     }
 }
 """
+# C++ Code
+"""
+class Solution {
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        vector<vector<int>> ans;
+        vector<int> path;
+        AllPath(root, targetSum, path, ans);
+        return ans;
+    }
+    
+    void AllPath(TreeNode* root, int target, vector<int> path, vector<vector<int>>& ans) {
+        if (root == nullptr) {  // this should be the 1st base case.
+            return;
+        }
+        if (target == root->val && root->left == nullptr && root->right == nullptr) { // value is equal to remaining target and root is a leaf.
+            path.push_back(root->val);
+            ans.push_back(path);
+            return;
+        }
+        path.push_back(root->val);
+        AllPath(root->left, target - root->val, path, ans);
+        AllPath(root->right, target - root->val, path, ans);
+    }
+};
 
+"""
 
 # Try to do iteratively using bfs and using stack also.(link in sheet)
 

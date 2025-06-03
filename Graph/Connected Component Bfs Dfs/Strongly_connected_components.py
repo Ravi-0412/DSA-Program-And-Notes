@@ -83,61 +83,60 @@ g.KosaRaju(g.AdjList, 5)
 """
 import java.util.*;
 
-public class Graph {
+class Graph {
     int V;
     boolean[] visited;
-    boolean[] visitedReverse;
-    List<List<Integer>> adjList;
+    boolean[] visited_reverse;
+    HashMap<Integer, List<Integer>> AdjList;
 
-    public Graph(int n) {
+    Graph(int n) {
         V = n;
         visited = new boolean[n];
-        visitedReverse = new boolean[n];
-        adjList = new ArrayList<>();
+        visited_reverse = new boolean[n];
+        AdjList = new HashMap<>();
         for (int i = 0; i < n; i++) {
-            adjList.add(new ArrayList<>());
+            AdjList.put(i, new ArrayList<>());
         }
     }
 
-    public void addEdge(int u, int v) {
-        adjList.get(u).add(v);
+    void addEdge(int u, int v) {
+        AdjList.get(u).add(v);
     }
 
-    public void DFS(List<List<Integer>> adj, int src, Stack<Integer> stack) {
+    void DFS(HashMap<Integer, List<Integer>> adj, int src, Stack<Integer> stack) {
         visited[src] = true;
         for (int u : adj.get(src)) {
             if (!visited[u]) {
                 DFS(adj, u, stack);
             }
         }
-        stack.push(src); // will contain node with largest finishing time at the top
+        // will contain node with largest finishing time at the top
+        stack.push(src);
     }
 
-    public void printSCC(List<List<Integer>> transpose, int src) {
-        visitedReverse[src] = true;
+    void PrintScc(HashMap<Integer, List<Integer>> transpose, int src) {
+        visited_reverse[src] = true;
         System.out.print(src + " ");
         for (int v : transpose.get(src)) {
-            if (!visitedReverse[v]) {
-                printSCC(transpose, v);
+            if (!visited_reverse[v]) {
+                PrintScc(transpose, v);
             }
         }
     }
 
-    // start reading from here
-    public void KosaRaju(List<List<Integer>> adj, int n) {
+    void KosaRaju(HashMap<Integer, List<Integer>> adj, int n) {
         Stack<Integer> stack = new Stack<>();
 
-        // Step 1: DFS and push nodes by finishing time
         for (int i = 0; i < n; i++) {
             if (!visited[i]) {
                 DFS(adj, i, stack);
             }
         }
 
-        // Step 2: Transpose the graph
-        List<List<Integer>> transpose = new ArrayList<>();
+        // now transpose the graph
+        HashMap<Integer, List<Integer>> transpose = new HashMap<>();
         for (int i = 0; i < n; i++) {
-            transpose.add(new ArrayList<>());
+            transpose.put(i, new ArrayList<>());
         }
 
         for (int i = 0; i < n; i++) {
@@ -146,16 +145,132 @@ public class Graph {
             }
         }
 
-        // Step 3: DFS on transposed graph using order in stack
-        System.out.println("The Strongly Connected Components are:");
+        System.out.println("Element according to largest finishing time: " + stack);
+        System.out.println("The strongly connected components are:");
+
         while (!stack.isEmpty()) {
             int u = stack.pop();
-            if (!visitedReverse[u]) {
+            if (!visited_reverse[u]) {
                 System.out.println();
-                printSCC(transpose, u);
+                PrintScc(transpose, u);
             }
         }
     }
+
+    public static void main(String[] args) {
+        Graph g = new Graph(5);
+        g.addEdge(1, 0);
+        g.addEdge(2, 1);
+        g.addEdge(0, 2);
+        g.addEdge(0, 3);
+        g.addEdge(3, 4);
+        g.KosaRaju(g.AdjList, 5);
+    }
+}
+
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <unordered_map>
+using namespace std;
+
+class Graph {
+public:
+    int V;
+    vector<bool> visited;
+    vector<bool> visited_reverse;
+    unordered_map<int, vector<int>> AdjList;
+
+    Graph(int n) {
+        V = n;
+        visited.assign(n, false);
+        visited_reverse.assign(n, false);
+        for (int i = 0; i < n; i++) {
+            AdjList[i] = vector<int>();
+        }
+    }
+
+    void addEdge(int u, int v) {
+        AdjList[u].push_back(v);
+    }
+
+    void DFS(unordered_map<int, vector<int>>& adj, int src, stack<int>& stk) {
+        visited[src] = true;
+        for (int u : adj[src]) {
+            if (!visited[u]) {
+                DFS(adj, u, stk);
+            }
+        }
+        // will contain node with largest finishing time at the top
+        stk.push(src);
+    }
+
+    void PrintScc(unordered_map<int, vector<int>>& transpose, int src) {
+        visited_reverse[src] = true;
+        cout << src << " ";
+        for (int v : transpose[src]) {
+            if (!visited_reverse[v]) {
+                PrintScc(transpose, v);
+            }
+        }
+    }
+
+    void KosaRaju(unordered_map<int, vector<int>>& adj, int n) {
+        stack<int> stk;
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                DFS(adj, i, stk);
+            }
+        }
+
+        // now transpose the graph
+        unordered_map<int, vector<int>> transpose;
+        for (int i = 0; i < n; i++) {
+            transpose[i] = vector<int>();
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j : adj[i]) {
+                transpose[j].push_back(i);
+            }
+        }
+
+        cout << "Element according to largest finishing time: ";
+        stack<int> tempStack = stk;  // Copy to print without destroying original stack
+        vector<int> order;
+        while (!tempStack.empty()) {
+            order.push_back(tempStack.top());
+            tempStack.pop();
+        }
+        for (int i = (int)order.size() - 1; i >= 0; i--) {
+            cout << order[i] << " ";
+        }
+        cout << "\nThe strongly connected components are:\n";
+
+        while (!stk.empty()) {
+            int u = stk.top();
+            stk.pop();
+            if (!visited_reverse[u]) {
+                cout << "\n";
+                PrintScc(transpose, u);
+            }
+        }
+    }
+};
+
+int main() {
+    Graph g(5);
+    g.addEdge(1, 0);
+    g.addEdge(2, 1);
+    g.addEdge(0, 2);
+    g.addEdge(0, 3);
+    g.addEdge(3, 4);
+    g.KosaRaju(g.AdjList, 5);
+    return 0;
 }
 
 """

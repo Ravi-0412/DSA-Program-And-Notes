@@ -22,7 +22,21 @@ class Solution {
         return (p.val == q.val) && isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
     }
 """
+# C++ Code
+"""
+class Solution {
+public:
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        // if any of them is None then both should be None for same tree
+        if (p == nullptr || q == nullptr) {  // this will check that they are structurally same 
+            return p == q;
+        }
+        return (p->val == q->val) && isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
+              // this will check all nodes are value wise same
+    }
+};
 
+"""
 
 # Related q: 
 """

@@ -119,7 +119,70 @@ class Graph {
     }
 }
 """
+# C++ Code 
+"""
+#include <bits/stdc++.h>
+using namespace std;
 
+class Graph {
+private:
+    int V;  // Number of vertices
+    vector<bool> visited;
+    vector<bool> dfsVisited;
+    unordered_map<int, vector<int>> adjList;
+
+public:
+    // Constructor to initialize graph
+    Graph(int n) {
+        V = n;
+        visited.resize(n, false);
+        dfsVisited.resize(n, false);
+        for (int i = 0; i < n; ++i) {
+            adjList[i] = vector<int>();
+        }
+    }
+
+    // Function to add a directed edge from u -> v
+    void addEdge(int u, int v) {
+        adjList[u].push_back(v);
+    }
+
+    // Helper function for DFS traversal to detect cycle
+    bool DFS_Visit(int src) {
+        visited[src] = true;
+        dfsVisited[src] = true;
+
+        for (int neighbor : adjList[src]) {
+            if (!visited[neighbor]) {
+                if (DFS_Visit(neighbor)) {
+                    return true; // Cycle detected
+                }
+            } else if (dfsVisited[neighbor]) {
+                return true; // Cycle detected
+            }
+        }
+
+        dfsVisited[src] = false; // Unmark the node after backtracking
+        return false; // No cycle detected in this path
+    }
+
+    // Function to detect cycle in the entire graph
+    bool isCycle() {
+        fill(visited.begin(), visited.end(), false);
+        fill(dfsVisited.begin(), dfsVisited.end(), false);
+
+        for (int i = 0; i < V; ++i) {
+            if (!visited[i]) {
+                if (DFS_Visit(i)) {
+                    return true; // Cycle detected
+                }
+            }
+        }
+        return false; // No cycle detected
+    }
+};
+
+"""
 
 # another way using dfs: this submitted in Q "269 Alien dictionary"
 # understand the logic properly and do here 
@@ -159,3 +222,96 @@ class Solution:
             if i not in visited and checkCycle(i):    # if cycle simply return False, else continue checking for another node
                 return False
         return True
+
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        Map<Integer, List<Integer>> AdjList = new HashMap<>();
+        for (int[] pre : prerequisites) {
+            int second = pre[0], first = pre[1];
+            AdjList.computeIfAbsent(first, k -> new ArrayList<>()).add(second);
+        }
+
+        Set<Integer> visited = new HashSet<>();
+        Set<Integer> pathVisited = new HashSet<>();
+
+        // DFS function to check for cycle
+        boolean checkCycle(int src, Map<Integer, List<Integer>> graph, Set<Integer> visited, Set<Integer> pathVisited) {
+            visited.add(src);
+            pathVisited.add(src);
+
+            for (int u : graph.getOrDefault(src, new ArrayList<>())) {
+                if (!visited.contains(u)) {
+                    if (checkCycle(u, graph, visited, pathVisited)) {
+                        return true;
+                    }
+                } else if (pathVisited.contains(u)) {
+                    return true;
+                }
+            }
+
+            pathVisited.remove(src);
+            return false;
+        }
+
+        for (int i = 0; i < numCourses; i++) {
+            if (!visited.contains(i)) {
+                if (checkCycle(i, AdjList, visited, pathVisited)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+}
+
+"""
+
+# C++ Code
+"""
+// C++ version of Leetcode 207: Course Schedule using DFS Cycle Detection
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        unordered_map<int, vector<int>> AdjList;
+        for (auto& pre : prerequisites) {
+            int second = pre[0], first = pre[1];
+            AdjList[first].push_back(second); // Directed graph
+        }
+
+        unordered_set<int> visited;
+        unordered_set<int> pathVisited;
+
+        function<bool(int)> checkCycle = [&](int src) {
+            visited.insert(src);
+            pathVisited.insert(src);
+            for (int u : AdjList[src]) {
+                if (visited.find(u) == visited.end()) {
+                    if (checkCycle(u)) return true;
+                } else if (pathVisited.find(u) != pathVisited.end()) {
+                    return true; // Cycle detected
+                }
+            }
+            pathVisited.erase(src);
+            return false;
+        };
+
+        for (int i = 0; i < numCourses; ++i) {
+            if (visited.find(i) == visited.end()) {
+                if (checkCycle(i)) return false;
+            }
+        }
+        return true;
+    }
+};
+
+"""

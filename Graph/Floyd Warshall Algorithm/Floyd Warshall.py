@@ -119,3 +119,67 @@ public class Solution {
     }
 }
 """
+
+# C++ Code 
+"""
+#include <vector>
+#include <iostream>
+#include <climits>  // For INT_MAX
+using namespace std;
+
+class Solution {
+public:
+    void shortest_distance(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+
+        // Step 1: Replace -1 with INF and set matrix[i][i] = 0
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] == -1)
+                    matrix[i][j] = INT_MAX;
+                if (i == j)
+                    matrix[i][j] = 0;
+            }
+        }
+
+        // Step 2: Apply Floyd-Warshall algorithm
+        for (int k = 0; k < n; k++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (matrix[i][k] != INT_MAX && matrix[k][j] != INT_MAX) {
+                        matrix[i][j] = min(matrix[i][j], matrix[i][k] + matrix[k][j]);
+                    }
+                }
+            }
+        }
+
+        // Step 3: Detect negative weight cycles
+        for (int i = 0; i < n; i++) {
+            if (matrix[i][i] < 0) {
+                cout << "There is a negative weight cycle" << endl;
+                return;
+            }
+        }
+
+        // Step 4: Replace INF back to -1 for output formatting
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] == INT_MAX)
+                    matrix[i][j] = -1;
+                if (i == j)
+                    matrix[i][j] = 0;
+            }
+        }
+
+        // Optional: Print the matrix
+        cout << "Shortest distance matrix:" << endl;
+        for (auto &row : matrix) {
+            for (auto &val : row) {
+                cout << val << " ";
+            }
+            cout << endl;
+        }
+    }
+};
+
+"""

@@ -178,6 +178,80 @@ class Solution {
 
 """
 
+# C++ Code 
+"""
+class Solution {
+public:
+    int minHD, maxHD;
+    unordered_map<int, vector<pair<int, int>>> map;  // {horizontal level -> list of {vertical level, node value}}
+
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        minHD = 0;
+        maxHD = 0;
+        dfs(root, 0, 0);
+
+        vector<vector<int>> ans;
+        for (int hori = minHD; hori <= maxHD; ++hori) {
+            vector<pair<int, int>>& nodes = map[hori];
+            sort(nodes.begin(), nodes.end());  // sort by vertical level, then by node value
+            vector<int> level;
+            for (auto& node : nodes) {
+                level.push_back(node.second);
+            }
+            ans.push_back(level);
+        }
+        return ans;
+    }
+
+    void dfs(TreeNode* root, int lvl_h, int lvl_v) {
+        if (!root) return;
+        minHD = min(minHD, lvl_h);
+        maxHD = max(maxHD, lvl_h);
+
+        map[lvl_h].emplace_back(lvl_v, root->val);
+
+        dfs(root->left, lvl_h - 1, lvl_v + 1);
+        dfs(root->right, lvl_h + 1, lvl_v + 1);
+    }
+};
+
+"""
+
+# C++ code using 'Treemap and Heap'
+"""
+class Solution {
+public:
+    // map<horizontal level, map<vertical level, min-heap of node values>>
+    map<int, map<int, priority_queue<int, vector<int>, greater<int>>>> map;
+
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        dfs(root, 0, 0);
+
+        vector<vector<int>> ans;
+        for (auto& [lvl_h, verticalMap] : map) {
+            vector<int> level;
+            for (auto& [lvl_v, pq] : verticalMap) {
+                while (!pq.empty()) {
+                    level.push_back(pq.top());
+                    pq.pop();
+                }
+            }
+            ans.push_back(level);
+        }
+        return ans;
+    }
+
+    void dfs(TreeNode* root, int lvl_h, int lvl_v) {
+        if (!root) return;
+
+        map[lvl_h][lvl_v].push(root->val);
+
+        dfs(root->left, lvl_h - 1, lvl_v + 1);  // Move left: decrease horizontal level, increase vertical level
+        dfs(root->right, lvl_h + 1, lvl_v + 1); // Move right: increase horizontal level, increase vertical level
+    }
+};
+
+"""
 # do by iterative way later all the view based q
 
 # Related Q:

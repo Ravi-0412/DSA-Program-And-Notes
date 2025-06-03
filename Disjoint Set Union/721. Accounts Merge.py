@@ -143,4 +143,90 @@ class Solution {
     }
 }
 """
+
+# C++ Code 
+"""
+#include <bits/stdc++.h>
+using namespace std;
+
+class DSU {
+public:
+    vector<int> parent, size;
+    DSU(int n) {
+        parent.resize(n);
+        size.resize(n, 1);
+        for (int i = 0; i < n; i++) parent[i] = i;
+    }
+
+    int findUPar(int n) {
+        if (n == parent[n])  // same comment as Python
+            return n;
+        parent[n] = findUPar(parent[n]);
+        return parent[n];
+    }
+
+    void unionBySize(int n1, int n2) {
+        int p1 = findUPar(n1), p2 = findUPar(n2);
+        if (p1 == p2)  // we can't do union since they belong to the same component.
+            return;
+            // return False
+        if (size[p1] < size[p2]) {
+            parent[p1] = p2;
+            size[p2] += size[p1];
+        } else {  // rank[p1]>= rank[p2]
+            parent[p2] = p1;
+            size[p1] += size[p2];
+        }
+    }
+};
+
+class Solution {
+public:
+    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
+        int n = accounts.size();
+        DSU dsu(n);
+        unordered_map<string, int> mail_to_Name;
+        for (int name = 0; name < n; name++) {  // first index will represent the name in each account.
+            for (int emails = 1; emails < (int)accounts[name].size(); emails++) {  // email for each account will start from '1' for each name.
+                string mail = accounts[name][emails];
+                if (mail_to_Name.find(mail) == mail_to_Name.end()) {  // if this email is not into 'map'
+                    mail_to_Name[mail] = name;
+                } else {  // join the two accounts(name into 1 by updating the parent)
+                    dsu.unionBySize(name, mail_to_Name[mail]);
+                    // no need to map this curr mail because this same mail is already there.
+                }
+            }
+        }
+        // map with mail-> account_no(i.e 0,1,2) is created
+        // Now disjoint set is also created and account with same email id is merged into one.
+
+        // Now take email one by one from 'map' and add that to the ultimate parent of their account_no(values) with name in sorted order.
+        // first merging mail together belonging to same account.
+        vector<vector<string>> mergedMail(n);
+        for (auto& [mail, account_no] : mail_to_Name) {
+            int ultimate_parent = dsu.findUPar(account_no);
+            mergedMail[ultimate_parent].push_back(mail);
+        }
+        // now all mail will be get merged into respective parent account
+
+        // now add the name before these mails.
+        // print(mergedMail); // (Python print removed in C++)
+        vector<vector<string>> ans;
+        for (int i = 0; i < n; i++) {
+            if (mergedMail[i].empty()) {  // after merging there may not be any mail because they are already added to parent account.
+                continue;
+            }
+            sort(mergedMail[i].begin(), mergedMail[i].end());  // sorting emails after merging.
+            vector<string> merged_account;  // to store the name and email for each account after merging
+            merged_account.push_back(accounts[i][0]);  // adding the name of each count first
+            for (auto& mail : mergedMail[i]) {
+                merged_account.push_back(mail);
+            }
+            ans.push_back(merged_account);
+        }
+        return ans;
+    }
+};
+
+"""
 # Later try by DFS also.

@@ -52,6 +52,39 @@ class Solution {
     }
 }
 """
+# C++ Code 
+"""
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int islandPerimeter(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size();
+        int ans = 0;
+        vector<vector<int>> directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+        for (int r = 0; r < m; ++r) {
+            for (int c = 0; c < n; ++c) {
+                if (grid[r][c] == 1) {
+                    int cnt = 0;
+                    for (auto& dir : directions) {
+                        int dr = dir[0], dc = dir[1];
+                        if (0 <= r + dr && r + dr < m && 0 <= c + dc && c + dc < n &&
+                            grid[r + dr][c + dc] == 1) {
+                            cnt++;
+                        }
+                    }
+                    ans += 4 - cnt;
+                }
+            }
+        }
+
+        return ans;
+    }
+};
+
+"""
 
 # Method 2:
 # Just reverse of above
@@ -99,4 +132,36 @@ class Solution {
         return num;
     }
 }
+"""
+# C++ Code 
+"""
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int islandPerimeter(vector<vector<int>>& grid) {
+        int rows = grid.size();
+        int cols = grid[0].size();
+        int perimeter = 0;
+
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                if (grid[i][j] == 1) {
+                    if (i == 0 || grid[i - 1][j] == 0)  // UP
+                        perimeter++;
+                    if (j == 0 || grid[i][j - 1] == 0)  // LEFT
+                        perimeter++;
+                    if (i == rows - 1 || grid[i + 1][j] == 0)  // DOWN
+                        perimeter++;
+                    if (j == cols - 1 || grid[i][j + 1] == 0)  // RIGHT
+                        perimeter++;
+                }
+            }
+        }
+
+        return perimeter;
+    }
+};
+
 """

@@ -18,3 +18,59 @@ class Solution:
                     dq.append(room)
                     visited.add(room)
         return len(visited) == n   # if len(visited) == n then, we can enter all rooms.
+
+# Java code 
+"""
+import java.util.*;
+
+class Solution {
+    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        int n = rooms.size();
+        Deque<Integer> dq = new ArrayDeque<>();
+        Set<Integer> visited = new HashSet<>();
+        dq.add(0);
+        visited.add(0);
+        while (!dq.isEmpty()) {
+            int key = dq.poll();
+            for (int room : rooms.get(key)) {
+                if (!visited.contains(room)) {
+                    dq.add(room);
+                    visited.add(room);
+                }
+            }
+        }
+        return visited.size() == n;  // if len(visited) == n then, we can enter all rooms.
+    }
+}
+
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <queue>
+#include <unordered_set>
+using namespace std;
+
+class Solution {
+public:
+    bool canVisitAllRooms(vector<vector<int>>& rooms) {
+        int n = rooms.size();
+        queue<int> dq;
+        unordered_set<int> visited;
+        dq.push(0);
+        visited.insert(0);
+        while (!dq.empty()) {
+            int key = dq.front();
+            dq.pop();
+            for (int room : rooms[key]) {
+                if (visited.find(room) == visited.end()) {
+                    dq.push(room);
+                    visited.insert(room);
+                }
+            }
+        }
+        return visited.size() == n;  // if len(visited) == n then, we can enter all rooms.
+    }
+};
+
+"""

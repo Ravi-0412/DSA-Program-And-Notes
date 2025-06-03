@@ -142,3 +142,76 @@ class Solution {
 }
 
 """
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+#include <queue>
+using namespace std;
+
+class Solution {
+public:
+    // Helper function to find all possible lock combinations by changing
+    // one digit up or down by 1 from the current code
+    vector<string> neighbors(string code) {
+        vector<string> result;
+        // Iterate through each of the 4 digits in the lock code
+        for (int i = 0; i < 4; i++) {
+            int x = code[i] - '0';  // Get the integer value of the current digit
+            // Try moving the digit up and down (with wrap-around between 0 and 9)
+            for (int diff : {-1, 1}) {
+                // Calculate new digit with wrap-around using modulo 10
+                int y = (x + diff + 10) % 10;
+                // Form the new lock code with the changed digit
+                string newCode = code;
+                newCode[i] = y + '0';
+                result.push_back(newCode);
+            }
+        }
+        // Return the list of all neighboring lock combinations
+        return result;
+    }
+
+    int openLock(vector<string>& deadends, string target) {
+        // Convert the list of deadends to a set for O(1) lookups
+        unordered_set<string> deadSet(deadends.begin(), deadends.end());
+
+        // If the initial lock "0000" is a deadend, we can't start, so return -1
+        if (deadSet.count("0000")) return -1;
+
+        // Use a queue to perform a breadth-first search (BFS) starting from "0000"
+        queue<string> q;
+        q.push("0000");
+        int steps = 0;  // Track the number of moves made (BFS levels)
+
+        // BFS loop to explore all possible combinations level by level
+        while (!q.empty()) {
+            int size = q.size();
+            // For each level in the BFS, we process all nodes (lock combinations) at this depth
+            for (int i = 0; i < size; i++) {
+                string curr = q.front(); q.pop();
+
+                // If the current lock combination matches the target, return the step count
+                if (curr == target) return steps;
+
+                // Explore all possible lock combinations by changing one digit
+                for (string nei : neighbors(curr)) {
+                    // If the neighbor lock is a deadend or already visited, skip it
+                    if (deadSet.count(nei)) continue;
+                    // Mark the neighbor as visited by adding it to the deadSet
+                    deadSet.insert(nei);
+                    // Add the valid neighbor to the queue to be explored in the next step
+                    q.push(nei);
+                }
+            }
+            // After processing one level, increment the step count (move count)
+            steps++;
+        }
+
+        // If we exhaust all possibilities and don't reach the target, return -1
+        return -1;
+    }
+};
+
+"""

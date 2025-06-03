@@ -79,6 +79,7 @@ class Solution:
         dfs(root, 0)
         return root
 
+#Java Code
 """
 class Solution {
     public TreeNode bstToGst(TreeNode root) {
@@ -95,6 +96,25 @@ class Solution {
     }
 }
 """
+#C++ Code 
+"""
+class Solution {
+public:
+    TreeNode* bstToGst(TreeNode* root) {
+        bstToGstHelper(root, 0);
+        return root;
+    }
 
+private:
+    // Returns right subtree sum after updating node
+    int bstToGstHelper(TreeNode* node, int rightSum) {
+        if (node == nullptr) return rightSum;
+        rightSum = bstToGstHelper(node->right, rightSum);
+        node->val += rightSum;
+        return bstToGstHelper(node->left, node->val);
+    }
+};
+
+"""
 # same question
 # 1) 538. Convert BST to Greater Tree

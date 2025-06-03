@@ -65,6 +65,41 @@ class Solution {
     }
 }
 """
+# C++ Code 
+"""
+#include <vector>
+#include <queue>
+#include <unordered_map>
+using namespace std;
+
+class Solution {
+public:
+    int numOfMinutes(int n, int headID, vector<int>& manager, vector<int>& informTime) {
+        unordered_map<int, vector<int>> hierarchy;  // just forming adjacency list, directed graph
+        for (int i = 0; i < (int)manager.size(); i++) {
+            if (manager[i] == -1) continue;
+            hierarchy[manager[i]].push_back(i);  // manager[i] will pass info to these employees
+        }
+
+        queue<pair<int,int>> q;
+        q.push({informTime[headID], headID});  // [time_to_pass_info, person_who_will_pass_info]
+        int ans = 0;  // minimum time taken can be 'zero'
+        
+        while (!q.empty()) {
+            auto [time, id] = q.front(); q.pop();
+            ans = max(ans, time);
+            for (int direct_emp : hierarchy[id]) {
+                // keep on adding time since it is passing from one person to another just like minimum spanning Tree
+                // informTime[i] == 0 if employee i has no subordinates. This restriction will handle automatically
+                // if 'direct_emp' has no subordinate.
+                q.push({time + informTime[direct_emp], direct_emp});
+            }
+        }
+        return ans;
+    }
+};
+
+"""
 
 # method 2:  using dfs
 
@@ -111,7 +146,38 @@ class Solution {
     }
 }
 """
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+using namespace std;
 
+class Solution {
+public:
+    unordered_map<int, vector<int>> hierarchy;  // just forming adjacency list, directed graph
+    vector<int> informTime;
+
+    int dfs(int u) {
+        int ans = 0;
+        for (int v : hierarchy[u]) {
+            ans = max(informTime[u] + dfs(v), ans);
+        }
+        return ans;
+    }
+
+    int numOfMinutes(int n, int headID, vector<int>& manager, vector<int>& informTime_) {
+        informTime = informTime_;
+        hierarchy.clear();
+        for (int i = 0; i < (int)manager.size(); i++) {
+            if (manager[i] == -1) continue;
+            hierarchy[manager[i]].push_back(i);  // manager[i] will pass info to these employees
+        }
+        return dfs(headID);
+    }
+};
+
+"""
 # Other way of writing this
 # Better one. Just same as ""2050. Parallel Courses III"." 2nd method.
 
@@ -158,7 +224,38 @@ class Solution {
     }
 }
 """
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+using namespace std;
 
+class Solution {
+public:
+    unordered_map<int, vector<int>> hierarchy;  // just forming adjacency list, directed graph
+    vector<int> informTime;
+
+    int dfs(int u) {
+        int max_time = 0;
+        for (int v : hierarchy[u]) {
+            max_time = max(max_time, dfs(v));
+        }
+        return informTime[u] + max_time;
+    }
+
+    int numOfMinutes(int n, int headID, vector<int>& manager, vector<int>& informTime_) {
+        informTime = informTime_;
+        hierarchy.clear();
+        for (int i = 0; i < (int)manager.size(); i++) {
+            if (manager[i] == -1) continue;
+            hierarchy[manager[i]].push_back(i);  // manager[i] will pass info to these employee
+        }
+        return dfs(headID);
+    }
+};
+
+"""
 # my mistake in dfs code
 # it will give ' sum of time of all inform time'.
 # e.g: n = 15, head = 0, manager = [-1,0,0,1,1,2,2,3,3,4,4,5,5,6,6] , time = [1,1,1,1,1,1,1,0,0,0,0,0,0,0,0]
@@ -182,3 +279,66 @@ class Solution:
             return ans
 
         return dfs(headID)
+
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    HashMap<Integer, List<Integer>> hierarchy = new HashMap<>();  // just forming adjacency list, directed graph
+    int[] informTime;
+
+    public int dfs(int u) {
+        int ans = informTime[u];
+        if (hierarchy.containsKey(u)) {
+            for (int v : hierarchy.get(u)) {
+                ans = Math.max(ans + dfs(v), ans);
+            }
+        }
+        return ans;
+    }
+
+    public int numOfMinutes(int n, int headID, int[] manager, int[] informTime_) {
+        informTime = informTime_;
+        hierarchy.clear();
+        for (int i = 0; i < manager.length; i++) {
+            if (manager[i] == -1) continue;
+            hierarchy.computeIfAbsent(manager[i], k -> new ArrayList<>()).add(i); // manager[i] will pass info to these employee
+        }
+        return dfs(headID);
+    }
+}
+
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    unordered_map<int, vector<int>> hierarchy;  // just forming adjacency list, directed graph
+    vector<int> informTime;
+
+    int dfs(int u) {
+        int ans = informTime[u];
+        for (int v : hierarchy[u]) {
+            ans = max(ans + dfs(v), ans);
+        }
+        return ans;
+    }
+
+    int numOfMinutes(int n, int headID, vector<int>& manager, vector<int>& informTime_) {
+        informTime = informTime_;
+        hierarchy.clear();
+        for (int i = 0; i < (int)manager.size(); i++) {
+            if (manager[i] == -1) continue;
+            hierarchy[manager[i]].push_back(i);  // manager[i] will pass info to these employee
+        }
+        return dfs(headID);
+    }
+};
+
+"""

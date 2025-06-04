@@ -43,32 +43,66 @@ class BSTIterator:
 
 # Java
 """
-import java.util.Stack;
-
 class BSTIterator {
-    private Stack<TreeNode> stack = new Stack<>();
+    Stack<TreeNode> stack = new Stack<>();
 
     public BSTIterator(TreeNode root) {
-        pushLeft(root);
+        PushLeft(root);
     }
 
     public int next() {
-        TreeNode node = stack.pop();
-        pushLeft(node.right);  // Push left path of right child
-        return node.val;
+        TreeNode temp = stack.pop();
+        PushLeft(temp.right);  // we have already pushed the all the 'left' nodes so we only need to push the right one
+        return temp.val;
     }
 
     public boolean hasNext() {
         return !stack.isEmpty();
     }
 
-    private void pushLeft(TreeNode node) {
-        while (node != null) {
-            stack.push(node);
-            node = node.left;
+    public void PushLeft(TreeNode root) {
+        // push everything that comes on the left of root including root
+        TreeNode curr = root;
+        while (curr != null) {
+            stack.push(curr);
+            curr = curr.left;
         }
     }
 }
+
+
+"""
+
+#C++ Code 
+"""
+class BSTIterator {
+public:
+    stack<TreeNode*> stack;
+
+    BSTIterator(TreeNode* root) {
+        PushLeft(root);
+    }
+    
+    int next() {
+        TreeNode* temp = stack.top();
+        stack.pop();
+        PushLeft(temp->right);  // we have already pushed the all the 'left' nodes so we only need to push the right one
+        return temp->val;
+    }
+    
+    bool hasNext() {
+        return !stack.empty();
+    }
+    
+    void PushLeft(TreeNode* root) {
+        // push everything that comes on the left of root including root
+        TreeNode* curr = root;
+        while (curr) {
+            stack.push(curr);
+            curr = curr->left;
+        }
+    }
+};
 
 """
 

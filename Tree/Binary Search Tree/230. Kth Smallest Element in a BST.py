@@ -148,3 +148,35 @@ class Solution {
 
 """
 
+# C++ Code
+"""
+class Solution {
+private:
+    int ans = -1;
+    int count;
+
+public:
+    int kthSmallest(TreeNode* root, int k) {
+        count = k;
+        findKthSmallest(root);
+        return ans;
+    }
+
+    void findKthSmallest(TreeNode* root) {
+        if (root->left != nullptr) {
+            findKthSmallest(root->left);
+        }
+
+        count--;
+        if (count == 0) {
+            ans = root->val;
+            return;
+        }
+
+        if (root->right != nullptr) {
+            findKthSmallest(root->right);
+        }
+    }
+};
+
+"""

@@ -44,6 +44,7 @@ class Solution:
                 return [n1,n2]
 
 # Java
+"""
 import java.util.*;
 
 class DSU {
@@ -104,6 +105,59 @@ public class Solution {
         return new int[] {};  // In case there's no redundant connection
     }
 }
+"""
 
+# C++ Code 
+"""
+#include <bits/stdc++.h>
+using namespace std;
+
+class DSU {
+public:
+    vector<int> parent, size;
+    DSU(int n) {
+        parent.resize(n);
+        size.resize(n, 1);
+        for (int i = 0; i < n; i++)
+            parent[i] = i;
+    }
+
+    int findUPar(int n) {
+        if (n == parent[n])  // same comment as Python
+            return n;
+        parent[n] = findUPar(parent[n]);
+        return parent[n];
+    }
+
+    bool unionBySize(int n1, int n2) {
+        int p1 = findUPar(n1), p2 = findUPar(n2);
+        if (p1 == p2)   // we can't do union since they belong to the same component.
+            return false;
+        if (size[p1] < size[p2]) {
+            parent[p1] = p2;
+            size[p2] += size[p1];
+        } else {  // rank[p1]>= rank[p2]
+            parent[p2] = p1;
+            size[p1] += size[p2];
+        }
+        return true;
+    }
+};
+
+class Solution {
+public:
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        int n = edges.size();
+        DSU dsu(n + 1);  // indexing in input start from '1' so passed 'n+1'.
+        for (auto& edge : edges) {
+            int n1 = edge[0], n2 = edge[1];
+            if (dsu.unionBySize(n1, n2) == false)  // if you find any edge for which we can't do union simply return that.
+                return {n1, n2};
+        }
+        return {};
+    }
+};
+
+"""
 
 

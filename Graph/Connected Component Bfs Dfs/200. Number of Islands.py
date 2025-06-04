@@ -157,3 +157,81 @@ public class Solution {
     }
 }
 """
+
+# C++ Code 
+"""
+#include <vector>
+#include <queue>
+using namespace std;
+
+class Solution {
+public:
+    // BFS Method
+    int numIslandsBFS(vector<vector<char>>& grid) {
+        int row = grid.size(), col = grid[0].size();
+        vector<vector<bool>> visited(row, vector<bool>(col, false));
+        int islands = 0;
+        
+        vector<vector<int>> directions = {{-1,0},{1,0},{0,-1},{0,1}};
+
+        auto BFS = [&](int r, int c) {
+            queue<pair<int,int>> Q;
+            Q.push({r,c});
+            visited[r][c] = true;
+            int count = 0;
+            while(!Q.empty()) {
+                auto [r1,c1] = Q.front(); Q.pop();
+                count++;
+                for (auto& d : directions) {
+                    int nr = r1 + d[0], nc = c1 + d[1];
+                    if (nr >=0 && nr < row && nc >=0 && nc < col && 
+                        grid[nr][nc] == '1' && !visited[nr][nc]) {
+                        visited[nr][nc] = true;
+                        Q.push({nr,nc});
+                    }
+                }
+            }
+            return count;
+        };
+
+        int maxArea = 0;
+        for (int r = 0; r < row; r++) {
+            for (int c = 0; c < col; c++) {
+                if (grid[r][c] == '1' && !visited[r][c]) {
+                    islands++;
+                    int area = BFS(r,c);
+                    maxArea = max(maxArea, area);
+                }
+            }
+        }
+        return islands;
+    }
+
+    // DFS Method
+    void DFS(int r, int c, vector<vector<char>>& grid) {
+        int row = grid.size(), col = grid[0].size();
+        if (r < 0 || r >= row || c < 0 || c >= col || grid[r][c] != '1')
+            return;
+        grid[r][c] = 'v';  // mark visited
+        vector<vector<int>> directions = {{-1,0},{1,0},{0,-1},{0,1}};
+        for (auto& d : directions) {
+            DFS(r + d[0], c + d[1], grid);
+        }
+    }
+
+    int numIslandsDFS(vector<vector<char>>& grid) {
+        int row = grid.size(), col = grid[0].size();
+        int islands = 0;
+        for (int r = 0; r < row; r++) {
+            for (int c = 0; c < col; c++) {
+                if (grid[r][c] == '1') {
+                    islands++;
+                    DFS(r, c, grid);
+                }
+            }
+        }
+        return islands;
+    }
+};
+
+"""

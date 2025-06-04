@@ -172,3 +172,115 @@ class DSU:
 
 # Note: while doing union, must pass an integer value only. If given in any other thing like string or coordinates or matrix form
 # first try to convert them into an integer. Because for finding parent and size we need only number.
+
+# Java Code 
+"""
+import java.util.*;
+
+class DSU {
+    int[] rank, parent, size;
+
+    public DSU(int n) {
+        rank = new int[n];
+        parent = new int[n];
+        size = new int[n];  // will give the size of each parent component.
+                            // initially size of all be '1'(node itself). will tell no of nodes in each parent
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+            size[i] = 1;
+        }
+    }
+
+    public int findUPar(int n) {   // finding the ultimate parent
+        if (n == parent[n])   // Root parent will be the parent of itself. so continue till we find that.
+            return n;
+        // return parent[n] = findUPar(parent[n]);    // This is called path compression.
+        parent[n] = findUPar(parent[n]);   // writing above in same link is giving error
+        return parent[n];
+        // return findUPar(parent[n]);   // This will only give the parent node, will not assign.
+    }
+
+    public void unionBySize(int n1, int n2) {
+        int p1 = findUPar(n1), p2 = findUPar(n2);
+        if (p1 == p2)   // we can't do union since they belong to the same component.
+            return;
+        // wherever we are assigning the parent means we are directly connecting those two nodes.
+        if (size[p1] < size[p2]) {
+            parent[p1] = p2;   // attaching ultimate parent of 'n1' i.e p1 to ultimate parent of 'n2' i.e p2.
+            size[p2] += size[p1];   // increase the size of p2 by size of p1.
+        } else {   // rank[p1]>= rank[p2]
+            parent[p2] = p1;   // attaching ultimate parent of 'n2' i.e p2 to ultimate parent of 'n1' i.e p1.
+            size[p1] += size[p2];
+        }
+    }
+
+    public void unionByRank(int n1, int n2) {
+        int p1 = findUPar(n1), p2 = findUPar(n2);
+        if (p1 == p2)   // we can't do union since they belong to the same component.
+            return;
+        if (rank[p1] < rank[p2]) {
+            parent[p1] = p2;
+        } else {   // rank[p1]>= rank[p2]
+            parent[p2] = p1;
+            if (rank[p1] == rank[p2])   // only incr rank if rank of both are equal
+                rank[p1]++;
+        }
+    }
+}
+
+"""
+# C++ Code 
+"""
+#include <bits/stdc++.h>
+using namespace std;
+
+class DSU {
+public:
+    vector<int> rank, parent, size;
+
+    DSU(int n) {
+        rank.resize(n, 0);
+        parent.resize(n);
+        size.resize(n, 1);  // will give the size of each parent component.
+                           // initially size of all be '1'(node itself). will tell no of nodes in each parent
+        for (int i = 0; i < n; i++) parent[i] = i;
+    }
+
+    int findUPar(int n) {   // finding the ultimate parent
+        if (n == parent[n])  // Root parent will be the parent of itself. so continue till we find that.
+            return n;
+        // return parent[n] = findUPar(parent[n]);    // This is called path compression.
+        parent[n] = findUPar(parent[n]);  // writing above in same link is giving error
+        return parent[n];
+        // return findUPar(parent[n]);   // This will only give the parent node, will not assign.
+    }
+
+    void unionBySize(int n1, int n2) {
+        int p1 = findUPar(n1), p2 = findUPar(n2);
+        if (p1 == p2)   // we can't do union since they belong to the same component.
+            return;
+        // wherever we are assigning the parent means we are directly connecting those two nodes.
+        if (size[p1] < size[p2]) {
+            parent[p1] = p2;   // attaching ultimate parent of 'n1' i.e p1 to ultimate parent of 'n2' i.e p2.
+            size[p2] += size[p1];   // increase the size of p2 by size of p1.
+        } else {   // rank[p1]>= rank[p2]
+            parent[p2] = p1;   // attaching ultimate parent of 'n2' i.e p2 to ultimate parent of 'n1' i.e p1.
+            size[p1] += size[p2];
+        }
+    }
+
+    void unionByRank(int n1, int n2) {
+        int p1 = findUPar(n1), p2 = findUPar(n2);
+        if (p1 == p2)  // we can't do union since they belong to the same component.
+            return;
+        if (rank[p1] < rank[p2]) {
+            parent[p1] = p2;
+        } else {  // rank[p1]>= rank[p2]
+            parent[p2] = p1;
+            if (rank[p1] == rank[p2])  // only incr rank if rank of both are equal
+                rank[p1]++;
+        }
+    }
+};
+
+"""

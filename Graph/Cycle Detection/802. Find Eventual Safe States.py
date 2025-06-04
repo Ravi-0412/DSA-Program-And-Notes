@@ -53,50 +53,100 @@ class Solution:
 
 # Java
 """
-import java.util.*;
-
 class Solution {
     public List<Integer> eventualSafeNodes(int[][] graph) {
         int n = graph.length;
-        boolean[] visited = new boolean[n];
-        boolean[] pathVisited = new boolean[n];
-        boolean[] isSafe = new boolean[n];
-        List<Integer> result = new ArrayList<>();
+        Set<Integer> visited = new HashSet<>();
+        Set<Integer> path_visited = new HashSet<>();  // making this as local variable for each dfs call will give error
+        List<Integer> ans = new ArrayList<>();
 
-        for (int i = 0; i < n; i++) {
-            if (!visited[i]) {
-                dfs(i, graph, visited, pathVisited, isSafe);
+        // checking cycle
+        boolean dfs(int node, int[][] graph, Set<Integer> visited, Set<Integer> path_visited, List<Integer> ans) {
+            visited.add(node);
+            path_visited.add(node);
+            for (int nei : graph[node]) {
+                if (!visited.contains(nei)) {
+                    if (dfs(nei, graph, visited, path_visited, ans)) {
+                        return true;  // means we have found a cycle. so simply return
+                    }
+                } else if (path_visited.contains(nei)) {
+                    return true;  // means cycle so simply return
+                }
             }
+            // if neither of nei is part of a cycle means that is a safe node.
+            ans.add(node);  // only extra line than cycle detection.
+            path_visited.remove(node);
+            return false;
         }
 
         for (int i = 0; i < n; i++) {
-            if (isSafe[i]) {
-                result.add(i);
+            if (!visited.contains(i)) {
+                dfs(i, graph, visited, path_visited, ans);  // we have to call for each component. we don't have to return
             }
         }
 
-        return result;
+        Collections.sort(ans);
+        return ans;
     }
 
-    private boolean dfs(int node, int[][] graph, boolean[] visited, boolean[] pathVisited, boolean[] isSafe) {
-        visited[node] = true;
-        pathVisited[node] = true;
-
+    private boolean dfs(int node, int[][] graph, Set<Integer> visited, Set<Integer> path_visited, List<Integer> ans) {
+        visited.add(node);
+        path_visited.add(node);
         for (int nei : graph[node]) {
-            if (!visited[nei]) {
-                if (dfs(nei, graph, visited, pathVisited, isSafe)) {
-                    return true; // Found cycle
+            if (!visited.contains(nei)) {
+                if (dfs(nei, graph, visited, path_visited, ans)) {
+                    return true;
                 }
-            } else if (pathVisited[nei]) {
-                return true; // Found cycle
+            } else if (path_visited.contains(nei)) {
+                return true;
             }
         }
-
-        isSafe[node] = true; // No cycle found from this node
-        pathVisited[node] = false;
+        ans.add(node);
+        path_visited.remove(node);
         return false;
     }
 }
+
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int n = graph.size();
+        unordered_set<int> visited;
+        unordered_set<int> path_visited;  // making this as local variable for each dfs call will give error
+        vector<int> ans;
+
+        function<bool(int)> dfs = [&](int node) {
+            visited.insert(node);
+            path_visited.insert(node);
+            for (int nei : graph[node]) {
+                if (!visited.count(nei)) {
+                    if (dfs(nei) == true) {  // means we have found a cycle. so simply return
+                        return true;
+                    }
+                } else if (path_visited.count(nei)) {  // means cycle so simply return
+                    return true;
+                }
+            }
+            // if neither of nei is part of a cycle means that is a safe node.
+            ans.push_back(node);  // only extra line than cycle detection.
+            path_visited.erase(node);
+            return false;
+        };
+
+        for (int i = 0; i < n; i++) {
+            if (!visited.count(i)) {
+                dfs(i);  // we have to call for each component. we don't have to return
+            }
+        }
+
+        sort(ans.begin(), ans.end());
+        return ans;
+    }
+};
+
 """
 
 # Method 2: Kahn's Algo only
@@ -194,4 +244,58 @@ class Solution {
         return result;
     }
 }
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <queue>
+#include <unordered_map>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int n = graph.size();
+        unordered_map<int, vector<int>> reverse_graph;
+        vector<int> indegree(n, 0);
+
+        // Build reverse graph and count original outdegrees
+        for (int u = 0; u < n; ++u) {
+            for (int v : graph[u]) {
+                reverse_graph[v].push_back(u);
+                indegree[u]++;
+            }
+        }
+
+        // Start with terminal nodes (outdegree 0)
+        queue<int> q;
+        for (int i = 0; i < n; ++i) {
+            if (indegree[i] == 0) q.push(i);
+        }
+
+        vector<bool> safe(n, false);
+
+        // Kahn's algorithm to find safe nodes
+        while (!q.empty()) {
+            int node = q.front(); q.pop();
+            safe[node] = true;
+            for (int prev : reverse_graph[node]) {
+                indegree[prev]--;
+                if (indegree[prev] == 0) {
+                    q.push(prev);
+                }
+            }
+        }
+
+        // Collect and return safe nodes
+        vector<int> result;
+        for (int i = 0; i < n; ++i) {
+            if (safe[i]) result.push_back(i);
+        }
+        sort(result.begin(), result.end());
+        return result;
+    }
+};
+
 """

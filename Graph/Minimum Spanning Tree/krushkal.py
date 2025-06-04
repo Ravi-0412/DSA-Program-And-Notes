@@ -122,3 +122,72 @@ class Solution {
 }
 
 """
+
+# C++ Code
+"""
+#include <vector>
+#include <queue>
+using namespace std;
+
+class DSU {
+public:
+    vector<int> parent, size;
+    DSU(int n) {
+        parent.resize(n);
+        size.resize(n, 1);
+        for (int i = 0; i < n; i++) parent[i] = i;
+    }
+    
+    int findUPar(int n) {
+        if (n == parent[n]) return n;
+        return parent[n] = findUPar(parent[n]);
+    }
+    
+    bool unionBySize(int n1, int n2) {
+        int p1 = findUPar(n1);
+        int p2 = findUPar(n2);
+        if (p1 == p2) return false;  // they belong to same component
+        if (size[p1] < size[p2]) {
+            parent[p1] = p2;
+            size[p2] += size[p1];
+        } else {
+            parent[p2] = p1;
+            size[p1] += size[p2];
+        }
+        return true;
+    }
+};
+
+class Solution {
+public:
+    int spanningTree(int V, vector<vector<pair<int,int>>>& adj) {
+        vector<tuple<int,int,int>> edges; // (cost, src, dest)
+        int mst = 0;
+        
+        // convert adjacency list into edge list with costs
+        for (int s = 0; s < V; s++) {
+            for (auto& [d, c] : adj[s]) {
+                edges.emplace_back(c, s, d);
+            }
+        }
+        
+        // min heap for edges by cost
+        priority_queue<tuple<int,int,int>, vector<tuple<int,int,int>>, greater<tuple<int,int,int>>> pq;
+        for (auto& e : edges) pq.push(e);
+        
+        int remaining_edge = V - 1; // edges needed for MST
+        DSU dsu(V);
+        
+        while (!pq.empty() && remaining_edge != 0) {
+            auto [c, s, d] = pq.top();
+            pq.pop();
+            if (dsu.unionBySize(s, d)) {
+                mst += c;
+                remaining_edge--;
+            }
+        }
+        return mst;
+    }
+};
+
+"""

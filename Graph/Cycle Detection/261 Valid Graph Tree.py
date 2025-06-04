@@ -99,122 +99,220 @@ class Solution:
 
 # Java
 """"
-// Method 1:
-public class Solution {
-    private int find(int node, int[] parent) {
-        if (parent[node] != node) {
-            parent[node] = find(parent[node], parent);
+// Method 1: Union-Find
+// Logic: It should be connected into a single component with no cycle.
+class Solution {
+    int[] parent;
+    int[] rank;
+
+    public int find(int n) {
+        int p = parent[n];
+        while (p != parent[p]) {
+            parent[p] = parent[parent[p]]; // Path compression
+            p = parent[p];
         }
-        return parent[node];
+        return p;
     }
 
-    private boolean union(int node1, int node2, int[] parent, int[] rank) {
-        int root1 = find(node1, parent);
-        int root2 = find(node2, parent);
+    public boolean union(int n1, int n2) {
+        int p1 = find(n1);
+        int p2 = find(n2);
+        if (p1 == p2) return false; // Cycle detected
 
-        if (root1 == root2) {
-            return false;
-        }
-
-        if (rank[root1] > rank[root2]) {
-            parent[root2] = root1;
-        } else if (rank[root1] < rank[root2]) {
-            parent[root1] = root2;
+        if (rank[p1] > rank[p2]) {
+            parent[p2] = p1;
         } else {
-            parent[root2] = root1;
-            rank[root1]++;
+            parent[p1] = p2;
+            if (rank[p2] == rank[p1]) {
+                rank[p2]++;
+            }
         }
         return true;
     }
 
     public boolean validTree(int n, int[][] edges) {
-        int[] parent = new int[n];
-        int[] rank = new int[n];
-        for (int i = 0; i < n; i++) {
-            parent[i] = i;
-            rank[i] = 0;
-        }
+        parent = new int[n];
+        rank = new int[n]; // Initially, rank of all will be 0 (single node)
+        for (int i = 0; i < n; i++) parent[i] = i;
 
         for (int[] edge : edges) {
-            if (!union(edge[0], edge[1], parent, rank)) {
-                return false;
-            }
+            if (!union(edge[0], edge[1])) return false; // If union returns false, cycle exists
         }
 
-        return edges.length == n - 1;
+        // If no cycle, then we just need to check if all nodes are connected
+        return edges.length == n - 1; // For a tree: n-1 edges
     }
 }
 
-// method 2:
-public class Solution {
-    public boolean validTree(int n, int[][] edges) {
-        // initialize n isolated islands
-        int[] nums = new int[n];
-        Arrays.fill(nums, -1);
-        
-        // perform union find
-        for (int i = 0; i < edges.length; i++) {
-            int x = find(nums, edges[i][0]);
-            int y = find(nums, edges[i][1]);
-            
-            // if two vertices happen to be in the same set
-            // then there's a cycle
-            if (x == y) return false;
-            
-            // union
-            nums[x] = y;
-        }
-        
-        return edges.length == n - 1;
-    }
-    
-    int find(int nums[], int i) {
+
+// Method 2: Shortcut of above one
+class Solution2 {
+    int[] nums;
+
+    public int find(int i) {
         if (nums[i] == -1) return i;
-        return find(nums, nums[i]);
+        return find(nums[i]);
+    }
+
+    public boolean validTree(int n, int[][] edges) {
+        nums = new int[n];
+        Arrays.fill(nums, -1); // Initialize n isolated islands
+
+        for (int[] edge : edges) {
+            int x = find(edge[0]);
+            int y = find(edge[1]);
+
+            if (x == y) return false; // Cycle found
+
+            nums[x] = y; // Union
+        }
+
+        return edges.length == n - 1; // Must have n-1 edges to be a valid tree
     }
 }
 
-// Method 3:
-public class Solution {
-    private Map<Integer, List<Integer>> graph;
-    private Set<Integer> visited;
 
-    public boolean validTree(int n, int[][] edges) {
-        // Convert into adjacency list
-        graph = new HashMap<>();
-        for (int i = 0; i < n; i++) {
-            graph.put(i, new ArrayList<>());
-        }
-        for (int[] edge : edges) {
-            graph.get(edge[0]).add(edge[1]);
-            graph.get(edge[1]).add(edge[0]);
-        }
+// Method 3: Using DFS
+class Solution3 {
+    Map<Integer, List<Integer>> graph = new HashMap<>();
+    Set<Integer> visited = new HashSet<>();
 
-        visited = new HashSet<>();
-
-        // Check for cycle
-        if (isCycle(0, -1)) {
-            return false;
-        }
-
-        // Check if all nodes are connected
-        return visited.size() == n;
-    }
-
-    // Function to check cycle using DFS
-    private boolean isCycle(int src, int parent) {
+    // This will check cycle or not using DFS
+    public boolean isCycle(int src, int parent) {
         visited.add(src);
-        for (int neighbor : graph.get(src)) {
-            if (!visited.contains(neighbor)) {
-                if (isCycle(neighbor, src)) {
-                    return true;
-                }
-            } else if (neighbor != parent) {
-                return true; // Cycle detected
+        for (int u : graph.getOrDefault(src, new ArrayList<>())) {
+            if (!visited.contains(u)) {
+                if (isCycle(u, src)) return true;
+            } else if (u != parent) {
+                return true; // Means cycle
             }
         }
         return false;
     }
+
+    public boolean validTree(int n, int[][] edges) {
+        // First convert into adjacency list
+        for (int[] edge : edges) {
+            graph.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+            graph.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+        }
+
+        // For tree it should be connected and should not have a cycle
+        // So we only need to call dfs once; if connected all nodes will be visited
+        if (isCycle(0, -1)) return false; // Means cycle, so not a tree
+
+        return visited.size() == n; // Check connected component
+    }
 }
+
+"""
+
+# C++ Code 
+"""
+// Method 1: Union-Find
+// Logic: It should be connected into a single component with no cycle.
+class Solution {
+public:
+    vector<int> parent, rank;
+
+    int find(int n) {
+        int p = parent[n];
+        while (p != parent[p]) {
+            parent[p] = parent[parent[p]]; // Path compression
+            p = parent[p];
+        }
+        return p;
+    }
+
+    bool unionSet(int n1, int n2) {
+        int p1 = find(n1), p2 = find(n2);
+        if (p1 == p2) return false; // Cycle detected
+
+        if (rank[p1] > rank[p2]) {
+            parent[p2] = p1;
+        } else {
+            parent[p1] = p2;
+            if (rank[p2] == rank[p1]) {
+                rank[p2]++;
+            }
+        }
+        return true;
+    }
+
+    bool validTree(int n, vector<vector<int>>& edges) {
+        parent.resize(n);
+        rank.resize(n, 0); // Initially, rank of all will be 0 (single node)
+        for (int i = 0; i < n; ++i) parent[i] = i;
+
+        for (auto& e : edges) {
+            if (!unionSet(e[0], e[1])) return false; // If union returns false, cycle exists
+        }
+
+        // If no cycle, then we just need to check if all nodes are connected
+        return edges.size() == n - 1; // For a tree: n-1 edges
+    }
+};
+
+
+// Method 2: Shortcut of above one
+class Solution2 {
+public:
+    vector<int> nums;
+
+    int find(int i) {
+        if (nums[i] == -1) return i;
+        return find(nums[i]);
+    }
+
+    bool validTree(int n, vector<vector<int>>& edges) {
+        nums.resize(n, -1); // Initialize n isolated islands
+
+        for (auto& edge : edges) {
+            int x = find(edge[0]);
+            int y = find(edge[1]);
+
+            if (x == y) return false; // Cycle found
+
+            nums[x] = y; // Union
+        }
+
+        return edges.size() == n - 1; // Must have n-1 edges to be a valid tree
+    }
+};
+
+
+// Method 3: Using DFS
+class Solution3 {
+public:
+    unordered_map<int, vector<int>> graph;
+    unordered_set<int> visited;
+
+    // This will check cycle or not using DFS
+    bool isCycle(int src, int parent) {
+        visited.insert(src);
+        for (int u : graph[src]) {
+            if (visited.find(u) == visited.end()) {
+                if (isCycle(u, src)) return true;
+            } else if (u != parent) {
+                return true; // Means cycle
+            }
+        }
+        return false;
+    }
+
+    bool validTree(int n, vector<vector<int>>& edges) {
+        // First convert into adjacency list
+        for (auto& e : edges) {
+            graph[e[0]].push_back(e[1]);
+            graph[e[1]].push_back(e[0]);
+        }
+
+        // For tree it should be connected and should not have a cycle
+        // So we only need to call dfs once; if connected all nodes will be visited
+        if (isCycle(0, -1)) return false; // Means cycle, so not a tree
+
+        return visited.size() == n; // Check connected component
+    }
+};
 
 """

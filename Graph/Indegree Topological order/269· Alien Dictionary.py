@@ -67,73 +67,170 @@ class Solution:
 
 # Java
 """
-public class Solution {
+import java.util.*;
+
+class Solution {
     public String alienOrder(String[] words) {
-        // Initialize the adjacency list for each character.
+        // first find the distinct char from the given words
+        // with wrt to each char, we have initialized one empty set to put its neighbour in the set
+        // first it will go to one word and will check all the char in that word, after that it will move to another word repeating the same thing
         Map<Character, Set<Character>> adj = new HashMap<>();
         for (String word : words) {
             for (char c : word.toCharArray()) {
                 adj.putIfAbsent(c, new HashSet<>());
             }
         }
+        // now you have got the distinct char and now we have to find the sequence of these char
 
-        // Build the graph.
+        // now make the directed graph which char is coming first
         for (int i = 0; i < words.length - 1; i++) {
             String w1 = words[i];
             String w2 = words[i + 1];
             int minLen = Math.min(w1.length(), w2.length());
 
-            // If word2 is a prefix of word1 and word1 comes before word2, it's invalid.
+            // if word2 is prefix of word1 and word1 is coming before means invalid case, so simply return empty string
             if (w1.length() > w2.length() && w1.substring(0, minLen).equals(w2.substring(0, minLen))) {
                 return "";
             }
 
             for (int j = 0; j < minLen; j++) {
                 if (w1.charAt(j) != w2.charAt(j)) {
-                    adj.get(w1.charAt(j)).add(w2.charAt(j));
-                    break;  // No need to check further characters.
+                    adj.get(w1.charAt(j)).add(w2.charAt(j));   // w2[j] will come after w1[j], so make a directed edge from w1[j] to w2[j]
+                    break;   // once you got any unequal char no need to check further the remaining char. now check the another two word
                 }
             }
         }
 
-        // Visited map to track characters during DFS.
         Map<Character, Boolean> visited = new HashMap<>();
         List<Character> res = new ArrayList<>();
-        
-        // DFS function to detect cycles and build the result.
-        boolean[] cycleFound = new boolean[1];  // Array to act as a reference for boolean flag.
 
-        for (char c : adj.keySet()) {
-            if (dfs(c, adj, visited, res, cycleFound)) {
+        // DFS function
+        for (char ch : adj.keySet()) {
+            if (dfs(ch, adj, visited, res)) {   // if cycle
                 return "";
             }
         }
 
-        // Reverse the result to get the correct order.
         Collections.reverse(res);
         StringBuilder sb = new StringBuilder();
-        for (char c : res) {
-            sb.append(c);
-        }
+        for (char ch : res) sb.append(ch);
         return sb.toString();
     }
 
-    private boolean dfs(char c, Map<Character, Set<Character>> adj, Map<Character, Boolean> visited, List<Character> res, boolean[] cycleFound) {
-        if (visited.containsKey(c)) {
-            return visited.get(c);
+    // in visited, we will store each distinct char, and 'True' or 'False' as value wrt to each char
+    // if a char in visited then it means we have visited that (color== gray) and 'False' and 'True' means
+    // False: means we have visited that char as well as its neighbour also before only (in pre cycles)
+    // True: means we have visited that char only not its neighbour i.e this char is visited in current cycle only
+    private boolean dfs(char ch, Map<Character, Set<Character>> adj, Map<Character, Boolean> visited, List<Character> res) {
+        if (visited.containsKey(ch)) {
+            // return the value wrt to that char
+            // True means, this char is visited in same function call means cycle and 
+            // False means simply skip because this char as well as its adjacent node is already visited
+            return visited.get(ch);
         }
-        visited.put(c, true);
-        for (char neigh : adj.get(c)) {
-            if (dfs(neigh, adj, visited, res, cycleFound)) {
+
+        visited.put(ch, true);   // visited this char
+
+        for (char neighChar : adj.get(ch)) {
+            if (dfs(neighChar, adj, visited, res)) {    // means cycle
                 return true;
             }
         }
-        visited.put(c, false);
-        res.add(c);
+
+        visited.put(ch, false);   // visited char as well as its adjacent character
+        res.add(ch);
         return false;
     }
 }
+
 """
 
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    // in visited, we will store each distinct char, and 'true' or 'false' as value wrt to each char
+    // if a char in visited then it means we have visited that (color== gray) and 'false' and 'true' means
+    // false: means we have visited that char as well as its neighbour also before only (in pre cycles)
+    // true: means we have visited that char only not its neighbour i.e this char is visited in current cycle only
+    unordered_map<char, bool> visited;
+    vector<char> res;
+
+    bool dfs(char ch, unordered_map<char, unordered_set<char>>& adj) {
+        if (visited.count(ch)) {
+            // return the value wrt to that char
+            // true means, this char is visited in same function call means cycle and 
+            // false means simply skip because this char as well as its adjacent node is already visited
+            return visited[ch];
+        }
+
+        visited[ch] = true;   // visited this char
+
+        for (char neighChar : adj[ch]) {
+            if (dfs(neighChar, adj)) {    // means cycle
+                return true;
+            }
+        }
+
+        visited[ch] = false;   // visited char as well as its adjacent character
+        res.push_back(ch);
+        return false;
+    }
+
+    string alienOrder(vector<string>& words) {
+        // first find the distinct char from the given words
+        // with wrt to each char, we have initialized one empty set to put its neighbour in the set
+        // first it will go to one word and will check all the char in that word, after that it will move to another word repeating the same thing
+        unordered_map<char, unordered_set<char>> adj;
+        for (auto& word : words) {
+            for (char c : word) {
+                adj[c]; // initialize with empty set
+            }
+        }
+
+        // now you have got the distinct char and now we have to find the sequence of these char
+
+        // now make the directed graph which char is coming first
+        for (int i = 0; i < words.size() - 1; i++) {
+            string& w1 = words[i];
+            string& w2 = words[i + 1];
+            int minLen = min(w1.length(), w2.length());
+
+            // if word2 is prefix of word1 and word1 is coming before means invalid case, so simply return empty string
+            if (w1.length() > w2.length() && w1.substr(0, minLen) == w2.substr(0, minLen)) {
+                return "";
+            }
+
+            for (int j = 0; j < minLen; j++) {
+                if (w1[j] != w2[j]) {
+                    adj[w1[j]].insert(w2[j]);   // w2[j] will come after w1[j], so make a directed edge from w1[j] to w2[j]
+                    break;   // once you got any unequal char no need to check further the remaining char. now check the another two word
+                }
+            }
+        }
+
+        // cycle detection and printing code starts from here
+        for (auto& pair : adj) {
+            char ch = pair.first;
+            if (dfs(ch, adj)) {   // if cycle 
+                return "";
+            }
+        }
+
+        reverse(res.begin(), res.end());
+        return string(res.begin(), res.end());
+    }
+};
+
+"""
 # other way:
 # Link: https://leetcode.com/problems/alien-dictionary/solutions/70119/java-ac-solution-using-bfs/

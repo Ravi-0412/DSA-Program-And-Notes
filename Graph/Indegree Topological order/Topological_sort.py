@@ -92,51 +92,146 @@ g.addEdge(1,2)
 import java.util.*;
 
 public class Graph {
-    private int V;
-    private boolean[] visited;
-    private List<List<Integer>> adjList;
+    int V;
+    boolean[] visited;
+    Map<Integer, List<Integer>> AdjList;
 
     public Graph(int n) {
-        this.V = n;
+        V = n;
         visited = new boolean[n];
-        adjList = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            adjList.add(new ArrayList<>());
-        }
+        AdjList = new HashMap<>();
     }
 
     public void addEdge(int u, int v) {
-        adjList.get(u).add(v);
+        AdjList.computeIfAbsent(u, k -> new ArrayList<>()).add(v);
     }
 
-    private void findTopoSort(int src, Stack<Integer> stack) {
+    public void FindTopoSort(Map<Integer, List<Integer>> adj, int src, Deque<Integer> stack) {
         visited[src] = true;
-
-        for (int u : adjList.get(src)) {
-            if (!visited[u]) {
-                findTopoSort(u, stack);
+        if (adj.containsKey(src)) {
+            for (int u : adj.get(src)) {
+                if (!visited[u]) {
+                    FindTopoSort(adj, u, stack);
+                }
             }
         }
+        // while traversing back put the node into the stack and node with less no of outorder vertices 
+        // will be kept first(as it will start traversing back at this node only) so final ans will be the opposite of stack
 
-        // Push the node onto the stack once all its adjacent nodes are processed
+        // node with largest visiting time(or minimum finishing time) is pushed first when there is no further adjacent node is there which has not been visited
         stack.push(src);
     }
 
-    public void topoSort() {
-        Stack<Integer> stack = new Stack<>();
-
-        for (int i = 0; i < V; i++) {
+    public void TopoSort(int n, Map<Integer, List<Integer>> adj) {
+        Deque<Integer> stack = new ArrayDeque<>();
+        for (int i = 0; i < n; i++) {
             if (!visited[i]) {
-                findTopoSort(i, stack);
+                FindTopoSort(adj, i, stack);
             }
         }
-
         while (!stack.isEmpty()) {
             System.out.print(stack.pop() + " ");
         }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        // test case 1:
+        Graph g1 = new Graph(6);
+        g1.addEdge(5, 2);
+        g1.addEdge(5, 0);
+        g1.addEdge(2, 3);
+        g1.addEdge(3, 1);
+        g1.addEdge(4, 0);
+        g1.addEdge(4, 1);
+        g1.TopoSort(6, g1.AdjList);
+
+        // test case 2:
+        Graph g2 = new Graph(3);
+        g2.addEdge(0, 2);
+        g2.addEdge(0, 1);
+        g2.addEdge(1, 2);
+        g2.TopoSort(3, g2.AdjList);
     }
 }
+
 """
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <stack>
+using namespace std;
+
+class Graph {
+public:
+    int V;
+    vector<bool> visited;
+    unordered_map<int, vector<int>> AdjList;
+
+    Graph(int n) {
+        V = n;
+        visited.resize(n, false);
+    }
+
+    void addEdge(int u, int v) {
+        AdjList[u].push_back(v);
+    }
+
+    void FindTopoSort(unordered_map<int, vector<int>>& adj, int src, stack<int>& st) {
+        visited[src] = true;
+        for (int u : adj[src]) {
+            if (!visited[u]) {
+                FindTopoSort(adj, u, st);
+            }
+        }
+        // while traversing back put the node into the stack and node with less no of outorder vertices 
+        // will be kept first(as it will start traversing back at this node only) so final ans will be the opposite of stack
+
+        // node with largest visiting time(or minimum finishing time) is pushed first when there is no further adjacent node is there which has not been visited
+        st.push(src);
+    }
+
+    void TopoSort(int n, unordered_map<int, vector<int>>& adj) {
+        stack<int> st;
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                FindTopoSort(adj, i, st);
+            }
+        }
+        while (!st.empty()) {
+            cout << st.top() << " ";
+            st.pop();
+        }
+        cout << endl;
+    }
+};
+
+// test case 1:
+int main() {
+    Graph g1(6);
+    g1.addEdge(5, 2);
+    g1.addEdge(5, 0);
+    g1.addEdge(2, 3);
+    g1.addEdge(3, 1);
+    g1.addEdge(4, 0);
+    g1.addEdge(4, 1);
+    g1.TopoSort(6, g1.AdjList);
+
+    // test case 2:
+    Graph g2(3);
+    g2.addEdge(0, 2);
+    g2.addEdge(0, 1);
+    g2.addEdge(1, 2);
+    g2.TopoSort(3, g2.AdjList);
+
+    return 0;
+}
+
+"""
+
 # another way using dfs: this submitted in Q "269 Alien dictionary"
 
 
@@ -293,6 +388,79 @@ public class Graph {
 
 """
 
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <queue>
+using namespace std;
+
+class Graph {
+public:
+    int V;
+    vector<int> indegree;
+    unordered_map<int, vector<int>> AdjList;
+
+    Graph(int n) {
+        V = n;
+        indegree.resize(n, 0);
+    }
+
+    void addEdge(int u, int v) {
+        AdjList[u].push_back(v);
+    }
+
+    // calculate the indegree of all node
+    void Indegree_count() {
+        for (int i = 0; i < V; i++) {
+            for (int k : AdjList[i]) {  // if k is adj to 'i' means there is one indegree edge to 'k'
+                indegree[k]++;
+            }
+        }
+    }
+
+    void FindTopoSort() {
+        queue<int> Q;
+        vector<int> ans;
+
+        // find the node with indegree '0' as this node will come 1st in the topological order
+        // i.e it will be the source node and after that apply the BFS
+        for (int i = 0; i < V; i++) {   // will also work for more than one component
+            if (indegree[i] == 0) {  // this will put node with indegree '0' of all component into the 'Q' and will check for each component
+                Q.push(i);
+            }
+        }
+
+        int count = 0;  // will count the no of times node is added in the ans
+        while (!Q.empty()) {
+            count++;
+            int u = Q.front();
+            Q.pop();
+            ans.push_back(u);
+            // after poping decrease the indegree of all node adjacent to 'u'
+            for (int j : AdjList[u]) {
+                indegree[j]--;
+                if (indegree[j] == 0) {  // after decreasing if any node has indegree == 0 then put in the Q
+                    Q.push(j);
+                }
+            }
+        }
+
+        // note: count will be less than 'V'.
+        if (count != V) {  // for checking the cycle in directed graph using BFS ..
+            cout << "there exist a cycle in the graph" << endl;
+        } else {
+            for (int node : ans) {
+                cout << node << " ";
+            }
+            cout << endl;
+        }
+    }
+};
+
+"""
+
 # Note: Use this template in other Q of topological sort
 
 # 1) Dfs template
@@ -335,3 +503,125 @@ class Solution:
         if count!= n: 
             return False
         return True
+
+# Java Code 
+"""
+import java.util.*;
+
+public class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        Map<Integer, List<Integer>> AdjList = new HashMap<>();
+        // first convert into adjacency list(edges) for directed graph
+        for (int[] pre : prerequisites) {
+            int first = pre[0];
+            int second = pre[1];
+            AdjList.computeIfAbsent(second, k -> new ArrayList<>()).add(first);  // phle 2nd wala course karenge tb hi first kar sakte h.
+        }
+
+        int n = numCourses;
+        int[] indegree = new int[n];
+
+        // finding the indegree of each vertices
+        for (int i = 0; i < n; i++) {
+            if (AdjList.containsKey(i)) {
+                for (int k : AdjList.get(i)) {  // if k is adj to 'i' means there is one indegree edge to 'k'
+                    indegree[k]++;
+                }
+            }
+        }
+
+        // now applying the BFS to get the topological order
+        int count = 0;
+        List<Integer> ans = new ArrayList<>();
+        Queue<Integer> Q = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            if (indegree[i] == 0) {
+                Q.add(i);
+            }
+        }
+
+        while (!Q.isEmpty()) {
+            count++;
+            int u = Q.poll();
+            ans.add(u);
+            // after poping decrease the indegree of all node adjacent to 'u'
+            if (AdjList.containsKey(u)) {
+                for (int j : AdjList.get(u)) {
+                    indegree[j]--;
+                    if (indegree[j] == 0) {
+                        Q.add(j);
+                    }
+                }
+            }
+        }
+
+        if (count != n) {
+            return false;
+        }
+        return true;
+    }
+}
+
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <queue>
+using namespace std;
+
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        unordered_map<int, vector<int>> AdjList;
+        // first convert into adjacency list(edges) for directed graph
+        for (auto& pre : prerequisites) {
+            int first = pre[0];
+            int second = pre[1];
+            AdjList[second].push_back(first);  // phle 2nd wala course karenge tb hi first kar sakte h.
+        }
+
+        int n = numCourses;
+        vector<int> indegree(n, 0);
+
+        // finding the indegree of each vertices
+        for (int i = 0; i < n; i++) {
+            for (int k : AdjList[i]) {  // if k is adj to 'i' means there is one indegree edge to 'k'
+                indegree[k]++;
+            }
+        }
+
+        // now applying the BFS to get the topological order
+        int count = 0;
+        vector<int> ans;
+        queue<int> Q;
+        for (int i = 0; i < n; i++) {
+            if (indegree[i] == 0) {
+                Q.push(i);
+            }
+        }
+
+        while (!Q.empty()) {
+            count++;
+            int u = Q.front();
+            Q.pop();
+            ans.push_back(u);
+            // after poping decrease the indegree of all node adjacent to 'u'
+            for (int j : AdjList[u]) {
+                indegree[j]--;
+                if (indegree[j] == 0) {
+                    Q.push(j);
+                }
+            }
+        }
+
+        if (count != n) {
+            return false;
+        }
+        return true;
+    }
+};
+
+"""

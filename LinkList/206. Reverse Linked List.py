@@ -18,9 +18,65 @@ class Solution:
         # so make temp.next= None
         temp.next= None
         return head
+"""
+# Java
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null) return head;
+        Stack<ListNode> stack = new Stack<>();
+        ListNode curr = head;
+        while (curr != null) {
+            stack.push(curr);
+            curr = curr.next;
+        }
+        head = stack.pop();
+        ListNode temp = head;
+        while (!stack.isEmpty()) {
+            temp.next = stack.pop();
+            temp = temp.next;
+        }
+        temp.next = null;
+        return head;
+    }
+}
 
+# C++
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if (head == nullptr) return head;
+        stack<ListNode*> stk;
+        ListNode* curr = head;
+        while (curr != nullptr) {
+            stk.push(curr);
+            curr = curr->next;
+        }
+        head = stk.top();
+        stk.pop();
+        ListNode* temp = head;
+        while (!stk.empty()) {
+            temp->next = stk.top();
+            stk.pop();
+            temp = temp->next;
+        }
+        temp->next = nullptr;
+        return head;
+    }
+};
+
+Method 1 Analysis:
+# Time Complexity: O(N) — traverse the list once
+# Space Complexity: O(N) — stack holds all nodes
+"""
 
 # method 2: Iterative(submitted on leetcode)
+"""
+method 2: We'll reverse the list by changing the links directly
+Start with two pointers: one for the previous node (pre = None) and one for the current node (curr = head)
+As we move traverse the list, we keep flipping the pointers so that each node points to the one before it
+Keep doing this till we reach the end of the list
+In the end, pre will be pointing to the new head
+"""
 # time: o(n), space: o(1)
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
@@ -35,8 +91,50 @@ class Solution:
             current= temp     # move current one step forward 
         return pre              # at last pre will point to the 1st node in reverse list
                                 # and current and first will point to None
+"""
+# Java
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode pre = null, current = head;
+        while (current != null) {
+            ListNode temp = current.next;
+            current.next = pre;
+            pre = current;
+            current = temp;
+        }
+        return pre;
+    }
+}
+
+# C++
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        ListNode *pre = nullptr, *current = head;
+        while (current != nullptr) {
+            ListNode* temp = current->next;
+            current->next = pre;
+            pre = current;
+            current = temp;
+        }
+        return pre;
+    }
+};
+Method 2 Analysis:
+# Time Complexity: O(N) — traverse the list once
+# Space Complexity: O(1) — only a few pointers used
+"""
 
 # Method 3: Iterative
+"""
+Create a dummy node before the head to make handling edge cases easier
+We'll use three pointers:
+  pre - the node right before the part we're reversing
+  start - the first node in the part we're currently reversing
+  then - the next node that needs to be moved to the front of the reversed section
+Keep doing this until we've moved all nodes to the front
+At the end, dummy.next will point to the new head of the reversed list
+"""
 # Do on pen and paper and understand.
 # Understand this later properly.
     
@@ -70,10 +168,68 @@ class Solution:
         # third reversing:  dummy->4- 3 - 2 - 1 - 5;    pre = dummy, start = 1, then = 5   , 1st four node got reversed
         # fourth reversing: dummy->5- 4- 3 - 2 - 1;    pre = dummy, start = 1, then = None (finish)  , all nodes got reversed
         return dummy.next
+"""
+# Java
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null) return head;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode pre = dummy;
+        ListNode start = head;
+        ListNode then = start.next;
+        
+        while (then != null) {
+            start.next = then.next;
+            then.next = pre.next;
+            pre.next = then;
+            then = start.next;
+        }
+        
+        return dummy.next;
+    }
+}
+
+# C++
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if (head == nullptr) return head;
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        ListNode* pre = dummy;
+        ListNode* start = head;
+        ListNode* then = start->next;
+        
+        while (then != nullptr) {
+            start->next = then->next;
+            then->next = pre->next;
+            pre->next = then;
+            then = start->next;
+        }
+        
+        ListNode* newHead = dummy->next;
+        delete dummy;
+        return newHead;
+    }
+};
+
+Method 3 Analysis:
+# Time Complexity: O(N) — traverse the list once
+# Space Complexity: O(1) — only a few pointers used
+"""
 
 # Method 3: By recursion
 # just the conversion of above iterative into recursive.
-
+"""
+Use recursion to reverse the list starting from the head
+Keep track of two pointers:
+  pre - the part we've already reversed
+  current - the part we still need to process
+Recursively call the function, moving forward until current reaches the end
+Then, as the calls return, flip the pointers so current.next points back to pre
+In the end, return the new head once everything's reversed
+"""
 # Bottom up(like we do in Tree till we reach the leaf node or 'None' ).
 
 # time: O(n), space: O(n)
@@ -96,6 +252,46 @@ class Solution:
                 # pre.next= None # no need of this as while traversing back link will get broken automatically 
             return self.head
 
+"""
+# Java
+class Solution {
+    private ListNode newHead;
+    public ListNode reverseList(ListNode head) {
+        newHead = null;
+        return ReverseByRecursion(null, head);
+    }
+    private ListNode ReverseByRecursion(ListNode pre, ListNode current) {
+        if (current == null) {
+            newHead = pre;
+        } else {
+            ReverseByRecursion(current, current.next);
+            current.next = pre;
+        }
+        return newHead;
+    }
+}
+
+# C++
+class Solution {
+public:
+    ListNode* newHead = nullptr;
+    ListNode* reverseList(ListNode* head) {
+        return ReverseByRecursion(nullptr, head);
+    }
+    ListNode* ReverseByRecursion(ListNode* pre, ListNode* current) {
+        if (current == nullptr) {
+            newHead = pre;
+        } else {
+            ReverseByRecursion(current, current->next);
+            current->next = pre;
+        }
+        return newHead;
+    }
+};
+Analysis:
+# Time Complexity: O(N) — each node visited once
+# Space Complexity: O(N) — recursive call stack
+"""
 
 # another way of writing the above code
 class Solution:
@@ -126,7 +322,35 @@ class Solution:
         head.next.next= head  # reversing the link between next node and head.
         head.next= None  # this we have to write for the 1st node. other next will automatically become None
         return reverseHead
+"""
+# Java
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null)
+            return head;
+        ListNode reverseHead = reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return reverseHead;
+    }
+}
 
+# C++
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if (head == nullptr || head->next == nullptr)
+            return head;
+        ListNode* reverseHead = reverseList(head->next);
+        head->next->next = head;
+        head->next = nullptr;
+        return reverseHead;
+    }
+};
+Method 4 Analysis:
+# Time Complexity: O(N) — each node visited once
+# Space Complexity: O(N) — recursion stack depth
+"""
 
 # Note vvi: Whenever you have comapare 1st and last ele , 
 # do sum of 1st and last ele, append 1st to last ele , or any operation related to 1st and last ele.

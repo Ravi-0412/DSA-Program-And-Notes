@@ -44,6 +44,92 @@ class Solution:
             day += 1
         return maxAttended
     
+# Java Code 
+"""
+import java.util.*;
 
+class Solution {
+    public int maxEvents(int[][] events) {
+        Arrays.sort(events, Comparator.comparingInt(a -> a[0])); // Sort events by start day
+        int totalDays = 0, maxAttended = 0, eventId = 0, day = 1;
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>(); // Min heap for event ending soonest
+        
+        // Determine the last possible event day
+        for (int[] event : events) {
+            totalDays = Math.max(totalDays, event[1]);
+        }
+
+        while (day <= totalDays) {
+            // Push all events that start today into the heap
+            while (eventId < events.length && events[eventId][0] == day) {
+                minHeap.offer(events[eventId][1]);
+                eventId++;
+            }
+            
+            // Remove expired events
+            while (!minHeap.isEmpty() && minHeap.peek() < day) {
+                minHeap.poll();
+            }
+
+            // Attend the event that ends the soonest
+            if (!minHeap.isEmpty()) {
+                minHeap.poll();
+                maxAttended++;
+            }
+            
+            day++;
+        }
+        
+        return maxAttended;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxEvents(vector<vector<int>>& events) {
+        sort(events.begin(), events.end()); // Sort events by start day
+        int totalDays = 0, maxAttended = 0, eventId = 0, day = 1;
+        priority_queue<int, vector<int>, greater<int>> minHeap; // Min heap for event ending soonest
+        
+        // Determine the last possible event day
+        for (const auto& event : events) {
+            totalDays = max(totalDays, event[1]);
+        }
+
+        while (day <= totalDays) {
+            // Push all events that start today into the heap
+            while (eventId < events.size() && events[eventId][0] == day) {
+                minHeap.push(events[eventId][1]);
+                eventId++;
+            }
+            
+            // Remove expired events
+            while (!minHeap.empty() && minHeap.top() < day) {
+                minHeap.pop();
+            }
+
+            // Attend the event that ends the soonest
+            if (!minHeap.empty()) {
+                minHeap.pop();
+                maxAttended++;
+            }
+            
+            day++;
+        }
+        
+        return maxAttended;
+    }
+};
+"""
 # Q: Why only sorting won't work?
 # Because we can't decide the cur event we have to attend or not using the start and end date of pre one.

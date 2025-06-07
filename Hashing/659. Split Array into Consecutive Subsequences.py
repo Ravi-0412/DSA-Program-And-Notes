@@ -52,39 +52,87 @@ class Solution(object):
 
 # Later try by heap also.
 
-# Java
+# Java Code
 """
 import java.util.HashMap;
+import java.util.List;
 
-public class Solution {
-    public boolean isPossible(int[] nums) {
+class Solution {
+    public boolean isPossible(List<Integer> nums) {
         HashMap<Integer, Integer> occurrences = new HashMap<>();
         HashMap<Integer, Integer> nextNums = new HashMap<>();
-        
+
         for (int num : nums) {
             occurrences.put(num, occurrences.getOrDefault(num, 0) + 1);
         }
-        
+
         for (int num : nums) {
             if (occurrences.get(num) == 0) {
                 continue;
-            } else if (nextNums.getOrDefault(num, 0) > 0) {
+            } 
+            // If nextNums contains the number, it is directly appendable to a sequence.
+            // We "append" it to the sequence by incrementing the next number by 1.
+            else if (nextNums.getOrDefault(num, 0) > 0) {
                 nextNums.put(num, nextNums.get(num) - 1);
                 nextNums.put(num + 1, nextNums.getOrDefault(num + 1, 0) + 1);
-            } else if (occurrences.getOrDefault(num + 1, 0) > 0 && occurrences.getOrDefault(num + 2, 0) > 0) {
+            } 
+            // If the number +1 and number +2 are both still in occurrences hashmap,
+            // we can create a new subsequence of length 3 and add the next number to nextNums.
+            else if (occurrences.getOrDefault(num + 1, 0) > 0 && occurrences.getOrDefault(num + 2, 0) > 0) {
                 occurrences.put(num + 1, occurrences.get(num + 1) - 1);
                 occurrences.put(num + 2, occurrences.get(num + 2) - 1);
                 nextNums.put(num + 3, nextNums.getOrDefault(num + 3, 0) + 1);
-            } else {
+            } 
+            else {
                 return false;
             }
             occurrences.put(num, occurrences.get(num) - 1);
         }
-        
         return true;
     }
 }
+"""
 
+# C++ Code
+"""
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+class Solution {
+public:
+    bool isPossible(vector<int>& nums) {
+        unordered_map<int, int> occurrences, next_nums;
+        
+        for (int num : nums) {
+            occurrences[num]++;
+        }
+
+        for (int num : nums) {
+            if (occurrences[num] == 0) {
+                continue;
+            } 
+            // If next_nums contains the number, it is directly appendable to a sequence.
+            // We "append" it to the sequence by incrementing the next number by 1.
+            else if (next_nums[num] > 0) {
+                next_nums[num]--;
+                next_nums[num + 1]++;
+            } 
+            // If the number +1 and number +2 are both still in occurrences hashmap,
+            // we can create a new subsequence of length 3 and add the next number to next_nums.
+            else if (occurrences[num + 1] > 0 && occurrences[num + 2] > 0) {
+                occurrences[num + 1]--;
+                occurrences[num + 2]--;
+                next_nums[num + 3]++;
+            } 
+            else {
+                return false;
+            }
+            occurrences[num]--;
+        }
+        return true;
+    }
+};
 """
 
 # Related q:

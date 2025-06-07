@@ -87,40 +87,154 @@ class Solution:
 # https://github.com/Ravi-0412/DSA-Program-And-Notes/blob/main/Binary_Search/81.%20Search%20in%20Rotated%20Sorted%20Array%20II.py
 
 
-# Java
+# Java Code 
 """
-# Method 2:
+//Method 1
+class Solution {
+    private int binarySearch(int[] arr, int target, int low, int high) {
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (arr[mid] == target) {
+                return mid;
+            } else if (arr[mid] < target) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return -1;
+    }
 
-public class Solution {
+    private int findPivot(int[] nums) {
+        int left = 0, right = nums.length - 1;
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (nums[left] > nums[mid]) {
+                right = mid - 1;
+            } else {
+                left = mid;
+            }
+        }
+        return left;
+    }
+
+    public int search(int[] nums, int target) {
+        int n = nums.length;
+        int pivot_index = findPivot(nums);
+        
+        int left = binarySearch(nums, target, 0, pivot_index - 1);
+        if (left == -1) {
+            int right = binarySearch(nums, target, pivot_index, n - 1);
+            return right;
+        }
+        return left;
+    }
+}
+//Method 2
+class Solution {
     public int search(int[] nums, int target) {
         int start = 0, end = nums.length - 1;
 
         while (start < end) {
             int mid = start + (end - start) / 2;
 
-            // Means array is sorted from start to mid
+            // Check if left part is sorted
             if (nums[mid] >= nums[start]) {
-                // Check if target exists between start and mid
                 if (nums[start] <= target && target <= nums[mid]) {
                     end = mid;
                 } else {
-                    // If not present, then check in the other part
                     start = mid + 1;
                 }
-            } else {
-                // If the above part is not sorted, then the other part from mid+1 to end must be sorted
-                // Check if target lies in this range
+            } 
+            // Else right part must be sorted
+            else {
                 if (nums[mid + 1] <= target && target <= nums[end]) {
                     start = mid + 1;
                 } else {
-                    // If not lies from 'mid+1' to end, then it must be before it
                     end = mid;
                 }
             }
         }
-
-        // After loop ends, check if the start points to the target
-        return nums[start] == target ? start : -1;
+        return (nums[start] == target) ? start : -1;
     }
 }
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int binarySearch(vector<int>& arr, int target, int low, int high) {
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (arr[mid] == target) {
+                return mid;
+            } else if (arr[mid] < target) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return -1;
+    }
+
+    int findPivot(vector<int>& nums) {
+        int left = 0, right = nums.size() - 1;
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (nums[left] > nums[mid]) {
+                right = mid - 1;
+            } else {
+                left = mid;
+            }
+        }
+        return left;
+    }
+
+    int search(vector<int>& nums, int target) {
+        int n = nums.size();
+        int pivot_index = findPivot(nums);
+        
+        int left = binarySearch(nums, target, 0, pivot_index - 1);
+        if (left == -1) {
+            int right = binarySearch(nums, target, pivot_index, n - 1);
+            return right;
+        }
+        return left;
+    }
+};
+//Method 2
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int start = 0, end = nums.size() - 1;
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+
+            // Check if left part is sorted
+            if (nums[mid] >= nums[start]) {
+                if (nums[start] <= target && target <= nums[mid]) {
+                    end = mid;
+                } else {
+                    start = mid + 1;
+                }
+            } 
+            // Else right part must be sorted
+            else {
+                if (nums[mid + 1] <= target && target <= nums[end]) {
+                    start = mid + 1;
+                } else {
+                    end = mid;
+                }
+            }
+        }
+        return (nums[start] == target) ? start : -1;
+    }
+};
 """

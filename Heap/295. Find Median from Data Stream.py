@@ -145,44 +145,155 @@ class MedianFinder:
 # only one element matter to us for our ans.
 
 
-# java
+# Java Code
 """
-// Not able to find data structure which function same as 'sortedList' in java.
-# We can use TreeSet to maintain a sorted collection of numbers and add/ delete operation in O(logn) but TreeSet does not allow duplicates.
-# so Treeset won't work here.
-
-// method 3: Using two heaps
+//Method 1
+import java.util.*;
 
 class MedianFinder {
-    private PriorityQueue<Integer> maxHeap;
-    private PriorityQueue<Integer> minHeap;
-    
-    public MedianFinder() {
-        // Max-heap (contains the smaller half of the numbers)
-        maxHeap = new PriorityQueue<>((a,b)-> b - a);
-        // Min-heap (contains the larger half of the numbers)
-        minHeap = new PriorityQueue<>();
+    private List<Integer> nums = new ArrayList<>();
+
+    public void addNum(int num) {
+        nums.add(num);
     }
-    
+
+    public double findMedian() {
+        Collections.sort(nums);
+        int mid = nums.size() / 2;
+        if (nums.size() % 2 != 0) {
+            return nums.get(mid);
+        } else {
+            return (nums.get(mid) + nums.get(mid - 1)) / 2.0;
+        }
+    }
+}
+//Method 2
+import java.util.*;
+
+class MedianFinder {
+    private TreeSet<Integer> sortedList = new TreeSet<>();
+
+    public void addNum(int num) {
+        sortedList.add(num);
+    }
+
+    public double findMedian() {
+        int n = sortedList.size();
+        List<Integer> sortedArray = new ArrayList<>(sortedList);
+        if (n % 2 == 1) {
+            return sortedArray.get(n / 2);
+        }
+        return (sortedArray.get(n / 2) + sortedArray.get(n / 2 - 1)) / 2.0;
+    }
+}
+//Method 3: Using Two Heaps (Optimized for Interview)
+import java.util.*;
+
+class MedianFinder {
+    private PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder()); // Stores the smaller half
+    private PriorityQueue<Integer> minHeap = new PriorityQueue<>(); // Stores the larger half
+
     public void addNum(int num) {
         if (minHeap.size() == maxHeap.size()) {
-            // First push 'num' into maxHeap then pop one element from maxHeap and at last add that to minHeap.
             maxHeap.offer(num);
             minHeap.offer(maxHeap.poll());
         } else {
-            // First push 'num' into minHeap then pop one element from minHeap and at last add that to maxHeap.
             minHeap.offer(num);
             maxHeap.offer(minHeap.poll());
         }
     }
-    
+
     public double findMedian() {
-        if (minHeap.size() != maxHeap.size()) {
-            // Median is in minHeap at the top
+        if (minHeap.size() > maxHeap.size()) {
             return minHeap.peek();
         }
-        // If lengths are equal, return the average
         return (minHeap.peek() + maxHeap.peek()) / 2.0;
     }
 }
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class MedianFinder {
+private:
+    vector<int> nums;
+
+public:
+    void addNum(int num) {
+        nums.push_back(num);
+    }
+
+    double findMedian() {
+        sort(nums.begin(), nums.end());
+        int mid = nums.size() / 2;
+        if (nums.size() % 2 != 0) {
+            return nums[mid];
+        } else {
+            return (nums[mid] + nums[mid - 1]) / 2.0;
+        }
+    }
+};
+//Method 2
+#include <iostream>
+#include <vector>
+#include <set>
+
+using namespace std;
+
+class MedianFinder {
+private:
+    multiset<int> sortedList;
+
+public:
+    void addNum(int num) {
+        sortedList.insert(num);
+    }
+
+    double findMedian() {
+        int n = sortedList.size();
+        auto mid = next(sortedList.begin(), n / 2);
+        if (n % 2) {
+            return *mid;
+        }
+        return (*mid + *prev(mid)) / 2.0;
+    }
+};
+//Method 3: Using Two Heaps (Optimized for Interview)
+#include <iostream>
+#include <queue>
+
+using namespace std;
+
+class MedianFinder {
+private:
+    priority_queue<int> maxHeap; // Stores the smaller half
+    priority_queue<int, vector<int>, greater<int>> minHeap; // Stores the larger half
+
+public:
+    void addNum(int num) {
+        if (minHeap.size() == maxHeap.size()) {
+            maxHeap.push(num);
+            minHeap.push(maxHeap.top());
+            maxHeap.pop();
+        } else {
+            minHeap.push(num);
+            maxHeap.push(minHeap.top());
+            minHeap.pop();
+        }
+    }
+
+    double findMedian() {
+        if (minHeap.size() > maxHeap.size()) {
+            return minHeap.top();
+        }
+        return (minHeap.top() + maxHeap.top()) / 2.0;
+    }
+};
 """

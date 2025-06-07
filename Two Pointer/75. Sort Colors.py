@@ -51,6 +51,75 @@ class Solution:
                 # cases current can contain '2' also if nums[high] has also '2'.
         return nums
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public void sortColors(int[] nums) {
+        int current = 0, low = 0, high = nums.length - 1;
+
+        // After 'high', all elements will be '2' only.
+        // Before 'low', all elements will be '0' only.
+        while (current <= high) {
+            if (nums[current] == 0) {
+                // Swap it with nums[low] as low will be pointing to the first '1'.
+                swap(nums, current, low);
+                low++;
+                current++;  // We have made one correct move. Increment since nums[low] will now contain '1'.
+            } else if (nums[current] == 1) {
+                // Don't swap, just increment 'current' as '1' should be in the middle.
+                current++;
+            } else {  // nums[current] == 2
+                // Swap it with nums[high] since after 'high' all elements should be '2'.
+                swap(nums, current, high);
+                high--;
+                // Don't move 'current' since after swapping, nums[current] might still be '2'.
+            }
+        }
+    }
+
+    private void swap(int[] nums, int a, int b) {
+        int temp = nums[a];
+        nums[a] = nums[b];
+        nums[b] = temp;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int current = 0, low = 0, high = nums.size() - 1;
+
+        // After 'high', all elements will be '2' only.
+        // Before 'low', all elements will be '0' only.
+        while (current <= high) {
+            if (nums[current] == 0) {
+                // Swap it with nums[low] as low will be pointing to the first '1'.
+                swap(nums[current], nums[low]);
+                low++;
+                current++;  // We have made one correct move. Increment since nums[low] will now contain '1'.
+            } else if (nums[current] == 1) {
+                // Don't swap, just increment 'current' as '1' should be in the middle.
+                current++;
+            } else {  // nums[current] == 2
+                // Swap it with nums[high] since after 'high' all elements should be '2'.
+                swap(nums[current], nums[high]);
+                high--;
+                // Don't move 'current' since after swapping, nums[current] might still be '2'.
+            }
+        }
+    }
+};
+"""
 # Note vvi: keep above logic in mind, may be helpful in other problems also
 
 # Also do by other method in sheet.

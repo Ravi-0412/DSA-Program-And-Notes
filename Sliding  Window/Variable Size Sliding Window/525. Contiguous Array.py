@@ -27,3 +27,66 @@ class Solution:
 # Note: we can apply exactly same logic(even same code) in Q asking : 
 # 1) "longest substring/subarray having equal no of count of both when each ele can be of two type only".
 # 2) "Find the max length of substring having equal no of lowercase and uppercase letter".
+
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int findMaxLength(int[] nums) {
+        int count = 0;  // if num == 0, decrease count by '1', and if num == 1, increase count by '1'.
+        int maxLen = 0;  // to handle the case when all nums are either '0' or '1' only.
+        Map<Integer, Integer> hashmap = new HashMap<>();
+        hashmap.put(0, -1);  // [count: index], initializing to handle the case when at any index count == 0, meaning the subarray from start to that index is valid.
+
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0) {
+                count--;
+            } else {  // nums[i] == 1
+                count++;
+            }
+
+            if (hashmap.containsKey(count)) {  
+                // Since we got a duplicate count, the sum between these two indices must be zero, meaning a valid subarray.
+                maxLen = Math.max(maxLen, i - hashmap.get(count));
+            } else {
+                hashmap.put(count, i);  // Store the first occurrence of this count.
+            }
+        }
+        return maxLen;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution {
+public:
+    int findMaxLength(vector<int>& nums) {
+        int count = 0;  // if num == 0, decrease count by '1', and if num == 1, increase count by '1'.
+        int maxLen = 0;  // to handle the case when all nums are either '0' or '1' only.
+        unordered_map<int, int> hashmap = {{0, -1}};  // [count: index], initializing to handle the case when at any index count == 0, meaning the subarray from start to that index is valid.
+
+        for (int i = 0; i < nums.size(); i++) {
+            if (nums[i] == 0) {
+                count--;
+            } else {  // nums[i] == 1
+                count++;
+            }
+
+            if (hashmap.find(count) != hashmap.end()) {  
+                // Since we got a duplicate count, the sum between these two indices must be zero, meaning a valid subarray.
+                maxLen = max(maxLen, i - hashmap[count]);
+            } else {
+                hashmap[count] = i;  // Store the first occurrence of this count.
+            }
+        }
+        return maxLen;
+    }
+};
+"""

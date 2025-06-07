@@ -31,62 +31,6 @@ class Solution:
                 temp= temp*int(num)
                 stack.append(temp)
         return "".join(stack)
-# Java
-"""
-import java.util.Stack;
-
-class Solution {
-    public String decodeString(String s) {
-        Stack<Character> stack = new Stack<>();
-        
-        for (int i = 0; i < s.length(); i++) {
-            char ch = s.charAt(i);
-            
-            if (ch != ']') {
-                // Push each character onto the stack
-                stack.push(ch);
-            } else {
-                // We encountered ']', so we need to decode the substring
-                
-                // Collect the characters to form the string to be repeated
-                StringBuilder temp = new StringBuilder();
-                while (stack.peek() != '[') {
-                    temp.append(stack.pop());
-                }
-                
-                // Pop the '['
-                stack.pop();
-
-                // Collect the digits (which can be more than one digit) to form the multiplier
-                StringBuilder numStr = new StringBuilder();
-                while (!stack.isEmpty() && Character.isDigit(stack.peek())) {
-                    numStr.append(stack.pop());
-                }
-
-                // Reverse the number string and convert it to an integer
-                int num = Integer.parseInt(numStr.reverse().toString());
-
-                // Reverse the collected string and repeat it
-                String repeatedStr = temp.reverse().toString().repeat(num);
-
-                // Push the repeated string back onto the stack
-                for (char c : repeatedStr.toCharArray()) {
-                    stack.push(c);
-                }
-            }
-        }
-        
-        // Build the final result by appending characters (in the correct order)
-        StringBuilder result = new StringBuilder();
-        while (!stack.isEmpty()) {
-            result.append(stack.pop());
-        }
-        
-        // Reverse the result at the end to get the correct final string
-        return result.reverse().toString();
-    }
-}
-"""
 
 # Method 2:
 # Better one. Just similar logic as "772. Basic Calculator III".
@@ -123,43 +67,166 @@ class Solution(object):
                 current_string += char
         
         return current_string
-# Java
+
+
+# Java Code 
 """
+//Method 1
 import java.util.Stack;
 
 class Solution {
     public String decodeString(String s) {
-        Stack<Object> stack = new Stack<>();  // Use a single stack to store both strings and integers
-        StringBuilder currentString = new StringBuilder();
-        int k = 0;
-        
-        for (char ch : s.toCharArray()) {
-            if (Character.isDigit(ch)) {
-                // Build the number k
-                k = k * 10 + (ch - '0');
-            } else if (ch == '[') {
-                // Push the current string and k onto the stack
-                stack.push(currentString.toString());
-                stack.push(k);
-                // Reset currentString and k for the new frame
-                currentString = new StringBuilder();
-                k = 0;
-            } else if (ch == ']') {
-                // Pop the multiplier k
-                int repeatTimes = (int) stack.pop();
-                // Pop the last string
-                String lastString = (String) stack.pop();
-                // Repeat the current string k times and append it to the last string
-                currentString = new StringBuilder(lastString).append(currentString.toString().repeat(repeatTimes));
+        Stack<String> stack = new Stack<>();
+
+        for (char c : s.toCharArray()) {
+            if (c != ']') {
+                stack.push(Character.toString(c)); // Push everything until we see ']'
             } else {
-                // Append the character to the current string
-                currentString.append(ch);
+                // Pop characters to form the substring inside brackets
+                StringBuilder temp = new StringBuilder();
+                while (!stack.peek().equals("[")) {
+                    temp.insert(0, stack.pop());
+                }
+                stack.pop(); // Remove '['
+
+                // Find the number before '['
+                StringBuilder numStr = new StringBuilder();
+                while (!stack.isEmpty() && Character.isDigit(stack.peek().charAt(0))) {
+                    numStr.insert(0, stack.pop());
+                }
+                
+                int num = Integer.parseInt(numStr.toString());
+                String expanded = temp.toString().repeat(num);
+                stack.push(expanded);
             }
         }
-        
-        return currentString.toString();
+
+        // Construct the final result
+        StringBuilder result = new StringBuilder();
+        while (!stack.isEmpty()) {
+            result.insert(0, stack.pop());
+        }
+        return result.toString();
     }
 }
+//Method 2
+import java.util.Stack;
+
+class Solution {
+    public String decodeString(String s) {
+        Stack<Pair<String, Integer>> stack = new Stack<>();
+        String currentString = "";
+        int k = 0;
+
+        for (char c : s.toCharArray()) {
+            if (c == '[') {
+                // Save current string and k for when we pop
+                stack.push(new Pair<>(currentString, k));
+                // Reset current string and k
+                currentString = "";
+                k = 0;
+            } else if (c == ']') {
+                // Retrieve previous string and repeat count
+                Pair<String, Integer> last = stack.pop();
+                currentString = last.getKey() + currentString.repeat(last.getValue());
+            } else if (Character.isDigit(c)) {
+                k = k * 10 + (c - '0'); // Build number
+            } else {
+                currentString += c; // Build string
+            }
+        }
+
+        return currentString;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <stack>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string decodeString(string s) {
+        stack<string> st;
+        
+        for (char c : s) {
+            if (c != ']') {
+                st.push(string(1, c)); // Push everything until we see ']'
+            } else {
+                // Pop characters to form the substring inside brackets
+                string temp = "";
+                while (st.top() != "[") {
+                    temp = st.top() + temp;
+                    st.pop();
+                }
+                st.pop(); // Remove '['
+
+                // Find the number before '['
+                string numStr = "";
+                while (!st.empty() && isdigit(st.top()[0])) {
+                    numStr = st.top() + numStr;
+                    st.pop();
+                }
+                
+                int num = stoi(numStr);
+                string expanded = "";
+                for (int i = 0; i < num; i++) {
+                    expanded += temp;
+                }
+                st.push(expanded);
+            }
+        }
+
+        // Construct the final result
+        string result = "";
+        while (!st.empty()) {
+            result = st.top() + result;
+            st.pop();
+        }
+        return result;
+    }
+};
+//Method 2
+#include <iostream>
+#include <stack>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string decodeString(string s) {
+        stack<pair<string, int>> st;
+        string currentString = "";
+        int k = 0;
+
+        for (char c : s) {
+            if (c == '[') {
+                // Save current string and k for when we pop
+                st.push({currentString, k});
+                // Reset current string and k
+                currentString = "";
+                k = 0;
+            } else if (c == ']') {
+                // Retrieve previous string and repeat count
+                auto last = st.top(); st.pop();
+                currentString = last.first + string(last.second, currentString);
+            } else if (isdigit(c)) {
+                k = k * 10 + (c - '0'); // Build number
+            } else {
+                currentString += c; // Build string
+            }
+        }
+
+        return currentString;
+    }
+};
 """
 
 # Similar Question:

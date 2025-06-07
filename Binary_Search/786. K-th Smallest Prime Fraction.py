@@ -99,3 +99,140 @@ class Solution:
             elif cnt < k:
                 start= mid
 
+# Java Code
+"""
+//Method 1
+import java.util.PriorityQueue;
+
+class Solution {
+    public int[] kthSmallestPrimeFraction(int[] arr, int k) {
+        int n = arr.length;
+        PriorityQueue<double[]> minHeap = new PriorityQueue<>((a, b) -> Double.compare(a[0], b[0]));
+
+        for (int i = 0; i < n - 1; i++) {
+            minHeap.add(new double[]{(double) arr[i] / arr[n - 1], i, n - 1});
+        }
+
+        int[] result = new int[2];
+        for (int count = 0; count < k; count++) {
+            double[] top = minHeap.poll();
+            int i = (int) top[1], j = (int) top[2];
+            result[0] = arr[i];
+            result[1] = arr[j];
+
+            if (j - 1 > i) {
+                minHeap.add(new double[]{(double) arr[i] / arr[j - 1], i, j - 1});
+            }
+        }
+
+        return result;
+    }
+}
+//Method 2
+class Solution {
+    public int[] kthSmallestPrimeFraction(int[] arr, int k) {
+        int n = arr.length;
+        double start = 0, end = 1;
+        int[] result = new int[2];
+
+        while (start <= end) {
+            double mid = start + (end - start) / 2;
+            int count = 0, j = 1;
+            int p = 0, q = 1;
+
+            for (int i = 0; i < n - 1; i++) {
+                while (j < n && (double) arr[i] / arr[j] > mid) {
+                    j++;
+                }
+                if (j < n && (double) p / q < (double) arr[i] / arr[j]) {
+                    p = arr[i];
+                    q = arr[j];
+                }
+                count += n - j;
+            }
+
+            if (count == k) {
+                return new int[]{p, q};
+            } else if (count > k) {
+                end = mid;
+            } else {
+                start = mid;
+            }
+        }
+
+        return result;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <vector>
+#include <queue>
+#include <utility>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> kthSmallestPrimeFraction(vector<int>& arr, int k) {
+        int n = arr.size();
+        priority_queue<pair<double, pair<int, int>>, vector<pair<double, pair<int, int>>>, greater<>> minHeap;
+
+        for (int i = 0; i < n - 1; i++) {
+            minHeap.push({(double)arr[i] / arr[n - 1], {i, n - 1}});
+        }
+
+        pair<int, int> result;
+        for (int count = 0; count < k; count++) {
+            auto [fraction, indices] = minHeap.top();
+            minHeap.pop();
+
+            int i = indices.first, j = indices.second;
+            result = {arr[i], arr[j]};
+
+            if (j - 1 > i) {
+                minHeap.push({(double)arr[i] / arr[j - 1], {i, j - 1}});
+            }
+        }
+
+        return {result.first, result.second};
+    }
+};
+//Method 2
+class Solution {
+public:
+    vector<int> kthSmallestPrimeFraction(vector<int>& arr, int k) {
+        int n = arr.size();
+        double start = 0, end = 1;
+        pair<int, int> result;
+
+        while (start <= end) {
+            double mid = start + (end - start) / 2;
+            int count = 0, j = 1;
+            int p = 0, q = 1;
+
+            for (int i = 0; i < n - 1; i++) {
+                while (j < n && (double)arr[i] / arr[j] > mid) {
+                    j++;
+                }
+                if (j < n && (double)p / q < (double)arr[i] / arr[j]) {
+                    p = arr[i], q = arr[j];
+                }
+                count += n - j;
+            }
+
+            if (count == k) {
+                return {p, q};
+            } else if (count > k) {
+                end = mid;
+            } else {
+                start = mid;
+            }
+        }
+
+        return {};
+    }
+};
+"""

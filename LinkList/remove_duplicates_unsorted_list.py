@@ -64,3 +64,188 @@ def removeDuplicates(self, head):
                 current = current.next
 
         return head
+
+# Java Code 
+"""
+//Method 1
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+        next = null;
+    }
+}
+
+class Solution {
+    public ListNode removeDuplicates(ListNode head) {
+        ListNode current = head;
+
+        while (current != null && current.next != null) {
+            ListNode current1 = current;
+
+            while (current1.next != null) {
+                if (current.val == current1.next.val) {
+                    current1.next = current1.next.next; // Skipping duplicates
+                } else {
+                    current1 = current1.next;
+                }
+            }
+
+            current = current.next; // Move to next distinct element
+        }
+
+        return head;
+    }
+}
+//Method 2
+import java.util.ArrayList;
+import java.util.Collections;
+
+class Solution {
+    public ListNode removeDuplicates(ListNode head) {
+        if (head == null) return null;
+
+        ArrayList<Integer> values = new ArrayList<>();
+        ListNode current = head;
+
+        while (current != null) {
+            values.add(current.val);
+            current = current.next;
+        }
+
+        Collections.sort(values);
+
+        ListNode newHead = new ListNode(values.get(0));
+        ListNode temp = newHead;
+
+        for (int i = 1; i < values.size(); i++) {
+            if (!values.get(i).equals(values.get(i - 1))) {
+                temp.next = new ListNode(values.get(i));
+                temp = temp.next;
+            }
+        }
+
+        return newHead;
+    }
+}
+//Method 3
+import java.util.HashSet;
+
+class Solution {
+    public ListNode removeDuplicates(ListNode head) {
+        if (head == null || head.next == null) return head;
+
+        HashSet<Integer> seen = new HashSet<>();
+        ListNode current = head;
+        seen.add(current.val);
+
+        while (current.next != null) {
+            if (seen.contains(current.next.val)) {
+                current.next = current.next.next; // Removing duplicate
+            } else {
+                seen.add(current.next.val);
+                current = current.next;
+            }
+        }
+
+        return head;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+
+using namespace std;
+
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+class Solution {
+public:
+    ListNode* removeDuplicates(ListNode* head) {
+        ListNode* current = head;
+
+        while (current && current->next) {
+            ListNode* current1 = current;
+
+            while (current1->next) {
+                if (current->val == current1->next->val) {
+                    current1->next = current1->next->next; // Skipping duplicates
+                } else {
+                    current1 = current1->next;
+                }
+            }
+            
+            current = current->next; // Move to next distinct element
+        }
+
+        return head;
+    }
+};
+//Method 2
+#include <algorithm>
+#include <vector>
+
+class Solution {
+public:
+    ListNode* removeDuplicates(ListNode* head) {
+        if (!head) return nullptr;
+
+        vector<int> values;
+        ListNode* current = head;
+
+        while (current) {
+            values.push_back(current->val);
+            current = current->next;
+        }
+
+        sort(values.begin(), values.end());
+
+        ListNode* newHead = new ListNode(values[0]);
+        ListNode* temp = newHead;
+
+        for (size_t i = 1; i < values.size(); i++) {
+            if (values[i] != values[i - 1]) {
+                temp->next = new ListNode(values[i]);
+                temp = temp->next;
+            }
+        }
+
+        return newHead;
+    }
+};
+//Method 3
+#include <unordered_set>
+
+class Solution {
+public:
+    ListNode* removeDuplicates(ListNode* head) {
+        if (!head || !head->next) return head;
+
+        unordered_set<int> seen;
+        ListNode* current = head;
+        seen.insert(current->val);
+
+        while (current->next) {
+            if (seen.find(current->next->val) != seen.end()) {
+                current->next = current->next->next; // Removing duplicate
+            } else {
+                seen.insert(current->next->val);
+                current = current->next;
+            }
+        }
+
+        return head;
+    }
+};
+"""

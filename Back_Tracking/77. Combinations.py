@@ -25,27 +25,72 @@ class Solution:
         return ans
     
 
-# java
+# Java Code 
 """
-public class Solution {
-    
-    public List<List<Integer>> combine(int n, int k) {
-        List<List<Integer>> ans = new ArrayList<>();
-        combination(1, n, k, new ArrayList<>(), ans);
-        return ans;
-    }
+import java.util.*;
 
-    private void combination(int num, int n, int remainingNo, List<Integer> comb, List<List<Integer>> ans) {
-        if (remainingNo == 0) {
+class Solution {
+    List<List<Integer>> ans = new ArrayList<>();
+
+    private void combination(int num, int remainin_no, List<Integer> comb, int n, int k) {
+        if (remainin_no == 0) {  
             // We got one combination
             ans.add(new ArrayList<>(comb));
             return;
         }
         // We can take the next number from any of the greater remaining numbers till 'n'.
-        for (int i = num; i <= n; i++) {
-            comb.add(i);
-            combination(i + 1, n, remainingNo - 1, comb, ans);
-            comb.remove(comb.size() - 1); // Backtrack
+        for (int i = num + 1; i <= n; i++) {
+            List<Integer> newComb = new ArrayList<>(comb);
+            newComb.add(i);
+            combination(i, remainin_no - 1, newComb, n, k);
         }
     }
+
+    public List<List<Integer>> combine(int n, int k) {
+        ans.clear();
+        // Starting from each number one by one
+        // We need to go till 'n - k + 1' not 'n' because when we start with a number > 'n - k + 1', we will not get 'k' numbers.
+        for (int num = 1; num <= n; num++) {  
+            combination(num, k - 1, new ArrayList<>(List.of(num)), n, k);
+        }
+        return ans;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> ans;
+
+    void combination(int num, int remainin_no, vector<int> comb, int n, int k) {
+        if (remainin_no == 0) {  
+            // We got one combination
+            ans.push_back(comb);
+            return;
+        }
+        // We can take the next number from any of the greater remaining numbers till 'n'.
+        for (int i = num + 1; i <= n; i++) {
+            vector<int> newComb = comb;
+            newComb.push_back(i);
+            combination(i, remainin_no - 1, newComb, n, k);
+        }
+    }
+
+    vector<vector<int>> combine(int n, int k) {
+        ans.clear();
+        // Starting from each number one by one
+        // We need to go till 'n - k + 1' not 'n' because when we start with a number > 'n - k + 1', we will not get 'k' numbers.
+        for (int num = 1; num <= n; num++) {  
+            combination(num, k - 1, {num}, n, k);
+        }
+        return ans;
+    }
+};
 """

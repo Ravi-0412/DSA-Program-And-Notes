@@ -121,6 +121,161 @@ arr= [2,5,8,3,2,4,1,7]
 #     stack1.append(i)
 
 
+# Java Code 
+"""
+//Method 1: Next Greater Right
+import java.util.Stack;
+
+class Solution {
+    public void nextLargerElement(int[] arr) {
+        int n = arr.length;
+        Stack<Integer> stack = new Stack<>();
+        int[] ans = new int[n];
+
+        for (int i = n - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && stack.peek() <= arr[i]) {
+                stack.pop();
+            }
+            ans[i] = stack.isEmpty() ? -1 : stack.peek();
+            stack.push(arr[i]);
+        }
+
+        for (int val : ans) {
+            System.out.print(val + " ");
+        }
+    }
+}
+//Method 2: Next Greater Left
+import java.util.Stack;
+
+class Solution {
+    public int[] nextGreaterLeft(int[] arr) {
+        Stack<Integer> stack = new Stack<>();
+        int[] ans = new int[arr.length];
+
+        for (int i = 0; i < arr.length; i++) {
+            while (!stack.isEmpty() && stack.peek() <= arr[i]) {
+                stack.pop();
+            }
+            ans[i] = stack.isEmpty() ? -1 : stack.peek();
+            stack.push(arr[i]);
+        }
+
+        return ans;
+    }
+}
+//Method 3: Next Smaller Left
+import java.util.Stack;
+
+class Solution {
+    public int[] nextSmallerLeft(int[] arr) {
+        Stack<Integer> stack = new Stack<>();
+        int[] ans = new int[arr.length];
+
+        for (int i = 0; i < arr.length; i++) {
+            while (!stack.isEmpty() && stack.peek() >= arr[i]) {
+                stack.pop();
+            }
+            ans[i] = stack.isEmpty() ? -1 : stack.peek();
+            stack.push(arr[i]);
+        }
+
+        return ans;
+    }
+}
+//Method 4: Next Smaller Right
+import java.util.Stack;
+
+class Solution {
+    public int[] nextSmallerRight(int[] arr) {
+        Stack<Integer> stack = new Stack<>();
+        int[] ans = new int[arr.length];
+
+        for (int i = arr.length - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && stack.peek() >= arr[i]) {
+                stack.pop();
+            }
+            ans[i] = stack.isEmpty() ? -1 : stack.peek();
+            stack.push(arr[i]);
+        }
+
+        return ans;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1: Next Greater Right
+#include <iostream>
+#include <vector>
+#include <stack>
+
+using namespace std;
+
+void nextLargerElement(vector<int>& arr, int n) {
+    stack<int> st;
+    vector<int> ans(n);
+
+    for (int i = n - 1; i >= 0; i--) {
+        while (!st.empty() && st.top() <= arr[i]) {
+            st.pop();
+        }
+        ans[i] = st.empty() ? -1 : st.top();
+        st.push(arr[i]);
+    }
+
+    for (int val : ans) {
+        cout << val << " ";
+    }
+}
+//Method 2: Next Greater Left
+vector<int> nextGreaterLeft(vector<int>& arr) {
+    stack<int> st;
+    vector<int> ans(arr.size());
+
+    for (int i = 0; i < arr.size(); i++) {
+        while (!st.empty() && st.top() <= arr[i]) {
+            st.pop();
+        }
+        ans[i] = st.empty() ? -1 : st.top();
+        st.push(arr[i]);
+    }
+    
+    return ans;
+}
+//Method 3: Next Smaller Left
+vector<int> nextSmallerLeft(vector<int>& arr) {
+    stack<int> st;
+    vector<int> ans(arr.size());
+
+    for (int i = 0; i < arr.size(); i++) {
+        while (!st.empty() && st.top() >= arr[i]) {
+            st.pop();
+        }
+        ans[i] = st.empty() ? -1 : st.top();
+        st.push(arr[i]);
+    }
+
+    return ans;
+}
+//Method 4: Next Smaller Right
+vector<int> nextSmallerRight(vector<int>& arr) {
+    stack<int> st;
+    vector<int> ans(arr.size());
+
+    for (int i = arr.size() - 1; i >= 0; i--) {
+        while (!st.empty() && st.top() >= arr[i]) {
+            st.pop();
+        }
+        ans[i] = st.empty() ? -1 : st.top();
+        st.push(arr[i]);
+    }
+    
+    return ans;
+}
+"""
+
 Questions that based on these:
 1) 496. Next Greater Element I
 2) 503. Next Greater Element II

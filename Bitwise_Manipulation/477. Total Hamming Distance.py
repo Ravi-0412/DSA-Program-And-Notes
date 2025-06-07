@@ -49,3 +49,107 @@ class Solution:
             # after each time outer loop fails,add the hamming distance of that bit to the result         
             result+= set_bit*(n-set_bit)
         return result
+
+# Java Code 
+"""
+//Method 1
+class Solution {
+    public int totalHammingDistance(int[] nums) {
+        int count = 0;
+
+        // Find XOR for each pair and count the number of set bits
+        for (int i = 0; i < nums.length - 1; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                int xor_pair = nums[i] ^ nums[j];
+
+                // Count the number of set bits for each pair
+                while (xor_pair != 0) {
+                    count += 1;
+                    xor_pair = xor_pair & (xor_pair - 1);
+                }
+            }
+        }
+
+        return count;
+    }
+}
+//Method 2
+class Solution {
+    public int totalHammingDistance(int[] nums) {
+        int n = nums.length, result = 0;
+
+        // Iterate over each bit position (32-bit max)
+        for (int i = 0; i < 32; i++) {
+            int setBitCount = 0; // Count the number of set bits at each bit position
+
+            // Shift each number to extract the i-th bit
+            for (int j = 0; j < n; j++) {
+                setBitCount += (nums[j] >> i) & 1;
+            }
+
+            // Compute Hamming distance at each bit position
+            result += setBitCount * (n - setBitCount);
+        }
+
+        return result;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int totalHammingDistance(vector<int>& nums) {
+        int count = 0;
+        
+        // Find XOR for each pair and count the number of set bits
+        for (int i = 0; i < nums.size() - 1; i++) {
+            for (int j = i + 1; j < nums.size(); j++) {
+                int xor_pair = nums[i] ^ nums[j];
+
+                // Count the number of set bits for each pair
+                while (xor_pair) {
+                    count += 1;
+                    xor_pair = xor_pair & (xor_pair - 1);
+                }
+            }
+        }
+
+        return count;
+    }
+};
+//Method 2
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int totalHammingDistance(vector<int>& nums) {
+        int n = nums.size(), result = 0;
+
+        // Iterate over each bit position (32-bit max)
+        for (int i = 0; i < 32; i++) {
+            int set_bit = 0; // Count the number of set bits at each bit position
+
+            // Shift each number to extract the i-th bit
+            for (int j = 0; j < n; j++) {
+                set_bit += (nums[j] >> i) & 1;
+            }
+
+            // Compute Hamming distance at each bit position
+            result += set_bit * (n - set_bit);
+        }
+
+        return result;
+    }
+};
+"""

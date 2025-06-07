@@ -84,76 +84,137 @@ class Solution(object):
             # Next possible word must have matches == 'matches' with most_overlapping words
             candidates = [w for w in candidates if pair_matches(s, w) == matches]   
 
-# Java
+# Java Code 
 """
 import java.util.*;
 
+interface Master {
+    int guess(String word);
+}
+
 class Solution {
-
-    // Main method to find the secret word
-    public void findSecretWord(String[] wordlist, Master master) {
-        // Convert the array to a list to work with dynamic candidate lists
-        List<String> candidates = new ArrayList<>(Arrays.asList(wordlist));
-
-        // Keep guessing until we find the correct word
-        while (!candidates.isEmpty()) {
-            String guessWord = mostOverlapWord(candidates); // Guess the word with the most overlap
-            int matches = master.guess(guessWord); // Get the number of matching characters
-
-            if (matches == 6) {
-                // If all characters match, we've found the secret word
-                return;
-            }
-
-            // Filter the candidate list to only include words that match the current guess
-            List<String> newCandidates = new ArrayList<>();
-            for (String word : candidates) {
-                if (pairMatches(guessWord, word) == matches) {
-                    newCandidates.add(word);
-                }
-            }
-            candidates = newCandidates; // Update candidates for the next guess
-        }
-    }
-
-    // Helper method to count the number of matching characters between two words
     private int pairMatches(String a, String b) {
-        int matches = 0;
+        int count = 0;
         for (int i = 0; i < a.length(); i++) {
-            if (a.charAt(i) == b.charAt(i)) {
-                matches++;
-            }
+            if (a.charAt(i) == b.charAt(i)) count++;
         }
-        return matches;
+        return count;
     }
 
-    // Helper method to select the word that has the most overlap with others
     private String mostOverlapWord(List<String> candidates) {
-        int[][] counts = new int[6][26]; // Frequency matrix for characters in each position
+        int[][] counts = new int[6][26];  // counts[i][j] tracks frequency of char j at index i
+
         for (String word : candidates) {
             for (int i = 0; i < word.length(); i++) {
-                counts[i][word.charAt(i) - 'a']++; // Count the occurrence of each character at each position
+                counts[i][word.charAt(i) - 'a']++;
             }
         }
 
-        String bestWord = "";
         int bestScore = 0;
-
-        // Calculate the score for each word based on character frequency at each position
+        String bestWord = "";
         for (String word : candidates) {
             int score = 0;
             for (int i = 0; i < word.length(); i++) {
-                score += counts[i][word.charAt(i) - 'a']; // Sum frequency of characters in the same positions
+                score += counts[i][word.charAt(i) - 'a'];
             }
             if (score > bestScore) {
                 bestScore = score;
                 bestWord = word;
             }
         }
+
         return bestWord;
     }
-}
 
+    public void findSecretWord(String[] wordlist, Master master) {
+        List<String> candidates = new ArrayList<>(Arrays.asList(wordlist));
+
+        while (!candidates.isEmpty()) {
+            String s = mostOverlapWord(candidates);
+            int matches = master.guess(s);
+
+            if (matches == 6) return;  // Found the secret word
+
+            // Keep only words with 'matches' number of matching characters with the chosen word
+            List<String> newCandidates = new ArrayList<>();
+            for (String w : candidates) {
+                if (pairMatches(s, w) == matches) {
+                    newCandidates.add(w);
+                }
+            }
+            candidates = newCandidates;
+        }
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <string>
+#include <unordered_map>
+using namespace std;
+
+class Master {
+public:
+    int guess(string word);
+};
+
+class Solution {
+public:
+    int pair_matches(const string& a, const string& b) {
+        int count = 0;
+        for (size_t i = 0; i < a.size(); i++) {
+            if (a[i] == b[i]) count++;
+        }
+        return count;
+    }
+
+    string most_overlap_word(vector<string>& candidates) {
+        vector<vector<int>> counts(6, vector<int>(26, 0));  // counts[i][j] tracks frequency of char j at index i
+
+        for (const string& word : candidates) {
+            for (size_t i = 0; i < word.size(); i++) {
+                counts[i][word[i] - 'a']++;
+            }
+        }
+
+        int best_score = 0;
+        string best_word;
+        for (const string& word : candidates) {
+            int score = 0;
+            for (size_t i = 0; i < word.size(); i++) {
+                score += counts[i][word[i] - 'a'];
+            }
+            if (score > best_score) {
+                best_score = score;
+                best_word = word;
+            }
+        }
+
+        return best_word;
+    }
+
+    void findSecretWord(vector<string>& wordlist, Master& master) {
+        vector<string> candidates = wordlist;
+
+        while (!candidates.empty()) {
+            string s = most_overlap_word(candidates);
+            int matches = master.guess(s);
+
+            if (matches == 6) return;  // Found the secret word
+
+            // Keep only words with 'matches' number of matching characters with the chosen word
+            vector<string> new_candidates;
+            for (const string& w : candidates) {
+                if (pair_matches(s, w) == matches) {
+                    new_candidates.push_back(w);
+                }
+            }
+            candidates = move(new_candidates);
+        }
+    }
+};
 """
 
 # Method 2: Taking the random word (Above one is easier and good for interview)

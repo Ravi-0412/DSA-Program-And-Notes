@@ -137,29 +137,86 @@ def findMax(nums):
 # https://github.com/Ravi-0412/DSA-Program-And-Notes/blob/main/Binary_Search/33_Search_in_Rotated_Sorted_Array.py
 
 
-# Java
+# Java Code 
 """
-# Method 3:
+//Method 1
 class Solution {
     public int findMin(int[] nums) {
-        int left = 0;
-        int right = nums.length - 1;
-        
+        int left = 0, right = nums.length - 1;
+
         while (left < right) {
             int mid = (left + right) / 2;
-            
-            if (nums[mid] > nums[right]) {  // Means array from 'mid' to 'right' is unsorted
-                left = mid + 1;             // So minimum will lie in this part only i.e beyond mid
-            } else {
-                // Here it will guarantee that array from 
-                // mid to right is sorted and start to mid is unsorted and mid can also be minimum
+
+            if (nums[mid] > nums[right]) { // Right part is unsorted
+                left = mid + 1;
+            } else { // Left part is unsorted
                 right = mid;
             }
         }
-        
-        // After the loop, left and right will point to the same element, which is the minimum element
-        // Because both are merging towards the index of the minimum element in each iteration
-        return nums[left];
+        return nums[left]; // Min element found
     }
 }
+//Method 2
+class Solution {
+    public int findMax(int[] nums) {
+        int left = 0, right = nums.length - 1;
+
+        while (left < right) {
+            int mid = (left + right) / 2;
+
+            if (nums[left] > nums[mid]) { // Left part is unsorted
+                right = mid - 1;
+            } else { // Right part is unsorted
+                left = mid;
+            }
+        }
+        return nums[left]; // Max element found
+    }
+}
+
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int left = 0, right = nums.size() - 1;
+
+        while (left < right) {
+            int mid = (left + right) / 2;
+
+            if (nums[mid] > nums[right]) { // Right part is unsorted
+                left = mid + 1;
+            } else { // Left part is unsorted
+                right = mid;
+            }
+        }
+        return nums[left]; // Min element found
+    }
+};
+//Method 2
+class Solution {
+public:
+    int findMax(vector<int>& nums) {
+        int left = 0, right = nums.size() - 1;
+
+        while (left < right) {
+            int mid = (left + right) / 2;
+
+            if (nums[left] > nums[mid]) { // Left part is unsorted
+                right = mid - 1;
+            } else { // Right part is unsorted
+                left = mid;
+            }
+        }
+        return nums[left]; // Max element found
+    }
+};
+
 """

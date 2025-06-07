@@ -57,3 +57,58 @@ class Solution:
     def minMoves(self, nums: List[int]) -> int:
         n = len(nums)
         return sum(nums) - min(nums) * n
+
+# Java Code 
+"""
+//Method 1
+import java.util.*;
+
+class Solution {
+    public int minMoves(int[] nums) {
+        int minNo = Arrays.stream(nums).min().getAsInt();
+        int ans = 0;
+        for (int num : nums) {
+            ans += num - minNo;
+        }
+        return ans;
+    }
+}
+//Method 2
+import java.util.*;
+
+class Solution {
+    public int minMoves(int[] nums) {
+        int n = nums.length;
+        return Arrays.stream(nums).sum() - Arrays.stream(nums).min().getAsInt() * n;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int minMoves(vector<int>& nums) {
+        int minNo = *min_element(nums.begin(), nums.end());
+        int ans = 0;
+        for (int num : nums) {
+            ans += num - minNo;
+        }
+        return ans;
+    }
+};
+//Method 2
+class Solution {
+public:
+    int minMoves(vector<int>& nums) {
+        int n = nums.size();
+        return accumulate(nums.begin(), nums.end(), 0) - (*min_element(nums.begin(), nums.end()) * n);
+    }
+};
+"""

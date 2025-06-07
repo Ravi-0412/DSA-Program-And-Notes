@@ -86,6 +86,178 @@ class Solution:
         return dummy.next
 
 
-# method 2: Recursive
+# Java Code 
+"""
+//Method 1
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+        next = null;
+    }
+}
+
+class Solution {
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode pre = dummy;
+        int pos = 0;
+
+        while (pos < left - 1) {
+            pre = pre.next;
+            pos++;
+        }
+
+        ListNode start = pre.next;
+        ListNode cur = pre;
+        while (pos < right) {
+            cur = cur.next;
+            pos++;
+        }
+
+        ListNode end = cur;
+        ListNode temp = end.next;
+        end.next = null;
+
+        ListNode reversedList = reverseList(start);
+        pre.next = reversedList;
+        start.next = temp;
+
+        return dummy.next;
+    }
+
+    private ListNode reverseList(ListNode head) {
+        ListNode prev = null, curr = head;
+
+        while (curr != null) {
+            ListNode temp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = temp;
+        }
+
+        return prev;
+    }
+}
+//Method 2
+class Solution {
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode pre = dummy;
+
+        // Move to node before the sublist
+        for (int i = 0; i < left - 1; i++) {
+            pre = pre.next;
+        }
+
+        ListNode start = pre.next;
+        ListNode then = start.next;
+
+        // Reverse sublist in-place
+        for (int i = 0; i < right - left; i++) {
+            start.next = then.next;
+            then.next = pre.next;
+            pre.next = then;
+            then = start.next;
+        }
+
+        return dummy.next;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+
+using namespace std;
+
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        auto reverseList = [](ListNode* head) {
+            ListNode* prev = nullptr;
+            ListNode* curr = head;
+            
+            while (curr) {
+                ListNode* temp = curr->next;
+                curr->next = prev;
+                prev = curr;
+                curr = temp;
+            }
+
+            return prev;
+        };
+
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        ListNode* pre = dummy;
+        int pos = 0;
+
+        // Move to the node before the sublist to reverse
+        while (pos < left - 1) {
+            pre = pre->next;
+            pos++;
+        }
+
+        ListNode* start = pre->next;
+        ListNode* cur = pre;
+        while (pos < right) {
+            cur = cur->next;
+            pos++;
+        }
+
+        ListNode* end = cur;
+        ListNode* temp = end->next;
+        end->next = nullptr;
+
+        ListNode* reversedList = reverseList(start);
+        pre->next = reversedList;
+        start->next = temp;
+
+        return dummy->next;
+    }
+};
+//Method 2
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        ListNode* pre = dummy;
+
+        // Move to node before the sublist
+        for (int i = 0; i < left - 1; i++) {
+            pre = pre->next;
+        }
+
+        ListNode* start = pre->next;
+        ListNode* then = start->next;
+
+        // Reverse sublist in-place
+        for (int i = 0; i < right - left; i++) {
+            start->next = then->next;
+            then->next = pre->next;
+            pre->next = then;
+            then = start->next;
+        }
+
+        return dummy->next;
+    }
+};
+"""
 
             

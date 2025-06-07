@@ -71,3 +71,158 @@ class Solution:
             gcdCount[cur_gcd] += 1
         return ans
 
+# Java Code 
+"""
+import java.util.HashMap;
+import java.util.List;
+
+class Solution {
+    // Method 1: Using frequency map to count valid pairs
+    public int countPairs(List<Integer> nums, int k) {
+        HashMap<Integer, Integer> frequency = new HashMap<>();
+        int ans = 0;
+
+        for (int n : nums) {
+            int Gcd = gcd(n, k); // Example: if k = 10 and nums[i] = 12, gcd will be 2
+            int want = k / Gcd;  // What we need from the upper example: we need 5
+
+            for (int num : frequency.keySet()) {
+                if (num % want == 0) {
+                    // If we find a number divisible by 5, we can multiply it with 12
+                    // and make it a factor of 10. Example: if we find 20, then 12 * 20 = 240,
+                    // which is divisible by 10, so we add it to the answer.
+                    ans += frequency.get(num); // Adding the frequency as we can find multiple numbers with the same factor
+                }
+            }
+
+            frequency.put(Gcd, frequency.getOrDefault(Gcd, 0) + 1); // Increasing the frequency of 2 so that if we find 5 next time, we can add these to the answer
+        }
+        return ans;
+    }
+
+    // Helper function to compute gcd
+    private int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+}
+
+// Method 2: More optimized approach
+// https://leetcode.com/problems/count-array-pairs-divisible-by-k/solutions/1785906/how-gcd-a-k-gcd-b-k-k-0-explained-with-example/
+
+// Observation:
+// 1) If (a * b) % k == 0, then (gcd(a, k) * gcd(b, k)) % k == 0 and vice versa is also true.
+// 2) If (gcd(a, k) * gcd(b, k)) % k == 0, then (a * b) % k == 0.
+
+// We use the second property.
+// We store gcd(num, k) as a key in a hashmap, and for each number, we first find its gcd.
+// Then, we traverse the hashmap to find another number satisfying property '2'.
+
+// Proof of '2':
+// For any number to be divisible by 'k', it must have at least all the prime factors of 'k'.
+// gcd(a, k) = Multiplication of all prime factors of 'k' available in 'a'.
+// gcd(b, k) = Multiplication of all prime factors of 'k' available in 'b'.
+// If (gcd(a, k) * gcd(b, k)) % k == 0, it means some prime factors of 'k' are contributed by 'a' and some by 'b'.
+// Their multiplication has all the prime factors of 'k', meaning 'a * b' is divisible by 'k'.
+
+// Time Complexity - O(N * sqrt(K))
+// Why sqrt(K)?
+// Since we are taking gcd, we are considering factors of K, and the number of factors of K will not exceed 2 * sqrt(K).
+
+class Solution {
+    public int countPairs(List<Integer> nums, int k) {
+        HashMap<Integer, Integer> gcdCount = new HashMap<>();
+        int ans = 0;
+
+        for (int num : nums) {
+            int cur_gcd = gcd(num, k);
+            for (int gc_d : gcdCount.keySet()) {
+                if ((cur_gcd * gc_d) % k == 0) {
+                    ans += gcdCount.get(gc_d);
+                }
+            }
+            gcdCount.put(cur_gcd, gcdCount.getOrDefault(cur_gcd, 0) + 1);
+        }
+        return ans;
+    }
+
+    // Helper function to compute gcd
+    private int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+#include <numeric> // for std::gcd
+using namespace std;
+
+class Solution {
+public:
+    // Method 1: Using frequency map to count valid pairs
+    int countPairs(vector<int>& nums, int k) {
+        unordered_map<int, int> frequency;
+        int ans = 0;
+
+        for (int n : nums) {
+            int Gcd = gcd(n, k); // Example: if k = 10 and nums[i] = 12, gcd will be 2
+            int want = k / Gcd;  // What we need from the upper example: we need 5
+
+            for (auto& [num, count] : frequency) {
+                if (num % want == 0) {
+                    // If we find a number divisible by 5, we can multiply it with 12
+                    // and make it a factor of 10. Example: if we find 20, then 12 * 20 = 240,
+                    // which is divisible by 10, so we add it to the answer.
+                    ans += count; // Adding the frequency as we can find multiple numbers with the same factor
+                }
+            }
+
+            frequency[Gcd] += 1; // Increasing the frequency of 2 so that if we find 5 next time, we can add these to the answer
+        }
+        return ans;
+    }
+};
+
+// Method 2: More optimized approach
+// https://leetcode.com/problems/count-array-pairs-divisible-by-k/solutions/1785906/how-gcd-a-k-gcd-b-k-k-0-explained-with-example/
+
+// Observation:
+// 1) If (a * b) % k == 0, then (gcd(a, k) * gcd(b, k)) % k == 0 and vice versa is also true.
+// 2) If (gcd(a, k) * gcd(b, k)) % k == 0, then (a * b) % k == 0.
+
+// We use the second property.
+// We store gcd(num, k) as a key in a hashmap, and for each number, we first find its gcd.
+// Then, we traverse the hashmap to find another number satisfying property '2'.
+
+// Proof of '2':
+// For any number to be divisible by 'k', it must have at least all the prime factors of 'k'.
+// gcd(a, k) = Multiplication of all prime factors of 'k' available in 'a'.
+// gcd(b, k) = Multiplication of all prime factors of 'k' available in 'b'.
+// If (gcd(a, k) * gcd(b, k)) % k == 0, it means some prime factors of 'k' are contributed by 'a' and some by 'b'.
+// Their multiplication has all the prime factors of 'k', meaning 'a * b' is divisible by 'k'.
+
+// Time Complexity - O(N * sqrt(K))
+// Why sqrt(K)?
+// Since we are taking gcd, we are considering factors of K, and the number of factors of K will not exceed 2 * sqrt(K).
+
+class Solution {
+public:
+    int countPairs(vector<int>& nums, int k) {
+        unordered_map<int, int> gcdCount;
+        int ans = 0;
+
+        for (int num : nums) {
+            int cur_gcd = gcd(num, k);
+            for (auto& [gc_d, count] : gcdCount) {
+                if ((cur_gcd * gc_d) % k == 0) {
+                    ans += count;
+                }
+            }
+            gcdCount[cur_gcd] += 1;
+        }
+        return ans;
+    }
+};
+"""

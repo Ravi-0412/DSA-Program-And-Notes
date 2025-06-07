@@ -122,65 +122,95 @@ class Solution:
 
 
 
-# Java
+# Java Code
 """
-// method 2:
+import java.util.*;
 
-import java.util.HashSet;
+class Solution {
+    // Method 1: Sorting and Iterating
+    public int longestConsecutive(int[] nums) {
+        if (nums.length == 0) return 0;
 
+        TreeSet<Integer> distinct_ele = new TreeSet<>();
+        for (int num : nums) distinct_ele.add(num);
+
+        int ans = 1, count = 1;
+        Integer prev = null;
+        for (Integer num : distinct_ele) {
+            if (prev != null && num == prev + 1) {
+                count++;
+                ans = Math.max(ans, count);
+            } else {
+                count = 1;
+            }
+            prev = num;
+        }
+        return ans;
+    }
+}
+
+// Alternative writing of sorting approach
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        if (nums.length == 0) return 0;
+
+        TreeSet<Integer> distinct_ele = new TreeSet<>();
+        for (int num : nums) distinct_ele.add(num);
+
+        int ans = 1, count = 1;
+        Integer prev = null;
+        for (Integer num : distinct_ele) {
+            if (prev != null && num == prev + 1) {
+                count++;
+            } else {
+                ans = Math.max(ans, count);
+                count = 1;
+            }
+            prev = num;
+        }
+        ans = Math.max(ans, count);
+        return ans;
+    }
+}
+
+// Method 2: Using HashSet (Optimized O(N))
 class Solution {
     public int longestConsecutive(int[] nums) {
         Set<Integer> numSet = new HashSet<>();
-        for (int num : nums) {
-            numSet.add(num);
-        }
+        for (int num : nums) numSet.add(num);
         
         int ans = 0;
         for (int n : numSet) {
-            if (!numSet.contains(n - 1)) {
-                int longest = 0;
-                while (numSet.contains(n + longest)) {
-                    longest++;
+            if (!numSet.contains(n - 1)) { // Start of a new sequence
+                int longSeq = 0;
+                while (numSet.contains(n + longSeq)) {
+                    longSeq++;
                 }
-                ans = Math.max(ans, longest);
+                ans = Math.max(ans, longSeq);
             }
         }
         return ans;
     }
 }
-"""
 
-
-"""
-
-method 3: DSU
-
-import java.util.HashMap;
-
+// Method 3: Using Disjoint Set Union (DSU)
 class DSU {
-    int[] parent;
-    int[] size;
-
+    private int[] parent, size;
+    
     public DSU(int n) {
         parent = new int[n];
         size = new int[n];
-        for (int i = 0; i < n; i++) {
-            parent[i] = i;
-            size[i] = 1;
-        }
+        Arrays.fill(size, 1);
+        for (int i = 0; i < n; i++) parent[i] = i;
     }
 
     public int findParent(int n) {
-        if (n == parent[n]) {
-            return n;
-        }
-        parent[n] = findParent(parent[n]);
-        return parent[n];
+        if (n == parent[n]) return n;
+        return parent[n] = findParent(parent[n]);
     }
 
     public void union(int n1, int n2) {
-        int p1 = findParent(n1);
-        int p2 = findParent(n2);
+        int p1 = findParent(n1), p2 = findParent(n2);
         if (size[p1] < size[p2]) {
             parent[p1] = p2;
             size[p2] += size[p1];
@@ -188,6 +218,16 @@ class DSU {
             parent[p2] = p1;
             size[p1] += size[p2];
         }
+    }
+
+    public int getLargestComponentSize() {
+        int maxSize = 1;
+        for (int i = 0; i < parent.length; i++) {
+            if (i == parent[i]) { // Root of a component
+                maxSize = Math.max(maxSize, size[i]);
+            }
+        }
+        return maxSize;
     }
 }
 
@@ -197,29 +237,141 @@ class Solution {
         if (n == 0) return 0;
 
         DSU dsu = new DSU(n);
-        HashMap<Integer, Integer> numToIndex = new HashMap<>();
-        
+        Map<Integer, Integer> numToIndex = new HashMap<>();
+
         for (int i = 0; i < n; i++) {
             int num = nums[i];
             if (numToIndex.containsKey(num)) continue;
-            
-            if (numToIndex.containsKey(num + 1)) {
-                dsu.union(i, numToIndex.get(num + 1));
-            }
-            if (numToIndex.containsKey(num - 1)) {
-                dsu.union(i, numToIndex.get(num - 1));
-            }
+
+            if (numToIndex.containsKey(num + 1)) dsu.union(i, numToIndex.get(num + 1));
+            if (numToIndex.containsKey(num - 1)) dsu.union(i, numToIndex.get(num - 1));
+
             numToIndex.put(num, i);
         }
-        
-        int maxSize = 0;
-        for (int i = 0; i < n; i++) {
-            if (i == dsu.parent[i]) {
-                maxSize = Math.max(maxSize, dsu.size[i]);
-            }
-        }
-        return maxSize;
+
+        return dsu.getLargestComponentSize();
     }
 }
+"""
 
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_set>
+#include <unordered_map>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    // Method 1: Sorting and Iterating
+    int longestConsecutive(vector<int>& nums) {
+        if (nums.empty()) return 0;
+
+        vector<int> distinct_ele(nums.begin(), nums.end());
+        sort(distinct_ele.begin(), distinct_ele.end());
+
+        int ans = 1, count = 1;
+        for (size_t i = 0; i + 1 < distinct_ele.size(); ++i) {
+            if (distinct_ele[i + 1] != distinct_ele[i] + 1) {
+                count = 1;
+            } else {
+                count++;
+                ans = max(ans, count);
+            }
+        }
+        return ans;
+    }
+};
+
+// Alternative writing of sorting approach
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        if (nums.empty()) return 0;
+
+        vector<int> distinct_ele(nums.begin(), nums.end());
+        sort(distinct_ele.begin(), distinct_ele.end());
+
+        int ans = 1, count = 1;
+        for (size_t i = 0; i + 1 < distinct_ele.size(); ++i) {
+            if (distinct_ele[i + 1] != distinct_ele[i] + 1) {
+                ans = max(ans, count);
+                count = 1;
+            } else {
+                count++;
+            }
+        }
+        ans = max(ans, count);
+        return ans;
+    }
+};
+
+// Method 2: Using HashSet (Optimized O(N))
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        unordered_set<int> numSet(nums.begin(), nums.end());
+        int ans = 0;
+
+        for (int n : numSet) {
+            if (numSet.find(n - 1) == numSet.end()) { // Start of a new sequence
+                int longSeq = 0;
+                while (numSet.find(n + longSeq) != numSet.end()) {
+                    longSeq++;
+                }
+                ans = max(ans, longSeq);
+            }
+        }
+        return ans;
+    }
+};
+
+// Method 3: Using Disjoint Set Union (DSU)
+class DSU {
+public:
+    vector<int> parent, size;
+    DSU(int n) : parent(n), size(n, 1) {
+        for (int i = 0; i < n; i++) parent[i] = i;
+    }
+
+    int findParent(int n) {
+        if (n == parent[n]) return n;
+        return parent[n] = findParent(parent[n]);
+    }
+
+    void unionSets(int n1, int n2) {
+        int p1 = findParent(n1), p2 = findParent(n2);
+        if (size[p1] < size[p2]) {
+            parent[p1] = p2;
+            size[p2] += size[p1];
+        } else {
+            parent[p2] = p1;
+            size[p1] += size[p2];
+        }
+    }
+};
+
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        int n = nums.size();
+        if (n == 0) return 0;
+
+        DSU dsu(n);
+        unordered_map<int, int> numToIndex;
+
+        for (int i = 0; i < n; i++) {
+            int num = nums[i];
+            if (numToIndex.count(num)) continue;
+
+            if (numToIndex.count(num + 1)) dsu.unionSets(i, numToIndex[num + 1]);
+            if (numToIndex.count(num - 1)) dsu.unionSets(i, numToIndex[num - 1]);
+
+            numToIndex[num] = i;
+        }
+
+        return *max_element(dsu.size.begin(), dsu.size.end());
+    }
+};
 """

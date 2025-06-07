@@ -176,3 +176,82 @@ class Solution {
 }
 
 """
+
+# C++ Code 
+"""
+//Method 2
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        int m = matrix.size(), n = matrix[0].size();
+        vector<bool> zeroRow(m, false);  // zeroRow[r] means all elements of row 'r' must be set to zero.
+        vector<bool> zeroCol(n, false);  // zeroCol[c] means all elements of col 'c' must be set to zero.
+
+        // First, find the rows and columns for which we have to make elements zero.
+        for (int r = 0; r < m; r++) {
+            for (int c = 0; c < n; c++) {
+                if (matrix[r][c] == 0) {
+                    zeroRow[r] = true;
+                    zeroCol[c] = true;
+                }
+            }
+        }
+
+        // Now, make all elements of those rows and columns zero.
+        for (int r = 0; r < m; r++) {
+            for (int c = 0; c < n; c++) {
+                if (zeroRow[r] || zeroCol[c]) {
+                    matrix[r][c] = 0;
+                }
+            }
+        }
+    }
+};
+//Method 3
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        int m = matrix.size(), n = matrix[0].size();
+        bool rowZero = false, colZero = false;  // will tell whether we have to make elements of row 0 and col 0 equal to zero or not.
+
+        // First, find the rows and columns for which we have to make elements zero.
+        for (int r = 0; r < m; r++) {
+            for (int c = 0; c < n; c++) {
+                if (matrix[r][c] == 0) {
+                    matrix[0][c] = 0;  // marking the columns
+                    matrix[r][0] = 0;  // marking the rows
+                    if (r == 0) rowZero = true;
+                    if (c == 0) colZero = true;
+                }
+            }
+        }
+
+        // Now, make all elements of those rows and columns zero starting from (1, 1).
+        for (int r = 1; r < m; r++) {
+            for (int c = 1; c < n; c++) {
+                if (matrix[r][0] == 0 || matrix[0][c] == 0) {
+                    matrix[r][c] = 0;
+                }
+            }
+        }
+
+        // Marking the first column.
+        if (colZero) {
+            for (int r = 0; r < m; r++) {
+                matrix[r][0] = 0;
+            }
+        }
+
+        // Marking the first row.
+        if (rowZero) {
+            for (int c = 0; c < n; c++) {
+                matrix[0][c] = 0;
+            }
+        }
+    }
+};
+"""

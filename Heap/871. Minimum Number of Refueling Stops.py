@@ -34,24 +34,72 @@ class Solution:
         return ans
 
 
-# Java
+# Java Code 
 """
+import java.util.PriorityQueue;
+
 class Solution {
     public int minRefuelStops(int target, int startFuel, int[][] stations) {
-         if (startFuel >= target) return 0;
-        Queue<Integer> queue = new PriorityQueue<>((a,b) -> b-a);
-        int i = 0, n = stations.length, stops = 0, maxDistance = startFuel;
-        while (maxDistance < target) {
-            while (i < n && stations[i][0] <= maxDistance) {
-                queue.offer(stations[i++][1]);
+        if (startFuel >= target) return 0;
+
+        int n = stations.length, reached = startFuel, ans = 0, i = 0;
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a); // Max heap for fuel amounts
+
+        while (reached < target) {
+            // Add fuel from stations we can reach with current fuel
+            while (i < n && stations[i][0] <= reached) {
+                maxHeap.offer(stations[i][1]);
+                i++;
             }
-            if (queue.isEmpty()) return -1;
-            maxDistance += queue.poll();
-            stops++;
+
+            // If no reachable station with fuel, return -1
+            if (maxHeap.isEmpty()) return -1;
+
+            // Refuel using the most fuel-efficient station
+            reached += maxHeap.poll();
+            ans++;
         }
-        return stops;
+
+        return ans;
     }
 }
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    int minRefuelStops(int target, int startFuel, vector<vector<int>>& stations) {
+        if (startFuel >= target) return 0;
+
+        int n = stations.size(), reached = startFuel, ans = 0, i = 0;
+        priority_queue<int> maxHeap;  // Max heap to store available fuel from stations
+
+        while (reached < target) {
+            // Add fuel from stations we can reach with current fuel
+            while (i < n && stations[i][0] <= reached) {
+                maxHeap.push(stations[i][1]);
+                i++;
+            }
+
+            // If no reachable station with fuel, return -1
+            if (maxHeap.empty()) return -1;
+
+            // Refuel using the most fuel-efficient station
+            reached += maxHeap.top();
+            maxHeap.pop();
+            ans++;
+        }
+
+        return ans;
+    }
+};
 """
 
 # My logic:
@@ -132,3 +180,75 @@ class Solution:
         
         # Final check in case the loop ends after refueling past target
         return ans if reached >= target else -1
+
+# Java Code 
+"""
+import java.util.PriorityQueue;
+
+class Solution {
+    public int minRefuelStops(int target, int startFuel, int[][] stations) {
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a); // Max heap for fuel amounts
+        int reached = startFuel, ans = 0, i = 0, n = stations.length;
+
+        while (i < n || !maxHeap.isEmpty()) {
+            // Add all reachable stations to the heap
+            while (i < n && stations[i][0] <= reached) {
+                maxHeap.offer(stations[i][1]);
+                i++;
+            }
+
+            // If we reach the target, return the number of stops
+            if (reached >= target) return ans;
+
+            // If no available fuel and target isn't reached
+            if (maxHeap.isEmpty()) return -1;
+
+            // Refuel using the station offering the most fuel so far
+            reached += maxHeap.poll();
+            ans++;
+        }
+
+        // Final check in case loop ends after refueling past the target
+        return (reached >= target) ? ans : -1;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    int minRefuelStops(int target, int startFuel, vector<vector<int>>& stations) {
+        priority_queue<int> maxHeap;  // Max heap for fuel from reachable stations
+        int reached = startFuel, ans = 0, i = 0, n = stations.size();
+
+        while (i < n || !maxHeap.empty()) {
+            // Add all reachable stations to the heap
+            while (i < n && stations[i][0] <= reached) {
+                maxHeap.push(stations[i][1]);
+                i++;
+            }
+
+            // If we reach the target, return the number of stops
+            if (reached >= target) return ans;
+
+            // If no available fuel and target isn't reached
+            if (maxHeap.empty()) return -1;
+
+            // Refuel using the most fuel-efficient station available
+            reached += maxHeap.top();
+            maxHeap.pop();
+            ans++;
+        }
+
+        // Final check in case loop ends after refueling past the target
+        return (reached >= target) ? ans : -1;
+    }
+};
+"""

@@ -32,15 +32,42 @@ public class Solution {
 }
 """
 
+# C++ Code 
+"""
+#include <string>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int firstUniqChar(string s) {
+        vector<int> freq(26, 0);
+        
+        for (char c : s) {
+            freq[c - 'a']++;
+        }
+
+        for (int i = 0; i < s.size(); i++) {
+            if (freq[s[i] - 'a'] == 1) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+};
+"""
+
 # Method 2:
 # store freq and first_index of each char in map.
 
 
-"""
+
 
 # Method 2:
 # for each character store the count and 1st index in hashmap.
 
+# Java Code 
 """
 import java.util.HashMap;
 import java.util.Map;
@@ -73,6 +100,36 @@ public class Solution {
         return result == s.length() ? -1 : result;
     }
 }
+"""
 
+# C++ Code 
+"""
+#include <string>
+#include <unordered_map>
+using namespace std;
+
+class Solution {
+public:
+    int firstUniqChar(string s) {
+        unordered_map<char, pair<int, int>> freq_index; // {char : {freq, first_index}}
+
+        for (int i = 0; i < s.size(); i++) {
+            if (freq_index.count(s[i])) {
+                freq_index[s[i]].first++; // Increment frequency
+            } else {
+                freq_index[s[i]] = {1, i}; // Store frequency and first index
+            }
+        }
+
+        int min_index = s.size();
+        for (const auto& [key, value] : freq_index) {
+            if (value.first == 1) {
+                min_index = min(min_index, value.second);
+            }
+        }
+
+        return min_index == s.size() ? -1 : min_index;
+    }
+};
 """
 

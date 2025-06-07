@@ -41,6 +41,97 @@ class Solution:
         # return (n> 0 and n==1) or (n % 2 == 0 and self.isPowerOfTwo(n//2))   # will lead to infinite loop for n=0
         return n>0 and (n==1 or (n % 2 == 0 and self.isPowerOfTwo(n//2)))      # n zero se bda hona chahiye aur (n '1' hona chahiye ya n even hona chahiye )
 
+# Java Code 
+"""
+//Method 1
+class Solution {
+    public boolean isPowerOfTwo(int n) {
+        return n > 0 && Math.ceil(Math.log(n) / Math.log(2)) == Math.floor(Math.log(n) / Math.log(2));
+    }
+}
+//Method 2
+class Solution {
+    public boolean isPowerOfTwo(int n) {
+        return n > 0 && (n & -n) == n;
+    }
+}
+//Method 3
+class Solution {
+    public boolean isPowerOfTwo(int n) {
+        return n > 0 && (n & (n - 1)) == 0;
+    }
+}
+//Method 4
+class Solution {
+    public boolean isPowerOfTwo(int n) {
+        return n > 0 && (n & (~(n - 1))) == n;
+    }
+}
+//Recursive Method
+class Solution {
+    public boolean isPowerOfTwo(int n) {
+        return n > 0 && (n == 1 || (n % 2 == 0 && isPowerOfTwo(n / 2)));
+    }
+}
+"""
 
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <cmath>
 
+using namespace std;
+
+class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+        return n > 0 && ceil(log2(n)) == floor(log2(n));
+    }
+};
+//Method 2
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+        return n > 0 && (n & -n) == n;
+    }
+};
+//Method 3
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+        return n > 0 && (n & (n - 1)) == 0;
+    }
+};
+//Method 4
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+        return n > 0 && (n & (~(n - 1))) == n;
+    }
+};
+//Recursive Method
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+        return n > 0 && (n == 1 || (n % 2 == 0 && isPowerOfTwo(n / 2)));
+    }
+};
+"""
 # Related Q

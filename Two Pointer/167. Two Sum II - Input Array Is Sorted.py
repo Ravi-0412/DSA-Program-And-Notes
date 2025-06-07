@@ -155,6 +155,105 @@ def count_pairs_with_sum(arr1, arr2, target):
     
     return count
 
+# Java Code 
+"""
+//Method 1
+import java.util.*;
+
+class Solution {
+    public int[] twoSum(int[] numbers, int target) {
+        Map<Integer, Integer> hashmap = new HashMap<>();
+
+        for (int i = 0; i < numbers.length; i++) {
+            int rem_sum = target - numbers[i];
+            if (hashmap.containsKey(rem_sum)) {
+                return new int[]{hashmap.get(rem_sum) + 1, i + 1};
+            } else {
+                hashmap.put(numbers[i], i);
+            }
+        }
+        
+        return new int[]{};
+    }
+}
+//Method 2
+class Solution {
+    public int[] twoSum(int[] numbers, int target) {
+        int n = numbers.length;
+        int start = 0, end = n - 1;
+
+        while (start < end) {
+            int sum = numbers[start] + numbers[end];
+
+            if (sum > target) {
+                end--;
+            } else if (sum < target) {
+                start++;
+            } else {
+                return new int[]{start + 1, end + 1};
+            }
+        }
+
+        return new int[]{};
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        unordered_map<int, int> hashmap;
+        
+        for (int i = 0; i < numbers.size(); i++) {
+            int rem_sum = target - numbers[i];
+            if (hashmap.find(rem_sum) != hashmap.end()) {
+                return {hashmap[rem_sum] + 1, i + 1};
+            } else {
+                hashmap[numbers[i]] = i;
+            }
+        }
+        
+        return {};
+    }
+};
+//Method 2
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        int n = numbers.size();
+        int start = 0, end = n - 1;
+
+        while (start < end) {
+            int sum = numbers[start] + numbers[end];
+
+            if (sum > target) {
+                end--;
+            } else if (sum < target) {
+                start++;
+            } else {
+                return {start + 1, end + 1};
+            }
+        }
+
+        return {};
+    }
+};
+"""
+
 # Note vvi: whenever you get this type of Q then try to fix one ele somehow 
 # and find the other two ele using "Two sum" for sorted/unsorted array.
 # Just try to reduce into "two sum" problem.

@@ -82,3 +82,93 @@ class Solution:
                 prefixSum[curSum]= cur
             cur= cur.next
         return dummy.next
+
+# Java Code 
+"""
+import java.util.HashMap;
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+        next = null;
+    }
+}
+
+class Solution {
+    public ListNode removeZeroSumSublists(ListNode head) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        HashMap<Integer, ListNode> prefixSum = new HashMap<>();
+        prefixSum.put(0, dummy);
+        int curSum = 0;
+        ListNode cur = head;
+
+        // First pass: Store the last occurrence of each prefix sum
+        while (cur != null) {
+            curSum += cur.val;
+            prefixSum.put(curSum, cur);
+            cur = cur.next;
+        }
+
+        // Second pass: Adjust pointers to remove zero-sum sequences
+        curSum = 0;
+        cur = dummy;
+        while (cur != null) {
+            curSum += cur.val;
+            cur.next = prefixSum.get(curSum).next;
+            cur = cur.next;
+        }
+
+        return dummy.next;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <unordered_map>
+
+using namespace std;
+
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+    
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+class Solution {
+public:
+    ListNode* removeZeroSumSublists(ListNode* head) {
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        unordered_map<int, ListNode*> prefixSum;
+        prefixSum[0] = dummy;
+        int curSum = 0;
+        ListNode* cur = head;
+
+        // First pass: Store the last occurrence of each prefix sum
+        while (cur) {
+            curSum += cur->val;
+            prefixSum[curSum] = cur;
+            cur = cur->next;
+        }
+
+        // Second pass: Adjust pointers to remove zero-sum sequences
+        curSum = 0;
+        cur = dummy;
+        while (cur) {
+            curSum += cur->val;
+            cur->next = prefixSum[curSum]->next;
+            cur = cur->next;
+        }
+
+        return dummy->next;
+    }
+};
+"""

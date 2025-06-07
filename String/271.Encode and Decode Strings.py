@@ -44,7 +44,7 @@ class Codec:
         return s.split("::")
     
 
-# Javs: Same method
+# Java: Same method
 """
 public class Codec {
 	// Encodes a list of strings to a single string.
@@ -69,4 +69,43 @@ public class Codec {
         return ret;
     }
 }
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Codec {
+public:
+    // Encodes a list of strings into a single string
+    string encode(vector<string>& strs) {
+        string res = "";
+        for (const string& s : strs) {
+            res += to_string(s.size()) + "#" + s;
+        }
+        return res;
+    }
+
+    // Decodes the encoded string back into a list of strings
+    vector<string> decode(string s) {
+        vector<string> res;
+        int i = 0;
+
+        while (i < s.size()) {
+            int j = i;
+            while (s[j] != '#') {
+                j++;
+            }
+
+            int length = stoi(s.substr(i, j - i));
+            res.push_back(s.substr(j + 1, length));
+            i = j + 1 + length;
+        }
+
+        return res;
+    }
+};
 """

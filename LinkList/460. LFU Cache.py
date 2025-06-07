@@ -93,32 +93,29 @@ class LFUCache:
             self.minFreq = 1  # Since inserting new node so minFreq = 1 only
 
 
-# Java
+# Java Code 
 """
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.Deque;
 
 class ListNode {
-    int key;
-    int val;
-    int freq;
+    int key, val, freq;
     ListNode prev, next;
 
-    public ListNode(int key, int val) {
-        this.key = key;
-        this.val = val;
-        this.freq = 1;
+    ListNode(int k, int v) {
+        key = k;
+        val = v;
+        freq = 1;
+        prev = next = null;
     }
 }
 
+// Doubly Linked List (DLL) for Frequency Table
 class DLL {
-    ListNode Lru, Mru;
+    ListNode Lru;  // Least Recently Used
+    ListNode Mru;  // Most Recently Used
     int size;
 
-    public DLL() {
+    DLL() {
         Lru = new ListNode(0, 0);
         Mru = new ListNode(0, 0);
         Lru.next = Mru;
@@ -126,93 +123,189 @@ class DLL {
         size = 0;
     }
 
-    public void insertAtLast(ListNode node) {
-        ListNode nodePre = Mru.prev;
-        nodePre.next = node;
-        node.prev = nodePre;
+    // Insert node at last (Most Recently Used)
+    void insertAtLast(ListNode node) {
+        ListNode prevNode = Mru.prev;
+        prevNode.next = Mru.prev = node;
         node.next = Mru;
-        Mru.prev = node;
+        node.prev = prevNode;
         size++;
     }
 
-    public void removeNode(ListNode node) {
-        ListNode pre = node.prev;
-        ListNode next = node.next;
-        pre.next = next;
-        next.prev = pre;
+    // Remove given node
+    void removeNode(ListNode node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
         size--;
     }
 
-    public ListNode removeFirst() {
-        if (size == 0) {
-            return null;
-        }
-        ListNode nodeToRemove = Lru.next;
-        removeNode(nodeToRemove);
-        return nodeToRemove;
+    // Remove Least Recently Used node
+    ListNode removeFirst() {
+        ListNode node_to_remove = Lru.next;
+        removeNode(node_to_remove);
+        return node_to_remove;
     }
 }
 
-public class LFUCache {
-    private int capacity;
-    private int minFreq;
-    private Map<Integer, ListNode> cache;
-    private Map<Integer, DLL> freqTable;
+// LFU Cache Implementation
+class LFUCache {
+    private int capacity, minFreq;
+    private HashMap<Integer, ListNode> cache;
+    private HashMap<Integer, DLL> freqTable;
 
-    public LFUCache(int capacity) {
-        this.capacity = capacity;
+    public LFUCache(int cap) {
+        this.capacity = cap;
         this.minFreq = 0;
         this.cache = new HashMap<>();
         this.freqTable = new HashMap<>();
     }
 
-    private int updateCache(int key, int value) {
+    private void updateCache(int key, int value) {
         ListNode node = cache.get(key);
         node.val = value;
         int prevFreq = node.freq;
         node.freq++;
-        freqTable.get(prevFreq).removeNode(node);
 
-        if (!freqTable.containsKey(node.freq)) {
-            freqTable.put(node.freq, new DLL());
-        }
-        freqTable.get(node.freq).insertAtLast(node);
+        freqTable.get(prevFreq).removeNode(node);
+        freqTable.computeIfAbsent(node.freq, k -> new DLL()).insertAtLast(node);
 
         if (prevFreq == minFreq && freqTable.get(prevFreq).size == 0) {
             minFreq++;
         }
-        return node.val;
     }
 
     public int get(int key) {
-        if (!cache.containsKey(key)) {
-            return -1;
-        }
-        return updateCache(key, cache.get(key).val);
+        if (!cache.containsKey(key)) return -1;
+        updateCache(key, cache.get(key).val);
+        return cache.get(key).val;
     }
 
     public void put(int key, int value) {
-        if (capacity == 0) {
-            return;
-        }
+        if (capacity == 0) return;
+
         if (cache.containsKey(key)) {
             updateCache(key, value);
         } else {
             if (cache.size() == capacity) {
-                DLL minFreqList = freqTable.get(minFreq);
-                ListNode toRemove = minFreqList.removeFirst();
-                cache.remove(toRemove.key);
+                ListNode to_remove = freqTable.get(minFreq).removeFirst();
+                cache.remove(to_remove.key);
             }
-            ListNode newNode = new ListNode(key, value);
-            if (!freqTable.containsKey(1)) {
-                freqTable.put(1, new DLL());
-            }
-            freqTable.get(1).insertAtLast(newNode);
-            cache.put(key, newNode);
+
+            ListNode node = new ListNode(key, value);
+            freqTable.computeIfAbsent(1, k -> new DLL()).insertAtLast(node);
+            cache.put(key, node);
             minFreq = 1;
         }
     }
 }
+"""
+
+# C++ Code
+"""
+#include <iostream>
+#include <unordered_map>
+#include <map>
+
+using namespace std;
+
+// Definition for a node in the doubly linked list
+class ListNode {
+public:
+    int key, val, freq;
+    ListNode* prev;
+    ListNode* next;
+
+    ListNode(int k, int v) : key(k), val(v), freq(1), prev(nullptr), next(nullptr) {}
+};
+
+// Doubly Linked List (DLL) for Frequency Table
+class DLL {
+public:
+    ListNode* Lru;  // Least Recently Used
+    ListNode* Mru;  // Most Recently Used
+    int size;
+
+    DLL() {
+        Lru = new ListNode(0, 0);
+        Mru = new ListNode(0, 0);
+        Lru->next = Mru;
+        Mru->prev = Lru;
+        size = 0;
+    }
+
+    // Insert node at last (Most Recently Used)
+    void insertAtLast(ListNode* node) {
+        ListNode* prevNode = Mru->prev;
+        prevNode->next = Mru->prev = node;
+        node->next = Mru;
+        node->prev = prevNode;
+        size++;
+    }
+
+    // Remove given node
+    void removeNode(ListNode* node) {
+        node->prev->next = node->next;
+        node->next->prev = node->prev;
+        size--;
+    }
+
+    // Remove Least Recently Used node
+    ListNode* removeFirst() {
+        ListNode* node_to_remove = Lru->next;
+        removeNode(node_to_remove);
+        return node_to_remove;
+    }
+};
+
+// LFU Cache Implementation
+class LFUCache {
+private:
+    int capacity;
+    int minFreq;
+    unordered_map<int, ListNode*> cache;
+    unordered_map<int, DLL> freqTable;
+
+    void updateCache(int key, int value) {
+        ListNode* node = cache[key];
+        node->val = value;
+        int prevFreq = node->freq;
+        node->freq += 1;
+
+        freqTable[prevFreq].removeNode(node);
+        freqTable[node->freq].insertAtLast(node);
+
+        if (prevFreq == minFreq && freqTable[prevFreq].size == 0) {
+            minFreq++;
+        }
+    }
+
+public:
+    LFUCache(int cap) : capacity(cap), minFreq(0) {}
+
+    int get(int key) {
+        if (cache.find(key) == cache.end()) return -1;
+        updateCache(key, cache[key]->val);
+        return cache[key]->val;
+    }
+
+    void put(int key, int value) {
+        if (capacity == 0) return;
+
+        if (cache.find(key) != cache.end()) {
+            updateCache(key, value);
+        } else {
+            if (cache.size() == capacity) {
+                ListNode* to_remove = freqTable[minFreq].removeFirst();
+                cache.erase(to_remove->key);
+            }
+            
+            ListNode* node = new ListNode(key, value);
+            freqTable[1].insertAtLast(node);
+            cache[key] = node;
+            minFreq = 1;
+        }
+    }
+};
 """
 
 # Try to do in more concise way later

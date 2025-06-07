@@ -74,16 +74,13 @@ class RandomizedSet:
         return random.choice(self.randomList)
 
 
-# java
+# Java Code
 """
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 class RandomizedSet {
-
-    private ArrayList<Integer> randomList;
-    private HashMap<Integer, Integer> numToIndex;
+    private List<Integer> randomList;
+    private Map<Integer, Integer> numToIndex;
     private Random rand;
 
     public RandomizedSet() {
@@ -107,15 +104,16 @@ class RandomizedSet {
         }
 
         int lastElem = randomList.get(randomList.size() - 1);
-        int index = numToIndex.get(val);
+        int indexToRemove = numToIndex.get(val);
 
-        // Swap the element to be removed with the last element
-        randomList.set(index, lastElem);
-        numToIndex.put(lastElem, index);
+        // Swap the last element with the element to be removed
+        randomList.set(indexToRemove, lastElem);
+        numToIndex.put(lastElem, indexToRemove);
 
-        // Remove the last element
+        // Remove last element
         randomList.remove(randomList.size() - 1);
         numToIndex.remove(val);
+
         return true;
     }
 
@@ -123,6 +121,53 @@ class RandomizedSet {
         return randomList.get(rand.nextInt(randomList.size()));
     }
 }
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+#include <cstdlib> // for rand()
+using namespace std;
+
+class RandomizedSet {
+private:
+    vector<int> randomList;
+    unordered_map<int, int> numToIndex;
+
+public:
+    bool insert(int val) {
+        if (numToIndex.count(val)) {
+            return false;
+        }
+        numToIndex[val] = randomList.size();
+        randomList.push_back(val);
+        return true;
+    }
+
+    bool remove(int val) {
+        if (!numToIndex.count(val)) {
+            return false;
+        }
+
+        int lastElem = randomList.back();
+        int indexToRemove = numToIndex[val];
+
+        // Swap the last element with the element to be removed
+        randomList[indexToRemove] = lastElem;
+        numToIndex[lastElem] = indexToRemove;
+
+        // Remove last element
+        randomList.pop_back();
+        numToIndex.erase(val);
+
+        return true;
+    }
+
+    int getRandom() {
+        return randomList[rand() % randomList.size()];
+    }
+};
 """
 
 # follow up: with duplicates
@@ -164,53 +209,50 @@ class RandomizedSet:
 
     def getRandom(self) -> int:
         return random.choice(self.randomList)
-
+        
+# Java Code 
 """
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Random;
+import java.util.*;
 
 class RandomizedSet {
-
-    private ArrayList<Integer> randomList;
-    private HashMap<Integer, HashSet<Integer>> numToIndices;
+    private List<Integer> randomList;
+    private Map<Integer, Set<Integer>> numToIndex;
     private Random rand;
 
     public RandomizedSet() {
         randomList = new ArrayList<>();
-        numToIndices = new HashMap<>();
+        numToIndex = new HashMap<>();
         rand = new Random();
     }
 
     public boolean insert(int val) {
-        if (!numToIndices.containsKey(val)) {
-            numToIndices.put(val, new HashSet<>());
-        }
-        numToIndices.get(val).add(randomList.size());
+        numToIndex.computeIfAbsent(val, k -> new HashSet<>());
+        numToIndex.get(val).add(randomList.size());
         randomList.add(val);
         return true;
     }
 
     public boolean remove(int val) {
-        if (!numToIndices.containsKey(val) || numToIndices.get(val).isEmpty()) {
+        if (!numToIndex.containsKey(val) || numToIndex.get(val).isEmpty()) {
             return false;
         }
 
-        int indexToRemove = numToIndices.get(val).iterator().next();   // getting the 1st index for 'val'
-        numToIndices.get(val).remove(indexToRemove);
-
+        int indexToRemove = numToIndex.get(val).iterator().next(); // Get the last index of 'val'
+        numToIndex.get(val).remove(indexToRemove);
         int lastElem = randomList.get(randomList.size() - 1);
+
         if (indexToRemove != randomList.size() - 1) {
+            // Bring the element to be removed to the last index by swapping
             randomList.set(indexToRemove, lastElem);
-            numToIndices.get(lastElem).remove(randomList.size() - 1);
-            numToIndices.get(lastElem).add(indexToRemove);
+            numToIndex.get(lastElem).remove(randomList.size() - 1);
+            numToIndex.get(lastElem).add(indexToRemove);
         }
 
         randomList.remove(randomList.size() - 1);
-        if (numToIndices.get(val).isEmpty()) {
-            numToIndices.remove(val);
+        if (numToIndex.get(val).isEmpty()) {
+            numToIndex.remove(val);
         }
+
         return true;
     }
 
@@ -218,7 +260,59 @@ class RandomizedSet {
         return randomList.get(rand.nextInt(randomList.size()));
     }
 }
+"""
 
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+#include <cstdlib> // for rand()
+using namespace std;
+
+class RandomizedSet {
+private:
+    vector<int> randomList;
+    unordered_map<int, unordered_set<int>> numToIndex;
+
+public:
+    bool insert(int val) {
+        if (!numToIndex.count(val)) {
+            numToIndex[val] = unordered_set<int>();
+        }
+        numToIndex[val].insert(randomList.size());
+        randomList.push_back(val);
+        return true;
+    }
+
+    bool remove(int val) {
+        if (!numToIndex.count(val) || numToIndex[val].empty()) {
+            return false;
+        }
+
+        int indexToRemove = *numToIndex[val].begin(); // Get the last index of 'val'
+        numToIndex[val].erase(indexToRemove);
+        int lastElem = randomList.back();
+
+        if (indexToRemove != randomList.size() - 1) {
+            // Bring the element to be removed to the last index by swapping
+            randomList[indexToRemove] = lastElem;
+            numToIndex[lastElem].erase(randomList.size() - 1);
+            numToIndex[lastElem].insert(indexToRemove);
+        }
+
+        randomList.pop_back();
+        if (numToIndex[val].empty()) {
+            numToIndex.erase(val);
+        }
+
+        return true;
+    }
+
+    int getRandom() {
+        return randomList[rand() % randomList.size()];
+    }
+};
 """
 
 # Related Q:

@@ -80,3 +80,50 @@ class Solution {
     }
 }
 """
+
+# C++ Code 
+"""
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> colorTheArray(int n, vector<vector<int>>& queries) {
+        vector<int> ans;
+        int curAns = 0;
+        vector<int> nums(n, 0);
+
+        for (auto& query : queries) {
+            int index1 = query[0], color = query[1];
+            int pre = (index1 > 0) ? nums[index1 - 1] : 0;
+            int next = (index1 < n - 1) ? nums[index1 + 1] : 0;
+
+            // if 'index1' is colored and has the same color as the previous index
+            if (nums[index1] && pre == nums[index1]) {
+                curAns -= 1;
+            }
+            // if 'index1' is colored and has the same color as the next index
+            if (nums[index1] && next == nums[index1]) {
+                curAns -= 1;
+            }
+
+            // assign the color
+            nums[index1] = color;
+
+            // check if the previous index has the same color
+            if (pre == nums[index1]) {
+                curAns += 1;
+            }
+            // check if the next index has the same color
+            if (next == nums[index1]) {
+                curAns += 1;
+            }
+
+            ans.push_back(curAns);
+        }
+
+        return ans;
+    }
+};
+"""

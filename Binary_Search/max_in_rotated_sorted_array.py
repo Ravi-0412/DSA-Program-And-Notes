@@ -62,3 +62,49 @@ def findMax(nums):
 
 # print(findMax(nums))
 
+# Java Code 
+"""
+class Solution {
+    public int findMax(int[] nums) {
+        int left = 0, right = nums.length - 1;
+
+        while (left < right) {
+            int mid = (left + right) / 2;
+
+            if (nums[left] > nums[mid]) { // Left part is unsorted
+                right = mid - 1; // Maximum will lie before mid
+            } else { // Left part is sorted, mid to right is unsorted
+                left = mid;
+            }
+        }
+        // Loop ends when left and right converge on max element
+        return nums[left];
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int findMax(vector<int>& nums) {
+        int left = 0, right = nums.size() - 1;
+
+        while (left < right) {
+            int mid = (left + right) / 2;
+
+            if (nums[left] > nums[mid]) { // Left part is unsorted
+                right = mid - 1; // Maximum will lie before mid
+            } else { // Left part is sorted, mid to right is unsorted
+                left = mid;
+            }
+        }
+        // Loop ends when left and right converge on max element
+        return nums[left];
+    }
+};
+"""

@@ -77,6 +77,54 @@ public class Solution {
     }
 """
 
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> res;
+
+    void dfs(int i, vector<int>& candidates, vector<int> subset, int target) {
+        // Just backtracking
+        if (target == 0) {
+            res.push_back(subset);
+            return;
+        }
+
+        if (i == candidates.size()) {
+            return;
+        }
+
+        // When you include the current index element, but you can only include it if its value is less than target.
+        if (candidates[i] <= target) {
+            subset.push_back(candidates[i]);
+            dfs(i + 1, candidates, subset, target - candidates[i]);
+            subset.pop_back();
+        }
+
+        // When you don't include the current index element.
+        // But when skipping the current index, you must skip all duplicates of the current element to avoid duplicates in the answer.
+        while (i + 1 < candidates.size() && candidates[i + 1] == candidates[i]) {
+            i++;
+        }
+
+        dfs(i + 1, candidates, subset, target);
+    }
+
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(), candidates.end()); // Sorting to handle duplicates
+        res.clear();
+        vector<int> subset;
+        dfs(0, candidates, subset, target);
+        return res;
+    }
+};
+"""
 
 
 

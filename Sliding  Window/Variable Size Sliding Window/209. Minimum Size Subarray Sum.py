@@ -72,4 +72,131 @@ class Solution:
             j+= 1
         return ans if ans <=n else 0
     
+# Java Code 
+"""
+//Method 1
+class Solution {
+    public int minSubArrayLen(int target, int[] nums) {
+        int n = nums.length;
+        int ans = n + 1; // max we can get ans = n, generalizing ans = Integer.MAX_VALUE
+        int i = 0, j = 0, curSum = 0;
 
+        while (j < n) {
+            curSum += nums[j];
+
+            while (curSum >= target) {
+                ans = Math.min(ans, j - i + 1);
+                curSum -= nums[i];
+                i++;
+            }
+            j++;
+        }
+
+        return (ans != n + 1) ? ans : 0;
+    }
+}
+
+//Method 2
+import java.util.*;
+
+class Solution {
+    public int minSubArrayLen(int target, int[] nums) {
+        int n = nums.length;
+        int[] prefixSum = new int[n + 1];
+        
+        for (int i = 0; i < n; i++) {
+            prefixSum[i + 1] = prefixSum[i] + nums[i];
+        }
+
+        Deque<Integer> q = new LinkedList<>();
+        int ans = n + 1;
+        int j = 0;
+
+        while (j < n + 1) {
+            // if found ans then try to shrink just like we used to do for "+ve" values
+            while (!q.isEmpty() && prefixSum[j] - prefixSum[q.peekFirst()] >= target) {
+                ans = Math.min(ans, j - q.pollFirst());
+            }
+
+            // while (!q.isEmpty() && prefixSum[j] <= prefixSum[q.peekLast()]) {
+            //     q.pollLast();
+            // }
+
+            q.addLast(j);
+            j++;
+        }
+
+        return (ans <= n) ? ans : 0;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <vector>
+#include <limits.h>
+
+using namespace std;
+
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        int n = nums.size();
+        int ans = n + 1;  // max we can get ans = n  // generalizing ans = INT_MAX
+        int i = 0, j = 0, curSum = 0;
+
+        while (j < n) {
+            curSum += nums[j];
+
+            while (curSum >= target) {
+                ans = min(ans, j - i + 1);
+                curSum -= nums[i];
+                i++;
+            }
+            j++;
+        }
+        return (ans != n + 1) ? ans : 0;
+    }
+};
+//Method 2
+#include <iostream>
+#include <vector>
+#include <deque>
+
+using namespace std;
+
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        int n = nums.size();
+        vector<int> prefixSum(n + 1, 0);
+        
+        for (int i = 0; i < n; i++) {
+            prefixSum[i + 1] = prefixSum[i] + nums[i];
+        }
+
+        deque<int> q;
+        int ans = n + 1;
+        int j = 0;
+
+        while (j < n + 1) {
+            // if found ans then try to shrink just like we used to do for "+ve" values
+            while (!q.empty() && prefixSum[j] - prefixSum[q.front()] >= target) {
+                ans = min(ans, j - q.front());
+                q.pop_front();
+            }
+
+            // while (!q.empty() && prefixSum[j] <= prefixSum[q.back()]) {
+            //     q.pop_back();
+            // }
+
+            q.push_back(j);
+            j++;
+        }
+
+        return (ans <= n) ? ans : 0;
+    }
+};
+"""

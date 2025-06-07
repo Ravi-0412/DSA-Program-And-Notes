@@ -39,3 +39,119 @@ class Solution:
             if arr[start]== arr[start + n//4]:
                 return arr[start]
         return arr[int(3*n//4)]    # if neither ele at 'n//4' or '2*n//4' is our ans then this will be our ans for sure.
+
+# Java Code 
+"""
+//Method 1
+import java.util.*;
+
+class Solution {
+    public int findSpecialInteger(int[] arr) {
+        int n = arr.length;
+        int t = n / 4;
+
+        for (int i = 0; i < n - t; i++) {
+            if (arr[i] == arr[i + t]) {
+                return arr[i];
+            }
+        }
+        return -1;
+    }
+}
+//Method 2
+import java.util.*;
+
+class Solution {
+    public int findSpecialInteger(int[] arr) {
+        int n = arr.length;
+
+        for (int i = 1; i < 4; i++) {
+            int indx = (i * n / 4);
+            int start = Arrays.binarySearch(arr, arr[indx]);
+
+            if (start >= 0 && start + n / 4 < n && arr[start] == arr[start + n / 4]) {
+                return arr[start];
+            }
+        }
+        return -1;
+    }
+}
+//Method 3
+class Solution {
+    public int findSpecialInteger(int[] arr) {
+        int n = arr.length;
+
+        for (int i = 1; i < 3; i++) {
+            int indx = (i * n / 4);
+            int start = Arrays.binarySearch(arr, arr[indx]);
+
+            if (start >= 0 && start + n / 4 < n && arr[start] == arr[start + n / 4]) {
+                return arr[start];
+            }
+        }
+        return arr[(3 * n / 4)];
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int findSpecialInteger(vector<int>& arr) {
+        int n = arr.size();
+        int t = n / 4;
+
+        for (int i = 0; i < n - t; i++) {
+            if (arr[i] == arr[i + t]) {
+                return arr[i];
+            }
+        }
+        return -1;
+    }
+};
+//Method 2
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int findSpecialInteger(vector<int>& arr) {
+        int n = arr.size();
+
+        for (int i = 1; i < 4; i++) {
+            int indx = int((i * n / 4));
+            auto start = lower_bound(arr.begin(), arr.end(), arr[indx]);
+
+            if (start != arr.end() && (start + n / 4) < arr.end() && *start == *(start + n / 4)) {
+                return *start;
+            }
+        }
+        return -1;
+    }
+};
+//Method 3
+class Solution {
+public:
+    int findSpecialInteger(vector<int>& arr) {
+        int n = arr.size();
+
+        for (int i = 1; i < 3; i++) {
+            int indx = int((i * n / 4));
+            auto start = lower_bound(arr.begin(), arr.end(), arr[indx]);
+
+            if (start != arr.end() && (start + n / 4) < arr.end() && *start == *(start + n / 4)) {
+                return *start;
+            }
+        }
+        return arr[int(3 * n / 4)];
+    }
+};
+"""

@@ -70,56 +70,162 @@ class Solution:
             return [not_set, set]
 
 
-# Method 2: Java
+# Java Code
 """
+//Method 2
+import java.util.*;
+
+class Solution {
+    public int[] missingAndRepeating(int[] arr, int n) {
+        long s = (n * (n + 1)) / 2; // Sum of numbers from 1 to n
+        long s2 = (n * (n + 1) * (2 * n + 1)) / 6; // Sum of squares of numbers from 1 to n
+
+        for (int num : arr) {
+            s -= num;
+            s2 -= (long) num * num;
+        }
+
+        // Now 's' is left with 'missing - repeating' (Equation 1)
+        // Now 's2' is left with 'missing^2 - repeating^2' (Equation 2)
+
+        // Solve for missing and repeating
+        int missing = (int) ((s2 / s + s) / 2); // Using Equation 1 and 2
+        int repeating = missing - (int) s; // From Equation 1
+
+        return new int[]{missing, repeating};
+    }
+}
+//Method 3
+import java.util.*;
+
 class Solution {
     public int[] repeatedNumber(int[] A) {
         int n = A.length;
-        int x1 = 0; // xor of all elements of array
+        int x1 = 0, x2 = 0;
+
+        // XOR of all elements in array
         for (int num : A) {
-            x1 = x1 ^ num;
+            x1 ^= num;
         }
 
-        int x2 = 0; // xor from '1' to 'n'
+        // XOR of numbers from 1 to n
         for (int i = 1; i <= n; i++) {
-            x2 = x2 ^ i;
+            x2 ^= i;
         }
 
-        int xorResult = x1 ^ x2; // this will contain 'xor' of 'missing & repeating number'.
-        
-        // now we have to find our ans from the above xor.
-        int rightmostSetBit = xorResult & (-xorResult); // it is number whose only one bit is set.
-        
-        // separate the arr number into two buckets having bit set at rightmost bit of 'xorResult'.
-        int set = 0, notSet = 0;
+        int xor_result = x1 ^ x2; // XOR of missing and repeating number
+
+        // Find the rightmost set bit
+        int rightmost_set_bit = xor_result & (-xor_result);
+
+        int set = 0, not_set = 0;
+
+        // Separate numbers into two groups
         for (int num : A) {
-            if ((rightmostSetBit & num) != 0) {
-                set = set ^ num;
-            } else {
-                notSet = notSet ^ num;
-            }
+            if ((num & rightmost_set_bit) != 0)
+                set ^= num;
+            else
+                not_set ^= num;
         }
 
-        // now add number from '1' to 'n' in these two buckets to separate the number.
-        for (int i = 1; i <= n; i++) {
-            if ((rightmostSetBit & i) != 0) {
-                set = set ^ i;
-            } else {
-                notSet = notSet ^ i;
-            }
+        // Separate numbers from 1 to n into two groups
+        for (int num = 1; num <= n; num++) {
+            if ((num & rightmost_set_bit) != 0)
+                set ^= num;
+            else
+                not_set ^= num;
         }
 
-        // our number will get stored in set and notSet
-        // now to return the repeating number first then missing.
+        // Determine the repeating and missing numbers
+        boolean setExists = false;
         for (int num : A) {
-            if (num == set) { // means set is the repeating number
-                return new int[]{set, notSet};
+            if (num == set) {
+                setExists = true;
+                break;
             }
         }
-        // means notSet is the repeating number
-        return new int[]{notSet, set};
+
+        if (setExists) // If 'set' is repeating
+            return new int[]{set, not_set};
+        else
+            return new int[]{not_set, set};
     }
 }
 """
 
+# C++ Code 
+"""
+//Method 2
+#include <iostream>
+#include <vector>
 
+using namespace std;
+
+vector<int> missingAndRepeating(vector<int>& arr, int n) {
+    long long s = (n * (n + 1)) / 2; // Sum of numbers from 1 to n
+    long long s2 = (n * (n + 1) * (2 * n + 1)) / 6; // Sum of squares of numbers from 1 to n
+
+    for (int num : arr) {
+        s -= num;
+        s2 -= (long long) num * num;
+    }
+
+    // Now 's' is left with 'missing - repeating' (Equation 1)
+    // Now 's2' is left with 'missing^2 - repeating^2' (Equation 2)
+
+    // Solve for missing and repeating
+    int missing = (s2 / s + s) / 2; // Using Equation 1 and 2
+    int repeating = missing - s; // From Equation 1
+
+    return {missing, repeating};
+}
+//Method 3
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+vector<int> repeatedNumber(vector<int>& A) {
+    int n = A.size();
+    int x1 = 0, x2 = 0; 
+
+    // XOR of all elements in array
+    for (int num : A) {
+        x1 ^= num;
+    }
+
+    // XOR of numbers from 1 to n
+    for (int i = 1; i <= n; i++) {
+        x2 ^= i;
+    }
+
+    int xor_result = x1 ^ x2; // XOR of missing and repeating number
+
+    // Find the rightmost set bit
+    int rightmost_set_bit = xor_result & (-xor_result);
+
+    int set = 0, not_set = 0;
+
+    // Separate numbers into two groups
+    for (int num : A) {
+        if (num & rightmost_set_bit)
+            set ^= num;
+        else
+            not_set ^= num;
+    }
+
+    // Separate numbers from 1 to n into two groups
+    for (int num = 1; num <= n; num++) {
+        if (num & rightmost_set_bit)
+            set ^= num;
+        else
+            not_set ^= num;
+    }
+
+    // Determine the repeating and missing numbers
+    if (find(A.begin(), A.end(), set) != A.end()) // If 'set' is repeating
+        return {set, not_set};
+    else
+        return {not_set, set};
+}
+"""

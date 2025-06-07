@@ -67,3 +67,153 @@ class Solution:
 # Note vvi: Whenver you are asked to 'find pair' or 'count pairs' apply two sum logic.
 # in case of 'pair count' store 'frequency' as value.
 
+# Java Code 
+"""
+import java.util.HashMap;
+import java.util.List;
+
+class Solution {
+    // Function to calculate the sum of digits of a number
+    private int sumOfDigit(int num) {
+        int sum = 0;
+        while (num > 0) {
+            sum += num % 10;
+            num /= 10;
+        }
+        return sum;
+    }
+
+    public int maximumSum(List<Integer> nums) {
+        HashMap<Integer, int[]> digitSum = new HashMap<>(); // [digit_sum : max_num, second_max_num]
+        int ans = -1;
+
+        for (int num : nums) {
+            int sum = sumOfDigit(num);
+            if (digitSum.containsKey(sum)) {
+                int[] pair = digitSum.get(sum);
+                if (num > pair[0]) {
+                    pair[1] = pair[0];
+                    pair[0] = num;
+                } else if (num > pair[1]) {
+                    pair[1] = num;
+                }
+            } else {
+                digitSum.put(sum, new int[]{num, 0});
+            }
+        }
+
+        for (int[] values : digitSum.values()) {
+            int num1 = values[0], num2 = values[1];
+            if (num2 != 0) {
+                ans = Math.max(ans, num1 + num2);
+            }
+        }
+        return ans;
+    }
+}
+
+// Optimized approach similar to two-sum logic
+class Solution {
+    private int sumOfDigit(int num) {
+        int sum = 0;
+        while (num > 0) {
+            sum += num % 10;
+            num /= 10;
+        }
+        return sum;
+    }
+
+    public int maximumSum(List<Integer> nums) {
+        HashMap<Integer, Integer> digitSum = new HashMap<>(); // [digit_sum : max_num]
+        int ans = -1;
+
+        for (int num : nums) {
+            int sum = sumOfDigit(num);
+            if (digitSum.containsKey(sum)) {
+                ans = Math.max(ans, digitSum.get(sum) + num);
+                digitSum.put(sum, Math.max(digitSum.get(sum), num));
+            } else {
+                digitSum.put(sum, num);
+            }
+        }
+        return ans;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+class Solution {
+public:
+    // Function to calculate the sum of digits of a number
+    int sumOfDigit(int num) {
+        int sum = 0;
+        while (num) {
+            sum += num % 10;
+            num /= 10;
+        }
+        return sum;
+    }
+
+    int maximumSum(vector<int>& nums) {
+        unordered_map<int, pair<int, int>> digitSum; // [digit_sum : max_num, second_max_num]
+        int ans = -1;
+
+        for (int num : nums) {
+            int sum = sumOfDigit(num);
+            if (digitSum.count(sum)) {
+                auto& [first, second] = digitSum[sum];
+                if (num > first) {
+                    second = first;
+                    first = num;
+                } else if (num > second) {
+                    second = num;
+                }
+            } else {
+                digitSum[sum] = {num, 0};
+            }
+        }
+
+        for (auto& [key, values] : digitSum) {
+            int num1 = values.first, num2 = values.second;
+            if (num2 != 0) {
+                ans = max(ans, num1 + num2);
+            }
+        }
+        return ans;
+    }
+};
+
+// Optimized approach similar to two-sum logic
+class Solution {
+public:
+    int sumOfDigit(int num) {
+        int sum = 0;
+        while (num) {
+            sum += num % 10;
+            num /= 10;
+        }
+        return sum;
+    }
+
+    int maximumSum(vector<int>& nums) {
+        unordered_map<int, int> digitSum; // [digit_sum : max_num]
+        int ans = -1;
+
+        for (int num : nums) {
+            int sum = sumOfDigit(num);
+            if (digitSum.count(sum)) {
+                ans = max(ans, digitSum[sum] + num);
+                digitSum[sum] = max(digitSum[sum], num);
+            } else {
+                digitSum[sum] = num;
+            }
+        }
+        return ans;
+    }
+};
+"""

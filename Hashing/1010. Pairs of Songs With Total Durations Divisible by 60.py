@@ -38,3 +38,59 @@ class Solution:
             else:
                 count[remainder] += 1
         return ans
+
+# Java Code 
+"""
+import java.util.HashMap;
+import java.util.List;
+
+class Solution {
+    public int numPairsDivisibleBy60(List<Integer> time) {
+        int k = 60;
+        HashMap<Integer, Integer> count = new HashMap<>(); // Stores frequency of remainders
+        int ans = 0;
+
+        for (int t : time) {
+            int remainder = t % k;
+            ans += count.getOrDefault(k - remainder, 0); // Count pairs forming divisible sum
+
+            if (remainder == 0) {
+                // Count 'k' as some future number may search for 'k'
+                count.put(k, count.getOrDefault(k, 0) + 1);
+            } else {
+                count.put(remainder, count.getOrDefault(remainder, 0) + 1);
+            }
+        }
+        return ans;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+class Solution {
+public:
+    int numPairsDivisibleBy60(vector<int>& time) {
+        int k = 60;
+        unordered_map<int, int> count; // Stores frequency of remainders
+        int ans = 0;
+
+        for (int t : time) {
+            int remainder = t % k;
+            ans += count[k - remainder]; // Count pairs forming divisible sum
+
+            if (remainder == 0) {
+                // Count 'k' as some future number may search for 'k'
+                count[k]++;
+            } else {
+                count[remainder]++;
+            }
+        }
+        return ans;
+    }
+};
+"""

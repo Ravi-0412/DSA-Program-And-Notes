@@ -46,3 +46,125 @@ class Solution:
         
         temp.next= list1 or list2  
         return dummy.next
+
+# Java Code 
+"""
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+        next = null;
+    }
+}
+
+class Solution {
+    public ListNode sortList(ListNode head) {
+        if (head == null || head.next == null) return head;
+
+        ListNode middleHead = findMiddle(head);
+        ListNode newHead1 = sortList(head);
+        ListNode newHead2 = sortList(middleHead);
+
+        return mergeTwoLists(newHead1, newHead2);
+    }
+
+    private ListNode findMiddle(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // slow will point to the middle element. In case of even elements, it points to the first middle
+        ListNode temp = slow.next;
+        slow.next = null; // Break the list into two halves
+        return temp;
+    }
+
+    private ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode dummy = new ListNode(0);
+        ListNode temp = dummy;
+
+        while (list1 != null && list2 != null) {
+            if (list1.val >= list2.val) {
+                temp.next = list2;
+                list2 = list2.next;
+            } else {
+                temp.next = list1;
+                list1 = list1.next;
+            }
+            temp = temp.next;
+        }
+
+        temp.next = (list1 != null) ? list1 : list2; // Attach remaining elements
+        return dummy.next;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+
+using namespace std;
+
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+class Solution {
+public:
+    ListNode* sortList(ListNode* head) {
+        if (!head || !head->next) return head;
+
+        ListNode* middleHead = findMiddle(head);
+        ListNode* newHead1 = sortList(head);
+        ListNode* newHead2 = sortList(middleHead);
+
+        return mergeTwoLists(newHead1, newHead2);
+    }
+
+private:
+    ListNode* findMiddle(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while (fast->next && fast->next->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        // slow will point to the middle element. In case of even elements, it points to the first middle
+        ListNode* temp = slow->next;
+        slow->next = nullptr; // Break the list into two halves
+        return temp;
+    }
+
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        ListNode* dummy = new ListNode(0);
+        ListNode* temp = dummy;
+
+        while (list1 && list2) {
+            if (list1->val >= list2->val) {
+                temp->next = list2;
+                list2 = list2->next;
+            } else {
+                temp->next = list1;
+                list1 = list1->next;
+            }
+            temp = temp->next;
+        }
+
+        temp->next = list1 ? list1 : list2; // Attach remaining elements
+        return dummy->next;
+    }
+};
+"""

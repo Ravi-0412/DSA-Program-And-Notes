@@ -53,3 +53,128 @@ class Solution:
             fast = next(next(fast))
         return slow == 1
         
+# Java Code 
+"""
+import java.util.HashSet;
+
+class Solution {
+    // Method 1: Using a set to track visited numbers
+    public boolean isHappy(int n) {
+        HashSet<Integer> visited = new HashSet<>();
+        
+        while (!visited.contains(n)) { // stopping condition means n can't be happy
+            visited.add(n);
+            n = sumOfSquare(n);
+            if (n == 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    // Helper function to compute sum of squares of digits
+    private int sumOfSquare(int n) {
+        int ans = 0;
+        while (n > 0) {
+            int remainder = n % 10;
+            ans += remainder * remainder;
+            n /= 10;
+        }
+        return ans;
+    }
+}
+
+// Method 2: Using Floyd's Cycle Detection Algorithm
+// Logic: A non-happy number will repeat itself.
+// If a non-happy number does not repeat, the code will be stuck in an infinite loop.
+// We check for cycles while replacing the number with the sum of squares of its digits.
+// If there is a cycle, we check its value—if it equals 1, it's happy; otherwise, it's not.
+
+class Solution {
+    public boolean isHappy(int n) {
+        int slow = n, fast = next(n);
+        while (slow != fast) {
+            slow = next(slow);
+            fast = next(next(fast));
+        }
+        return slow == 1;
+    }
+
+    // Helper function to compute sum of squares of digits
+    private int next(int num) {
+        int next_no = 0;
+        while (num > 0) {
+            int r = num % 10;
+            next_no += r * r;
+            num /= 10;
+        }
+        return next_no;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <unordered_set>
+using namespace std;
+
+class Solution {
+public:
+    // Method 1: Using a set to track visited numbers
+    bool isHappy(int n) {
+        unordered_set<int> visited;
+        
+        while (visited.find(n) == visited.end()) { // stopping condition means n can't be happy
+            visited.insert(n);
+            n = sumOfSquare(n);
+            if (n == 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+private:
+    // Helper function to compute sum of squares of digits
+    int sumOfSquare(int n) {
+        int ans = 0;
+        while (n) {
+            int remainder = n % 10;
+            ans += remainder * remainder;
+            n /= 10;
+        }
+        return ans;
+    }
+};
+
+// Method 2: Using Floyd's Cycle Detection Algorithm
+// Logic: A non-happy number will repeat itself.
+// If a non-happy number does not repeat, the code will be stuck in an infinite loop.
+// We check for cycles while replacing the number with the sum of squares of its digits.
+// If there is a cycle, we check its value—if it equals 1, it's happy; otherwise, it's not.
+
+class Solution {
+public:
+    bool isHappy(int n) {
+        int slow = n, fast = next(n);
+        while (slow != fast) {
+            slow = next(slow);
+            fast = next(next(fast));
+        }
+        return slow == 1;
+    }
+
+private:
+    // Helper function to compute sum of squares of digits
+    int next(int num) {
+        int next_no = 0;
+        while (num) {
+            int r = num % 10;
+            next_no += r * r;
+            num /= 10;
+        }
+        return next_no;
+    }
+};
+
+"""

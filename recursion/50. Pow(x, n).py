@@ -55,3 +55,139 @@ class Solution:
             n = n >> 1         # right shift means dividing by 2 only  
         return ans
 
+# Java Code 
+"""
+//Method 1
+class Solution {
+    public double myPow(double x, int n) {
+        if (n < 0) {  
+            // Just what we do to evaluate the negative power.
+            x = 1 / x;
+            n = -n;
+        }
+        if (n == 1) {  // Base case
+            return x;
+        }
+        if (n % 2 == 1) {  // If power is odd.
+            return x * myPow(x, n / 2) * myPow(x, n / 2);
+        }
+        return myPow(x, n / 2) * myPow(x, n / 2);
+    }
+}
+//Method 2
+class Solution {
+    public double myPow(double x, int n) {
+        if (n < 0) {  
+            x = 1 / x;
+            n = -n;
+        }
+        if (n == 0) {  
+            return 1;
+        }
+
+        double smallAns = myPow(x, n / 2);
+        smallAns *= smallAns;
+
+        if (n % 2 == 1) {  
+            return x * smallAns;
+        }
+        return smallAns;  // If even
+    }
+}
+//Method 3
+class Solution {
+    public double myPow(double x, int n) {
+        if (n < 0) {
+            x = 1 / x;
+            n = -n;
+        }
+
+        double ans = 1.0;
+        while (n != 0) {
+            if ((n & 1) == 1) {  
+                // Multiply only when power is odd
+                ans *= x;
+            }
+            x *= x;  // Reducing the power by '2', so also need to square 'x'.
+            n = n >> 1;  // Right shift means dividing by 2 only  
+        }
+        return ans;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    double myPow(double x, int n) {
+        if (n < 0) {  
+            // Just what we do to evaluate the negative power.
+            x = 1 / x;
+            n = -n;
+        }
+        if (n == 1) {  // Base case
+            return x;
+        }
+        if (n % 2 == 1) {  // If power is odd.
+            return x * myPow(x, n / 2) * myPow(x, n / 2);
+        }
+        return myPow(x, n / 2) * myPow(x, n / 2);
+    }
+};
+//Method 2
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    double myPow(double x, int n) {
+        if (n < 0) {  
+            x = 1 / x;
+            n = -n;
+        }
+        if (n == 0) {  
+            return 1;
+        }
+
+        double smallAns = myPow(x, n / 2);
+        smallAns = smallAns * smallAns;
+
+        if (n % 2 == 1) {  
+            return x * smallAns;
+        }
+        return smallAns;  // If even
+    }
+};
+//Method 3
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    double myPow(double x, int n) {
+        if (n < 0) {
+            x = 1 / x;
+            n = -n;
+        }
+
+        double ans = 1.0;
+        while (n) {
+            if (n % 2 == 1) {  
+                // Multiply only when power is odd
+                ans *= x;
+            }
+            x *= x;  // Reducing the power by '2', so also need to square 'x'.
+            n = n >> 1;  // Right shift means dividing by 2 only  
+        }
+        return ans;
+    }
+};
+"""

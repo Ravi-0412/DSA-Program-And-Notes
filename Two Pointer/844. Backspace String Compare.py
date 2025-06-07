@@ -29,45 +29,47 @@ class Solution:
         return "".join(stack_s) == "".join(stack_t)
 
 #C++ code
+"""
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
 class Solution {
 public:
     bool backspaceCompare(string s, string t) {
-        stack<char> stack_s;
+        vector<char> stack_s, stack_t;
+
         for (char c : s) {
             if (c == '#') {
-                if (!stack_s.empty()) stack_s.pop();
+                if (!stack_s.empty()) stack_s.pop_back();
             } else {
-                stack_s.push(c);
+                stack_s.push_back(c);
             }
         }
 
-        stack<char> stack_t;
         for (char c : t) {
             if (c == '#') {
-                if (!stack_t.empty()) stack_t.pop();
+                if (!stack_t.empty()) stack_t.pop_back();
             } else {
-                stack_t.push(c);
+                stack_t.push_back(c);
             }
         }
 
-        string str_s, str_t;
-        while (!stack_s.empty()) {
-            str_s = stack_s.top() + str_s;
-            stack_s.pop();
-        }
-        while (!stack_t.empty()) {
-            str_t = stack_t.top() + str_t;
-            stack_t.pop();
-        }
-
-        return str_s == str_t;
+        return stack_s == stack_t;
     }
 };
+"""
 
 #Java code
+"""
+import java.util.*;
+
 class Solution {
     public boolean backspaceCompare(String s, String t) {
         Stack<Character> stackS = new Stack<>();
+        Stack<Character> stackT = new Stack<>();
+
         for (char c : s.toCharArray()) {
             if (c == '#') {
                 if (!stackS.isEmpty()) stackS.pop();
@@ -76,7 +78,6 @@ class Solution {
             }
         }
 
-        Stack<Character> stackT = new Stack<>();
         for (char c : t.toCharArray()) {
             if (c == '#') {
                 if (!stackT.isEmpty()) stackT.pop();
@@ -85,14 +86,10 @@ class Solution {
             }
         }
 
-        StringBuilder strS = new StringBuilder();
-        StringBuilder strT = new StringBuilder();
-        for (char c : stackS) strS.append(c);
-        for (char c : stackT) strT.append(c);
-
-        return strS.toString().equals(strT.toString());
+        return stackS.equals(stackT);
     }
 }
+"""
 
 
 # Method 2: Do by Two pointer approach in space = O(1)
@@ -183,67 +180,101 @@ class Solution:
         return True
 
 
-#c++ code :
+#C++ Code :
+"""
+#include <iostream>
+#include <string>
+
+using namespace std;
+
 class Solution {
 public:
-    bool backspaceCompare(string s, string t) {
-        int i = s.size() - 1, j = t.size() - 1;
+    // Function to process the backspace logic and retrieve the valid character
+    pair<char, int> getChar(string& x, int k) {
+        char c = '\0'; // Stores the valid character
+        int cnt = 0; // Tracks the number of backspaces
 
-        auto getChar = [](const string& str, int& k) -> char {
-            int cnt = 0;
-            char c = '\0';
-            while (k >= 0 && c == '\0') {
-                if (str[k] == '#') {
-                    cnt++;
-                } else if (cnt == 0) {
-                    c = str[k];
-                } else {
-                    cnt--;
-                }
-                k--;
+        while (k >= 0 && c == '\0') {
+            if (x[k] == '#') {
+                cnt++;
+            } else if (cnt == 0) {
+                c = x[k]; // Assign the character as no backspaces left
+            } else {
+                cnt--; // Reduce backspaces when encountering a normal character
             }
-            return c;
-        };
+            k--;
+        }
+        return {c, k}; // Return the processed character and updated index
+    }
+
+    bool backspaceCompare(string s, string t) {
+        int m = s.length(), n = t.length();
+        int i = m - 1, j = n - 1;
 
         while (i >= 0 || j >= 0) {
-            char c1 = (i >= 0) ? getChar(s, i) : '\0';
-            char c2 = (j >= 0) ? getChar(t, j) : '\0';
-            if (c1 != c2) return false;
+            char c1 = '\0', c2 = '\0';  // Stores the valid character after processing backspaces
+            if (i >= 0) {
+                auto p1 = getChar(s, i);
+                c1 = p1.first;
+                i = p1.second;
+            }
+            if (j >= 0) {
+                auto p2 = getChar(t, j);
+                c2 = p2.first;
+                j = p2.second;
+            }
+            if (c1 != c2) {
+                return false;
+            }
         }
-
         return true;
     }
 };
+"""
+
 
 # Java code  :       
+"""
 class Solution {
-    public boolean backspaceCompare(String s, String t) {
-        int[] i = {s.length() - 1};
-        int[] j = {t.length() - 1};
+    // Function to process the backspace logic and retrieve the valid character
+    private static char[] getChar(String x, int k) {
+        char c = '\0'; // Stores the valid character
+        int cnt = 0; // Tracks the number of backspaces
 
-        while (i[0] >= 0 || j[0] >= 0) {
-            char c1 = (i[0] >= 0) ? getChar(s, i) : '\0';
-            char c2 = (j[0] >= 0) ? getChar(t, j) : '\0';
-            if (c1 != c2) return false;
-        }
-
-        return true;
-    }
-
-    private char getChar(String str, int[] idxRef) {
-        int cnt = 0;
-        char c = '\0';
-        while (idxRef[0] >= 0 && c == '\0') {
-            if (str.charAt(idxRef[0]) == '#') {
+        while (k >= 0 && c == '\0') {
+            if (x.charAt(k) == '#') {
                 cnt++;
             } else if (cnt == 0) {
-                c = str.charAt(idxRef[0]);
+                c = x.charAt(k); // Assign the character as no backspaces left
             } else {
-                cnt--;
+                cnt--; // Reduce backspaces when encountering a normal character
             }
-            idxRef[0]--;
+            k--;
         }
-        return c;
+        return new char[]{c, (char) k}; // Return the processed character and updated index
+    }
+
+    public boolean backspaceCompare(String s, String t) {
+        int m = s.length(), n = t.length();
+        int i = m - 1, j = n - 1;
+
+        while (i >= 0 || j >= 0) {
+            char c1 = '\0', c2 = '\0';  // Stores the valid character after processing backspaces
+            if (i >= 0) {
+                char[] p1 = getChar(s, i);
+                c1 = p1[0];
+                i = p1[1];
+            }
+            if (j >= 0) {
+                char[] p2 = getChar(t, j);
+                c2 = p2[0];
+                j = p2[1];
+            }
+            if (c1 != c2) {
+                return false;
+            }
+        }
+        return true;
     }
 }
-       
+"""

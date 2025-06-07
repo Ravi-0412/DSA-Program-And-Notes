@@ -158,16 +158,72 @@ class Solution:
 # 3) Row with Maximum 1's
 
 
-# java
-""""
-// method 3:
+# Java Code 
+"""
+//Method 1
+class Solution {
+    private boolean binarySearch(int[] arr, int key) {
+        int low = 0, up = arr.length - 1;
+        while (low < up) {
+            int mid = low + (up - low) / 2;
+            if (arr[mid] >= key) {
+                up = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return arr[low] == key;
+    }
+
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int row = matrix.length, col = matrix[0].length;
+        for (int i = 0; i < row; i++) {
+            if (matrix[i][0] <= target && target <= matrix[i][col - 1]) {
+                return binarySearch(matrix[i], target);
+            }
+        }
+        return false;
+    }
+}
+//Method 2
+class Solution {
+    private boolean binarySearch(int[] arr, int key) {
+        int low = 0, up = arr.length - 1;
+        while (low < up) {
+            int mid = low + (up - low) / 2;
+            if (arr[mid] >= key) {
+                up = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return arr[low] == key;
+    }
+
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int row = matrix.length, col = matrix[0].length;
+        int start = 0, end = row - 1;
+
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (matrix[mid][0] <= target && target <= matrix[mid][col - 1]) {
+                return binarySearch(matrix[mid], target);
+            } else if (matrix[mid][0] > target) {
+                end = mid - 1;
+            } else {
+                start = mid + 1;
+            }
+        }
+        return false;
+    }
+}
+//Method 3
 class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
-        int rows = matrix.length;
-        int cols = matrix[0].length;
-        int down = 0, left = cols - 1;
-        
-        while (down < rows && left >= 0) {
+        int row = matrix.length, col = matrix[0].length;
+        int down = 0, left = col - 1;
+
+        while (down < row && left >= 0) {
             if (matrix[down][left] == target) {
                 return true;
             }
@@ -177,37 +233,141 @@ class Solution {
                 down++;
             }
         }
-        
         return false;
     }
 }
-
-
-// Method 4:
-
+//Method 4
 class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
-        int rows = matrix.length;
-        int cols = matrix[0].length;
-        int start = 0, end = rows * cols - 1;
+        int row = matrix.length, col = matrix[0].length;
+        int start = 0, end = row * col - 1;
 
         while (start <= end) {
             int mid = start + (end - start) / 2;
-            int r = mid / cols;
-            int c = mid % cols;
+            int r = mid / col; // Row index
+            int c = mid % col; // Column index
 
-            if (matrix[r][c] == target) {
+            if (matrix[r][c] == target) { // Found target
                 return true;
-            } else if (matrix[r][c] > target) {
+            }
+            if (matrix[r][c] > target) { // Search in lower half
+                end = mid - 1;
+            } else { // Search in upper half
+                start = mid + 1;
+            }
+        }
+        return false;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    bool binarySearch(vector<int>& arr, int key) {
+        int low = 0, up = arr.size() - 1;
+        while (low < up) {
+            int mid = low + (up - low) / 2;
+            if (arr[mid] >= key) {
+                up = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return arr[low] == key;
+    }
+
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int row = matrix.size(), col = matrix[0].size();
+        for (int i = 0; i < row; i++) {
+            if (matrix[i][0] <= target && target <= matrix[i][col - 1]) {
+                return binarySearch(matrix[i], target);
+            }
+        }
+        return false;
+    }
+};
+//Method 2
+class Solution {
+public:
+    bool binarySearch(vector<int>& arr, int key) {
+        int low = 0, up = arr.size() - 1;
+        while (low < up) {
+            int mid = low + (up - low) / 2;
+            if (arr[mid] >= key) {
+                up = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return arr[low] == key;
+    }
+
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int row = matrix.size(), col = matrix[0].size();
+        int start = 0, end = row - 1;
+
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (matrix[mid][0] <= target && target <= matrix[mid][col - 1]) {
+                return binarySearch(matrix[mid], target);
+            } else if (matrix[mid][0] > target) {
                 end = mid - 1;
             } else {
                 start = mid + 1;
             }
         }
-
         return false;
     }
-}
+};
+//Method 3
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int row = matrix.size(), col = matrix[0].size();
+        int down = 0, left = col - 1;
 
+        while (down < row && left >= 0) {
+            if (matrix[down][left] == target) {
+                return true;
+            }
+            if (matrix[down][left] > target) {
+                left--;
+            } else {
+                down++;
+            }
+        }
+        return false;
+    }
+};
+//Method 4
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int row = matrix.size(), col = matrix[0].size();
+        int start = 0, end = row * col - 1;
 
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            int r = mid / col;
+            int c = mid % col;
+
+            if (matrix[r][c] == target) {
+                return true;
+            }
+            if (matrix[r][c] > target) {
+                end = mid - 1;
+            } else {
+                start = mid + 1;
+            }
+        }
+        return false;
+    }
+};
 """

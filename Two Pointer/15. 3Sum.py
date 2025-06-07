@@ -77,9 +77,36 @@ class Solution:
 
 
 
-# java
+# Java Code 
 """
+//Method 1
+import java.util.*;
 
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        int n = nums.length;
+        Arrays.sort(nums);
+        List<List<Integer>> ans = new ArrayList<>();
+
+        for (int i = 0; i < n - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue; // Skip duplicate values for 'i'
+
+            for (int j = i + 1; j < n - 1; j++) {
+                if (j > i + 1 && nums[j] == nums[j - 1]) continue; // Skip duplicate values for 'j'
+
+                for (int k = j + 1; k < n; k++) {
+                    if (k > j + 1 && nums[k] == nums[k - 1]) continue; // Skip duplicate values for 'k'
+
+                    if (nums[i] + nums[j] + nums[k] == 0) {
+                        ans.add(Arrays.asList(nums[i], nums[j], nums[k]));
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+}
+//Method 2
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -121,4 +148,79 @@ class Solution {
     }
 }
 
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        int n = nums.size();
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> ans;
+
+        for (int i = 0; i < n - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue; // Skip duplicate values for 'i'
+
+            for (int j = i + 1; j < n - 1; j++) {
+                if (j > i + 1 && nums[j] == nums[j - 1]) continue; // Skip duplicate values for 'j'
+
+                for (int k = j + 1; k < n; k++) {
+                    if (k > j + 1 && nums[k] == nums[k - 1]) continue; // Skip duplicate values for 'k'
+
+                    if (nums[i] + nums[j] + nums[k] == 0) {
+                        ans.push_back({nums[i], nums[j], nums[k]});
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
+//Method 2
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> ans;
+        int n = nums.size();
+
+        for (int i = 0; i < n - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue; // Skip duplicate values for 'i'
+
+            int start = i + 1, end = n - 1;
+            while (start < end) {
+                int threeSum = nums[i] + nums[start] + nums[end];
+
+                if (threeSum > 0) {
+                    end--;
+                } else if (threeSum < 0) {
+                    start++;
+                } else {
+                    ans.push_back({nums[i], nums[start], nums[end]});
+
+                    // Move 'start' to next distinct element to avoid duplicate triplets
+                    start++;
+                    while (start < end && nums[start] == nums[start - 1]) {
+                        start++;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
 """

@@ -32,7 +32,73 @@ class Solution:
             ans = (ans + i* nums[i] - prefixSum) % mod
         return ans % mod
 
+# Java Code 
+"""
+import java.util.*;
 
+class Solution {
+    public int sumDistance(int[] nums, String s, int d) {
+        final int MOD = 1000000007;
+        int n = nums.length;
+
+        // Update the positions based on direction
+        for (int i = 0; i < n; i++) {
+            if (s.charAt(i) == 'R') {
+                nums[i] += d;
+            } else {
+                nums[i] -= d;
+            }
+        }
+
+        // Sort to process distances efficiently (`O(n log n)`)
+        Arrays.sort(nums);
+
+        long prefixSum = 0, ans = 0;
+        for (int i = 1; i < n; i++) {
+            prefixSum += nums[i - 1];
+            ans = (ans + i * nums[i] - prefixSum) % MOD;
+        }
+
+        return (int) ans;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int sumDistance(vector<int>& nums, string s, int d) {
+        const int MOD = 1e9 + 7;
+        int n = nums.size();
+
+        // Update the positions based on direction
+        for (int i = 0; i < n; i++) {
+            if (s[i] == 'R') {
+                nums[i] += d;
+            } else {
+                nums[i] -= d;
+            }
+        }
+
+        // Sort to process distances efficiently (`O(n log n)`)
+        sort(nums.begin(), nums.end());
+
+        long long prefixSum = 0, ans = 0;
+        for (int i = 1; i < n; i++) {
+            prefixSum += nums[i - 1];
+            ans = (ans + i * nums[i] - prefixSum) % MOD;
+        }
+
+        return ans;
+    }
+};
+"""
 # Extension of Q:
 # 1) "2615. Sum of Distances"
 # In this Q, we need to replace all values with pairwise sum.

@@ -77,40 +77,101 @@ other way for both clockwise and anticlock wise:
 Link: https://blogs.sas.com/content/iml/2013/10/18/rotating-matrices.html#:~:text=For%20example%2C%20the%20adjacent%20diagram,the%20rows%20and%20then%20transposing.
 """
 
-# Java
+# Java Code 
 """
-// Method 1:
+//Method 1
+import java.util.*;
 
 class Solution {
-    public void rotate(int[][] matrix) {
-        int row = matrix.length;
-        int col = matrix[0].length;
+    public void rotate(int[][] A) {
+        int row = A.length, col = A[0].length;
 
-        // First, reverse the rows.
-        int i = 0;
-        int j = row - 1;
-        while (i < j) {
-            int[] temp = matrix[i];
-            matrix[i] = matrix[j];
-            matrix[j] = temp;
-            i++;
-            j--;
+        // First reverse the rows, not the elements inside the rows
+        int l = 0, r = row - 1;
+        while (l < r) {
+            int[] temp = A[l];
+            A[l] = A[r];
+            A[r] = temp;
+            l++;
+            r--;
         }
 
-        // Now, take the transpose of the matrix.
+        // Now rotate the elements w.r.t diagonal (taking the transpose)
         for (int r = 0; r < row; r++) {
-            for (int c = r; c < col; c++) {  // start from 'r' to avoid swapping twice
-                int temp = matrix[r][c];
-                matrix[r][c] = matrix[c][r];
-                matrix[c][r] = temp;
+            for (int c = r; c < col; c++) { // Start from 'r' to avoid swapping twice
+                int temp = A[r][c];
+                A[r][c] = A[c][r];
+                A[c][r] = temp;
             }
         }
     }
 }
+//Method 2
+import java.util.*;
 
+class Solution {
+    public void rotate(int[][] A) {
+        int row = A.length, col = A[0].length;
 
-// Method 2:
-// In Python, A.reverse() reverses the rows of the matrix. In Java, we need to manually swap rows from the start with rows from the end.
+        // First reverse the rows, not the elements inside the rows
+        List<int[]> list = Arrays.asList(A);
+        Collections.reverse(list);
 
+        // Now rotate the matrix w.r.t diagonal
+        for (int r = 0; r < row; r++) {
+            for (int c = 0; c < r; c++) {
+                int temp = A[r][c];
+                A[r][c] = A[c][r];
+                A[c][r] = temp;
+            }
+        }
+    }
+}
 """
 
+# C++ Code 
+"""
+//Method 1
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void rotate(vector<vector<int>>& A) {
+        int row = A.size(), col = A[0].size();
+
+        // First reverse the rows, not the elements inside the rows
+        int l = 0, r = row - 1;
+        while (l < r) {
+            swap(A[l], A[r]);
+            l++;
+            r--;
+        }
+
+        // Now rotate the elements w.r.t diagonal (taking the transpose)
+        for (int r = 0; r < row; r++) {
+            for (int c = r; c < col; c++) { // Start from 'r' to avoid swapping twice
+                swap(A[r][c], A[c][r]);
+            }
+        }
+    }
+};
+//Method 2
+class Solution {
+public:
+    void rotate(vector<vector<int>>& A) {
+        int row = A.size(), col = A[0].size();
+
+        // First reverse the rows, not the elements inside the rows
+        reverse(A.begin(), A.end());
+
+        // Now rotate the matrix w.r.t diagonal
+        for (int r = 0; r < row; r++) {
+            for (int c = 0; c < r; c++) {
+                swap(A[r][c], A[c][r]);
+            }
+        }
+    }
+};
+"""

@@ -89,3 +89,177 @@ class Solution:
             d = (d + 1) % 4 # turn to next direction
         return res
         
+# Java Code 
+"""
+//Method 1
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> spiralMatrixIII(int R, int C, int r0, int c0) {
+        List<List<Integer>> res = new ArrayList<>();
+        res.add(Arrays.asList(r0, c0));
+
+        // Function to check if a cell is within bounds
+        boolean isValid(int row, int col) {
+            return row >= 0 && row < R && col >= 0 && col < C;
+        }
+
+        int steps = 1;
+        int r = r0, c = c0;
+
+        while (res.size() < R * C) {
+            // Go east
+            for (int i = 0; i < steps; i++) {
+                c++;
+                if (isValid(r, c)) res.add(Arrays.asList(r, c));
+            }
+
+            // Go south
+            for (int i = 0; i < steps; i++) {
+                r++;
+                if (isValid(r, c)) res.add(Arrays.asList(r, c));
+            }
+
+            steps++;  // Increase step since we are going west
+
+            // Go west
+            for (int i = 0; i < steps; i++) {
+                c--;
+                if (isValid(r, c)) res.add(Arrays.asList(r, c));
+            }
+
+            // Go north
+            for (int i = 0; i < steps; i++) {
+                r--;
+                if (isValid(r, c)) res.add(Arrays.asList(r, c));
+            }
+
+            steps++;  // Increase step after each spiral
+        }
+
+        return res;
+    }
+}
+//Method 2
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> spiralMatrixIII(int rows, int cols, int rStart, int cStart) {
+        List<List<Integer>> res = new ArrayList<>();
+        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}}; // east, south, west, north
+        int length = 0, d = 0;  // Move <length> steps in the <d> direction
+
+        res.add(Arrays.asList(rStart, cStart));
+
+        while (res.size() < rows * cols) {
+            if (d == 0 || d == 2) {
+                length++;  // Increase length when moving east or west (expanding outward)
+            }
+
+            for (int i = 0; i < length; i++) {
+                rStart += directions[d][0];
+                cStart += directions[d][1];
+                if (rStart >= 0 && rStart < rows && cStart >= 0 && cStart < cols) { // Check validity
+                    res.add(Arrays.asList(rStart, cStart));
+                }
+            }
+
+            d = (d + 1) % 4;  // Turn to the next direction
+        }
+
+        return res;
+    }
+}
+"""
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> spiralMatrixIII(int R, int C, int r0, int c0) {
+        // Initialize result list with the starting position
+        vector<vector<int>> res = {{r0, c0}};
+
+        // Function to check if a cell is within bounds
+        auto is_valid = [&](int row, int col) {
+            return row >= 0 && row < R && col >= 0 && col < C;
+        };
+
+        // Set initial values for steps and position
+        int steps = 1;
+        int r = r0, c = c0;
+
+        // Continue until all cells are visited
+        while (res.size() < R * C) {
+            // Go east
+            for (int i = 0; i < steps; i++) {
+                c++;
+                if (is_valid(r, c)) res.push_back({r, c});
+            }
+
+            // Go south
+            for (int i = 0; i < steps; i++) {
+                r++;
+                if (is_valid(r, c)) res.push_back({r, c});
+            }
+
+            steps++;  // Increase step since we are going west
+
+            // Go west
+            for (int i = 0; i < steps; i++) {
+                c--;
+                if (is_valid(r, c)) res.push_back({r, c});
+            }
+
+            // Go north
+            for (int i = 0; i < steps; i++) {
+                r--;
+                if (is_valid(r, c)) res.push_back({r, c});
+            }
+
+            steps++;  // Increase step after each spiral
+        }
+
+        return res;
+    }
+};
+//Method 2
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> spiralMatrixIII(int rows, int cols, int rStart, int cStart) {
+        vector<vector<int>> res;
+        vector<vector<int>> directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}}; // east, south, west, north
+        int length = 0, d = 0;  // Move <length> steps in the <d> direction
+
+        res.push_back({rStart, cStart});
+
+        while (res.size() < rows * cols) {
+            if (d == 0 || d == 2) {
+                length++;  // Increase length when moving east or west (expanding outward)
+            }
+
+            for (int i = 0; i < length; i++) {
+                rStart += directions[d][0];
+                cStart += directions[d][1];
+                if (rStart >= 0 && rStart < rows && cStart >= 0 && cStart < cols) { // Check validity
+                    res.push_back({rStart, cStart});
+                }
+            }
+
+            d = (d + 1) % 4;  // Turn to the next direction
+        }
+
+        return res;
+    }
+};
+"""

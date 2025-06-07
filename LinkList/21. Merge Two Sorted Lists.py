@@ -138,3 +138,73 @@ class Solution {
     }
 }
 """
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+
+using namespace std;
+
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        ListNode* dummy = new ListNode(0);
+        ListNode* temp = dummy;
+        ListNode* curr1 = list1;
+        ListNode* curr2 = list2;
+
+        while (curr1 && curr2) {
+            if (curr1->val >= curr2->val) {
+                temp->next = curr2;
+                temp = curr2;
+                curr2 = curr2->next;
+            } else {
+                temp->next = curr1;
+                temp = curr1;
+                curr1 = curr1->next;
+            }
+            temp = temp->next;
+        }
+
+        // Connect remaining nodes
+        temp->next = curr1 ? curr1 : curr2;
+        return dummy->next;
+    }
+};
+//Method 2
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        if (!l1 || !l2) return l1 ? l1 : l2;
+
+        if (l1->val < l2->val) {
+            l1->next = mergeTwoLists(l1->next, l2);
+            return l1;
+        } else {
+            l2->next = mergeTwoLists(l1, l2->next);
+            return l2;
+        }
+    }
+};
+//Method 3
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        if (list1 && list2) {
+            if (list1->val > list2->val) swap(list1, list2);
+            list1->next = mergeTwoLists(list1->next, list2);
+        }
+        return list1 ? list1 : list2;
+    }
+};
+
+"""

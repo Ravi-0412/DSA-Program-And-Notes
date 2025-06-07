@@ -40,36 +40,116 @@ class Solution:
 
 # Java
 """
+//Method 1
+import java.util.*;
+
 class Solution {
     public int compress(char[] chars) {
-        int ansIndex = 0;
+        int AnsIndex = 0;
         int i = 0;
-        
         while (i < chars.length) {
             char curChar = chars[i];
             int count = 0;
-            
-            // Count occurrences of the current character
             while (i < chars.length && chars[i] == curChar) {
                 i++;
                 count++;
             }
-            
-            // Place the current character at the answer index
-            chars[ansIndex] = curChar;
-            ansIndex++;
-            
-            // If count is more than 1, convert it to characters and append
+            // first append the char
+            chars[AnsIndex] = curChar;
+            AnsIndex += 1;
+            // now append its count if count > 1.
             if (count > 1) {
-                String countStr = String.valueOf(count);
-                for (char c : countStr.toCharArray()) {
-                    chars[ansIndex] = c;
-                    ansIndex++;
+                // if count >= 10 then that should be written like '1', '0'.
+                for (char c : String.valueOf(count).toCharArray()) {
+                    chars[AnsIndex] = c;
+                    AnsIndex += 1;
                 }
             }
         }
-        
-        return ansIndex;
+        return AnsIndex;
+        // return chars.length; // will give incorrect ans as chars will be diff but compiler is automatically modifying char till our ans.
     }
 }
+//Method 2
+class Solution {
+    public int compress(char[] chars) {
+        int ans = 0;
+        int i = 0;
+        while (i < chars.length) {
+            char curChar = chars[i];
+            int count = 0;
+            while (i < chars.length && chars[i] == curChar) {
+                i++;
+                count++;
+            }
+            // first incr for appending char
+            ans += 1;
+            // now append its count if count > 1.
+            if (count > 1) {
+                ans += String.valueOf(count).length();
+            }
+        }
+        return ans;
+    }
+}
+
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int compress(vector<char>& chars) {
+        int AnsIndex = 0;
+        int i = 0;
+        while (i < chars.size()) {
+            char curChar = chars[i], count = 0;
+            while (i < chars.size() && chars[i] == curChar) {
+                i++;
+                count++;
+            }
+            // first append the char
+            chars[AnsIndex] = curChar;
+            AnsIndex += 1;
+            // now append its count if count > 1.
+            if (count > 1) {
+                // if count >= 10 then that should be written like '1', '0'.
+                for (char c : to_string(count)) {
+                    chars[AnsIndex] = c;
+                    AnsIndex += 1;
+                }
+            }
+        }
+        return AnsIndex;
+        // return chars.size(); // will give incorrect ans as chars will be diff but compiler is automatically modifying char till our ans.
+    }
+};
+//Method 2
+class Solution {
+public:
+    int compress(vector<char>& chars) {
+        int ans = 0;
+        int i = 0;
+        while (i < chars.size()) {
+            char curChar = chars[i], count = 0;
+            while (i < chars.size() && chars[i] == curChar) {
+                i++;
+                count++;
+            }
+            // first incr for appending char
+            ans += 1;
+            // now append its count if count > 1.
+            if (count > 1) {
+                ans += to_string(count).length();
+            }
+        }
+        return ans;
+    }
+};
 """

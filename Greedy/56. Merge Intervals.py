@@ -50,3 +50,37 @@ class Solution {
 }
 
 """
+
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        sort(intervals.begin(), intervals.end());  // sort based on starting time
+
+        vector<vector<int>> output;
+        output.push_back(intervals[0]);  // to handle the edge case and make comparison easy
+
+        for (int i = 1; i < intervals.size(); i++) {
+            int start = intervals[i][0];
+            int end = intervals[i][1];
+
+            // check if ending of last added interval is >= than starting of the current one 
+            if (output.back()[1] >= start) {
+                // i.e if overlapping then merge, make end of last added one max(end of last added, end)
+                output.back()[1] = max(output.back()[1], end);
+            } else {
+                // If not overlapping then add directly 
+                output.push_back({start, end});  // just the current interval only
+            }
+        }
+
+        return output;
+    }
+};
+
+"""

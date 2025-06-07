@@ -25,3 +25,72 @@ class Solution:
             # Add the maxProfit project that we can afford with 'w'.
             w+= -1* heapq.heappop(maxProfit)
         return w
+
+# Java Code 
+"""
+import java.util.PriorityQueue;
+
+class Solution {
+    public int findMaximizedCapital(int k, int w, int[] profits, int[] capital) {
+        PriorityQueue<Integer> maxProfit = new PriorityQueue<>((a, b) -> b - a); // Max heap for profits
+        PriorityQueue<int[]> minCapital = new PriorityQueue<>((a, b) -> a[0] - b[0]); // Min heap for (capital, profit) pairs
+
+        // Populate minCapital with (capital, profit) pairs
+        for (int i = 0; i < capital.length; i++) {
+            minCapital.offer(new int[]{capital[i], profits[i]});
+        }
+
+        for (int i = 0; i < k; i++) {
+            // Add all affordable projects to maxProfit heap
+            while (!minCapital.isEmpty() && minCapital.peek()[0] <= w) {
+                maxProfit.offer(minCapital.poll()[1]);
+            }
+
+            // If no affordable project remains, return current capital
+            if (maxProfit.isEmpty()) return w;
+
+            // Select the most profitable affordable project and increase capital
+            w += maxProfit.poll();
+        }
+        return w;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    int findMaximizedCapital(int k, int w, vector<int>& profits, vector<int>& capital) {
+        priority_queue<int> maxProfit;  // Max heap for profits of affordable projects
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> minCapital; // Min heap for (capital, profit) pairs
+
+        // Populate minCapital with (capital, profit) pairs
+        for (int i = 0; i < capital.size(); i++) {
+            minCapital.push({capital[i], profits[i]});
+        }
+
+        for (int i = 0; i < k; i++) {
+            // Add all affordable projects to maxProfit heap
+            while (!minCapital.empty() && minCapital.top().first <= w) {
+                maxProfit.push(minCapital.top().second);
+                minCapital.pop();
+            }
+
+            // If no affordable project remains, return current capital
+            if (maxProfit.empty()) return w;
+
+            // Select the most profitable affordable project and increase capital
+            w += maxProfit.top();
+            maxProfit.pop();
+        }
+        return w;
+    }
+};
+"""

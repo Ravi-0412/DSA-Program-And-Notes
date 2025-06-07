@@ -89,3 +89,186 @@ class Solution:
             elif open> close:
                 open= close= 0
         return ans
+
+# Java Code
+"""
+//Method 1
+class Solution {
+    private boolean isValid(String s, int i, int open) {
+        if (i == s.length()) return open == 0;
+        if (s.charAt(i) == '(') open++;
+        else {
+            open--;
+            if (open < 0) return false;
+        }
+        return isValid(s, i + 1, open);
+    }
+
+    public int longestValidParentheses(String s) {
+        int ans = 0;
+
+        // Check every possible valid parentheses substring
+        for (int i = 0; i < s.length() - 1; i++) {
+            for (int j = i + 1; j < s.length(); j++) {
+                if (isValid(s.substring(i, j + 1), 0, 0)) {
+                    ans = Math.max(ans, j - i + 1);
+                }
+            }
+        }
+
+        return ans;
+    }
+}
+//Method 2
+import java.util.Stack;
+
+class Solution {
+    public int longestValidParentheses(String s) {
+        int ans = 0;
+        Stack<Integer> stack = new Stack<>();
+        stack.push(-1); // Initially add -1 to handle edge cases
+
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                stack.push(i);
+            } else {
+                stack.pop();
+                if (stack.isEmpty()) {
+                    stack.push(i);
+                } else {
+                    ans = Math.max(ans, i - stack.peek()); // Valid substring between stack.peek() and i
+                }
+            }
+        }
+
+        return ans;
+    }
+}
+//Method 3
+class Solution {
+    public int longestValidParentheses(String s) {
+        int ans = 0, open = 0, close = 0;
+
+        // Left to right traversal
+        for (char c : s.toCharArray()) {
+            if (c == '(') open++;
+            else close++;
+
+            if (open == close) ans = Math.max(ans, 2 * open);
+            else if (close > open) open = close = 0;
+        }
+
+        // Right to left traversal
+        open = close = 0;
+        for (int i = s.length() - 1; i >= 0; i--) {
+            if (s.charAt(i) == '(') open++;
+            else close++;
+
+            if (open == close) ans = Math.max(ans, 2 * open);
+            else if (open > close) open = close = 0;
+        }
+
+        return ans;
+    }
+}
+"""
+
+# C++ Code
+"""
+//Method 1
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    bool isValid(const string& s, int i, int open) {
+        if (i == s.length()) return open == 0;
+        if (s[i] == '(') open++;
+        else {
+            open--;
+            if (open < 0) return false;
+        }
+        return isValid(s, i + 1, open);
+    }
+
+    int longestValidParentheses(string s) {
+        int ans = 0;
+
+        // Check every possible valid parentheses substring
+        for (int i = 0; i < s.length() - 1; i++) {
+            for (int j = i + 1; j < s.length(); j++) {
+                if (isValid(s.substr(i, j - i + 1), 0, 0)) {
+                    ans = max(ans, j - i + 1);
+                }
+            }
+        }
+
+        return ans;
+    }
+};
+//Method 2
+#include <iostream>
+#include <stack>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        int ans = 0;
+        stack<int> st;
+        st.push(-1); // Initially add -1 to handle edge cases
+
+        for (int i = 0; i < s.length(); i++) {
+            if (s[i] == '(') {
+                st.push(i);
+            } else {
+                st.pop();
+                if (st.empty()) {
+                    st.push(i);
+                } else {
+                    ans = max(ans, i - st.top()); // Valid substring between st.top() and i
+                }
+            }
+        }
+
+        return ans;
+    }
+};
+//Method 3
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        int ans = 0, open = 0, close = 0;
+
+        // Left to right traversal
+        for (char c : s) {
+            if (c == '(') open++;
+            else close++;
+
+            if (open == close) ans = max(ans, 2 * open);
+            else if (close > open) open = close = 0;
+        }
+
+        // Right to left traversal
+        open = close = 0;
+        for (int i = s.length() - 1; i >= 0; i--) {
+            if (s[i] == '(') open++;
+            else close++;
+
+            if (open == close) ans = max(ans, 2 * open);
+            else if (open > close) open = close = 0;
+        }
+
+        return ans;
+    }
+};
+"""

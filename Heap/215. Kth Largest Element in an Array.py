@@ -72,76 +72,194 @@ class Solution:
         arr[j], arr[low]= arr[low], arr[j]
         return j
 
-# Java
-# Method 3:
+# Java Code 
 """
+//Method 1
+import java.util.Arrays;
+
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        Arrays.sort(nums);
+        return nums[nums.length - k];
+    }
+}
+//Method 2
 import java.util.PriorityQueue;
 
-public class Solution {
+class Solution {
     public int findKthLargest(int[] nums, int k) {
-        // Creating a min heap
-        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-
-        // Insert elements into the min heap
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);
+        
+        // Insert all elements into maxHeap
         for (int num : nums) {
-            minHeap.add(num);
-            // If the size of the heap exceeds k, remove the smallest element (top of heap)
+            maxHeap.offer(num);
+        }
+        
+        // Remove k-1 elements to get the kth largest element
+        for (int i = 0; i < k - 1; i++) {
+            maxHeap.poll();
+        }
+        
+        return maxHeap.peek();
+    }
+}
+//Method 3
+import java.util.PriorityQueue;
+
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        
+        for (int num : nums) {
+            minHeap.offer(num);
             if (minHeap.size() > k) {
                 minHeap.poll();
             }
         }
 
-        // The root of the heap will be the kth largest element
         return minHeap.peek();
     }
 }
-"""
+//Method 4
+import java.util.Random;
 
-# Method 4: Quick Select
-"""
-public class Solution {
+class Solution {
     public int findKthLargest(int[] nums, int k) {
         int n = nums.length;
-        int kthLargestIndex = n - k; // Convert kth largest to index based on 0-based indexing
-
-        return quickSelect(nums, 0, n - 1, kthLargestIndex);
+        k = n - k;
+        return quickSelect(nums, 0, n - 1, k);
     }
 
     private int quickSelect(int[] arr, int low, int high, int k) {
         if (low <= high) {
             int q = partition(arr, low, high);
-            if (q == k) {
-                return arr[q];
-            } else if (q > k) {
-                return quickSelect(arr, low, q - 1, k);
-            } else {
-                return quickSelect(arr, q + 1, high, k);
-            }
+            if (q == k) return arr[q];
+            if (q > k) return quickSelect(arr, low, q - 1, k);
+            else return quickSelect(arr, q + 1, high, k);
         }
-        return -1; // Handle edge case, should not occur in valid input
+        return -1;
     }
 
     private int partition(int[] arr, int low, int high) {
         int pivot = arr[low];
         int i = low, j = high;
+        
         while (i < j) {
-            while (i < j && arr[j] > pivot) {
-                j--;
-            }
-            while (i < j && arr[i] <= pivot) {
-                i++;
-            }
-            if (i < j) {
-                swap(arr, i, j);
-            }
+            while (arr[j] > pivot) j--;
+            while (i < j && arr[i] <= pivot) i++;
+            if (i < j) swap(arr, i, j);
         }
-        swap(arr, low, j);
+        swap(arr, j, low);
         return j;
     }
 
-    private void swap(int[] arr, int x, int y) {
-        int temp = arr[x];
-        arr[x] = arr[y];
-        arr[y] = temp;
+    private void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
     }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+        return nums[nums.size() - k];
+    }
+};
+//Method 2
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        priority_queue<int> maxHeap;
+        
+        // Insert all elements into maxHeap
+        for (int num : nums) {
+            maxHeap.push(num);
+        }
+        
+        // Remove k-1 elements to get the kth largest element
+        for (int i = 0; i < k - 1; i++) {
+            maxHeap.pop();
+        }
+        
+        return maxHeap.top();
+    }
+};
+//Method 3
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        priority_queue<int, vector<int>, greater<int>> minHeap;
+        
+        for (int num : nums) {
+            minHeap.push(num);
+            if (minHeap.size() > k) {
+                minHeap.pop();
+            }
+        }
+
+        return minHeap.top();
+    }
+};
+//Method 4
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        int n = nums.size();
+        k = n - k;
+        return quickSelect(nums, 0, n - 1, k);
+    }
+
+private:
+    int quickSelect(vector<int>& arr, int low, int high, int k) {
+        if (low <= high) {
+            int q = partition(arr, low, high);
+            if (q == k) return arr[q];
+            if (q > k) return quickSelect(arr, low, q - 1, k);
+            else return quickSelect(arr, q + 1, high, k);
+        }
+        return -1;
+    }
+
+    int partition(vector<int>& arr, int low, int high) {
+        int pivot = arr[low];
+        int i = low, j = high;
+        
+        while (i < j) {
+            while (arr[j] > pivot) j--;
+            while (i < j && arr[i] <= pivot) i++;
+            if (i < j) swap(arr[i], arr[j]);
+        }
+        swap(arr[j], arr[low]);
+        return j;
+    }
+};
 """

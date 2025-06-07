@@ -30,7 +30,48 @@ class Solution:
             pre= c
         return 3*k - len(word)
     
+# Java Code 
+"""
+class Solution {
+    public int addMinimum(String word) {
+        char pre = 'z'; // any very large char, must be greater than all chars in the string
+        int k = 0;
 
+        for (char c : word.toCharArray()) {
+            if (c <= pre) {
+                k++;
+            }
+            pre = c;
+        }
+
+        return 3 * k - word.length();
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int addMinimum(string word) {
+        char pre = 'z'; // any very large char, must be greater than all chars in the string
+        int k = 0;
+
+        for (char c : word) {
+            if (c <= pre) {
+                k++;
+            }
+            pre = c;
+        }
+
+        return 3 * k - word.length();
+    }
+};
+"""
 # method 2...
 # Try by other methods given in sheet.
 

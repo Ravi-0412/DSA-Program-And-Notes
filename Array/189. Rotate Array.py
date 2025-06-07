@@ -88,3 +88,42 @@ class Solution {
     }
 }
 """
+
+# C++ Code 
+"""
+//Method 1
+
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        int n = nums.size();
+        k = k % n;
+
+        // Correct approach: modifying in place
+        rotate(nums.rbegin(), nums.rbegin() + k, nums.rend());
+    }
+};
+
+//Method 2
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        int n = nums.size();
+        k = k % n;
+
+        // Reverse the last 'k' elements
+        reverse(nums.begin() + n - k, nums.end());
+
+        // Reverse the remaining 'n-k' elements from start
+        reverse(nums.begin(), nums.begin() + n - k);
+
+        // Finally, reverse the whole array
+        reverse(nums.begin(), nums.end());
+    }
+};
+"""

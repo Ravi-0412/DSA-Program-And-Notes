@@ -39,3 +39,64 @@ class Solution:
                 start = i+1
                 total = 0
         return start
+
+# Java Code 
+"""
+class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int n = gas.length;
+        int totalGas = 0, totalCost = 0;
+        for (int i = 0; i < n; i++) {
+            totalGas += gas[i];
+            totalCost += cost[i];
+        }
+        if (totalGas < totalCost) return -1;  // not possible from any gas station
+
+        int start = 0;  // our ans
+        int total = 0;  // store the total gas present
+
+        // checking each gas station one by one, we can only choose any gas station
+        // if difference of gas[i] and cost[i] >= 0.
+        for (int i = 0; i < n; i++) {
+            total += gas[i] - cost[i];  // we are just taking diff
+            if (total < 0) {  // means from this gas station 'start' we can't complete a circle
+                start = i + 1;
+                total = 0;
+            }
+        }
+        return start;
+    }
+}
+
+"""
+
+# C++ Code 
+"""
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int n = gas.size();
+        int totalGas = 0, totalCost = 0;
+        for (int i = 0; i < n; i++) {
+            totalGas += gas[i];
+            totalCost += cost[i];
+        }
+        if (totalGas < totalCost) return -1;  // not possible from any gas station
+
+        int start = 0;  // our ans
+        int total = 0;  // store the total gas present
+
+        // checking each gas station one by one, we can only choose any gas station
+        // if difference of gas[i] and cost[i] >= 0.
+        for (int i = 0; i < n; i++) {
+            total += gas[i] - cost[i];  // we are just taking diff
+            if (total < 0) {  // means from this gas station 'start' we can't complete a circle
+                start = i + 1;
+                total = 0;
+            }
+        }
+        return start;
+    }
+};
+
+"""

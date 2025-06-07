@@ -31,44 +31,76 @@ class Solution:
         # Now return the ans as string
         return  "".join(list_s)
 
-# Java
+# Java Code 
 """
+import java.util.Stack;
+
 class Solution {
     public String minRemoveToMakeValid(String s) {
-        // Convert the input string to a char array (mutable).
-        char[] list_s = s.toCharArray();
-        // Stack to keep track of indices of '(' characters.
+        StringBuilder result = new StringBuilder(s);
         Stack<Integer> stack = new Stack<>();
-        
-        // First pass: Remove invalid ')' characters.
-        for (int i = 0; i < list_s.length; i++) {
-            if (list_s[i] == '(') {
-                stack.push(i); // Push index of '(' onto the stack.
-            } else if (list_s[i] == ')') {
-                // If there's a matching '(' for this ')', pop the stack.
+
+        // First pass: Mark invalid parentheses
+        for (int i = 0; i < result.length(); i++) {
+            if (result.charAt(i) == '(') {
+                stack.push(i);
+            } else if (result.charAt(i) == ')') {
                 if (!stack.isEmpty()) {
                     stack.pop();
                 } else {
-                    // If no matching '(', mark this ')' for removal by setting it to '\0'.
-                    list_s[i] = '\0';
+                    result.setCharAt(i, '*'); // Mark invalid ')'
                 }
             }
         }
-        
-        // Second pass: Remove any unmatched '(' characters remaining in the stack.
+
+        // Second pass: Remove remaining '(' with no matching pair
         while (!stack.isEmpty()) {
-            list_s[stack.pop()] = '\0'; // Mark unmatched '(' for removal.
+            result.setCharAt(stack.pop(), '*'); // Mark invalid '('
         }
-        
-        // Build the final valid string by ignoring marked characters ('\0').
-        StringBuilder result = new StringBuilder();
-        for (char c : list_s) {
-            if (c != '\0') {
-                result.append(c);
-            }
-        }
-        
-        return result.toString(); // Return the valid string.
+
+        // Remove all marked characters
+        return result.toString().replace("*", "");
     }
 }
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <stack>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string minRemoveToMakeValid(string s) {
+        string result = s;
+        stack<int> st;
+
+        // First pass: Mark invalid parentheses
+        for (int i = 0; i < result.size(); i++) {
+            if (result[i] == '(') {
+                st.push(i);
+            } else if (result[i] == ')') {
+                if (!st.empty()) {
+                    st.pop();
+                } else {
+                    result[i] = '*'; // Mark invalid ')'
+                }
+            }
+        }
+
+        // Second pass: Remove remaining '(' with no matching pair
+        while (!st.empty()) {
+            result[st.top()] = '*'; // Mark invalid '('
+            st.pop();
+        }
+
+        // Remove all marked characters
+        result.erase(remove(result.begin(), result.end(), '*'), result.end());
+
+        return result;
+    }
+};
 """

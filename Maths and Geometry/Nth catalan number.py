@@ -61,6 +61,112 @@ class Solution:
 # Count the number of full binary trees (A rooted binary tree is full if every vertex has either two children or no children) with n+1 leaves.
 # Given a number n, return the number of ways you can draw n chords in a circle with 2 x n points such that no 2 chords intersect.
 
+# Java Code 
+"""
+//Method 1
+class Solution {
+    public int findCatalan(int n) {
+        if (n <= 1) return 1;
+
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            ans += findCatalan(i) * findCatalan(n - i - 1);
+        }
+        return ans;
+    }
+}
+//Method 2
+import java.util.*;
+
+class Solution {
+    public int findCatalan(int n) {
+        int[] dp = new int[n + 1];
+        dp[0] = dp[1] = 1;
+
+        for (int j = 2; j <= n; j++) { // Start after base case
+            int ans = 0;
+            for (int i = 0; i < j; i++) { // Consider numbers before 'j' only
+                ans += dp[i] * dp[j - i - 1];
+            }
+            dp[j] = ans;
+        }
+        return dp[n];
+    }
+}
+//Method 3
+import java.util.*;
+
+class Solution {
+    public int findCatalan(int n) {
+        int[] dp = new int[n + 1];
+        dp[0] = dp[1] = 1;
+
+        for (int j = 2; j <= n; j++) {
+            int ans = 0;
+            for (int i = 1; i <= j; i++) {
+                ans += dp[i - 1] * dp[j - i];
+            }
+            dp[j] = ans;
+        }
+        return dp[n];
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+class Solution {
+public:
+    int findCatalan(int n) {
+        if (n <= 1) return 1;
+
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            ans += findCatalan(i) * findCatalan(n - i - 1);
+        }
+        return ans;
+    }
+};
+//Method 2
+#include <vector>
+
+class Solution {
+public:
+    int findCatalan(int n) {
+        std::vector<int> dp(n + 1, 0);
+        dp[0] = dp[1] = 1;
+
+        for (int j = 2; j <= n; j++) { // Start after base case
+            int ans = 0;
+            for (int i = 0; i < j; i++) { // Consider numbers before 'j' only
+                ans += dp[i] * dp[j - i - 1];
+            }
+            dp[j] = ans;
+        }
+        return dp[n];
+    }
+};
+//Method 3
+#include <vector>
+
+class Solution {
+public:
+    int findCatalan(int n) {
+        std::vector<int> dp(n + 1, 0);
+        dp[0] = dp[1] = 1;
+
+        for (int j = 2; j <= n; j++) {
+            int ans = 0;
+            for (int i = 1; i <= j; i++) {
+                ans += dp[i - 1] * dp[j - i];
+            }
+            dp[j] = ans;
+        }
+        return dp[n];
+    }
+};
+"""
 
 # For more application:
 # https://www.geeksforgeeks.org/applications-of-catalan-numbers/

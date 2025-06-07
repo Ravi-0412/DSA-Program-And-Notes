@@ -20,4 +20,56 @@ class Solution:
             ans = max(ans, depth)
         return ans
 
-        
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int maxDepth(String s) {
+        Set<Character> skip = new HashSet<>(Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/'));
+        int depth = 0, ans = 0;
+
+        for (char c : s.toCharArray()) {
+            if (skip.contains(c)) {
+                continue;
+            }
+            if (c == '(') {
+                depth += 1;
+            } else {
+                depth -= 1;
+            }
+            ans = Math.max(ans, depth);
+        }
+        return ans;
+    }
+}
+"""
+
+# C++ Code
+"""
+#include <string>
+#include <unordered_set>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxDepth(string s) {
+        unordered_set<char> skip = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/'};
+        int depth = 0, ans = 0;
+
+        for (char c : s) {
+            if (skip.count(c)) {
+                continue;
+            }
+            if (c == '(') {
+                depth += 1;
+            } else {
+                depth -= 1;
+            }
+            ans = max(ans, depth);
+        }
+        return ans;
+    }
+};
+"""

@@ -31,46 +31,129 @@ class Solution:
                                         # there must be any operator i.e '+' or '-' so lastOperator will be updated by '+' or  '-' only for next index.
         return sum(stack)
 
-# Java
+# Java Code 
 """
 using two stack , because in python we can store different types in list but it won't work in 
 java when we will use 'stack'. So changed the lastOperator character by 'int' i.e 1 (for +) and -1 (for -).
 """
 
 """
-public int calculate(String s) {
-    Stack<Integer> stack = new Stack<Integer>();
-    int result = 0;
-    int number = 0;
-    int sign = 1;
-    for(int i = 0; i < s.length(); i++){
-        char c = s.charAt(i);
-        if(Character.isDigit(c)){
-            number = 10 * number + (int)(c - '0');
-        }else if(c == '+'){
-            result += sign * number;
-            number = 0;
-            sign = 1;
-        }else if(c == '-'){
-            result += sign * number;
-            number = 0;
-            sign = -1;
-        }else if(c == '('){
-            //we push the result first, then sign;
-            stack.push(result);
-            stack.push(sign);
-            //reset the sign and result for the value in the parenthesis
-            sign = 1;   
-            result = 0;
-        }else if(c == ')'){
-            result += sign * number;  
-            number = 0;
-            result *= stack.pop();    //stack.pop() is the sign before the parenthesis
-            result += stack.pop();   //stack.pop() now is the result calculated before the parenthesis
-            
+import java.util.Stack;
+
+class Solution {
+    public int calculate(String s) {
+        Stack<Integer> stack = new Stack<>();
+        Stack<Character> operators = new Stack<>();
+        int num = 0;
+        char lastOperator = '+';
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+
+            if (Character.isDigit(c)) {
+                num = num * 10 + (c - '0');
+            }
+
+            if (c == '(') {
+                operators.push(lastOperator);
+                num = 0;
+                lastOperator = '+';
+            }
+
+            if (c == '+' || c == '-' || c == ')' || i == s.length() - 1) {
+                update(stack, lastOperator, num);
+
+                if (c == ')') {
+                    num = 0;
+                    while (!stack.isEmpty() && stack.peek() instanceof Integer) {
+                        num += stack.pop();
+                    }
+                    update(stack, operators.pop(), num);
+                }
+
+                num = 0;
+                lastOperator = c;
+            }
+        }
+
+        int result = 0;
+        while (!stack.isEmpty()) {
+            result += stack.pop();
+        }
+        return result;
+    }
+
+    private void update(Stack<Integer> stack, char op, int num) {
+        if (op == '+') {
+            stack.push(num);
+        } else if (op == '-') {
+            stack.push(-num);
         }
     }
-    if(number != 0) result += sign * number;
-    return result;
 }
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <stack>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int calculate(string s) {
+        stack<int> stack;
+        stack<char> operators;
+        int num = 0;
+        char lastOperator = '+';
+        
+        auto update = [&](char op, int val) {
+            if (op == '+') {
+                stack.push(val);
+            } else if (op == '-') {
+                stack.push(-val);
+            }
+        };
+
+        for (int i = 0; i < s.size(); i++) {
+            char c = s[i];
+
+            if (isdigit(c)) {
+                num = num * 10 + (c - '0');
+            }
+
+            if (c == '(') {
+                operators.push(lastOperator);
+                num = 0;
+                lastOperator = '+';
+            }
+
+            if (c == '+' || c == '-' || c == ')' || i == s.size() - 1) {
+                update(lastOperator, num);
+                
+                if (c == ')') {
+                    num = 0;
+                    while (!stack.empty() && isdigit(stack.top())) {
+                        num += stack.top();
+                        stack.pop();
+                    }
+                    update(operators.top(), num);
+                    operators.pop();
+                }
+                
+                num = 0;
+                lastOperator = c;
+            }
+        }
+
+        int result = 0;
+        while (!stack.empty()) {
+            result += stack.top();
+            stack.pop();
+        }
+        return result;
+    }
+};
 """

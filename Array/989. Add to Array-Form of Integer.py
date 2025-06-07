@@ -131,3 +131,36 @@ class Solution {
 }
 """
 
+# C++ Code 
+"""
+
+class Solution:
+    def addToArrayForm(self, num: List[int], k: int) -> List[int]:
+        n = len(num)
+        for i in range(n-1, -1, -1):
+            k , num[i] = divmod(num[i] + k , 10)
+        while k > 0:
+            k , a = divmod(k , 10)
+            num = [a] + num
+        
+        return num
+
+# Other way (More better)
+from typing import List
+
+class Solution:
+    def addToArrayForm(self, num: List[int], k: int) -> List[int]:
+        result = []
+        i = len(num) - 1
+        
+        while i >= 0 or k > 0:
+            if i >= 0:
+                k += num[i]
+                i -= 1
+            
+            result.append(k % 10)
+            k //= 10
+        
+        result.reverse()
+        return result
+"""

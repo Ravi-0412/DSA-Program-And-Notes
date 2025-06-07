@@ -55,3 +55,37 @@ class Solution {
     }
 }
 """
+
+# C++ Code 
+"""
+#include <iostream>
+#include <unordered_map>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int i = 0, j = 0;
+        unordered_map<char, int> FreqCount;  // will count the freq count in cur window
+        int maxFreq = 0;   // will store the maximum frequency of any char in cur window
+        int maxLength = 0;  // will store the ans
+
+        while (j < s.length()) {
+            FreqCount[s[j]]++;  // Update frequency count
+            maxFreq = max(maxFreq, FreqCount[s[j]]);
+
+            // We can only make 'k' chars equal to the char having maxFreq, so remove the extra chars from start of the window.
+            // If the char having maxFreq is at start, then it won’t affect the ans. Take an example and see.
+            while ((j - i + 1) - maxFreq > k) {   
+                FreqCount[s[i]]--;     
+                i++;
+            }
+            maxLength = max(maxLength, j - i + 1);
+            j++;
+        }
+        return maxLength;
+    }
+};
+"""

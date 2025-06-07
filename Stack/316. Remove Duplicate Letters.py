@@ -39,35 +39,101 @@ class Solution:
 # 1) 1081. Smallest Subsequence of Distinct Characters
 # Exactly same question 
 
-# Java
 # about 'join' in java
 # link: https://www.geeksforgeeks.org/java-string-join-examples/
+
+# Java Code 
 """
+import java.util.*;
+
 class Solution {
     public String removeDuplicateLetters(String s) {
-        int n = s.length();
-        Stack<Character> stack = new Stack<>();
-        Set<Character>  set = new HashSet<>();
-        Map<Character, Integer> lastIndex = new HashMap<>();
-        for(int i = 0; i < n; i ++) {
+        Map<Character, Integer> lastIndex = new HashMap<>(); // Stores last occurrence of each character
+        Set<Character> visited = new HashSet<>(); // Tracks characters already added to the stack
+        Stack<Character> stack = new Stack<>(); // Stores characters in lexicographically smallest order without duplicates
+
+        // First storing the last index of each character in the string
+        for (int i = 0; i < s.length(); i++) {
             lastIndex.put(s.charAt(i), i);
         }
-        for(int i = 0; i < n; i ++) {
-            Character c = s.charAt(i) ;
-            if(!set.contains(c)) {
-                while(!stack.isEmpty() && stack.peek() > c && lastIndex.get(stack.peek()) > i) {
-                    set.remove(stack.pop()) ;
-                }
-                stack.push(c);
-                set.add(c);
+
+        // Iterate through the string
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+
+            // Skip if already in stack
+            if (visited.contains(c)) continue;
+
+            // Keep removing chars from stack if:
+            // 1) Stack top is greater than current char
+            // 2) The stack top character appears again later
+            while (!stack.isEmpty() && stack.peek() > c && lastIndex.get(stack.peek()) > i) {
+                visited.remove(stack.pop()); // Remove from visited as well
             }
+
+            stack.push(c);
+            visited.add(c);
         }
-        // return String.join(",", stack);   // 'join' works on string not on character
-        StringBuilder ans = new StringBuilder();
-        for(Character c : stack){
-            ans.append(c);
+
+        // Construct result from stack
+        StringBuilder result = new StringBuilder();
+        while (!stack.isEmpty()) {
+            result.insert(0, stack.pop());
         }
-        return ans.toString();
+
+        return result.toString();
     }
 }
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <stack>
+#include <unordered_map>
+#include <unordered_set>
+
+using namespace std;
+
+class Solution {
+public:
+    string removeDuplicateLetters(string s) {
+        unordered_map<char, int> last_index; // Stores the last occurrence of each character in the string
+        unordered_set<char> visited; // Tracks characters already added to the stack
+        stack<char> st; // Stores characters in lexicographically smallest order without duplicates
+
+        // First storing the last index of each character in the string
+        for (int i = 0; i < s.size(); i++) {
+            last_index[s[i]] = i;
+        }
+
+        // Iterate through the string
+        for (int i = 0; i < s.size(); i++) {
+            char c = s[i];
+
+            // Skip if already in stack
+            if (visited.find(c) != visited.end()) continue;
+
+            // Keep removing chars from stack if:
+            // 1) Stack top is greater than current char
+            // 2) The stack top character appears again later
+            while (!st.empty() && st.top() > c && last_index[st.top()] > i) {
+                visited.erase(st.top()); // Remove from visited as well
+                st.pop();
+            }
+
+            st.push(c);
+            visited.insert(c);
+        }
+
+        // Construct result from stack
+        string result;
+        while (!st.empty()) {
+            result = st.top() + result;
+            st.pop();
+        }
+
+        return result;
+    }
+};
 """

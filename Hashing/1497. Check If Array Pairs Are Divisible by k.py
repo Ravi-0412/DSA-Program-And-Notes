@@ -91,3 +91,34 @@ class Solution {
     }
 }
 """
+
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+class Solution {
+public:
+    bool canArrange(vector<int>& arr, int k) {
+        unordered_map<int, int> frequency;
+
+        for (int num : arr) {
+            num %= k;
+            frequency[num]++;
+        }
+
+        if (frequency[0] % 2 != 0) {
+            return false;
+        }
+
+        for (int i = 1; i <= k / 2; i++) {
+            if (frequency[i] != frequency[k - i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+};
+"""

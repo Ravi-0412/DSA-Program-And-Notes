@@ -37,3 +37,85 @@ class Solution:
                     return True
         return False
 
+# Java Code 
+"""
+import java.util.Arrays;
+
+class Solution {
+    public boolean isPossible(int[] stalls, int minDistance, int k) {
+        int cows = 1;  // Place first cow at stalls[0]
+        int lastCowPosition = stalls[0];
+
+        for (int i = 1; i < stalls.length; i++) {
+            if (stalls[i] - lastCowPosition >= minDistance) { // Ensure minimum distance
+                cows++;
+                lastCowPosition = stalls[i];
+                if (cows >= k) return true; // If all cows are placed successfully
+            }
+        }
+        return false;
+    }
+
+    public int solve(int n, int k, int[] stalls) {
+        Arrays.sort(stalls); // Sorting to make positioning easier
+
+        int low = 1; // Minimum possible distance
+        int up = stalls[n - 1] - stalls[0]; // Maximum possible distance
+
+        while (low <= up) {
+            int mid = low + (up - low) / 2;
+            if (isPossible(stalls, mid, k)) {
+                low = mid + 1; // Try to maximize the minimum distance
+            } else {
+                up = mid - 1; // Reduce search space
+            }
+        }
+
+        return up; // Maximum possible minimum distance
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    bool isPossible(vector<int>& stalls, int minDistance, int k) {
+        int cows = 1;  // Place first cow at stalls[0]
+        int lastCowPosition = stalls[0];
+
+        for (size_t i = 1; i < stalls.size(); i++) {
+            if (stalls[i] - lastCowPosition >= minDistance) { // Ensure minimum distance
+                cows++;
+                lastCowPosition = stalls[i];
+                if (cows >= k) return true; // If all cows are placed successfully
+            }
+        }
+        return false;
+    }
+
+    int solve(int n, int k, vector<int>& stalls) {
+        sort(stalls.begin(), stalls.end()); // Sorting to make positioning easier
+
+        int low = 1; // Minimum possible distance
+        int up = stalls[n - 1] - stalls[0]; // Maximum possible distance
+
+        while (low <= up) {
+            int mid = low + (up - low) / 2;
+            if (isPossible(stalls, mid, k)) {
+                low = mid + 1; // Try to maximize the minimum distance
+            } else {
+                up = mid - 1; // Reduce search space
+            }
+        }
+
+        return up; // Maximum possible minimum distance
+    }
+};
+"""

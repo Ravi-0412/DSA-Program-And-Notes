@@ -17,3 +17,49 @@ class Solution:
             else: 
                 ans[num]= ans[num -1] + 1   # or ans[num]= ans[num//2] +1
         return ans
+
+# Java Code
+"""
+import java.util.*;
+
+class Solution {
+    public int[] countBits(int n) {
+        int[] ans = new int[n + 1];
+
+        for (int num = 1; num <= n; num++) {
+            if (num % 2 == 0) {
+                ans[num] = ans[num / 2]; // Even numbers have same bit count as num/2
+            } else {
+                ans[num] = ans[num - 1] + 1; // Odd numbers have one more bit than num-1
+            }
+        }
+
+        return ans;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> countBits(int n) {
+        vector<int> ans(n + 1, 0);
+
+        for (int num = 1; num <= n; num++) {
+            if (num % 2 == 0) {
+                ans[num] = ans[num / 2]; // Even numbers have same bit count as num/2
+            } else {
+                ans[num] = ans[num - 1] + 1; // Odd numbers have one more bit than num-1
+            }
+        }
+
+        return ans;
+    }
+};
+"""

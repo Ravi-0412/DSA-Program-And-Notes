@@ -1,23 +1,18 @@
 """
-Note: DFS you can't apply here 
-and bfs you will have to store all the rotten oranges at once in the queue, next all adjacent rotten oranges at once and so on .
-and also you need to call BFS only once time as all the oranges that can got rotten(connected one) will also become rotten
-as we are pushing all the rotten oranges at once that time.
-simple way: just find the oranges that can got rotten in time=1 , time=2 and so on
+Logic
+- Use BFS, not DFS.
+- Start with all rotten oranges in the queue.
+- Each level of BFS = 1 minute.
+- Rot all adjacent fresh oranges.
+- Continue until no more fresh oranges can rot.
 
-Note: All fresh oranges that is not connected to any of the rotten oranges directly or indirectly thwy won't get rotten.
-So we need to call bfs only for one time, if fresh one is connected directly or indirectly they will got rotten else not.
+Key Points
+- Fresh oranges at level 1 rot in 1 min, level 2 in 2 min, and so on.
+- Only one BFS call is needed.
+- If any fresh orange remains after BFS → return `-1`.
 
-also you can think like that : fresh oranges that are at level 1 from any of the rotten oranges will got rotten in one unit of time, 
-and oranges at level 2 will got rotten in two unit of time and so on .
+Time Complexity: O(m * n) — each cell processed once.
 
-Use multisource bfs
-
-Note: if you will writw : "while q" only and at last you return 'time -1' then it will give wrong ans
-when there is no rotten oranges or no fresh oranges. 
-so checking fresh also with 'queue'.
-
-time: O(m*n)
 """
 
 class Solution:

@@ -45,3 +45,60 @@ class Solution:
                 max_score = max(zeros - ones, max_score)
         
         return max_score + ones
+
+# Java Code 
+"""
+class Solution {
+    public int maxScore(String s) {
+        int n = s.length();
+        int[] prefixZeroCount = new int[n + 1]; // prefixZeroCount[i]: Number of zeros till index 'i-1' from the start.
+        int[] suffixOneCount = new int[n + 1]; // suffixOneCount[i]: Number of ones till index 'i' from the end.
+
+        // Compute prefixZeroCount and suffixOneCount
+        for (int i = 0; i < n; i++) {
+            prefixZeroCount[i + 1] = prefixZeroCount[i] + (s.charAt(i) == '0' ? 1 : 0);
+            suffixOneCount[n - i - 1] = suffixOneCount[n - i] + (s.charAt(n - i - 1) == '1' ? 1 : 0);
+        }
+
+        int ans = 0;
+        for (int i = 0; i < n - 1; i++) {
+            // Number of zeros till 'i' and number of ones till 'i+1'
+            ans = Math.max(ans, prefixZeroCount[i + 1] + suffixOneCount[i + 1]);
+        }
+
+        return ans;
+    }
+}
+"""
+
+# C++ Code
+"""
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxScore(string s) {
+        int n = s.size();
+        vector<int> prefixZeroCount(n + 1, 0); // prefixZeroCount[i]: Number of zeros till index 'i-1' from the start.
+        vector<int> suffixOneCount(n + 1, 0); // suffixOneCount[i]: Number of ones till index 'i' from the end.
+
+        // Compute prefixZeroCount and suffixOneCount
+        for (int i = 0; i < n; i++) {
+            prefixZeroCount[i + 1] = prefixZeroCount[i] + (s[i] == '0' ? 1 : 0);
+            suffixOneCount[n - i - 1] = suffixOneCount[n - i] + (s[n - i - 1] == '1' ? 1 : 0);
+        }
+
+        int ans = 0;
+        for (int i = 0; i < n - 1; i++) {
+            // Number of zeros till 'i' and number of ones till 'i+1'
+            ans = max(ans, prefixZeroCount[i + 1] + suffixOneCount[i + 1]);
+        }
+
+        return ans;
+    }
+};
+"""

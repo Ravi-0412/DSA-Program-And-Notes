@@ -164,45 +164,215 @@ def permutations(given, ans):
 
 
 
-# Java
+# Java Code
 """
-// method 2:
+// Method 1: Standard Recursion with Backtracking
+import java.util.*;
 
 class Solution {
-    public List<List<Integer>> permute(int[] nums) {
-        List<List<Integer>> ans = new ArrayList<>();
-        Set<Integer> included = new HashSet<>();
-        
-        // Start the permutation process
-        permutation(new ArrayList<>(), nums, included, ans);
-        
-        return ans;
-    }
-    
-    private void permutation(List<Integer> per, int[] nums, Set<Integer> included, List<List<Integer>> ans) {
-        if (per.size() == nums.length) {
-            // If the current permutation has the same length as nums, add it to the results
+    List<List<Integer>> ans;
+
+    private void permutation(List<Integer> arr, List<Integer> per) {  
+        if (arr.isEmpty()) {  
+            // means we have found the ans. Filled all the req places.
             ans.add(new ArrayList<>(per));
             return;
         }
-        
-        // Try adding each number in nums to the current permutation if it's not already included
-        for (int i = 0; i < nums.length; i++) {
-            if (!included.contains(nums[i])) {
-                included.add(nums[i]);    // Mark the number as included
-                per.add(nums[i]);         // Add the number to the current permutation
-                
-                permutation(per, nums, included, ans); // Recurse with the updated permutation
-                
-                // Backtrack by removing the last added number
+        // we can choose any number to fill the next position from remaining arr
+        for (int i = 0; i < arr.size(); i++) {  
+            // us ele ko lene ke bad usko aage me include nhi kar sakte. so removing the added ele from arr and adding that to our one of permutation.
+            List<Integer> newArr = new ArrayList<>(arr);
+            newArr.remove(i);
+            List<Integer> newPer = new ArrayList<>(per);
+            newPer.add(arr.get(i));
+            permutation(newArr, newPer);
+        }
+    }
+
+    public List<List<Integer>> permute(int[] nums) {
+        ans = new ArrayList<>();
+        List<Integer> numList = new ArrayList<>();
+        for (int num : nums) numList.add(num);
+        permutation(numList, new ArrayList<>());
+        return ans;
+    }
+}
+//Method 2: Using Set to Avoid Extra Copying
+import java.util.*;
+
+class Solution {
+    List<List<Integer>> ans;
+    Set<Integer> included;
+
+    private void permutation(List<Integer> per, int[] nums) {  
+        if (per.size() == nums.length) {  
+            ans.add(new ArrayList<>(per));
+            return;
+        }
+
+        for (int i = 0; i < nums.length; i++) {  
+            if (!included.contains(nums[i])) {  
+                included.add(nums[i]);
+                per.add(nums[i]);
+                permutation(per, nums);
                 included.remove(nums[i]);
                 per.remove(per.size() - 1);
             }
         }
     }
-} 
 
+    public List<List<Integer>> permute(int[] nums) {
+        ans = new ArrayList<>();
+        included = new HashSet<>();
+        permutation(new ArrayList<>(), nums);
+        return ans;
+    }
+}
+//Method 3: Placing Character in All Possible Gaps
+import java.util.*;
+
+class Solution {
+    List<List<Integer>> ans;
+
+    private void permutation(List<Integer> given, List<Integer> per) {  
+        if (given.isEmpty()) {  
+            ans.add(new ArrayList<>(per));
+            return;
+        }
+
+        int ch = given.get(0);  // upcoming char i.e 1st letter of remaining array
+
+        for (int i = 0; i <= per.size(); i++) {  
+            List<Integer> left = new ArrayList<>(per.subList(0, i));  // after this substring will put the 'ch'
+            List<Integer> right = new ArrayList<>(per.subList(i, per.size()));  // and before this
+
+            List<Integer> newGiven = new ArrayList<>(given.subList(1, given.size()));
+
+            permutation(newGiven, mergeLists(left, Collections.singletonList(ch), right));
+        }
+    }
+
+    private List<Integer> mergeLists(List<Integer>... lists) {
+        List<Integer> merged = new ArrayList<>();
+        for (List<Integer> list : lists) {
+            merged.addAll(list);
+        }
+        return merged;
+    }
+
+    public List<List<Integer>> permute(int[] nums) {
+        ans = new ArrayList<>();
+        List<Integer> numList = new ArrayList<>();
+        for (int num : nums) numList.add(num);
+        permutation(numList, new ArrayList<>());
+        return ans;
+    }
+}
 """
 
+# C++ Code 
+"""
+//Method 1: Standard Recursion with Backtracking
+#include <iostream>
+#include <vector>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> ans;
+
+    void permutation(vector<int> arr, vector<int> per) {
+        if (arr.empty()) { 
+            // means we have found the ans. Filled all the req places.
+            ans.push_back(per);
+            return;
+        }
+        // we can choose any number to fill the next position from remaining arr
+        for (int i = 0; i < arr.size(); i++) {  
+            // us ele ko lene ke bad usko aage me include nhi kar sakte. so removing the added ele from arr and adding that to our one of permutation.
+            vector<int> newArr = arr;
+            newArr.erase(newArr.begin() + i);
+            vector<int> newPer = per;
+            newPer.push_back(arr[i]);
+            permutation(newArr, newPer);
+        }
+    }
+
+    vector<vector<int>> permute(vector<int>& nums) {
+        ans.clear();
+        permutation(nums, {});
+        return ans;
+    }
+};
+
+//Method 2: Using Set to Avoid Extra Copying
+#include <iostream>
+#include <vector>
+#include <set>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> ans;
+    set<int> included;
+
+    void permutation(vector<int> per, vector<int>& nums) {
+        if (per.size() == nums.size()) {  
+            ans.push_back(per);
+            return;
+        }
+        for (int i = 0; i < nums.size(); i++) {  
+            if (included.find(nums[i]) == included.end()) {  
+                included.insert(nums[i]);
+                per.push_back(nums[i]);
+                permutation(per, nums);
+                included.erase(nums[i]);  
+                per.pop_back();  
+            }
+        }
+    }
+
+    vector<vector<int>> permute(vector<int>& nums) {
+        ans.clear();
+        included.clear();
+        permutation({}, nums);
+        return ans;
+    }
+};
+//Method 3: Placing Character in All Possible Gaps
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> ans;
+
+    void permutation(vector<int> given, vector<int> per) {  
+        if (given.empty()) {  
+            ans.push_back(per);
+            return;
+        }
+        int ch = given[0];  // upcoming char i.e 1st letter of remaining array
+
+        for (int i = 0; i <= per.size(); i++) {    
+            vector<int> left(per.begin(), per.begin() + i);   // after this substring will put the 'ch'
+            vector<int> right(per.begin() + i, per.end());    // and before this
+
+            // after putting that char at one possible gap, call the function to fill the next char at new available position
+            permutation(vector<int>(given.begin() + 1, given.end()), left + vector<int>{ch} + right);
+        }
+    }
+
+    vector<vector<int>> permute(vector<int>& nums) {
+        ans.clear();
+        permutation(nums, {});
+        return ans;
+    }
+};
+
+"""
 

@@ -42,43 +42,101 @@ class Solution:
 # Note: ye fixed sliding window isliye h ki hmko har char proper quantity me chahiye together i.e hmko char window size= len(p)
 # me ans check karna hoga.
 
-# Java
-""""
+# Java Code
+"""
+import java.util.*;
 
-public class Solution {
+class Solution {
     public List<Integer> findAnagrams(String s, String p) {
         int i = 0, j = 0;
         Map<Character, Integer> hashmap = new HashMap<>();
+        List<Integer> ans = new ArrayList<>();
+
+        // Count frequency of characters in 'p'
         for (char c : p.toCharArray()) {
             hashmap.put(c, hashmap.getOrDefault(c, 0) + 1);
         }
-        int count = hashmap.size();
-        List<Integer> ans = new ArrayList<>();
-        
+
+        int count = hashmap.size();  // count initialized to len(hashmap), meaning we need to find these distinct characters.
+
         while (j < s.length()) {
             if (hashmap.containsKey(s.charAt(j))) {
-                hashmap.put(s.charAt(j), hashmap.get(s.charAt(j)) - 1);
-                if (hashmap.get(s.charAt(j)) == 0) {
-                    count--;
+                hashmap.put(s.charAt(j), hashmap.get(s.charAt(j)) - 1);  // This may go negative, meaning we have seen extra s[j] than required.
+                if (hashmap.get(s.charAt(j)) == 0) {  
+                    count--;  // Found one required character in correct quantity.
                 }
             }
-            
-            if (j + 1 >= p.length()) {
-                if (count == 0) {
+
+            if (j + 1 >= p.length()) {  // or j - i + 1 == len(p)
+                if (count == 0) {  // All required characters found in valid quantity.
                     ans.add(i);
                 }
-                
+
+                // Slide the window by removing the character at index 'i'
                 if (hashmap.containsKey(s.charAt(i))) {
-                    hashmap.put(s.charAt(i), hashmap.get(s.charAt(i)) + 1);
-                    if (hashmap.get(s.charAt(i)) == 1) {
-                        count++;
+                    hashmap.put(s.charAt(i), hashmap.get(s.charAt(i)) + 1);  // Increase count since this character is removed from window.
+                    if (hashmap.get(s.charAt(i)) == 1) {  
+                        count++;  // Need to find this character again.
                     }
                 }
                 i++;
             }
+
             j++;
         }
         return ans;
     }
 }
+"""
+
+# C++ Code
+"""
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        int i = 0, j = 0;
+        unordered_map<char, int> hashmap;
+        vector<int> ans;
+
+        // Count frequency of characters in 'p'
+        for (char c : p) {
+            hashmap[c]++;
+        }
+
+        int count = hashmap.size();  // count initialized to len(hashmap), meaning we need to find these distinct characters.
+
+        while (j < s.length()) {
+            if (hashmap.find(s[j]) != hashmap.end()) {
+                hashmap[s[j]]--;  // This may go negative, meaning we have seen extra s[j] than required.
+                if (hashmap[s[j]] == 0) {  
+                    count--;  // Found one required character in correct quantity.
+                }
+            }
+
+            if (j + 1 >= p.length()) {  // or j - i + 1 == len(p)
+                if (count == 0) {  // All required characters found in valid quantity.
+                    ans.push_back(i);
+                }
+
+                // Slide the window by removing the character at index 'i'
+                if (hashmap.find(s[i]) != hashmap.end()) {
+                    hashmap[s[i]]++;  // Increase count since this character is removed from window.
+                    if (hashmap[s[i]] == 1) {  
+                        count++;  // Need to find this character again.
+                    }
+                }
+                i++;
+            }
+
+            j++;
+        }
+        return ans;
+    }
+};
 """

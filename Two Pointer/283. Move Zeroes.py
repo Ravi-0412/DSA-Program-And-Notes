@@ -76,7 +76,184 @@ class Solution:
                 temp= nums[i]
                 nums[i -snowBallSize]= temp   # moving the non-zero ele to the leftmost zero. 
                 nums[i]= 0   # this should be zero only after replacement.
-        
+
+# Java Code 
+"""
+//Method 1
+class Solution {
+    public void moveZeroes(int[] nums) {
+        int l = 0, r = nums.length - 1;
+        while (l < r) {
+            if (nums[l] == 0) {
+                int temp = nums[l];
+                nums[l] = nums[r];
+                nums[r] = temp;
+                r--;  // No need to increment 'l' as swapped value might still be zero
+            } else {
+                l++;
+            }
+        }
+    }
+}
+//Method 2
+class Solution {
+    public void moveZeroes(int[] nums) {
+        int n = nums.length;
+        int i = 0;  // Position where next non-zero element should be placed
+
+        while (i < n) {
+            if (nums[i] == 0) {
+                int k = i + 1;
+                while (k < n && nums[k] == 0) {
+                    k++;
+                }
+                if (k >= n) return;
+                int temp = nums[i];
+                nums[i] = nums[k];
+                nums[k] = temp;
+            }
+            i++;
+        }
+    }
+}
+//Method 3
+class Solution {
+    public void moveZeroes(int[] nums) {
+        int n = nums.length;
+        int last = 0; // Track last traversed index
+        int i = 0;    // Position where next non-zero element should be placed
+
+        while (i < n) {
+            if (nums[i] == 0) {
+                int k = Math.max(last + 1, i + 1); // Start search only from updated position
+                while (k < n && nums[k] == 0) {
+                    k++;
+                }
+                if (k >= n) return;
+                int temp = nums[i];
+                nums[i] = nums[k];
+                nums[k] = temp;
+                last = k;
+            }
+            i++;
+        }
+    }
+}
+//Method 4
+class Solution {
+    public void moveZeroes(int[] nums) {
+        int n = nums.length;
+        int snowBallSize = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (nums[i] == 0) {
+                snowBallSize++;  // Collect zeroes
+            } else if (snowBallSize > 0) {
+                int temp = nums[i];
+                nums[i] = nums[i - snowBallSize];  // Move non-zero elements forward
+                nums[i - snowBallSize] = temp;
+            }
+        }
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int l = 0, r = nums.size() - 1;
+        while (l < r) {
+            if (nums[l] == 0) {
+                swap(nums[l], nums[r]);
+                r--;  // No need to increment 'l' as swapped value might still be zero
+            } else {
+                l++;
+            }
+        }
+    }
+};
+//Method 2
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int n = nums.size();
+        int i = 0;  // Position where next non-zero element should be placed
+
+        while (i < n) {
+            if (nums[i] == 0) {
+                int k = i + 1;
+                while (k < n && nums[k] == 0) {
+                    k++;
+                }
+                if (k >= n) return;
+                swap(nums[i], nums[k]);
+            }
+            i++;
+        }
+    }
+};
+//Method 3
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int n = nums.size();
+        int last = 0; // Track last traversed index
+        int i = 0;    // Position where next non-zero element should be placed
+
+        while (i < n) {
+            if (nums[i] == 0) {
+                int k = max(last + 1, i + 1); // Start search only from updated position
+                while (k < n && nums[k] == 0) {
+                    k++;
+                }
+                if (k >= n) return;
+                swap(nums[i], nums[k]);
+                last = k;
+            }
+            i++;
+        }
+    }
+};
+//Method 4
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int n = nums.size();
+        int snowBallSize = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (nums[i] == 0) {
+                snowBallSize++;  // Collect zeroes
+            } else if (snowBallSize > 0) {
+                swap(nums[i], nums[i - snowBallSize]);  // Move non-zero elements forward
+            }
+        }
+    }
+};
+"""
 
 # Related Q: 
 """

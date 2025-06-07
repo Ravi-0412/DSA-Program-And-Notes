@@ -110,3 +110,141 @@ class Solution:
                 return False
         return True
 
+# Java Code 
+"""
+//Method 1
+class Solution {
+    public boolean isIdealPermutation(int[] nums) {
+        int n = nums.length;
+        int curr_max = nums[0];
+
+        for (int i = 0; i < n - 2; i++) {
+            curr_max = Math.max(curr_max, nums[i]);
+            if (curr_max > nums[i + 2]) { // If greater than any one of the non-adjacent elements
+                return false;
+            }
+        }
+        return true;
+    }
+}
+//Method 2
+class Solution {
+    /*
+    Explanation:
+    - The element at index `i` must be positioned at `i-1`, `i`, or `i+1` for local and global inversions to be equal.
+    - If the difference `Math.abs(nums[i] - i) > 1`, it means a non-local inversion exists.
+    - Works for numbers from `0` to `n-1`, with each number occurring once.
+    */
+    public boolean isIdealPermutation(int[] nums) {
+        int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            if (Math.abs(nums[i] - i) > 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+//Method 3
+class Solution {
+    /*
+    Explanation:
+    - If local inversion can sort the array, then the global inversion count will match.
+    - If swapping elements at `i-1` and `i` ensures sorting without extra swaps, the inversion is local.
+    */
+    public boolean isIdealPermutation(int[] nums) {
+        int n = nums.length;
+        int i = 1;
+
+        while (i < n) {
+            if (nums[i - 1] > nums[i]) {
+                int temp = nums[i - 1];
+                nums[i - 1] = nums[i];
+                nums[i] = temp; // Swap if local inversion exists
+                i++; // Ensure no double swap at the same index
+            }
+            i++;
+        }
+
+        // Now check if array is sorted afterward
+        for (int j = 1; j < n; j++) {
+            if (nums[j - 1] > nums[j]) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    bool isIdealPermutation(vector<int>& nums) {
+        int n = nums.size();
+        int curr_max = nums[0];
+
+        for (int i = 0; i < n - 2; i++) {
+            curr_max = max(curr_max, nums[i]);
+            if (curr_max > nums[i + 2]) { // If greater than any one of the non-adjacent elements
+                return false;
+            }
+        }
+        return true;
+    }
+};
+//Method 2
+class Solution {
+public:
+    /*
+    Explanation:
+    - The element at index `i` must be positioned at `i-1`, `i`, or `i+1` for local and global inversions to be equal.
+    - If the difference `abs(nums[i] - i) > 1`, it means a non-local inversion exists.
+    - Works for numbers from `0` to `n-1`, with each number occurring once.
+    */
+    bool isIdealPermutation(vector<int>& nums) {
+        int n = nums.size();
+        for (int i = 0; i < n; i++) {
+            if (abs(nums[i] - i) > 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+};
+//Method 3
+class Solution {
+public:
+    /*
+    Explanation:
+    - If local inversion can sort the array, then the global inversion count will match.
+    - If swapping elements at `i-1` and `i` ensures sorting without extra swaps, the inversion is local.
+    */
+    bool isIdealPermutation(vector<int>& nums) {
+        int n = nums.size();
+        int i = 1;
+
+        while (i < n) {
+            if (nums[i - 1] > nums[i]) {
+                swap(nums[i - 1], nums[i]); // Swap if local inversion exists
+                i++; // Ensure no double swap at the same index
+            }
+            i++;
+        }
+
+        // Now check if array is sorted afterward
+        for (int i = 1; i < n; i++) {
+            if (nums[i - 1] > nums[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+};
+"""

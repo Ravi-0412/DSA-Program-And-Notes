@@ -85,7 +85,212 @@ class MyQueue:
     def empty(self):
         return (self.stack1== [] and self.stack2== [])
 
+# Java Code 
+"""
+//Method 1
+import java.util.Stack;
 
+class MyQueue {
+    private Stack<Integer> stack1;
+    private Stack<Integer> stack2;
+
+    public MyQueue() {
+        stack1 = new Stack<>();
+        stack2 = new Stack<>();
+    }
+
+    public void push(int x) {
+        stack1.push(x);
+    }
+
+    public int pop() {
+        while (stack1.size() > 1) { // Move all elements except the first one to stack2
+            stack2.push(stack1.pop());
+        }
+
+        int ans = stack1.pop(); // Get the first element
+
+        while (!stack2.isEmpty()) { // Move elements back to stack1
+            stack1.push(stack2.pop());
+        }
+
+        return ans;
+    }
+
+    public int peek() {
+        while (stack1.size() > 1) { // Move all elements except the first one to stack2
+            stack2.push(stack1.pop());
+        }
+
+        int ans = stack1.peek(); // Peek the first element
+
+        while (!stack2.isEmpty()) { // Move elements back to stack1
+            stack1.push(stack2.pop());
+        }
+
+        return ans;
+    }
+
+    public boolean empty() {
+        return stack1.isEmpty() && stack2.isEmpty();
+    }
+}
+//Method 2
+import java.util.Stack;
+
+class MyQueue {
+    private Stack<Integer> stack1;
+    private Stack<Integer> stack2;
+
+    public MyQueue() {
+        stack1 = new Stack<>();
+        stack2 = new Stack<>();
+    }
+
+    public void push(int x) {
+        stack1.push(x);
+    }
+
+    public int pop() {
+        if (!stack2.isEmpty()) {
+            return stack2.pop();
+        }
+
+        while (!stack1.isEmpty()) { // Move elements from stack1 to stack2
+            stack2.push(stack1.pop());
+        }
+
+        return stack2.pop();
+    }
+
+    public int peek() {
+        if (!stack2.isEmpty()) {
+            return stack2.peek();
+        }
+
+        while (!stack1.isEmpty()) { // Move elements from stack1 to stack2
+            stack2.push(stack1.pop());
+        }
+
+        return stack2.peek();
+    }
+
+    public boolean empty() {
+        return stack1.isEmpty() && stack2.isEmpty();
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <stack>
+
+using namespace std;
+
+class MyQueue {
+private:
+    stack<int> stack1;
+    stack<int> stack2;
+
+public:
+    MyQueue() {}
+
+    void push(int x) {
+        stack1.push(x);
+    }
+
+    int pop() {
+        while (stack1.size() > 1) { // Move all elements except the first one to stack2
+            stack2.push(stack1.top());
+            stack1.pop();
+        }
+
+        int ans = stack1.top(); // Get the first element
+        stack1.pop();
+
+        while (!stack2.empty()) { // Move elements back to stack1
+            stack1.push(stack2.top());
+            stack2.pop();
+        }
+
+        return ans;
+    }
+
+    int peek() {
+        while (stack1.size() > 1) { // Move all elements except the first one to stack2
+            stack2.push(stack1.top());
+            stack1.pop();
+        }
+
+        int ans = stack1.top(); // Peek the first element
+
+        while (!stack2.empty()) { // Move elements back to stack1
+            stack1.push(stack2.top());
+            stack2.pop();
+        }
+
+        return ans;
+    }
+
+    bool empty() {
+        return stack1.empty() && stack2.empty();
+    }
+};
+//Method 2
+#include <iostream>
+#include <stack>
+
+using namespace std;
+
+class MyQueue {
+private:
+    stack<int> stack1;
+    stack<int> stack2;
+
+public:
+    MyQueue() {}
+
+    void push(int x) {
+        stack1.push(x);
+    }
+
+    int pop() {
+        if (!stack2.empty()) {
+            int ans = stack2.top();
+            stack2.pop();
+            return ans;
+        }
+
+        while (!stack1.empty()) { // Move elements from stack1 to stack2
+            stack2.push(stack1.top());
+            stack1.pop();
+        }
+
+        int ans = stack2.top();
+        stack2.pop();
+        return ans;
+    }
+
+    int peek() {
+        if (!stack2.empty()) {
+            return stack2.top();
+        }
+
+        while (!stack1.empty()) { // Move elements from stack1 to stack2
+            stack2.push(stack1.top());
+            stack1.pop();
+        }
+
+        return stack2.top();
+    }
+
+    bool empty() {
+        return stack1.empty() && stack2.empty();
+    }
+};
+"""
 # Try this also.
 
 # optimize for pop operation in O(1) time, didn't care about push's time complexity.

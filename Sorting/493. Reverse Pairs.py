@@ -91,5 +91,138 @@ class Solution:
             k+= 1
         return count
 
+# Java Code 
+"""
+import java.util.*;
 
+class Solution {
+    public int reversePairs(int[] nums) {
+        int n = nums.length;
+        return countReversePairs(nums, 0, n - 1);
+    }
 
+    private int countReversePairs(int[] arr, int low, int up) {
+        int inv_count = 0;
+        if (low < up) { // Check if more than one element exists
+            int mid = low + (up - low) / 2;
+            inv_count += countReversePairs(arr, low, mid);
+            inv_count += countReversePairs(arr, mid + 1, up);
+            inv_count += merge(arr, low, mid, up);
+        }
+        return inv_count;
+    }
+
+    private int reversePairCount(int[] arr, int low, int mid, int up) {
+        int low1 = low, up1 = mid, low2 = mid + 1, up2 = up;
+        int count = 0;
+
+        while (low1 <= up1 && low2 <= up2) {
+            while (low1 <= up1 && arr[low1] <= 2L * arr[low2]) {
+                low1++;
+            }
+            count += up1 - low1 + 1;
+            low2++;
+        }
+        return count;
+    }
+
+    private int merge(int[] arr, int low, int mid, int up) {
+        // First count the reverse pairs
+        int count = reversePairCount(arr, low, mid, up);
+
+        // Now merge the array
+        int low1 = low, up1 = mid, low2 = mid + 1, up2 = up;
+        List<Integer> b = new ArrayList<>();
+
+        while (low1 <= up1 && low2 <= up2) {
+            if (arr[low1] <= arr[low2]) {
+                b.add(arr[low1++]);
+            } else {
+                b.add(arr[low2++]);
+            }
+        }
+
+        while (low1 <= up1) {
+            b.add(arr[low1++]);
+        }
+        while (low2 <= up2) {
+            b.add(arr[low2++]);
+        }
+
+        for (int i = low, k = 0; i <= up; i++, k++) {
+            arr[i] = b.get(k);
+        }
+        return count;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int reversePairs(vector<int>& nums) {
+        int n = nums.size();
+        return countReversePairs(nums, 0, n - 1);
+    }
+
+private:
+    int countReversePairs(vector<int>& arr, int low, int up) {
+        int inv_count = 0;
+        if (low < up) { // Check if more than one element exists
+            int mid = low + (up - low) / 2;
+            inv_count += countReversePairs(arr, low, mid);
+            inv_count += countReversePairs(arr, mid + 1, up);
+            inv_count += merge(arr, low, mid, up);
+        }
+        return inv_count;
+    }
+
+    int reversePairCount(vector<int>& arr, int low, int mid, int up) {
+        int low1 = low, up1 = mid, low2 = mid + 1, up2 = up;
+        int count = 0;
+
+        while (low1 <= up1 && low2 <= up2) {
+            while (low1 <= up1 && arr[low1] <= 2LL * arr[low2]) {
+                low1++;
+            }
+            count += up1 - low1 + 1;
+            low2++;
+        }
+        return count;
+    }
+
+    int merge(vector<int>& arr, int low, int mid, int up) {
+        // First count the reverse pairs
+        int count = reversePairCount(arr, low, mid, up);
+
+        // Now merge the array
+        int low1 = low, up1 = mid, low2 = mid + 1, up2 = up;
+        vector<int> b;
+
+        while (low1 <= up1 && low2 <= up2) {
+            if (arr[low1] <= arr[low2]) {
+                b.push_back(arr[low1++]);
+            } else {
+                b.push_back(arr[low2++]);
+            }
+        }
+
+        while (low1 <= up1) {
+            b.push_back(arr[low1++]);
+        }
+        while (low2 <= up2) {
+            b.push_back(arr[low2++]);
+        }
+
+        for (int i = low, k = 0; i <= up; i++, k++) {
+            arr[i] = b[k];
+        }
+        return count;
+    }
+};
+"""

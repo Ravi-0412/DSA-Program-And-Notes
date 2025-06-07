@@ -81,124 +81,182 @@ class Solution:
         return list1 or list2
 
 
-# Java
+# Java Code 
 """
-// method 1:
+//Method 1
+  import java.util.List;
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+        next = null;
+    }
+}
+
 class Solution {
-    public ListNode mergeKLists(ListNode[] lists) {
-        if (lists == null || lists.length == 0) {
-            return null;
-        }
-        if (lists.length == 1) {
-            return lists[0];
-        }
+    public ListNode mergeKLists(List<ListNode> lists) {
+        if (lists.isEmpty()) return null;
+        if (lists.size() == 1) return lists.get(0);
 
-        ListNode head1 = lists[0];
-        ListNode head2 = lists[1];
-        ListNode newHead = mergeTwoLists(head1, head2);
-
-        for (int i = 2; i < lists.length; i++) {
-            head1 = newHead;
-            head2 = lists[i];
-            newHead = mergeTwoLists(head1, head2);
+        ListNode newHead = mergeTwoLists(lists.get(0), lists.get(1));
+        for (int i = 2; i < lists.size(); i++) {
+            newHead = mergeTwoLists(newHead, lists.get(i));
         }
 
         return newHead;
     }
 
     private ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        if (list1 == null) {
-            return list2;
-        }
-        if (list2 == null) {
-            return list1;
-        }
-        if (list1.val > list2.val) {
-            ListNode temp = list1;
-            list1 = list2;
-            list2 = temp;
-        }
-        list1.next = mergeTwoLists(list1.next, list2);
-        return list1;
-    }
-
-    
-// method 2:
-class Solution {
-    public ListNode mergeKLists(ListNode[] lists) {
-        if (lists == null || lists.length == 0) {
-            return null;
-        }
-        if (lists.length == 1) {
-            return lists[0];
-        }
-        while (lists.length > 1) {
-            int newSize = (lists.length + 1) / 2; // Calculate new size for the next iteration
-            ListNode[] mergedLists = new ListNode[newSize];
-            for (int i = 0; i < lists.length; i += 2) {
-                ListNode l1 = lists[i];
-                ListNode l2 = (i + 1 < lists.length) ? lists[i + 1] : null;
-                mergedLists[i / 2] = mergeTwoLists(l1, l2);
+        if (list1 != null && list2 != null) {
+            if (list1.val > list2.val) {
+                ListNode temp = list1;
+                list1 = list2;
+                list2 = temp;
             }
-            lists = mergedLists; // Update lists to be the merged lists for the next iteration
+            list1.next = mergeTwoLists(list1.next, list2);
         }
-        return lists[0];
+        return (list1 != null) ? list1 : list2;
+    }
+}
+//Method 2
+import java.util.List;
+import java.util.ArrayList;
+
+class Solution {
+    public ListNode mergeKLists(List<ListNode> lists) {
+        if (lists.isEmpty()) return null;
+        while (lists.size() > 1) {
+            List<ListNode> mergedLists = new ArrayList<>();
+            for (int i = 0; i < lists.size(); i += 2) {
+                ListNode l1 = lists.get(i);
+                ListNode l2 = (i + 1 < lists.size()) ? lists.get(i + 1) : null;
+                mergedLists.add(mergeTwoLists(l1, l2));
+            }
+            lists = mergedLists;
+        }
+        return lists.get(0);
     }
 
     private ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        if (list1 == null) {
-            return list2;
+        if (list1 != null && list2 != null) {
+            if (list1.val > list2.val) {
+                ListNode temp = list1;
+                list1 = list2;
+                list2 = temp;
+            }
+            list1.next = mergeTwoLists(list1.next, list2);
         }
-        if (list2 == null) {
-            return list1;
-        }
-        if (list1.val > list2.val) {
-            ListNode temp = list1;
-            list1 = list2;
-            list2 = temp;
-        }
-        list1.next = mergeTwoLists(list1.next, list2);
-        return list1;
+        return (list1 != null) ? list1 : list2;
     }
-
+}
     
-// method 3:
-class Solution {
-    public ListNode mergeKLists(ListNode[] lists) {
-        if (lists == null || lists.length == 0 || (lists.length == 1 && lists[0] == null)) {
-            return null;
-        }
-        if (lists.length == 1) {
-            return lists[0];
-        }
-        return mergeKListsHelper(lists, 0, lists.length - 1);
-    }
+//Method 3
+import java.util.List;
 
-    private ListNode mergeKListsHelper(ListNode[] lists, int start, int end) {
-        if (start == end) {
-            return lists[start];
-        }
-        int mid = start + (end - start) / 2;
-        ListNode left = mergeKListsHelper(lists, start, mid);
-        ListNode right = mergeKListsHelper(lists, mid + 1, end);
+class Solution {
+    public ListNode mergeKLists(List<ListNode> lists) {
+        if (lists.isEmpty()) return null;
+        if (lists.size() == 1) return lists.get(0);
+
+        int mid = lists.size() / 2;
+        ListNode left = mergeKLists(lists.subList(0, mid));
+        ListNode right = mergeKLists(lists.subList(mid, lists.size()));
         return merge(left, right);
     }
 
     private ListNode merge(ListNode list1, ListNode list2) {
-        if (list1 == null) {
-            return list2;
-        }
-        if (list2 == null) {
-            return list1;
-        }
-        if (list1.val > list2.val) {
-            ListNode temp = list1;
-            list1 = list2;
-            list2 = temp;
-        }
-        list1.next = merge(list1.next, list2);
-        return list1;
-    }
-}
+       
+"""
 
+# C++ Code 
+"""
+//Method 1
+  #include <iostream>
+#include <vector>
+
+using namespace std;
+
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if (lists.empty()) return nullptr;
+        if (lists.size() == 1) return lists[0];
+
+        ListNode* newHead = mergeTwoLists(lists[0], lists[1]);
+        for (size_t i = 2; i < lists.size(); i++) {
+            newHead = mergeTwoLists(newHead, lists[i]);
+        }
+
+        return newHead;
+    }
+
+private:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        if (list1 && list2) {
+            if (list1->val > list2->val) swap(list1, list2);
+            list1->next = mergeTwoLists(list1->next, list2);
+        }
+        return list1 ? list1 : list2;
+    }
+};
+//Method 2
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if (lists.empty()) return nullptr;
+        while (lists.size() > 1) {
+            vector<ListNode*> mergedLists;
+            for (size_t i = 0; i < lists.size(); i += 2) {
+                ListNode* l1 = lists[i];
+                ListNode* l2 = (i + 1 < lists.size()) ? lists[i + 1] : nullptr;
+                mergedLists.push_back(mergeTwoLists(l1, l2));
+            }
+            lists = mergedLists;
+        }
+        return lists[0];
+    }
+
+private:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        if (list1 && list2) {
+            if (list1->val > list2->val) swap(list1, list2);
+            list1->next = mergeTwoLists(list1->next, list2);
+        }
+        return list1 ? list1 : list2;
+    }
+};
+    
+//Method 3
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if (lists.empty()) return nullptr;
+        if (lists.size() == 1) return lists[0];
+
+        int mid = lists.size() / 2;
+        ListNode* left = mergeKLists(vector<ListNode*>(lists.begin(), lists.begin() + mid));
+        ListNode* right = mergeKLists(vector<ListNode*>(lists.begin() + mid, lists.end()));
+        return merge(left, right);
+    }
+
+private:
+    ListNode* merge(ListNode* list1, ListNode* list2) {
+        if (list1 && list2) {
+            if (list1->val > list2->val) swap(list1, list2);
+            list1->next = merge(list1->next, list2);
+        }
+        return list1 ? list1 : list2;
+    }
+};
 """

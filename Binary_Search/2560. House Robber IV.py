@@ -53,4 +53,88 @@ class Solution:
                 start= mid + 1
         return start
     
+# Java Code 
+"""
+import java.util.Arrays;
 
+class Solution {
+    // Function to count numbers we can pick non-adjacent with value <= mid
+    private int noLessThan(int mid, int[] nums) {
+        boolean lastTaken = false;
+        int count = 0;
+
+        for (int num : nums) {
+            if (lastTaken) { // Skip if the previous element was taken
+                lastTaken = false;
+                continue;
+            }
+            if (num <= mid) { // Count valid numbers
+                count++;
+                lastTaken = true;
+            }
+        }
+        return count;
+    }
+
+    public int minCapability(int[] nums, int k) {
+        int start = Arrays.stream(nums).min().getAsInt();
+        int end = Arrays.stream(nums).max().getAsInt();
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (noLessThan(mid, nums) >= k) {
+                end = mid;
+            } else {
+                start = mid + 1;
+            }
+        }
+
+        return start;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    // Function to count numbers we can pick non-adjacent with value <= mid
+    int noLessThan(int mid, vector<int>& nums) {
+        bool lastTaken = false;
+        int count = 0;
+
+        for (int num : nums) {
+            if (lastTaken) { // Skip if the previous element was taken
+                lastTaken = false;
+                continue;
+            }
+            if (num <= mid) { // Count valid numbers
+                count++;
+                lastTaken = true;
+            }
+        }
+        return count;
+    }
+
+    int minCapability(vector<int>& nums, int k) {
+        int start = *min_element(nums.begin(), nums.end());
+        int end = *max_element(nums.begin(), nums.end());
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (noLessThan(mid, nums) >= k) {
+                end = mid;
+            } else {
+                start = mid + 1;
+            }
+        }
+
+        return start;
+    }
+};
+"""

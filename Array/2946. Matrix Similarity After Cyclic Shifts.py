@@ -33,3 +33,50 @@ class Solution:
                 if mat[i][j] != mat[i][ind]:
                     return False
         return True
+
+# Java Code 
+"""
+class Solution {
+    public boolean areSimilar(int[][] mat, int k) {
+        int m = mat.length, n = mat[0].length;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int ind = (j + k) % n;
+                if (mat[i][j] != mat[i][ind]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+}
+
+"""
+
+# C++ Code 
+"""
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    bool areSimilar(vector<vector<int>>& mat, int k) {
+        int m = mat.size(), n = mat[0].size();
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int ind = (j + k) % n;
+                if (mat[i][j] != mat[i][ind]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+};
+
+"""

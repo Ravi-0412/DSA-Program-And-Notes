@@ -50,6 +50,139 @@ class Solution:
                 num, lastOperator= 0, c
         return sum(stack)
 
+# Java Code 
+"""
+import java.util.Stack;
+
+class Solution {
+    public int calculate(String s) {
+        Stack<Integer> numStack = new Stack<>();
+        Stack<Character> opStack = new Stack<>();
+        int num = 0;
+        char lastOperator = '+';
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+
+            if (Character.isDigit(c)) {
+                num = num * 10 + (c - '0');
+            }
+
+            if (c == '(') {
+                opStack.push(lastOperator);
+                num = 0;
+                lastOperator = '+';
+            }
+
+            if (c == '+' || c == '-' || c == '*' || c == '/' || c == ')' || i == s.length() - 1) {
+                update(numStack, lastOperator, num);
+
+                if (c == ')') {
+                    num = 0;
+                    while (!numStack.isEmpty() && numStack.peek() instanceof Integer) {
+                        num += numStack.pop();
+                    }
+                    update(numStack, opStack.pop(), num);
+                }
+
+                num = 0;
+                lastOperator = c;
+            }
+        }
+
+        int result = 0;
+        while (!numStack.isEmpty()) {
+            result += numStack.pop();
+        }
+        return result;
+    }
+
+    private void update(Stack<Integer> numStack, char op, int num) {
+        if (op == '+') {
+            numStack.push(num);
+        } else if (op == '-') {
+            numStack.push(-num);
+        } else if (op == '*') {
+            numStack.push(numStack.pop() * num);
+        } else if (op == '/') {
+            numStack.push(numStack.pop() / num);
+        }
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <stack>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int calculate(string s) {
+        stack<int> numStack;
+        stack<char> opStack;
+        int num = 0;
+        char lastOperator = '+';
+
+        auto update = [&](char op, int val) {
+            if (op == '+') {
+                numStack.push(val);
+            } else if (op == '-') {
+                numStack.push(-val);
+            } else if (op == '*') {
+                int temp = numStack.top();
+                numStack.pop();
+                numStack.push(temp * val);
+            } else if (op == '/') {
+                int temp = numStack.top();
+                numStack.pop();
+                numStack.push(temp / val);
+            }
+        };
+
+        for (int i = 0; i < s.size(); i++) {
+            char c = s[i];
+
+            if (isdigit(c)) {
+                num = num * 10 + (c - '0');
+            }
+
+            if (c == '(') {
+                opStack.push(lastOperator);
+                num = 0;
+                lastOperator = '+';
+            }
+
+            if (c == '+' || c == '-' || c == '*' || c == '/' || c == ')' || i == s.size() - 1) {
+                update(lastOperator, num);
+
+                if (c == ')') {
+                    num = 0;
+                    while (!numStack.empty() && typeid(numStack.top()) == typeid(int)) {
+                        num += numStack.top();
+                        numStack.pop();
+                    }
+                    update(opStack.top(), num);
+                    opStack.pop();
+                }
+
+                num = 0;
+                lastOperator = c;
+            }
+        }
+
+        int result = 0;
+        while (!numStack.empty()) {
+            result += numStack.top();
+            numStack.pop();
+        }
+        return result;
+    }
+};
+"""
 
 # About 'isinstance(object, type)'
 # The isinstance() function returns True if the specified object is of the specified type, otherwise False.

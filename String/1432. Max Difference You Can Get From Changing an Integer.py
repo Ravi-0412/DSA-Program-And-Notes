@@ -35,31 +35,30 @@ class Solution:
         
         return int(a) - int(b)
     
-# java
-""""
+# Java Code
+"""
 class Solution {
     public int maxDiff(int num) {
-        String a = Integer.toString(num);
-        String b = a;
+        String a = String.valueOf(num), b = String.valueOf(num);
 
-        // Finding the largest number
+        // find the left-most digit in it that is not a 9 and replace all occurrences of that digit with 9.
         for (char digit : a.toCharArray()) {
             if (digit != '9') {
+                // replace all occurrences of 'digit' with '9'.
                 a = a.replace(digit, '9');
                 break;
             }
         }
 
-        // Finding the smallest number
         if (b.charAt(0) != '1') {
-            // If the first digit is not '1', replace all occurrences of the first digit with '1'
+            // then for getting minimum it is better to replace all occurrences of digit 'b[0]' with '1'
+            // because in this case you can't replace with '0' as '0' can't come at start.
             b = b.replace(b.charAt(0), '1');
         } else {
-            // If the first digit is '1', replace the first digit that is not '0' or '1' with '0'
+            // if first digit is '1' then replace the first digit which is not 0/1 from left with zero.
             for (int i = 1; i < b.length(); i++) {
-                char digit = b.charAt(i);
-                if (digit != '0' && digit != '1') {
-                    b = b.replace(digit, '0');
+                if (b.charAt(i) != '0' && b.charAt(i) != '1') {
+                    b = b.replace(b.charAt(i), '0');
                     break;
                 }
             }
@@ -68,4 +67,43 @@ class Solution {
         return Integer.parseInt(a) - Integer.parseInt(b);
     }
 }
-""""
+"""
+
+# C++ Code
+"""
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxDiff(int num) {
+        string a = to_string(num), b = to_string(num);
+
+        // find the left-most digit in it that is not a 9 and replace all occurrences of that digit with 9.
+        for (char digit : a) {
+            if (digit != '9') {
+                // replace all occurrences of 'digit' with '9'.
+                replace(a.begin(), a.end(), digit, '9');
+                break;
+            }
+        }
+
+        if (b[0] != '1') {
+            // then for getting minimum it is better to replace all occurrences of digit 'b[0]' with '1'
+            // because in this case you can't replace with '0' as '0' can't come at start.
+            replace(b.begin(), b.end(), b[0], '1');
+        } else {
+            // if first digit is '1' then replace the first digit which is not 0/1 from left with zero.
+            for (size_t i = 1; i < b.size(); i++) {
+                if (b[i] != '0' && b[i] != '1') {
+                    replace(b.begin(), b.end(), b[i], '0');
+                    break;
+                }
+            }
+        }
+
+        return stoi(a) - stoi(b);
+    }
+};
+"""

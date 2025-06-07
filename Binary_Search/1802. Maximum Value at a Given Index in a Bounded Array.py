@@ -42,3 +42,93 @@ class Solution:
             else:
                 end = mid -1
         return end
+
+# Java Code 
+"""
+class Solution {
+    public boolean isPossible(int mid, int n, int index, int maxSum) {
+        int r = n - index - 1;  // No of elements on the right side of 'index'
+        int l = index;           // No of elements on the left side of 'index'
+
+        int m = mid - 1;
+        long leftSum = 0, rightSum = 0;
+
+        // Calculating right sum
+        if (r <= m) {
+            rightSum = (long)m * (m + 1) / 2 - (long)(m - r) * (m - r + 1) / 2;
+        } else {
+            rightSum = (long)m * (m + 1) / 2 + (long)(r - m);
+        }
+
+        // Calculating left sum
+        if (l <= m) {
+            leftSum = (long)m * (m + 1) / 2 - (long)(m - l) * (m - l + 1) / 2;
+        } else {
+            leftSum = (long)m * (m + 1) / 2 + (long)(l - m);
+        }
+
+        return (leftSum + mid + rightSum) <= maxSum;
+    }
+
+    public int maxValue(int n, int index, int maxSum) {
+        int start = 1, end = maxSum - (n - 1);
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (isPossible(mid, n, index, maxSum)) {
+                start = mid + 1;
+            } else {
+                end = mid - 1;
+            }
+        }
+        return end;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    bool isPossible(int mid, int n, int index, int maxSum) {
+        int r = n - index - 1;  // No of elements on the right side of 'index'
+        int l = index;           // No of elements on the left side of 'index'
+
+        int m = mid - 1;
+        long leftSum = 0, rightSum = 0;
+
+        // Calculating right sum
+        if (r <= m) {
+            rightSum = (long)m * (m + 1) / 2 - (long)(m - r) * (m - r + 1) / 2;
+        } else {
+            rightSum = (long)m * (m + 1) / 2 + (long)(r - m);
+        }
+
+        // Calculating left sum
+        if (l <= m) {
+            leftSum = (long)m * (m + 1) / 2 - (long)(m - l) * (m - l + 1) / 2;
+        } else {
+            leftSum = (long)m * (m + 1) / 2 + (long)(l - m);
+        }
+
+        return (leftSum + mid + rightSum) <= maxSum;
+    }
+
+    int maxValue(int n, int index, int maxSum) {
+        int start = 1, end = maxSum - (n - 1);
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (isPossible(mid, n, index, maxSum)) {
+                start = mid + 1;
+            } else {
+                end = mid - 1;
+            }
+        }
+        return end;
+    }
+};
+"""

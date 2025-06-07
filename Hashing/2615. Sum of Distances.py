@@ -57,5 +57,96 @@ class Solution:
                     rightSum-= ind
         return nums
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int[] distance(int[] nums) {
+        Map<Integer, List<Integer>> valueToIndexes = new HashMap<>(); // [value: indexes]
+
+        for (int i = 0; i < nums.length; i++) {
+            valueToIndexes.computeIfAbsent(nums[i], k -> new ArrayList<>()).add(i); // Indices stored in ascending order
+        }
+
+        for (Map.Entry<Integer, List<Integer>> entry : valueToIndexes.entrySet()) {
+            List<Integer> indices = entry.getValue();
+            
+            if (indices.size() == 1) { // Unique element
+                nums[indices.get(0)] = 0;
+            } else {
+                int n = indices.size();
+                int leftSum = 0, rightSum = 0; // Sum of all indices
+                
+                for (int idx : indices) {
+                    rightSum += idx;
+                }
+
+                for (int i = 0; i < n; i++) {
+                    int ind = indices.get(i);
+                    int curAns = 0;
+                    int noLeftSide = i;
+                    int noRightSide = n - i; // Including current index
+
+                    curAns += (ind * noLeftSide) - leftSum;
+                    curAns += rightSum - (ind * noRightSide);
+                    
+                    nums[ind] = curAns;
+                    leftSum += ind;
+                    rightSum -= ind;
+                }
+            }
+        }
+        return nums;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> distance(vector<int>& nums) {
+        unordered_map<int, vector<int>> valueToIndexes; // [value: indexes]
+        
+        for (int i = 0; i < nums.size(); i++) {
+            valueToIndexes[nums[i]].push_back(i); // Indices will be stored in ascending order
+        }
+
+        for (auto& [num, indices] : valueToIndexes) {
+            if (indices.size() == 1) { // Unique element
+                nums[indices[0]] = 0;
+            } else {
+                int n = indices.size();
+                int leftSum = 0, rightSum = 0; // Sum of all indices
+                
+                for (int idx : indices) {
+                    rightSum += idx;
+                }
+
+                for (int i = 0; i < n; i++) {
+                    int ind = indices[i];
+                    int curAns = 0;
+                    int noLeftSide = i;
+                    int noRightSide = n - i; // Including current index also
+
+                    curAns += (ind * noLeftSide) - leftSum;
+                    curAns += rightSum - (ind * noRightSide);
+                    
+                    nums[ind] = curAns;
+                    leftSum += ind;
+                    rightSum -= ind;
+                }
+            }
+        }
+        return nums;
+    }
+};
+"""
+
 # Related Q: 
 "2731. Movement of Robots"

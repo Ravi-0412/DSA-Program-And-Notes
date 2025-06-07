@@ -32,33 +32,72 @@ class Solution:
         backtrack(0, [])
         return ans
 
-# java
+# Java Code
 """
+import java.util.*;
 
-public class Solution {
-    public List<String> wordBreak(String s, List<String> wordDict) {
-        int n = s.length();
-        Set<String> dictSet = new HashSet<>(wordDict);
-        List<String> ans = new ArrayList<>();
-
-        backtrack(0, s, dictSet, new ArrayList<>(), ans);
-
-        return ans;
-    }
-
-    private void backtrack(int i, String s, Set<String> dictSet, List<String> sent, List<String> ans) {
+class Solution {
+    public void backtrack(int i, String s, Set<String> dictSet, List<String> sent, List<String> ans) {
         int n = s.length();
         if (i == n) {
             ans.add(String.join(" ", sent));
             return;
         }
         for (int j = i; j < n; j++) {
-            if (dictSet.contains(s.substring(i, j + 1))) {
-                sent.add(s.substring(i, j + 1)); // Include the current word in the sentence
-                backtrack(j + 1, s, dictSet, sent, ans); // Recursive call for the next part of the string
-                sent.remove(sent.size() - 1); // Backtrack: Remove the last added word to explore other possibilities
+            String word = s.substring(i, j + 1);
+            if (dictSet.contains(word)) {
+                sent.add(word);
+                backtrack(j + 1, s, dictSet, sent, ans);
+                sent.remove(sent.size() - 1);
             }
         }
     }
+
+    public List<String> wordBreak(String s, List<String> wordDict) {
+        Set<String> dictSet = new HashSet<>(wordDict);
+        List<String> ans = new ArrayList<>();
+        List<String> sent = new ArrayList<>();
+        backtrack(0, s, dictSet, sent, ans);
+        return ans;
+    }
 }
+"""
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+
+using namespace std;
+
+class Solution {
+public:
+    void backtrack(int i, string &s, unordered_set<string> &dictSet, vector<string> &sent, vector<string> &ans) {
+        int n = s.length();
+        if (i == n) {
+            string sentence = "";
+            for (int j = 0; j < sent.size(); j++) {
+                if (j > 0) sentence += " ";
+                sentence += sent[j];
+            }
+            ans.push_back(sentence);
+            return;
+        }
+        for (int j = i; j < n; j++) {
+            string word = s.substr(i, j - i + 1);
+            if (dictSet.find(word) != dictSet.end()) {
+                sent.push_back(word);
+                backtrack(j + 1, s, dictSet, sent, ans);
+                sent.pop_back();
+            }
+        }
+    }
+
+    vector<string> wordBreak(string s, vector<string> &wordDict) {
+        unordered_set<string> dictSet(wordDict.begin(), wordDict.end());
+        vector<string> ans, sent;
+        backtrack(0, s, dictSet, sent, ans);
+        return ans;
+    }
+};
 """

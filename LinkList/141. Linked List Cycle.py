@@ -83,26 +83,168 @@ class Solution:
         return False
 
 
-# Java
+# Java Code 
 """
-// method 4:
-class Solution {
-    public boolean hasCycle(ListNode head) {
-        if (head == null || head.next == null) {
-            return false; // If the list is empty or has only one element, there is no cycle
-        }
+//Method 1
+class ListNode {
+    int val;
+    ListNode next;
 
-        ListNode fast = head;
-        ListNode slow = head;
-
-        while (fast != null && fast.next != null) { // Ensure fast and fast.next are not null
-            slow = slow.next; // Move slow by one step
-            fast = fast.next.next; // Move fast by two steps
-            if (slow == fast) { // If slow and fast meet, there is a cycle
-                return true;
-            }
-        }
-        return false; // If fast reaches the end, there is no cycle
+    ListNode(int x) {
+        val = x;
+        next = null;
     }
 }
+
+class Solution {
+    public boolean hasCycle(ListNode head) {
+        ListNode first = head;
+        int length = 0;
+
+        while (first != null) {
+            if (length > 10001) {
+                return true;
+            }
+            first = first.next;
+            length++;
+        }
+        return false;
+    }
+}
+//Method 2
+import java.util.HashSet;
+
+class Solution {
+    public boolean hasCycle(ListNode head) {
+        HashSet<ListNode> seenNodes = new HashSet<>();
+        ListNode temp = head;
+
+        while (temp != null) {
+            if (seenNodes.contains(temp)) {
+                return true; // Found repeating node, cycle exists
+            }
+            seenNodes.add(temp);
+            temp = temp.next;
+        }
+
+        return false;
+    }
+}
+//Method 3
+class Solution {
+    public boolean hasCycle(ListNode head) {
+        while (head != null) {
+            if (head.val == -1) { // Marking visited nodes uniquely
+                return true;
+            }
+            head.val = -1; // Mark node as visited
+            head = head.next;
+        }
+        return false;
+    }
+}
+//Method 4
+class Solution {
+    public boolean hasCycle(ListNode head) {
+        ListNode slow = head, fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {
+                return true; // Cycle detected
+            }
+        }
+
+        return false;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+
+using namespace std;
+
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+    
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+class Solution {
+public:
+    bool hasCycle(ListNode* head) {
+        ListNode* first = head;
+        int length = 0;
+
+        while (first) {
+            if (length > 10001) {
+                return true;
+            }
+            first = first->next;
+            length++;
+        }
+        return false;
+    }
+};
+//Method 2
+#include <iostream>
+#include <unordered_set>
+
+using namespace std;
+
+class Solution {
+public:
+    bool hasCycle(ListNode* head) {
+        unordered_set<ListNode*> seenNodes;
+        ListNode* temp = head;
+
+        while (temp) {
+            if (seenNodes.find(temp) != seenNodes.end()) {
+                return true; // Found repeating node, cycle exists
+            }
+            seenNodes.insert(temp);
+            temp = temp->next;
+        }
+
+        return false;
+    }
+};
+//Method 3
+class Solution {
+public:
+    bool hasCycle(ListNode* head) {
+        while (head) {
+            if (head->val == -1) { // Marking visited nodes uniquely
+                return true;
+            }
+            head->val = -1; // Mark node as visited
+            head = head->next;
+        }
+        return false;
+    }
+};
+//Method 4
+class Solution {
+public:
+    bool hasCycle(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+            if (slow == fast) {
+                return true; // Cycle detected
+            }
+        }
+
+        return false;
+    }
+};
 """

@@ -29,7 +29,27 @@ private int gcd(int a, int b) {
     if (a == 0) return b;
     return gcd(b % a, a);
 }
+"""
 
+# C++ Code 
+"""
+#include <numeric> // For std::gcd
+
+using namespace std;
+
+class Solution {
+public:
+    /*
+    Explanation:
+    - Compute the GCD of `targetX` and `targetY`.
+    - If `g` is a power of 2, then `g & (g - 1) == 0` holds true.
+    - This ensures that the target can be reached.
+    */
+    bool isReachable(int targetX, int targetY) {
+        int g = gcd(targetX, targetY);
+        return (g & (g - 1)) == 0; // Check if `g` is a power of 2
+    }
+};
 """
 
 """

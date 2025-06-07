@@ -196,54 +196,142 @@ def reverseList(self, head) :
         return pre              
 
 
-# java
+# Java Code 
 """
-// method 2:
-class Solution {
-    public ListNode reverseList(ListNode head) {
-        if (head == null) return head;
-        ListNode pre = null, current = head;
-        while (current != null) {
-            ListNode temp = current.next;
-            current.next = pre;
-            pre = current;
-            current = temp;
-        }
-        return pre;
+//method 1:
+import java.util.Stack;
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+        next = null;
     }
 }
 
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null) return head;
+        Stack<ListNode> stk = new Stack<>();
+        ListNode curr = head;
+
+        while (curr != null) {
+            stk.push(curr);
+            curr = curr.next;
+        }
+
+        head = stk.pop();
+        ListNode temp = head;
+
+        while (!stk.isEmpty()) {
+            temp.next = stk.pop();
+            temp = temp.next;
+        }
+
+        temp.next = null;
+        return head;
+    }
+}
+// method 2:
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode prev = null;
+        ListNode current = head;
+
+        while (current != null) {
+            ListNode temp = current.next;
+            current.next = prev;
+            prev = current;
+            current = temp;
+        }
+
+        return prev;
+    }
+}
 // method 3:
 class Solution {
-    private ListNode head;
     public ListNode reverseList(ListNode head) {
-        this.head = head;
-        ListNode pre = null, curr = head;
-        return reverseByRecursion(pre, curr);
-    }
-
-    private ListNode reverseByRecursion(ListNode pre, ListNode curr) {
-        if (curr == null) {
-            this.head = pre;
-        } else {
-            reverseByRecursion(curr, curr.next);
-            curr.next = pre;
-        }
-        return this.head;
-    }
-    }
-
-// method 4:
-class Solution {
-    public ListNode reverseList(ListNode head) {
-        if (head == null || head.next == null) {
-            return head;
-        }
+        if (head == null || head.next == null) return head;
         ListNode reverseHead = reverseList(head.next);
         head.next.next = head;
         head.next = null;
         return reverseHead;
     }
 }
+
+"""
+
+# C++ Code 
+"""
+// method 1:
+#include <iostream>
+#include <stack>
+
+using namespace std;
+
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if (!head) return head;
+        stack<ListNode*> stk;
+        ListNode* curr = head;
+
+        while (curr) {
+            stk.push(curr);
+            curr = curr->next;
+        }
+
+        head = stk.top();
+        stk.pop();
+        ListNode* temp = head;
+
+        while (!stk.empty()) {
+            temp->next = stk.top();
+            stk.pop();
+            temp = temp->next;
+        }
+
+        temp->next = nullptr;
+        return head;
+    }
+};
+// method 2:
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        ListNode* prev = nullptr;
+        ListNode* current = head;
+
+        while (current) {
+            ListNode* temp = current->next;
+            current->next = prev;
+            prev = current;
+            current = temp;
+        }
+
+        return prev;
+    }
+};
+// method 3:
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if (!head || !head->next) return head;
+        ListNode* reverseHead = reverseList(head->next);
+        head->next->next = head;
+        head->next = nullptr;
+        return reverseHead;
+    }
+};
 
 """

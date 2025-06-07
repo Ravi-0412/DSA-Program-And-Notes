@@ -49,3 +49,125 @@ def deleteDuplicates(self, head):
         return head   # will act as base case also
 
 
+# Java Code 
+"""
+//Method 1
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+        next = null;
+    }
+}
+
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if (head == null) return head;
+
+        ListNode temp = head;
+        ListNode current = head.next;
+
+        while (current != null) {
+            if (current.val == temp.val) { // If duplicate
+                temp.next = current.next; // Skip duplicate node
+            } else {
+                temp = temp.next; // Move to next distinct node
+            }
+            current = current.next;
+        }
+
+        return head;
+    }
+}
+//Method 2
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        ListNode curr = head;
+
+        while (curr != null) {
+            while (curr.next != null && curr.next.val == curr.val) {
+                curr.next = curr.next.next; // Skip duplicates
+            }
+            curr = curr.next;
+        }
+
+        return head;
+    }
+}
+//Method 3
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if (head != null && head.next != null) {
+            head.next = deleteDuplicates(head.next);
+            return (head.next.val == head.val) ? head.next : head;
+        }
+        return head;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+
+using namespace std;
+
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        if (!head) return head;
+
+        ListNode* temp = head;  // temp will always point to last distinct node
+        ListNode* current = head->next; // start from second node
+
+        while (current) {
+            if (current->val == temp->val) {  // If duplicate
+                temp->next = current->next;  // Skip duplicate node
+            } else {
+                temp = temp->next; // Move to next distinct node
+            }
+            current = current->next;
+        }
+
+        return head;
+    }
+};
+//Method 2
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode* curr = head;
+
+        while (curr) {
+            while (curr->next && curr->next->val == curr->val) {
+                curr->next = curr->next->next; // Skip duplicates
+            }
+            curr = curr->next;
+        }
+
+        return head;
+    }
+};
+//Method 3
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        if (head && head->next) {
+            head->next = deleteDuplicates(head->next);
+            return (head->next->val == head->val) ? head->next : head;
+        }
+        return head;
+    }
+};
+"""

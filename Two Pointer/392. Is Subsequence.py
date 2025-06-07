@@ -28,32 +28,45 @@ class Solution:
         return i== len(s)  # means we have got all c
    
 #C++ code :
+"""
+#include <iostream>
+#include <string>
+
+using namespace std;
+
 class Solution {
 public:
     bool isSubsequence(string s, string t) {
-        int i = 0, j = 0;
+        int i = 0, j = 0;  // will point to 's' and 't' respectively
         while (i < s.size() && j < t.size()) {
             if (s[i] == t[j]) {
                 i++;
+                j++;
+            } else {
+                j++;
             }
-            j++;
         }
-        return i == s.size();
+        return i == s.size();  // means we have matched all characters of 's'
     }
 };
+"""
 #Java code :
+"""
 class Solution {
     public boolean isSubsequence(String s, String t) {
-        int i = 0, j = 0;
+        int i = 0, j = 0;  // will point to 's' and 't' respectively
         while (i < s.length() && j < t.length()) {
             if (s.charAt(i) == t.charAt(j)) {
                 i++;
+                j++;
+            } else {
+                j++;
             }
-            j++;
         }
-        return i == s.length();
+        return i == s.length();  // means we have matched all characters of 's'
     }
 }
+"""
     
 
 #method 2 :Recursion
@@ -84,35 +97,45 @@ class Solution:
         return self.isSubSeq(s, t, m, n)
 
 # C++ code :
+"""
+#include <iostream>
+#include <string>
+
+using namespace std;
+
 class Solution {
 public:
-    bool isSubSeq(string str1, string str2, int m, int n) 
-{ 
-    if (m == 0) return true; 
-    if (n == 0) return false; 
-    if (str1[m-1] == str2[n-1]) 
-        return isSubSeq(str1, str2, m-1, n-1); 
-    return isSubSeq(str1, str2, m, n-1); 
-} 
-    bool isSubsequence(string s, string t) {
-        int m = s.size();
-        int n = t.size();
-        return isSubSeq(s,t,m,n);
+    bool isSubSeq(string str1, string str2, int m, int n) {
+        if (m == 0) return true;  // All characters of 's' matched
+        if (n == 0) return false; // 't' exhausted before 's' was fully matched
+        
+        if (str1[m - 1] == str2[n - 1]) {
+            return isSubSeq(str1, str2, m - 1, n - 1);
+        }
+        return isSubSeq(str1, str2, m, n - 1);
     }
-};    
-# java code : 
+
+    bool isSubsequence(string s, string t) {
+        return isSubSeq(s, t, s.size(), t.size());
+    }
+};
+"""
+
+# Java code : 
+"""
 class Solution {
     public boolean isSubSeq(String str1, String str2, int m, int n) {
-        if (m == 0) return true;
-        if (n == 0) return false;
-        if (str1.charAt(m - 1) == str2.charAt(n - 1))
+        if (m == 0) return true;  // All characters of 's' matched
+        if (n == 0) return false; // 't' exhausted before 's' was fully matched
+        
+        if (str1.charAt(m - 1) == str2.charAt(n - 1)) {
             return isSubSeq(str1, str2, m - 1, n - 1);
+        }
         return isSubSeq(str1, str2, m, n - 1);
     }
 
     public boolean isSubsequence(String s, String t) {
-        int m = s.length();
-        int n = t.length();
-        return isSubSeq(s, t, m, n);
+        return isSubSeq(s, t, s.length(), t.length());
     }
 }
+"""

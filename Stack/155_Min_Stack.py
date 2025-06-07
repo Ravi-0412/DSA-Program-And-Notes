@@ -70,9 +70,9 @@ class MinStack:
 # later do using one stack and without linklist
 
 
-# java
+# Java Code 
 """
-// Method 1: 
+//Method 1
 import java.util.Stack;
 
 class MinStack {
@@ -86,6 +86,7 @@ class MinStack {
 
     public void push(int val) {
         s.push(val);
+        // Push in minStack if val <= top of minStack (to handle duplicate minimums)
         if (minStack.isEmpty() || val <= minStack.peek()) {
             minStack.push(val);
         }
@@ -93,6 +94,7 @@ class MinStack {
 
     public void pop() {
         int temp = s.pop();
+        // If popped element is the minimum, remove it from minStack as well
         if (temp == minStack.peek()) {
             minStack.pop();
         }
@@ -106,17 +108,32 @@ class MinStack {
         return minStack.peek();
     }
 }
+//Method 2
+class Node {
+    int value;
+    int minimum;
+    Node next;
 
-// Method 2:
+    public Node(int val, int min_val, Node nextNode) {
+        this.value = val;
+        this.minimum = min_val;
+        this.next = nextNode;
+    }
+}
 
 class MinStack {
     private Node head;
 
+    public MinStack() {
+        head = null;
+    }
+
     public void push(int val) {
+        // Add at the front to get pop and top operations in O(1)
         if (head == null) {
             head = new Node(val, val, null);
         } else {
-            head = new Node(val, Math.min(val, head.min), head);
+            head = new Node(val, Math.min(val, head.minimum), head);
         }
     }
 
@@ -127,30 +144,104 @@ class MinStack {
     }
 
     public int top() {
-        if (head != null) {
-            return head.val;
-        }
-        throw new RuntimeException("Stack is empty");
+        return head != null ? head.value : -1; // Handle edge case
     }
 
     public int getMin() {
-        if (head != null) {
-            return head.min;
-        }
-        throw new RuntimeException("Stack is empty");
-    }
-
-    private static class Node {
-        int val;
-        int min;
-        Node next;
-
-        Node(int val, int min, Node next) {
-            this.val = val;
-            this.min = min;
-            this.next = next;
-        }
+        return head != null ? head.minimum : -1; // Handle edge case
     }
 }
+"""
 
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <stack>
+
+using namespace std;
+
+class MinStack {
+private:
+    stack<int> s;
+    stack<int> min_stack;
+
+public:
+    MinStack() {}
+
+    void push(int val) {
+        s.push(val);
+        // Push in min_stack if val <= top of min_stack (to handle duplicate minimums)
+        if (min_stack.empty() || val <= min_stack.top()) {
+            min_stack.push(val);
+        }
+    }
+
+    void pop() {
+        int temp = s.top();
+        s.pop();
+        // If popped element is the minimum, remove it from min_stack as well
+        if (temp == min_stack.top()) {
+            min_stack.pop();
+        }
+    }
+
+    int top() {
+        return s.top();
+    }
+
+    int getMin() {
+        return min_stack.top();
+    }
+};
+//Method 2
+#include <iostream>
+
+using namespace std;
+
+class Node {
+public:
+    int value;
+    int minimum;
+    Node* next;
+
+    Node(int val, int min_val, Node* nextNode) {
+        value = val;
+        minimum = min_val;
+        next = nextNode;
+    }
+};
+
+class MinStack {
+private:
+    Node* head;
+
+public:
+    MinStack() {
+        head = nullptr;
+    }
+
+    void push(int val) {
+        // Add at the front to get pop and top operations in O(1)
+        if (!head) {
+            head = new Node(val, val, nullptr);
+        } else {
+            head = new Node(val, min(val, head->minimum), head);
+        }
+    }
+
+    void pop() {
+        if (head) {
+            head = head->next;
+        }
+    }
+
+    int top() {
+        return head ? head->value : -1; // Handle edge case
+    }
+
+    int getMin() {
+        return head ? head->minimum : -1; // Handle edge case
+    }
+};
 """

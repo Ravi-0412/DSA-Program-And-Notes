@@ -57,7 +57,163 @@ class Solution:
             curr1,curr2= curr1.next, curr2.next
         return None
 
+# Java Code 
+"""
+//Method 1
+import java.util.HashMap;
 
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+        next = null;
+    }
+}
+
+class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        HashMap<ListNode, Boolean> hashmap = new HashMap<>();
+
+        // Store all nodes from first linked list in hashmap
+        while (headA != null) {
+            hashmap.put(headA, true);
+            headA = headA.next;
+        }
+
+        // Traverse second list, checking for intersection
+        while (headB != null) {
+            if (hashmap.containsKey(headB)) {
+                return headB;
+            }
+            headB = headB.next;
+        }
+
+        return null;
+    }
+}
+//Method 2
+class Solution {
+    public int getLength(ListNode head) {
+        int length = 0;
+        while (head != null) {
+            length++;
+            head = head.next;
+        }
+        return length;
+    }
+
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        int length1 = getLength(headA);
+        int length2 = getLength(headB);
+
+        // Adjust the longer list
+        if (length1 > length2) {
+            return findIntersection(length1 - length2, headA, headB);
+        } else {
+            return findIntersection(length2 - length1, headB, headA);
+        }
+    }
+
+    private ListNode findIntersection(int diff, ListNode head1, ListNode head2) {
+        while (diff-- > 0) {
+            head1 = head1.next;
+        }
+
+        while (head1 != null && head2 != null) {
+            if (head1 == head2) {
+                return head1;
+            }
+            head1 = head1.next;
+            head2 = head2.next;
+        }
+
+        return null;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <unordered_map>
+
+using namespace std;
+
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+class Solution {
+public:
+    ListNode* getIntersectionNode(ListNode* headA, ListNode* headB) {
+        unordered_map<ListNode*, bool> hashmap;
+
+        // Store all nodes from first linked list in hashmap
+        while (headA) {
+            hashmap[headA] = true;
+            headA = headA->next;
+        }
+
+        // Traverse second list, checking for intersection
+        while (headB) {
+            if (hashmap.find(headB) != hashmap.end()) {
+                return headB;
+            }
+            headB = headB->next;
+        }
+
+        return nullptr;
+    }
+};
+//Method 2
+class Solution {
+public:
+    int getLength(ListNode* head) {
+        int length = 0;
+        while (head) {
+            length++;
+            head = head->next;
+        }
+        return length;
+    }
+
+    ListNode* getIntersectionNode(ListNode* headA, ListNode* headB) {
+        int length1 = getLength(headA);
+        int length2 = getLength(headB);
+
+        // Adjust the longer list
+        if (length1 > length2) {
+            return findIntersection(length1 - length2, headA, headB);
+        } else {
+            return findIntersection(length2 - length1, headB, headA);
+        }
+    }
+
+private:
+    ListNode* findIntersection(int diff, ListNode* head1, ListNode* head2) {
+        while (diff--) {
+            head1 = head1->next;
+        }
+
+        while (head1 && head2) {
+            if (head1 == head2) {
+                return head1;
+            }
+            head1 = head1->next;
+            head2 = head2->next;
+        }
+
+        return nullptr;
+    }
+};
+"""
 # Try by this method also later
 # https://leetcode.com/problems/intersection-of-two-linked-lists/solutions/49785/java-solution-without-knowing-the-difference-in-len/
 

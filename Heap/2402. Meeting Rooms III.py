@@ -55,6 +55,107 @@ class Solution:
                 heapq.heappush(occupied_rooms, [newEnd, room])
 
         return meetingCount.index(max(meetingCount))
-    
+
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int mostBooked(int n, int[][] meetings) {
+        Arrays.sort(meetings, Comparator.comparingInt(a -> a[0])); // Sort meetings by start time
+
+        PriorityQueue<Integer> availableRooms = new PriorityQueue<>(); // Min heap for available room numbers
+        PriorityQueue<long[]> occupiedRooms = new PriorityQueue<>(Comparator.comparingLong(a -> a[0])); // Min heap for [end_time, room_index]
+        int[] meetingCount = new int[n]; // Stores the number of meetings scheduled in each room
+
+        for (int i = 0; i < n; i++) {
+            availableRooms.add(i); // Initially all rooms are available
+        }
+
+        for (int[] meeting : meetings) {
+            long start = meeting[0], end = meeting[1];
+
+            // Free up rooms that have finished their meetings
+            while (!occupiedRooms.isEmpty() && occupiedRooms.peek()[0] <= start) {
+                availableRooms.add((int) occupiedRooms.poll()[1]);
+            }
+
+            // Assign meeting to an available room if possible
+            if (!availableRooms.isEmpty()) {
+                int room = availableRooms.poll();
+                meetingCount[room]++;
+                occupiedRooms.add(new long[]{end, room});
+            } else {
+                // Assign meeting to the room that will become available first
+                long[] earliestRoom = occupiedRooms.poll();
+                int room = (int) earliestRoom[1];
+                meetingCount[room]++;
+                occupiedRooms.add(new long[]{earliestRoom[0] + (end - start), room});
+            }
+        }
+
+        // Find the room with the maximum number of meetings
+        int maxMeetingRoom = 0;
+        for (int i = 1; i < n; i++) {
+            if (meetingCount[i] > meetingCount[maxMeetingRoom]) {
+                maxMeetingRoom = i;
+            }
+        }
+
+        return maxMeetingRoom;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int mostBooked(int n, vector<vector<int>>& meetings) {
+        sort(meetings.begin(), meetings.end());  // Sort meetings by start time
+
+        priority_queue<int, vector<int>, greater<int>> available_rooms;  // Min heap for available room numbers
+        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> occupied_rooms;  // Min heap for [end_time, room_index]
+        vector<int> meetingCount(n, 0);  // Stores the number of meetings scheduled in each room
+
+        for (int i = 0; i < n; i++) {
+            available_rooms.push(i);  // Initially all rooms are available
+        }
+
+        for (auto& meeting : meetings) {
+            long long start = meeting[0], end = meeting[1];
+
+            // Free up rooms that have finished their meetings
+            while (!occupied_rooms.empty() && occupied_rooms.top().first <= start) {
+                available_rooms.push(occupied_rooms.top().second);
+                occupied_rooms.pop();
+            }
+
+            // Assign meeting to an available room if possible
+            if (!available_rooms.empty()) {
+                int room = available_rooms.top();
+                available_rooms.pop();
+                meetingCount[room]++;
+                occupied_rooms.push({end, room});
+            } else {
+                // Assign meeting to the room that will become available first
+                auto [curEnd, room] = occupied_rooms.top();
+                occupied_rooms.pop();
+                meetingCount[room]++;
+                occupied_rooms.push({curEnd + (end - start), room});
+            }
+        }
+
+        return distance(meetingCount.begin(), max_element(meetingCount.begin(), meetingCount.end()));
+    }
+};
+"""
 
 # Note: try to do the problem "1353. Maximum Number of Events That Can Be Attended" and compare both the Q.

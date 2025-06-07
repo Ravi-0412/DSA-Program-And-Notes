@@ -103,22 +103,121 @@ class Solution:
 
 # Java: Two sum
 """
+import java.util.*;
+
+// Method 1: Two Sum using Hash Map (Finding Indices)
 class Solution {
     public int[] twoSum(int[] nums, int target) {
-        Map<Integer, Integer> numMap = new HashMap<>();
-        int n = nums.length;
+        Map<Integer, Integer> hashmap = new HashMap<>();
 
-        for (int i = 0; i < n; i++) {
-            int complement = target - nums[i];
-            if (numMap.containsKey(complement)) {
-                return new int[]{numMap.get(complement), i};
+        for (int i = 0; i < nums.length; i++) {
+            int remSum = target - nums[i];
+
+            if (hashmap.containsKey(remSum)) {
+                return new int[]{hashmap.get(remSum), i};
             }
-            numMap.put(nums[i], i);
-        }
 
-        return new int[]{}; // No solution found
+            hashmap.put(nums[i], i);
+        }
+        return new int[0]; // Return empty array if no solution
     }
 }
+
+// Method 2: Counting Pairs with Target Sum
+class Solution {
+    public int getPairsCount(int[] arr, int k) {
+        Map<Integer, Integer> unordered_map = new HashMap<>();
+        int count = 0;
+
+        for (int num : arr) {
+            count += unordered_map.getOrDefault(k - num, 0);
+            unordered_map.put(num, unordered_map.getOrDefault(num, 0) + 1);
+        }
+
+        return count;
+    }
+}
+
+// Finding Largest Positive Integer with Its Negative (LC 2441)
+class Solution {
+    public int findMaxK(int[] nums) {
+        Set<Integer> visited = new HashSet<>();
+        int ans = -1;
+
+        for (int num : nums) {
+            if (visited.contains(-num)) {
+                ans = Math.max(ans, Math.abs(num));
+            }
+            visited.add(num);
+        }
+
+        return ans;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+#include <algorithm>
+using namespace std;
+
+// Method 1: Two Sum using Hash Map (Finding Indices)
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int, int> hashmap;
+
+        for (int i = 0; i < nums.size(); i++) {
+            int rem_sum = target - nums[i];
+
+            if (hashmap.find(rem_sum) != hashmap.end()) {
+                return {hashmap[rem_sum], i};
+            }
+
+            hashmap[nums[i]] = i;
+        }
+        return {};
+    }
+};
+
+// Method 2: Counting Pairs with Target Sum
+class Solution {
+public:
+    int getPairsCount(vector<int>& arr, int k) {
+        unordered_map<int, int> unordered_map;
+        int count = 0;
+
+        for (int num : arr) {
+            if (unordered_map.find(k - num) != unordered_map.end()) {
+                count += unordered_map[k - num];
+            }
+            unordered_map[num]++;
+        }
+
+        return count;
+    }
+};
+
+// Finding Largest Positive Integer with Its Negative (LC 2441)
+class Solution {
+public:
+    int findMaxK(vector<int>& nums) {
+        unordered_set<int> visited;
+        int ans = -1;
+
+        for (int num : nums) {
+            if (visited.find(-num) != visited.end()) {
+                ans = max(ans, abs(num)); 
+            }
+            visited.insert(num);
+        }
+
+        return ans;
+    }
+};
 """
 
 """

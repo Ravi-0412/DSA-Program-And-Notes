@@ -229,3 +229,119 @@ public class Solution {
 }
 
 """
+
+# C++ Code 
+"""
+//Method 3
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<int> ans;
+        priority_queue<pair<int, int>> maxHeap;  
+
+        // Insert first 'k' elements in 'maxHeap' to get the answer for the first window.
+        for (int i = 0; i < k; i++) {
+            maxHeap.push({nums[i], i});  
+        }
+        ans.push_back(maxHeap.top().first);  // Answer for the first window
+
+        // Now find the answer for remaining windows
+        for (int i = k; i < n; i++) {
+            maxHeap.push({nums[i], i});  // Add the new element
+            
+            // Remove elements from heap that are out of the current window
+            while (!maxHeap.empty() && maxHeap.top().second <= i - k) {
+                maxHeap.pop();
+            }
+            
+            ans.push_back(maxHeap.top().first);  // Max element for current window
+        }
+        return ans;
+    }
+};
+//Method 4
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<int> left(n, INT_MIN);  // Track max elements seen from left to right
+        vector<int> right(n, INT_MIN); // Track max elements seen from right to left
+        vector<int> ans;
+
+        // Computing left max values
+        for (int i = 0; i < n; i++) {
+            if (i % k == 0) {
+                left[i] = nums[i];  // Start of a new block
+            } else {
+                left[i] = max(left[i - 1], nums[i]);
+            }
+        }
+
+        // Computing right max values
+        right[n - 1] = nums[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            if (i % k == k - 1) {
+                right[i] = nums[i];  // End of a new block
+            } else {
+                right[i] = max(right[i + 1], nums[i]);
+            }
+        }
+
+        // Compute the maximum value for each sliding window
+        for (int i = 0; i <= n - k; i++) {
+            ans.push_back(max(left[i + k - 1], right[i]));
+        }
+
+        return ans;
+    }
+};
+
+//Method 5
+#include <iostream>
+#include <vector>
+#include <deque>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        deque<int> deq;  // Store indices in decreasing order
+        vector<int> ans;
+        int n = nums.size();
+
+        for (int i = 0; i < n; i++) {
+            // Remove elements that are out of the current window
+            if (!deq.empty() && deq.front() <= i - k) {
+                deq.pop_front();
+            }
+
+            // Maintain decreasing order in deque
+            while (!deq.empty() && nums[deq.back()] <= nums[i]) {
+                deq.pop_back();
+            }
+
+            deq.push_back(i);  // Add current element index
+
+            // Push max element from current window to result
+            if (i >= k - 1) {
+                ans.push_back(nums[deq.front()]);
+            }
+        }
+
+        return ans;
+    }
+};
+"""

@@ -55,7 +55,123 @@ class Solution:
         
         return sum(cardPoints) - minSum
 
+# Java Code 
+"""
+//Method 1
+import java.util.*;
 
+class Solution {
+    Map<String, Integer> memo = new HashMap<>();  // Memoization cache
+
+    private int solve(int i, int j, int card, int[] cardPoints) {
+        if (i > j) return 0;
+        if (card == 0) return 0;
+
+        String key = i + "," + j + "," + card;
+        if (memo.containsKey(key)) return memo.get(key);
+
+        int start = cardPoints[i] + solve(i + 1, j, card - 1, cardPoints);
+        int end = cardPoints[j] + solve(i, j - 1, card - 1, cardPoints);
+        memo.put(key, Math.max(start, end));
+        return memo.get(key);
+    }
+
+    public int maxScore(int[] cardPoints, int k) {
+        int n = cardPoints.length;
+        return solve(0, n - 1, k, cardPoints);
+    }
+}
+//Method 2
+import java.util.*;
+
+class Solution {
+    public int maxScore(int[] cardPoints, int k) {
+        int n = cardPoints.length;
+        if (k == n) {
+            return Arrays.stream(cardPoints).sum();
+        }
+
+        int size = n - k, minSum = Integer.MAX_VALUE, curSum = 0;
+        int i = 0, j = 0;
+
+        while (j < n) {
+            curSum += cardPoints[j];
+
+            if (j - i + 1 >= size) {  
+                minSum = Math.min(minSum, curSum);
+                curSum -= cardPoints[i];
+                i++;
+            }
+            j++;
+        }
+        
+        return Arrays.stream(cardPoints).sum() - minSum;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution {
+public:
+    unordered_map<string, int> memo;  // Memoization cache
+
+    int solve(int i, int j, int card, vector<int>& cardPoints) {
+        if (i > j) return 0;
+        if (card == 0) return 0;
+
+        string key = to_string(i) + "," + to_string(j) + "," + to_string(card);
+        if (memo.find(key) != memo.end()) return memo[key];
+
+        int start = cardPoints[i] + solve(i + 1, j, card - 1, cardPoints);
+        int end = cardPoints[j] + solve(i, j - 1, card - 1, cardPoints);
+        return memo[key] = max(start, end);
+    }
+
+    int maxScore(vector<int>& cardPoints, int k) {
+        int n = cardPoints.size();
+        return solve(0, n - 1, k, cardPoints);
+    }
+};
+//Method 2
+#include <iostream>
+#include <vector>
+#include <numeric>
+#include <climits>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxScore(vector<int>& cardPoints, int k) {
+        int n = cardPoints.size();
+        if (k == n) return accumulate(cardPoints.begin(), cardPoints.end(), 0);  
+
+        int size = n - k, minSum = INT_MAX, curSum = 0;
+        int i = 0, j = 0;
+
+        while (j < n) {
+            curSum += cardPoints[j];
+
+            if (j - i + 1 >= size) {  
+                minSum = min(minSum, curSum);
+                curSum -= cardPoints[i];
+                i++;
+            }
+            j++;
+        }
+        
+        return accumulate(cardPoints.begin(), cardPoints.end(), 0) - minSum;
+    }
+};
+"""
 # Related Q: 
 # "Maximize sum of K corner elements in Array".
 # https://www.geeksforgeeks.org/maximize-sum-of-k-elements-in-array-by-taking-only-corner-elements/

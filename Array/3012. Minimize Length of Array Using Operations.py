@@ -33,3 +33,41 @@ class Solution:
             if num % minimum:
                 return 1
         return (nums.count(minimum) + 1) // 2  
+
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int minimumArrayLength(int[] nums) {
+        int minimum = Arrays.stream(nums).min().getAsInt();
+        for (int num : nums) {
+            if (num % minimum != 0) {
+                return 1;
+            }
+        }
+        return (int) ((Arrays.stream(nums).filter(n -> n == minimum).count() + 1) / 2);
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int minimumArrayLength(vector<int>& nums) {
+        int minimum = *min_element(nums.begin(), nums.end());
+        for (int num : nums) {
+            if (num % minimum != 0) {
+                return 1;
+            }
+        }
+        return (count(nums.begin(), nums.end(), minimum) + 1) / 2;
+    }
+};
+"""

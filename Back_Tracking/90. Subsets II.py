@@ -37,34 +37,80 @@ class Solution:
 # e.g: 1) 40. Combination Sum II
 
 
-# Java
+# Java Code
 """
-public class Solution {
+import java.util.*;
 
-    public List<List<Integer>> subsetsWithDup(int[] nums) {
-        Arrays.sort(nums); // Sort the nums array
-        List<List<Integer>> res = new ArrayList<>();
+class Solution {
+    List<List<Integer>> res = new ArrayList<>();
 
-        dfs(0, nums, new ArrayList<>(), res);
-
-        return res;
-    }
-
-    private void dfs(int i, int[] nums, List<Integer> subset, List<List<Integer>> res) {
+    private void dfs(int i, int[] nums, List<Integer> subset) {  
+        // Just backtracking
         if (i == nums.length) {
-            res.add(new ArrayList<>(subset)); // Add a copy of the subset to the result list
+            res.add(new ArrayList<>(subset));
             return;
         }
+        // When you include the current index element.
+        subset.add(nums[i]);
+        dfs(i + 1, nums, subset);
+        subset.remove(subset.size() - 1);
 
-        subset.add(nums[i]); // Include the current element
-        dfs(i + 1, nums, subset, res); // Recursive call with the next index and the updated subset
-        subset.remove(subset.size() - 1); // Backtrack
-
-        // Skip duplicates
+        // When you don't include the current index element.
+        // You have to skip all the duplicates of the current element to avoid duplicates in the answer.
+        // Now you can call the function at the next distinct element only.
         while (i + 1 < nums.length && nums[i + 1] == nums[i]) {
             i++;
         }
-        dfs(i + 1, nums, subset, res); // Recursive call with the next index and the same subset
+        dfs(i + 1, nums, subset);
+    }
+
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums); // Sorting to handle duplicates
+        res.clear();
+        dfs(0, nums, new ArrayList<>());
+        return res;
     }
 }
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> res;
+
+    void dfs(int i, vector<int>& nums, vector<int> subset) {  
+        // Just backtracking
+        if (i == nums.size()) {
+            res.push_back(subset);
+            return;
+        }
+        // When you include the current index element.
+        subset.push_back(nums[i]);
+        dfs(i + 1, nums, subset);
+        subset.pop_back();
+
+        // When you don't include the current index element.
+        // You have to skip all the duplicates of the current element to avoid duplicates in the answer.
+        // Now you can call the function at the next distinct element only.
+        while (i + 1 < nums.size() && nums[i + 1] == nums[i]) {
+            i++;
+        }
+        dfs(i + 1, nums, subset);
+    }
+
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        sort(nums.begin(), nums.end()); // Sorting to handle duplicates
+        res.clear();
+        vector<int> subset;
+        dfs(0, nums, subset);
+        return res;
+    }
+};
 """

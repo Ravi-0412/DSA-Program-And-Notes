@@ -88,3 +88,89 @@ def countPair(diff, nums):
         cnt += l
         j += 1
         return cnt
+
+# Java Code 
+"""
+import java.util.Arrays;
+
+class Solution {
+    public boolean isPossible(int diff, int[] nums, int p) {
+        int count = 0;
+        int n = nums.length;
+        int i = 1; // Start checking between index '1' and index '0'
+
+        while (i < n) {
+            if (nums[i] - nums[i - 1] <= diff) {
+                count++;
+                i++; // Ensure the same index isn't used again
+            }
+            i++;
+        }
+
+        return count >= p;
+    }
+
+    public int minimizeMax(int[] nums, int p) {
+        Arrays.sort(nums); // Sorting to check differences easily
+
+        int n = nums.length;
+        int start = 0, end = nums[n - 1] - nums[0];
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (isPossible(mid, nums, p)) {
+                end = mid; // Try to minimize the difference further
+            } else {
+                start = mid + 1;
+            }
+        }
+
+        return start;
+    }
+}
+"""
+
+# C++ Code
+"""
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    bool isPossible(int diff, vector<int>& nums, int p) {
+        int count = 0;
+        int n = nums.size();
+        int i = 1; // Start checking between index '1' and index '0'
+
+        while (i < n) {
+            if (nums[i] - nums[i - 1] <= diff) {
+                count++;
+                i++; // Ensure the same index isn't used again
+            }
+            i++;
+        }
+
+        return count >= p;
+    }
+
+    int minimizeMax(vector<int>& nums, int p) {
+        sort(nums.begin(), nums.end()); // Sorting to check differences easily
+
+        int n = nums.size();
+        int start = 0, end = nums[n - 1] - nums[0];
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (isPossible(mid, nums, p)) {
+                end = mid; // Try to minimize the difference further
+            } else {
+                start = mid + 1;
+            }
+        }
+
+        return start;
+    }
+};
+"""

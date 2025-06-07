@@ -112,78 +112,145 @@ class LRUCache:
     #         self.Insert(self.cache[key])
 
 
-# Java
+# Java Code 
 """
 import java.util.HashMap;
 
 class Node {
-    int key;
-    int val;
-    Node prev;
-    Node next;
+    int key, val;
+    Node prev, next;
 
-    Node(int key, int val) {
-        this.key = key;
-        this.val = val;
-        this.prev = null;
-        this.next = null;
+    Node(int k, int v) {
+        key = k;
+        val = v;
+        prev = next = null;
     }
 }
 
 class LRUCache {
     private int capacity;
     private HashMap<Integer, Node> cache;
-    private Node lru;
-    private Node mru;
+    private Node Lru, Mru; // Least Recently Used & Most Recently Used
 
-    public LRUCache(int capacity) {
-        this.capacity = capacity;
+    public LRUCache(int cap) {
+        this.capacity = cap;
         this.cache = new HashMap<>();
-        this.lru = new Node(0, 0);
-        this.mru = new Node(0, 0);
-        this.lru.next = this.mru;
-        this.mru.prev = this.lru;
+        Lru = new Node(0, 0);
+        Mru = new Node(0, 0);
+        Lru.next = Mru;
+        Mru.prev = Lru;
     }
 
+    // Insert node before Mru (O(1) time)
     private void insert(Node node) {
-        Node prev = this.mru.prev;
-        prev.next = node;
-        this.mru.prev = node;
-        node.prev = prev;
-        node.next = this.mru;
+        node.next = Mru;
+        node.prev = Mru.prev;
+        Mru.prev.next = node;
+        Mru.prev = node;
     }
 
+    // Delete node from any position (O(1) time)
     private void delete(Node node) {
-        Node prev = node.prev;
-        Node next = node.next;
-        prev.next = next;
-        next.prev = prev;
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
     }
 
     public int get(int key) {
-        if (!this.cache.containsKey(key)) {
-            return -1;
-        }
-        Node node = this.cache.get(key);
-        this.delete(node);
-        this.insert(node);
+        if (!cache.containsKey(key)) return -1;
+        Node node = cache.get(key);
+        delete(node);
+        insert(node);
         return node.val;
     }
 
     public void put(int key, int value) {
-        if (this.cache.containsKey(key)) {
-            this.delete(this.cache.get(key));
+        if (cache.containsKey(key)) {
+            delete(cache.get(key));
         }
+
         Node node = new Node(key, value);
-        this.cache.put(key, node);
-        this.insert(node);
-        if (this.cache.size() > this.capacity) {
-            Node lru = this.lru.next;
-            this.delete(lru);
-            this.cache.remove(lru.key);
+        cache.put(key, node);
+        insert(node);
+
+        if (cache.size() > capacity) {
+            Node lst_used = Lru.next;
+            delete(lst_used);
+            cache.remove(lst_used.key);
         }
     }
 }
+"""
 
+# C++ Code 
+"""
+#include <iostream>
+#include <unordered_map>
 
+using namespace std;
+
+// Doubly Linked List Node for Key-Value Pair
+class Node {
+public:
+    int key, val;
+    Node* prev;
+    Node* next;
+
+    Node(int k, int v) : key(k), val(v), prev(nullptr), next(nullptr) {}
+};
+
+class LRUCache {
+private:
+    int capacity;
+    unordered_map<int, Node*> cache;
+    Node* Lru; // Least Recently Used
+    Node* Mru; // Most Recently Used
+
+    // Insert node before Mru (O(1) time)
+    void Insert(Node* node) {
+        node->next = Mru;
+        node->prev = Mru->prev;
+        Mru->prev->next = node;
+        Mru->prev = node;
+    }
+
+    // Delete a node from any position (O(1) time)
+    void Delete(Node* node) {
+        node->prev->next = node->next;
+        node->next->prev = node->prev;
+    }
+
+public:
+    LRUCache(int cap) {
+        capacity = cap;
+        Lru = new Node(0, 0);
+        Mru = new Node(0, 0);
+        Lru->next = Mru;
+        Mru->prev = Lru;
+    }
+
+    int get(int key) {
+        if (cache.find(key) != cache.end()) {
+            Delete(cache[key]); // Remove from current position
+            Insert(cache[key]); // Move to the rightmost side (Mru)
+            return cache[key]->val;
+        }
+        return -1;
+    }
+
+    void put(int key, int value) {
+        if (cache.find(key) != cache.end()) {
+            Delete(cache[key]);
+        }
+
+        cache[key] = new Node(key, value);
+        Insert(cache[key]);
+
+        if (cache.size() > capacity) {
+            Node* lst_used = Lru->next;
+            Delete(lst_used);
+            cache.erase(lst_used->key);
+            delete lst_used;
+        }
+    }
+};
 """

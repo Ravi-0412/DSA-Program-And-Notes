@@ -115,3 +115,88 @@ class Solution:
         # and at last we we will compare the no of students with M(# student given in the Q)
         # if < M means allocation is possible otherwise not possible
         return False if len(pages_allocated) >= M else True
+
+# Java Code 
+"""
+import java.util.Arrays;
+
+class Solution {
+    public boolean isValid(int[] A, int N, int M, int maxPage) {
+        int students = 1, sum = 0;
+        
+        for (int i = 0; i < N; i++) {
+            sum += A[i];
+            
+            if (sum > maxPage) { // Allocate to next student
+                students++;
+                sum = A[i];
+            }
+        }
+        
+        return students <= M;
+    }
+
+    public int findPages(int[] A, int N, int M) {
+        if (M > N) return -1; // Not enough books
+        
+        int start = Arrays.stream(A).max().getAsInt();
+        int end = Arrays.stream(A).sum();
+        
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (isValid(A, N, M, mid)) {
+                end = mid;
+            } else {
+                start = mid + 1;
+            }
+        }
+        
+        return start;
+    }
+}
+"""
+
+# C++ Code
+"""
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    bool isValid(vector<int>& A, int N, int M, int maxPage) {
+        int students = 1, sum = 0;
+        
+        for (int i = 0; i < N; i++) {
+            sum += A[i];
+            
+            if (sum > maxPage) { // Allocate to next student
+                students++;
+                sum = A[i];
+            }
+        }
+        
+        return students <= M;
+    }
+
+    int findPages(vector<int>& A, int N, int M) {
+        if (M > N) return -1; // Not enough books
+        
+        int start = *max_element(A.begin(), A.end());
+        int end = accumulate(A.begin(), A.end(), 0);
+        
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (isValid(A, N, M, mid)) {
+                end = mid;
+            } else {
+                start = mid + 1;
+            }
+        }
+        
+        return start;
+    }
+};
+"""

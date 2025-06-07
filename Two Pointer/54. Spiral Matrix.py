@@ -78,3 +78,49 @@ class Solution {
 }
 
 """
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        int row = matrix.size();
+        int col = matrix[0].size();
+        int up = 0;          // rowBegin
+        int down = row - 1;  // rowEnd
+        int left = 0;        // colBegin
+        int right = col - 1; // colEnd
+        vector<int> res;
+
+        while (res.size() < row * col) {
+            // Traverse right, proper row should be fixed
+            for (int c = left; c <= right; c++) {
+                if (res.size() >= row * col) break;
+                res.push_back(matrix[up][c]);
+            }
+            // Traverse down, proper col should be fixed
+            for (int r = up + 1; r <= down; r++) {
+                if (res.size() >= row * col) break;
+                res.push_back(matrix[r][right]);
+            }
+            // Traverse left, proper row should be fixed
+            for (int c = right - 1; c >= left; c--) {
+                if (res.size() >= row * col) break;
+                res.push_back(matrix[down][c]);
+            }
+            // Traverse up, proper col should be fixed
+            for (int r = down - 1; r > up; r--) {
+                if (res.size() >= row * col) break;
+                res.push_back(matrix[r][left]);
+            }
+            up++, down--, left++, right--;
+        }
+        return res;
+    }
+};
+"""

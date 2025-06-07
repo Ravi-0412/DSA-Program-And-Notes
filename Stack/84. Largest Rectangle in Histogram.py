@@ -97,6 +97,223 @@ def largestRectangleArea(self, heights):
         stack.append(i)
     return area
 
+# Java Code 
+"""
+//Method 1
+import java.util.Stack;
 
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        int n = heights.length, maxArea = 0;
+        int[] leftSmaller = LeftSmallerNext(heights, n);
+        int[] rightSmaller = RightSmallerNext(heights, n);
+
+        for (int i = 0; i < n; i++) {
+            int width = (rightSmaller[i] - leftSmaller[i]) - 1;
+            int localArea = heights[i] * width;
+            maxArea = Math.max(maxArea, localArea);
+        }
+        return maxArea;
+    }
+
+    private int[] LeftSmallerNext(int[] heights, int n) {
+        Stack<Integer> stack = new Stack<>();
+        int[] ans = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            while (!stack.isEmpty() && heights[stack.peek()] >= heights[i]) {
+                stack.pop();
+            }
+            ans[i] = stack.isEmpty() ? -1 : stack.peek();
+            stack.push(i);
+        }
+        return ans;
+    }
+
+    private int[] RightSmallerNext(int[] heights, int n) {
+        Stack<Integer> stack = new Stack<>();
+        int[] ans = new int[n];
+
+        for (int i = n - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && heights[stack.peek()] >= heights[i]) {
+                stack.pop();
+            }
+            ans[i] = stack.isEmpty() ? n : stack.peek();
+            stack.push(i);
+        }
+        return ans;
+    }
+}
+//Method 2
+import java.util.Stack;
+
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        int maxArea = 0, index = 0;
+        Stack<Integer> stack = new Stack<>();
+
+        while (index < heights.length) {
+            if (stack.isEmpty() || heights[index] >= heights[stack.peek()]) {
+                stack.push(index);
+                index++;
+            } else {
+                int topOfStack = stack.pop();
+                int width = stack.isEmpty() ? index : index - stack.peek() - 1;
+                maxArea = Math.max(maxArea, heights[topOfStack] * width);
+            }
+        }
+
+        while (!stack.isEmpty()) {
+            int topOfStack = stack.pop();
+            int width = stack.isEmpty() ? index : index - stack.peek() - 1;
+            maxArea = Math.max(maxArea, heights[topOfStack] * width);
+        }
+
+        return maxArea;
+    }
+}
+//Method 3 
+import java.util.Stack;
+
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        Stack<Integer> stack = new Stack<>();
+        int maxArea = 0;
+
+        for (int i = 0; i <= heights.length; i++) {
+            int h = (i == heights.length) ? 0 : heights[i];
+
+            while (!stack.isEmpty() && heights[stack.peek()] >= h) {
+                int height = heights[stack.pop()];
+                int width = stack.isEmpty() ? i : i - stack.peek() - 1;
+                maxArea = Math.max(maxArea, height * width);
+            }
+
+            stack.push(i);
+        }
+
+        return maxArea;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <vector>
+#include <stack>
+
+using namespace std;
+
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        int n = heights.size(), max_area = 0;
+        vector<int> left_smaller = LeftSmallerNext(heights, n);
+        vector<int> right_smaller = RightSmallerNext(heights, n);
+
+        for (int i = 0; i < n; i++) {
+            int width = (right_smaller[i] - left_smaller[i]) - 1;
+            int local_area = heights[i] * width;
+            max_area = max(max_area, local_area);
+        }
+        return max_area;
+    }
+
+private:
+    vector<int> LeftSmallerNext(vector<int>& heights, int n) {
+        stack<int> st;
+        vector<int> ans(n);
+
+        for (int i = 0; i < n; i++) {
+            while (!st.empty() && heights[st.top()] >= heights[i]) {
+                st.pop();
+            }
+            ans[i] = (st.empty()) ? -1 : st.top();
+            st.push(i);
+        }
+        return ans;
+    }
+
+    vector<int> RightSmallerNext(vector<int>& heights, int n) {
+        stack<int> st;
+        vector<int> ans(n);
+
+        for (int i = n - 1; i >= 0; i--) {
+            while (!st.empty() && heights[st.top()] >= heights[i]) {
+                st.pop();
+            }
+            ans[i] = (st.empty()) ? n : st.top();
+            st.push(i);
+        }
+        return ans;
+    }
+};
+//Method 2
+#include <iostream>
+#include <vector>
+#include <stack>
+
+using namespace std;
+
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        int maxArea = 0, index = 0;
+        stack<int> st;
+
+        while (index < heights.size()) {
+            if (st.empty() || heights[index] >= heights[st.top()]) {
+                st.push(index);
+                index++;
+            } else {
+                int topOfStack = st.top();
+                st.pop();
+                int width = (st.empty()) ? index : index - st.top() - 1;
+                maxArea = max(maxArea, heights[topOfStack] * width);
+            }
+        }
+
+        while (!st.empty()) {
+            int topOfStack = st.top();
+            st.pop();
+            int width = (st.empty()) ? index : index - st.top() - 1;
+            maxArea = max(maxArea, heights[topOfStack] * width);
+        }
+
+        return maxArea;
+    }
+};
+//Method 3 
+#include <iostream>
+#include <vector>
+#include <stack>
+
+using namespace std;
+
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        stack<int> st;
+        int maxArea = 0;
+
+        for (int i = 0; i <= heights.size(); i++) {
+            int h = (i == heights.size()) ? 0 : heights[i];
+
+            while (!st.empty() && heights[st.top()] >= h) {
+                int height = heights[st.top()];
+                st.pop();
+                int width = (st.empty()) ? i : i - st.top() - 1;
+                maxArea = max(maxArea, height * width);
+            }
+
+            st.push(i);
+        }
+
+        return maxArea;
+    }
+};
+"""
 # Related Q:
 # "1793. Maximum Score of a Good Subarray" 

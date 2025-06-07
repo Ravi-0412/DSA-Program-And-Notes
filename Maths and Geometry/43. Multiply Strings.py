@@ -50,42 +50,127 @@ class Solution:
                 ans[i1] += carry   
         return "".join(str(e) for e in ans).lstrip("0")
 
-# java
+# Java Code 
 """
-// Method 2:
+//Method 1
+import java.util.*;
 
-public class Solution {
+class Solution {
     public String multiply(String num1, String num2) {
-        int len1 = num1.length();
-        int len2 = num2.length();
+        if (num1.equals("0") || num2.equals("0")) return "0"; // concise way of checking for zero
+
+        int len1 = num1.length(), len2 = num2.length();
         int[] ans = new int[len1 + len2];
-        
-        // Iterate over each digit in num1 and num2 starting from the least significant digit
-        for (int i = len1 - 1; i >= 0; i--) {
+        StringBuilder result = new StringBuilder();
+
+        for (int i1 = len1 - 1; i1 >= 0; i1--) {
             int carry = 0;
-            for (int j = len2 - 1; j >= 0; j--) {
-                // Calculate the total value at the current position
-                int total = (num1.charAt(i) - '0') * (num2.charAt(j) - '0') + ans[i + j + 1] + carry;
-                ans[i + j + 1] = total % 10;
+            for (int i2 = len2 - 1; i2 >= 0; i2--) {
+                int total = (num1.charAt(i1) - '0') * (num2.charAt(i2) - '0') + ans[i1 + i2 + 1] + carry;
+                ans[i1 + i2 + 1] = total % 10;
                 carry = total / 10;
             }
-            // Add any remaining carry to the next position
-            ans[i] += carry;
+            if (carry > 0) ans[i1] += carry;
         }
-        
-        // Convert the result array to a string, skipping leading zeros
-        StringBuilder result = new StringBuilder();
-        for (int num : ans) {
-            if (!(result.length() == 0 && num == 0)) {
-                result.append(num);
+
+        for (int e : ans) {
+            if (!(result.length() == 0 && e == 0)) result.append(e);
+        }
+        return result.length() == 0 ? "0" : result.toString();
+    }
+}
+//Method 2
+class Solution {
+    public String multiply(String num1, String num2) {
+        if (num1.equals("0") || num2.equals("0")) return "0";
+
+        int len1 = num1.length(), len2 = num2.length();
+        int[] ans = new int[len1 + len2];
+
+        for (int i1 = len1 - 1; i1 >= 0; i1--) {
+            int carry = 0;
+            for (int i2 = len2 - 1; i2 >= 0; i2--) {
+                int total = (num1.charAt(i1) - '0') * (num2.charAt(i2) - '0') + ans[i1 + i2 + 1] + carry;
+                ans[i1 + i2 + 1] = total % 10;
+                carry = total / 10;
             }
+            if (carry > 0) ans[i1] += carry;
         }
-        
+
+        StringBuilder result = new StringBuilder();
+        for (int e : ans) {
+            if (!(result.length() == 0 && e == 0)) result.append(e);
+        }
         return result.length() == 0 ? "0" : result.toString();
     }
 }
 """
 
+# C++ Code 
+"""
+//Method 1
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+        if (num1 == "0" || num2 == "0") return "0"; // concise way of checking for zero
+
+        int len1 = num1.size(), len2 = num2.size();
+        vector<int> ans(len1 + len2, 0);
+        reverse(num1.begin(), num1.end());
+        reverse(num2.begin(), num2.end()); // reversing to do multiplication left to right
+
+        for (int i1 = 0; i1 < len1; i1++) {
+            for (int i2 = 0; i2 < len2; i2++) {
+                int digit = (num1[i1] - '0') * (num2[i2] - '0');
+                ans[i1 + i2] += digit; // directly add, carry will be handled in the next step
+                ans[i1 + i2 + 1] += ans[i1 + i2] / 10; // forwarding carry to the next position
+                ans[i1 + i2] %= 10; // updating the current position
+            }
+        }
+
+        reverse(ans.begin(), ans.end());
+        int beg = 0;
+        while (beg < ans.size() && ans[beg] == 0) beg++; // removing leading zeros
+
+        string result;
+        for (int i = beg; i < ans.size(); i++) {
+            result += to_string(ans[i]);
+        }
+        return result;
+    }
+};
+//Method 2
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+        if (num1 == "0" || num2 == "0") return "0";
+
+        int len1 = num1.size(), len2 = num2.size();
+        vector<int> ans(len1 + len2, 0);
+
+        for (int i1 = len1 - 1; i1 >= 0; i1--) {
+            int carry = 0;
+            for (int i2 = len2 - 1; i2 >= 0; i2--) {
+                int total = (num1[i1] - '0') * (num2[i2] - '0') + ans[i1 + i2 + 1] + carry;
+                ans[i1 + i2 + 1] = total % 10;
+                carry = total / 10;
+            }
+            if (carry > 0) ans[i1] += carry;
+        }
+
+        string result;
+        for (int e : ans) {
+            if (!(result.empty() && e == 0)) result += to_string(e);
+        }
+        return result.empty() ? "0" : result;
+    }
+};
+"""
 
 # 1) if "0" in num1 or num2:  means if any of num1 or num2 will contain even a single zero then it will return the "0"
 # 2) if "0" in [num1] or [num2]: it means if all char in array num1 or num2 is "0" then return  "0".

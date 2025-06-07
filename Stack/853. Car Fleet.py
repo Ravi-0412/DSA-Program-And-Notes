@@ -51,3 +51,124 @@ class Solution:
             # else:
                     # will join the fleet ahead of it
         return ans
+
+# Java Code
+"""
+//Method 1
+import java.util.Arrays;
+
+class Solution {
+    public int carFleet(int target, int[] position, int[] speed) {
+        int n = position.length;
+        double[][] cars = new double[n][2]; // {position, time to reach target}
+
+        for (int i = 0; i < n; i++) {
+            cars[i][0] = position[i];
+            cars[i][1] = (double) (target - position[i]) / speed[i];
+        }
+
+        Arrays.sort(cars, (a, b) -> Double.compare(b[0], a[0])); // Sort by position descending
+
+        int fleets = 0;
+        double[] stack = new double[n];
+        int index = 0;
+
+        for (double[] car : cars) {
+            double t = car[1];
+            if (index == 0 || t > stack[index - 1]) {
+                stack[index++] = t; // Form new fleet
+                fleets++;
+            }
+        }
+        return fleets;
+    }
+}
+//Method 2
+import java.util.Arrays;
+
+class Solution {
+    public int carFleet(int target, int[] position, int[] speed) {
+        int n = position.length;
+        double[][] cars = new double[n][2];
+
+        for (int i = 0; i < n; i++) {
+            cars[i][0] = position[i];
+            cars[i][1] = (double) (target - position[i]) / speed[i];
+        }
+
+        Arrays.sort(cars, (a, b) -> Double.compare(b[0], a[0])); // Sort by position descending
+
+        double pre_t = -1;
+        int fleets = 0;
+        for (double[] car : cars) {
+            double t = car[1];
+            if (t > pre_t) {
+                fleets++;
+                pre_t = t;
+            }
+        }
+        return fleets;
+    }
+}
+"""
+
+# C++ Code
+"""
+//Method 1
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int carFleet(int target, vector<int>& position, vector<int>& speed) {
+        vector<pair<int, double>> cars; // {position, time to reach target}
+        for (int i = 0; i < position.size(); i++) {
+            double t = (double)(target - position[i]) / speed[i]; // Compute time
+            cars.push_back({position[i], t});
+        }
+
+        // Sort cars by position in descending order
+        sort(cars.rbegin(), cars.rend());
+
+        vector<double> stack;
+        for (auto& [pos, t] : cars) {
+            if (stack.empty() || t > stack.back()) {
+                stack.push_back(t); // Form new fleet
+            }
+        }
+        return stack.size();
+    }
+};
+//Method 2
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int carFleet(int target, vector<int>& position, vector<int>& speed) {
+        vector<pair<int, double>> cars;
+        for (int i = 0; i < position.size(); i++) {
+            double t = (double)(target - position[i]) / speed[i];
+            cars.push_back({position[i], t});
+        }
+
+        sort(cars.rbegin(), cars.rend());
+
+        double pre_t = -1;
+        int fleets = 0;
+        for (auto& [pos, t] : cars) {
+            if (t > pre_t) {
+                fleets++;
+                pre_t = t;
+            }
+        }
+        return fleets;
+    }
+};
+"""

@@ -86,3 +86,110 @@ class Solution:
             slow1= nums[slow1]
             if slow== slow1:
                 return slow
+
+# Java Code 
+"""
+//Method 3
+class Solution {
+    // Method 1: Modifying the array
+    // Time = O(n), Space = O(1)
+    public int findDuplicate(int[] nums) {
+        for (int num : nums) {
+            int idx = Math.abs(num);  // taking abs of 'num' to check value at that index
+                                      // because we are modifying the array so later elements may contain negative values.
+                                      // But index can't be negative.
+
+            if (nums[idx] < 0) {
+                // 'num' index wala element i.e 'num' only is already visited.
+                return idx;
+            }
+            // Mark 'num' as visited by changing the value at index 'num' to negative value.
+            nums[idx] = -nums[idx];
+        }
+        return -1;  // This line should never be reached
+    }
+}
+//Method 4
+class Solution {
+    // Method 4: Using slow and fast pointer (Floyd’s Cycle Detection Algorithm)
+    // Time = O(n), Space = O(1)
+    public int findDuplicate(int[] nums) {
+        // Find the intersection point (cycle detection)
+        int slow = 0, fast = 0;
+        while (true) {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+            if (fast == slow) {
+                break;
+            }
+        }
+
+        // Find the starting node of the cycle
+        int slow1 = 0;
+        while (true) {
+            slow = nums[slow];
+            slow1 = nums[slow1];
+            if (slow == slow1) {
+                return slow;
+            }
+        }
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 3
+#include <vector>
+#include <cstdlib>
+
+using namespace std;
+
+class Solution {
+public:
+    // Method 1: Modifying the array
+    // Time = O(n), Space = O(1)
+    int findDuplicate(vector<int>& nums) {
+        for (int num : nums) {
+            int idx = abs(num);  // taking abs of 'num' to check value at that index
+                                 // because we are modifying the array so later elements may contain negative values.
+                                 // But index can't be negative.
+
+            if (nums[idx] < 0) {
+                // 'num' index wala element i.e 'num' only is already visited.
+                return idx;
+            }
+            // Mark 'num' as visited by changing the value at index 'num' to negative value.
+            nums[idx] = -nums[idx];
+        }
+        return -1;  // This line should never be reached
+    }
+};
+//Method 4
+class Solution {
+public:
+    // Method 4: Using slow and fast pointer (Floyd’s Cycle Detection Algorithm)
+    // Time = O(n), Space = O(1)
+    int findDuplicate(vector<int>& nums) {
+        // Find the intersection point (cycle detection)
+        int slow = 0, fast = 0;
+        while (true) {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+            if (fast == slow) {
+                break;
+            }
+        }
+
+        // Find the starting node of the cycle
+        int slow1 = 0;
+        while (true) {
+            slow = nums[slow];
+            slow1 = nums[slow1];
+            if (slow == slow1) {
+                return slow;
+            }
+        }
+    }
+};
+"""

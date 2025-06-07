@@ -37,34 +37,60 @@ class MyCalendar:
         self.booked.append((start, end))
         return True
 
-# Java
+# Java Code 
 """
 import java.util.ArrayList;
 import java.util.List;
 
 class MyCalendar {
-
-    private List<int[]> booked;
+    private List<int[]> booked; // Stores booked events
 
     public MyCalendar() {
         booked = new ArrayList<>();
     }
 
     public boolean book(int start, int end) {
-        // Iterate over the list of already booked events
+        // Check if it is overlapping with any of the booked events
         for (int[] event : booked) {
-            int s = event[0];
-            int e = event[1];
-            // Check if there is an overlap
+            int s = event[0], e = event[1];
+            // Check if they are overlapping
             if (end > s && e > start) {
-                return false;  // Overlapping, cannot book
+                return false;
             }
         }
-        // If no overlap, add the event to the list
+        // Add the new booking to the list
         booked.add(new int[]{start, end});
         return true;
     }
 }
+"""
+
+# C++ Code 
+"""
+#include <vector>
+
+using namespace std;
+
+class MyCalendar {
+private:
+    vector<pair<int, int>> booked; // Stores booked events
+
+public:
+    MyCalendar() {}
+
+    bool book(int start, int end) {
+        // Check if it is overlapping with any of the booked events
+        for (auto& [s, e] : booked) {
+            // Check if they are overlapping
+            if (end > s && e > start) {
+                return false;
+            }
+        }
+        // Add the new booking to the list
+        booked.emplace_back(start, end);
+        return true;
+    }
+};
 """
 
 # Method 2: optimising the above one
@@ -149,63 +175,171 @@ class MyCalendar:
             return True
         return self.isBookingPossible(start , end , self.root)
 
-# java
+# Java Code
 """
+//Method 2
+import java.util.TreeSet;
+
+class MyCalendar {
+    private TreeSet<int[]> booked; // Stores booked events in sorted order
+
+    public MyCalendar() {
+        booked = new TreeSet<>((a, b) -> Integer.compare(a[0], b[0]));
+    }
+
+    public boolean book(int start, int end) {
+        Integer[] newEvent = {start, end};
+        Integer[] next = booked.ceiling(newEvent);
+        Integer[] prev = booked.lower(newEvent);
+
+        // Condition 1: Previous event must end before the new event starts
+        if (prev != null && prev[1] > start) {
+            return false;
+        }
+
+        // Condition 2: Next event must start after the new event ends
+        if (next != null && next[0] < end) {
+            return false;
+        }
+
+        // Book the event
+        booked.add(new int[]{start, end});
+        return true;
+    }
+}
+//Method 3
 class Node {
     int s, e;
     Node left, right;
 
-    public Node(int s, int e) {
-        this.s = s;
-        this.e = e;
+    Node(int start, int end) {
+        this.s = start;
+        this.e = end;
         this.left = null;
         this.right = null;
     }
 }
 
 class MyCalendar {
-
     private Node root;
 
-    public MyCalendar() {
-        this.root = null;
-    }
-
     private boolean isBookingPossible(int start, int end, Node cur) {
-        // Case 1: If the new event starts after the current event ends
+        // Case 1: Event starts after the current node's event ends (go right)
         if (start >= cur.e) {
-            // It should be placed on the right side of the BST
             if (cur.right != null) {
                 return isBookingPossible(start, end, cur.right);
-            } else {
-                cur.right = new Node(start, end);
-                return true;
             }
+            cur.right = new Node(start, end);
+            return true;
         }
-        // Case 2: If the new event ends before the current event starts
-        else if (end <= cur.s) {
-            // It should be placed on the left side of the BST
+
+        // Case 2: Event ends before the current node's event starts (go left)
+        if (end <= cur.s) {
             if (cur.left != null) {
                 return isBookingPossible(start, end, cur.left);
-            } else {
-                cur.left = new Node(start, end);
-                return true;
             }
+            cur.left = new Node(start, end);
+            return true;
         }
-        // If neither condition is met, the booking is not possible due to overlap
+
+        // Overlapping case, booking not possible
         return false;
     }
 
+    public MyCalendar() {
+        root = null;
+    }
+
     public boolean book(int start, int end) {
-        // If there's no root, this is the first event, so we can book it
         if (root == null) {
             root = new Node(start, end);
             return true;
         }
-        // Otherwise, check if the booking is possible by traversing the tree
         return isBookingPossible(start, end, root);
     }
 }
+"""
+
+# C++ Code 
+"""
+//Method 2
+#include <set>
+
+using namespace std;
+
+class MyCalendar {
+private:
+    set<pair<int, int>> booked; // Stores booked events in sorted order
+
+public:
+    MyCalendar() {}
+
+    bool book(int start, int end) {
+        auto it = booked.lower_bound({start, end});
+
+        // Condition 1: Previous event must end before the new event starts
+        if (it != booked.begin() && prev(it)->second > start) {
+            return false;
+        }
+
+        // Condition 2: Next event must start after the new event ends
+        if (it != booked.end() && it->first < end) {
+            return false;
+        }
+
+        // Book the event
+        booked.insert({start, end});
+        return true;
+    }
+};
+//Method 3
+class Node {
+public:
+    int s, e;
+    Node* left;
+    Node* right;
+
+    Node(int start, int end) : s(start), e(end), left(nullptr), right(nullptr) {}
+};
+
+class MyCalendar {
+private:
+    Node* root;
+
+    bool isBookingPossible(int start, int end, Node* cur) {
+        // Case 1: Event starts after the current node's event ends (go right)
+        if (start >= cur->e) {
+            if (cur->right) {
+                return isBookingPossible(start, end, cur->right);
+            }
+            cur->right = new Node(start, end);
+            return true;
+        }
+
+        // Case 2: Event ends before the current node's event starts (go left)
+        if (end <= cur->s) {
+            if (cur->left) {
+                return isBookingPossible(start, end, cur->left);
+            }
+            cur->left = new Node(start, end);
+            return true;
+        }
+
+        // Overlapping case, booking not possible
+        return false;
+    }
+
+public:
+    MyCalendar() : root(nullptr) {}
+
+    bool book(int start, int end) {
+        if (!root) {
+            root = new Node(start, end);
+            return true;
+        }
+        return isBookingPossible(start, end, root);
+    }
+};
 """
 
 # Method 4: Try by Segment Tree

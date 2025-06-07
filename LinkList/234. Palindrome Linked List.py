@@ -81,3 +81,177 @@ class Solution:
             first2= first2.next
         return True
 
+# Java Code 
+"""
+//Method 1
+import java.util.Stack;
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+        next = null;
+    }
+}
+
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        ListNode first = head;
+        ListNode second = head;
+        Stack<Integer> stk = new Stack<>();
+
+        // Traverse the list and push values onto stack
+        while (first != null) {
+            stk.push(first.val);
+            first = first.next;
+        }
+
+        // Compare elements with stack pop values
+        while (second != null && stk.pop().equals(second.val)) {
+            second = second.next;
+        }
+
+        // If stack is empty, return true (palindrome)
+        return stk.isEmpty();
+    }
+}
+//Method 2
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        ListNode middle = findMiddle(head);
+        ListNode reverseHead = reverseList(middle);
+
+        // Compare first half with reversed second half
+        return compareLists(head, reverseHead);
+    }
+
+    private ListNode findMiddle(ListNode head) {
+        ListNode slow = head, fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        return slow; // Middle node
+    }
+
+    private ListNode reverseList(ListNode head) {
+        ListNode prev = null, curr = head;
+
+        while (curr != null) {
+            ListNode nextNode = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nextNode;
+        }
+
+        return prev;
+    }
+
+    private boolean compareLists(ListNode first, ListNode second) {
+        while (first != null && second != null) {
+            if (first.val != second.val) {
+                return false;
+            }
+            first = first.next;
+            second = second.next;
+        }
+        return true;
+    }
+}
+
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <stack>
+
+using namespace std;
+
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        ListNode* first = head;
+        ListNode* second = head;
+        stack<int> stk;
+
+        // Traverse the list and push values onto stack
+        while (first) {
+            stk.push(first->val);
+            first = first->next;
+        }
+
+        // Compare elements with stack pop values
+        while (second && stk.top() == second->val) {
+            stk.pop();
+            second = second->next;
+        }
+
+        // If stack is empty, return true (palindrome)
+        return stk.empty();
+    }
+};
+//Method 2
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        ListNode* middle = findMiddle(head);
+        ListNode* reverseHead = reverseList(middle);
+
+        // Compare first half with reversed second half
+        return compareLists(head, reverseHead);
+    }
+
+private:
+    ListNode* findMiddle(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        return slow; // Middle node
+    }
+
+    ListNode* reverseList(ListNode* head) {
+        ListNode* prev = nullptr;
+        ListNode* curr = head;
+
+        while (curr) {
+            ListNode* nextNode = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = nextNode;
+        }
+
+        return prev;
+    }
+
+    bool compareLists(ListNode* first, ListNode* second) {
+        while (first && second) {
+            if (first->val != second->val) {
+                return false;
+            }
+            first = first->next;
+            second = second->next;
+        }
+        return true;
+    }
+};
+
+"""

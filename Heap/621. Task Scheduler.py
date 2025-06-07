@@ -106,57 +106,189 @@ class Solution:
         return cnt
 
 
-# Java
-# Method 2:
+# Java Code 
 """
+//Method 1
+import java.util.*;
+
 class Solution {
     public int leastInterval(char[] tasks, int n) {
-        if (tasks == null || tasks.length == 0)
-            return -1;
-        //build map to sum the amount of each task
-        HashMap<Character,Integer> map = new HashMap<>();
-        for (char ch:tasks){
-            map.put(ch,map.getOrDefault(ch,0)+1);
+        Map<Character, Integer> freq = new HashMap<>();
+        for (char task : tasks) {
+            freq.put(task, freq.getOrDefault(task, 0) + 1);
         }
-        
-        // build queue, sort in descending order a/c frequency
-        PriorityQueue<Map.Entry<Character,Integer>> queue = new PriorityQueue<>((a,b)->(b.getValue()-a.getValue()));
-        queue.addAll(map.entrySet());  // adding all letters with frequency but only frequency is also fine.
 
-        int cnt = 0;
-        // when queue is not empty, there are remaining tasks
-        while (!queue.isEmpty()){
-            // for each interval
-            int interval = n+1;
-            // list used to update queue
-            List<Map.Entry<Character, Integer>> list = new ArrayList<>();
-    
-            // fill the intervals with the next high freq task
-            while (interval > 0 && !queue.isEmpty()){
-                Map.Entry<Character,Integer> entry = queue.poll();
-                entry.setValue(entry.getValue()-1);
-                list.add(entry);
-                // interval shrinks
-                interval --;
-                // one slot is taken
-                cnt ++;
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        maxHeap.addAll(freq.values());
+
+        Queue<int[]> cooldownQueue = new LinkedList<>();
+        int time = 0;
+
+        while (!maxHeap.isEmpty() || !cooldownQueue.isEmpty()) {
+            time++;
+
+            if (!maxHeap.isEmpty()) {
+                int count = maxHeap.poll() - 1;
+                if (count > 0) {
+                    cooldownQueue.add(new int[]{count, time + n});
+                }
             }
-            
-            // update the value in the map
-            for (Map.Entry<Character,Integer> entry:list){
-                // when there is left task
-                if (entry.getValue() > 0)
-                    queue.offer(entry);
+
+            if (!cooldownQueue.isEmpty() && cooldownQueue.peek()[1] == time) {
+                maxHeap.add(cooldownQueue.poll()[0]);
             }
-            // job done
-            if (queue.isEmpty())
-                break;
-            // if interval is > 0, then the machine can only be idle
-            cnt += interval;
         }
-        return cnt;
+
+        return time;
+    }
 }
+//Method 2
+import java.util.*;
+
+class Solution {
+    public int leastInterval(char[] tasks, int n) {
+        if (tasks.length == 0) return -1;
+
+        Map<Character, Integer> freq = new HashMap<>();
+        for (char task : tasks) {
+            freq.put(task, freq.getOrDefault(task, 0) + 1);
+        }
+
+        PriorityQueue<int[]> maxHeap = new PriorityQueue<>((a, b) -> Integer.compare(b[0], a[0]));
+        for (Map.Entry<Character, Integer> entry : freq.entrySet()) {
+            maxHeap.offer(new int[]{entry.getValue(), entry.getKey()});
+        }
+
+        int totalTime = 0;
+        while (!maxHeap.isEmpty()) {
+            int interval = n + 1;
+            List<int[]> temp = new ArrayList<>();
+
+            while (interval > 0 && !maxHeap.isEmpty()) {
+                int[] entry = maxHeap.poll();
+                int freqCount = entry[0] - 1;  // Decrease frequency since task is executed
+                temp.add(new int[]{freqCount, entry[1]});
+                interval--;
+                totalTime++;
+            }
+
+            // Push back remaining tasks
+            for (int[] entry : temp) {
+                if (entry[0] > 0) {
+                    maxHeap.offer(entry);
+                }
+            }
+
+            if (maxHeap.isEmpty()) break;
+
+            totalTime += interval;  // CPU idle time if tasks are still pending
+        }
+
+        return totalTime;
+    }
 }
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        unordered_map<char, int> freq;
+        for (char task : tasks) {
+            freq[task]++;
+        }
+
+        priority_queue<int> maxHeap;
+        for (auto& pair : freq) {
+            maxHeap.push(pair.second);
+        }
+
+        queue<pair<int, int>> cooldownQueue; // Stores (remaining count, available time)
+        int time = 0;
+
+        while (!maxHeap.empty() || !cooldownQueue.empty()) {
+            time++;
+
+            if (!maxHeap.empty()) {
+                int count = maxHeap.top();
+                maxHeap.pop();
+                count--;
+
+                if (count > 0) {
+                    cooldownQueue.push({count, time + n});
+                }
+            }
+
+            if (!cooldownQueue.empty() && cooldownQueue.front().second == time) {
+                maxHeap.push(cooldownQueue.front().first);
+                cooldownQueue.pop();
+            }
+        }
+
+        return time;
+    }
+};
+//Method 2
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        if (tasks.empty()) return -1;
+
+        unordered_map<char, int> freq;
+        for (char task : tasks) {
+            freq[task]++;
+        }
+
+        priority_queue<pair<int, char>> maxHeap;
+        for (auto& pair : freq) {
+            maxHeap.push({-pair.second, pair.first});  // Max heap with (-frequency, task)
+        }
+
+        int totalTime = 0;
+        while (!maxHeap.empty()) {
+            int interval = n + 1;
+            vector<pair<int, char>> temp;
+
+            while (interval > 0 && !maxHeap.empty()) {
+                auto [negFreq, task] = maxHeap.top();
+                maxHeap.pop();
+                int freqCount = -negFreq - 1;  // Decrease frequency since task is executed
+                temp.push_back({freqCount, task});
+                interval--;
+                totalTime++;
+            }
+
+            // Push back remaining tasks
+            for (auto& [freqCount, task] : temp) {
+                if (freqCount > 0) {
+                    maxHeap.push({-freqCount, task});
+                }
+            }
+
+            if (maxHeap.empty()) break;
+
+            totalTime += interval;  // CPU idle time if tasks are still pending
+        }
+
+        return totalTime;
+    }
+};
 """
 
 

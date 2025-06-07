@@ -29,3 +29,73 @@ class Solution(object):
             mask_count[mask] += 1
         return ans
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public long wonderfulSubstrings(String word) {
+        int mask = 0;
+        int[] maskCount = new int[1024]; // Since only 10 characters are allowed ('a' to 'j')
+        maskCount[0] = 1; // Base case
+        long ans = 0;
+
+        for (char c : word.toCharArray()) {
+            // Get the index of the character
+            int i = c - 'a';
+            // Set bit at this position to mark current character
+            mask ^= (1 << i);
+
+            // Case 1: Check if all characters have even occurrences
+            ans += maskCount[mask];
+
+            // Case 2: Check if any one letter has an odd occurrence
+            for (int j = 0; j < 10; j++) {
+                ans += maskCount[mask ^ (1 << j)];
+            }
+
+            maskCount[mask]++;
+        }
+
+        return ans;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    long long wonderfulSubstrings(string word) {
+        int mask = 0;
+        vector<int> mask_count(1024, 0); // Since only 10 characters are allowed ('a' to 'j')
+        mask_count[0] = 1; // Base case
+        long long ans = 0;
+
+        for (char c : word) {
+            // Get the index of the character
+            int i = c - 'a';
+            // Set bit at this position to mark current character
+            mask ^= (1 << i);
+
+            // Case 1: Check if all characters have even occurrences
+            ans += mask_count[mask];
+
+            // Case 2: Check if any one letter has an odd occurrence
+            for (int j = 0; j < 10; j++) {
+                ans += mask_count[mask ^ (1 << j)];
+            }
+
+            mask_count[mask]++;
+        }
+
+        return ans;
+    }
+};
+"""

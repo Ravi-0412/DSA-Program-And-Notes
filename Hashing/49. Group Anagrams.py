@@ -30,42 +30,106 @@ class Solution:
             hashmap[tuple(count)].append(s)    
         return hashmap.values()
 
-# Java
+# Java Code
 """
-// method 1:
+import java.util.*;
 
+// Method 1: Using sorted strings as keys
 class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
-        Map<String, List<String>> map = new HashMap<>();
-        
-        for (String word : strs) {
-            char[] chars = word.toCharArray();
-            Arrays.sort(chars);
-            String sortedWord = new String(chars);
+        Map<String, List<String>> hashmap = new HashMap<>();
+
+        for (String s : strs) {
+            char[] charArray = s.toCharArray();
+            Arrays.sort(charArray); // Sorting to check anagram validity
+            String sorted_s = new String(charArray);
             
-            if (!map.containsKey(sortedWord)) {
-                map.put(sortedWord, new ArrayList<>());
-            }
-            
-            map.get(sortedWord).add(word);
+            hashmap.computeIfAbsent(sorted_s, k -> new ArrayList<>()).add(s);
         }
-        
-        return new ArrayList<>(map.values());
+
+        return new ArrayList<>(hashmap.values());
     }
 }
 
-// method 2:
-
+// Method 2: Using character frequency as keys
+class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
-        if (strs == null || strs.length == 0) return new ArrayList<>();
-        Map<String, List<String>> map = new HashMap<>();
+        Map<String, List<String>> hashmap = new HashMap<>();
+
         for (String s : strs) {
-            char[] ca = new char[26];
-            for (char c : s.toCharArray()) ca[c - 'a']++;
-            String keyStr = String.valueOf(ca);   # take the value of 'ca' array and convert the values into single string and make this string as key
-            if (!map.containsKey(keyStr)) map.put(keyStr, new ArrayList<>());
-            map.get(keyStr).add(s);
+            int[] count = new int[26]; // Array to store character count
+            for (char c : s.toCharArray()) {
+                count[c - 'a']++; 
+            }
+            
+            // Convert the character frequency array into a string key
+            StringBuilder key = new StringBuilder();
+            for (int num : count) {
+                key.append(num).append("#"); // Unique delimiter to separate counts
+            }
+            
+            hashmap.computeIfAbsent(key.toString(), k -> new ArrayList<>()).add(s);
         }
-        return new ArrayList<>(map.values());
+
+        return new ArrayList<>(hashmap.values());
     }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <string>
+#include <unordered_map>
+#include <algorithm>
+using namespace std;
+
+// Method 1: Using sorted strings as keys
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        unordered_map<string, vector<string>> hashmap;
+
+        for (string s : strs) {
+            string sorted_s = s;
+            sort(sorted_s.begin(), sorted_s.end()); // Sorting to check anagram validity
+            hashmap[sorted_s].push_back(s);
+        }
+
+        vector<vector<string>> ans;
+        for (auto& pair : hashmap) {
+            ans.push_back(pair.second);
+        }
+        return ans;
+    }
+};
+
+// Method 2: Using character frequency as keys
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        unordered_map<string, vector<string>> hashmap;
+
+        for (string s : strs) {
+            vector<int> count(26, 0); // Array to store character count
+            for (char c : s) {
+                count[c - 'a']++; 
+            }
+            
+            // Convert the character frequency array into a string key
+            string key;
+            for (int num : count) {
+                key += to_string(num) + "#"; // Unique delimiter to separate counts
+            }
+            
+            hashmap[key].push_back(s);
+        }
+
+        vector<vector<string>> ans;
+        for (auto& pair : hashmap) {
+            ans.push_back(pair.second);
+        }
+        return ans;
+    }
+};
 """

@@ -1,22 +1,44 @@
 """
-logic: Every bipartite graph should be coloured with exactly two colors.
-use the concept of graph coloring and try to color with two color.
-no need of visited array in this because color array can work like visited also.
+Bipartite Graph Check Using Coloring
+What is a Bipartite Graph?
+A graph is bipartite if:
+- You can split its nodes into two groups (or colors) such that no two connected nodes share the same group.
+- In other words, every edge connects nodes with different colors.
 
-Note: just similar logic as we detect cycle in undirected graph.
+Logic
+We use the idea of graph coloring:
+- Try to color the graph using only two colors: `0` and `1`.
+- If all adjacent (connected) nodes get different colors, the graph is **bipartite**.
+- If any two connected nodes get the same color, the graph is **not bipartite**.
 
-Logic: if any node is not visited, then color it with different color than its parent and 
-if already visited then check it's color with the color of its neighbour. if same return False.
+Algorithm Overview
+- Use a `color[]` array to keep track of each node's color:
+  - `-1` means the node hasn't been colored yet.
+  - `0` and `1` represent two different colors.
+- This `color[]` array also works as a **visited array**.
+- For each unvisited node:
+  - Color it (e.g., with `0`).
+  - Use **DFS or BFS** to color all its neighbors with the **opposite color**.
+- While traversing:
+  - If a neighbor is **already colored**, check:
+    - If it has the **same color** → Not bipartite → Return `False`.
 
-Note: xor of any number with 0 will give the same no  and  xor with '1' give the different number.
-so to color the adjacent node with different color, we will take 1^color[parent].
-And since we are only using '0' and '1' so number will be always : 0 or 1.
 
-Note: Complete graph can never be bipartite.
+Why Use XOR to Flip Colors?
+We can easily switch between `0` and `1` using XOR:
+1 ^ 0 = 1 → flips 0 to 1
+1 ^ 1 = 0 → flips 1 to 0
+So, 1 ^ color[current_node] gives the other color automatically.
 
-Note: It can done also by 'm-coloring' problem using backtracking.
-Just replace 'm' -> 2.
+Notes to Remember
+1. You don’t need a separate visited[] array. → If color[node] is not -1, it means it’s already visited.
+2. A complete graph with more than 2 nodes can never be bipartite (because all nodes are connected to each other, so we need more than 2 colors).
+3. This idea is similar to checking for cycles in an undirected graph.
+4. You can also solve this using m-coloring backtracking: Just set m = 2 (because we only want to use 2 colors).
+
 """
+
+
 
 # method 1: using BFS
 

@@ -1,14 +1,19 @@
-# Logic: 
 """
-You can move(change) any of four wheels in two direction either clockwise or anti-clockwise.
+Logic: 
+You have 4 wheels, each can move forward or backward (clockwise or anticlockwise).From one lock state, you can reach 8 new states (4 wheels × 2 directions).
+We use BFS to explore these states level by level until we reach the target.
 
-It's like multisource bfs like one level you can reach to these states and using next you can
-reach to some other states and so on.
+There are 10,000 possible states (0000 to 9999), so BFS is efficient here. This is like a multi-source BFS where each state leads to neighbors.
+
+Time complexity
+
+Time: 10**4 * 8
+Because for each 4 wheel , we will have 10 choices (0 to 9) and for for each 10**4 state there 
+will be 8 neighbours. (4 wheels can rotate either in clockwise or anticlockwise s0 4*2 = 8).
+
 """
 
-# Time: 10**4 * 8
-# Because for each 4 wheel , we will have 10 choices (0 to 9) and for for each 10**4 state there 
-# will be 8 neighbours. (4 wheels can rotate either in clockwise or anticlockwise s0 4*2 = 8).
+
 
 class Solution:
     def openLock(self, deadends: List[str], target: str) -> int:
@@ -70,73 +75,44 @@ class Solution:
 import java.util.*;
 
 class Solution {
-    // Define the neighbors method outside of the openLock method
     private List<String> neighbors(String code) {
         List<String> result = new ArrayList<>();
-        // Iterate through each of the 4 digits in the lock code
         for (int i = 0; i < 4; i++) {
-            char[] chars = code.toCharArray();  // Convert string to character array
-            char original = chars[i];  // Store the original digit at position i
+            char[] chars = code.toCharArray();
+            char original = chars[i];
             
-            // Change the digit at position i by -1 (decrement) with wrap-around
             chars[i] = original == '0' ? '9' : (char)(original - 1);
-            result.add(new String(chars));  // Add the new combination to the result
+            result.add(new String(chars));
 
-            // Change the digit at position i by +1 (increment) with wrap-around
             chars[i] = original == '9' ? '0' : (char)(original + 1);
-            result.add(new String(chars));  // Add the new combination to the result
+            result.add(new String(chars));
         }
-        return result;  // Return all possible neighboring combinations
+        return result;
     }
 
-    // The main openLock method
     public int openLock(String[] deadends, String target) {
-        // Convert deadends array to a set for fast lookup and to use as the visited set
         Set<String> deadSet = new HashSet<>(Arrays.asList(deadends));
+        if (deadSet.contains("0000")) return -1;
 
-        // If the initial lock "0000" is a deadend, return -1 immediately
-        if (deadSet.contains("0000")) {
-            return -1;
-        }
-
-        // Queue for BFS starting from "0000"
         Queue<String> queue = new LinkedList<>();
         queue.offer("0000");
-
-        // Mark "0000" as visited by adding it to the deadSet
         deadSet.add("0000");
+        int steps = 0;
 
-        int steps = 0;  // Track the number of moves (steps)
-
-        // BFS loop
         while (!queue.isEmpty()) {
             int size = queue.size();
-            // Process all nodes (lock combinations) at the current BFS level
             for (int i = 0; i < size; i++) {
-                String curr = queue.poll();  // Get the current lock combination
+                String curr = queue.poll();
+                if (curr.equals(target)) return steps;
 
-                // If we reach the target lock combination, return the number of steps
-                if (curr.equals(target)) {
-                    return steps;
-                }
-
-                // Get all neighbors of the current lock combination
                 for (String neighbor : neighbors(curr)) {
-                    // If the neighbor is a deadend or has been visited, skip it
-                    if (deadSet.contains(neighbor)) {
-                        continue;
-                    }
-                    // Mark the neighbor as visited by adding it to the deadSet
+                    if (deadSet.contains(neighbor)) continue;
                     deadSet.add(neighbor);
-                    // Add the valid neighbor to the queue for future exploration
                     queue.offer(neighbor);
                 }
             }
-            // After processing one level, increment the step count
             steps++;
         }
-
-        // If we exhaust all possibilities and don't find the target, return -1
         return -1;
     }
 }
@@ -144,74 +120,56 @@ class Solution {
 """
 # C++ Code 
 """
-#include <iostream>
+#include <string>
 #include <vector>
-#include <unordered_set>
 #include <queue>
+#include <unordered_set>
+
 using namespace std;
 
 class Solution {
-public:
-    // Helper function to find all possible lock combinations by changing
-    // one digit up or down by 1 from the current code
-    vector<string> neighbors(string code) {
+private:
+    vector<string> neighbors(const string& code) {
         vector<string> result;
-        // Iterate through each of the 4 digits in the lock code
         for (int i = 0; i < 4; i++) {
-            int x = code[i] - '0';  // Get the integer value of the current digit
-            // Try moving the digit up and down (with wrap-around between 0 and 9)
-            for (int diff : {-1, 1}) {
-                // Calculate new digit with wrap-around using modulo 10
-                int y = (x + diff + 10) % 10;
-                // Form the new lock code with the changed digit
-                string newCode = code;
-                newCode[i] = y + '0';
-                result.push_back(newCode);
-            }
+            string s = code;
+            s[i] = (s[i] == '0') ? '9' : s[i] - 1;
+            result.push_back(s);
+
+            s[i] = (code[i] == '9') ? '0' : code[i] + 1;
+            result.push_back(s);
         }
-        // Return the list of all neighboring lock combinations
         return result;
     }
 
+public:
     int openLock(vector<string>& deadends, string target) {
-        // Convert the list of deadends to a set for O(1) lookups
         unordered_set<string> deadSet(deadends.begin(), deadends.end());
-
-        // If the initial lock "0000" is a deadend, we can't start, so return -1
         if (deadSet.count("0000")) return -1;
 
-        // Use a queue to perform a breadth-first search (BFS) starting from "0000"
         queue<string> q;
         q.push("0000");
-        int steps = 0;  // Track the number of moves made (BFS levels)
+        deadSet.insert("0000");
+        int steps = 0;
 
-        // BFS loop to explore all possible combinations level by level
         while (!q.empty()) {
             int size = q.size();
-            // For each level in the BFS, we process all nodes (lock combinations) at this depth
             for (int i = 0; i < size; i++) {
-                string curr = q.front(); q.pop();
-
-                // If the current lock combination matches the target, return the step count
+                string curr = q.front();
+                q.pop();
                 if (curr == target) return steps;
 
-                // Explore all possible lock combinations by changing one digit
-                for (string nei : neighbors(curr)) {
-                    // If the neighbor lock is a deadend or already visited, skip it
-                    if (deadSet.count(nei)) continue;
-                    // Mark the neighbor as visited by adding it to the deadSet
-                    deadSet.insert(nei);
-                    // Add the valid neighbor to the queue to be explored in the next step
-                    q.push(nei);
+                for (const string& neighbor : neighbors(curr)) {
+                    if (deadSet.count(neighbor)) continue;
+                    deadSet.insert(neighbor);
+                    q.push(neighbor);
                 }
             }
-            // After processing one level, increment the step count (move count)
             steps++;
         }
-
-        // If we exhaust all possibilities and don't reach the target, return -1
         return -1;
     }
 };
+
 
 """

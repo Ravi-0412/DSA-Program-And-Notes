@@ -1,19 +1,19 @@
 """
 # (Kosaraju Algorithm)
 
-logic steps: 1) sort all nodes in order of largest finishing time using Topo Sort logic, time: O(n + E)
+logic steps: 
+1) sort all nodes in order of largest finishing time using Topo Sort logic, time: O(n + E)
 2) Transpose the graph .time: O(n + E)
-transposing the graph means changing the direrction of the path . 
-Reason for transposing: Nodes having path one way betwen them , we will not able to reach other if we start from one node in order of last finising time.
-we will only reach the nodes which was connected bidirectionally after transposing( and when we will start from largest finishing time).
+ - transposing the graph means changing the direrction of the path . 
+    - Reason for transposing: Nodes having path one way betwen them , we will not able to reach other if we start from one node in order of last finising time.
+      we will only reach the nodes which was connected bidirectionally after transposing( and when we will start from largest finishing time).
 3) Call DFS acc to the largest finishing time got in step 1 on the transposed graph.
+
 Note: 
-top of the stack will store the  ele with largest finishing time to 
-verify direction from both sides.
-Note: element from which we had started will have largest finishing time because while backtrack we are putting
-element in stack so first visited will be visited last also.
-# So when we run dfs again on transpose matrix then it checks whether from this node we can still reach other nodes
-If we can reach then it means they are strongly connected to each other.
+
+- A node visited early in DFS will be pushed last into the stack (has the largest finishing time).
+- After transposing, nodes that are truly strongly connected will still be reachable from each other.
+- Each DFS run on the transposed graph will find one full SCC.
 
 time: O(n +E)
 Space : O(n)

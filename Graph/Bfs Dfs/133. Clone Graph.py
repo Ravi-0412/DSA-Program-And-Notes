@@ -1,8 +1,23 @@
-
+"""
 # method 1: using DFS+ hashmap
-# logic: since we have to copy the node so we have to store somewhere so that we can use that again and again
-# and for this only one data structure comes into mind 'hashmap'
+# logic:
+
+To clone a graph:
+Stepwise
+1. We must create a new copy of every node and all its neighbors.
+2. Graphs can have cycles or shared neighbors, so we need to avoid cloning the same node more than once.
+3. To handle this, we use a hashmap:
+   - It keeps track of already cloned nodes.
+   - It prevents re-cloning and avoids infinite loops.
 # and for traversal, we have to use either BFS or DFS
+
+We use Depth-First Search (DFS) to go through the graph:
+- If a node hasn’t been cloned:
+  - Clone it and store it in the hashmap.
+  - Recursively clone all of its neighbors.
+- If it’s already cloned, just return it from the hashmap.
+
+"""
 class Solution:
     def cloneGraph(self, node: 'Node') -> 'Node':
         oldToNew= {}  # to store the copy of the node

@@ -1,9 +1,12 @@
 
-# 1st approach come in mind is:
-# But giving wrong ans for test case : 18 , don't know why. Have to ask someone.
+"""
+Approach 1 (Wrong):
+Try to move only on stops connected by the current bus.
+- Build edges between all stops on the same bus.
+- Track current bus to decide if bus count increases.
+- Problem: This approach fails on some test cases because it restricts moves too much.
 
-# Logic: From each stop we are going to all possible stops we can go using cur_bus.
-
+"""
 class Solution:
     def numBusesToDestination(self, routes: List[List[int]], source: int, target: int) -> int:
         if source == target:
@@ -42,18 +45,16 @@ class Solution:
                         visited.add(stop1)
         return -1
 
-# Correct one
-
-# Logic: when we are any stop , which all stops we can go.
-# for this we can take all buses route(stops) that goes through this stop.
-# Then can go to all those stops.
-
-# We can use multisource bfs.
-# Like source se kisi ek bus ko use karke kon-kon sa stop ja sakte h and so on.
-
-# In above one, we are going only to those stops where cur_bus can go but here
-# We are going to all those stops that we can go from cur_stop considering all buses that come at cur_stop.
-
+"""
+Correct Approach (Multi-source BFS):
+- From each stop, consider all buses passing through it.
+- From these buses, you can reach all their stops.
+- Use BFS starting from the source stop:
+  - For each stop, take all buses that stop there.
+  - For each bus, enqueue all reachable stops.
+  - Keep track of visited buses and stops to avoid repeats.
+- The answer is the number of buses taken to reach the target.
+"""
 class Solution:
     def numBusesToDestination(self, routes: List[List[int]], source: int, target: int) -> int:
         if source == target:
@@ -86,24 +87,25 @@ class Solution:
                                 visited_stop.add(stop)
                         visited_bus.add(bus)
         return -1
-    
-# Note: No need of 'visited' set for stops because all buses at that stop will marked visited
-# So later for same stop , bus won't get added into queue.
-# So we can do without this. 
-# But it may improve time little bit because it will avoid 'for loop' i.e 'for bus in busStop[curStop]'.
+"""    
+Note: No need of 'visited' set for stops because all buses at that stop will marked visited
+So later for same stop , bus won't get added into queue.
+So we can do without this. 
+But it may improve time little bit because it will avoid for loop' i.e 'for bus in busStop[curStop].
 
-# Note vvi: if we mark 'stop' only as visited instead of 'buses' then we will get TLE.
-# Reason: At each stop, we are checking the routes of bus which come to that stop.
-# And len(route) can be 10^5  i.e 'for stop in routes[bus]'.
-# By marking 'bus' as visited, we avoid this for loop.
+Note vvi: if we mark 'stop' only as visited instead of 'buses' then we will get TLE.
+Reason: At each stop, we are checking the routes of bus which come to that stop.
+And len(route) can be 10^5  i.e 'for stop in routes[bus]'.
+By marking 'bus' as visited, we avoid this for loop.
 
-# And without visited set for 'stop', it is getting accepted because it will suffer for loop
-# 'for bus in busStop[curStop]' which can be maximum '500'. given: '1 <= routes.length <= 500
+And without visited set for 'stop', it is getting accepted because it will suffer for loop
+'for bus in busStop[curStop]' which can be maximum '500'. given: '1 <= routes.length <= 500
 
-# Note: Better mark both visited and avoid these confusion.
+Note: Better mark both visited and avoid these confusion.
+But this may help in other questions i.e if some for loop is causing more repititive thing than other
+Then try to avoid that for loop that is causing more repititive thing.
+Like we must try to avoid for loop: 'for bus in busStop[curStop]' anyhow then we will think of other one.
 
-# But this may help in other questions i.e if some for loop is causing more repititive thing than other
-# Then try to avoid that for loop that is causing more repititive thing.
-# Like we must try to avoid for loop: 'for bus in busStop[curStop]' anyhow then we will think of other one.
-
-
+Time Complexity:
+- O(N * M), where N = number of buses, M = max stops per bus
+"""

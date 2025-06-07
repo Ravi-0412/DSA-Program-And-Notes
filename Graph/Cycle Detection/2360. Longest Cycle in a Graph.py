@@ -1,12 +1,18 @@
-# here we are also checking from each node only.
-# but it will in O(n) because after any node is 'seen' then we will skip simply.
+"""
+Core logic
+- Each node has at most one outgoing edge.
+- So, a node can be part of only one cycle, not multiple.
+- Once a node is visited, we don’t need to check it again.
 
-# Main thing: "each node has at most one outgoing edge.". 
-# This means any node can be part of only one cycle , can't be part of more than one cycle like "2608. Shortest Cycle in a Graph".
-# so when we will find any cycle we can remove the extra node which was not the part of cycle.("-")
-# only because of that statement we are able to do like this and in o(n).
+Step by step working
+- From each unvisited node, follow the path until:
+  - You hit a visited node → check if it’s a cycle.
+  - Or reach a dead end.
+- Use a `seen[]` array to skip nodes already checked.
 
-# time: O(n)
+Time Complexity: O(n)
+
+"""
 
 class Solution:
     def longestCycle(self, edges: List[int]) -> int:
@@ -35,3 +41,69 @@ class Solution:
             dfs(node)
         
         return self.ans
+
+Java Code
+"""
+class Solution {
+    int ans = -1;
+
+    public int longestCycle(int[] edges) {
+        Set<Integer> seen = new HashSet<>();
+        Map<Integer, Integer> visiting = new HashMap<>();
+
+        for (int i = 0; i < edges.length; i++) {
+            dfs(i, edges, seen, visiting, 0);
+        }
+
+        return ans;
+    }
+
+    private void dfs(int node, int[] edges, Set<Integer> seen, Map<Integer, Integer> visiting, int depth) {
+        if (seen.contains(node)) return;
+
+        if (visiting.containsKey(node)) {
+            ans = Math.max(ans, depth - visiting.get(node));
+        } else if (edges[node] != -1) {
+            visiting.put(node, depth);
+            dfs(edges[node], edges, seen, visiting, depth + 1);
+            visiting.remove(node);
+        }
+
+        seen.add(node);
+    }
+}
+"""
+
+C++ Code
+"""
+class Solution {
+public:
+    int ans = -1;
+
+    void dfs(int node, vector<int>& edges, unordered_set<int>& seen, unordered_map<int, int>& visiting, int depth) {
+        if (seen.count(node)) return;
+
+        if (visiting.count(node)) {
+            ans = max(ans, depth - visiting[node]);
+        } else if (edges[node] != -1) {
+            visiting[node] = depth;
+            dfs(edges[node], edges, seen, visiting, depth + 1);
+            visiting.erase(node);
+        }
+
+        seen.insert(node);
+    }
+
+    int longestCycle(vector<int>& edges) {
+        unordered_set<int> seen;
+        unordered_map<int, int> visiting;
+
+        for (int i = 0; i < edges.size(); ++i) {
+            dfs(i, edges, seen, visiting, 0);
+        }
+
+        return ans;
+    }
+};
+
+"""

@@ -2,14 +2,21 @@
 Can detect cycle even graph is given as component
 
 method 1 : using BFS
-time complexity is same as BFS
+Time complexity Same as BFS traversal:  
+  `O(V + E)` where  
+  `V` = number of vertices (nodes)  
+  `E` = number of edges
 
-logic: if adjacent node of any vertex is already visited and if it is not parent then there is a cycle .
-because if that is not parent and already visited then there must be another path also for reaching that adjacent node from curr node and 
-since undirected graph is two way(btwn two node) so it will be a cycle only.
+logic: 
+- We want to detect if the graph has a cycle and also find how many connected parts (components) it has.
+- For each node:
+  - If it is not visited, start a BFS from that node.
+  - While doing BFS, check each neighbor:
+    - If the neighbor is already visited **and is not the parent** of the current node, it means **there is a cycle**.
+    - This happens because you found another way to reach the neighbor, forming a loop.
+- Every time you start a BFS on an unvisited node, you found a new connected component.
 
-this method can also be used to detect the no of connected components in the undirected graph.
-just count the no of times BFS is called that will be the ans.
+
 """
 
 
@@ -188,8 +195,19 @@ public:
 
 """
 
-# # method 2: using DFS
-# logic is exactly same as BFS
+"""
+METHOD 2 : DFS Traversal
+The logic is the same as BFS, just using DFS instead.
+- For each node:
+  - If it is not visited, start a DFS from that node.
+  - While exploring neighbors:
+    - If the neighbor is already visited and is not the parent, it means there is a cycle.
+    - This means the neighbor was visited from a different path, forming a loop.
+- Every time you start a DFS from an unvisited node, it means you found a new connected component.
+Time complexity : Same as dfs traversal
+
+"""
+
 from collections import defaultdict
 class Graph:
     def __init__(self,n):

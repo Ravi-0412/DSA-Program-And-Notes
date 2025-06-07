@@ -1,10 +1,20 @@
-# Logic: Perform a DFS from each node to identify all nodes that can reach the current node. 
-# During this traversal, mark nodes as visited to avoid cycles and repeated work.
-# While performing the DFS, if we reach a node, we add the starting node (ancestor) 
-# to the list of ancestors for the reached node.
+"""
+Logic: 
+1. Perform a DFS from every node in the graph.
+2. During each DFS traversal:
+   - Keep track of visited nodes to avoid cycles and unnecessary rework.
+   - If you reach a node `child` during DFS from a node `parent`, then:
+     - Add `parent` to the list of ancestors of `child`.
+3. Repeat this for all nodes.
+4. Finally, sort the list of ancestors for each node if needed.
+
+Why DFS?
+- DFS helps us explore all paths from a given starting node.
+- It naturally allows us to track which nodes are reachable, and hence, identify ancestors.
+- We avoid repeated work by using a visited array during traversal.
 
 # Time; O(n*(n + m) + n*k logk), k = average number of ancestors per node, n  nodes, m = edges
-
+"""
 class Solution:
     def getAncestors(self, n: int, edges: List[List[int]]) -> List[List[int]]:
         adj = collections.defaultdict(list)
@@ -77,4 +87,39 @@ class Solution {
     }
 }
 
+"""
+
+Cpp code
+"""
+class Solution {
+public:
+    void dfs(int parent, int cur, vector<vector<int>>& adj, vector<vector<int>>& ans, vector<bool>& visited) {
+        visited[cur] = true;
+        for (int nei : adj[cur]) {
+            if (!visited[nei]) {
+                ans[nei].push_back(parent);
+                dfs(parent, nei, adj, ans, visited);
+            }
+        }
+    }
+
+    vector<vector<int>> getAncestors(int n, vector<vector<int>>& edges) {
+        vector<vector<int>> adj(n);
+        vector<vector<int>> ans(n);
+        for (auto& edge : edges) {
+            int u = edge[0], v = edge[1];
+            adj[u].push_back(v);
+        }
+
+        for (int i = 0; i < n; ++i) {
+            vector<bool> visited(n, false);
+            dfs(i, i, adj, ans, visited);
+        }
+        for (int i = 0; i < n; ++i) {
+            sort(ans[i].begin(), ans[i].end());
+        }
+
+        return ans;
+    }
+};
 """

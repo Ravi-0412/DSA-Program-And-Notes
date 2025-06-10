@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Time = space = O(n)
 
 class Solution:
@@ -20,7 +22,7 @@ class Solution:
             ans = max(ans, prefixZeroCount[i + 1] + suffixOneCount[i + 1]) 
         return ans
             
-# Method : Space optimised and in single pass
+# Method 2: Space optimised and in single pass
 # time = O(n)
 # Space = O(1)
 
@@ -48,6 +50,8 @@ class Solution:
 
 # Java Code 
 """
+// Method 1: 
+
 class Solution {
     public int maxScore(String s) {
         int n = s.length();
@@ -69,10 +73,35 @@ class Solution {
         return ans;
     }
 }
+
+// Method 2 
+
+class Solution {
+    public int maxScore(String s) {
+        int zeros = 0, ones = 0, maxScore = Integer.MIN_VALUE;
+
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (ch == '0') {
+                zeros++;
+            } else {
+                ones++;
+            }
+            if (i != s.length() - 1) {
+                maxScore = Math.max(maxScore, zeros - ones);
+            }
+        }
+
+        return maxScore + ones;
+    }
+}
+
 """
 
 # C++ Code
 """
+// method 1:
+
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -101,4 +130,26 @@ public:
         return ans;
     }
 };
+
+// Method 2:
+class Solution {
+public:
+    int maxScore(string s) {
+        int zeros = 0, ones = 0, maxScore = INT_MIN;
+
+        for (int i = 0; i < s.length(); ++i) {
+            if (s[i] == '0') {
+                ++zeros;
+            } else {
+                ++ones;
+            }
+            if (i != s.length() - 1) {
+                maxScore = max(maxScore, zeros - ones);
+            }
+        }
+
+        return maxScore + ones;
+    }
+};
+
 """

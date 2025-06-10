@@ -1,5 +1,3 @@
-# Easy -medium level Q only.
-
 # Read the comments inside code.
 
 class Solution:

@@ -3,9 +3,9 @@
 # In case of rectangle any two points can be diagonal, won't follow property like square 'abs(x1 - x2) == abs(y1 - y2)'.
 # So consider each possible diagonal pair then other two points will be same as square i.e '(x1, y2)' and '(x2, y1)'.
 and one side length = abs(x1 - x2) and other side length = abs(y1 - y2)
-"""
 
-# Time: O(n^2)
+Time : O(n^2)
+"""
 
 class Solution:
     def minAreaRect(self, points: List[List[int]]) -> int:

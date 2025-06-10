@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Excel sheet column no title :
 # [A,B,...Z], [AA,AB,....,AZ], [BA,BB,...,BZ],....[ZA,ZB,....,ZZ],[AAA,AAB,....,AAZ],.......
 
@@ -31,6 +33,8 @@
 # ZZZZ＝Z×26³＋Z×26²＋Z×26¹＋Z＝26×26³＋26×26²＋26×26¹＋26
 
 # We can use (n-1)%26 instead, then we get a number range from 0 to 25.
+
+# Time : O(log26^n) , space : O(26)
 
 class Solution:
     def convertToTitle(self, columnNumber: int) -> str:
@@ -68,7 +72,7 @@ class Solution:
         ans = colToChar[columnNumber] + ans
         return ans
 
-# 2)
+# Other way of writing same above logic
 class Solution:
     def convertToTitle(self, columnNumber: int) -> str:
         ans = ""

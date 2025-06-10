@@ -8,35 +8,12 @@ class Solution:
             nums[(i+k)%n]= temp[i]
         return nums
 
-# 2nd method: very concise one
-# Observation: ans = last k ele + first 'n-k' ele
-# time= space= O(n)
-class Solution:
-    def rotate(self, nums: List[int], k: int) -> None:
-        n= len(nums)
-        k= k%n
-        # print(nums[(n-k):] + nums[:(n-k)])  # will print correct one only but at return time it will return the original array only 
-        # return nums[(n-k):] + nums[:(n-k)]   # this one will return the original array only, because this is not changing the values in original array
 
-        # correct one
-        # nums[:]= nums[(n-k):] + nums[:(n-k)]  # or use negative slicing 
-        nums[:] = nums[-k:] + nums[:-k]   # better one
-        
-         # nums[:]= nums[-k:] + nums[:n-k]  # this will give incorrect ans in case of one ele and k=0, it will just add that array two times
-        return nums
-
-# Note:
-# 1) nums[:] = nums[n-k:] + nums[:n-k] 
-# 2) nums = nums[n-k:] + nums[:n-k]
-# The 1st one can truly change the value of old nums
-# but the following one(2nd one) just changes its reference to a new nums not the value of old nums. 
-# it just create a copy of 'nums' and changes the value inside the copied list
-
-
-# 3rd method: optimising the space complexity to O(1) for right rotation
+# 2nd method: optimising the space complexity to O(1) for right rotation
 # logic: 1)Reverse the last 'k' elements.. Q given reverse right so reverse the last 'k' elements
 # 2) Reverse the remaining ele 'n-k' element from start 
 # 3) and finally reverse the whole array 
+
 # Time: o(n),space: o(1)
 
 
@@ -62,28 +39,39 @@ class Solution:
 
 # Java
 """
+// Method 1: 
 class Solution {
     public void rotate(int[] nums, int k) {
         int n = nums.length;
-        k = k % n; // Handle cases where k > n
-
-        // Reverse the last 'k' elements
-        reverse(nums, n - k, n - 1);
-
-        // Reverse the first 'n - k' elements
-        reverse(nums, 0, n - k - 1);
-
-        // Reverse the entire array
-        reverse(nums, 0, n - 1);
+        k = k % n;
+        int[] temp = nums.clone();  // Create a copy of the original array
+        
+        for (int i = 0; i < n; i++) {
+            nums[(i + k) % n] = temp[i];  // Place elements in their new positions
+        }
     }
+}
 
-    private void reverse(int[] nums, int left, int right) {
-        while (left < right) {
-            int temp = nums[left];
-            nums[left] = nums[right];
-            nums[right] = temp;
-            left++;
-            right--;
+
+// Method 2: 
+class Solution {
+    public void rotate(int[] nums, int k) {
+        int n = nums.length;
+        k = k % n;
+        
+        reverse(nums, n - k, n - 1);   // last 'k' elements
+        reverse(nums, 0, n - k - 1);    // remaining 'n-k' elements from start
+        reverse(nums, 0, n - 1);        // reverse the entire array
+    }
+    
+    private void reverse(int[] nums, int l, int h) {
+        int i = l, j = h;
+        while (i < j) {
+            int temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+            i++;
+            j--;
         }
     }
 }
@@ -94,8 +82,24 @@ class Solution {
 //Method 1
 
 #include <vector>
-#include <algorithm>
+#include <algorithm> // For std::copy
 
+class Solution {
+public:
+    void rotate(std::vector<int>& nums, int k) {
+        int n = nums.size();
+        k = k % n;
+        std::vector<int> temp = nums;  // Create a copy of the original vector
+        
+        for (int i = 0; i < n; i++) {
+            nums[(i + k) % n] = temp[i];  // Place elements in their new positions
+        }
+    }
+};
+
+//Method 3
+
+#include <vector>
 using namespace std;
 
 class Solution {
@@ -103,27 +107,20 @@ public:
     void rotate(vector<int>& nums, int k) {
         int n = nums.size();
         k = k % n;
-
-        // Correct approach: modifying in place
-        rotate(nums.rbegin(), nums.rbegin() + k, nums.rend());
+        
+        reverse(nums, n - k, n - 1);   // last 'k' elements
+        reverse(nums, 0, n - k - 1);  // remaining 'n-k' elements from start
+        reverse(nums, 0, n - 1);      // reverse the entire array
     }
-};
-
-//Method 2
-class Solution {
-public:
-    void rotate(vector<int>& nums, int k) {
-        int n = nums.size();
-        k = k % n;
-
-        // Reverse the last 'k' elements
-        reverse(nums.begin() + n - k, nums.end());
-
-        // Reverse the remaining 'n-k' elements from start
-        reverse(nums.begin(), nums.begin() + n - k);
-
-        // Finally, reverse the whole array
-        reverse(nums.begin(), nums.end());
+    
+private:
+    void reverse(vector<int>& nums, int l, int h) {
+        int i = l, j = h;
+        while (i < j) {
+            swap(nums[i], nums[j]);
+            i++;
+            j--;
+        }
     }
 };
 """

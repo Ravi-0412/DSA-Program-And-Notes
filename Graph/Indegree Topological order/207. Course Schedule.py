@@ -285,3 +285,140 @@ class Solution {
 }
 
 """
+# C++ Code 
+"""
+//Method 1
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        unordered_map<int, vector<int>> AdjList;
+        // first convert into adjacency list(edges) for directed graph
+        for (auto& prerequisite : prerequisites) {
+            int second = prerequisite[0];
+            int first = prerequisite[1];
+            AdjList[first].push_back(second);
+        }
+
+        unordered_set<int> visited;
+        unordered_set<int> pathVisited;
+        for (int i = 0; i < numCourses; i++) {
+            if (!visited.count(i) && checkCycle(i, AdjList, visited, pathVisited)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    bool checkCycle(int src, unordered_map<int, vector<int>>& AdjList, 
+                    unordered_set<int>& visited, unordered_set<int>& pathVisited) {
+        visited.insert(src);
+        pathVisited.insert(src);
+        for (int u : AdjList[src]) {
+            if (!visited.count(u)) {
+                if (checkCycle(u, AdjList, visited, pathVisited)) {
+                    return true;
+                }
+            } else if (pathVisited.count(u)) {
+                return true;
+            }
+        }
+        pathVisited.erase(src);
+        return false;
+    }
+};
+
+//Method 2
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        unordered_map<int, vector<int>> AdjList;
+        // first convert into adjacency list(edges) for directed graph
+        for (auto& prerequisite : prerequisites) {
+            int first = prerequisite[1];
+            int second = prerequisite[0];
+            AdjList[second].push_back(first);
+        }
+
+        vector<int> indegree(numCourses, 0);
+
+        // finding the indegree of each vertices
+        for (int i = 0; i < numCourses; i++) {
+            for (int k : AdjList[i]) {
+                indegree[k]++;
+            }
+        }
+
+        int count = 0;
+        vector<int> ans;
+        deque<int> Q;
+
+        // find all the nodes with indegree '0' as these nodes will come 1st in the topological order
+        for (int i = 0; i < numCourses; i++) {
+            if (indegree[i] == 0) {
+                Q.push_back(i);
+            }
+        }
+
+        while (!Q.empty()) {
+            count++;
+            int u = Q.front();
+            Q.pop_front();
+            ans.push_back(u);
+
+            for (int j : AdjList[u]) {
+                indegree[j]--;
+                if (indegree[j] == 0) {
+                    Q.push_back(j);
+                }
+            }
+        }
+
+        if (count != numCourses) { // for checking the cycle in directed graph using BFS
+            return false;
+        }
+        return true;
+    }
+};
+
+//Method 3
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        unordered_map<int, vector<int>> AdjList;
+        // first convert into adjacency list(edges) for directed graph
+        for (auto& prerequisite : prerequisites) {
+            int second = prerequisite[0];
+            int first = prerequisite[1];
+            AdjList[first].push_back(second);
+        }
+
+        vector<int> visited(numCourses, 0);
+        stack<int> st;
+
+        for (int i = 0; i < numCourses; i++) {
+            if (!findTopoSort(AdjList, i, st, visited)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Returns true if path is possible i.e no cycle.
+    bool findTopoSort(unordered_map<int, vector<int>>& adj, int src, 
+                      stack<int>& st, vector<int>& visited) {
+        if (visited[src] == 1) return true;
+        if (visited[src] == -1) return false;
+
+        visited[src] = -1;
+        for (int u : adj[src]) {
+            if (!findTopoSort(adj, u, st, visited)) {
+                return false;
+            }
+        }
+        visited[src] = 1;
+        st.push(src);
+        return true;
+    }
+};
+
+"""

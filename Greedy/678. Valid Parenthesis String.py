@@ -126,4 +126,200 @@ class Solution:
 # Note: read solutions in sheet and also few comments under that.
 
 
+# Java Code 
+"""
+// METHOD 1: Greedy (Left to Right Scan)
+class Solution {
+    public boolean checkValidString(String s) {
+        int openCount = 0; // will count the no of open paranthesis
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                openCount++;
+            } else {
+                openCount--;
+            }
+            if (openCount < 0) { // '(' is less than ')'.
+                return false;
+            }
+        }
+        return openCount == 0;
+    }
+}
 
+
+// METHOD 2: Pure Recursion (TLE)
+class Solution {
+    public boolean checkValidString(String s) {
+        return check(s, 0, 0); // '0': start index from where we have to check.
+    }
+
+    private boolean check(String s, int ind, int openCount) {
+        if (openCount < 0) return false;
+        if (ind == s.length()) return openCount == 0;
+
+        if (s.charAt(ind) == '(') {
+            return check(s, ind + 1, openCount + 1);
+        } else if (s.charAt(ind) == ')') {
+            if (openCount <= 0) return false;
+            return check(s, ind + 1, openCount - 1);
+        } else if (s.charAt(ind) == '*') { // three choices: treat as '(', ')' or empty
+            return check(s, ind + 1, openCount + 1)
+                || check(s, ind + 1, openCount - 1)
+                || check(s, ind + 1, openCount);
+        }
+        return check(s, ind + 1, openCount); // if only either '(' or ')' comes at current index
+    }
+}
+
+
+// METHOD 3: Recursion with Memoization
+class Solution {
+    public boolean checkValidString(String s) {
+        int[][] dp = new int[s.length() + 1][s.length() + 1];
+        for (int[] row : dp) Arrays.fill(row, -1);
+        return check(s, 0, 0, dp);
+    }
+
+    private boolean check(String s, int ind, int openCount, int[][] dp) {
+        if (openCount < 0) return false;
+        if (ind == s.length()) return openCount == 0;
+        if (dp[ind][openCount] != -1) return dp[ind][openCount] == 1;
+
+        boolean ans = false;
+        if (s.charAt(ind) == '(') {
+            ans = check(s, ind + 1, openCount + 1, dp);
+        } else if (s.charAt(ind) == ')') {
+            if (openCount <= 0) return false;
+            ans = check(s, ind + 1, openCount - 1, dp);
+        } else if (s.charAt(ind) == '*') {
+            ans = check(s, ind + 1, openCount + 1, dp)
+                || check(s, ind + 1, openCount - 1, dp)
+                || check(s, ind + 1, openCount, dp);
+        } else {
+            ans = check(s, ind + 1, openCount, dp);
+        }
+        dp[ind][openCount] = ans ? 1 : 0;
+        return ans;
+    }
+}
+
+
+// METHOD 4: Greedy (Optimized O(n))
+class Solution {
+    public boolean checkValidString(String s) {
+        int openMin = 0, openMax = 0; // max and min no of ')' that can be accomodated
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                openMin += 1;
+                openMax += 1;
+            } else if (s.charAt(i) == ')') {
+                openMin -= 1;
+                openMax -= 1;
+            } else if (s.charAt(i) == '*') {
+                openMin -= 1; // if '*' behaves as ')'
+                openMax += 1; // if '*' behaves as '('
+            }
+
+            if (openMax < 0) return false;
+            openMin = Math.max(openMin, 0); // openMin can't be negative
+        }
+        return openMin == 0; // we are not waiting for anymore ')'
+    }
+}
+
+"""
+
+# C++ Code 
+"""
+// Method 1: Early Return on Imbalance
+class Solution {
+public:
+    bool checkValidString(string s) {
+        int openCount = 0;  // will count the no of open parentheses
+        for (char ch : s) {
+            if (ch == '(') openCount++;
+            else openCount--;
+            if (openCount < 0) return false;  // '(' is less than ')'
+        }
+        return openCount == 0;
+    }
+};
+
+// Method 2: Simple Recursion (TLE)
+class RecursiveSolution {
+public:
+    bool checkValidString(string s) {
+        return check(s, 0, 0);
+    }
+
+    bool check(const string& s, int index, int openCount) {
+        if (openCount < 0) return false;
+        if (index == s.size()) return openCount == 0;
+
+        if (s[index] == '(') {
+            return check(s, index + 1, openCount + 1);
+        } else if (s[index] == ')') {
+            return check(s, index + 1, openCount - 1);
+        } else if (s[index] == '*') {
+            return check(s, index + 1, openCount + 1) ||
+                   check(s, index + 1, openCount - 1) ||
+                   check(s, index + 1, openCount);
+        }
+        return false;
+    }
+};
+
+// Method 3: Recursive with Memoization (DP)
+class DPSolution {
+public:
+    bool checkValidString(string s) {
+        int n = s.size();
+        vector<vector<int>> dp(n + 1, vector<int>(n + 1, -1));
+        return check(s, 0, 0, dp);
+    }
+
+    bool check(const string& s, int index, int openCount, vector<vector<int>>& dp) {
+        if (openCount < 0) return false;
+        if (index == s.size()) return openCount == 0;
+        if (dp[index][openCount] != -1) return dp[index][openCount];
+
+        bool res = false;
+        if (s[index] == '(') {
+            res = check(s, index + 1, openCount + 1, dp);
+        } else if (s[index] == ')') {
+            res = check(s, index + 1, openCount - 1, dp);
+        } else if (s[index] == '*') {
+            res = check(s, index + 1, openCount + 1, dp) ||
+                  check(s, index + 1, openCount - 1, dp) ||
+                  check(s, index + 1, openCount, dp);
+        }
+
+        dp[index][openCount] = res;
+        return res;
+    }
+};
+
+// Method 4: Greedy O(n) Time
+class GreedySolution {
+public:
+    bool checkValidString(string s) {
+        int openMin = 0, openMax = 0;  // max and min no of ')' that can be accommodated
+        for (char ch : s) {
+            if (ch == '(') {
+                openMin++;
+                openMax++;
+            } else if (ch == ')') {
+                openMin--;
+                openMax--;
+            } else if (ch == '*') {
+                openMin--;    // if '*' behaves as ')'
+                openMax++;    // if '*' behaves as '('
+            }
+            if (openMax < 0) return false;
+            openMin = max(openMin, 0);  // openMin can't be negative
+        }
+        return openMin == 0;  // no unmatched '(' left
+    }
+};
+
+"""

@@ -58,3 +58,116 @@ class Solution:
             else:
                 end= mid
         return start + k
+
+# Java Code 
+"""
+//Method 1
+import java.util.*;
+
+class Solution {
+    public int findKthPositive(int[] arr, int k) {
+        Set<Integer> numSet = new HashSet<>();
+        for (int num : arr) {
+            numSet.add(num);
+        }
+
+        for (int n = 1; n <= arr.length + k; n++) {
+            if (!numSet.contains(n)) {
+                k--;
+            }
+            if (k == 0) {
+                return n;
+            }
+        }
+        return -1;
+    }
+}
+//Method 2
+class Solution {
+    public int findKthPositive(int[] arr, int k) {
+        for (int num : arr) {
+            if (num <= k) {
+                k++;  // Increment K if current number <= K
+            } else {
+                break; // All remaining elements are greater than K
+            }
+        }
+        return k;
+    }
+}
+//Method 3
+class Solution {
+    public int findKthPositive(int[] arr, int k) {
+        int n = arr.length;
+        int start = 0, end = n;
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (arr[mid] - mid - 1 < k) { // Checking in virtual array 'B'
+                start = mid + 1;
+            } else {
+                end = mid;
+            }
+        }
+        return start + k;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <vector>
+#include <unordered_set>
+
+using namespace std;
+
+class Solution {
+public:
+    int findKthPositive(vector<int>& arr, int k) {
+        unordered_set<int> num_set(arr.begin(), arr.end());
+
+        for (int n = 1; n <= arr.size() + k; n++) {
+            if (num_set.find(n) == num_set.end()) {
+                k--;
+            }
+            if (k == 0) {
+                return n;
+            }
+        }
+        return -1;
+    }
+};
+//Method 2
+class Solution {
+public:
+    int findKthPositive(vector<int>& arr, int k) {
+        for (int num : arr) {
+            if (num <= k) {
+                k++;  // Increment K if current number <= K
+            } else {
+                break; // All remaining elements are greater than K
+            }
+        }
+        return k;
+    }
+};
+//Method 3
+class Solution {
+public:
+    int findKthPositive(vector<int>& arr, int k) {
+        int n = arr.size();
+        int start = 0, end = n;
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (arr[mid] - mid - 1 < k) { // Checking in virtual array 'B'
+                start = mid + 1;
+            } else {
+                end = mid;
+            }
+        }
+        return start + k;
+    }
+};
+"""

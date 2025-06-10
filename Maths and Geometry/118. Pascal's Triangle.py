@@ -20,24 +20,62 @@ class Solution:
 # https://leetcode.com/problems/pascals-triangle/solutions/38128/python-4-lines-short-solution-using-map/
 
 
-# Java solution:
+# Java Code
 """
-public class Solution {
+import java.util.*;
+
+class Solution {
     public List<List<Integer>> generate(int numRows) {
-        List<List<Integer>> triangle = new ArrayList<List<Integer>>();
-        for (int i=0; i<numRows; i++){
-            List<Integer> row =  new ArrayList<Integer>();
-            for (int j=0; j<i+1; j++){
-                if (j==0 || j==i){
-                    row.add(1);
+        List<List<Integer>> ans = new ArrayList<>();
+        
+        for (int i = 0; i < numRows; i++) {
+            List<Integer> row_wise = new ArrayList<>();
+            
+            for (int j = 0; j <= i; j++) {
+                // if we are adding the 1st and last element at any row.
+                if (j == 0 || j == i) {
+                    row_wise.add(1);
                 } else {
-                    int num = triangle.get(i-1).get(j-1) + triangle.get(i-1).get(j);
-                    row.add(num);
+                    int num = ans.get(i - 1).get(j - 1) + ans.get(i - 1).get(j);
+                    row_wise.add(num);
                 }
             }
-            triangle.add(row);
+            
+            ans.add(row_wise);
         }
-        return triangle;
+        
+        return ans;
     }
 }
+"""
+
+# C++ Code
+"""
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> generate(int numRows) {
+        vector<vector<int>> ans;
+        
+        for (int i = 0; i < numRows; i++) {
+            vector<int> row_wise;
+            
+            for (int j = 0; j <= i; j++) {
+                // if we are adding the 1st and last element at any row.
+                if (j == 0 || j == i) {
+                    row_wise.push_back(1);
+                } else {
+                    int num = ans[i - 1][j - 1] + ans[i - 1][j];
+                    row_wise.push_back(num);
+                }
+            }
+            
+            ans.push_back(row_wise);
+        }
+        
+        return ans;
+    }
+};
 """

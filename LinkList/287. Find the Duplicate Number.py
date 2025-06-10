@@ -101,5 +101,56 @@ class Solution {
     }
 }
 
+"""
 
+# C++ Code
+"""
+//Method 1
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        for (int i = 0; i < nums.size(); i++) {
+            int ind = abs(nums[i]); // Ensure index is positive
+            if (nums[ind] < 0) {
+                return abs(nums[i]); // Found duplicate
+            }
+            nums[ind] = -nums[ind]; // Mark index as visited
+        }
+        return -1; // Shouldn't reach here as per problem constraints
+    }
+};
+//Method 2
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        // Step 1: Detect cycle
+        int slow = nums[0];
+        int fast = nums[0];
+
+        while (true) {
+            slow = nums[slow];         // Move slow pointer one step
+            fast = nums[nums[fast]];   // Move fast pointer two steps
+            if (slow == fast) break;   // Cycle detected
+        }
+
+        // Step 2: Find entry point of cycle
+        int slow1 = nums[0];
+        while (slow1 != slow) {
+            slow = nums[slow];
+            slow1 = nums[slow1];
+        }
+
+        return slow; // Duplicate number
+    }
+};
 """

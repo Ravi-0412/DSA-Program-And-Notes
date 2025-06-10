@@ -21,40 +21,70 @@ class Solution:
                     ans = min(ans, abs(x1 - x2) * abs(y1 - y2))
         return ans if ans != float('inf') else 0
 
-# Java
+# Java Code
 """
-import java.util.HashSet;
+import java.util.*;
 
 class Solution {
     public int minAreaRect(int[][] points) {
-        // Use a HashSet to store all the points for fast lookup
-        HashSet<String> pointSet = new HashSet<>();
+        int n = points.length;
+        Map<Integer, Set<Integer>> pointsMap = new HashMap<>(); // For checking points in O(1)
+
         for (int[] point : points) {
-            pointSet.add(point[0] + "," + point[1]);
+            pointsMap.putIfAbsent(point[0], new HashSet<>());
+            pointsMap.get(point[0]).add(point[1]);
         }
-        
-        int minArea = Integer.MAX_VALUE;  // Initialize the minimum area as a large value
-        
-        // Loop through all pairs of points
-        for (int i = 0; i < points.length; i++) {
-            for (int j = 0; j < points.length; j++) {
-                int x1 = points[i][0], y1 = points[i][1];
+
+        int ans = Integer.MAX_VALUE;
+        for (int i = 0; i < n; i++) {
+            int x1 = points[i][0], y1 = points[i][1];
+            for (int j = 0; j < n; j++) {
                 int x2 = points[j][0], y2 = points[j][1];
-                
-                // Only consider points that form diagonal corners (x1 != x2 and y1 != y2)
-                if (x1 != x2 && y1 != y2) {
-                    // Check if the other two points exist in the set
-                    if (pointSet.contains(x1 + "," + y2) && pointSet.contains(x2 + "," + y1)) {
-                        // Calculate the area of the rectangle
-                        int area = Math.abs(x1 - x2) * Math.abs(y1 - y2);
-                        minArea = Math.min(minArea, area);  // Update the minimum area
-                    }
+
+                // x1 != x2 and y1 != y2 : for parallel axis
+                if (x1 != x2 && y1 != y2 && pointsMap.get(x1).contains(y2) && pointsMap.get(x2).contains(y1)) {
+                    ans = Math.min(ans, Math.abs(x1 - x2) * Math.abs(y1 - y2));
                 }
             }
         }
-        
-        // If minArea was not updated, return 0 (no rectangle found)
-        return minArea == Integer.MAX_VALUE ? 0 : minArea;
+
+        return (ans == Integer.MAX_VALUE) ? 0 : ans;
     }
 }
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+#include <limits>
+
+using namespace std;
+
+class Solution {
+public:
+    int minAreaRect(vector<vector<int>>& points) {
+        int n = points.size();
+        unordered_map<int, unordered_map<int, int>> pointsMap; // For checking points in O(1)
+
+        for (int i = 0; i < n; i++) {
+            pointsMap[points[i][0]][points[i][1]] = i;
+        }
+
+        int ans = numeric_limits<int>::max();
+        for (int i = 0; i < n; i++) {
+            int x1 = points[i][0], y1 = points[i][1];
+            for (int j = 0; j < n; j++) {
+                int x2 = points[j][0], y2 = points[j][1];
+
+                // x1 != x2 and y1 != y2 : for parallel axis
+                if (x1 != x2 && y1 != y2 && pointsMap[x1].count(y2) && pointsMap[x2].count(y1)) {
+                    ans = min(ans, abs(x1 - x2) * abs(y1 - y2));
+                }
+            }
+        }
+
+        return (ans == numeric_limits<int>::max()) ? 0 : ans;
+    }
+};
 """

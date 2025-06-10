@@ -62,43 +62,148 @@ class Solution:
         # 4. no positive numbers were found, which means the array contains all numbers 1..n
         return n + 1
 
-# Java
+# Java Code
 """
+//Method 1
+
 import java.util.*;
 
 class Solution {
     public int firstMissingPositive(int[] nums) {
+        int minNo = Arrays.stream(nums).min().getAsInt();
+        int maxNo = Arrays.stream(nums).max().getAsInt();
+
+        if (maxNo <= 0) {  // all numbers in array are negative
+            return 1;
+        }
+
+        // To check whether a number is present or not in O(1)
+        Set<Integer> numSet = new HashSet<>();
+        for (int num : nums) {
+            numSet.add(num);
+        }
+
+        for (int num = 1; num < maxNo; num++) {
+            if (!numSet.contains(num)) {
+                return num;
+            }
+        }
+
+        // Means all numbers in range are present.
+        return maxNo + 1;
+    }
+}
+
+//Method 2
+class Solution {
+    public int firstMissingPositive(int[] nums) {
         int n = nums.length;
 
-        // Step 1: Replace non-positive numbers and numbers greater than n with (n+1)
+        // 1) Mark numbers (num <= 0) and (num > n) with a special marker number (n+1)
+        // (we can ignore those because if all numbers are > n then we'll simply return 1)
         for (int i = 0; i < n; i++) {
             if (nums[i] <= 0 || nums[i] > n) {
                 nums[i] = n + 1;
             }
         }
 
-        // Step 2: Mark existing numbers by making the index corresponding to the number negative
+        // Note: all numbers in the array are now positive, and in the range 1..n+1
+
+        // 2. Mark each cell appearing in the array, by converting the index for that number to negative
         for (int i = 0; i < n; i++) {
-            int num = Math.abs(nums[i]); // Take absolute value in case it was modified before
-            if (num > n) continue;  // Ignore numbers out of range
-            
-            int index = num - 1; // Convert number to zero-based index
-            if (nums[index] > 0) { // Prevent double negatives
-                nums[index] = -nums[index]; // Mark the number as found
+            int num = Math.abs(nums[i]);  // Since modifying in place, it might be negative also
+
+            if (num > n) continue;
+
+            // 'num' will correspond to index 'num-1'
+            if (nums[num - 1] > 0) {  // Prevents double negative
+                nums[num - 1] = -nums[num - 1];  // It means 'num' is present in the array
             }
         }
 
-        // Step 3: Find the first missing positive number
+        // 3. Find the first cell which isn't negative (doesn't appear in the array)
         for (int i = 0; i < n; i++) {
-            if (nums[i] > 0) {
+            if (nums[i] >= 0) {
                 return i + 1;
             }
         }
 
-        // Step 4: If all numbers from 1 to n are present, return n+1
+        // 4. No positive numbers were found, which means the array contains all numbers 1..n
         return n + 1;
     }
 }
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int firstMissingPositive(vector<int>& nums) {
+        int minNo = *min_element(nums.begin(), nums.end());
+        int maxNo = *max_element(nums.begin(), nums.end());
+
+        if (maxNo <= 0) {  // all numbers in array are negative
+            return 1;
+        }
+
+        // To check whether a number is present or not in O(1)
+        unordered_set<int> numSet(nums.begin(), nums.end());
+
+        for (int num = 1; num < maxNo; num++) {
+            if (numSet.find(num) == numSet.end()) {
+                return num;
+            }
+        }
+
+        // Means all numbers in range are present.
+        return maxNo + 1;
+    }
+};
+
+//Method 2
+class Solution {
+public:
+    int firstMissingPositive(vector<int>& nums) {
+        int n = nums.size();
+
+        // 1) Mark numbers (num <= 0) and (num > n) with a special marker number (n+1)
+        // (we can ignore those because if all numbers are > n then we'll simply return 1)
+        for (int i = 0; i < n; i++) {
+            if (nums[i] <= 0 || nums[i] > n) {
+                nums[i] = n + 1;
+            }
+        }
+
+        // Note: all numbers in the array are now positive, and in the range 1..n+1
+
+        // 2. Mark each cell appearing in the array, by converting the index for that number to negative
+        for (int i = 0; i < n; i++) {
+            int num = abs(nums[i]);  // Since modifying in place, it might be negative also
+
+            if (num > n) continue;
+
+            // 'num' will correspond to index 'num-1'
+            if (nums[num - 1] > 0) {  // Prevents double negative
+                nums[num - 1] = -nums[num - 1];  // It means 'num' is present in the array
+            }
+        }
+
+        // 3. Find the first cell which isn't negative (doesn't appear in the array)
+        for (int i = 0; i < n; i++) {
+            if (nums[i] >= 0) {
+                return i + 1;
+            }
+        }
+
+        // 4. No positive numbers were found, which means the array contains all numbers 1..n
+        return n + 1;
+    }
+};
 """
 
 

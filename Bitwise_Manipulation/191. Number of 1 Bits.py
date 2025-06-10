@@ -44,18 +44,81 @@ class Solution:
         return count      # no of times loop will execute that will give the ans
 
 
-# java
+# Java Code
 """
-// Method 3:
-public class Solution {
+//Method 1
+class Solution {
+    public int hammingWeight(int n) {
+        return Integer.bitCount(n); // Inbuilt function to count set bits
+    }
+}
+//Method 2
+class Solution {
     public int hammingWeight(int n) {
         int count = 0;
         while (n != 0) {
-            count++;
-            n = n & (n - 1);
+            if ((n & 1) == 1) count++; // Check if the rightmost bit is 1
+            n >>= 1; // Right shift the number
         }
         return count;
     }
 }
+//Method 3
+class Solution {
+    public int hammingWeight(int n) {
+        int count = 0;
+        while (n != 0) {    
+            count++;
+            n = n & (n - 1); // Removes the rightmost 1-bit in every iteration
+        }
+        return count; // Number of times loop executes gives the number of set bits
+    }
+}
 """
 
+# C++ Code
+"""
+//Method 1
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
+        return __builtin_popcount(n); // Inbuilt function to count set bits in integer
+    }
+};
+//Method 2
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
+        int count = 0;
+        while (n) {
+            if (n & 1) count++; // Check if the rightmost bit is 1
+            n >>= 1; // Right shift the number
+        }
+        return count;
+    }
+};
+//Method 3
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
+        int count = 0;
+        while (n) {    
+            count++;
+            n = n & (n - 1); // Removes the rightmost 1-bit in every iteration
+        }
+        return count; // Number of times loop executes gives the number of set bits
+    }
+};
+"""

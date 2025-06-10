@@ -1,3 +1,43 @@
+"""
+Breadth-First Search (BFS) in Graphs
+
+🔍 Theory:
+BFS is a traversal algorithm used for graphs and trees. It explores all vertices at the current level before moving to the next.
+
+📌 Key Points:
+- Uses a queue (FIFO).
+- Suitable for finding **shortest path** in unweighted graphs.
+
+📚 Applications:
+- Shortest path in unweighted graphs
+- Peer-to-peer networks
+- Web crawlers
+- GPS systems
+- Social network friend suggestions
+
+----------------------------
+Example Graph:
+----------------------------
+Let’s say we have this undirected graph:
+
+    0 -- 1 -- 2 -- 3
+                  |
+                  4 -- 7
+                  |  /
+                  5
+                  |
+                  6
+
+Nodes: 0 through 7
+Edges: (0-1), (1-2), (2-3), (3-4), (3-5), (4-5), (4-7), (5-6), (5-7), (6-7)
+
+We’ll represent this graph using an **Adjacency Matrix**, and apply BFS starting from node `2`.
+"""
+
+==========================
+Python Code
+==========================
+
 from collections import defaultdict
 class Graph:
     def __init__(self,n):
@@ -87,7 +127,9 @@ g.print_matrix()
 g.BFS(2)
 
 
-# Java
+==========================
+Java Code
+==========================
 """
 import java.util.*;
 
@@ -109,29 +151,9 @@ class Graph {
     }
 
     public void addEdge(int v1, int v2) {
-        if (v1 == v2) {
-            System.out.println("Both vertices are the same.");
-        } else {
+        if (v1 != v2) {
             adjMatrix[v1][v2] = 1;
             adjMatrix[v2][v1] = 1;
-        }
-    }
-
-    public void printMatrix() {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                System.out.print(adjMatrix[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
-
-    public void removeEdge(int v1, int v2) {
-        if (adjMatrix[v1][v2] == 0) {
-            System.out.println("No edge exists between these vertices.");
-        } else {
-            adjMatrix[v1][v2] = 0;
-            adjMatrix[v2][v1] = 0;
         }
     }
 
@@ -153,7 +175,6 @@ class Graph {
         Queue<Integer> q = new LinkedList<>();
         q.add(s);
 
-        System.out.println("BFS traversal of the following graph is: ");
         while (!q.isEmpty()) {
             int curr = q.poll();
             System.out.print(curr + " ");
@@ -169,22 +190,87 @@ class Graph {
             colors[curr] = "black";
         }
 
-        System.out.println("\nDistance of all vertices from source: " + Arrays.toString(distance));
+        System.out.println(Arrays.toString(distance));
     }
 
     public static void main(String[] args) {
-        Graph g = new Graph(6);
-        g.addEdge(0, 1);
-        g.addEdge(0, 2);
-        g.addEdge(1, 2);
-        g.addEdge(2, 3);
-        g.addEdge(3, 4);
-        g.addEdge(4, 5);
-
-        System.out.println("Adjacency Matrix:");
-        g.printMatrix();
-
-        g.BFS(0);
+        Graph g = new Graph(8);
+        int[][] edges = {{0,1},{1,2},{2,3},{3,4},{3,5},{4,5},{4,7},{5,6},{5,7},{6,7}};
+        for (int[] edge : edges) g.addEdge(edge[0], edge[1]);
+        g.BFS(2);
     }
+}
+"""
+
+
+==========================
+ C++ Code
+==========================
+
+"""
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <string>
+using namespace std;
+
+class Graph {
+    int size;
+    vector<vector<int>> adjMatrix;
+    vector<string> colors;
+    vector<int> distance;
+    vector<int> pred;
+
+public:
+    Graph(int n) {
+        size = n;
+        adjMatrix.resize(n, vector<int>(n, 0));
+        colors.resize(n, "white");
+        distance.resize(n, 0);
+        pred.resize(n, -1);
+    }
+
+    void addEdge(int v1, int v2) {
+        if (v1 != v2) {
+            adjMatrix[v1][v2] = 1;
+            adjMatrix[v2][v1] = 1;
+        }
+    }
+
+    void BFS(int s) {
+        colors[s] = "gray";
+        distance[s] = 0;
+        pred[s] = -1;
+
+        queue<int> q;
+        q.push(s);
+
+        while (!q.empty()) {
+            int curr = q.front();
+            q.pop();
+            cout << curr << " ";
+
+            for (int i = 0; i < size; ++i) {
+                if (adjMatrix[curr][i] == 1 && colors[i] == "white") {
+                    colors[i] = "gray";
+                    distance[i] = distance[curr] + 1;
+                    pred[i] = curr;
+                    q.push(i);
+                }
+            }
+            colors[curr] = "black";
+        }
+
+        cout << "\nDistance from source:\n";
+        for (int d : distance) cout << d << " ";
+        cout << endl;
+    }
+};
+
+int main() {
+    Graph g(8);
+    vector<pair<int, int>> edges = {{0,1},{1,2},{2,3},{3,4},{3,5},{4,5},{4,7},{5,6},{5,7},{6,7}};
+    for (auto e : edges) g.addEdge(e.first, e.second);
+    g.BFS(2);
 }
 """

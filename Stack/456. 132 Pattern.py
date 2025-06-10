@@ -80,3 +80,118 @@ class Solution:
             stack.append(nums[i])
         return False
 
+# Java Code 
+"""
+//Method 2
+class Solution {
+    public boolean find132pattern(int[] nums) {
+        int n = nums.length;
+        int s1 = Integer.MAX_VALUE; // Stores minimum seen so far to the left of 'j'
+
+        for (int j = 0; j < n; j++) {
+            s1 = Math.min(nums[j], s1);
+            if (s1 == nums[j]) continue; // Ensure nums[j] > s1
+
+            // Check if there exists any nums[k] following the 132 pattern
+            for (int k = j + 1; k < n; k++) {
+                if (s1 < nums[k] && nums[k] < nums[j]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
+//Method 3
+import java.util.Stack;
+
+class Solution {
+    public boolean find132pattern(int[] nums) {
+        int n = nums.length;
+        Stack<Integer> stack = new Stack<>();  // Will store elements in descending order to get the largest 's3'
+        int s3 = Integer.MIN_VALUE; // Initialize the largest candidate for s3
+
+        // Traverse right to left to track valid (s1, s2, s3)
+        for (int i = n - 1; i >= 0; i--) {
+            if (nums[i] < s3) {
+                // Found valid s1 < s3 < s2 pattern
+                return true;
+            }
+
+            // nums[i] behaves as 's2', pop from stack to find largest 's3'
+            while (!stack.isEmpty() && nums[i] > stack.peek()) {
+                s3 = stack.pop(); // Assign largest possible candidate for s3
+            }
+
+            // Push current element to stack as potential 's3'
+            stack.push(nums[i]);
+        }
+        return false;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 2
+#include <iostream>
+#include <vector>
+#include <limits>
+
+using namespace std;
+
+class Solution {
+public:
+    bool find132pattern(vector<int>& nums) {
+        int n = nums.size();
+        int s1 = numeric_limits<int>::max();  // Stores minimum seen so far to the left of 'j'
+
+        for (int j = 0; j < n; j++) {
+            s1 = min(nums[j], s1);
+            if (s1 == nums[j]) continue; // Ensure nums[j] > s1
+            
+            // Check if there exists any nums[k] following the 132 pattern
+            for (int k = j + 1; k < n; k++) {
+                if (s1 < nums[k] && nums[k] < nums[j]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};
+//Method 3
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <limits>
+
+using namespace std;
+
+class Solution {
+public:
+    bool find132pattern(vector<int>& nums) {
+        int n = nums.size();
+        stack<int> st;  // Will store elements in descending order to get the largest 's3'
+        int s3 = numeric_limits<int>::min(); // Initialize the largest candidate for s3
+
+        // Traverse right to left to track valid (s1, s2, s3)
+        for (int i = n - 1; i >= 0; i--) {
+            if (nums[i] < s3) {
+                // Found valid s1 < s3 < s2 pattern
+                return true;
+            }
+            
+            // nums[i] behaves as 's2', pop from stack to find largest 's3'
+            while (!st.empty() && nums[i] > st.top()) {
+                s3 = st.top(); // Assign largest possible candidate for s3
+                st.pop();
+            }
+
+            // Push current element to stack as potential 's3'
+            st.push(nums[i]);
+        }
+        return false;
+    }
+};
+"""

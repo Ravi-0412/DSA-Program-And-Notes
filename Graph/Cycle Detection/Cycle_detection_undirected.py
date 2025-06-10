@@ -127,6 +127,67 @@ class Graph {
 
 """
 
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <unordered_map>
+
+using namespace std;
+
+class Graph {
+public:
+    int V;
+    vector<bool> visited;
+    unordered_map<int, vector<int>> AdjList;
+
+    Graph(int n) {
+        V = n;
+        visited.resize(n, false);
+    }
+
+    void addEdge(int u, int v) {
+        AdjList[u].push_back(v);
+        AdjList[v].push_back(u);
+    }
+
+    bool BFS(int src) {
+        queue<pair<int, int>> Q;
+        Q.push({src, -1});
+
+        while (!Q.empty()) {
+            auto [curr, parent] = Q.front();
+            Q.pop();
+
+            for (int u : AdjList[curr]) {
+                if (!visited[u]) {
+                    visited[u] = true;
+                    Q.push({u, curr});
+                } else if (u != parent) {
+                    // Visited and not parent means a cycle
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    bool isCycle(int n) {
+        for (int i = 0; i < n; ++i) {
+            if (!visited[i]) {
+                visited[i] = true;
+                if (BFS(i)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};
+
+"""
+
 # # method 2: using DFS
 # logic is exactly same as BFS
 from collections import defaultdict
@@ -238,4 +299,57 @@ class Graph {
         }
     }
 }
+"""
+# C++ Code 
+"""
+// Method 2: Using DFS
+// Logic is exactly same as BFS
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+class Graph {
+public:
+    int V;
+    vector<bool> visited;
+    unordered_map<int, vector<int>> AdjList;
+
+    Graph(int n) {
+        V = n;
+        visited.resize(n, false);
+        // initialize adjacency list
+    }
+
+    void addEdge(int u, int v) {
+        AdjList[u].push_back(v);
+        AdjList[v].push_back(u);
+    }
+
+    // DFS method to detect cycle
+    bool DFS_Visit(unordered_map<int, vector<int>>& adj, int src, int parent) {
+        visited[src] = true;
+        for (int u : adj[src]) {
+            if (!visited[u]) {
+                if (DFS_Visit(adj, u, src)) {
+                    return true; // Cycle found
+                }
+            } else if (u != parent) {
+                return true; // If visited and not parent, cycle
+            }
+        }
+        return false;
+    }
+
+    bool isCycle(int n, unordered_map<int, vector<int>>& adj) {
+        for (int i = 0; i < n; ++i) {
+            if (!visited[i]) {
+                if (DFS_Visit(adj, i, -1)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};
 """

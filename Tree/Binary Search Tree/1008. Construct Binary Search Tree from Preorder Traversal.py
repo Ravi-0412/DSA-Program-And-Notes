@@ -144,4 +144,26 @@ class Solution {
     }
 }
 """
+#C++ Code 
+"""
+class Solution {
+private:
+    int i = 0;
 
+public:
+    TreeNode* bstFromPreorder(vector<int>& preorder) {
+        return build(preorder, INT_MAX);
+    }
+
+    TreeNode* build(vector<int>& preorder, int bound) {
+        if (i == preorder.size() || preorder[i] > bound) {
+            return nullptr;
+        }
+        TreeNode* root = new TreeNode(preorder[i++]);
+        root->left = build(preorder, root->val);
+        root->right = build(preorder, bound);
+        return root;
+    }
+};
+
+"""

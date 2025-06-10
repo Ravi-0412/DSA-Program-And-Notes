@@ -65,54 +65,121 @@ def parallelCourses(n, prerequisites):
 """
 import java.util.*;
 
-public class ParallelCourses {
+public class Solution {
     public int parallelCourses(int n, int[][] prerequisites) {
-        List<List<Integer>> adjList = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            adjList.add(new ArrayList<>());
-        }
-
-        for (int[] edge : prerequisites) {
-            int first = edge[0] - 1;
-            int second = edge[1] - 1;
-            adjList.get(first).add(second);
+        Map<Integer, List<Integer>> AdjList = new HashMap<>();
+        for (int[] pre : prerequisites) {
+            int first = pre[0], second = pre[1];
+            AdjList.computeIfAbsent(first - 1, k -> new ArrayList<>()).add(second - 1);  // converting to zero based indexing
         }
 
         int[] indegree = new int[n];
+
+        // finding the indegree of each vertices
         for (int i = 0; i < n; i++) {
-            for (int neighbor : adjList.get(i)) {
-                indegree[neighbor]++;
+            if (AdjList.containsKey(i)) {
+                for (int k : AdjList.get(i)) {  // if k is adj to 'i' means there is one indegree edge to 'k'
+                    indegree[k] += 1;
+                }
             }
         }
 
-        Queue<Integer> queue = new LinkedList<>();
+        // now applying the BFS to get the topological order
+        int count = 0;
+        List<Integer> ans = new ArrayList<>(); // count :no of nodes taken and ans will store the order
+        Queue<Integer> Q = new LinkedList<>();
         for (int i = 0; i < n; i++) {
             if (indegree[i] == 0) {
-                queue.offer(i);
+                Q.offer(i);
             }
         }
 
         int semester = 0;
-        int count = 0;
-
-        while (!queue.isEmpty()) {
-            int size = queue.size();
+        while (!Q.isEmpty()) {
+            int size = Q.size();
             for (int i = 0; i < size; i++) {
-                int node = queue.poll();
-                count++;
-                for (int neighbor : adjList.get(node)) {
-                    indegree[neighbor]--;
-                    if (indegree[neighbor] == 0) {
-                        queue.offer(neighbor);
+                int u = Q.poll();
+                count += 1;
+                ans.add(u);
+                // after poping decrease the indegree of all node adjacent to 'u'
+                if (AdjList.containsKey(u)) {
+                    for (int j : AdjList.get(u)) {
+                        indegree[j] -= 1;
+                        if (indegree[j] == 0) {  // the preRequisite of this courses is studied in pre sem so we can study this course in next sem.
+                            Q.offer(j);
+                        }
                     }
                 }
             }
-            semester++;
+            semester += 1;
         }
 
-        return count != n ? -1 : semester;
+        if (count != n) {
+            return -1;
+        }
+        return semester;
     }
 }
+
 """
 
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <unordered_map>
+using namespace std;
+
+int parallelCourses(int n, vector<vector<int>>& prerequisites) {
+    unordered_map<int, vector<int>> AdjList;
+    for (auto& pre : prerequisites) {
+        int first = pre[0], second = pre[1];
+        AdjList[first - 1].push_back(second - 1);  // converting to zero based indexing
+    }
+
+    vector<int> indegree(n, 0);
+
+    // finding the indegree of each vertices
+    for (int i = 0; i < n; i++) {
+        for (int k : AdjList[i]) {  // if k is adj to 'i' means there is one indegree edge to 'k'
+            indegree[k] += 1;
+        }
+    }
+
+    // now applying the BFS to get the topological order
+    int count = 0;
+    vector<int> ans; // count :no of nodes taken and ans will store the order
+    queue<int> Q;
+    for (int i = 0; i < n; i++) {
+        if (indegree[i] == 0) {
+            Q.push(i);
+        }
+    }
+
+    int semester = 0;
+    while (!Q.empty()) {
+        int sz = Q.size();
+        for (int i = 0; i < sz; i++) {
+            int u = Q.front(); Q.pop();
+            count += 1;
+            ans.push_back(u);
+            // after poping decrease the indegree of all node adjacent to 'u'
+            for (int j : AdjList[u]) {
+                indegree[j] -= 1;
+                if (indegree[j] == 0) {  // the preRequisite of this courses is studied in pre sem so we can study this course in next sem.
+                    Q.push(j);
+                }
+            }
+        }
+        semester += 1;
+    }
+
+    if (count != n) {
+        return -1;
+    }
+    return semester;
+}
+
+"""
 

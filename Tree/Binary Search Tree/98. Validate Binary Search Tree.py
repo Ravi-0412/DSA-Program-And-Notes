@@ -189,3 +189,90 @@ class Solution {
 }
 
 """
+
+# C++ Code 
+"""
+//Method 1 
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        if (root == nullptr) {
+            return true;
+        }
+
+        stack<TreeNode*> stack;
+        TreeNode* pre = nullptr;
+
+        while (!stack.empty() || root != nullptr) {
+            while (root != nullptr) {
+                stack.push(root);
+                root = root->left;
+            }
+            // If no left child, process the stack's top node and go to the right child
+            TreeNode* curr = stack.top();
+            stack.pop();
+            if (pre != nullptr && curr->val <= pre->val) {
+                // If current node's value is not greater than the previous node's value
+                return false;
+            }
+            pre = curr;
+            root = curr->right;
+        }
+
+        // If all elements are in sorted order, the binary tree is a valid BST
+        return true;
+    }
+};
+
+//Method 2 
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        return check(root, LONG_MIN, LONG_MAX);
+    }
+
+private:
+    bool check(TreeNode* root, long min, long max) {
+        if (root == nullptr) {
+            return true;
+        }
+        if (root->val <= min || root->val >= max) {
+            return false;
+        }
+        // For the left subtree, the maximum allowed value is root->val
+        // For the right subtree, the minimum allowed value is root->val
+        return check(root->left, min, root->val) && check(root->right, root->val, max);
+    }
+};
+
+//Method 3
+class Solution {
+private:
+    bool ans = true;
+
+public:
+    bool isValidBST(TreeNode* root) {
+        check(root);
+        return ans;
+    }
+
+private:
+    vector<long> check(TreeNode* root) {
+        if (root == nullptr) {
+            // Base case: return [LONG_MAX, LONG_MIN] for an empty node
+            return {LONG_MAX, LONG_MIN};
+        }
+
+        vector<long> left = check(root->left);
+        vector<long> right = check(root->right);
+
+        if (root->val <= left[1] || root->val >= right[0]) {
+            ans = false;
+        }
+
+        // Return the minimum and maximum values in the current subtree
+        return {min(left[0], (long)root->val), max((long)root->val, right[1])};
+    }
+};
+
+"""

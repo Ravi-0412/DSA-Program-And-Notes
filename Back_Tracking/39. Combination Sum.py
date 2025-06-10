@@ -34,7 +34,6 @@ class Solution:
         # if we don't include the current ele 
         self.SubsequenceSum(arr[1:],k,path,res)
 
-
 # java
 """"
 public class Solution {
@@ -66,4 +65,46 @@ public class Solution {
         subsequenceSum(arr, k , path, res, i + 1);
         }
 }
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> res;
+
+    void SubsequenceSum(vector<int>& arr, int k, vector<int> path, int index) {
+        if (k == 0) {  
+            // We got one valid combination
+            res.push_back(path);
+            return;
+        }
+        if (index >= arr.size()) {  
+            // Not writing this will give error 'index out of bound' since we are not providing any base for index == n or empty array case
+            return;
+        }
+        // If we include the current element, then add arr[ind] into the answer
+        if (arr[index] <= k) {   
+            // Skipping this condition was a mistake.
+            // Without this condition, it will go into an infinite loop and never stop because the same element can be taken any number of times.
+            path.push_back(arr[index]);
+            SubsequenceSum(arr, k - arr[index], path, index);   // Don't increment index as repetition is allowed
+            path.pop_back();
+        }
+        // If we don't include the current element 
+        SubsequenceSum(arr, k, path, index + 1);
+    }
+
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        res.clear();
+        vector<int> path;
+        SubsequenceSum(candidates, target, path, 0);
+        return res;
+    }
+};
 """

@@ -95,3 +95,59 @@ public class Codec {
     }
 }
 """
+
+# C++ Code 
+"""
+class Codec {
+public:
+    // Serializes a tree to a single string.
+    string serialize(TreeNode* root) {
+        vector<string> ans;  // later will join this by any delimiter and return
+
+        function<void(TreeNode*)> Preorder = [&](TreeNode* root) {
+            if (root == nullptr) {   // for None node, using a special char 'N'
+                ans.push_back("N");
+                return;
+            }
+            ans.push_back(to_string(root->val));  // since we have to return in string
+            Preorder(root->left);
+            Preorder(root->right);
+        };
+
+        Preorder(root);
+        string serialized;
+        for (int i = 0; i < ans.size(); ++i) {
+            serialized += ans[i];
+            if (i != ans.size() - 1) serialized += ",";  // will join all ele in 'ans' into a string with comma between them
+        }
+        return serialized;
+    }
+
+    // Deserializes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        vector<string> vals;
+        string val;
+        stringstream ss(data);
+
+        while (getline(ss, val, ',')) {
+            vals.push_back(val);  // converting into list. since we added all the node values with comma in the serialize fn
+        }
+
+        int ind = 0;  // for using as global
+        function<TreeNode*()> Preorder = [&]() -> TreeNode* {
+            if (vals[ind] == "N") {  // means None node then simply incr 'ind' and return None
+                ind++;
+                return nullptr;
+            }
+            TreeNode* node = new TreeNode(stoi(vals[ind]));  // first convert into 'int' since data was in string
+            ind++;
+            node->left = Preorder();
+            node->right = Preorder();
+            return node;
+        };
+
+        return Preorder();
+    }
+};
+
+"""

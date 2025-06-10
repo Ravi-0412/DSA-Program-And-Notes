@@ -67,41 +67,68 @@ print("123".isdigit())   # Output: True
 print("123.45".isdigit())  # Output: False
 
 
-# Java
+# Java Code
 """
-import java.util.*;
+import java.util.Stack;
 
 class Solution {
     public int evalRPN(String[] tokens) {
         Stack<Integer> stack = new Stack<>();
-        Set<String> operators = new HashSet<>(Arrays.asList("+", "-", "*", "/"));
 
-        for (String token : tokens) {
-            if (operators.contains(token)) {
+        for (String c : tokens) {
+            if (Character.isDigit(c.charAt(0)) || (c.length() > 1 && c.charAt(0) == '-')) { // Handle negative numbers
+                stack.push(Integer.parseInt(c));
+            } else { // Operator encountered
                 int op2 = stack.pop();
                 int op1 = stack.pop();
                 int res = 0;
-                switch (token) {
-                    case "+":
-                        res = op1 + op2;
-                        break;
-                    case "-":
-                        res = op1 - op2;
-                        break;
-                    case "*":
-                        res = op1 * op2;
-                        break;
-                    case "/":
-                        res = op1 / op2;
-                        break;
-                }
+
+                if (c.equals("+")) res = op1 + op2;
+                if (c.equals("-")) res = op1 - op2;
+                if (c.equals("*")) res = op1 * op2;
+                if (c.equals("/")) res = op1 / op2;
+
                 stack.push(res);
-            } else {
-                stack.push(Integer.parseInt(token));
             }
         }
 
-        return stack.pop();
+        return stack.peek();
     }
 }
+"""
+
+# C++ Code
+"""
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        stack<int> st;
+
+        for (string& c : tokens) {
+            if (isdigit(c[0]) || (c.size() > 1 && c[0] == '-')) { // Handle negative numbers
+                st.push(stoi(c));
+            } else { // Operator encountered
+                int op2 = st.top(); st.pop();
+                int op1 = st.top(); st.pop();
+                int res = 0;
+
+                if (c == "+") res = op1 + op2;
+                if (c == "-") res = op1 - op2;
+                if (c == "*") res = op1 * op2;
+                if (c == "/") res = op1 / op2;
+
+                st.push(res);
+            }
+        }
+
+        return st.top();
+    }
+};
 """

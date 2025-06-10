@@ -55,36 +55,70 @@ class Solution:
                 # means we don't have sufficient bricks to go ahead
                 return i 
         return len(heights) - 1
-# java
+
+
+# Java Code 
 """
 import java.util.PriorityQueue;
 
 class Solution {
     public int furthestBuilding(int[] heights, int bricks, int ladders) {
-        // Min-heap to keep track of the smallest height differences where ladders are used
         PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-        
+
         for (int i = 0; i < heights.length - 1; i++) {
             int diff = heights[i + 1] - heights[i];
-            
             if (diff > 0) {
-                minHeap.add(diff);
+                minHeap.offer(diff);
             }
-            
-            // If the number of ladders used exceeds the available ladders
+
             if (minHeap.size() > ladders) {
-                // Use bricks for the smallest height difference in the minHeap
+                // If we don't have enough ladders, use bricks for one jump
                 bricks -= minHeap.poll();
             }
-            
-            // If bricks become negative, we can't move further
+
             if (bricks < 0) {
+                // Not enough bricks to proceed further
                 return i;
             }
         }
-        
-        // If we can go through all the buildings
+
         return heights.length - 1;
     }
 }
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    int furthestBuilding(vector<int>& heights, int bricks, int ladders) {
+        priority_queue<int, vector<int>, greater<int>> minHeap;
+
+        for (int i = 0; i < heights.size() - 1; i++) {
+            int diff = heights[i + 1] - heights[i];
+            if (diff > 0) {
+                minHeap.push(diff);
+            }
+
+            if (minHeap.size() > ladders) {
+                // If we don't have enough ladders, use bricks for one jump
+                bricks -= minHeap.top();
+                minHeap.pop();
+            }
+
+            if (bricks < 0) {
+                // Not enough bricks to proceed further
+                return i;
+            }
+        }
+
+        return heights.size() - 1;
+    }
+};
 """

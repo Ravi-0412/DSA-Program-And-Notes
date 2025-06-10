@@ -85,3 +85,150 @@ class Solution(object):
         for i in range(n):
             ans[i] = leftDist[i] + rightDist[i]
         return ans
+
+# Java Code 
+"""
+//Method 1
+import java.util.*;
+
+class Solution {
+    public int[] minOperations(String boxes) {
+        int n = boxes.length();
+        int[] ans = new int[n];
+
+        // Iterate over each box to calculate the number of operations required
+        for (int i = 0; i < n; i++) {
+            int leftCount = 0;
+            // Start checking boxes to the left of the current box
+            for (int j = i - 1; j >= 0; j--) {
+                if (boxes.charAt(j) == '1') {
+                    leftCount += i - j;
+                }
+            }
+
+            int rightCount = 0;
+            // Start checking boxes to the right of the current box
+            for (int k = i + 1; k < n; k++) {
+                if (boxes.charAt(k) == '1') {
+                    rightCount += k - i;
+                }
+            }
+
+            // Store the total operations for the current box
+            ans[i] = leftCount + rightCount;
+        }
+
+        return ans;
+    }
+}
+//Method 2
+class Solution {
+    /*
+    DP Left to Right and Right to Left Approach:
+    - `leftDist[i]` stores total operations to move all balls from the left to `i`
+    - `leftBallCnt` tracks number of balls moved from left to `i`
+    - To calculate `leftDist[i]`, we add `leftBallCnt` to previous `leftDist[i-1]`
+    - Similarly, we compute `rightDist[i]` moving balls from the right side
+    - Final answer is computed by `ans[i] = leftDist[i] + rightDist[i]`
+    */
+    public int[] minOperations(String boxes) {
+        int n = boxes.length();
+        int[] leftDist = new int[n];
+        int[] rightDist = new int[n];
+        int[] ans = new int[n];
+
+        int leftBallCnt = boxes.charAt(0) - '0';
+        for (int i = 1; i < n; i++) {
+            leftDist[i] = leftDist[i - 1] + leftBallCnt;
+            leftBallCnt += boxes.charAt(i) - '0';
+        }
+
+        int rightBallCnt = boxes.charAt(n - 1) - '0';
+        for (int i = n - 2; i >= 0; i--) {
+            rightDist[i] = rightDist[i + 1] + rightBallCnt;
+            rightBallCnt += boxes.charAt(i) - '0';
+        }
+
+        for (int i = 0; i < n; i++) {
+            ans[i] = leftDist[i] + rightDist[i];
+        }
+
+        return ans;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <vector>
+#include <cmath>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> minOperations(string boxes) {
+        int n = boxes.size();
+        vector<int> ans(n, 0);
+
+        // Iterate over each box to calculate the number of operations required
+        for (int i = 0; i < n; i++) {
+            int leftCount = 0;
+            // Start checking boxes to the left of the current box
+            for (int j = i - 1; j >= 0; j--) {
+                if (boxes[j] == '1') {
+                    leftCount += i - j;
+                }
+            }
+
+            int rightCount = 0;
+            // Start checking boxes to the right of the current box
+            for (int k = i + 1; k < n; k++) {
+                if (boxes[k] == '1') {
+                    rightCount += k - i;
+                }
+            }
+
+            // Store the total operations for the current box
+            ans[i] = leftCount + rightCount;
+        }
+
+        return ans;
+    }
+};
+//Method 2
+class Solution {
+public:
+    /*
+    DP Left to Right and Right to Left Approach:
+    - `leftDist[i]` stores total operations to move all balls from the left to `i`
+    - `leftBallCnt` tracks number of balls moved from left to `i`
+    - To calculate `leftDist[i]`, we add `leftBallCnt` to previous `leftDist[i-1]`
+    - Similarly, we compute `rightDist[i]` moving balls from the right side
+    - Final answer is computed by `ans[i] = leftDist[i] + rightDist[i]`
+    */
+    vector<int> minOperations(string boxes) {
+        int n = boxes.size();
+        vector<int> leftDist(n, 0), rightDist(n, 0), ans(n, 0);
+
+        int leftBallCnt = boxes[0] - '0';
+        for (int i = 1; i < n; i++) {
+            leftDist[i] = leftDist[i - 1] + leftBallCnt;
+            leftBallCnt += boxes[i] - '0';
+        }
+
+        int rightBallCnt = boxes[n - 1] - '0';
+        for (int i = n - 2; i >= 0; i--) {
+            rightDist[i] = rightDist[i + 1] + rightBallCnt;
+            rightBallCnt += boxes[i] - '0';
+        }
+
+        for (int i = 0; i < n; i++) {
+            ans[i] = leftDist[i] + rightDist[i];
+        }
+
+        return ans;
+    }
+};
+"""

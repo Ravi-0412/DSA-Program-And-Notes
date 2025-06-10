@@ -81,6 +81,91 @@ class Solution:
 
 # But ziping it together will guarantee this.
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int maxScore(int[] nums1, int[] nums2, int k) {
+        List<int[]> pairs = new ArrayList<>();
+
+        // Mapping elements from nums1 to nums2
+        for (int i = 0; i < nums1.length; i++) {
+            pairs.add(new int[]{nums1[i], nums2[i]});
+        }
+
+        // Sorting the pairs by values in nums2 in descending order
+        pairs.sort((a, b) -> Integer.compare(b[1], a[1]));
+
+        int ans = 0, n1sum = 0;
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+
+        for (int[] pair : pairs) {
+            int n1 = pair[0], n2 = pair[1];
+
+            n1sum += n1;
+            minHeap.offer(n1); // Removing the minimum from nums1 if subsequence length exceeds 'k'
+
+            if (minHeap.size() > k) {
+                n1sum -= minHeap.poll();
+            }
+
+            if (minHeap.size() == k) {
+                ans = Math.max(ans, n1sum * n2);
+            }
+        }
+
+        return ans;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxScore(vector<int>& nums1, vector<int>& nums2, int k) {
+        vector<pair<int, int>> pairs;
+        
+        // Mapping elements from nums1 to nums2
+        for (size_t i = 0; i < nums1.size(); i++) {
+            pairs.push_back({nums1[i], nums2[i]});
+        }
+
+        // Sorting the pairs by values in nums2 in descending order
+        sort(pairs.begin(), pairs.end(), [](const pair<int, int>& a, const pair<int, int>& b) {
+            return a.second > b.second;
+        });
+
+        int ans = 0, n1sum = 0;
+        priority_queue<int, vector<int>, greater<int>> minHeap;
+
+        for (const auto& [n1, n2] : pairs) {
+            n1sum += n1;
+            minHeap.push(n1); // Removing the minimum from nums1 if subsequence length exceeds 'k'
+
+            if (minHeap.size() > k) {
+                n1sum -= minHeap.top();
+                minHeap.pop();
+            }
+
+            if (minHeap.size() == k) {
+                ans = max(ans, n1sum * n2);
+            }
+        }
+
+        return ans;
+    }
+};
+"""
+
 # Related Q:
 # 1383. Maximum Performance of a Team    => Exactly same question
 
@@ -92,3 +177,4 @@ class Solution:
 # We hire the team from the most efficent people to less.
 # The current iterated engineer has the smallest efficency in the team.
 # The performance of a team = efficency[i] * sumSpeed
+

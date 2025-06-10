@@ -44,6 +44,70 @@ class Solution:
 # Note vvvvi: use this logic only whenever you are asked to find the total number of subarray and you have include each pair of that subarray in the ans.
 
 # Note: This is a very good and useful template. 
+
+# Java Code 
+"""
+class Solution {
+    public int numSubarrayProductLessThanK(int[] nums, int k) {
+        if (k <= 1) {  // all numbers are "+ve", so we can't get product less than '1'.
+            return 0;
+        }
+
+        int product = 1, count = 0, i = 0, j = 0;
+        int n = nums.length;
+
+        while (j < n) {
+            product *= nums[j];
+
+            // Find the length of the longest subarray having product < k after adding the current element.
+            // Just shrinking the subarray.
+            while (product >= k) {  
+                product /= nums[i];
+                i++;
+            }
+
+            count += j - i + 1;  // Number of subarrays that can be formed after inserting this number.
+            j++;
+        }
+        return count;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int numSubarrayProductLessThanK(vector<int>& nums, int k) {
+        if (k <= 1) {  // all numbers are "+ve", so we can't get product less than '1'.
+            return 0;
+        }
+
+        int product = 1, count = 0, i = 0, j = 0;
+        int n = nums.size();
+
+        while (j < n) {
+            product *= nums[j];
+
+            // Find the length of the longest subarray having product < k after adding the current element.
+            // Just shrinking the subarray.
+            while (product >= k) {  
+                product /= nums[i];
+                i++;
+            }
+
+            count += j - i + 1;  // Number of subarrays that can be formed after inserting this number.
+            j++;
+        }
+        return count;
+    }
+};
+"""
 # Related Q: 
 """
 1) "Number of subarrays having sum less than K"

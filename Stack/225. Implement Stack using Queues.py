@@ -65,3 +65,162 @@ class MyStack:
     def empty(self) -> bool:
         return len(self.q)== 0
 
+# Java Code 
+"""
+//Method 1
+import java.util.LinkedList;
+import java.util.Queue;
+
+class MyStack {
+    private Queue<Integer> q1; // This queue will be used for peek and pop operations
+    private Queue<Integer> q2; // Temporary queue
+
+    public MyStack() {
+        q1 = new LinkedList<>();
+        q2 = new LinkedList<>();
+    }
+
+    public void push(int x) {
+        while (!q1.isEmpty()) {
+            q2.offer(q1.poll());
+        }
+
+        q1.offer(x);
+
+        while (!q2.isEmpty()) {
+            q1.offer(q2.poll());
+        }
+    }
+
+    public int pop() {
+        return q1.poll();
+    }
+
+    public int top() {
+        return q1.peek();
+    }
+
+    public boolean empty() {
+        return q1.isEmpty() && q2.isEmpty();
+    }
+}
+//Method 2
+import java.util.LinkedList;
+import java.util.Queue;
+
+class MyStack {
+    private Queue<Integer> q;
+
+    public MyStack() {
+        q = new LinkedList<>();
+    }
+
+    public void push(int x) {
+        q.offer(x);
+        // Move all elements before the current pushed element to last
+        // This ensures the last pushed element is at the front
+        for (int i = 0; i < q.size() - 1; i++) {
+            q.offer(q.poll());
+        }
+    }
+
+    public int pop() {
+        return q.isEmpty() ? -1 : q.poll();
+    }
+
+    public int top() {
+        return q.isEmpty() ? -1 : q.peek();
+    }
+
+    public boolean empty() {
+        return q.isEmpty();
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <queue>
+
+using namespace std;
+
+class MyStack {
+private:
+    queue<int> q1; // This queue will be used for peek and pop operations
+    queue<int> q2; // Temporary queue
+
+public:
+    MyStack() {}
+
+    void push(int x) {
+        // Move all elements from q1 to q2
+        while (!q1.empty()) {
+            q2.push(q1.front());
+            q1.pop();
+        }
+
+        // Insert the current element at front
+        q1.push(x);
+
+        // Move all elements from q2 back to q1 to maintain order
+        while (!q2.empty()) {
+            q1.push(q2.front());
+            q2.pop();
+        }
+    }
+
+    int pop() {
+        int temp = q1.front();
+        q1.pop();
+        return temp;
+    }
+
+    int top() {
+        return q1.front();
+    }
+
+    bool empty() {
+        return q1.empty() && q2.empty();
+    }
+};
+//Method 2
+#include <iostream>
+#include <queue>
+
+using namespace std;
+
+class MyStack {
+private:
+    queue<int> q;
+
+public:
+    MyStack() {}
+
+    void push(int x) {
+        q.push(x);
+        // Move all elements before the current pushed element to last
+        // This ensures the last pushed element is at the front
+        for (int i = 0; i < q.size() - 1; i++) {
+            q.push(q.front());
+            q.pop();
+        }
+    }
+
+    int pop() {
+        if (q.empty()) return -1;
+        int temp = q.front();
+        q.pop();
+        return temp;
+    }
+
+    int top() {
+        return q.empty() ? -1 : q.front();
+    }
+
+    bool empty() {
+        return q.empty();
+    }
+};
+"""

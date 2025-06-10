@@ -64,3 +64,74 @@ def countDistinctSubstrings(s):
 # Bt there will be only '4' distinct substring: a, aa, aaa, aaaa.
 
 
+#Java Code 
+"""
+import java.util.HashMap;
+import java.util.Map;
+
+class TrieNode {
+    Map<Character, TrieNode> children = new HashMap<>();  // will point to children. and can be max of 26('a' to 'z').
+}
+
+public class Solution {
+    public int countDistinctSubstrings(String s) {
+        TrieNode root = new TrieNode();
+        int count = 1; // we have to include empty string also
+
+        // just insert the substring starting from each index and if that is not present then incr the count else just incr the pointer.
+        for (int i = 0; i < s.length(); i++) {
+            TrieNode cur = root;
+            for (int j = i; j < s.length(); j++) {
+                char c = s.charAt(j);
+                if (!cur.children.containsKey(c)) { // only need to insert s[j] since we are doing by Trie.
+                    // means found new different substring
+                    cur.children.put(c, new TrieNode());
+                    count++;
+                }
+                cur = cur.children.get(c);
+            }
+        }
+        return count;
+    }
+}
+
+"""
+
+#C++ Code
+"""
+#include <unordered_map>
+#include <string>
+using namespace std;
+
+class TrieNode {
+public:
+    unordered_map<char, TrieNode*> children;  // will point to children. and can be max of 26('a' to 'z').
+    TrieNode() {}
+};
+
+class Solution {
+public:
+    int countDistinctSubstrings(const string& s) {
+        TrieNode* root = new TrieNode();
+        int count = 1;  // we have to include empty string also
+
+        // just insert the substring starting from each index and if that is not present then incr the count else just incr the pointer.
+        for (int i = 0; i < (int)s.length(); ++i) {
+            TrieNode* cur = root;
+            for (int j = i; j < (int)s.length(); ++j) {
+                char c = s[j];
+                if (cur->children.find(c) == cur->children.end()) {  // only need to insert s[j] since we are doing by Trie.
+                    // means found new different substring
+                    cur->children[c] = new TrieNode();
+                    count++;
+                }
+                cur = cur->children[c];
+            }
+        }
+        return count;
+    }
+};
+
+"""
+
+

@@ -25,7 +25,69 @@ class Solution:
             i += 1
         return "".join(s)
 
+# Java Code 
+"""
+class Solution {
+    public String smallestString(String s) {
+        int n = s.length();
+        char[] arr = s.toCharArray();
+        int i = 0;
 
+        // Skip all 'a' characters at the beginning
+        while (i < n && arr[i] == 'a') {
+            i++;
+        }
+
+        // If all characters are 'a', change the last one to 'z'
+        if (i == n) {
+            arr[n - 1] = 'z';
+            return new String(arr);
+        }
+
+        // Start decreasing from the first non-'a' character until we find the next 'a'
+        while (i < n && arr[i] != 'a') {
+            arr[i] = (char) (arr[i] - 1);
+            i++;
+        }
+
+        return new String(arr);
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string smallestString(string s) {
+        int n = s.size();
+        int i = 0;
+
+        // Skip all 'a' characters at the beginning
+        while (i < n && s[i] == 'a') {
+            i++;
+        }
+
+        // If all characters are 'a', change the last one to 'z'
+        if (i == n) {
+            s[n - 1] = 'z';
+            return s;
+        }
+
+        // Start decreasing from the first non-'a' character until we find the next 'a'
+        while (i < n && s[i] != 'a') {
+            s[i] = s[i] - 1;
+            i++;
+        }
+
+        return s;
+    }
+};
+"""
 # my mistake: I thought excatly same way only but was not able to code.
 # Reason: I was trying to find the indexes of first_a, 2nd_a, first_non_a...
 # so it become totally difficult.

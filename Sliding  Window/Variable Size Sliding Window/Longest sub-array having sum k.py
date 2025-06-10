@@ -110,3 +110,177 @@ class Solution:
 
 # yhi do case bnega isme
 
+# Java Code 
+"""
+//Method 1
+class Solution {
+    public int lenOfLongestSubarray(int[] nums, int target) {
+        int n = nums.length;
+        int ans = -1;  // any min value that can't be the answer
+        int i = 0, j = 0, curSum = 0;
+
+        while (j < n) {
+            curSum += nums[j];
+
+            // Keep removing elements from start while subarray sum is invalid
+            while (i <= j && curSum > target) {
+                curSum -= nums[i];
+                i++;
+            }
+
+            if (curSum == target) {
+                ans = Math.max(ans, j - i + 1);
+            }
+
+            j++;
+        }
+
+        return (ans == -1) ? -1 : n - ans;
+    }
+}
+//Method 2
+import java.util.*;
+
+class Solution {
+    public int lenOfLongSubarr(int[] A, int N, int K) {
+        Map<Integer, Integer> prefix_sum = new HashMap<>();  // stores {current_sum: index}
+        int max_length = 0, curr_sum = 0;
+
+        for (int i = 0; i < N; i++) {
+            curr_sum += A[i];
+
+            if (curr_sum == K) {  // then automatically max_length will be equal to i+1
+                max_length = i + 1;
+            }
+            else if (prefix_sum.containsKey(curr_sum - K)) {
+                max_length = Math.max(max_length, i - prefix_sum.get(curr_sum - K));  
+            }
+
+            // Add current_sum if not present
+            prefix_sum.putIfAbsent(curr_sum, i);  // Store index to track length
+        }
+
+        return max_length;
+    }
+}
+//Method 3
+import java.util.*;
+
+class Solution {
+    public int lenOfLongSubarr(int[] A, int N, int K) {
+        Map<Integer, Integer> prefix_sum = new HashMap<>();
+        prefix_sum.put(0, -1);  // Handle corner case when curSum-K == 0
+        int max_length = 0, curr_sum = 0;
+
+        for (int i = 0; i < N; i++) {
+            curr_sum += A[i];
+
+            if (prefix_sum.containsKey(curr_sum - K)) {  
+                max_length = Math.max(max_length, i - prefix_sum.get(curr_sum - K));  
+            }
+
+            // Add current_sum if not present
+            prefix_sum.putIfAbsent(curr_sum, i);  
+        }
+
+        return max_length;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int lenOfLongestSubarray(vector<int>& nums, int target) {
+        int n = nums.size();
+        int ans = -1;  // any min value that can't be the answer
+        int i = 0, j = 0, curSum = 0;
+
+        while (j < n) {
+            curSum += nums[j];
+
+            // Keep removing elements from start while subarray sum is invalid
+            while (i <= j && curSum > target) {
+                curSum -= nums[i];
+                i++;
+            }
+
+            if (curSum == target) {
+                ans = max(ans, j - i + 1);
+            }
+
+            j++;
+        }
+
+        return (ans == -1) ? -1 : n - ans;
+    }
+};
+//Method 2
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution {
+public:
+    int lenOfLongSubarr(vector<int>& A, int N, int K) {
+        unordered_map<int, int> prefix_sum;  // stores {current_sum: index}
+        int max_length = 0, curr_sum = 0;
+
+        for (int i = 0; i < N; i++) {
+            curr_sum += A[i];
+
+            if (curr_sum == K) {  // then automatically max_length will be equal to i+1
+                max_length = i + 1;
+            }
+            else if (prefix_sum.find(curr_sum - K) != prefix_sum.end()) {
+                max_length = max(max_length, i - prefix_sum[curr_sum - K]);  
+            }
+
+            // Add current_sum if not present
+            if (prefix_sum.find(curr_sum) == prefix_sum.end()) {
+                prefix_sum[curr_sum] = i;  // Store index to track length
+            }
+        }
+
+        return max_length;
+    }
+};
+//Method 3
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution {
+public:
+    int lenOfLongSubarr(vector<int>& A, int N, int K) {
+        unordered_map<int, int> prefix_sum = {{0, -1}};  // Handle corner case when curSum-K == 0
+        int max_length = 0, curr_sum = 0;
+
+        for (int i = 0; i < N; i++) {
+            curr_sum += A[i];
+
+            if (prefix_sum.find(curr_sum - K) != prefix_sum.end()) {  
+                max_length = max(max_length, i - prefix_sum[curr_sum - K]);  
+            }
+
+            // Add current_sum if not present
+            if (prefix_sum.find(curr_sum) == prefix_sum.end()) {
+                prefix_sum[curr_sum] = i;  
+            }
+        }
+
+        return max_length;
+    }
+};
+"""

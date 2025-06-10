@@ -44,53 +44,98 @@ class Solution:
                             # 'start' is just same as outer index of our for loop solution.
         return ans
 
-# Java
+# Java Code 
 """
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 class Solution {
     public List<List<Integer>> fourSum(int[] nums, int target) {
         Arrays.sort(nums);
         List<List<Integer>> ans = new ArrayList<>();
-        kSum(4, 0, (long)target, new ArrayList<>(), nums, ans);
-        return ans;
-    }
-    
-    private void kSum(int k, int start, long target, List<Integer> quad, int[] nums, List<List<Integer>> ans) {
-        if (k == 2) {
-            int l = start, r = nums.length - 1;
-            while (l < r) {
-                long sum = (long)nums[l] + nums[r];
-                if (sum < target) {
-                    l++;
-                } else if (sum > target) {
-                    r--;
-                } else {
-                    List<Integer> tempQuad = new ArrayList<>(quad);
-                    tempQuad.add(nums[l]);
-                    tempQuad.add(nums[r]);
-                    ans.add(tempQuad);
-                    l++;
-                    while (l < r && nums[l] == nums[l - 1]) {
+
+        // Recursive function to find k-sum
+        void kSum(int k, int start, int target, List<Integer> quad) {
+            if (k == 2) {  // Base case: Apply two-pointer technique for sorted array, avoiding duplicates
+                int l = start, r = nums.length - 1;
+                while (l < r) {
+                    if (nums[l] + nums[r] < target) {
                         l++;
+                    } else if (nums[l] + nums[r] > target) {
+                        r--;
+                    } else {
+                        List<Integer> newQuad = new ArrayList<>(quad);
+                        newQuad.add(nums[l]);
+                        newQuad.add(nums[r]);
+                        ans.add(newQuad);
+                        l++;
+                        while (l < r && nums[l] == nums[l - 1]) {
+                            l++; // Skip duplicates
+                        }
                     }
                 }
-            }
-        } else {
-            for (int i = start; i < nums.length - k + 1; i++) {
-                if (i > start && nums[i] == nums[i - 1]) {
-                    continue;
+            } else {
+                // Iterate over elements to find k-sum (k > 2)
+                for (int i = start; i <= nums.length - k; i++) {
+                    if (i > start && nums[i] == nums[i - 1]) continue; // Skip duplicates
+                    List<Integer> newQuad = new ArrayList<>(quad);
+                    newQuad.add(nums[i]);
+                    kSum(k - 1, i + 1, target - nums[i], newQuad);
                 }
-                List<Integer> tempQuad = new ArrayList<>(quad);
-                tempQuad.add(nums[i]);
-                kSum(k - 1, i + 1, target - nums[i], tempQuad, nums, ans);
             }
         }
+
+        kSum(4, 0, target, new ArrayList<>()); // Start recursion for 4-sum
+        return ans;
     }
 }
-
 """
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> ans;
+
+        // Recursive function to find k-sum
+        function<void(int, int, int, vector<int>)> kSum = [&](int k, int start, int target, vector<int> quad) {
+            if (k == 2) {  // Base case: Apply two-pointer technique for sorted array, avoiding duplicates
+                int l = start, r = nums.size() - 1;
+                while (l < r) {
+                    if (nums[l] + nums[r] < target) {
+                        l++;
+                    } else if (nums[l] + nums[r] > target) {
+                        r--;
+                    } else {
+                        ans.push_back(quad);
+                        ans.back().push_back(nums[l]);
+                        ans.back().push_back(nums[r]);
+                        l++;
+                        while (l < r && nums[l] == nums[l - 1]) {
+                            l++;  // Skip duplicates
+                        }
+                    }
+                }
+            } else {
+                // Iterate over elements to find k-sum (k > 2)
+                for (int i = start; i <= nums.size() - k; i++) {
+                    if (i > start && nums[i] == nums[i - 1]) continue; // Skip duplicates
+                    vector<int> newQuad = quad;
+                    newQuad.push_back(nums[i]);
+                    kSum(k - 1, i + 1, target - nums[i], newQuad);
+                }
+            }
+        };
+
+        kSum(4, 0, target, {}); // Start recursion for 4-sum
+        return ans;
+    }
+};
+"""
 

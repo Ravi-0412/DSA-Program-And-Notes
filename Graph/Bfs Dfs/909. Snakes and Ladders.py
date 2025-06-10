@@ -53,7 +53,7 @@ class Solution:
                     visited.add(nextSquare)
         return -1
 
-# Java
+# Java Code 
 """
 import java.util.*;
 
@@ -61,47 +61,123 @@ class Solution {
     public int snakesAndLadders(int[][] board) {
         int n = board.length;
 
-        Queue<int[]> q = new LinkedList<>();
+        // will return the coordinate of the 'square' no.
+        int[] SquareNoToCoordinate(int square) {
+            int r = (square - 1) / n;
+            int c = (square - 1) % n;
+            // square no is in '1' based indexing.
+            // so for getting the coordinates in '0' based indexing(board) dividing by 'n'. 
+            // it will give row no from bottom , so from top row no will be...
+            int row_no = (n - 1) - r;  // board is zero based indexing so subtracting with 'n-1'.
+            // for finding exact col (due to cell no from left->right, right->left in alternate row), 
+            // it will depend on whether 'r' is odd or even from bottom
+            if (r % 2 == 0) {  // if even
+                return new int[]{row_no, c};
+            }
+            return new int[]{row_no, n - c - 1};
+        }
+
+        Queue<int[]> q = new ArrayDeque<>();
         Set<Integer> visited = new HashSet<>();
-        q.offer(new int[]{1, 0});
-        visited.add(1);
+        q.add(new int[]{1, 0});  // [squareNo, step]
+        visited.add(1);  // (square No)
 
         while (!q.isEmpty()) {
-            int[] curr = q.poll();
-            int square = curr[0], steps = curr[1];
-
+            int[] current = q.poll();
+            int square = current[0], steps = current[1];
+            // move to all the possible places. just we throw the dice and move acc to what no we will get.
             for (int i = 1; i <= 6; i++) {
-                int nextSquare = square + i;
+                int nextSquare = square + i;  // next cell no we will take
                 if (nextSquare > n * n) continue;
-
-                int[] coords = getCoordinates(nextSquare, n);
-                int r = coords[0], c = coords[1];
+                // check if this cell is snake or ladder.
+                // for this we need value of this cell from board.
+                // And for this 1st we have to get the coordinates of nextSquare
+                int[] coord = SquareNoToCoordinate(nextSquare);
+                int r = coord[0], c = coord[1];
+                // Now check if this is position of snake or ladder
                 if (board[r][c] != -1) {
                     nextSquare = board[r][c];
                 }
-
+                // check if nextSquare is destination
                 if (nextSquare == n * n) {
                     return steps + 1;
                 }
-
+                // Add the 'nextSquare' in 'q' if not visited and <= n*n
                 if (!visited.contains(nextSquare)) {
+                    q.add(new int[]{nextSquare, steps + 1});
                     visited.add(nextSquare);
-                    q.offer(new int[]{nextSquare, steps + 1});
                 }
             }
         }
-
         return -1;
     }
-
-    private int[] getCoordinates(int square, int n) {
-        int r = (square - 1) / n;
-        int c = (square - 1) % n;
-        int row = n - 1 - r;
-        int col = r % 2 == 0 ? c : n - 1 - c;
-        return new int[]{row, col};
-    }
 }
+
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <queue>
+#include <unordered_set>
+using namespace std;
+
+class Solution {
+public:
+    int snakesAndLadders(vector<vector<int>>& board) {
+        int n = board.size();
+
+        // will return the coordinate of the 'square' no.
+        auto SquareNoToCoordinate = [&](int square) -> pair<int, int> {
+            int r = (square - 1) / n;
+            int c = (square - 1) % n;
+            // square no is in '1' based indexing.
+            // so for getting the coordinates in '0' based indexing(board) dividing by 'n'. 
+            // it will give row no from bottom , so from top row no will be...
+            int row_no = (n - 1) - r;  // board is zero based indexing so subtracting with 'n-1'.
+            // for finding exact col (due to cell no from left->right, right->left in alternate row),
+            // it will depend on whether 'r' is odd or even from bottom
+            if (r % 2 == 0) {  // if even
+                return {row_no, c};
+            }
+            return {row_no, n - c - 1};
+        };
+
+        queue<pair<int, int>> q;
+        unordered_set<int> visited;
+        q.push({1, 0});  // [squareNo, step]
+        visited.insert(1);  // (square No)
+
+        while (!q.empty()) {
+            auto [square, steps] = q.front();
+            q.pop();
+            // move to all the possible places. just we throw the dice and move acc to what no we will get.
+            for (int i = 1; i <= 6; ++i) {
+                int nextSquare = square + i;  // next cell no we will take
+                if (nextSquare > n * n) continue;
+                // check if this cell is snake or ladder.
+                // for this we need value of this cell from board.
+                // And for this 1st we have to get the coordinates of nextSquare
+                auto [r, c] = SquareNoToCoordinate(nextSquare);
+                // Now check if this is position of snake or ladder
+                if (board[r][c] != -1) {
+                    nextSquare = board[r][c];
+                }
+                // check if nextSquare is destination
+                if (nextSquare == n * n) {
+                    return steps + 1;
+                }
+                // Add the 'nextSquare' in 'q' if not visited and <= n*n
+                if (visited.find(nextSquare) == visited.end()) {
+                    q.push({nextSquare, steps + 1});
+                    visited.insert(nextSquare);
+                }
+            }
+        }
+        return -1;
+    }
+};
+
 """
 
 # my mistake: i was finding the exact col by taking the 'row_no' from top i.e 

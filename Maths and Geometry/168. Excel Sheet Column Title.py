@@ -106,3 +106,123 @@ class Solution:
             num = (num - 1) // 26
         return ''.join(result[::-1])
         
+# Java Code 
+"""
+//Method 1
+import java.util.*;
+
+class Solution {
+    public String convertToTitle(int columnNumber) {
+        Map<Integer, Character> colToChar = new HashMap<>();
+        colToChar.put(0, 'Z');
+        for (int i = 1; i <= 26; i++) {
+            colToChar.put(i, (char) ('A' + i - 1));
+        }
+
+        StringBuilder ans = new StringBuilder();
+        while (columnNumber > 26) {
+            int r = columnNumber % 26;
+            ans.insert(0, colToChar.get(r));
+            columnNumber = (r != 0) ? columnNumber / 26 : columnNumber / 26 - 1;
+        }
+        ans.insert(0, colToChar.get(columnNumber));
+        return ans.toString();
+    }
+}
+//Method 2
+class Solution {
+    public String convertToTitle(int num) {
+        char[] capitals = new char[26];
+        for (int i = 0; i < 26; i++) {
+            capitals[i] = (char) ('A' + i);
+        }
+
+        StringBuilder result = new StringBuilder();
+        while (num > 0) {
+            result.insert(0, capitals[(num - 1) % 26]);
+            num = (num - 1) / 26;
+        }
+        return result.toString();
+    }
+}
+//Method 3
+class Solution {
+    public String convertToTitle(int num) {
+        StringBuilder result = new StringBuilder();
+        while (num > 0) {
+            int cur = (num - 1) % 26;
+            result.insert(0, (char) (cur + 'A'));
+            num = (num - 1) / 26;
+        }
+        return result.toString();
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <string>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution {
+public:
+    string convertToTitle(int columnNumber) {
+        unordered_map<int, char> colToChar = {
+            {0, 'Z'}, {1, 'A'}, {2, 'B'}, {3, 'C'}, {4, 'D'}, {5, 'E'}, {6, 'F'}, {7, 'G'}, {8, 'H'}, {9, 'I'}, {10, 'J'},
+            {11, 'K'}, {12, 'L'}, {13, 'M'}, {14, 'N'}, {15, 'O'}, {16, 'P'}, {17, 'Q'}, {18, 'R'}, {19, 'S'},
+            {20, 'T'}, {21, 'U'}, {22, 'V'}, {23, 'W'}, {24, 'X'}, {25, 'Y'}, {26, 'Z'}
+        };
+
+        string ans = "";
+        while (columnNumber > 26) {
+            int r = columnNumber % 26;
+            ans = colToChar[r] + ans;
+            columnNumber = (r != 0) ? columnNumber / 26 : columnNumber / 26 - 1;
+        }
+        ans = colToChar[columnNumber] + ans;
+        return ans;
+    }
+};
+//Method 2
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    string convertToTitle(int num) {
+        vector<char> capitals;
+        for (char c = 'A'; c <= 'Z'; c++) {
+            capitals.push_back(c);
+        }
+
+        string result = "";
+        while (num > 0) {
+            result = capitals[(num - 1) % 26] + result;
+            num = (num - 1) / 26;
+        }
+        return result;
+    }
+};
+//Method 3
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string convertToTitle(int num) {
+        string result = "";
+        while (num > 0) {
+            int cur = (num - 1) % 26;
+            result = char(cur + 'A') + result;
+            num = (num - 1) / 26;
+        }
+        return result;
+    }
+};
+"""

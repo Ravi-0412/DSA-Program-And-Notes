@@ -30,6 +30,71 @@ class Solution:
 # Note vvi: When you have to find smallest / greatest ele i..e number in ascending or descending order use stack.
 # use stack .
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int[] mostCompetitive(int[] nums, int k) {
+        Stack<Integer> stack = new Stack<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            int num = nums[i];
+
+            // Before popping, ensure remaining elements allow forming a sequence of length 'k'
+            while (!stack.isEmpty() && stack.peek() > num && (stack.size() + (nums.length - i)) > k) {
+                stack.pop();
+            }
+
+            // Only add element if the stack size is less than 'k'
+            if (stack.size() < k) {
+                stack.push(num);
+            }
+        }
+
+        // Convert stack to result array
+        int[] result = new int[k];
+        for (int i = k - 1; i >= 0; i--) {
+            result[i] = stack.pop();
+        }
+
+        return result;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <stack>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> mostCompetitive(vector<int>& nums, int k) {
+        vector<int> stack;
+        
+        for (int i = 0; i < nums.size(); i++) {
+            int num = nums[i];
+
+            // Before popping, ensure remaining elements allow forming a sequence of length 'k'
+            while (!stack.empty() && stack.back() > num && (stack.size() + (nums.size() - i)) > k) {
+                stack.pop_back();
+            }
+
+            // Only add element if the stack size is less than 'k'
+            if (stack.size() < k) {
+                stack.push_back(num);
+            }
+        }
+
+        return stack;
+    }
+};
+"""
+
 # Related Q:
 # 1) 402. Remove K Digits
 

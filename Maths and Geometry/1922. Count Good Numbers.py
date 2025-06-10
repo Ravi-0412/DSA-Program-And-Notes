@@ -55,4 +55,47 @@ class Solution:
         power = myPow(20, q)
         return  power % mod if r == 0 else (power *5) % mod
 
-        
+# Java Code 
+"""
+class Solution {
+    private long myPow(long x, long m, long mod) {
+        if (m == 0) return 1;
+        long smallAns = myPow(x, m / 2, mod) % mod;
+        return (m % 2 == 1) ? (x * smallAns * smallAns) % mod : (smallAns * smallAns) % mod;
+    }
+
+    public int countGoodNumbers(long n) {
+        final long mod = 1000000007;
+        if (n == 1) return 5;
+
+        long q = n / 2, r = n % 2;
+        long power = myPow(20, q, mod);
+        return (int)((r == 0) ? power % mod : (power * 5) % mod);
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    long long myPow(long long x, long long m, long long mod) {
+        if (m == 0) return 1;
+        long long smallAns = myPow(x, m / 2, mod) % mod;
+        return (m % 2 == 1) ? (x * smallAns * smallAns) % mod : (smallAns * smallAns) % mod;
+    }
+
+    int countGoodNumbers(long long n) {
+        const long long mod = 1e9 + 7;
+        if (n == 1) return 5;
+
+        long long q = n / 2, r = n % 2;
+        long long power = myPow(20, q, mod);
+        return (r == 0) ? power % mod : (power * 5) % mod;
+    }
+};
+"""

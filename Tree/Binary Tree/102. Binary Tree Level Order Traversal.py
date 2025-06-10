@@ -54,7 +54,39 @@ class Solution {
     }
 }
 """
+#C++ Code 
+"""
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        if (!root) {
+            return {};  // equivalent to returning None
+        }
+        queue<TreeNode*> q;
+        q.push(root);
+        vector<vector<int>> ans;
+        vector<int> level;
+        while (!q.empty()) {
+            int size = q.size();
+            for (int i = 0; i < size; ++i) {  // we have to print level by level in a list
+                TreeNode* curr = q.front();
+                q.pop();
+                level.push_back(curr->val);
+                if (curr->left) {
+                    q.push(curr->left);
+                }
+                if (curr->right) {
+                    q.push(curr->right);
+                }
+            }
+            ans.push_back(level);
+            level.clear();   // to store the ans of next level
+        }
+        return ans;
+    }
+};
 
+"""
 
 # Related q:
 # 1) 515. Find Largest Value in Each Tree Row
@@ -77,6 +109,7 @@ class Solution:
             ans.append(maxi)
         return ans
 
+# Java Code 
 """
 import java.util.*;
 
@@ -110,6 +143,38 @@ class Solution {
         return ans;
     }
 }
+"""
+
+# C++ Code 
+"""
+class Solution {
+public:
+    vector<int> largestValues(TreeNode* root) {
+        if (!root) {
+            return {};  // return if root is null
+        }
+        queue<TreeNode*> q;
+        q.push(root);
+        vector<int> ans;
+        while (!q.empty()) {
+            int maxi = INT_MIN;
+            for (int i = 0; i < q.size(); ++i) {  // we have to print level by level in a list
+                TreeNode* cur = q.front();
+                q.pop();
+                maxi = max(maxi, cur->val);
+                if (cur->left) {
+                    q.push(cur->left);
+                }
+                if (cur->right) {
+                    q.push(cur->right);
+                }
+            }
+            ans.push_back(maxi);
+        }
+        return ans;
+    }
+};
+
 """
 
 # 2) 513. Find Bottom Left Tree Value
@@ -148,6 +213,105 @@ class Solution:
             
         return root.val  # value of last poped node
 
+#Java Code 
+"""
+// a) When you find node at greater level, update the ans.
+class Solution {
+    public int findBottomLeftValue(TreeNode root) {
+        Queue<Pair<Integer, TreeNode>> q = new LinkedList<>();
+        q.offer(new Pair<>(0, root));
+        int maxLevel = -1;
+        Integer ans = null;
+        while (!q.isEmpty()) {
+            Pair<Integer, TreeNode> p = q.poll();
+            int l = p.getKey();
+            TreeNode node = p.getValue();
+            if (l > maxLevel) {
+                maxLevel = l;
+                ans = node.val;
+            }
+            if (node.left != null) {
+                q.offer(new Pair<>(l + 1, node.left));
+            }
+            if (node.right != null) {
+                q.offer(new Pair<>(l + 1, node.right));
+            }
+        }
+        return ans;
+    }
+}
+
+// b) Append right to left then last popped node will be our ans
+class Solution {
+    public int findBottomLeftValue(TreeNode root) {
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        while (!q.isEmpty()) {
+            root = q.poll();  // change root then only we will be able to return correct ans at last.
+            if (root.right != null) {
+                q.offer(root.right);
+            }
+            if (root.left != null) {
+                q.offer(root.left);
+            }
+        }
+        return root.val;  // value of last popped node
+    }
+}
+"""
+# C++ Code 
+"""
+#include <queue>
+#include <utility>  // for std::pair
+
+// a) When you find node at greater level, update the ans.
+class Solution {
+public:
+    int findBottomLeftValue(TreeNode* root) {
+        std::queue<std::pair<int, TreeNode*>> q;
+        q.push({0, root});
+        int maxLevel = -1;
+        int ans = 0;
+        while (!q.empty()) {
+            auto p = q.front();
+            q.pop();
+            int l = p.first;
+            TreeNode* node = p.second;
+            if (l > maxLevel) {
+                maxLevel = l;
+                ans = node->val;
+            }
+            if (node->left) {
+                q.push({l + 1, node->left});
+            }
+            if (node->right) {
+                q.push({l + 1, node->right});
+            }
+        }
+        return ans;
+    }
+};
+
+// b) Append right to left then last popped node will be our ans
+class Solution {
+public:
+    int findBottomLeftValue(TreeNode* root) {
+        std::queue<TreeNode*> q;
+        q.push(root);
+        while (!q.empty()) {
+            root = q.front();  // change root then only we will be able to return correct ans at last.
+            q.pop();
+            if (root->right) {
+                q.push(root->right);
+            }
+            if (root->left) {
+                q.push(root->left);
+            }
+        }
+        return root->val;  // value of last popped node
+    }
+};
+"""
 """
 Other Related Questions:
 3) 103. Binary Tree Zigzag Level Order Traversal

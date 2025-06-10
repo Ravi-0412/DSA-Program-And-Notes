@@ -59,36 +59,31 @@ class Solution:
 
 # Java
 """
-import java.util.*;
-
-class Node {
-    int data;
-    Node left, right;
-
-    Node(int val) {
-        this.data = val;
-        left = right = null;
-    }
-}
-
 class Solution {
 
     public List<Integer> merge(Node root1, Node root2) {
-        List<Integer> inorder1 = inorderIterative(root1);
-        List<Integer> inorder2 = inorderIterative(root2);
-        List<Integer> mergedArray = mergeSortedArray(inorder1, inorder2);
-        Node root = sortedArrayToBST(mergedArray, 0, mergedArray.size() - 1);
-        return inorderIterative(root);
+        List<Integer> inorder1 = InorderIterative(root1);
+        List<Integer> inorder2 = InorderIterative(root2);
+        // print(inorder1, inorder2)
+        List<Integer> merged_array = mergeSortedArray(inorder1, inorder1.size(), inorder2, inorder2.size());
+        // return merged_array   // not a good way to return. form bst then return.
+        Node root = sortedArrayToBST(merged_array);  // this will be give the root of the merged BST.
+        return InorderIterative(root);
     }
 
-    public List<Integer> inorderIterative(Node root) {
-        List<Integer> ans = new ArrayList<>();
+    public List<Integer> InorderIterative(Node root) {
+        if (root == null) {
+            return new ArrayList<>();
+        }
         Stack<Node> stack = new Stack<>();
-        while (root != null || !stack.isEmpty()) {
-            while (root != null) {
+        List<Integer> ans = new ArrayList<>();
+        while (!stack.isEmpty() || root != null) {
+            while (root != null) {  // keep going left 
                 stack.push(root);
                 root = root.left;
             }
+            // if None, it means no left child then print the stack top and append the 'poped.right'
+            // it means we have reached the leftmost node 
             Node curr = stack.pop();
             ans.add(curr.data);
             root = curr.right;
@@ -96,37 +91,112 @@ class Solution {
         return ans;
     }
 
-    public List<Integer> mergeSortedArray(List<Integer> nums1, List<Integer> nums2) {
-        List<Integer> ans = new ArrayList<>();
+    public List<Integer> mergeSortedArray(List<Integer> nums1, int m, List<Integer> nums2, int n) {
         int i = 0, j = 0;
-        int m = nums1.size(), n = nums2.size();
-
+        List<Integer> ans = new ArrayList<>();
         while (i < m && j < n) {
             if (nums1.get(i) >= nums2.get(j)) {
-                ans.add(nums2.get(j++));
+                ans.add(nums2.get(j));
+                j += 1;
             } else {
-                ans.add(nums1.get(i++));
+                ans.add(nums1.get(i));
+                i += 1;
             }
         }
-
         while (i < m) {
-            ans.add(nums1.get(i++));
+            ans.add(nums1.get(i));
+            i += 1;
         }
-
         while (j < n) {
-            ans.add(nums2.get(j++));
+            ans.add(nums2.get(j));
+            j += 1;
         }
-
         return ans;
     }
 
-    public Node sortedArrayToBST(List<Integer> nums, int start, int end) {
-        if (start > end) return null;
-        int mid = (start + end) / 2;
+    public Node sortedArrayToBST(List<Integer> nums) {
+        if (nums.isEmpty()) {
+            return null;
+        }
+        int mid = nums.size() / 2;
         Node node = new Node(nums.get(mid));
-        node.left = sortedArrayToBST(nums, start, mid - 1);
-        node.right = sortedArrayToBST(nums, mid + 1, end);
+        node.left = sortedArrayToBST(nums.subList(0, mid));
+        node.right = sortedArrayToBST(nums.subList(mid + 1, nums.size()));
         return node;
     }
 }
+
+"""
+# C++ Code
+"""
+class Solution {
+public:
+    vector<int> merge(Node* root1, Node* root2) {
+        vector<int> inorder1 = InorderIterative(root1);
+        vector<int> inorder2 = InorderIterative(root2);
+        // print(inorder1, inorder2)
+        vector<int> merged_array = mergeSortedArray(inorder1, inorder1.size(), inorder2, inorder2.size());
+        // return merged_array   // not a good way to return. form bst then return.
+        Node* root = sortedArrayToBST(merged_array);  // this will be give the root of the merged BST.
+        return InorderIterative(root);
+    }
+
+    vector<int> InorderIterative(Node* root) {
+        if (root == nullptr) {
+            return {};
+        }
+        stack<Node*> stack;
+        vector<int> ans;
+        while (!stack.empty() || root != nullptr) {
+            while (root) {  // keep going left 
+                stack.push(root);
+                root = root->left;
+            }
+            // if None, it means no left child then print the stack top and append the 'poped.right'
+            // it means we have reached the leftmost node 
+            Node* curr = stack.top();
+            stack.pop();
+            ans.push_back(curr->data);
+            root = curr->right;
+        }
+        return ans;
+    }
+
+    vector<int> mergeSortedArray(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int i = 0, j = 0;
+        vector<int> ans;
+        while (i < m && j < n) {
+            if (nums1[i] >= nums2[j]) {
+                ans.push_back(nums2[j]);
+                j += 1;
+            } else {
+                ans.push_back(nums1[i]);
+                i += 1;
+            }
+        }
+        while (i < m) {
+            ans.push_back(nums1[i]);
+            i += 1;
+        }
+        while (j < n) {
+            ans.push_back(nums2[j]);
+            j += 1;
+        }
+        return ans;
+    }
+
+    Node* sortedArrayToBST(vector<int>& nums) {
+        if (nums.empty()) {
+            return nullptr;
+        }
+        int mid = nums.size() / 2;
+        Node* node = new Node(nums[mid]);
+        vector<int> left(nums.begin(), nums.begin() + mid);
+        vector<int> right(nums.begin() + mid + 1, nums.end());
+        node->left = sortedArrayToBST(left);
+        node->right = sortedArrayToBST(right);
+        return node;
+    }
+};
+
 """

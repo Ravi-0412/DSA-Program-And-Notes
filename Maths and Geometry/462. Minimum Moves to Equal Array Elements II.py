@@ -31,6 +31,53 @@ class Solution:
 # Note vvi: when ever you want to equalize values in an array and the absolute value change in each item
 # to make it equal we should consider the median value as the final value.
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int minMoves2(int[] nums) {
+        int n = nums.length;
+        Arrays.sort(nums);
+
+        // Find the median
+        int median = (n % 2 == 1) ? nums[n / 2] : (nums[n / 2] + nums[n / 2 - 1]) / 2;
+
+        // Calculate the moves to make all elements equal to the median
+        int moves = 0;
+        for (int num : nums) {
+            moves += Math.abs(num - median);
+        }
+        return moves;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int minMoves2(vector<int>& nums) {
+        int n = nums.size();
+        sort(nums.begin(), nums.end());
+
+        // Find the median
+        int median = (n % 2 == 1) ? nums[n / 2] : (nums[n / 2] + nums[n / 2 - 1]) / 2;
+
+        // Calculate the moves to make all elements equal to the median
+        int moves = 0;
+        for (int num : nums) {
+            moves += abs(num - median);
+        }
+        return moves;
+    }
+};
+"""
 
 # Related Q
 # 296. Best Meeting Point

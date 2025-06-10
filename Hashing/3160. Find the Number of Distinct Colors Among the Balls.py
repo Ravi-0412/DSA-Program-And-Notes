@@ -85,44 +85,69 @@ class Solution:
         
         return ans
 
-# Java
+# Java Code
 """
 import java.util.*;
 
-public class Solution {
-    public int[] queryResults(int limit, int[][] queries) {
-        // Map to store the color of each ball
-        Map<Integer, Integer> ballsColored = new HashMap<>();
-        // Map to track the count of each color
-        Map<Integer, Integer> coloredCount = new HashMap<>();
-        
-        // Result array to store the number of distinct colors after each query
-        int[] result = new int[queries.length];
-        
-        for (int i = 0; i < queries.length; i++) {
-            int ball = queries[i][0];
-            int color = queries[i][1];
-            
-            // If the ball has a previous color, decrement the count of that color
+class Solution {
+    public List<Integer> queryResults(int limit, List<List<Integer>> queries) {
+        Map<Integer, Integer> ballsColored = new HashMap<>(); // Stores ball color mappings
+        Map<Integer, Integer> coloredCount = new HashMap<>(); // Keeps track of color frequencies
+        List<Integer> ans = new ArrayList<>();
+
+        for (List<Integer> query : queries) {
+            int ball = query.get(0), color = query.get(1);
+
             if (ballsColored.containsKey(ball)) {
-                int prevColor = ballsColored.get(ball);
+                int prevColor = ballsColored.get(ball); // Get previous color
                 coloredCount.put(prevColor, coloredCount.get(prevColor) - 1);
                 if (coloredCount.get(prevColor) == 0) {
                     coloredCount.remove(prevColor);
                 }
             }
-            
-            // Assign the new color to the ball
+
             ballsColored.put(ball, color);
-            
-            // Increment the count of the new color
             coloredCount.put(color, coloredCount.getOrDefault(color, 0) + 1);
-            
-            // Store the number of distinct colors after this query
-            result[i] = coloredCount.size();
+
+            ans.add(coloredCount.size());
         }
-        
-        return result;
+
+        return ans;
     }
 }
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> queryResults(int limit, vector<vector<int>>& queries) {
+        unordered_map<int, int> balls_colored; // Stores ball color mappings
+        unordered_map<int, int> coloredCount; // Keeps track of color frequencies
+        vector<int> ans;
+
+        for (const auto& query : queries) {
+            int ball = query[0], color = query[1];
+
+            if (balls_colored.count(ball)) {
+                int prev_color = balls_colored[ball]; // Get previous color
+                coloredCount[prev_color]--;
+                if (coloredCount[prev_color] == 0) {
+                    coloredCount.erase(prev_color);
+                }
+            }
+
+            balls_colored[ball] = color;
+            coloredCount[color]++;
+
+            ans.push_back(coloredCount.size());
+        }
+
+        return ans;
+    }
+};
 """

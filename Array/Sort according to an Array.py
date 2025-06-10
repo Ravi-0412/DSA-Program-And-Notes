@@ -68,3 +68,47 @@ class Solution {
     }
 }
 """
+
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> relativeSort(vector<int>& A1, int N, vector<int>& A2, int M) {
+        unordered_map<int, int> freq;
+        vector<int> ans;
+
+        // Count frequency of elements in A1
+        for (int num : A1) {
+            freq[num]++;
+        }
+
+        // Add elements of A2 in order to the result
+        for (int num : A2) {
+            ans.insert(ans.end(), freq[num], num);  // Add manually 'num' for 'freq[num]' times
+            freq[num] = 0;
+        }
+
+        // Get remaining elements from A1, sort them
+        vector<int> remainingKeys;
+        for (auto& entry : freq) {
+            if (entry.second > 0) {
+                remainingKeys.push_back(entry.first);
+            }
+        }
+        sort(remainingKeys.begin(), remainingKeys.end());
+
+        // Add remaining elements to the result
+        for (int num : remainingKeys) {
+            ans.insert(ans.end(), freq[num], num);
+        }
+
+        return ans;
+    }
+};
+"""

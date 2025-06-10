@@ -106,6 +106,59 @@ int nonZeroIndex = 0;
 # Same way we can do in python but not needed.
   """
 
+# C++ Code 
+"""
+#include <string>
+#include <unordered_map>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    string largestPalindromic(string num) {
+        unordered_map<char, int> freq;
+        
+        // Count frequency of each digit
+        for (char digit : num) {
+            freq[digit]++;
+        }
+
+        // Sort digits in descending order
+        vector<char> sorted_digits;
+        for (auto& entry : freq) {
+            sorted_digits.push_back(entry.first);
+        }
+        sort(sorted_digits.rbegin(), sorted_digits.rend());
+
+        string first_half = "", middle_digit = "";
+        
+        for (char digit : sorted_digits) {
+            int count = freq[digit];
+
+            // Add pairs to first half
+            first_half += string(count / 2, digit);
+
+            // Set middle digit if not already set and count is odd
+            if (count % 2 == 1 && middle_digit.empty()) {
+                middle_digit = digit;
+            }
+        }
+
+        // Remove leading zeros
+        first_half.erase(0, first_half.find_first_not_of('0'));
+
+        // Handle edge cases and construct result
+        if (first_half.empty()) {
+            return middle_digit.empty() ? "0" : middle_digit;
+        }
+
+        return first_half + middle_digit + string(first_half.rbegin(), first_half.rend());
+    }
+};
+"""
+
 # 2nd method: Using the fact that number will be from '0' to '9'.
 # so instead of sorting, traverse the digit in descending order from '9' to '0' directly.
 from collections import Counter
@@ -175,4 +228,51 @@ class Solution {
         return firstHalf.toString() + mid + firstHalf.reverse().toString();
     }
 }
+"""
+
+# C++ Code 
+"""
+#include <string>
+#include <unordered_map>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    string largestPalindromic(string num) {
+        unordered_map<char, int> count;
+
+        // Count the frequency of each digit in the input string
+        for (char digit : num) {
+            count[digit]++;
+        }
+
+        string first_half = "";
+        string mid = "";
+
+        // Iterate over digits in reverse order
+        for (char digit : "9876543210") {
+            int count_of_digit = count[digit] / 2; // Take half of the count of each digit
+            first_half.append(count_of_digit, digit); // Add that many digits to the first half
+        }
+
+        // Remove leading zeros from the first half
+        first_half.erase(0, first_half.find_first_not_of('0'));
+
+        // Find the middle digit (if any) to be placed in the center of the palindrome
+        for (auto& entry : count) {
+            if (entry.second % 2 == 1) { // If the count of the digit is odd
+                mid = max(mid, string(1, entry.first)); // Choose the largest such digit as the middle
+            }
+        }
+
+        // Construct the final palindrome
+        if (first_half.empty() && mid.empty()) {
+            return "0";
+        }
+
+        return first_half + mid + string(first_half.rbegin(), first_half.rend());
+    }
+};
 """

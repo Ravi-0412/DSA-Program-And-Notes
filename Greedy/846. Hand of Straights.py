@@ -54,3 +54,140 @@ class Solution:
         return True
     
 # Brute force will be very tough and complicated in this. so we have to find any pattern.
+
+# Java Code 
+"""
+// Method 1: Using Min Heap
+import java.util.*;
+
+class Solution {
+    public boolean isNStraightHand(int[] hand, int groupSize) {
+        int n = hand.length;
+        if (n % groupSize != 0) return false;
+        if (groupSize == 1) return true;
+
+        Map<Integer, Integer> cnt = new HashMap<>();
+        for (int num : hand) {
+            cnt.put(num, cnt.getOrDefault(num, 0) + 1);
+        }
+
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        for (int num : hand) {
+            minHeap.offer(num);
+        }
+
+        for (int i = 0; i < n / groupSize; i++) {
+            int first_ele = minHeap.poll();
+            while (cnt.get(first_ele) == 0) {
+                first_ele = minHeap.poll();
+            }
+
+            for (int j = 0; j < groupSize; j++) {
+                cnt.put(first_ele, cnt.getOrDefault(first_ele, 0) - 1);
+                if (cnt.get(first_ele) < 0) return false;
+                first_ele++;
+            }
+        }
+        return true;
+    }
+}
+
+// Method 2: Using sorting and Counter map
+class Solution2 {
+    public boolean isNStraightHand(int[] hand, int W) {
+        Map<Integer, Integer> counter = new TreeMap<>();
+        for (int num : hand) {
+            counter.put(num, counter.getOrDefault(num, 0) + 1);
+        }
+
+        Arrays.sort(hand);
+        int i = 0, n = hand.length;
+        while (i < n) {
+            int cur = hand[i];
+            for (int j = 0; j < W; j++) {
+                if (!counter.containsKey(cur + j)) return false;
+                counter.put(cur + j, counter.get(cur + j) - 1);
+                if (counter.get(cur + j) == 0) {
+                    counter.remove(cur + j);
+                }
+            }
+            while (i < n && !counter.containsKey(hand[i])) {
+                i++;
+            }
+        }
+        return true;
+    }
+}
+
+"""
+
+# C++ Code 
+"""
+// Method 1: Using Min Heap
+#include <vector>
+#include <queue>
+#include <unordered_map>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    bool isNStraightHand(vector<int>& hand, int groupSize) {
+        int n = hand.size();
+        if (n % groupSize != 0) return false;
+        if (groupSize == 1) return true;
+
+        unordered_map<int, int> cnt;
+        for (int num : hand) {
+            cnt[num]++;
+        }
+
+        priority_queue<int, vector<int>, greater<int>> minHeap(hand.begin(), hand.end());
+
+        for (int i = 0; i < n / groupSize; i++) {
+            int first_ele = minHeap.top(); minHeap.pop();
+            while (cnt[first_ele] == 0) {
+                first_ele = minHeap.top(); minHeap.pop();
+            }
+
+            for (int j = 0; j < groupSize; j++) {
+                cnt[first_ele]--;
+                if (cnt[first_ele] < 0) return false;
+                first_ele++;
+            }
+        }
+        return true;
+    }
+};
+
+// Method 2: Using sorting and Counter map
+#include <map>
+
+class Solution2 {
+public:
+    bool isNStraightHand(vector<int>& hand, int W) {
+        map<int, int> counter;
+        for (int num : hand) {
+            counter[num]++;
+        }
+
+        sort(hand.begin(), hand.end());
+        int i = 0, n = hand.size();
+        while (i < n) {
+            int cur = hand[i];
+            for (int j = 0; j < W; j++) {
+                if (counter.find(cur + j) == counter.end()) return false;
+                counter[cur + j]--;
+                if (counter[cur + j] == 0) {
+                    counter.erase(cur + j);
+                }
+            }
+            while (i < n && counter.find(hand[i]) == counter.end()) {
+                i++;
+            }
+        }
+        return true;
+    }
+};
+
+"""

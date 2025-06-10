@@ -51,3 +51,36 @@ class Solution {
     }
 }
 """
+
+# C++ Code 
+"""
+#include <iostream>
+#include <unordered_map>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        unordered_map<char, int> hashmap;
+        int max_length = 0, i = 0, j = 0, n = s.length();
+
+        while (j < n) {
+            hashmap[s[j]]++;  // Update frequency count
+
+            // It can only happen if the window contains duplicate characters
+            while (hashmap.size() < j - i + 1) {  
+                hashmap[s[i]]--;
+                if (hashmap[s[i]] == 0) {
+                    hashmap.erase(s[i]);  
+                }
+                i++;
+            }
+            max_length = max(max_length, j - i + 1);
+            j++;
+        }
+        return max_length;
+    }
+};
+"""

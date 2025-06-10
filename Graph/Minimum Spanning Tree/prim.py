@@ -89,3 +89,60 @@ public class PrimMST {
 }
 """
 
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+
+void Prim(vector<vector<int>>& adj, int src, int n) {
+    // edges: adjacency list representation, map node -> list of (neighbor, weight)
+    unordered_map<int, vector<pair<int,int>>> edges;
+    vector<int> parent(n, -1);
+    
+    for (auto& edge : adj) {
+        int u = edge[0], v = edge[1], w = edge[2];
+        edges[u].push_back({v, w});
+        edges[v].push_back({u, w});
+    }
+    
+    unordered_set<int> visited;
+    int min_mst = 0;
+    // you can start with any node this, will not affect the ans 
+    priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> min_heap;
+    min_heap.push({0, src});
+    
+    while ((int)visited.size() < n) {
+        auto [w1, n1] = min_heap.top();
+        min_heap.pop();
+        cout << n1 << "-";
+        
+        if (visited.count(n1)) {  // this will automatically check whether all nodes get included or not. so no need to check the condition "if len(visited)==n:"
+            continue;
+        }
+        visited.insert(n1);
+        min_mst += w1;   // different from Dijkastra.. Adding the weight of edges coming under MST
+        
+        for (auto& [n2, w2] : edges[n1]) {
+            if (!visited.count(n2)) {
+                parent[n2] = n1;
+                // here little change from dijkastra as in this we have to add the weight of all edges which will be come under MST
+                // Instead of adding 'w1+w2' like Dijkastra here adding only 'w2'.
+                min_heap.push({w2, n2});
+            }
+        }
+    }
+    cout << "\ncost of minimum spanning tree is: " << min_mst << "\n";
+}
+
+int main() {
+    // adj= [[0,1,28],[0,5,10],[1,0,28],[1,6,14],[1,2,16],[2,1,16],[2,3,12],[3,6,18],[3,2,12],[3,4,22],[4,6,24],[4,5,25],[5,0,10],[4,3,22],[5,4,25],[6,1,14],[6,4,24],[6,3,18]] // ans= 99
+    vector<vector<int>> adj = {{0,2,3},{1,3,4},{1,2,10},{2,1,10},{2,3,2},{2,4,6},{2,0,3},{3,1,4},{3,2,2},{3,4,1},{4,2,6},{4,3,1}};  // ans= 10
+    Prim(adj, 0, 5);
+    return 0;
+}
+
+"""

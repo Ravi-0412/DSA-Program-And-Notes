@@ -100,19 +100,20 @@ class Solution:
         return False
 
 
-# Java version
+# Java Code
 
 """
-// method 1: With optimised space for visited set.
+//Method 1
+import java.util.*;
 
 class Solution {
     public boolean exist(char[][] board, String word) {
-        int row = board.length;
-        int col = board[0].length;
-        
+        int row = board.length, col = board[0].length;
+        Set<String> path = new HashSet<>();
+
         for (int r = 0; r < row; r++) {
             for (int c = 0; c < col; c++) {
-                if (dfs(board, word, r, c, 0)) {
+                if (dfs(r, c, word, board, path, row, col)) {
                     return true;
                 }
             }
@@ -120,34 +121,156 @@ class Solution {
         return false;
     }
 
-    private boolean dfs(char[][] board, String word, int r, int c, int index) {
-        // If we have checked all characters in the word, return true
-        if (index == word.length()) {
-            return true;
-        }
+    private boolean dfs(int r, int c, String word, char[][] board, Set<String> path, int row, int col) {
+        if (word.isEmpty()) return true;
 
-        // Boundary checks and character match check
-        if (r < 0 || r >= board.length || c < 0 || c >= board[0].length || board[r][c] != word.charAt(index)) {
+        // If we can't get ans by current cell then simply return False
+        if (r < 0 || r >= row || c < 0 || c >= col || board[r][c] != word.charAt(0) || path.contains(r + "," + c)) {
             return false;
         }
 
-        // Save the current character and mark the cell as visited
-        char temp = board[r][c];
-        board[r][c] = '#';
-
-        // Explore all possible directions: left, right, up, down
+        // It means we have found the matching char at (r,c)
+        path.add(r + "," + c);  // Added in path so that this cell char doesn't repeat in same cycle
         int[][] directions = {{r, c - 1}, {r, c + 1}, {r - 1, c}, {r + 1, c}};
         for (int[] dir : directions) {
-            int newRow = dir[0];
-            int newCol = dir[1];
-            if (dfs(board, word, newRow, newCol, index + 1)) {
+            if (dfs(dir[0], dir[1], word.substring(1), board, path, row, col)) {
                 return true;
             }
         }
 
-        // Backtrack: restore the character in the board
+        // Now backtrack if we don't find ans by adding the char at (r,c)
+        path.remove(r + "," + c);
+        return false;
+    }
+}
+//Method 2 
+class Solution {
+    public boolean exist(char[][] board, String word) {
+        int row = board.length, col = board[0].length;
+
+        for (int r = 0; r < row; r++) {
+            for (int c = 0; c < col; c++) {
+                if (dfs(r, c, word, board, row, col)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean dfs(int r, int c, String word, char[][] board, int row, int col) {
+        if (word.isEmpty()) return true;
+
+        if (r < 0 || r >= row || c < 0 || c >= col || board[r][c] == '#' || board[r][c] != word.charAt(0)) {
+            return false;
+        }
+
+        char temp = board[r][c];
+        board[r][c] = '#'; // Marking visited
+        int[][] directions = {{r, c - 1}, {r, c + 1}, {r - 1, c}, {r + 1, c}};
+        for (int[] dir : directions) {
+            if (dfs(dir[0], dir[1], word.substring(1), board, row, col)) {
+                return true;
+            }
+        }
+
+        // Now backtrack if we don't find ans by adding the char at (r,c)
+        board[r][c] = temp;
+        return false;
+    }
+}
+
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <vector>
+#include <set>
+
+using namespace std;
+
+class Solution {
+public:
+    bool dfs(int r, int c, string word, vector<vector<char>>& board, set<pair<int, int>>& path, int row, int col) {
+        if (word.empty()) return true;
+
+        // If we can't get ans by current cell then simply return False
+        if (r < 0 || r >= row || c < 0 || c >= col || board[r][c] != word[0] || path.count({r, c})) {
+            return false;  // return    . this will also work since everywhere we are checking for True not False.
+        }
+
+        // It means we have found the matching char at (r,c)
+        path.insert({r, c});  // Added in path so that this cell char doesn't repeat in same cycle
+        vector<pair<int, int>> directions = {{r, c - 1}, {r, c + 1}, {r - 1, c}, {r + 1, c}};
+        for (auto [nr, nc] : directions) {
+            if (dfs(nr, nc, word.substr(1), board, path, row, col)) {
+                return true;
+            }
+        }
+
+        // Now backtrack if we don't find ans by adding the char at (r,c)
+        // So that this cell can be used in next cycle.
+        path.erase({r, c});
+        return false;
+    }
+
+    bool exist(vector<vector<char>>& board, string word) {
+        int row = board.size(), col = board[0].size();
+        set<pair<int, int>> path;
+
+        for (int r = 0; r < row; r++) {
+            for (int c = 0; c < col; c++) {
+                if (dfs(r, c, word, board, path, row, col)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};
+
+//Method 2
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    bool dfs(int r, int c, string word, vector<vector<char>>& board, int row, int col) {
+        if (word.empty()) return true;
+        
+        if (r < 0 || r >= row || c < 0 || c >= col || board[r][c] == '#' || board[r][c] != word[0]) {
+            return false;
+        }
+
+        char temp = board[r][c];
+        board[r][c] = '#';  // Marking visited
+        vector<pair<int, int>> directions = {{r, c - 1}, {r, c + 1}, {r - 1, c}, {r + 1, c}};
+        for (auto [nr, nc] : directions) {
+            if (dfs(nr, nc, word.substr(1), board, row, col)) {
+                return true;
+            }
+        }
+
+        // Now backtrack if we don't find ans by adding the char at (r,c)
         board[r][c] = temp;
         return false;
     }
 
+    bool exist(vector<vector<char>>& board, string word) {
+        int row = board.size(), col = board[0].size();
+
+        for (int r = 0; r < row; r++) {
+            for (int c = 0; c < col; c++) {
+                if (dfs(r, c, word, board, row, col)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};
 """

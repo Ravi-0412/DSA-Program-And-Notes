@@ -32,29 +32,51 @@ class Solution:
 
         return ans
 
-  # Java
+  # Java Code 
   """
-  import java.util.*;
+import java.util.*;
 
 class Solution {
     public int gridGame(int[][] grid) {
         int n = grid[0].length;
         int ans = Integer.MAX_VALUE;
-        int topSum = 0;
-        int bottomSum = 0;
-
-        // Calculate the total sum of the top row
-        for (int i = 0; i < n; i++) {
-            topSum += grid[0][i];
-        }
+        long topSum = Arrays.stream(grid[0]).sum(); // Calculate top row sum initially
+        long bottomSum = 0;
 
         for (int i = 0; i < n; i++) {
-            topSum -= grid[0][i]; // Reduce the current cell from the top row sum
-            ans = Math.min(ans, Math.max(topSum, bottomSum));
-            bottomSum += grid[1][i]; // Add the current cell to the bottom row sum
+            topSum -= grid[0][i]; // Reduce top path sum
+            ans = Math.min(ans, Math.max(topSum, bottomSum)); // Take minimum max sum
+            bottomSum += grid[1][i]; // Accumulate bottom path sum
         }
 
         return ans;
     }
 }
+  """
+
+  # C++ Code 
+  """
+#include <vector>
+#include <cmath>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int gridGame(vector<vector<int>>& grid) {
+        int n = grid[0].size();
+        int ans = INT_MAX;
+        long long topSum = accumulate(grid[0].begin(), grid[0].end(), 0LL);
+        long long bottomSum = 0;
+
+        for (int i = 0; i < n; i++) {
+            topSum -= grid[0][i]; // Reduce top path sum
+            ans = min(ans, max(topSum, bottomSum)); // Take minimum max sum
+            bottomSum += grid[1][i]; // Accumulate bottom path sum
+        }
+
+        return ans;
+    }
+};
   """

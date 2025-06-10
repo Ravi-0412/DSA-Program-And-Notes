@@ -130,6 +130,78 @@ class Solution {
     }
 }
 """
+# C++ Code 
+"""
+//Method 1
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        if (inorder.empty() || preorder.empty())
+            return nullptr;
+
+        unordered_map<int, int> inorderIndexMap;
+        for (int i = 0; i < inorder.size(); ++i) {
+            inorderIndexMap[inorder[i]] = i;
+        }
+
+        return buildTreeRecursive(preorder, 0, preorder.size() - 1, inorder, 0, inorder.size() - 1, inorderIndexMap);
+    }
+
+private:
+    TreeNode* buildTreeRecursive(vector<int>& preorder, int preStart, int preEnd,
+                                 vector<int>& inorder, int inStart, int inEnd,
+                                 unordered_map<int, int>& inorderIndexMap) {
+        if (preStart > preEnd || inStart > inEnd)
+            return nullptr;
+
+        TreeNode* root = new TreeNode(preorder[preStart]);
+        int rootIndexInInorder = inorderIndexMap[root->val];
+        int leftSubtreeSize = rootIndexInInorder - inStart;
+
+        root->left = buildTreeRecursive(preorder, preStart + 1, preStart + leftSubtreeSize,
+                                        inorder, inStart, rootIndexInInorder - 1, inorderIndexMap);
+        root->right = buildTreeRecursive(preorder, preStart + leftSubtreeSize + 1, preEnd,
+                                         inorder, rootIndexInInorder + 1, inEnd, inorderIndexMap);
+
+        return root;
+    }
+};
+
+
+//Method 2
+class Solution {
+public:
+    int preorderIndex;
+    unordered_map<int, int> inorderIndexMap;
+
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        preorderIndex = 0;
+        for (int i = 0; i < inorder.size(); ++i) {
+            inorderIndexMap[inorder[i]] = i;
+        }
+        return buildTreeRecursive(preorder, 0, inorder.size() - 1);
+    }
+
+private:
+    TreeNode* buildTreeRecursive(vector<int>& preorder, int left, int right) {
+        // Base case - no elements to construct the tree
+        if (left > right)
+            return nullptr;
+
+        // Select the preorderIndex element as the root and increment it
+        int rootValue = preorder[preorderIndex++];
+        TreeNode* root = new TreeNode(rootValue);
+
+        // Build left and right subtree
+        // Excluding inorderIndexMap[rootValue] element because it's the root
+        root->left = buildTreeRecursive(preorder, left, inorderIndexMap[rootValue] - 1);
+        root->right = buildTreeRecursive(preorder, inorderIndexMap[rootValue] + 1, right);
+
+        return root;
+    }
+};
+"""
+
 
 # Follow up question that came into my mind while solving this question:
 """

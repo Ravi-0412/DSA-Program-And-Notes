@@ -79,3 +79,124 @@ class Solution:
                 return g
         
         return 1  # If no valid GCD is found (this should not happen for valid input)
+
+# Java Code 
+"""
+//Method 2
+import java.util.*;
+
+class Solution {
+    public int MaxGcd(int n, int[] arr) {
+        int high = Arrays.stream(arr).max().getAsInt();
+        int[] divisors = new int[high + 1];
+
+        for (int num : arr) {
+            for (int j = 1; j <= Math.sqrt(num); j++) {
+                if (num % j == 0) {
+                    divisors[j]++;
+                    if (j != num / j) {
+                        divisors[num / j]++;
+                    }
+                }
+            }
+        }
+
+        for (int i = high; i >= 1; i--) {
+            if (divisors[i] > 1) {
+                return i;
+            }
+        }
+        return 1;
+    }
+}
+//Method 3
+import java.util.*;
+
+class Solution {
+    public int MaxGcd(int n, int[] arr) {
+        int max_elem = Arrays.stream(arr).max().getAsInt();
+        int[] count = new int[max_elem + 1];
+
+        for (int num : arr) {
+            count[num]++;
+        }
+
+        for (int g = max_elem; g >= 1; g--) {
+            int multiple_count = 0;
+            for (int multiple = g; multiple <= max_elem; multiple += g) {
+                multiple_count += count[multiple];
+            }
+            if (multiple_count >= 2) {
+                return g;
+            }
+        }
+
+        return 1;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 2
+#include <vector>
+#include <cmath>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int MaxGcd(int n, vector<int>& arr) {
+        int high = *max_element(arr.begin(), arr.end());
+        vector<int> divisors(high + 1, 0);
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 1; j <= sqrt(arr[i]); j++) {
+                if (arr[i] % j == 0) {
+                    divisors[j] += 1;
+                    if (j != arr[i] / j) {
+                        divisors[arr[i] / j] += 1;
+                    }
+                }
+            }
+        }
+
+        for (int i = high; i >= 1; i--) {
+            if (divisors[i] > 1) {
+                return i;
+            }
+        }
+        return 1;
+    }
+};
+//Method 3
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int MaxGcd(int n, vector<int>& arr) {
+        int max_elem = *max_element(arr.begin(), arr.end());
+        vector<int> count(max_elem + 1, 0);
+
+        for (int num : arr) {
+            count[num]++;
+        }
+
+        for (int g = max_elem; g >= 1; g--) {
+            int multiple_count = 0;
+            for (int multiple = g; multiple <= max_elem; multiple += g) {
+                multiple_count += count[multiple];
+            }
+            if (multiple_count >= 2) {
+                return g;
+            }
+        }
+
+        return 1;
+    }
+};
+"""

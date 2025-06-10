@@ -149,3 +149,65 @@ class Twitter {
     }
 }
 """
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+#include <queue>
+
+using namespace std;
+
+class Twitter {
+private:
+    int time;
+    unordered_map<int, vector<pair<int, int>>> tweetMap;  // Stores {time, tweetId} for each user
+    unordered_map<int, unordered_set<int>> followMap;  // Stores followers for each user
+
+public:
+    Twitter() {
+        time = 0;
+    }
+
+    void postTweet(int userId, int tweetId) {
+        tweetMap[userId].push_back({time, tweetId});
+        time--;
+    }
+
+    vector<int> getNewsFeed(int userId) {
+        vector<int> res;
+        priority_queue<tuple<int, int, int>> minHeap;  // {time, tweetId, userId}
+        followMap[userId].insert(userId);  // Include user's own tweets
+
+        for (int followeeId : followMap[userId]) {
+            if (tweetMap.count(followeeId)) {
+                int index = tweetMap[followeeId].size() - 1;
+                minHeap.push({tweetMap[followeeId][index].first, tweetMap[followeeId][index].second, followeeId});
+            }
+        }
+
+        while (!minHeap.empty() && res.size() < 10) {
+            auto [time, tweetId, followeeId] = minHeap.top();
+            minHeap.pop();
+            res.push_back(tweetId);
+
+            int index = tweetMap[followeeId].size() - (res.size() + 1);
+            if (index >= 0) {
+                minHeap.push({tweetMap[followeeId][index].first, tweetMap[followeeId][index].second, followeeId});
+            }
+        }
+
+        return res;
+    }
+
+    void follow(int followerId, int followeeId) {
+        followMap[followerId].insert(followeeId);
+    }
+
+    void unfollow(int followerId, int followeeId) {
+        followMap[followerId].erase(followeeId);
+    }
+};
+"""

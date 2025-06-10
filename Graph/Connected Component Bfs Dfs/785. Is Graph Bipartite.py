@@ -47,51 +47,106 @@ class Solution:
                     return False
         # return True  # no need of this
 
-# Java
+# Java Code
 """
 import java.util.*;
 
-public class Solution {
+class Solution {
+    // method 1: using BFS
     public boolean isBipartite(int[][] graph) {
+        // graph is already given as adjacency list.
         int n = graph.length;
-        int[] color = new int[n];
-        Arrays.fill(color, -1);  // -1 indicates unvisited
+        int[] color = new int[n];  // will tell node has been visited or not.
+        Arrays.fill(color, -1);
 
         for (int i = 0; i < n; i++) {
-            if (color[i] == -1) {
-                if (!bfsCheck(graph, i, color)) {
+            if (color[i] == -1) {  // means not visited till now
+                // if any of components return False, return False
+                if (BfsCheck(graph, i, color) == false) {
                     return false;
                 }
             }
         }
 
-        return true;  // All components are bipartite
+        // otherwise graph is bipartite.
+        return true;
     }
 
-    private boolean bfsCheck(int[][] graph, int src, int[] color) {
-        Queue<Integer> queue = new LinkedList<>();
-        queue.offer(src);
-        color[src] = 1;  // Start coloring the source node
+    public boolean BfsCheck(int[][] graph, int src, int[] color) {
+        Queue<Integer> Q = new LinkedList<>();
+        Q.offer(src);
+        color[src] = 1;  // for starting node of each component color it with either '0' or '1'.
 
-        while (!queue.isEmpty()) {
-            int curr = queue.poll();
+        while (!Q.isEmpty()) {
+            int curr = Q.poll();
 
-            for (int neighbor : graph[curr]) {
-                if (color[neighbor] == -1) {
-                    color[neighbor] = 1 ^ color[curr];  // Assign opposite color
-                    queue.offer(neighbor);
-                } else if (color[neighbor] == color[curr]) {
-                    return false;  // Same color on adjacent nodes — not bipartite
+            for (int nei : graph[curr]) {
+                if (color[nei] == -1) {  // if not visited
+                    color[nei] = 1 ^ color[curr];  // used xor operation with 1(to get the diff one). it will also mark node as visited.
+                    Q.offer(nei);  // in DFS instead of this line we call the DFS again and everything is same only
+                } else if (color[nei] == color[curr]) { // if colored and have same color then not bipartite 
+                    return false;
                 }
             }
         }
 
+        // return True  // no need of this
         return true;
     }
 }
 
+
 """
 
+# C++ Code 
+"""
+class Solution {
+public:
+    // method 1: using BFS
+    bool isBipartite(vector<vector<int>>& graph) {
+        // graph is already given as adjacency list.
+        int n = graph.size();
+        vector<int> color(n, -1);  // will tell node has been visited or not.
+        
+        for (int i = 0; i < n; i++) {
+            if (color[i] == -1) {  // means not visited till now
+                // if any of components return False, return False
+                if (BfsCheck(graph, i, color) == false) {
+                    return false;
+                }
+            }
+        }
+
+        // otherwise graph is bipartite.
+        return true;
+    }
+
+    bool BfsCheck(vector<vector<int>>& graph, int src, vector<int>& color) {
+        queue<int> Q;
+        Q.push(src);
+        color[src] = 1;  // for starting node of each component color it with either '0' or '1'.
+
+        while (!Q.empty()) {
+            int curr = Q.front();
+            Q.pop();
+
+            for (int nei : graph[curr]) {
+                if (color[nei] == -1) {  // if not visited
+                    color[nei] = 1 ^ color[curr];  // used xor operation with 1 (to get the diff one). it will also mark node as visited.
+                    Q.push(nei);  // in DFS instead of this line we call the DFS again and everything is same only
+                }
+                else if (color[nei] == color[curr]) {  // if colored and have same color then not bipartite
+                    return false;
+                }
+            }
+        }
+
+        // return True  // no need of this
+        return true;
+    }
+};
+
+"""
 # method 2: By using DFS
 class Solution:
     def isBipartite(self, graph: List[List[int]]) -> bool:
@@ -150,16 +205,18 @@ class Solution:
 """
 import java.util.*;
 
-public class Solution {
+class Solution {
     public boolean isBipartite(int[][] graph) {
         int n = graph.length;
+        boolean[] visited = new boolean[n];
         int[] color = new int[n];
-        Arrays.fill(color, -1);  // -1 means unvisited
+        Arrays.fill(color, -1);
 
         for (int v = 0; v < n; v++) {
-            if (color[v] == -1) {
-                color[v] = 1;
-                if (!dfsCheck(graph, v, color)) {
+            if (!visited[v]) {
+                color[v] = 0;
+                visited[v] = true;
+                if (!DFSVisit(graph, v, visited, color)) {
                     return false;
                 }
             }
@@ -167,23 +224,75 @@ public class Solution {
         return true;
     }
 
-    private boolean dfsCheck(int[][] graph, int src, int[] color) {
+    public boolean DFSVisit(int[][] graph, int src, boolean[] visited, int[] color) {
+        // color[v] = 0   // writing here this one will give 'False' always as for every node it will set(update) the color as '0'
+                          // But will work properly in case of 'BFS' as there is no recursive call
         for (int u : graph[src]) {
-            if (color[u] == -1) {
-                color[u] = 1 ^ color[src];  // alternate color
-                if (!dfsCheck(graph, u, color)) {
+            if (!visited[u]) {
+                visited[u] = true;
+                // color[u] = 0 ^ color[src];  // xor with 0 will give the same no i.e same color so was getting false for all inputs
+                color[u] = 1 ^ color[src];    // xor with '1' gives a different number. So color first node with '1' only to write code like this.
+                if (!DFSVisit(graph, u, visited, color)) {
                     return false;
                 }
             } else if (color[u] == color[src]) {
-                return false;  // same color on adjacent nodes
+                return false;
             }
         }
+        // return true;   // no need of this
         return true;
     }
 }
 
 """
 
+# C++ Code 
+"""
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    bool isBipartite(vector<vector<int>>& graph) {
+        int n = graph.size();
+        vector<bool> visited(n, false);
+        vector<int> color(n, -1);
+
+        for (int v = 0; v < n; ++v) {
+            if (!visited[v]) {
+                // color[v] = 0;
+                // visited[v] = true;
+                color[v] = 0;
+                visited[v] = true;
+                if (!DFSVisit(graph, v, visited, color)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    bool DFSVisit(vector<vector<int>>& graph, int src, vector<bool>& visited, vector<int>& color) {
+        // color[v]= 0   // writing here this one will give 'False' always as for every node it will set(update) the color as '0'
+                         // But will work properly in case of 'BFS' as there is no recursive call
+        for (int u : graph[src]) {
+            if (!visited[u]) {
+                visited[u] = true;
+                // color[u] = 0 ^ color[src];  // xor with 0 will give the same no i.e same color so was getting false for all inputs
+                color[u] = 1 ^ color[src];     // xor with '1' gives a different number. So color first node with '1' only to write code like this.
+                if (!DFSVisit(graph, u, visited, color)) {
+                    return false;
+                }
+            } else if (color[u] == color[src]) {
+                return false;
+            }
+        }
+        // return true;   // no need of this
+        return true;
+    }
+};
+
+"""
 
 # Related Q: 
 # 1042. Flower Planting With No Adjacent

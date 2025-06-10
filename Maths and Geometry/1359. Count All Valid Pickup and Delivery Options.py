@@ -151,3 +151,142 @@ list_orders = [
 
 for order in list_orders:
     print(order, isValid(order))
+
+# Java Code
+"""
+//Method 1
+class Solution {
+    public int countOrders(int n) {
+        final int MOD = 1000000007;
+        long pickup_permutation = 1;
+
+        for (int i = 1; i <= n; i++) {
+            pickup_permutation = (pickup_permutation * i) % MOD;
+        }
+
+        long delivery_permutation = 1;
+        for (int i = 1; i < 2 * n; i += 2) {
+            delivery_permutation = (delivery_permutation * i) % MOD;
+        }
+
+        return (int)((pickup_permutation * delivery_permutation) % MOD);
+    }
+}
+//Method 2
+class Solution {
+    /*
+    Explanation:
+    - Assume `n-1` pairs are already inserted.
+    - For inserting the nth pickup, there are `(n-1)*2 + 1` choices.
+    - For inserting the nth delivery, there are `(n-1)*2 + 2` choices.
+    - Since delivery must always be after pickup, divide by `2` to correct overcounting.
+    */
+    public int countOrders(int n) {
+        if (n == 1) return 1;
+
+        final int MOD = 1000000007;
+        long[] dp = new long[n + 1];
+        dp[1] = 1;
+
+        for (int i = 2; i <= n; i++) {
+            long pickUpWays = (i - 1) * 2 + 1;
+            long deliverWays = pickUpWays + 1;
+            long totalWays = (pickUpWays * deliverWays) / 2;
+            dp[i] = (dp[i - 1] * totalWays) % MOD;
+        }
+
+        return (int)dp[n];
+    }
+}
+//Method 3
+class Solution {
+    public int countOrders(int n) {
+        if (n == 1) return 1;
+
+        final int MOD = 1000000007;
+        long ans = 1;
+
+        for (int i = 2; i <= n; i++) {
+            long pickUpWays = (i - 1) * 2 + 1;
+            long deliverWays = pickUpWays + 1;
+            long totalWays = (pickUpWays * deliverWays) / 2;
+            ans = (ans * totalWays) % MOD;
+        }
+
+        return (int)ans;
+    }
+}
+"""
+
+# C++ Code
+"""
+// Method 1
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int countOrders(int n) {
+        const int MOD = 1e9 + 7;
+        long long pickup_permutation = 1;
+        for (int i = 1; i <= n; i++) {
+            pickup_permutation = (pickup_permutation * i) % MOD;
+        }
+
+        long long delivery_permutation = 1;
+        for (int i = 1; i < 2 * n; i += 2) {
+            delivery_permutation = (delivery_permutation * i) % MOD;
+        }
+
+        return (pickup_permutation * delivery_permutation) % MOD;
+    }
+};
+
+//Method 2
+class Solution {
+public:
+    /*
+    Explanation:
+    - Assume `n-1` pairs are already inserted.
+    - For inserting the nth pickup, there are `(n-1)*2 + 1` choices.
+    - For inserting the nth delivery, there are `(n-1)*2 + 2` choices.
+    - Since delivery must always be after pickup, divide by `2` to correct overcounting.
+    */
+    int countOrders(int n) {
+        if (n == 1) return 1;
+
+        const int MOD = 1e9 + 7;
+        vector<long long> dp(n + 1, 1);
+
+        for (int i = 2; i <= n; i++) {
+            long long pickUpWays = (i - 1) * 2 + 1;
+            long long deliverWays = pickUpWays + 1;
+            long long totalWays = (pickUpWays * deliverWays) / 2;
+            dp[i] = (dp[i - 1] * totalWays) % MOD;
+        }
+
+        return dp[n];
+    }
+};
+
+//Method 3
+class Solution {
+public:
+    int countOrders(int n) {
+        if (n == 1) return 1;
+
+        const int MOD = 1e9 + 7;
+        long long ans = 1;
+
+        for (int i = 2; i <= n; i++) {
+            long long pickUpWays = (i - 1) * 2 + 1;
+            long long deliverWays = pickUpWays + 1;
+            long long totalWays = (pickUpWays * deliverWays) / 2;
+            ans = (ans * totalWays) % MOD;
+        }
+
+        return ans;
+    }
+};
+"""

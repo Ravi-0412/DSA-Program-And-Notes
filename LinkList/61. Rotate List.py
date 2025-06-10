@@ -38,7 +38,104 @@ class Solution:
         last_node.next= head
         return head_node_after_rotation
 
+# Java Code 
+"""
+class ListNode {
+    int val;
+    ListNode next;
 
+    ListNode(int x) {
+        val = x;
+        next = null;
+    }
+}
+
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if (head == null) return head;
+
+        ListNode curr = head;
+        int n = 0;
+        ListNode lastNode = null;
+
+        // Find the length of the linked list and last node
+        while (curr != null) {
+            n++;
+            lastNode = curr;
+            curr = curr.next;
+        }
+
+        k = k % n;
+        if (k == 0) return head; // If k is 0 or a multiple of the length, return the same list
+
+        int count = 1;
+        ListNode cur = head;
+
+        // Traverse till (n-k)th node
+        while (count < n - k) {
+            cur = cur.next;
+            count++;
+        }
+
+        ListNode headNodeAfterRotation = cur.next;
+        cur.next = null;
+        lastNode.next = head;
+
+        return headNodeAfterRotation;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+
+using namespace std;
+
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+    
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        if (!head) return head;
+        
+        ListNode* curr = head;
+        int n = 0;
+        ListNode* last_node = nullptr;
+        
+        // Find the length of the linked list and last node
+        while (curr) {
+            n++;
+            last_node = curr;
+            curr = curr->next;
+        }
+        
+        k = k % n;
+        if (k == 0) return head; // If k is 0 or a multiple of the length, return the same list
+        
+        int count = 1;
+        ListNode* cur = head;
+        
+        // Traverse till (n-k)th node
+        while (count < n - k) {
+            cur = cur->next;
+            count++;
+        }
+
+        ListNode* head_node_after_rotation = cur->next;
+        cur->next = nullptr;
+        last_node->next = head;
+        
+        return head_node_after_rotation;
+    }
+};
+"""
 # VVI: Another simpler way of doing above logic
 # just find the kth node from end like we used to find.  this will be the head of the linklist after rotation 
 # keep a pointer 'pre' that will point to one node before kth node from end. (just like finding kth and k+1 th node from end)

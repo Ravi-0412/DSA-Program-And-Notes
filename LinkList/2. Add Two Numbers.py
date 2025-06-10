@@ -29,32 +29,83 @@ class Solution:
 # To read about divmod
 # https://www.tutorialsteacher.com/python/divmod-method
 
-# java
+# Java Code 
 """
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+        next = null;
+    }
+}
+
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode ans = new ListNode(0); // creating a dummy node to handle inserting at first
+        ListNode ans = new ListNode(0); // Creating a dummy node
         ListNode cur = ans;
         int carry = 0;
-        ListNode cur1 = l1, cur2 = l2;
-        while (cur1 != null || cur2 != null || carry != 0) {
+
+        while (l1 != null || l2 != null || carry != 0) {
             int curSum = carry;
-            if (cur1 != null) {
-                curSum += cur1.val;
-                cur1 = cur1.next;
+            if (l1 != null) {
+                curSum += l1.val;
+                l1 = l1.next;
             }
-            if (cur2 != null) {
-                curSum += cur2.val;
-                cur2 = cur2.next;
+            if (l2 != null) {
+                curSum += l2.val;
+                l2 = l2.next;
             }
             carry = curSum / 10;
-            int sum = curSum % 10;
-            cur.next = new ListNode(sum);
+            cur.next = new ListNode(curSum % 10);
             cur = cur.next;
         }
+
         return ans.next;
     }
 }
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+
+using namespace std;
+
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+    
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* ans = new ListNode(0); // Creating a dummy node
+        ListNode* cur = ans;
+        int carry = 0;
+
+        while (l1 || l2 || carry) {
+            int curSum = carry;
+            if (l1) {
+                curSum += l1->val;
+                l1 = l1->next;
+            }
+            if (l2) {
+                curSum += l2->val;
+                l2 = l2->next;
+            }
+            carry = curSum / 10;
+            cur->next = new ListNode(curSum % 10);
+            cur = cur->next;
+        }
+
+        return ans->next;
+    }
+};
 """
 
 

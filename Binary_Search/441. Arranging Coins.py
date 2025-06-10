@@ -52,3 +52,89 @@ class Solution:
             else:
                 end= row -1
         return end
+
+# Java Code 
+"""
+//Method 1
+class Solution {
+    public int arrangeCoins(int n) {
+        int row = 1;
+        while (n >= row) {
+            n -= row;
+            row++;
+        }
+        return row - 1; // '-1' because last row is incomplete
+    }
+}
+//Method 2
+class Solution {
+    public int arrangeCoins(int n) {
+        return (int)(Math.sqrt(2.0 * n + 0.25) - 0.5);
+    }
+}
+//Method 3
+class Solution {
+    public int arrangeCoins(int n) {
+        int start = 1, end = n;
+
+        while (start <= end) {
+            long row = start + (end - start) / 2; // Calculate mid (potential row count)
+            long coinsNeeded = (row * (row + 1)) / 2; // Total coins required for `row` rows
+
+            if (coinsNeeded == n) { // Exactly fills all rows
+                return (int) row;
+            }
+            if (coinsNeeded < n) { // Try forming more rows
+                start = (int) (row + 1);
+            } else { // Reduce row count if too many coins are required
+                end = (int) (row - 1);
+            }
+        }
+        return end; // `end` represents the last fully completed row
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+class Solution {
+public:
+    int arrangeCoins(int n) {
+        int row = 1;
+        while (n >= row) {
+            n -= row;
+            row++;
+        }
+        return row - 1; // '-1' because last row is incomplete
+    }
+};
+//Method 2
+#include <cmath>
+
+class Solution {
+public:
+    int arrangeCoins(int n) {
+        return int(sqrt(2.0 * n + 0.25) - 0.5);
+    }
+};
+//Method 3
+class Solution {
+public:
+    int arrangeCoins(int n) {
+        int start = 1, end = n;
+
+        while (start <= end) {
+            long row = start + (end - start) / 2; // Just like mid
+            long coinsNeeded = (row * (row + 1)) / 2;
+
+            if (n >= coinsNeeded) { // We may form more rows
+                start = row + 1;
+            } else {
+                end = row - 1;
+            }
+        }
+        return end; // Last index where complete rows were formed
+    }
+};
+"""

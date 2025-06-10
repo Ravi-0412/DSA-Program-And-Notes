@@ -29,3 +29,63 @@ class Solution:
                 colUsed[ind]= 1   # marking that we have formed operation on this row
                 colRemain -= 1
         return ans
+
+# Java Code
+"""
+import java.util.List;
+
+class Solution {
+    public int matrixSumQueries(int n, List<List<Integer>> queries) {
+        int[] rowUsed = new int[n], colUsed = new int[n]; // Tracks if a row/column has been updated
+        int ans = 0, rowRemain = n, colRemain = n; // Only affect unused rows/columns
+        int m = queries.size();
+
+        for (int i = m - 1; i >= 0; i--) {
+            int type = queries.get(i).get(0), ind = queries.get(i).get(1), val = queries.get(i).get(2);
+
+            if (type == 0 && rowUsed[ind] == 0) {
+                ans += colRemain * val;
+                rowUsed[ind] = 1; // Mark row as updated
+                rowRemain--;
+            }
+            if (type == 1 && colUsed[ind] == 0) {
+                ans += rowRemain * val;
+                colUsed[ind] = 1; // Mark column as updated
+                colRemain--;
+            }
+        }
+        return ans;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int matrixSumQueries(int n, vector<vector<int>>& queries) {
+        vector<int> rowUsed(n, 0), colUsed(n, 0); // Tracks if a row/column has been updated
+        int ans = 0, rowRemain = n, colRemain = n; // Only affect unused rows/columns
+        int m = queries.size();
+
+        for (int i = m - 1; i >= 0; i--) {
+            int type = queries[i][0], ind = queries[i][1], val = queries[i][2];
+
+            if (type == 0 && !rowUsed[ind]) {
+                ans += colRemain * val;
+                rowUsed[ind] = 1; // Mark row as updated
+                rowRemain--;
+            }
+            if (type == 1 && !colUsed[ind]) {
+                ans += rowRemain * val;
+                colUsed[ind] = 1; // Mark column as updated
+                colRemain--;
+            }
+        }
+        return ans;
+    }
+};
+"""

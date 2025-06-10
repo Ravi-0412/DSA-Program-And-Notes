@@ -67,41 +67,177 @@ class Solution:
 
 # Java
 """
-// method 2:
+//Method 1
+import java.util.*;
+
 class Solution {
     public List<List<Integer>> permuteUnique(int[] nums) {
-        Arrays.sort(nums); // Sort the array to avoid duplicates
+        Arrays.sort(nums); // To avoid duplicates
+        List<List<Integer>> res = new ArrayList<>();
+        dfs(nums, new ArrayList<>(), res);
+        return res;
+    }
+
+    private void dfs(int[] nums, List<Integer> path, List<List<Integer>> res) {
+        if (nums.length == 0) {
+            res.add(new ArrayList<>(path));
+            return;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0 && nums[i] == nums[i - 1])  
+                // i > 0: to add the number simply first time without checking and to avoid out of bound 'i-1'.
+                continue;
+
+            // using 'while' is logically correct but if 'i' reaches to len(nums), then automatically dfs will be called
+            // and will give error index out of bound (nums[i]).
+            // But if we use if with continue, then in this case, it will first go to for loop and if i == len(nums), 
+            // it will automatically come out of 'for' loop and dfs will not be called and we will not get any error.
+
+            // add nums[i] in the path and skip nums[i] from the original array.
+            int[] newNums = new int[nums.length - 1];
+            for (int j = 0, k = 0; j < nums.length; j++) {
+                if (j != i) newNums[k++] = nums[j];
+            }
+            List<Integer> newPath = new ArrayList<>(path);
+            newPath.add(nums[i]);
+            dfs(newNums, newPath, res);
+        }
+    }
+}
+
+//Method 2
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        Arrays.sort(nums); // To avoid duplicates
         List<List<Integer>> ans = new ArrayList<>();
         Set<Integer> included = new HashSet<>();
-        permutation(new ArrayList<>(), ans, nums, included);
+        permutation(nums, new ArrayList<>(), ans, included);
         return ans;
     }
 
-    private void permutation(List<Integer> per, List<List<Integer>> ans, int[] nums, Set<Integer> included) {
-        // Base case: if the current permutation has the same length as the input array
+    private void permutation(int[] nums, List<Integer> per, List<List<Integer>> ans, Set<Integer> included) {
         if (per.size() == nums.length) {
-            ans.add(new ArrayList<>(per)); // Add the completed permutation to the result list
+            ans.add(new ArrayList<>(per));
             return;
         }
 
         for (int i = 0; i < nums.length; i++) {
             // Skip used elements or duplicate elements (only the first occurrence can be used)
             if (included.contains(i) || (i > 0 && nums[i] == nums[i - 1] && !included.contains(i - 1))) {
+                // 1) if current ele is already used or 
+                // 2) previous ele you have skipped and you want to use current ele
+                // having same value as previous so it will lead to duplicate.
+                // Because we only get duplicate while skipping.
                 continue;
             }
 
-            // Mark the element as used
+            // If prev ele is used or current ele is not used, then we can take this ele.
+            // Take this element.
             included.add(i);
-            per.add(nums[i]); // Add the element to the current permutation
-
-            // Recurse with the updated state
-            permutation(per, ans, nums, included);
-
-            // Backtrack: remove the last added element and mark it as unused
-            per.remove(per.size() - 1);
+            per.add(nums[i]);
+            permutation(nums, per, ans, included);
+            // while backtracking remove i
             included.remove(i);
+            per.remove(per.size() - 1);
         }
     }
 }
+
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    void dfs(vector<int> nums, vector<int> path, vector<vector<int>>& res) {
+        if (nums.empty()) {
+            res.push_back(path);
+            return;
+        }
+        for (int i = 0; i < nums.size(); i++) {
+            if (i > 0 && nums[i] == nums[i - 1])  
+                // i > 0: to add the number simply first time without checking and to avoid out of bound 'i-1'.
+                continue;
+            
+            // using 'while' is logically correct but if 'i' reaches to len(nums), then automatically dfs will be called
+            // and will give error index out of bound (nums[i]).
+            // But if we use if with continue, then in this case, it will first go to for loop and if i == len(nums), 
+            // it will automatically come out of 'for' loop and dfs will not be called and we will not get any error.
+
+            // while (i > 0 && i < nums.size() && nums[i] == nums[i - 1])  
+            //     i++;                               
+
+            // add nums[i] in the path and skip nums[i] from the original array.
+            vector<int> newNums = nums;
+            newNums.erase(newNums.begin() + i);
+            vector<int> newPath = path;
+            newPath.push_back(nums[i]);
+            dfs(newNums, newPath, res);
+        }
+    }
+
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        sort(nums.begin(), nums.end()); // To avoid duplicates
+        vector<vector<int>> res;
+        dfs(nums, {}, res);
+        return res;
+    }
+};
+
+//Method 2 
+#include <iostream>
+#include <vector>
+#include <set>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    void permutation(vector<int>& nums, vector<int> per, vector<vector<int>>& ans, set<int>& included) {
+        if (per.size() == nums.size()) {
+            ans.push_back(per);
+            return;
+        }
+
+        for (int i = 0; i < nums.size(); i++) {
+            // Skip used elements or duplicate elements (only the first occurrence can be used)
+            if (included.find(i) != included.end() || (i > 0 && nums[i] == nums[i - 1] && included.find(i - 1) == included.end())) {
+                // 1) if current ele is already used or 
+                // 2) previous ele you have skipped and you want to use current ele
+                // having same value as previous so it will lead to duplicate.
+                // Because we only get duplicate while skipping.
+                continue;
+            }
+
+            // If prev ele is used or current ele is not used, then we can take this ele.
+            // Take this element.
+            included.insert(i);
+            per.push_back(nums[i]);
+            permutation(nums, per, ans, included);
+            // while backtracking remove i
+            included.erase(i);
+            per.pop_back();
+        }
+    }
+
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        sort(nums.begin(), nums.end()); // To avoid duplicates
+        vector<vector<int>> ans;
+        set<int> included;
+        permutation(nums, {}, ans, included);
+        return ans;
+    }
+};
 
 """

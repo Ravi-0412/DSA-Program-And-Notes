@@ -165,3 +165,72 @@ class Solution {
 
 """
         
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+
+using namespace std;
+
+class ListNode {
+public:
+    int val;
+    ListNode* next;
+
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        ListNode* current = head;
+        int length = 0;
+
+        // Find the length of the linked list
+        while (current) {
+            length++;
+            current = current->next;
+        }
+
+        length -= n;
+        ListNode* first = dummy;
+
+        // Traverse till (length-n)th node
+        while (length > 0) {
+            length--;
+            first = first->next;
+        }
+
+        // Change pointer to delete the node
+        first->next = first->next->next;
+        return dummy->next;
+    }
+};
+//Method 2
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        ListNode* first = dummy;
+        ListNode* second = dummy;
+
+        // Move 'first' pointer 'n' steps ahead
+        for (int i = 0; i < n; i++) {
+            first = first->next;
+        }
+
+        // Move both pointers until 'first' reaches the end
+        while (first->next) {
+            first = first->next;
+            second = second->next;
+        }
+
+        // Remove the nth node from end
+        second->next = second->next->next;
+        return dummy->next;
+    }
+};
+"""

@@ -79,48 +79,158 @@ class Solution:
         
         return dfs(digits)
 
-# java
+# Java Code 
 """
 // Method 1:
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+class Solution {
+    Map<Character, String> keypad = Map.of(
+        '2', "abc", '3', "def", '4', "ghi", '5', "jkl",
+        '6', "mno", '7', "pqrs", '8', "tuv", '9', "wxyz"
+    );
 
-public class Solution {
-    public List<String> letterCombinations(String digits) {
-        Map<Character, String> keypad = new HashMap<>();
-        keypad.put('2', "abc");
-        keypad.put('3', "def");
-        keypad.put('4', "ghi");
-        keypad.put('5', "jkl");
-        keypad.put('6', "mno");
-        keypad.put('7', "pqrs");
-        keypad.put('8', "tuv");
-        keypad.put('9', "wxyz");
-
-        List<String> result = new ArrayList<>();
-        if (digits == null || digits.isEmpty()) {
-            return result;
+    private List<String> permutations(String digits, String ans) {
+        if (digits.isEmpty()) {
+            return List.of(ans);
         }
-        permutations(digits, 0, "", result, keypad);
-        return result;
+
+        List<String> res = new ArrayList<>();
+        String letters = keypad.get(digits.charAt(0));
+
+        for (char letter : letters.toCharArray()) {
+            res.addAll(permutations(digits.substring(1), ans + letter));
+        }
+
+        return res;
     }
-    
-    private void permutations(String digits, int index, String current, List<String> result, Map<Character, String> keypad) {
-        if (index == digits.length()) {
-            result.add(current);
-            return;
+
+    public List<String> letterCombinations(String digits) {
+        if (digits.isEmpty()) {
+            return List.of();
+        }
+        return permutations(digits, "");
+    }
+}
+
+//Method 2
+import java.util.*;
+
+class Solution {
+    Map<Character, String> keypad = Map.of(
+        '2', "abc", '3', "def", '4', "ghi", '5', "jkl",
+        '6', "mno", '7', "pqrs", '8', "tuv", '9', "wxyz"
+    );
+
+    private List<String> dfs(String digits) {
+        if (digits.length() == 1) {
+            return Arrays.asList(keypad.get(digits.charAt(0)).split(""));
+        }
+
+        List<String> ans = new ArrayList<>();
+        char digit = digits.charAt(0);   // 1st digit pick kiya
+        List<String> temp = dfs(digits.substring(1));   // Remaining characters ka all possible combination find kiya
+
+        // Cross product le rhe dono keypad characters ka
+        for (char char1 : keypad.get(digit).toCharArray()) {
+            for (String char2 : temp) {
+                ans.add(char1 + char2);
+            }
+        }
+
+        return ans;
+    }
+
+    public List<String> letterCombinations(String digits) {
+        if (digits.isEmpty()) {
+            return List.of();
+        }
+        return dfs(digits);
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution {
+public:
+    unordered_map<char, string> keypad = {
+        {'2', "abc"}, {'3', "def"}, {'4', "ghi"}, {'5', "jkl"},
+        {'6', "mno"}, {'7', "pqrs"}, {'8', "tuv"}, {'9', "wxyz"}
+    };
+
+    vector<string> permutations(string digits, string ans) {
+        if (digits.empty()) {
+            return {ans};
         }
         
-        String letters = keypad.get(digits.charAt(index));
-        for (char letter : letters.toCharArray()) {
-            permutations(digits, index + 1, current + letter, result, keypad);
+        vector<string> res;
+        string letters = keypad[digits[0]];
+
+        for (char letter : letters) {
+            vector<string> temp = permutations(digits.substr(1), ans + letter);
+            res.insert(res.end(), temp.begin(), temp.end());
         }
+        
+        return res;
     }
-    
-}
+
+    vector<string> letterCombinations(string digits) {
+        if (digits.empty()) {
+            return {};
+        }
+        return permutations(digits, "");
+    }
+};
+
+//Method 2
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution {
+public:
+    unordered_map<char, string> keypad = {
+        {'2', "abc"}, {'3', "def"}, {'4', "ghi"}, {'5', "jkl"},
+        {'6', "mno"}, {'7', "pqrs"}, {'8', "tuv"}, {'9', "wxyz"}
+    };
+
+    vector<string> dfs(string digits) {
+        if (digits.size() == 1) {
+            string letters = keypad[digits[0]];
+            return vector<string>(letters.begin(), letters.end());
+        }
+
+        vector<string> ans;
+        char digit = digits[0];   // 1st digit pick kiya
+        vector<string> temp = dfs(digits.substr(1));   // Remaining characters ka all possible combination find kiya
+
+        // Cross product le rhe dono keypad characters ka
+        for (char char1 : keypad[digit]) {
+            for (const string& char2 : temp) {
+                ans.push_back(string(1, char1) + char2);
+            }
+        }
+
+        return ans;
+    }
+
+    vector<string> letterCombinations(string digits) {
+        if (digits.empty()) {
+            return {};
+        }
+        return dfs(digits);
+    }
+};
 """
 
 # Related Q:

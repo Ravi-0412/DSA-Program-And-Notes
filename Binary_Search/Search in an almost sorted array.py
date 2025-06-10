@@ -51,3 +51,100 @@ else:
 	print("Element is present at index", result)
 
 # This code is contributed by Smitha Dinesh Semwal.
+
+
+# Java Code 
+"""
+class Solution {
+    public int binarySearch(int[] arr, int l, int r, int x) {
+        if (r >= l) {
+            int mid = l + (r - l) / 2;
+
+            // If the element is present at one of the middle 3 positions
+            if (arr[mid] == x) {
+                return mid;
+            }
+            if (mid > l && arr[mid - 1] == x) {
+                return mid - 1;
+            }
+            if (mid < r && arr[mid + 1] == x) {
+                return mid + 1;
+            }
+
+            // If element is smaller than mid, it can only be present in left subarray
+            if (arr[mid] > x) {
+                return binarySearch(arr, l, mid - 2, x); // 'mid-1' already checked
+            }
+
+            // Else the element can only be present in right subarray
+            return binarySearch(arr, mid + 2, r, x); // 'mid+1' already checked
+        }
+
+        // Element not present in array
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        int[] arr = {3, 2, 10, 4, 40};
+        int x = 4;
+        int result = sol.binarySearch(arr, 0, arr.length - 1, x);
+
+        if (result == -1) {
+            System.out.println("Element is not present in array");
+        } else {
+            System.out.println("Element is present at index " + result);
+        }
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int binarySearch(vector<int>& arr, int l, int r, int x) {
+    if (r >= l) {
+        int mid = l + (r - l) / 2;
+
+        // If the element is present at one of the middle 3 positions
+        if (arr[mid] == x) {
+            return mid;
+        }
+        if (mid > l && arr[mid - 1] == x) {
+            return mid - 1;
+        }
+        if (mid < r && arr[mid + 1] == x) {
+            return mid + 1;
+        }
+
+        // If element is smaller than mid, it can only be present in left subarray
+        if (arr[mid] > x) {
+            return binarySearch(arr, l, mid - 2, x); // 'mid-1' already checked
+        }
+
+        // Else the element can only be present in right subarray
+        return binarySearch(arr, mid + 2, r, x); // 'mid+1' already checked
+    }
+
+    // Element not present in array
+    return -1;
+}
+
+int main() {
+    vector<int> arr = {3, 2, 10, 4, 40};
+    int x = 4;
+    int result = binarySearch(arr, 0, arr.size() - 1, x);
+
+    if (result == -1) {
+        cout << "Element is not present in array" << endl;
+    } else {
+        cout << "Element is present at index " << result << endl;
+    }
+
+    return 0;
+}
+"""

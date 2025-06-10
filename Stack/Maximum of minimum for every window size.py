@@ -71,3 +71,123 @@ class Solution:
                 ans.append(stack[-1])   # in this case ele can go before the index of top of the stack in the right
             stack.append(i)
         return ans[::-1]
+
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int[] maxOfMin(int[] arr, int n) {
+        int[] leftSmaller = leftSmallerNext(arr, n); // Indices of next smaller element to the left
+        int[] rightSmaller = rightSmallerNext(arr, n); // Indices of next smaller element to the right
+        
+        int[] ans = new int[n];
+        Arrays.fill(ans, Integer.MIN_VALUE); // ans[i]: maximum of the minimum value for subarrays of length 'i+1'
+
+        for (int i = 0; i < n; i++) {
+            int length = rightSmaller[i] - leftSmaller[i] - 1;
+            ans[length - 1] = Math.max(ans[length - 1], arr[i]); // Storing max of min values for given lengths
+        }
+
+        // Fill missing values by taking max from the right (greater length values can contribute)
+        for (int i = n - 2; i >= 0; i--) {
+            ans[i] = Math.max(ans[i], ans[i + 1]);
+        }
+
+        return ans;
+    }
+
+    private int[] leftSmallerNext(int[] arr, int n) {
+        Stack<Integer> stack = new Stack<>();
+        int[] ans = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            while (!stack.isEmpty() && arr[stack.peek()] >= arr[i]) {
+                stack.pop();
+            }
+            ans[i] = stack.isEmpty() ? -1 : stack.peek();
+            stack.push(i);
+        }
+
+        return ans;
+    }
+
+    private int[] rightSmallerNext(int[] arr, int n) {
+        Stack<Integer> stack = new Stack<>();
+        int[] ans = new int[n];
+
+        for (int i = n - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && arr[stack.peek()] >= arr[i]) {
+                stack.pop();
+            }
+            ans[i] = stack.isEmpty() ? n : stack.peek();
+            stack.push(i);
+        }
+
+        return ans;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> maxOfMin(vector<int>& arr, int n) {
+        vector<int> left_smaller = LeftSmallerNext(arr, n);  // Indices of next smaller element to the left
+        vector<int> right_smaller = RightSmallerNext(arr, n); // Indices of next smaller element to the right
+        
+        vector<int> ans(n, INT_MIN); // ans[i]: maximum of the minimum value for subarrays of length 'i+1'
+
+        for (int i = 0; i < n; i++) {
+            int length = right_smaller[i] - left_smaller[i] - 1;
+            ans[length - 1] = max(ans[length - 1], arr[i]); // Storing max of min values for given lengths
+        }
+
+        // Fill missing values by taking max from the right (greater length values can contribute)
+        for (int i = n - 2; i >= 0; i--) {
+            ans[i] = max(ans[i], ans[i + 1]);
+        }
+
+        return ans;
+    }
+    
+private:
+    vector<int> LeftSmallerNext(vector<int>& arr, int n) {
+        stack<int> st;
+        vector<int> ans(n);
+
+        for (int i = 0; i < n; i++) {
+            while (!st.empty() && arr[st.top()] >= arr[i]) {
+                st.pop();
+            }
+            ans[i] = (st.empty()) ? -1 : st.top();
+            st.push(i);
+        }
+
+        return ans;
+    }
+    
+    vector<int> RightSmallerNext(vector<int>& arr, int n) {
+        stack<int> st;
+        vector<int> ans(n);
+
+        for (int i = n - 1; i >= 0; i--) {
+            while (!st.empty() && arr[st.top()] >= arr[i]) {
+                st.pop();
+            }
+            ans[i] = (st.empty()) ? n : st.top();
+            st.push(i);
+        }
+
+        return ans;
+    }
+};
+"""

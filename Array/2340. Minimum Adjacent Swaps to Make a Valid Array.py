@@ -75,3 +75,52 @@ class Solution {
 }
 
 """
+
+# C++ Code 
+"""
+#include <vector>
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int minimumSwaps(vector<int>& nums) {
+        int n = nums.size();
+        int minEle = *min_element(nums.begin(), nums.end());
+        int maxEle = *max_element(nums.begin(), nums.end());
+        int first_index_min = n - 1, last_index_max = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (nums[i] == minEle) {
+                first_index_min = min(first_index_min, i);
+            }
+            if (nums[i] == maxEle) {
+                last_index_max = max(last_index_max, i);
+            }
+        }
+
+        int swaps = 0;
+        swaps += (n - 1) - last_index_max;  // to bring the last maximum element to the 'n-1'th index
+        swaps += first_index_min;           // to bring the first minimum element to the '0'th index
+
+        // Check if last maximum element gets swapped automatically while bringing the first minimum element to '0'th index
+        if (last_index_max < first_index_min) {
+            swaps -= 1;
+        }
+
+        return swaps;
+    }
+};
+
+int main() {
+    Solution s;
+    vector<int> arr = {3, 4, 5, 5, 3, 1};
+    arr = {9};
+    arr = {1, 3, 5, 2, 8};
+    arr = {10, 8, 6, 2, 2, 12, 9, 12};
+    cout << "Minimum number of swaps needed is: " << s.minimumSwaps(arr) << endl;
+    return 0;
+}
+"""

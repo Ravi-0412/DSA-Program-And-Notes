@@ -27,4 +27,58 @@ class Solution:
                 left= mid + 1
         return arr[left: left + k]
 
+# Java Code 
+"""
+import java.util.List;
+import java.util.ArrayList;
 
+class Solution {
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
+        int left = 0, right = arr.length - k;  // Maximum starting window position
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            // Check which part has closer values to x
+            if (arr[mid + k] - x >= x - arr[mid]) {
+                right = mid;
+            } else { // The subarray must start beyond 'mid'
+                left = mid + 1;
+            }
+        }
+
+        List<Integer> result = new ArrayList<>();
+        for (int i = left; i < left + k; i++) {
+            result.add(arr[i]);
+        }
+        return result;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+        int left = 0, right = arr.size() - k;  // Maximum starting window position
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            // Check which part has closer values to x
+            if (arr[mid + k] - x >= x - arr[mid]) {
+                right = mid;
+            } else { // The subarray must start beyond 'mid'
+                left = mid + 1;
+            }
+        }
+
+        return vector<int>(arr.begin() + left, arr.begin() + left + k);
+    }
+};
+"""

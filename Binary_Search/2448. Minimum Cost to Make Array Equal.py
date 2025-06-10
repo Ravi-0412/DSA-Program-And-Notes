@@ -119,49 +119,202 @@ class Solution:
         # Now find the cost of making all ele equal to 'target'.
         return sum(abs(num - target) * c for num, c in arr)
 
-# java
+# Java Code 
 """
-import java.util.Arrays;
+//Method 1
+import java.util.*;
 
 class Solution {
-    public long minCost(int[] nums, int[] cost) {
-        // Create an array of pairs (num, cost)
-        int n = nums.length;
-        long[][] arr = new long[n][2];
-        for (int i = 0; i < n; i++) {
-            arr[i][0] = nums[i];
-            arr[i][1] = cost[i];
+    public int minCost(int[] nums, int[] cost) {
+        int mn = Arrays.stream(nums).min().getAsInt();
+        int mx = Arrays.stream(nums).max().getAsInt();
+        int ans = Integer.MAX_VALUE;
+
+        for (int i = mn; i <= mx; i++) {
+            int curCost = 0;
+            for (int j = 0; j < nums.length; j++) {
+                curCost += Math.abs(nums[j] - i) * cost[j];
+            }
+            ans = Math.min(ans, curCost);
         }
-
-        // Sort the array based on the nums
-        Arrays.sort(arr, (a, b) -> Long.compare(a[0], b[0]));
-
-        // Calculate the total cost
-        long totalCost = 0;
-        for (long c : cost) {
-            totalCost += c;
+        return ans;
+    }
+}
+//Method 2
+class Solution {
+    public int minCost(int[] nums, int[] cost) {
+        int ans = Integer.MAX_VALUE;
+        for (int num : nums) {
+            int curCost = 0;
+            for (int j = 0; j < nums.length; j++) {
+                curCost += Math.abs(nums[j] - num) * cost[j];
+            }
+            ans = Math.min(ans, curCost);
         }
+        return ans;
+    }
+}
+//Method 3
+class Solution {
+    public int minCost(int[] nums, int[] cost) {
+        int start = Arrays.stream(nums).min().getAsInt();
+        int end = Arrays.stream(nums).max().getAsInt();
+        int ans = f(nums, cost, start);
 
-        // Find the target element
-        long curSum = 0;
-        long target = 0;
-        for (long[] pair : arr) {
-            curSum += pair[1];
-            if (curSum > totalCost / 2) {
-                target = pair[0];
+        while (start < end) {
+            int mid = (start + end) / 2;
+            int y1 = f(nums, cost, mid), y2 = f(nums, cost, mid + 1);
+            ans = Math.min(y1, y2);
+
+            if (y1 >= y2)
+                start = mid + 1;
+            else
+                end = mid;
+        }
+        return ans;
+    }
+
+    private int f(int[] nums, int[] cost, int x) {
+        int curCost = 0;
+        for (int i = 0; i < nums.length; i++) {
+            curCost += Math.abs(nums[i] - x) * cost[i];
+        }
+        return curCost;
+    }
+}
+//Method 4
+import java.util.*;
+
+class Solution {
+    public int minCost(int[] nums, int[] cost) {
+        List<int[]> arr = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            arr.add(new int[]{nums[i], cost[i]});
+        }
+        arr.sort((a, b) -> Integer.compare(a[0], b[0]));
+
+        int total = Arrays.stream(cost).sum();
+        int curSum = 0, target = 0;
+
+        for (int[] p : arr) {
+            curSum += p[1];
+            if (curSum > total / 2) {
+                target = p[0];
                 break;
             }
         }
 
-        // Calculate the minimum cost to make all elements equal to the target
-        long minCost = 0;
-        for (long[] pair : arr) {
-            minCost += Math.abs(pair[0] - target) * pair[1];
+        int result = 0;
+        for (int[] p : arr) {
+            result += Math.abs(p[0] - target) * p[1];
         }
 
-        return minCost;
+        return result;
     }
 }
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <vector>
+#include <algorithm>
+#include <climits>
+
+using namespace std;
+
+class Solution {
+public:
+    int minCost(vector<int>& nums, vector<int>& cost) {
+        int mn = *min_element(nums.begin(), nums.end());
+        int mx = *max_element(nums.begin(), nums.end());
+        int ans = INT_MAX;
+
+        for (int i = mn; i <= mx; i++) {
+            int curCost = 0;
+            for (size_t j = 0; j < nums.size(); j++) {
+                curCost += abs(nums[j] - i) * cost[j];
+            }
+            ans = min(ans, curCost);
+        }
+        return ans;
+    }
+};
+//Method 2
+class Solution {
+public:
+    int minCost(vector<int>& nums, vector<int>& cost) {
+        int ans = INT_MAX;
+        for (int num : nums) {
+            int curCost = 0;
+            for (size_t j = 0; j < nums.size(); j++) {
+                curCost += abs(nums[j] - num) * cost[j];
+            }
+            ans = min(ans, curCost);
+        }
+        return ans;
+    }
+};
+//Method 3
+class Solution {
+public:
+    int minCost(vector<int>& nums, vector<int>& cost) {
+        auto f = [&](int x) {
+            int curCost = 0;
+            for (size_t i = 0; i < nums.size(); i++) {
+                curCost += abs(nums[i] - x) * cost[i];
+            }
+            return curCost;
+        };
+
+        int start = *min_element(nums.begin(), nums.end());
+        int end = *max_element(nums.begin(), nums.end());
+        int ans = f(start);
+
+        while (start < end) {
+            int mid = (start + end) / 2;
+            int y1 = f(mid), y2 = f(mid + 1);
+            ans = min(y1, y2);
+
+            if (y1 >= y2)
+                start = mid + 1;
+            else
+                end = mid;
+        }
+        return ans;
+    }
+};
+//Method 4
+class Solution {
+public:
+    int minCost(vector<int>& nums, vector<int>& cost) {
+        vector<pair<int, int>> arr;
+        for (size_t i = 0; i < nums.size(); i++) {
+            arr.emplace_back(nums[i], cost[i]);
+        }
+        sort(arr.begin(), arr.end());
+
+        int total = 0;
+        for (const auto& p : arr) total += p.second;
+
+        int curSum = 0;
+        int target = 0;
+        for (const auto& p : arr) {
+            curSum += p.second;
+            if (curSum > total / 2) {
+                target = p.first;
+                break;
+            }
+        }
+
+        int result = 0;
+        for (const auto& p : arr) {
+            result += abs(p.first - target) * p.second;
+        }
+
+        return result;
+    }
+};
 """
 
 # Related Q: 

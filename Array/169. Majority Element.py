@@ -117,31 +117,111 @@ class Solution:
                 count -= 1
         return m
 
-# Java
+# Java Code 
 """
+//Method 1
+import java.util.*;
+
 class Solution {
+    // Method 1: Using HashMap
     public int majorityElement(int[] nums) {
-        Integer m = 1000000001;  // This will hold the majority element
-        int count = 0;     // This will hold the count of the current candidate
-        
-        for (int n : nums) {
-            if (n == m) {
-                // Vote of the majority element will increase
-                count++;
-            } 
-            // If the current candidate is not m and count is 0, then the current element becomes the majority
-            else if (count == 0) {
-                m = n;   // Current element will become the majority element (current winning candidate)
-                count = 1; // Reset count for the new candidate
-            } 
-            // If the current candidate is not m and count > 0, then the count for m will decrease
-            else { 
-                // Current element can't be the winning candidate, it will just reduce the vote of the current winning candidate
-                count--;
+        int middle_index = nums.length / 2;
+        Map<Integer, Integer> hashmap = new HashMap<>();
+
+        for (int num : nums) {
+            hashmap.put(num, hashmap.getOrDefault(num, 0) + 1);
+        }
+
+        for (Map.Entry<Integer, Integer> entry : hashmap.entrySet()) {
+            if (entry.getValue() > middle_index) {
+                return entry.getKey();
             }
         }
-        
-        return m; // Return the majority element
+
+        return -1;
     }
 }
+//Method 2
+import java.util.*;
+
+class Solution {
+    // Method 2: Sorting and taking the middle index
+    public int majorityElement(int[] nums) {
+        Arrays.sort(nums);
+        return nums[nums.length / 2];
+    }
+}
+//Method 3
+class Solution {
+    // Method 3: Moore’s Voting Algorithm
+    public int majorityElement(int[] nums) {
+        int cnt = 0, m = 0;
+        for (int num : nums) {
+            if (cnt == 0) {
+                m = num;
+                cnt++;
+            } else {
+                cnt += (num == m) ? 1 : -1;
+            }
+        }
+        return m;
+    }
+}
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    // Method 1: Using HashMap
+    int majorityElement(vector<int>& nums) {
+        int middle_index = nums.size() / 2;
+        unordered_map<int, int> hashmap;
+
+        for (int num : nums) {
+            hashmap[num]++;
+        }
+
+        for (const auto& entry : hashmap) {
+            if (entry.second > middle_index) {
+                return entry.first;
+            }
+        }
+
+        return -1;
+    }
+};
+//Method 2
+class Solution {
+public:
+    // Method 2: Sorting and taking the middle index
+    int majorityElement(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        return nums[nums.size() / 2];
+    }
+};
+//Method 3
+class Solution {
+public:
+    // Method 3: Moore’s Voting Algorithm
+    int majorityElement(vector<int>& nums) {
+        int cnt = 0, m = 0;
+        for (int num : nums) {
+            if (cnt == 0) {
+                m = num;
+                cnt++;
+            } else {
+                cnt += (num == m) ? 1 : -1;
+            }
+        }
+        return m;
+    }
+};
 """

@@ -181,70 +181,501 @@ class Solution:
 
 
 
-# Java version for 1st method:
+# Java Code
+# Method 1
 """
+import java.util.*;
 
-public class Solution {
-    public class TrieNode{
-        public boolean isWord = false;
-        public TrieNode[] child = new TrieNode[26];
-        public TrieNode(){
-            
-        }
-    }
-    
-    TrieNode root = new TrieNode();
-    boolean[][] flag;   // for marking visited
+class Solution {
     public List<String> findWords(char[][] board, String[] words) {
-        Set<String> result = new HashSet<>();
-        flag = new boolean[board.length][board[0].length];
-        
-        addToTrie(words);
-        
-        for(int i = 0; i < board.length; i++){
-            for(int j = 0; j < board[0].length; j++){
-                if(root.child[board[i][j] - 'a'] != null){
-                    search(board, i, j, root, "", result);
+        List<String> ans = new ArrayList<>();
+        for (String word : words) {
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board[0].length; j++) {
+                    if (dfs(board, i, j, word)) {
+                        ans.add(word);
+                        break;  // No need to continue once word is found
+                    }
                 }
             }
         }
-        return new ArrayList<>(result);
-        // return new LinkedList<>(result);
+        // remove duplicates by converting to a set and back to list
+        return new ArrayList<>(new HashSet<>(ans));
     }
-    
-    private void addToTrie(String[] words){
-        for(String word: words){
-            TrieNode node = root;
-            for(int i = 0; i < word.length(); i++){
-                char ch = word.charAt(i);
-                if(node.child[ch - 'a'] == null){
-                    node.child[ch - 'a'] = new TrieNode();
-                }
-                node = node.child[ch - 'a'];
-            }
-            node.isWord = true;
-        }
-    }
-    
-    private void search(char[][] board, int i, int j, TrieNode node, String word, Set<String> result){
-        if(i >= board.length || i < 0 || j >= board[i].length || j < 0 || flag[i][j] || node.child[board[i][j] - 'a'] == null){
-            return;
-        }
-        
-        word += board[i][j] ;
-        flag[i][j] = true;
-        node = node.child[board[i][j] - 'a'];
-        if(node.isWord){
-            result.add(word);
-        }
-        
-        search(board, i-1, j, node, word, result);
-        search(board, i+1, j, node, word, result);
-        search(board, i, j-1, node, word, result);
-        search(board, i, j+1, node, word, result);
-        
-        flag[i][j] = false;
+
+    private boolean dfs(char[][] board, int i, int j, String word) {
+        if (word.length() == 0) // all characters checked
+            return true;
+        if (i < 0 || i >= board.length || j < 0 || j >= board[0].length || board[i][j] != word.charAt(0))
+            return false;
+
+        char tmp = board[i][j];  // first char found, check remaining
+        board[i][j] = '#';       // mark visited
+        String nextWord = word.substring(1);
+        boolean res = dfs(board, i + 1, j, nextWord) || 
+                      dfs(board, i - 1, j, nextWord) || 
+                      dfs(board, i, j + 1, nextWord) || 
+                      dfs(board, i, j - 1, nextWord);
+        board[i][j] = tmp;       // backtrack
+        return res;
     }
 }
+"""
+#Method 2
+"""
+import java.util.*;
+
+class TrieNode {
+    Map<Character, TrieNode> children = new HashMap<>();  // will point to children. and can be max of 26('a' to 'z').
+    boolean isWord = false;
+}
+
+class Trie {
+    TrieNode root;
+
+    public Trie() {
+        root = new TrieNode();  // for every word, we will always start checking from root.
+    }
+
+    public void insert(String word) {
+        TrieNode cur = root;
+        for (char c : word.toCharArray()) {
+            if (!cur.children.containsKey(c)) {
+                // insert 'c' into children and make 'c' point to a TrieNode and move cur to next child (just added one)
+                cur.children.put(c, new TrieNode());
+            }
+            // after inserting and if present already, move cur to next child in both cases.
+            cur = cur.children.get(c);
+        }
+        // now mark this node as word end.
+        cur.isWord = true;
+    }
+
+    // Mark 'isWord= False' so we won't check again.
+    public void removeWord(String word) {
+        TrieNode cur = root;
+        for (char c : word.toCharArray()) {
+            cur = cur.children.get(c);
+        }
+        cur.isWord = false;
+    }
+}
+
+public class Solution {
+    int rows, cols;
+    Set<String> ans;
+    char[][] board;
+    Trie trie;
+    boolean[][] visited;
+
+    public List<String> findWords(char[][] board, String[] words) {
+        this.board = board;
+        rows = board.length;
+        cols = board[0].length;
+        trie = new Trie();
+
+        // insert all words into Trie.
+        for (String word : words) {
+            trie.insert(word);
+        }
+
+        ans = new HashSet<>();  // storing in set since same word can be formed from more than one cell as starting node.
+        visited = new boolean[rows][cols];  // to check if we have already visited any cell.
+
+        // now start searching from each cell.
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                dfs(r, c, trie.root, "");
+            }
+        }
+
+        return new ArrayList<>(ans);
+    }
+
+    private void dfs(int r, int c, TrieNode node, String word) {
+        // write all the invalid possible cases together.
+        if (r < 0 || r >= rows || c < 0 || c >= cols || visited[r][c] || !node.children.containsKey(board[r][c])) {
+            return;
+        }
+
+        word += board[r][c];
+        visited[r][c] = true;
+        node = node.children.get(board[r][c]);
+
+        // we can get any matching word anytime so keep checking after each node.
+        if (node.isWord) {
+            ans.add(word);
+            trie.removeWord(word);
+        }
+
+        // visit all the four possible directions
+        dfs(r + 1, c, node, word);
+        dfs(r - 1, c, node, word);
+        dfs(r, c + 1, node, word);
+        dfs(r, c - 1, node, word);
+
+        // now backtrack
+        visited[r][c] = false;
+    }
+}
+
+"""
+#Method 3
+"""
+import java.util.*;
+
+class TrieNode {
+    Map<Character, TrieNode> children = new HashMap<>();  // will point to children. and can be max of 26('a' to 'z').
+    boolean isWord = false;
+    // int prefix_count; // Not used here as in your Python code prefix_count decrement is done but not declared
+}
+
+class Trie {
+    TrieNode root;
+
+    public Trie() {
+        root = new TrieNode();   // for every word, we will always start checking from root.
+    }
+
+    public void insert(String word) {
+        TrieNode cur = root;
+        for (char c : word.toCharArray()) {
+            if (!cur.children.containsKey(c)) {
+                // insert 'c' into children and make 'c' point to a TrieNode and move curr to next child (just added one)
+                cur.children.put(c, new TrieNode());
+            }
+            // after inserting and if present already ,move cur to next child in both cases.
+            cur = cur.children.get(c);
+        }
+        cur.isWord = true;
+    }
+
+    public void removeWord(String word) {
+        TrieNode cur = root;
+        for (char c : word.toCharArray()) {
+            cur = cur.children.get(c);
+            // In Python you do cur.prefix_count -= 1, but prefix_count is never defined or used. Skip here.
+        }
+        cur.isWord = false;
+    }
+}
+
+public class Solution {
+    int rows, cols;
+    Set<String> ans;
+    char[][] board;
+    Trie trie;
+
+    public List<String> findWords(char[][] board, String[] words) {
+        this.board = board;
+        rows = board.length;
+        cols = board[0].length;
+        trie = new Trie();
+
+        // insert all words into Trie.
+        for (String word : words) {
+            trie.insert(word);
+        }
+
+        ans = new HashSet<>();  // storing in set since same word can be formed from more than one cell as starting node.
+
+        // now start searching from each cell.
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                if (trie.root.children.containsKey(board[r][c])) {
+                    dfs(r, c, trie.root, "" + board[r][c]);
+                }
+            }
+        }
+
+        return new ArrayList<>(ans);
+    }
+
+    private void dfs(int r, int c, TrieNode node, String word) {
+        node = node.children.get(board[r][c]);
+        // we can get any matching word anytime so keep checking after each node.
+        if (node.isWord) {  // in next node we are updating everything so we will check in next node only.
+            ans.add(word);
+            trie.removeWord(word);
+        }
+
+        char temp = board[r][c];
+        board[r][c] = '#';  // marking visited
+
+        // visit all the four possible directions
+        int[][] directions = {{r, c - 1}, {r, c + 1}, {r - 1, c}, {r + 1, c}};
+        for (int[] dir : directions) {
+            int nr = dir[0], nc = dir[1];
+            if (nr >= 0 && nr < rows && nc >= 0 && nc < cols
+                    && board[nr][nc] != '#' && node.children.containsKey(board[nr][nc])) {
+                dfs(nr, nc, node, word + board[nr][nc]);
+            }
+        }
+
+        // now backtrack if we don't ans by adding the char at (r,c)
+        board[r][c] = temp;
+    }
+}
+
+"""
+
+##C++ Code
+#Method 1
+"""
+#include <vector>
+#include <string>
+#include <unordered_set>
+using namespace std;
+
+class Solution {
+public:
+    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+        vector<string> ans;
+        for (const string& word : words) {
+            bool found = false;
+            for (int i = 0; i < board.size() && !found; i++) {
+                for (int j = 0; j < board[0].size() && !found; j++) {
+                    if (dfs(board, i, j, word)) {
+                        ans.push_back(word);
+                        found = true;  // once found, stop searching for this word
+                    }
+                }
+            }
+        }
+        // remove duplicates by inserting into a set and back to vector
+        unordered_set<string> seen(ans.begin(), ans.end());
+        return vector<string>(seen.begin(), seen.end());
+    }
+
+private:
+    bool dfs(vector<vector<char>>& board, int i, int j, const string& word) {
+        if (word.size() == 0) return true;  // all characters matched
+        if (i < 0 || i >= board.size() || j < 0 || j >= board[0].size() || board[i][j] != word[0])
+            return false;
+
+        char tmp = board[i][j];
+        board[i][j] = '#';  // mark as visited
+        string nextWord = word.substr(1);
+        bool res = dfs(board, i + 1, j, nextWord) ||
+                   dfs(board, i - 1, j, nextWord) ||
+                   dfs(board, i, j + 1, nextWord) ||
+                   dfs(board, i, j - 1, nextWord);
+        board[i][j] = tmp;  // backtrack
+        return res;
+    }
+};
+
+"""
+
+#Method 2
+"""
+#include <vector>
+#include <string>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+
+class TrieNode {
+public:
+    unordered_map<char, TrieNode*> children;  // will point to children. and can be max of 26('a' to 'z').
+    bool isWord;
+
+    TrieNode() {
+        isWord = false;
+    }
+};
+
+class Trie {
+public:
+    TrieNode* root;
+
+    Trie() {
+        root = new TrieNode();   // for every word, we will always start checking from root.
+    }
+
+    void insert(const string& word) {
+        TrieNode* cur = root;
+        for (char c : word) {
+            if (cur->children.find(c) == cur->children.end()) {
+                // insert 'c' into children and make 'c' point to a TrieNode and move cur to next child (just added one)
+                cur->children[c] = new TrieNode();
+            }
+            // after inserting and if present already, move cur to next child in both cases.
+            cur = cur->children[c];
+        }
+        // now mark this node as word end.
+        cur->isWord = true;
+    }
+
+    // Mark 'isWord= False' so we won't check again.
+    void removeWord(const string& word) {
+        TrieNode* cur = root;
+        for (char c : word) {
+            cur = cur->children[c];
+        }
+        cur->isWord = false;
+    }
+};
+
+class Solution {
+public:
+    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+        // insert all words into Trie.
+        Trie trie;
+        for (const string& word : words) {
+            trie.insert(word);
+        }
+
+        int rows = board.size();
+        int cols = board[0].size();
+
+        unordered_set<string> ans;  // storing in set since same word can be formed from more than one cell as starting node.
+        vector<vector<bool>> visited(rows, vector<bool>(cols, false));  // to check if we have already visited any cell.
+
+        function<void(int, int, TrieNode*, string)> dfs = [&](int r, int c, TrieNode* node, string word) {
+            // write all the invalid possible cases together.
+            if (r < 0 || r == rows || c < 0 || c == cols || visited[r][c] || node->children.find(board[r][c]) == node->children.end()) {
+                return;
+            }
+
+            word += board[r][c];
+            visited[r][c] = true;
+            node = node->children[board[r][c]];
+
+            // we can get any matching word anytime so keep checking after each node.
+            if (node->isWord) {
+                ans.insert(word);
+                trie.removeWord(word);
+            }
+
+            // visit all the four possible directions
+            dfs(r + 1, c, node, word);
+            dfs(r - 1, c, node, word);
+            dfs(r, c + 1, node, word);
+            dfs(r, c - 1, node, word);
+
+            // now backtrack
+            visited[r][c] = false;
+        };
+
+        // now start searching from each cell.
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                dfs(r, c, trie.root, "");
+            }
+        }
+
+        return vector<string>(ans.begin(), ans.end());
+    }
+};
+
+"""
+#Method 3
+"""
+#include <vector>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
+class TrieNode {
+public:
+    unordered_map<char, TrieNode*> children; // will point to children. and can be max of 26('a' to 'z').
+    bool isWord = false;
+    // int prefix_count; // Not used here, skipped as in Python code
+
+    TrieNode() {}
+};
+
+class Trie {
+public:
+    TrieNode* root;
+
+    Trie() {
+        root = new TrieNode();  // for every word, we will always start checking from root.
+    }
+
+    void insert(const string& word) {
+        TrieNode* cur = root;
+        for (char c : word) {
+            if (cur->children.find(c) == cur->children.end()) {
+                // insert 'c' into children and make 'c' point to a TrieNode and move curr to next child (just added one)
+                cur->children[c] = new TrieNode();
+            }
+            // after inserting and if present already ,move cur to next child in both cases.
+            cur = cur->children[c];
+        }
+        cur->isWord = true;
+    }
+
+    void removeWord(const string& word) {
+        TrieNode* cur = root;
+        for (char c : word) {
+            cur = cur->children[c];
+            // cur->prefix_count -= 1; // not used, skipping
+        }
+        cur->isWord = false;
+    }
+};
+
+class Solution {
+    int rows, cols;
+    unordered_set<string> ans;
+    vector<vector<char>> board;
+    Trie trie;
+
+public:
+    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+        this->board = board;
+        rows = board.size();
+        cols = board[0].size();
+
+        // insert all words into Trie.
+        for (auto& word : words) {
+            trie.insert(word);
+        }
+
+        // storing in set since same word can be formed from more than one cell as starting node.
+        ans.clear();
+
+        // now start searching from each cell.
+        for (int r = 0; r < rows; ++r) {
+            for (int c = 0; c < cols; ++c) {
+                if (trie.root->children.find(board[r][c]) != trie.root->children.end()) {
+                    dfs(r, c, trie.root, string(1, board[r][c]));
+                }
+            }
+        }
+
+        // convert set to vector
+        return vector<string>(ans.begin(), ans.end());
+    }
+
+private:
+    void dfs(int r, int c, TrieNode* node, string word) {
+        node = node->children[board[r][c]];
+        // we can get any matching word anytime so keep checking after each node.
+        if (node->isWord) {  // in next node we are updating everything so we will check in next node only.
+            ans.insert(word);
+            trie.removeWord(word);
+        }
+
+        char temp = board[r][c];
+        board[r][c] = '#';  // marking visited
+
+        // visit all the four possible directions
+        int directions[4][2] = {{r, c - 1}, {r, c + 1}, {r - 1, c}, {r + 1, c}};
+        for (auto& dir : directions) {
+            int nr = dir[0], nc = dir[1];
+            if (nr >= 0 && nr < rows && nc >= 0 && nc < cols
+                && board[nr][nc] != '#' && node->children.find(board[nr][nc]) != node->children.end()) {
+                dfs(nr, nc, node, word + board[nr][nc]);
+            }
+        }
+
+        // now backtrack if we don't ans by adding the char at (r,c)
+        board[r][c] = temp;
+    }
+};
 
 """

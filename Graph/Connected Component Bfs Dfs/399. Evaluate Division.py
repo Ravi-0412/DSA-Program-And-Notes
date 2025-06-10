@@ -138,6 +138,60 @@ public class Solution {
     }
 }
 """
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <queue>
+using namespace std;
 
+class Solution {
+public:
+    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
+        // form adjacency list (directed graph with values for that eqn)
+        unordered_map<string, vector<pair<string, double>>> adj;
+        for (int i = 0; i < (int)equations.size(); i++) {
+            string a = equations[i][0], b = equations[i][1];
+            adj[a].push_back({b, values[i]});          // 'a/b' = values[i]
+            adj[b].push_back({a, 1.0 / values[i]});    // reverse value: 'b/a' = 1/values[i]
+        }
+
+        auto bfs = [&](string src, string target) -> double {
+            if (adj.find(src) == adj.end() || adj.find(target) == adj.end()) {
+                return -1.0;
+            }
+            queue<pair<string, double>> q;
+            unordered_set<string> visited;   // visited to avoid cycles
+            q.push({src, 1.0});              // [variable, values_till_now]
+            visited.insert(src);
+
+            while (!q.empty()) {
+                auto [a, w] = q.front(); q.pop();
+                if (a == target) {
+                    return w;
+                }
+                for (auto& [nei, weight] : adj[a]) {
+                    if (visited.find(nei) == visited.end()) {
+                        q.push({nei, w * weight});
+                        visited.insert(nei);
+                    }
+                }
+            }
+            // Both src and destination are present but no path found
+            return -1.0;
+        };
+
+        vector<double> ans;
+        for (auto& q : queries) {
+            ans.push_back(bfs(q[0], q[1]));
+        }
+        return ans;
+    }
+};
+
+"""
 
 # Later do by dfs

@@ -36,27 +36,96 @@ class Solution:
                 l+= 1
         return maxArea
 
-# java
-
+# Java Code
 """
+//Method 1
+import java.util.*;
+
 class Solution {
     public int maxArea(int[] height) {
-        int left = 0;
-        int right = height.length - 1;
         int maxArea = 0;
+        int n = height.length;
 
-        while (left < right) {
-            int currentArea = Math.min(height[left], height[right]) * (right - left);
-            maxArea = Math.max(maxArea, currentArea);
-
-            if (height[left] < height[right]) {
-                left++;
-            } else {
-                right--;
+        for (int l = 0; l < n; l++) {
+            for (int r = l + 1; r < n; r++) {
+                int curr_Area = (r - l) * Math.min(height[r], height[l]); // length * width
+                maxArea = Math.max(maxArea, curr_Area);
             }
         }
-
         return maxArea;
     }
 }
+//Method 2
+class Solution {
+    public int maxArea(int[] height) {
+        int maxArea = 0;
+        int l = 0, r = height.length - 1;  // For maximizing width
+
+        while (l < r) {
+            int curr_Area = (r - l) * Math.min(height[r], height[l]);
+            maxArea = Math.max(maxArea, curr_Area);
+
+            // Move the pointer with the smaller height
+            if (height[l] > height[r]) {
+                r--;
+            } else {
+                l++;
+            }
+        }
+        return maxArea;
+    }
+}
+"""
+
+# C++ Code
+"""
+//Method 1
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int maxArea = 0;
+        int n = height.size();
+
+        for (int l = 0; l < n; l++) {
+            for (int r = l + 1; r < n; r++) {
+                int curr_Area = (r - l) * min(height[r], height[l]); // length * width
+                maxArea = max(maxArea, curr_Area);
+            }
+        }
+        return maxArea;
+    }
+};
+//Method 2
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int maxArea = 0;
+        int l = 0, r = height.size() - 1;  // For maximizing width
+
+        while (l < r) {
+            int curr_Area = (r - l) * min(height[r], height[l]);
+            maxArea = max(maxArea, curr_Area);
+
+            // Move the pointer with the smaller height
+            if (height[l] > height[r]) {
+                r--;
+            } else {
+                l++;
+            }
+        }
+        return maxArea;
+    }
+};
 """

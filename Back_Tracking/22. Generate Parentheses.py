@@ -90,29 +90,147 @@ class Solution:
 # 1) Print N-bit binary numbers having more 1s than 0s
 
 
-# java
+# Java Code
 """
-import java.util.ArrayList;
-import java.util.List;
+// Method 1
+import java.util.*;
 
-public class Solution {
-    public List<String> generateParenthesis(int n) {
-        List<String> ans = new ArrayList<>();
-        backtrack(0, 0, "", ans, n);
-        return ans;
+class Solution {
+    List<String> ans = new ArrayList<>();
+    Deque<Character> stack = new ArrayDeque<>();
+
+    private void Backtrack(int openP, int closeP, int n) {
+        if (openP == closeP && openP == n) {  
+            // means stack will be containing one of the valid parenthesis.
+            StringBuilder sb = new StringBuilder();
+            for (char ch : stack) sb.append(ch);
+            ans.add(sb.toString());
+            return;
+        }
+        // can only add '(' if the openP < n
+        if (openP < n) {
+            stack.push('(');
+            Backtrack(openP + 1, closeP, n);
+            stack.pop();
+        }
+        // only add close parenthesis if the number of open parentheses is greater than the number of close parentheses.
+        // otherwise, it won't be valid.
+        if (closeP < openP) {
+            stack.push(')');
+            Backtrack(openP, closeP + 1, n);
+            stack.pop();
+        }
     }
 
-    private void backtrack(int openP, int closeP, String paran, List<String> ans, int n) {
-        if (openP == closeP && openP == n) {
+    public List<String> generateParenthesis(int n) {
+        ans.clear();
+        Backtrack(0, 0, n);  // this will track the number of open and closed parentheses added till now.
+        return ans;
+    }
+}
+//Method 2
+import java.util.*;
+
+class Solution {
+    List<String> ans = new ArrayList<>();
+
+    private void Backtrack(int openP, int closeP, String paran, int n) {
+        if (openP == closeP && openP == n) {  
+            // means paran will be containing one of the valid parenthesis.
             ans.add(paran);
             return;
         }
-
+        // can only add '(' if the openP < n
         if (openP < n) {
-            backtrack(openP + 1, closeP, paran + "(", ans, n);
+            Backtrack(openP + 1, closeP, paran + "(", n);
         }
+        // only add close parenthesis if the number of open parentheses is greater than the number of close parentheses.
+        // otherwise, it won't be valid.
         if (closeP < openP) {
-            backtrack(openP, closeP + 1, paran + ")", ans, n);
+            Backtrack(openP, closeP + 1, paran + ")", n);
         }
     }
+
+    public List<String> generateParenthesis(int n) {
+        ans.clear();
+        Backtrack(0, 0, "", n);  // this will track the number of open and closed parentheses added till now.
+        return ans;
+    }
+}
+
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> ans;
+    vector<char> stack;
+
+    void Backtrack(int openP, int closeP, int n) {
+        if (openP == closeP && openP == n) {  
+            // means stack will be containing one of the valid parenthesis.
+            ans.push_back(string(stack.begin(), stack.end()));
+            return;
+        }
+        // can only add '(' if the openP < n
+        if (openP < n) {
+            stack.push_back('(');
+            Backtrack(openP + 1, closeP, n);
+            stack.pop();
+        }
+        // only add close parenthesis if the number of open parentheses is greater than the number of close parentheses.
+        // otherwise, it won't be valid.
+        if (closeP < openP) {
+            stack.push_back(')');
+            Backtrack(openP, closeP + 1, n);
+            stack.pop();
+        }
+    }
+
+    vector<string> generateParenthesis(int n) {
+        ans.clear();
+        Backtrack(0, 0, n);  // this will track the number of open and closed parentheses added till now.
+        return ans;
+    }
+};
+//Method 2 
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> ans;
+
+    void Backtrack(int openP, int closeP, string paran, int n) {
+        if (openP == closeP && openP == n) {  
+            // means paran will be containing one of the valid parenthesis.
+            ans.push_back(paran);
+            return;
+        }
+        // can only add '(' if the openP < n
+        if (openP < n) {
+            Backtrack(openP + 1, closeP, paran + "(", n);
+        }
+        // only add close parenthesis if the number of open parentheses is greater than the number of close parentheses.
+        // otherwise, it won't be valid.
+        if (closeP < openP) {
+            Backtrack(openP, closeP + 1, paran + ")", n);
+        }
+    }
+
+    vector<string> generateParenthesis(int n) {
+        ans.clear();
+        Backtrack(0, 0, "", n);  // this will track the number of open and closed parentheses added till now.
+        return ans;
+    }
+};
 """

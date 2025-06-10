@@ -145,3 +145,177 @@ class Solution:
         return ans
 
 
+# Java Code 
+"""
+import java.util.HashMap;
+import java.util.List;
+
+// Method 1: Brute force O(n^4)
+class Solution {
+    public int countTriplets(List<Integer> arr) {
+        int n = arr.size();
+        int cnt = 0;
+
+        for (int i = 0; i < n - 1; i++)
+            for (int j = i + 1; j < n; j++)
+                for (int k = j; k < n; k++) {
+                    int x1 = 0, x2 = 0;
+                    for (int ind = i; ind < j; ind++) x1 ^= arr.get(ind);
+                    for (int ind = j; ind <= k; ind++) x2 ^= arr.get(ind);
+                    if (x1 == x2) cnt++;
+                }
+
+        return cnt;
+    }
+}
+
+// Method 2: Brute force with prefix XOR sum (O(n^3))
+class Solution {
+    public int countTriplets(List<Integer> arr) {
+        int n = arr.size();
+        int[] xor_pair = new int[n + 1];
+
+        for (int i = 0; i < n; i++)
+            xor_pair[i + 1] = xor_pair[i] ^ arr.get(i);
+
+        int cnt = 0;
+        for (int i = 0; i < n - 1; i++)
+            for (int j = i + 1; j < n; j++)
+                for (int k = j; k < n; k++)
+                    if ((xor_pair[j] ^ xor_pair[i]) == (xor_pair[k + 1] ^ xor_pair[j]))
+                        cnt++;
+        return cnt;
+    }
+}
+
+// Method 3: Optimized O(n^2)
+class Solution {
+    public int countTriplets(List<Integer> arr) {
+        int n = arr.size();
+        int[] xor_pair = new int[n + 1];
+
+        for (int i = 0; i < n; i++)
+            xor_pair[i + 1] = xor_pair[i] ^ arr.get(i);
+
+        int cnt = 0;
+        for (int i = 0; i < n - 1; i++)
+            for (int j = i + 1; j < n; j++)
+                if ((xor_pair[j + 1] ^ xor_pair[i]) == 0) {
+                    int length = j - i + 1;
+                    cnt += length - 1;
+                }
+        return cnt;
+    }
+}
+
+// Method 4: Using hash maps for frequency and sum of indices (O(n))
+class Solution {
+    public int countTriplets(List<Integer> arr) {
+        int n = arr.size();
+        HashMap<Integer, Integer> freq = new HashMap<>();
+        HashMap<Integer, Integer> sumIndexes = new HashMap<>();
+        freq.put(0, 1);
+        sumIndexes.put(0, 0);
+        int curXor = 0, ans = 0;
+
+        for (int j = 0; j < n; j++) {
+            curXor ^= arr.get(j);
+            ans += freq.getOrDefault(curXor, 0) * j - sumIndexes.getOrDefault(curXor, 0);
+            freq.put(curXor, freq.getOrDefault(curXor, 0) + 1);
+            sumIndexes.put(curXor, sumIndexes.getOrDefault(curXor, 0) + j + 1);
+        }
+        return ans;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+// Method 1: Brute force O(n^4)
+class Solution {
+public:
+    int countTriplets(vector<int>& arr) {
+        int n = arr.size();
+
+        auto checkEqualXor = [&](int i, int j, int k) -> bool {
+            int x1 = 0, x2 = 0;
+            for (int ind = i; ind < j; ind++) x1 ^= arr[ind];
+            for (int ind = j; ind <= k; ind++) x2 ^= arr[ind];
+            return x1 == x2;
+        };
+
+        int cnt = 0;
+        for (int i = 0; i < n - 1; i++)
+            for (int j = i + 1; j < n; j++)
+                for (int k = j; k < n; k++)
+                    if (checkEqualXor(i, j, k)) cnt++;
+
+        return cnt;
+    }
+};
+
+// Method 2: Brute force with prefix XOR sum (O(n^3))
+class Solution {
+public:
+    int countTriplets(vector<int>& arr) {
+        int n = arr.size();
+        vector<int> xor_pair(n + 1, 0);
+        
+        for (int i = 0; i < n; i++)
+            xor_pair[i + 1] = xor_pair[i] ^ arr[i];
+
+        int cnt = 0;
+        for (int i = 0; i < n - 1; i++)
+            for (int j = i + 1; j < n; j++)
+                for (int k = j; k < n; k++)
+                    if ((xor_pair[j] ^ xor_pair[i]) == (xor_pair[k + 1] ^ xor_pair[j]))
+                        cnt++;
+        return cnt;
+    }
+};
+
+// Method 3: Optimized O(n^2)
+class Solution {
+public:
+    int countTriplets(vector<int>& arr) {
+        int n = arr.size();
+        vector<int> xor_pair(n + 1, 0);
+
+        for (int i = 0; i < n; i++)
+            xor_pair[i + 1] = xor_pair[i] ^ arr[i];
+
+        int cnt = 0;
+        for (int i = 0; i < n - 1; i++)
+            for (int j = i + 1; j < n; j++)
+                if ((xor_pair[j + 1] ^ xor_pair[i]) == 0) {
+                    int length = j - i + 1;
+                    cnt += length - 1;
+                }
+        return cnt;
+    }
+};
+
+// Method 4: Using hash maps for frequency and sum of indices (O(n))
+class Solution {
+public:
+    int countTriplets(vector<int>& arr) {
+        int n = arr.size();
+        unordered_map<int, int> freq, sum_indexes;
+        freq[0] = 1;
+        sum_indexes[0] = 0;
+        int cur_xor = 0, ans = 0;
+
+        for (int j = 0; j < n; j++) {
+            cur_xor ^= arr[j];
+            ans += freq[cur_xor] * j - sum_indexes[cur_xor];
+            freq[cur_xor]++;
+            sum_indexes[cur_xor] += j + 1;
+        }
+        return ans;
+    }
+};
+"""

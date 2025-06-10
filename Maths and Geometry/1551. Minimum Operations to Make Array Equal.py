@@ -72,13 +72,50 @@ class Solution:
         return (n // 2) * (n // 2 + 1) if n % 2 == 1 else (n // 2) * (n // 2)
 
 
-# java
+# Java Code
 """
+//Method 1
 class Solution {
     public int minOperations(int n) {
-        // If n is odd, calculate n/2 * (n/2 + 1)
-        // If n is even, calculate n/2 * n/2
+        int median = n;
+        int operations = 0;
+
+        for (int i = 0; i < n / 2; i++) {
+            operations += (median - (2 * i + 1));
+        }
+
+        return operations;
+    }
+}
+//Method 2
+class Solution {
+    public int minOperations(int n) {
         return (n % 2 == 1) ? (n / 2) * (n / 2 + 1) : (n / 2) * (n / 2);
     }
 }
+"""
+
+# C++ Code
+"""
+//Method 1
+class Solution {
+public:
+    int minOperations(int n) {
+        int median = n;
+        int operations = 0;
+
+        for (int i = 0; i < n / 2; i++) {
+            operations += (median - (2 * i + 1));
+        }
+
+        return operations;
+    }
+};
+//Method 2
+class Solution {
+public:
+    int minOperations(int n) {
+        return (n % 2 == 1) ? (n / 2) * (n / 2 + 1) : (n / 2) * (n / 2);
+    }
+};
 """

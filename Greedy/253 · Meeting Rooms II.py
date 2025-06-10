@@ -107,6 +107,53 @@ class Solution {
     }
 }
 """
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+struct Interval {
+    int start, end;
+    Interval() : start(0), end(0) {}
+    Interval(int s, int e) : start(s), end(e) {}
+};
+
+class Solution {
+public:
+    int min_meeting_rooms(vector<Interval>& intervals) {
+        int n = intervals.size();
+        vector<int> start(n), end(n);
+
+        for (int i = 0; i < n; ++i) {
+            start[i] = intervals[i].start;
+            end[i] = intervals[i].end;
+        }
+
+        sort(start.begin(), start.end());
+        sort(end.begin(), end.end());
+
+        int ans = 0, count = 0;
+        int s = 0, e = 0;  // pointer to start and end array
+
+        while (s < n) {  // till we have started all the meetings
+            // overlapping so we will need one new room.
+            if (start[s] < end[e]) {
+                count += 1;  // allocated new room for overlapping meeting 
+                s += 1;      // started one so incr 's' by '1'.
+                ans = max(ans, count);
+            } else {
+                // one meeting ended. now the previous can be used for different meeting so decr total no of room required.
+                count -= 1;
+                e += 1;
+            }
+        }
+
+        return ans;
+    }
+};
+
+"""
 
 # Method 2: 
 # using sweep line algorithm
@@ -166,5 +213,41 @@ class Solution {
 }
 """
 
+# C++ Code 
+"""
+#include <map>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+struct Interval {
+    int start, end;
+    Interval() : start(0), end(0) {}
+    Interval(int s, int e) : start(s), end(e) {}
+};
+
+class Solution {
+public:
+    int minMeetingRooms(vector<Interval>& intervals) {
+        map<int, int> line;
+
+        for (auto& interval : intervals) {
+            line[interval.start] += 1;
+            line[interval.end] -= 1;
+        }
+
+        int ans = 0;
+        int count = 0;
+
+        for (auto& [time, delta] : line) {
+            count += delta;
+            ans = max(ans, count);
+        }
+
+        return ans;
+    }
+};
+
+"""
 # Related Q:
 # 1) Minimum Platforms

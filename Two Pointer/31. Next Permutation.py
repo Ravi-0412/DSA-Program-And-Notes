@@ -73,34 +73,79 @@ class Solution:
 
 # Java code:
 """
+import java.util.*;
+
 class Solution {
     public void nextPermutation(int[] nums) {
         int n = nums.length;
-        int i = n -1, j = n-1 ;
-        while(i > 0 && nums[i -1] >= nums[i])
-            i --;
-        if(i == 0) {
-            reverse(nums, 0, n-1);
-            return ;
+        int i = n - 1;  // will point to the index such that nums[i] < nums[i-1] from the right
+        int j = n - 1;  // will point to the index such that nums[j] > nums[i -1] from the right
+
+        // 1) first find 'i'.
+        while (i > 0 && nums[i - 1] >= nums[i]) {
+            i--;
         }
-        while(nums[i-1] >= nums[j]) 
-            j --;
-        swap(nums, i-1, j);
-        reverse(nums, i , n - 1);
+        if (i == 0) {
+            // Means the given number is the largest number, so just return the smallest number
+            reverse(nums, 0, n - 1);
+            return;
+        }
+        // 2) find 'j'.
+        while (nums[i - 1] >= nums[j]) {
+            j--;
+        }
+        // 3) now swap 'j' and 'i-1'.
+        swap(nums, j, i - 1);
+        // 4) reverse the array from index 'i' to last.
+        reverse(nums, i, n - 1);
     }
 
-    public void swap(int[] nums, int i, int j) {
-        int temp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = temp;
+    private void swap(int[] nums, int a, int b) {
+        int temp = nums[a];
+        nums[a] = nums[b];
+        nums[b] = temp;
     }
 
-    public void reverse(int[] nums, int i, int j){
-        while(i < j) {
-            swap(nums, i, j) ;
-            i ++;
-            j --;
+    private void reverse(int[] nums, int start, int end) {
+        while (start < end) {
+            swap(nums, start++, end--);
         }
     }
 }
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        int n = nums.size();
+        int i = n - 1;  // will point to the index such that nums[i] < nums[i-1] from the right
+        int j = n - 1;  // will point to the index such that nums[j] > nums[i -1] from the right
+
+        // 1) first find 'i'.
+        while (i > 0 && nums[i - 1] >= nums[i]) {
+            i--;
+        }
+        if (i == 0) {
+            // Means the given number is the largest number, so just return the smallest number
+            reverse(nums.begin(), nums.end());
+            return;
+        }
+        // 2) find 'j'.
+        while (nums[i - 1] >= nums[j]) {
+            j--;
+        }
+        // 3) now swap 'j' and 'i-1'.
+        swap(nums[j], nums[i - 1]);
+        // 4) reverse the array from index 'i' to last.
+        reverse(nums.begin() + i, nums.end());
+    }
+};
 """

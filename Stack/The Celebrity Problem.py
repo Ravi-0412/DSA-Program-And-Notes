@@ -78,25 +78,192 @@ def findCelebrity(n, knows):
     
     return candidate 
 
-# Java
+# Java Code 
 """
-public class Solution extends Relation {
-    public int findCelebrity(int n) {
-        int candidate = 0;
-        
-        for (int i = 1; i < n; i++) {
-            if (knows(candidate, i)) {
-                candidate = i;
-            }
-        }
-        
+//Method 1
+class Solution {
+    public int findCelebrity(int n, boolean[][] knowsMatrix) {
         for (int i = 0; i < n; i++) {
-            if (i != candidate && (knows(candidate, i) || !knows(i, candidate))) {
-                return -1;
+            boolean isCelebrity = true;
+
+            for (int j = 0; j < n; j++) {
+                if (i == j) continue;
+                if (!knowsMatrix[j][i] || knowsMatrix[i][j]) {
+                    isCelebrity = false;
+                    break;
+                }
+            }
+
+            if (isCelebrity) return i;
+        }
+        return -1;
+    }
+}
+//Method 2
+import java.util.Stack;
+
+class Solution {
+    public int findCelebrity(int n, boolean[][] knowsMatrix) {
+        Stack<Integer> stack = new Stack<>();
+
+        // Push all people into the stack
+        for (int i = 0; i < n; i++) {
+            stack.push(i);
+        }
+
+        // Compare two people until only one is left in the stack
+        while (stack.size() >= 2) {
+            int p1 = stack.pop();
+            int p2 = stack.pop();
+
+            if (knowsMatrix[p2][p1]) {
+                stack.push(p1); // p2 knows p1 -> p2 can't be celebrity, but p1 can be
+            } else {
+                stack.push(p2); // p2 does not know p1 -> p1 can't be celebrity, but p2 can be
             }
         }
-        
+
+        // Verify if the remaining person is the celebrity
+        int candidate = stack.pop();
+
+        for (int i = 0; i < n; i++) {
+            if (i == candidate) continue;
+            if (knowsMatrix[candidate][i] || !knowsMatrix[i][candidate]) {
+                return -1; // Not a celebrity
+            }
+        }
+
         return candidate;
     }
 }
+//Method 3
+class Solution {
+    public int findCelebrity(int n, boolean[][] knowsMatrix) {
+        int candidate = 0;
+
+        // Find the potential celebrity
+        for (int i = 1; i < n; i++) {
+            if (knowsMatrix[candidate][i]) {
+                candidate = i; // If candidate knows i, then candidate can't be a celebrity
+            }
+        }
+
+        // Verify if the candidate is indeed a celebrity
+        for (int i = 0; i < n; i++) {
+            if (i == candidate) continue;
+            if (knowsMatrix[candidate][i] || !knowsMatrix[i][candidate]) {
+                return -1; // No celebrity found
+            }
+        }
+
+        return candidate;
+    }
+}
+
+"""
+
+# C++ Code 
+"""
+//Method 1
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+bool knows(int a, int b); // Assume this function is predefined
+
+class Solution {
+public:
+    int findCelebrity(int n) {
+        for (int i = 0; i < n; i++) {
+            bool isCelebrity = true;
+
+            for (int j = 0; j < n; j++) {
+                if (i == j) continue;
+                if (!knows(j, i) || knows(i, j)) {
+                    isCelebrity = false;
+                    break;
+                }
+            }
+
+            if (isCelebrity) return i;
+        }
+        return -1;
+    }
+};
+//Method 2
+#include <iostream>
+#include <vector>
+#include <stack>
+
+using namespace std;
+
+bool knows(int a, int b); // Assume this function is predefined
+
+class Solution {
+public:
+    int findCelebrity(int n) {
+        stack<int> st;
+
+        // Push all people into the stack
+        for (int i = 0; i < n; i++) {
+            st.push(i);
+        }
+
+        // Compare two people until only one is left in the stack
+        while (st.size() >= 2) {
+            int p1 = st.top(); st.pop();
+            int p2 = st.top(); st.pop();
+
+            if (knows(p2, p1)) {
+                st.push(p1); // p2 knows p1 -> p2 can't be celebrity, but p1 can be
+            } else {
+                st.push(p2); // p2 does not know p1 -> p1 can't be celebrity, but p2 can be
+            }
+        }
+
+        // Verify if the remaining person is the celebrity
+        int candidate = st.top(); st.pop();
+
+        for (int i = 0; i < n; i++) {
+            if (i == candidate) continue;
+            if (knows(candidate, i) || !knows(i, candidate)) {
+                return -1; // Not a celebrity
+            }
+        }
+
+        return candidate;
+    }
+};
+//Method 3
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+bool knows(int a, int b); // Assume this function is predefined
+
+class Solution {
+public:
+    int findCelebrity(int n) {
+        int candidate = 0;
+
+        // Find the potential celebrity
+        for (int i = 1; i < n; i++) {
+            if (knows(candidate, i)) {
+                candidate = i; // If candidate knows i, then candidate can't be a celebrity
+            }
+        }
+
+        // Verify if the candidate is indeed a celebrity
+        for (int i = 0; i < n; i++) {
+            if (i == candidate) continue;
+            if (knows(candidate, i) || !knows(i, candidate)) {
+                return -1; // No celebrity found
+            }
+        }
+
+        return candidate;
+    }
+};
 """

@@ -99,3 +99,96 @@ class Solution(object):
 3) 1723. Find Minimum Time to Finish All Jobs
 4) 1601. Maximum Number of Achievable Transfer Requests
 """
+
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public boolean canPartitionKSubsets(int[] nums, int k) {
+        int sumNums = Arrays.stream(nums).sum();
+        if (sumNums % k != 0) return false;
+
+        int subsetSum = sumNums / k;
+        int[] sums = new int[k];
+        Arrays.sort(nums);
+        reverse(nums); // Sorting in descending order for optimization
+        int n = nums.length;
+
+        return canPartition(0, nums, sums, k, subsetSum, n);
+    }
+
+    private boolean canPartition(int i, int[] nums, int[] sums, int k, int subsetSum, int n) {
+        if (i == n) {
+            return new HashSet<>(Arrays.asList(Arrays.stream(sums).boxed().toArray(Integer[]::new))).size() == 1;
+        }
+
+        for (int j = 0; j < k; j++) {
+            sums[j] += nums[i];
+
+            if (sums[j] <= subsetSum && canPartition(i + 1, nums, sums, k, subsetSum, n)) {
+                return true;
+            }
+
+            sums[j] -= nums[i];
+
+            if (sums[j] == 0) return false; // Optimization: avoid redundant attempts
+        }
+        return false;
+    }
+
+    private void reverse(int[] nums) {
+        int left = 0, right = nums.length - 1;
+        while (left < right) {
+            int temp = nums[left];
+            nums[left] = nums[right];
+            nums[right] = temp;
+            left++;
+            right--;
+        }
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <numeric>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        int sumNums = accumulate(nums.begin(), nums.end(), 0);
+        if (sumNums % k != 0) return false;
+
+        int subsetSum = sumNums / k;
+        vector<int> sums(k, 0);
+        sort(nums.rbegin(), nums.rend());  // Sorting in descending order for optimization
+        int n = nums.size();
+
+        function<bool(int)> canPartition = [&](int i) {
+            if (i == n) {
+                return set<int>(sums.begin(), sums.end()).size() == 1;
+            }
+            for (int j = 0; j < k; j++) {
+                sums[j] += nums[i];
+
+                if (sums[j] <= subsetSum && canPartition(i + 1)) {
+                    return true;
+                }
+
+                sums[j] -= nums[i];
+
+                if (sums[j] == 0) return false; // Optimization: avoid redundant attempts
+            }
+            return false;
+        };
+
+        return canPartition(0);
+    }
+};
+"""

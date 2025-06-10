@@ -40,3 +40,86 @@ class Solution:
                     row[k] += matrix[j][k]
                 ans += subarraySum(row)
         return ans
+
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int numSubmatrixSumTarget(int[][] matrix, int target) {
+        int m = matrix.length, n = matrix[0].length;
+        int ans = 0;
+
+        // Function to count subarrays that sum to the target
+        int subarraySum(int[] nums, int target) {
+            int ans = 0, curr_sum = 0;
+            Map<Integer, Integer> prefix_sum = new HashMap<>();
+            prefix_sum.put(0, 1); // [sum: frequency]
+
+            for (int num : nums) {
+                curr_sum += num;
+                int diff = curr_sum - target;
+                ans += prefix_sum.getOrDefault(diff, 0); // Count occurrences of 'diff'
+                prefix_sum.put(curr_sum, prefix_sum.getOrDefault(curr_sum, 0) + 1); // Store current prefix sum frequency
+            }
+            return ans;
+        }
+
+        int[] row = new int[n]; // Stores prefix sum of rows
+        for (int i = 0; i < m; i++) {
+            Arrays.fill(row, 0); // Reset row sum for new 'i'
+            for (int j = i; j < m; j++) {
+                for (int k = 0; k < n; k++) {
+                    row[k] += matrix[j][k];
+                }
+                ans += subarraySum(row, target);
+            }
+        }
+
+        return ans;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution {
+public:
+    int numSubmatrixSumTarget(vector<vector<int>>& matrix, int target) {
+        int m = matrix.size(), n = matrix[0].size();
+        int ans = 0;
+
+        // Function to count subarrays that sum to the target
+        auto subarraySum = [&](vector<int>& nums) {
+            int ans = 0, curr_sum = 0;
+            unordered_map<int, int> prefix_sum = {{0, 1}}; // [sum: frequency]
+
+            for (int num : nums) {
+                curr_sum += num;
+                int diff = curr_sum - target;
+                ans += prefix_sum[diff]; // Count occurrences of 'diff'
+                prefix_sum[curr_sum]++;  // Store current prefix sum frequency
+            }
+            return ans;
+        };
+
+        vector<int> row(n, 0); // Stores prefix sum of rows
+        for (int i = 0; i < m; i++) {
+            fill(row.begin(), row.end(), 0); // Reset row sum for new 'i'
+            for (int j = i; j < m; j++) {
+                for (int k = 0; k < n; k++) {
+                    row[k] += matrix[j][k];
+                }
+                ans += subarraySum(row);
+            }
+        }
+
+        return ans;
+    }
+};
+"""

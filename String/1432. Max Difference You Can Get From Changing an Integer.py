@@ -9,6 +9,8 @@ To minimize b we need to find the left-most digit in it that is not a 0 and repl
 But we have to watch out: We are not allowed to convert the first digit to a '0' as we should not create a number with trailing zeroes.
 Therefore we can only replace the first digit with a 1. All other digits can be replaced with a 0 if they are not a 1 as that 
 would also replace the trailing 1 with a 0.
+
+# time: O(d), where d is the number of digits in num.
 """
 
 class Solution:

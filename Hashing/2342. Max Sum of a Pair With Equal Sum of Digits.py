@@ -73,7 +73,6 @@ import java.util.HashMap;
 import java.util.List;
 
 class Solution {
-    // Function to calculate the sum of digits of a number
     private int sumOfDigit(int num) {
         int sum = 0;
         while (num > 0) {
@@ -149,7 +148,6 @@ using namespace std;
 
 class Solution {
 public:
-    // Function to calculate the sum of digits of a number
     int sumOfDigit(int num) {
         int sum = 0;
         while (num) {

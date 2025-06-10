@@ -1,29 +1,31 @@
-# Logic: check for each number whether we can add them to any sequence or not.
-# Note: Sequence can start from current number or we can add current number to any of the previous sequence.
-# if none of the two is possible then , ans = False
+"""
+Logic: check for each number whether we can add them to any sequence or not.
+Note: Sequence can start from current number or we can add current number to any of the previous sequence.
+if none of the two is possible then , ans = False
 
-# How to solve?
-# The algorithm takes two steps:
+How to solve?
+The algorithm takes two steps:
 
-# 1) Iterate once through the array to get the number of occurrences for each number in the array. 
-# Store this in a hashmap called occurrences mapping the number to its total # of occurrences.
-# 2) Iterate once through the array to check if every element can be part of a consecutive sequence of at least length 3.
+1) Iterate once through the array to get the number of occurrences for each number in the array. 
+Store this in a hashmap called occurrences mapping the number to its total # of occurrences.
+2) Iterate once through the array to check if every element can be part of a consecutive sequence of at least length 3.
 
-# The second part is the core of the algorithm. For an element to be part of a consecutive sequence, it has to either be:
+The second part is the core of the algorithm. For an element to be part of a consecutive sequence, it has to either be:
 
-# 1) Appendable to an existing sequence. For example, 5 is directly appendable to the sequence [1, 2, 3, 4]. 
-# We keep track of this next number (5 in this example) in each of these sequences in a separate hashmap called next_nums.
-# 2) Able to create its own sequence. For this to happen, 
-# there must be at least 1 occurrence of that number + 1 and that number + 2, since that creates a sequence of length 3.
+1) Appendable to an existing sequence. For example, 5 is directly appendable to the sequence [1, 2, 3, 4]. 
+We keep track of this next number (5 in this example) in each of these sequences in a separate hashmap called next_nums.
+2) Able to create its own sequence. For this to happen, 
+there must be at least 1 occurrence of that number + 1 and that number + 2, since that creates a sequence of length 3.
 
-# The occurrences hashmap essentially acts as a "storage" for all the numbers, 
-# and next_nums keeps track of what number can be directly appended to an existing sequence. 
-# Once every number in the "storage" has been accounted for, 
-# every number in the input array has been reallocated into a subsequence of at least length 3,
-# so we return True. If at any point, a number cannot create its own subsequence 
-# and cannot be added to an existing one, we return False.
+The occurrences hashmap essentially acts as a "storage" for all the numbers, 
+and next_nums keeps track of what number can be directly appended to an existing sequence. 
+Once every number in the "storage" has been accounted for, 
+every number in the input array has been reallocated into a subsequence of at least length 3,
+so we return True. If at any point, a number cannot create its own subsequence 
+and cannot be added to an existing one, we return False.
 
-# Time = Space = O(n)
+Time = Space = O(n)
+"""
 
 class Solution(object):
     def isPossible(self, nums):

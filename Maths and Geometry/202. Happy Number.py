@@ -1,3 +1,5 @@
+# method 1: 
+
 # Time :  O(logN) where N is the number.
 # Space : O(logN)
 
@@ -22,8 +24,6 @@ class Solution:
 
 
 # Method 2: 
-# In linear space
-
 # Logic: the non-happy number will repeat itself.
 # suppose the non-happy number does not repeat it self, the code will stuck in infinite loop and we will never get result back.
 
@@ -32,7 +32,7 @@ class Solution:
 
 # For detecting cycle, we can use logic of 'detecting cycle' in a linklist i.e 'Floyd Cycle detection algorithm'.
 
-# space : O(1)
+# time: O(n), space : O(1)
 
 class Solution:
     def isHappy(self, n: int) -> bool:
@@ -55,10 +55,11 @@ class Solution:
         
 # Java Code 
 """
+    // Method 1: Using a set to track visited numbers
+
 import java.util.HashSet;
 
 class Solution {
-    // Method 1: Using a set to track visited numbers
     public boolean isHappy(int n) {
         HashSet<Integer> visited = new HashSet<>();
         
@@ -85,10 +86,6 @@ class Solution {
 }
 
 // Method 2: Using Floyd's Cycle Detection Algorithm
-// Logic: A non-happy number will repeat itself.
-// If a non-happy number does not repeat, the code will be stuck in an infinite loop.
-// We check for cycles while replacing the number with the sum of squares of its digits.
-// If there is a cycle, we check its value—if it equals 1, it's happy; otherwise, it's not.
 
 class Solution {
     public boolean isHappy(int n) {
@@ -148,10 +145,6 @@ private:
 };
 
 // Method 2: Using Floyd's Cycle Detection Algorithm
-// Logic: A non-happy number will repeat itself.
-// If a non-happy number does not repeat, the code will be stuck in an infinite loop.
-// We check for cycles while replacing the number with the sum of squares of its digits.
-// If there is a cycle, we check its value—if it equals 1, it's happy; otherwise, it's not.
 
 class Solution {
 public:

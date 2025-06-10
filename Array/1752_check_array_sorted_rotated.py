@@ -1,4 +1,3 @@
-# 1st method : 
 # time: O(n)
 # just compare the ele with its next ele
 # in rotated and sorted array above condition will hold exactly once or zero time(in case array is already sorted in ascending order)

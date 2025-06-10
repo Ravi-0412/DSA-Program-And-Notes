@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Excel sheet column no title :
 # [A,B,...Z], [AA,AB,....,AZ], [BA,BB,...,BZ],....[ZA,ZB,....,ZZ],[AAA,AAB,....,AAZ],.......
 
@@ -68,7 +70,7 @@ class Solution:
         ans = colToChar[columnNumber] + ans
         return ans
 
-# 2)
+# Other way of writing same above logic
 class Solution:
     def convertToTitle(self, columnNumber: int) -> str:
         ans = ""

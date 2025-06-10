@@ -88,6 +88,4 @@ public:
     }
 };
 """
-# my mistake: I thought excatly same way only but was not able to code.
-# Reason: I was trying to find the indexes of first_a, 2nd_a, first_non_a...
-# so it become totally difficult.
+

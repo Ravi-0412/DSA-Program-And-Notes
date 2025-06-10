@@ -1,4 +1,78 @@
-# Method 1: Using 'Z- algo'.
+# Method 1: Brutre force
+
+"""
+Approach
+1) Iterate through each possible starting position of needle in haystack.
+2) For each starting position, check if the substring of haystack starting at that position matches needle.
+3) If a match is found, return the starting index.
+4) If no match is found after checking all possible positions, return -1.
+
+time complexity : O((n-m+1)*m) where n is the length of haystack and m is the length of needle
+"""
+
+class Solution(object):
+    def strStr(self, haystack, needle):
+        len_haystack = len(haystack)
+        len_needle = len(needle)
+        
+        if len_needle == 0:
+            return 0
+        
+        for i in range(len_haystack - len_needle + 1):
+            if haystack[i:i+len_needle] == needle:
+                return i
+        
+        return -1
+
+# Java
+"""
+class Solution {
+    public int strStr(String haystack, String needle) {
+        int lenHaystack = haystack.length();
+        int lenNeedle = needle.length();
+        
+        if (lenNeedle == 0) {
+            return 0;
+        }
+        
+        for (int i = 0; i <= lenHaystack - lenNeedle; i++) {
+            if (haystack.substring(i, i + lenNeedle).equals(needle)) {
+                return i;
+            }
+        }
+        
+        return -1;
+    }
+}
+"""
+
+# c++
+"""
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        int lenHaystack = haystack.size();
+        int lenNeedle = needle.size();
+        
+        if (lenNeedle == 0) {
+            return 0;
+        }
+        
+        for (int i = 0; i <= lenHaystack - lenNeedle; i++) {
+            if (haystack.substr(i, lenNeedle) == needle) {
+                return i;
+            }
+        }
+        
+        return -1;
+    }
+};
+"""
+
+# Method 2: Using 'Z- algo'.
 
 # See the q: "2223. Sum of Scores of Built Strings" for detailed explanation.
 

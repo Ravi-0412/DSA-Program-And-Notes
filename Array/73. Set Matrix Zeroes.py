@@ -1,7 +1,77 @@
 # method 1: Brute Force
 # take another 2D array for ans and keep checking the ele from original matrix and keep updating the res in 'ans' matrix.
-# time= Space= O(n)
+# time= Space= O(m*n)
 
+class Solution(object):
+    def setZeroes(self, matrix):
+        if not matrix:
+            return
+        
+        rows = len(matrix)
+        cols = len(matrix[0])
+        
+        # Create a copy of the original matrix
+        matrix_copy = [row[:] for row in matrix]
+        
+        for i in range(rows):
+            for j in range(cols):
+                if matrix[i][j] == 0:
+                    # Set entire row to zero
+                    for k in range(cols):
+                        matrix_copy[i][k] = 0
+                    # Set entire column to zero
+                    for k in range(rows):
+                        matrix_copy[k][j] = 0
+        
+        # Copy the modified matrix back to the original
+        for i in range(rows):
+            for j in range(cols):
+                matrix[i][j] = matrix_copy[i][j]
+
+# Java
+"""
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return;
+        }
+        
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        
+        int[][] matrixCopy = new int[rows][cols];
+        
+        // Create a copy of the original matrix
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                matrixCopy[i][j] = matrix[i][j];
+            }
+        }
+        
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (matrix[i][j] == 0) {
+                    // Set entire row to zero
+                    for (int k = 0; k < cols; k++) {
+                        matrixCopy[i][k] = 0;
+                    }
+                    // Set entire column to zero
+                    for (int k = 0; k < rows; k++) {
+                        matrixCopy[k][j] = 0;
+                    }
+                }
+            }
+        }
+        
+        // Copy the modified matrix back to the original
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                matrix[i][j] = matrixCopy[i][j];
+            }
+        }
+    }
+}
+"""
 # method 2: 
 # just store the rows and cols for which we have to make all ele zero.
 # time: O(m*n), space= O(m+n)
@@ -96,6 +166,49 @@ class Solution:
 
 # Java
 """
+// Method 1:
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return;
+        }
+        
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        
+        int[][] matrixCopy = new int[rows][cols];
+        
+        // Create a copy of the original matrix
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                matrixCopy[i][j] = matrix[i][j];
+            }
+        }
+        
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (matrix[i][j] == 0) {
+                    // Set entire row to zero
+                    for (int k = 0; k < cols; k++) {
+                        matrixCopy[i][k] = 0;
+                    }
+                    // Set entire column to zero
+                    for (int k = 0; k < rows; k++) {
+                        matrixCopy[k][j] = 0;
+                    }
+                }
+            }
+        }
+        
+        // Copy the modified matrix back to the original
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                matrix[i][j] = matrixCopy[i][j];
+            }
+        }
+    }
+}
+
 // Method 2:
 class Solution {
     public void setZeroes(int[][] matrix) {
@@ -179,6 +292,53 @@ class Solution {
 
 # C++ Code 
 """
+// Method 1:
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        if (matrix.empty() || matrix[0].empty()) {
+            return;
+        }
+        
+        int rows = matrix.size();
+        int cols = matrix[0].size();
+        
+        vector<vector<int>> matrixCopy(rows, vector<int>(cols));
+        
+        // Create a copy of the original matrix
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                matrixCopy[i][j] = matrix[i][j];
+            }
+        }
+        
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (matrix[i][j] == 0) {
+                    // Set entire row to zero
+                    for (int k = 0; k < cols; k++) {
+                        matrixCopy[i][k] = 0;
+                    }
+                    // Set entire column to zero
+                    for (int k = 0; k < rows; k++) {
+                        matrixCopy[k][j] = 0;
+                    }
+                }
+            }
+        }
+        
+        // Copy the modified matrix back to the original
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                matrix[i][j] = matrixCopy[i][j];
+            }
+        }
+    }
+};
+
 //Method 2
 #include <vector>
 

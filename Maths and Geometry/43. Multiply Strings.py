@@ -1,3 +1,5 @@
+# Method 1: 
+
 # just conversion of logic we do the multiplication normally.
 # nOte: when we multiply two number then no of digit in answer can't go beyond 'len(num1) + len(num2)'.
 # time: O(m*n)
@@ -32,6 +34,12 @@ class Solution:
 # Method 2: Just we do multiplication 
 # i.e from right to left. No need to reverse
 # Note: if we multiply two index 'i1' and 'i2' then it's value will at : 'i1 + i2 + 1' 
+# time: O(m*n), space: O(m+ n)
+
+# 1) if "0" in num1 or num2:  means if any of num1 or num2 will contain even a single zero then it will return the "0"
+# 2) if "0" in [num1] or [num2]: it means if all char in array num1 or num2 is "0" then return  "0".
+# 3) if "0" in [num1, num2]: just shorter way of writing the '2'.
+
 class Solution:
     def multiply(self, num1: str, num2: str) -> str:
         if "0" in [num1] or "0" in [num2]:
@@ -172,6 +180,3 @@ public:
 };
 """
 
-# 1) if "0" in num1 or num2:  means if any of num1 or num2 will contain even a single zero then it will return the "0"
-# 2) if "0" in [num1] or [num2]: it means if all char in array num1 or num2 is "0" then return  "0".
-# 3) if "0" in [num1, num2]: just shorter way of writing the '2'.

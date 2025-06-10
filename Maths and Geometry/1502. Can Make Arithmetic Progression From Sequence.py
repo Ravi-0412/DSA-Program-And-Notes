@@ -16,14 +16,16 @@ class Solution:
     
 
 # method 2: 
-# logic: find the diff first.
-# we get the max_number in AP using 'min_number + (n-1)*diff' . From this we can get the difference.
-# diff= (max(nums) - min(nums)) / (n-1).
+"""
+logic: find the diff first.
+we get the max_number in AP using 'min_number + (n-1)*diff' . From this we can get the difference.
+diff= (max(nums) - min(nums)) / (n-1).
 
-# then we have starting ele of AP and diff so we can check if next ele of sequence is present or not.
-# next= min(nums) +  i * diff, i= 1, 2, 3,....n-1
+then we have starting ele of AP and diff so we can check if next ele of sequence is present or not.
+next= min(nums) +  i * diff, i= 1, 2, 3,....n-1
 
-# time= space= O(n)
+time= space= O(n)
+"""
 
 class Solution:
     def canMakeArithmeticProgression(self, arr: List[int]) -> bool:
@@ -38,11 +40,6 @@ class Solution:
                 return False
         return True
 
-# method 3: Try Later.
-# optimising space to (1).
-# time: O(n), space O(1)
-# https://leetcode.com/problems/can-make-arithmetic-progression-from-sequence/solutions/720152/o-n-time-o-1-space/
-# https://leetcode.com/problems/can-make-arithmetic-progression-from-sequence/solutions/721352/c-counting-sort-solution-with-o-n-and-o-1-complexity/
 
 # Java Code 
 """
@@ -140,3 +137,9 @@ public:
     }
 };
 """
+
+# method 3: Try Later.
+# optimising space to (1).
+# time: O(n), space O(1)
+# https://leetcode.com/problems/can-make-arithmetic-progression-from-sequence/solutions/720152/o-n-time-o-1-space/
+# https://leetcode.com/problems/can-make-arithmetic-progression-from-sequence/solutions/721352/c-counting-sort-solution-with-o-n-and-o-1-complexity/

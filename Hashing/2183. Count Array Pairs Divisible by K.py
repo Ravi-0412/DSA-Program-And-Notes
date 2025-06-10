@@ -1,18 +1,22 @@
-# logic: similar to "Two Sum".
-# but here we can't find the other number directly like "Two Sum".
+# Meethod 1: 
 
-# for finding the other number :
-# 1) we will store the 'gcd(n,k)' as key with 'frequency' as value.
-# 2) for any number , want=  k//gcd. 
-# Note: any multiple of 'want' will contribute ans.
+"""
+logic: similar to "Two Sum".
+but here we can't find the other number directly like "Two Sum".
 
-# we have to find the product which is divisible by k.
-# example if we need to make a pair which is divisible by 10 i.e k = 10, 
-# so by far we have found 12 so the gcd of (12,10) will be 2 now what is the other number ?
-# other_number = k//gcd = 10//2 = 5, we need to find it is 5 hence if we find 5's multiple or 5 we will add this pair to answer.
+for finding the other number :
+1) we will store the 'gcd(n,k)' as key with 'frequency' as value.
+2) for any number , want=  k//gcd. 
+Note: any multiple of 'want' will contribute ans.
 
-# time= (n* sqrt(n)) .
-# since max number of divisor any number 'n' can have <= 2 * sqrt(n).
+we have to find the product which is divisible by k.
+example if we need to make a pair which is divisible by 10 i.e k = 10, 
+so by far we have found 12 so the gcd of (12,10) will be 2 now what is the other number ?
+other_number = k//gcd = 10//2 = 5, we need to find it is 5 hence if we find 5's multiple or 5 we will add this pair to answer.
+
+time= (n* sqrt(n)) .
+since max number of divisor any number 'n' can have <= 2 * sqrt(n).
+"""
 
 import math
 class Solution:
@@ -33,30 +37,30 @@ class Solution:
 
 
 # Method 2: More better and logical
-# https://leetcode.com/problems/count-array-pairs-divisible-by-k/solutions/1785906/how-gcd-a-k-gcd-b-k-k-0-explained-with-example/
+"""
+Observation: 
+1) If (a*b)%k == 0, then (gcd(a,k) * gcd(b,k)) % k == 0 and vice versa is also true i.e
+2) if (gcd(a,k) * gcd(b,k)) % k == 0 then (a*b)%k == 0
 
-# Observation: 
-# 1) If (a*b)%k == 0, then (gcd(a,k) * gcd(b,k)) % k == 0 and vice versa is also true i.e
-# 2) if (gcd(a,k) * gcd(b,k)) % k == 0 then (a*b)%k == 0
+Here we will use 2nd property.
+We will store gcd(num, k) as key into hashmap and for cur number first we will find gcd and
+After that we will traverse whole hashmap to find another number following propert '2'.
 
-# Here we will use 2nd property.
-# We will store gcd(num, k) as key into hashmap and for cur number first we will find gcd and
-# After that we will traverse whole hashmap to find another number following propert '2'.
+Proof of '2':
+For any number to be divisble by 'k' it need to have atleast all the prime factors of k.
+gcd(a,k) = Multiplication of all prime factors of 'k' available in 'a' and
+gcd(b,k) = Multiplication of all prime factors of 'k' available in 'b'.
 
-# Proof of '2':
-# For any number to be divisble by 'k' it need to have atleast all the prime factors of k.
-# gcd(a,k) = Multiplication of all prime factors of 'k' available in 'a' and
-# gcd(b,k) = Multiplication of all prime factors of 'k' available in 'b'.
+If (gcd(a,k) * gcd(b,k)) % k is 0, it means some of the prime factors of 'k' are contributed by 'a' and 
+some of the prime factors of 'k' are contributed by 'b' and 
+their multiplication has all the prime factors of 'k' which means 'a*b' is divisble by 'k'.
 
-# If (gcd(a,k) * gcd(b,k)) % k is 0, it means some of the prime factors of 'k' are contributed by 'a' and 
-# some of the prime factors of 'k' are contributed by 'b' and 
-# their multiplication has all the prime factors of 'k' which means 'a*b' is divisble by 'k'.
+Note: We dont care about prime factors of a or b which are not prime factors of k because they will not help us in making a*b divisible by k.
 
-# Note: We dont care about prime factors of a or b which are not prime factors of k because they will not help us in making a*b divisible by k.
-
-# Time Complexity - O(N*sqrt(K))
-# Why sqrt(K) ?
-# Since we are taking gcd, it means we are considering factors of K and the number of factors of K will not be above 2*sqrt(K).
+Time Complexity - O(N*sqrt(K))
+Why sqrt(K) ?
+Since we are taking gcd, it means we are considering factors of K and the number of factors of K will not be above 2*sqrt(K).
+"""
 
 import math
 class Solution:
@@ -73,11 +77,12 @@ class Solution:
 
 # Java Code 
 """
+    // Method 1: Using frequency map to count valid pairs
+
 import java.util.HashMap;
 import java.util.List;
 
 class Solution {
-    // Method 1: Using frequency map to count valid pairs
     public int countPairs(List<Integer> nums, int k) {
         HashMap<Integer, Integer> frequency = new HashMap<>();
         int ans = 0;
@@ -107,26 +112,6 @@ class Solution {
 }
 
 // Method 2: More optimized approach
-// https://leetcode.com/problems/count-array-pairs-divisible-by-k/solutions/1785906/how-gcd-a-k-gcd-b-k-k-0-explained-with-example/
-
-// Observation:
-// 1) If (a * b) % k == 0, then (gcd(a, k) * gcd(b, k)) % k == 0 and vice versa is also true.
-// 2) If (gcd(a, k) * gcd(b, k)) % k == 0, then (a * b) % k == 0.
-
-// We use the second property.
-// We store gcd(num, k) as a key in a hashmap, and for each number, we first find its gcd.
-// Then, we traverse the hashmap to find another number satisfying property '2'.
-
-// Proof of '2':
-// For any number to be divisible by 'k', it must have at least all the prime factors of 'k'.
-// gcd(a, k) = Multiplication of all prime factors of 'k' available in 'a'.
-// gcd(b, k) = Multiplication of all prime factors of 'k' available in 'b'.
-// If (gcd(a, k) * gcd(b, k)) % k == 0, it means some prime factors of 'k' are contributed by 'a' and some by 'b'.
-// Their multiplication has all the prime factors of 'k', meaning 'a * b' is divisible by 'k'.
-
-// Time Complexity - O(N * sqrt(K))
-// Why sqrt(K)?
-// Since we are taking gcd, we are considering factors of K, and the number of factors of K will not exceed 2 * sqrt(K).
 
 class Solution {
     public int countPairs(List<Integer> nums, int k) {
@@ -186,26 +171,6 @@ public:
 };
 
 // Method 2: More optimized approach
-// https://leetcode.com/problems/count-array-pairs-divisible-by-k/solutions/1785906/how-gcd-a-k-gcd-b-k-k-0-explained-with-example/
-
-// Observation:
-// 1) If (a * b) % k == 0, then (gcd(a, k) * gcd(b, k)) % k == 0 and vice versa is also true.
-// 2) If (gcd(a, k) * gcd(b, k)) % k == 0, then (a * b) % k == 0.
-
-// We use the second property.
-// We store gcd(num, k) as a key in a hashmap, and for each number, we first find its gcd.
-// Then, we traverse the hashmap to find another number satisfying property '2'.
-
-// Proof of '2':
-// For any number to be divisible by 'k', it must have at least all the prime factors of 'k'.
-// gcd(a, k) = Multiplication of all prime factors of 'k' available in 'a'.
-// gcd(b, k) = Multiplication of all prime factors of 'k' available in 'b'.
-// If (gcd(a, k) * gcd(b, k)) % k == 0, it means some prime factors of 'k' are contributed by 'a' and some by 'b'.
-// Their multiplication has all the prime factors of 'k', meaning 'a * b' is divisible by 'k'.
-
-// Time Complexity - O(N * sqrt(K))
-// Why sqrt(K)?
-// Since we are taking gcd, we are considering factors of K, and the number of factors of K will not exceed 2 * sqrt(K).
 
 class Solution {
 public:

@@ -28,7 +28,7 @@
 # (10^4), but as small as possible without risking too many collisions, and preferably prime. 
 # The other is just a random large multiplier, also preferably a prime.
 
-# using Array
+# Method 1: using Array
 class MyHashMap:
     def __init__(self):
         self.data = [None] * 1000001
@@ -40,7 +40,7 @@ class MyHashMap:
     def remove(self, key: int) -> None:
         self.data[key] = None
 
-# using linked list
+# Method 2: using linked list
 class ListNode:
     def __init__(self, key, val, nxt):
         self.key = key
@@ -79,7 +79,7 @@ class MyHashMap:
             node = node.next
 
 # java
-# using array
+# Method 1: using array
 """
 class MyHashMap {
     int[] data;
@@ -99,7 +99,7 @@ class MyHashMap {
 }
 """
 
-# using linked list
+# Method 2: using linked list
 """"
 class ListNode {
     int key, val;
@@ -187,7 +187,7 @@ public:
     }
 };
 
-//Using linkedlist
+//method 2"   Using linkedlist
 #include <vector>
 using namespace std;
 

@@ -8,8 +8,8 @@
 # if and only if gcd of (targetX, targetY) is a power of 2.
 
 # Approach:
-1) Find gcd of targetX and targetY
-2) Check if gcd is a power of 2. If it is, return True else return False.
+# 1) Find gcd of targetX and targetY
+# 2) Check if gcd is a power of 2. If it is, return True else return False.
 
 # Time complexity: O(gcd) = O(log(min(targetX, targetY)))
 # Space complexity: O(gcd)
@@ -39,12 +39,6 @@ using namespace std;
 
 class Solution {
 public:
-    /*
-    Explanation:
-    - Compute the GCD of `targetX` and `targetY`.
-    - If `g` is a power of 2, then `g & (g - 1) == 0` holds true.
-    - This ensures that the target can be reached.
-    */
     bool isReachable(int targetX, int targetY) {
         int g = gcd(targetX, targetY);
         return (g & (g - 1)) == 0; // Check if `g` is a power of 2

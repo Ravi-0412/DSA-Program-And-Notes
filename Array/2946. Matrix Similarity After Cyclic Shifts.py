@@ -1,5 +1,7 @@
-# After shifting ele at cur index and ele that will come at cur index must be same in each row.  
 
+# Method 1: 
+# After shifting ele at cur index and ele that will come at cur index must be same in each row.  
+# Time = O(m*n) , space : O(1)
 class Solution:
     def areSimilar(self, mat: List[List[int]], k: int) -> bool:
         m ,n = len(mat) , len(mat[0])
@@ -14,6 +16,72 @@ class Solution:
                 if mat[i][j] != mat[i][ind]:
                     return False
         return True
+    
+# Java
+"""
+class Solution {
+    public boolean areSimilar(int[][] mat, int k) {
+        int m = mat.length, n = mat[0].length;
+
+        for (int i = 0; i < m; i += 2) {
+            for (int j = 0; j < n; j++) {
+                int ind = (j + k) % n;
+                if (mat[i][j] != mat[i][ind]) {
+                    return false;
+                }
+            }
+        }
+
+        for (int i = 1; i < m; i += 2) {
+            for (int j = 0; j < n; j++) {
+                int ind = (j - k + n) % n;
+                if (mat[i][j] != mat[i][ind]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+}
+"""
+
+# C++ 
+"""
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    bool areSimilar(vector<vector<int>>& mat, int k) {
+        int m = mat.size(), n = mat[0].size();
+
+        for (int i = 0; i < m; i += 2) {
+            for (int j = 0; j < n; j++) {
+                int ind = (j + k) % n;
+                if (mat[i][j] != mat[i][ind]) {
+                    return false;
+                }
+            }
+        }
+
+        for (int i = 1; i < m; i += 2) {
+            for (int j = 0; j < n; j++) {
+                int ind = (j - k + n) % n;
+                if (mat[i][j] != mat[i][ind]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+};
+
+"""
+    
+# Method 2
+# Time = O(m*n) , space : O(1)
 
 """
 We can do in one loop also

@@ -1,7 +1,7 @@
 # Note vvi: There can be exactly one majority ele.
 
 # method 1:
-# using dictionary(this i submitted on GFG)
+# time = space = O(n)
 class Solution:
     def majorityElement(self, A, N):
         middle_index= N//2
@@ -23,7 +23,8 @@ class Solution:
 # in this case middle index must be the index of majority element
 # in this case, time: O(1), just return the middle ele 
 
-# but here we are sorting then returning the mid ele so, time: 0(nlogn)
+# but here we are sorting then returning the mid ele so,
+#  time: 0(nlogn), space  = O(1)
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
         nums.sort()
@@ -64,40 +65,11 @@ class Solution:
         return m
 
 
-# Mthod 4: Another way of writing the same logic
-# More logical and better
-
-# Logic: Since majority element already exist, every ele has two choice:
-# 1) it can be same as cur majority element
-# 2) different from cur majority
-
-# Har ele ke passs 2 choice : 
-# i) majority ele h. 
-# is case me count ko bs increment karna h.
-# ii) majority ele nhi h.
-# is case me count ko decrease karna h and agar count == 0 ho gya decrease karne ke bad
-# Then, majority ele ko update kar dena h current ele se and count = 1 kar dena h.
-
-class Solution:
-    def majorityElement(self, nums: List[int]) -> int:
-        m = nums[0]  # Assume majority is nums[0]
-        count = 1   # nums[0]
-        for i in range(1, len(nums)):
-            if nums[i] == m:
-                count += 1
-            else:
-                count -= 1
-                if count == 0:
-                    m = nums[i]
-                    count = 1
-        return m
-
-
-# Another way of writing the above code
-# Best one
+# Method 4: Better one to write the 'Moore’s Voting Algorithm' in other way
 # on this approach, we can solve the Q :"229. Majority Element II".
 
 # Just relate to real life counting of votes in ele i.e how a condidate wins.
+# Time: O(n) , space : O(1)
 
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
@@ -141,6 +113,7 @@ class Solution {
         return -1;
     }
 }
+
 //Method 2
 import java.util.*;
 
@@ -151,6 +124,7 @@ class Solution {
         return nums[nums.length / 2];
     }
 }
+
 //Method 3
 class Solution {
     // Method 3: Moore’s Voting Algorithm
@@ -167,6 +141,34 @@ class Solution {
         return m;
     }
 }
+
+// Method 4
+class Solution {
+    public int majorityElement(int[] nums) {
+        Integer m = null;
+        int count = 0;
+
+        for (int n : nums) {
+            if (n == m) {
+                // vote of majority ele will increase.
+                count += 1;
+            }
+            // Agar majority 'm' nhi h and count = 0 h then cur ele majority ban jayega.
+            else if (count == 0) {
+                // cur ele will become majority ele (current winning condidate)
+                m = n;
+                count = 1;
+            }
+            // Agar majority 'm' nhi h and count > 0 h then 'm' ka count kamega.
+            else {
+                // cur ele can't be the winning condidate, it will just reduce the vote of cur winning condidate i.e cur majority ele
+                count -= 1;
+            }
+        }
+        return m;
+    }
+}
+
 """
 
 # C++ Code 
@@ -198,6 +200,7 @@ public:
         return -1;
     }
 };
+
 //Method 2
 class Solution {
 public:
@@ -207,6 +210,7 @@ public:
         return nums[nums.size() / 2];
     }
 };
+
 //Method 3
 class Solution {
 public:
@@ -224,4 +228,37 @@ public:
         return m;
     }
 };
+
+// method 4:
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int m = 0;
+        int count = 0;
+
+        for (int n : nums) {
+            if (n == m) {
+                // vote of majority ele will increase.
+                count += 1;
+            }
+            // Agar majority 'm' nhi h and count = 0 h then cur ele majority ban jayega.
+            else if (count == 0) {
+                // cur ele will become majority ele (current winning condidate)
+                m = n;
+                count = 1;
+            }
+            // Agar majority 'm' nhi h and count > 0 h then 'm' ka count kamega.
+            else {
+                // cur ele can't be the winning condidate, it will just reduce the vote of cur winning condidate i.e cur majority ele
+                count -= 1;
+            }
+        }
+        return m;
+    }
+};
+
+
 """

@@ -25,7 +25,8 @@ class Solution:
         return ans
 
 # Method 2:
-# In one pass an in O(1) space
+# In one pass. 
+# Time = O(n), space: O(1)
 
 class Solution:
     def longestMountain(self, arr: List[int]) -> int:

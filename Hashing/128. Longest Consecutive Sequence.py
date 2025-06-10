@@ -86,16 +86,6 @@ class DSU:
         else:
             self.parent[p2]= p1
             self.size[p1]+= self.size[p2]
-    
-    # find the size of the largest component (distinct parent)
-
-    # def getLongestSequence(self):
-    #     maxSize= 1 # minimum can be '1'.
-    #     for i in range(len(self.parent)):
-    #         if i== self.parent[i]:  # means parent of one of the component.
-    #             maxSize= max(maxSize, self.size[i])
-    #     return maxSize
-
 
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
@@ -124,10 +114,11 @@ class Solution:
 
 # Java Code
 """
+    // Method 1: Sorting and Iterating
+
 import java.util.*;
 
 class Solution {
-    // Method 1: Sorting and Iterating
     public int longestConsecutive(int[] nums) {
         if (nums.length == 0) return 0;
 
@@ -256,6 +247,8 @@ class Solution {
 
 # C++ Code 
 """
+ // Method 1: Sorting and Iterating
+
 #include <vector>
 #include <unordered_set>
 #include <unordered_map>
@@ -264,7 +257,7 @@ using namespace std;
 
 class Solution {
 public:
-    // Method 1: Sorting and Iterating
+
     int longestConsecutive(vector<int>& nums) {
         if (nums.empty()) return 0;
 

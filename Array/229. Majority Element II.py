@@ -9,7 +9,7 @@
 
 # Note: Har ele ke pass '3 choice h either condidate1 ho, condidate2 ho ya different ele ho.
 
-# Time: O(n)
+# Time: O(n), space = O(1)
 
 class Solution:
     def majorityElement(self, nums: List[int]) -> List[int]:
@@ -39,45 +39,51 @@ class Solution:
 
 # Java
 """
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 class Solution {
     public List<Integer> majorityElement(int[] nums) {
         int count1 = 0, count2 = 0;
         Integer candidate1 = null, candidate2 = null;
 
-        // Step 1: Find the two candidates
         for (int n : nums) {
             if (candidate1 != null && n == candidate1) {
-                count1++;
+                // vote of condidate1 will increase
+                count1 += 1;
             } else if (candidate2 != null && n == candidate2) {
-                count2++;
-            } else if (count1 == 0) {
+                // vote of condidate2 will increase
+                count2 += 1;
+            }
+
+            // agar na hi condidate1 h na hi condidate2 h then 
+            // cur ele kuch bhi ho sakte h depending upon value of count1 and count2.
+            else if (count1 == 0) {
+                // cur ele will become the 1st condidate(one of possible condidate)
                 candidate1 = n;
                 count1 = 1;
             } else if (count2 == 0) {
+                // cur ele will become the 2nd condidate(one of possible condidate)
                 candidate2 = n;
                 count2 = 1;
             } else {
-                count1--;
-                count2--;
+                // third condidate came other than one and two.
+                // so will minimise the vote of both.
+                count1 -= 1;
+                count2 -= 1;
             }
         }
 
-        // Step 2: Verify if the candidates appear more than n/3 times
         List<Integer> result = new ArrayList<>();
-        int threshold = nums.length / 3;
-        count1 = 0;
-        count2 = 0;
+        int n = nums.length;
+        int freq1 = 0, freq2 = 0;
 
-        for (int n : nums) {
-            if (candidate1 != null && n == candidate1) count1++;
-            if (candidate2 != null && n == candidate2) count2++;
+        for (int num : nums) {
+            if (num == candidate1) freq1++;
+            else if (num == candidate2) freq2++;
         }
 
-        if (count1 > threshold) result.add(candidate1);
-        if (count2 > threshold) result.add(candidate2);
+        if (freq1 > n / 3) result.add(candidate1);
+        if (freq2 > n / 3) result.add(candidate2);
 
         return result;
     }
@@ -87,46 +93,54 @@ class Solution {
 # C++ Code 
 """
 #include <vector>
-
 using namespace std;
 
 class Solution {
 public:
     vector<int> majorityElement(vector<int>& nums) {
-        int count1 = 0, count2 = 0, candidate1 = -1, candidate2 = -1;
+        int count1 = 0, count2 = 0;
+        int candidate1 = 0, candidate2 = 1;  // must be different init values
 
-        // Phase 1: Finding two possible majority candidates
         for (int n : nums) {
             if (n == candidate1) {
-                count1++;
+                // vote of condidate1 will increase
+                count1 += 1;
             } else if (n == candidate2) {
-                count2++;
-            } else if (count1 == 0) {
+                // vote of condidate2 will increase
+                count2 += 1;
+            }
+
+            // agar na hi condidate1 h na hi condidate2 h then 
+            // cur ele kuch bhi ho sakte h depending upon value of count1 and count2.
+            else if (count1 == 0) {
+                // cur ele will become the 1st condidate(one of possible condidate)
                 candidate1 = n;
                 count1 = 1;
             } else if (count2 == 0) {
+                // cur ele will become the 2nd condidate(one of possible condidate)
                 candidate2 = n;
                 count2 = 1;
             } else {
-                count1--;
-                count2--;
+                // third condidate came other than one and two.
+                // so will minimise the vote of both.
+                count1 -= 1;
+                count2 -= 1;
             }
         }
 
-        // Phase 2: Validating the candidates
+        // shortcut of above lines.
         vector<int> result;
-        int threshold = nums.size() / 3;
         int freq1 = 0, freq2 = 0;
-
-        for (int n : nums) {
-            if (n == candidate1) freq1++;
-            else if (n == candidate2) freq2++;
+        for (int num : nums) {
+            if (num == candidate1) freq1++;
+            else if (num == candidate2) freq2++;
         }
 
-        if (freq1 > threshold) result.push_back(candidate1);
-        if (freq2 > threshold) result.push_back(candidate2);
+        if (freq1 > nums.size() / 3) result.push_back(candidate1);
+        if (freq2 > nums.size() / 3) result.push_back(candidate2);
 
         return result;
     }
 };
+
 """

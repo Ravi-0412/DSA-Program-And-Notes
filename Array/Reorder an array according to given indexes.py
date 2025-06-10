@@ -1,4 +1,3 @@
-# time= O(n)
 # Method 1: 
 # Logic: Make another array and put num in proper order
 # After that copy these value in original arrays.
@@ -19,6 +18,7 @@ def Reorder(arr,indices):
 
 
 # Method 2: Optimising space to O(1).
+# time = O(n), space = O(1)
 
 # logic: start checking from index '0', if ele is at its correct position then only proceed to next ele.
 # otherwise keep on swapping ele to its proper index and "indexes" also.
@@ -87,6 +87,7 @@ class Solution {
         System.out.println("Final indices arr is: " + Arrays.toString(indices));
     }
 }
+
 //Method 2
 import java.util.*;
 
@@ -170,6 +171,7 @@ int main() {
 
     return 0;
 }
+
 //Method 2
 class Solution {
 public:

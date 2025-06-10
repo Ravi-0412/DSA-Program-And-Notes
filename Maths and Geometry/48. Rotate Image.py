@@ -22,7 +22,7 @@ Here we can get 1st element from 1st element at last row.
 1) So try swapping all rows and now think how can you get the final ans.
 2) you will see if we take transpose then, we can get the final ans.
 
-# time: O(n)
+# time: O(n), space : O(1)
 
 # Note vvvi: 
 """

@@ -6,7 +6,7 @@
 # for this store all keys in a list, sort the list.
 # then traverse the list, and if its freq is != zero, then add that num to ans, no of times= frequency.
 
-# time: O(n + n*logn)= O(nlogn)
+# time: O(n + n*logn)= O(nlogn), space ; O(n)
 
 from collections import Counter
 class Solution:

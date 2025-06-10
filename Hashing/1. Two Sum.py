@@ -1,5 +1,50 @@
 """
 1st method: brute force(two nested loops)
+# time: O(n^2) , space: O(1)
+
+class Solution(object):
+    def twoSum(self, nums, target):
+        for i in range(len(nums)):
+            for j in range(i + 1, len(nums)):
+                if nums[i] + nums[j] == target:
+                    return [i, j]
+        return []
+
+# Java
+"""
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[i] + nums[j] == target) {
+                    return new int[]{i, j};
+                }
+            }
+        }
+        return new int[0];
+    }
+}
+"""
+
+# c++ 
+""""
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        for (int i = 0; i < nums.size(); i++) {
+            for (int j = i + 1; j < nums.size(); j++) {
+                if (nums[i] + nums[j] == target) {
+                    return {i, j};
+                }
+            }
+        }
+        return {};
+    }
+};
+"""
 
 2nd method: using dictionary 
 time: O(n), space: O(n)
@@ -7,17 +52,8 @@ logic: for every ele, find the remaining sum then
 check the remaining sum is present in the hashamp or not 
 if remaining sum is already present in the dictionary return its value 
 if not present then add the current ele into hashmap with its index
-"""
-def twoSum(self, nums: List[int], target: int) -> List[int]:
-        hashmap= {}
-        for i in range(len(nums)):
-            rem_sum= target- nums[i]  # search for rem_sum in dictionary
-            # searching will take O(1)
-            if rem_sum in hashmap:  # if present then return the ans
-                return hashmap[rem_sum], i  
-            else:  # if not present then store the array val as key with index as values
-                hashmap[nums[i]]= i   # since we have to return index so store index as value with remaining sum
 
+"""
 """
 Now if asked to find the no of such pair then keep track of count as well.
 see 1st method of q: "2006. Count Number of Pairs With Absolute Difference K"
@@ -50,6 +86,58 @@ replace res->curSum , b= target then if we will find 'a' such that a= res ^ b th
 e.g : "523. Continuous Subarray Sum" , "974. Subarray Sums Divisible by K" , 
 "Longest Sub-Array with Sum K" ,"Smallest Subarray with Sum K",
 "560. Subarray Sum Equals K", "Count Subarrays with Given XOR"  etc....
+"""
+
+def twoSum(self, nums: List[int], target: int) -> List[int]:
+        hashmap= {}
+        for i in range(len(nums)):
+            rem_sum= target- nums[i]  # search for rem_sum in dictionary
+            # searching will take O(1)
+            if rem_sum in hashmap:  # if present then return the ans
+                return hashmap[rem_sum], i  
+            else:  # if not present then store the array val as key with index as values
+                hashmap[nums[i]]= i   # since we have to return index so store index as value with remaining sum
+
+
+# Java
+"""
+import java.util.*;
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> hashmap = new HashMap<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            int remSum = target - nums[i];
+
+            if (hashmap.containsKey(remSum)) {
+                return new int[]{hashmap.get(remSum), i};
+            }
+
+            hashmap.put(nums[i], i);
+        }
+        return new int[0]; // Return empty array if no solution
+    }
+}
+"""
+
+# c++
+"""
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> hashmap = new HashMap<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            int remSum = target - nums[i];
+
+            if (hashmap.containsKey(remSum)) {
+                return new int[]{hashmap.get(remSum), i};
+            }
+
+            hashmap.put(nums[i], i);
+        }
+        return new int[0]; // Return empty array if no solution
+    }
+}
 """
 
 # Extension:
@@ -88,6 +176,54 @@ class Solution:
         return count
 
 
+# Java
+import java.util.HashMap;
+
+class Solution {
+    public int getPairsCount(int[] arr, int n, int k) {
+        HashMap<Integer, Integer> unorderedMap = new HashMap<>();
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (unorderedMap.containsKey(k - arr[i])) {
+                count += unorderedMap.get(k - arr[i]);
+            }
+            if (unorderedMap.containsKey(arr[i])) {
+                unorderedMap.put(arr[i], unorderedMap.get(arr[i]) + 1);
+            } else {
+                unorderedMap.put(arr[i], 1);
+            }
+        }
+        return count;
+    }
+}
+"""
+
+# c++
+"""
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+class Solution {
+public:
+    int getPairsCount(vector<int>& arr, int n, int k) {
+        unordered_map<int, int> unorderedMap;
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (unorderedMap.find(k - arr[i]) != unorderedMap.end()) {
+                count += unorderedMap[k - arr[i]];
+            }
+            if (unorderedMap.find(arr[i]) != unorderedMap.end()) {
+                unorderedMap[arr[i]]++;
+            } else {
+                unorderedMap[arr[i]] = 1;
+            }
+        }
+        return count;
+    }
+};
+"""
+
 # Realted Q:
 # 1) 2441. Largest Positive Integer That Exists With Its Negative
 class Solution:
@@ -101,120 +237,47 @@ class Solution:
             visited.add(num)
         return ans 
 
-# Java: Two sum
+# Java
 """
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
-// Method 1: Two Sum using Hash Map (Finding Indices)
-class Solution {
-    public int[] twoSum(int[] nums, int target) {
-        Map<Integer, Integer> hashmap = new HashMap<>();
-
-        for (int i = 0; i < nums.length; i++) {
-            int remSum = target - nums[i];
-
-            if (hashmap.containsKey(remSum)) {
-                return new int[]{hashmap.get(remSum), i};
-            }
-
-            hashmap.put(nums[i], i);
-        }
-        return new int[0]; // Return empty array if no solution
-    }
-}
-
-// Method 2: Counting Pairs with Target Sum
-class Solution {
-    public int getPairsCount(int[] arr, int k) {
-        Map<Integer, Integer> unordered_map = new HashMap<>();
-        int count = 0;
-
-        for (int num : arr) {
-            count += unordered_map.getOrDefault(k - num, 0);
-            unordered_map.put(num, unordered_map.getOrDefault(num, 0) + 1);
-        }
-
-        return count;
-    }
-}
-
-// Finding Largest Positive Integer with Its Negative (LC 2441)
 class Solution {
     public int findMaxK(int[] nums) {
         Set<Integer> visited = new HashSet<>();
         int ans = -1;
-
         for (int num : nums) {
             if (visited.contains(-num)) {
-                ans = Math.max(ans, Math.abs(num));
+                if (Math.abs(num) > ans) { // taking abs because we don't know whether this num is positive or negative.
+                    ans = Math.abs(num);
+                }
             }
             visited.add(num);
         }
-
         return ans;
     }
 }
 """
 
-# C++ Code 
+# c++
 """
 #include <vector>
-#include <unordered_map>
 #include <unordered_set>
 #include <algorithm>
-using namespace std;
 
-// Method 1: Two Sum using Hash Map (Finding Indices)
 class Solution {
 public:
-    vector<int> twoSum(vector<int>& nums, int target) {
-        unordered_map<int, int> hashmap;
-
-        for (int i = 0; i < nums.size(); i++) {
-            int rem_sum = target - nums[i];
-
-            if (hashmap.find(rem_sum) != hashmap.end()) {
-                return {hashmap[rem_sum], i};
-            }
-
-            hashmap[nums[i]] = i;
-        }
-        return {};
-    }
-};
-
-// Method 2: Counting Pairs with Target Sum
-class Solution {
-public:
-    int getPairsCount(vector<int>& arr, int k) {
-        unordered_map<int, int> unordered_map;
-        int count = 0;
-
-        for (int num : arr) {
-            if (unordered_map.find(k - num) != unordered_map.end()) {
-                count += unordered_map[k - num];
-            }
-            unordered_map[num]++;
-        }
-
-        return count;
-    }
-};
-
-// Finding Largest Positive Integer with Its Negative (LC 2441)
-class Solution {
-public:
-    int findMaxK(vector<int>& nums) {
-        unordered_set<int> visited;
+    int findMaxK(std::vector<int>& nums) {
+        std::unordered_set<int> visited;
         int ans = -1;
-
         for (int num : nums) {
             if (visited.find(-num) != visited.end()) {
-                ans = max(ans, abs(num)); 
+                if (std::abs(num) > ans) { // taking abs because we don't know whether this num is positive or negative.
+                    ans = std::abs(num);
+                }
             }
             visited.insert(num);
         }
-
         return ans;
     }
 };

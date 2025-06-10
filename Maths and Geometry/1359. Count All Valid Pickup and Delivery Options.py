@@ -1,38 +1,42 @@
 # Method 1:
-# logic: pick up must be before delivery.
-# So first put all the 'n' pick ups.
-# no of ways of putting all 'n' pickups = (n!) as order of individual pick up is not mattering.
+"""
+logic: pick up must be before delivery.
+So first put all the 'n' pick ups.
+no of ways of putting all 'n' pickups = (n!) as order of individual pick up is not mattering.
 
-# Now we have to arrange all 'n' delivery.
-# total ways to arrange delivery = 1 * 3 *5 * 7 * (2*n -1).....
+Now we have to arrange all 'n' delivery.
+total ways to arrange delivery = 1 * 3 *5 * 7 * (2*n -1).....
 
-# How?
-# Denote pickup 1, pickup 2, pickup 3, ... as A, B, C, ...
-# Denote delivery 1, delivery 2, delivery 3, ... as a, b, c, ...
-# We need to ensure a is behind A, b is behind B, ...
+How?
+Denote pickup 1, pickup 2, pickup 3, ... as A, B, C, ...
+Denote delivery 1, delivery 2, delivery 3, ... as a, b, c, ...
+We need to ensure a is behind A, b is behind B, ...
 
-# This solution involves 2 stages.
+This solution involves 2 stages.
 
-# Stage 1
-# We decide the order of all the pickups.there are n! possibilities
+Stage 1
+We decide the order of all the pickups.there are n! possibilities
 
-# Stage 2
-# Given one possibility. Let's say the pickups are ordered like this A B C
-# We can now insert the corresponding deliveries one by one.
-# We start with the last pickup we made, namely, insert c, and there is only 1 valid slot.
-# A B C c
-# We continue with the second last pickup we made, namely, insert b, and there are 3 valid slots.
-# A B x C x c x (where x denotes the location of valid slots for b)
-# Let's only consider one case A B C c b. We continue with the third last pickup we made, namely, insert a, and there are 5 valid slots.
-# A x B x C x c x b x, (where x denotes the location of valid slots for a)
-# In conclusion. we have in total 1 * 3 * 5 * ... * (2n-1) possibilities.
+Stage 2
+Given one possibility. Let's say the pickups are ordered like this A B C
+We can now insert the corresponding deliveries one by one.
+We start with the last pickup we made, namely, insert c, and there is only 1 valid slot.
+A B C c
+We continue with the second last pickup we made, namely, insert b, and there are 3 valid slots.
+A B x C x c x (where x denotes the location of valid slots for b)
+Let's only consider one case A B C c b. We continue with the third last pickup we made, namely, insert a, and there are 5 valid slots.
+A x B x C x c x b x, (where x denotes the location of valid slots for a)
+In conclusion. we have in total 1 * 3 * 5 * ... * (2n-1) possibilities.
 
-# In short:
-# for 1st delivery 'c', only : 1 option
-# for 2nd delivery 'b' , there is : 3 choice i.e we have put '1' pair at proper place so gaps formed by these pair = 2 * 1 + 1 = 3
-# for 3rd delivery, 'a', there is : 5 choice i.e we have put '2' pair at proper place so gaps formed by these pair = 2 *2 + 1 = 5
-# And so on till '2n-1'
-# Thus, the final solution is n! * (1 * 3 * 5 * ... * (2n-1)) % 1000000007
+In short:
+for 1st delivery 'c', only : 1 option
+for 2nd delivery 'b' , there is : 3 choice i.e we have put '1' pair at proper place so gaps formed by these pair = 2 * 1 + 1 = 3
+for 3rd delivery, 'a', there is : 5 choice i.e we have put '2' pair at proper place so gaps formed by these pair = 2 *2 + 1 = 5
+And so on till '2n-1'
+Thus, the final solution is n! * (1 * 3 * 5 * ... * (2n-1)) % 1000000007
+
+# Time: O(n), space : O(1)
+"""
 
 class Solution:
     def countOrders(self, n: int) -> int:
@@ -69,7 +73,7 @@ class Solution:
         return dp[n]
 
 
-# Optimising space
+# Method 3: Optimising space
 #  Time = O(n), space = O(1)
 class Solution:
     def countOrders(self, n: int) -> int:
@@ -84,73 +88,6 @@ class Solution:
             ans = (ans * totalWays) % mod
         return ans
 
-
-
-# Note: Another way of asking same Q .
-# Already asked in one company
-# Q: https://leetcode.com/discuss/interview-question/846916/Validate-Orders-Path-(Doordash)
-
-# Q:
-# Given a set list of pickups and deliveries for order, figure out if the given list is valid or not.
-# A delivery cannot happen for an order before pickup.
-
-# Examples below:
-# [P1, P2, D1, D2]==>valid
-# [P1, D1, P2, D2]==>valid
-# [P1, D2, D1, P2]==>invalid
-# [P1, D2]==>invalid
-# [P1, P2]==>invalid
-# [P1, D1, D1]==>invalid
-# []==>valid
-# [P1, P1, D1]==>invalid
-# [P1, P1, D1, D1]==>invalid
-# [P1, D1, P1]==>invalid
-# [P1, D1, P1, D1]==>invalid
-
-
-# Solution:
-
-def isValid(orders):
-    pickupSet =   set()
-    deliverySet = set()
-    
-    for order in orders:
-        taskType = order[0]
-        taskNo =   order[1: ]
-        if taskType == 'P':
-            # if pickup
-            if taskNo  in pickupSet or taskNo in deliverySet:
-                # if picking up again or got delivered before pick up
-                return "Invalid"
-            pickupSet.add(taskNo)
-        
-        elif taskType == 'D':
-            # if delivery
-            if taskNo in deliverySet or  taskNo not in pickupSet:
-                # if already delivered or  not pick up before
-                return "Invalid"
-            deliverySet.add(taskNo)
-        else:
-            return "Invalid"
-    
-    return "Valid" if len(pickupSet) == len(deliverySet) else "Invalid"
-
-list_orders = [
-    ['P1', 'P2', 'D1', 'D2'], 
-    ['P1', 'D1', 'P2', 'D2'], 
-    ['P1', 'D2', 'D1', 'P2'], 
-    ['P1', 'D2'], 
-    ['P1', 'P2'], 
-    ['P1', 'D1', 'D1'], 
-    [], 
-    ['P1', 'P1', 'D1'], 
-    ['P1', 'P1', 'D1', 'D1'], 
-    ['P1', 'D1', 'P1'], 
-    ['P1', 'D1', 'P1', 'D1']
-    ]
-
-for order in list_orders:
-    print(order, isValid(order))
 
 # Java Code
 """
@@ -172,6 +109,7 @@ class Solution {
         return (int)((pickup_permutation * delivery_permutation) % MOD);
     }
 }
+
 //Method 2
 class Solution {
     /*
@@ -198,6 +136,8 @@ class Solution {
         return (int)dp[n];
     }
 }
+
+
 //Method 3
 class Solution {
     public int countOrders(int n) {
@@ -220,7 +160,7 @@ class Solution {
 
 # C++ Code
 """
-// Method 1
+//Method 1
 #include <vector>
 
 using namespace std;
@@ -242,7 +182,6 @@ public:
         return (pickup_permutation * delivery_permutation) % MOD;
     }
 };
-
 //Method 2
 class Solution {
 public:
@@ -289,4 +228,199 @@ public:
         return ans;
     }
 };
+"""
+
+# Note: Another way of asking same Q . Already asked in one company
+"""
+Q: https://leetcode.com/discuss/interview-question/846916/Validate-Orders-Path-(Doordash)
+
+Q:
+Given a set list of pickups and deliveries for order, figure out if the given list is valid or not.
+A delivery cannot happen for an order before pickup.
+
+Examples below:
+[P1, P2, D1, D2]==>valid
+[P1, D1, P2, D2]==>valid
+[P1, D2, D1, P2]==>invalid
+[P1, D2]==>invalid
+[P1, P2]==>invalid
+[P1, D1, D1]==>invalid
+[]==>valid
+[P1, P1, D1]==>invalid
+[P1, P1, D1, D1]==>invalid
+[P1, D1, P1]==>invalid
+[P1, D1, P1, D1]==>invalid
+"""
+
+
+# Solution:
+
+def isValid(orders):
+    pickupSet =   set()
+    deliverySet = set()
+    
+    for order in orders:
+        taskType = order[0]
+        taskNo =   order[1: ]
+        if taskType == 'P':
+            # if pickup
+            if taskNo  in pickupSet or taskNo in deliverySet:
+                # if picking up again or got delivered before pick up
+                return "Invalid"
+            pickupSet.add(taskNo)
+        
+        elif taskType == 'D':
+            # if delivery
+            if taskNo in deliverySet or  taskNo not in pickupSet:
+                # if already delivered or  not pick up before
+                return "Invalid"
+            deliverySet.add(taskNo)
+        else:
+            return "Invalid"
+    
+    return "Valid" if len(pickupSet) == len(deliverySet) else "Invalid"
+
+list_orders = [
+    ['P1', 'P2', 'D1', 'D2'], 
+    ['P1', 'D1', 'P2', 'D2'], 
+    ['P1', 'D2', 'D1', 'P2'], 
+    ['P1', 'D2'], 
+    ['P1', 'P2'], 
+    ['P1', 'D1', 'D1'], 
+    [], 
+    ['P1', 'P1', 'D1'], 
+    ['P1', 'P1', 'D1', 'D1'], 
+    ['P1', 'D1', 'P1'], 
+    ['P1', 'D1', 'P1', 'D1']
+    ]
+
+for order in list_orders:
+    print(order, isValid(order))
+
+
+# java
+"""
+import java.util.HashSet;
+import java.util.Set;
+
+public class OrderValidator {
+    public static String isValid(String[] orders) {
+        Set<String> pickupSet = new HashSet<>();
+        Set<String> deliverySet = new HashSet<>();
+        
+        for (String order : orders) {
+            char taskType = order.charAt(0);
+            String taskNo = order.substring(1);
+            
+            if (taskType == 'P') {
+                // if pickup
+                if (pickupSet.contains(taskNo) || deliverySet.contains(taskNo)) {
+                    // if picking up again or got delivered before pick up
+                    return "Invalid";
+                }
+                pickupSet.add(taskNo);
+            } 
+            else if (taskType == 'D') {
+                // if delivery
+                if (deliverySet.contains(taskNo) || !pickupSet.contains(taskNo)) {
+                    // if already delivered or not picked up before
+                    return "Invalid";
+                }
+                deliverySet.add(taskNo);
+            } 
+            else {
+                return "Invalid";
+            }
+        }
+        
+        return pickupSet.size() == deliverySet.size() ? "Valid" : "Invalid";
+    }
+
+    public static void main(String[] args) {
+        String[][] listOrders = {
+            {"P1", "P2", "D1", "D2"},
+            {"P1", "D1", "P2", "D2"},
+            {"P1", "D2", "D1", "P2"},
+            {"P1", "D2"},
+            {"P1", "P2"},
+            {"P1", "D1", "D1"},
+            {},
+            {"P1", "P1", "D1"},
+            {"P1", "P1", "D1", "D1"},
+            {"P1", "D1", "P1"},
+            {"P1", "D1", "P1", "D1"}
+        };
+
+        for (String[] order : listOrders) {
+            System.out.println(java.util.Arrays.toString(order) + " " + isValid(order));
+        }
+    }
+}
+"""
+
+# c++
+"""
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+using namespace std;
+
+string isValid(const vector<string>& orders) {
+    unordered_set<string> pickupSet;
+    unordered_set<string> deliverySet;
+    
+    for (const auto& order : orders) {
+        char taskType = order[0];
+        string taskNo = order.substr(1);
+        
+        if (taskType == 'P') {
+            // if pickup
+            if (pickupSet.count(taskNo) || deliverySet.count(taskNo)) {
+                // if picking up again or got delivered before pick up
+                return "Invalid";
+            }
+            pickupSet.insert(taskNo);
+        } 
+        else if (taskType == 'D') {
+            // if delivery
+            if (deliverySet.count(taskNo) || !pickupSet.count(taskNo)) {
+                // if already delivered or not picked up before
+                return "Invalid";
+            }
+            deliverySet.insert(taskNo);
+        } 
+        else {
+            return "Invalid";
+        }
+    }
+    
+    return pickupSet.size() == deliverySet.size() ? "Valid" : "Invalid";
+}
+
+int main() {
+    vector<vector<string>> listOrders = {
+        {"P1", "P2", "D1", "D2"},
+        {"P1", "D1", "P2", "D2"},
+        {"P1", "D2", "D1", "P2"},
+        {"P1", "D2"},
+        {"P1", "P2"},
+        {"P1", "D1", "D1"},
+        {},
+        {"P1", "P1", "D1"},
+        {"P1", "P1", "D1", "D1"},
+        {"P1", "D1", "P1"},
+        {"P1", "D1", "P1", "D1"}
+    };
+
+    for (const auto& order : listOrders) {
+        cout << "[";
+        for (size_t i = 0; i < order.size(); ++i) {
+            cout << order[i];
+            if (i != order.size() - 1) cout << ", ";
+        }
+        cout << "] " << isValid(order) << endl;
+    }
+
+    return 0;
+}
 """

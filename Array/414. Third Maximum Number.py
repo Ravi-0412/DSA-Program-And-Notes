@@ -1,6 +1,7 @@
 # first see 2nd distinct maximum
-# time = O(n), space = O(1)
+# Note: 2nd distinct maximum
 
+# Code for 2nd maximum (submitted on gfg)
 class Solution: 
 	def print2largest(self,arr, n):
 		firstMax, secondMax = -1, -1  
@@ -15,52 +16,6 @@ class Solution:
 		        # in this case we only need to update 'secondMax' to 'num'
 		        secondMax = num
 		return secondMax  # if '-1' then all elements are equal and there is no 2nd maximum.
-     
-# Java 
-"""
-class Solution {
-    int print2largest(int[] arr, int n) {
-        int firstMax = -1, secondMax = -1;
-        for (int num : arr) {
-            if (num > firstMax) {
-                // 'num' is greatest number till now
-                // so in this we will have to update both 'firstMax' and 'secondMax'
-                // Update 'secondMax' to 'firstMax' and then 'firstMax' to cur 'num'.
-                secondMax = firstMax;
-                firstMax = num;
-            } else if (num > secondMax && num != firstMax) { // checking num != firstMax to avoid duplicate
-                // in this case we only need to update 'secondMax' to 'num'
-                secondMax = num;
-            }
-        }
-        return secondMax;  // if '-1' then all elements are equal and there is no 2nd maximum.
-    }
-}
-"""
-
-# c++
-"""
-class Solution {
-public:
-    int print2largest(int arr[], int n) {
-        int firstMax = -1, secondMax = -1;
-        for (int i = 0; i < n; ++i) {
-            int num = arr[i];
-            if (num > firstMax) {
-                // 'num' is greatest number till now
-                // so in this we will have to update both 'firstMax' and 'secondMax'
-                // Update 'secondMax' to 'firstMax' and then 'firstMax' to cur 'num'.
-                secondMax = firstMax;
-                firstMax = num;
-            } else if (num > secondMax && num != firstMax) { // checking num != firstMax to avoid duplicate
-                // in this case we only need to update 'secondMax' to 'num'
-                secondMax = num;
-            }
-        }
-        return secondMax;  // if '-1' then all elements are equal and there is no 2nd maximum.
-    }
-};
-"""
 
 # if duplicate is also allowed then just change the 'elif' condition.
 # just don't check 'num != firstMax' 
@@ -79,51 +34,6 @@ class Solution:
 		        secondMax = num
 		return secondMax  # if '-1' then all elements are equal and there is no 2nd maximum.
 
-# Java 
-"""
-class Solution {
-    int print2largest(int arr[], int n) {
-        int firstMax = -1, secondMax = -1;
-        for (int num : arr) {
-            if (num > firstMax) {
-                // 'num' is greatest number till now
-                // so in this we will have to update both 'firstMax' and 'secondMax'
-                // Update 'secondMax' to 'firstMax' and then 'firstMax' to cur 'num'.
-                secondMax = firstMax;
-                firstMax = num;
-            } else if (num > secondMax) {  // No need to check 'num != firstMax' to allow duplicate 
-                // in this case we only need to update 'secondMax' to 'num'
-                secondMax = num;
-            }
-        }
-        return secondMax;  // if '-1' then all elements are equal and there is no 2nd maximum
-    }
-}
-"""
-
-# c++
-"""
-class Solution {
-public:
-    int print2largest(int arr[], int n) {
-        int firstMax = -1, secondMax = -1;
-        for (int i = 0; i < n; i++) {
-            int num = arr[i];
-            if (num > firstMax) {
-                // 'num' is greatest number till now
-                // so in this we will have to update both 'firstMax' and 'secondMax'
-                // Update 'secondMax' to 'firstMax' and then 'firstMax' to cur 'num'.
-                secondMax = firstMax;
-                firstMax = num;
-            } else if (num > secondMax) {  // No need to check 'num != firstMax' to allow duplicate 
-                // in this case we only need to update 'secondMax' to 'num'
-                secondMax = num;
-            }
-        }
-        return secondMax;  // if '-1' then all elements are equal and there is no 2nd maximum
-    }
-};
-"""
 
 # for 1st and 2nd distinct minimum.
 # for duplicate remove the 'num != firstMin' from 'elif' condition like above(maximum).
@@ -139,52 +49,132 @@ class Solution:
 		        secondMin = num
 		return firstMin # if '-1' then all elements are equal and there is no 2nd maximum.
 
-# java
+# Java Code 
 """
+//Method 1
+import java.util.*;
+
 class Solution {
-    public int print2largest(int arr[], int n) {
+    // Find second maximum
+    public int print2largest(int[] arr, int n) {
+        int firstMax = -1, secondMax = -1;
+
+        for (int num : arr) {
+            if (num > firstMax) {
+                secondMax = firstMax;
+                firstMax = num;
+            } else if (num > secondMax && num != firstMax) {
+                secondMax = num;
+            }
+        }
+
+        return secondMax;  // Returns -1 if all elements are equal (no second max)
+    }
+}
+//Method 2
+class Solution {
+    // Allowing duplicates
+    public int print2largest(int[] arr, int n) {
+        int firstMax = -1, secondMax = -1;
+
+        for (int num : arr) {
+            if (num > firstMax) {
+                secondMax = firstMax;
+                firstMax = num;
+            } else if (num > secondMax) {  // No need to check num != firstMax
+                secondMax = num;
+            }
+        }
+
+        return secondMax;  // Returns -1 if all elements are equal (no second max)
+    }
+}
+//Method 3
+class Solution {
+    // Find first and second distinct minimum
+    public int print2smallest(int[] arr, int n) {
         int firstMin = Integer.MAX_VALUE;
         int secondMin = Integer.MAX_VALUE;
-        
+
         for (int num : arr) {
             if (num < firstMin) {
                 secondMin = firstMin;
                 firstMin = num;
-            } else if (num < secondMin && num != firstMin) { // checking num != firstMin to avoid duplicate
-                // in this case we only need to update 'secondMin' to 'num'
+            } else if (num < secondMin && num != firstMin) {  // Avoid duplicates
                 secondMin = num;
             }
         }
-        
-        return firstMin; // if '-1' then all elements are equal and there is no 2nd minimum.
+
+        return secondMin;  // Returns -1 if no second minimum exists
     }
 }
 """
 
-# c++
+# C++ Code 
 """
-#include <climits>
+//Method 1
 #include <vector>
+#include <limits>
 
 using namespace std;
 
 class Solution {
 public:
+    //Find second maximum
     int print2largest(vector<int>& arr, int n) {
-        int firstMin = INT_MAX;
-        int secondMin = INT_MAX;
-        
+        int firstMax = -1, secondMax = -1;
+
+        for (int num : arr) {
+            if (num > firstMax) {
+                // 'num' is greatest number till now
+                secondMax = firstMax;
+                firstMax = num;
+            } else if (num > secondMax && num != firstMax) {
+                // Update secondMax only if num isn't equal to firstMax
+                secondMax = num;
+            }
+        }
+
+        return secondMax;  // Returns -1 if all elements are equal (no second max)
+    }
+};
+//Method 2
+class Solution {
+public:
+    // Allowing duplicates
+    int print2largest(vector<int>& arr, int n) {
+        int firstMax = -1, secondMax = -1;
+
+        for (int num : arr) {
+            if (num > firstMax) {
+                secondMax = firstMax;
+                firstMax = num;
+            } else if (num > secondMax) {  // No need to check num != firstMax
+                secondMax = num;
+            }
+        }
+
+        return secondMax;  // Returns -1 if all elements are equal (no second max)
+    }
+};
+//Method 3
+class Solution {
+public:
+    // Find first and second distinct minimum
+    int print2smallest(vector<int>& arr, int n) {
+        int firstMin = numeric_limits<int>::max();
+        int secondMin = numeric_limits<int>::max();
+
         for (int num : arr) {
             if (num < firstMin) {
                 secondMin = firstMin;
                 firstMin = num;
-            } else if (num < secondMin && num != firstMin) { // checking num != firstMin to avoid duplicate
-                // in this case we only need to update 'secondMin' to 'num'
+            } else if (num < secondMin && num != firstMin) {  // Avoid duplicates
                 secondMin = num;
             }
         }
-        
-        return firstMin; // if '-1' then all elements are equal and there is no 2nd minimum.
+
+        return secondMin;  // Returns -1 if no second minimum exists
     }
 };
 """
@@ -214,7 +204,6 @@ class Solution:
 
 # method 2: Just extension of '2nd largest number' logic.
 # code of '2nd largest' you can see at the bottom.
-# Time = O(n), space = O(1)
 class Solution:
     def thirdMax(self, nums: List[int]) -> int:
         firstMax, secondMax , thirdMax= float('-inf'), float('-inf'), float('-inf')

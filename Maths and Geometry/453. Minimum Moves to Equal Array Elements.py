@@ -73,7 +73,6 @@ class Solution {
         return ans;
     }
 }
-
 //Method 2
 import java.util.*;
 
@@ -104,7 +103,6 @@ public:
         return ans;
     }
 };
-
 //Method 2
 class Solution {
 public:

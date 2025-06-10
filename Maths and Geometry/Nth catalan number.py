@@ -5,8 +5,6 @@
 # (catalan for 1st 'i'th number) * (catalan for 1st 'n-i-1' number), when we choose 'i' from '0' to 'n-1'.
 # subproblem is getting generated like this.
 
-# For more application:
-# https://www.geeksforgeeks.org/applications-of-catalan-numbers/
 
 # method 1: 
 # recursive way
@@ -19,7 +17,7 @@ class Solution:
             ans+= self.findCatalan(i) * self.findCatalan(n-i -1)   # (catalan for 1st 'i'th number) * (catalan for 1st 'n-i-1' number)
         return ans
 
-# Method 2: using DP 
+# using DP 
 class Solution:
     def findCatalan(self,n):
         dp= [0]*(n+1)
@@ -95,7 +93,7 @@ class Solution {
         return dp[n];
     }
 }
-// if you start 2nd loop from n=1 instead of '0' then we have to change code like this.
+//Method 3
 import java.util.*;
 
 class Solution {
@@ -130,7 +128,6 @@ public:
         return ans;
     }
 };
-
 //Method 2
 #include <vector>
 
@@ -150,8 +147,7 @@ public:
         return dp[n];
     }
 };
-
-// if you start 2nd loop from n=1 instead of '0' then we have to change code like this.
+//Method 3
 #include <vector>
 
 class Solution {
@@ -172,3 +168,5 @@ public:
 };
 """
 
+# For more application:
+# https://www.geeksforgeeks.org/applications-of-catalan-numbers/

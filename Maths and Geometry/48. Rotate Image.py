@@ -23,26 +23,6 @@ Here we can get 1st element from 1st element at last row.
 2) you will see if we take transpose then, we can get the final ans.
 
 # time: O(n)
-
-# Note vvvi: 
-"""
-just think how you will combine two steps 'reversing_rows/reversing_cols/transpose' to get the ans.
-
-1) For clockwise:
-a) 90: Reverse Rows + Transpose
-b) 180: Reverse Rows + Reverse columns
-c) 270 : Transpose + Reverse Columns(180 + 90. so if we do 90 rotation to 180 then impact of reverse rows will be get cancelled)
-
-For anticlocwise: Just do opposite operation of clockwise.
-90 => reverse columns + transpose
-180 => Reverse columns + reverse rows
-270 => Reverse columns + Transpose
-
-other way for both clockwise and anticlock wise:
-180 => rotate 2 times by '90'
-270 => rotate 3 times by '90' and so on.
-
-Link: https://blogs.sas.com/content/iml/2013/10/18/rotating-matrices.html#:~:text=For%20example%2C%20the%20adjacent%20diagram,the%20rows%20and%20then%20transposing.
 """
 
 # Method 1: 
@@ -76,7 +56,26 @@ class Solution:
                 A[r][c], A[c][r] = A[c][r], A[r][c]
 
 
+# Note vvvi: 
+"""
+just think how you will combine two steps 'reversing_rows/reversing_cols/transpose' to get the ans.
 
+1) For clockwise:
+a) 90: Reverse Rows + Transpose
+b) 180: Reverse Rows + Reverse columns
+c) 270 : Transpose + Reverse Columns(180 + 90. so if we do 90 rotation to 180 then impact of reverse rows will be get cancelled)
+
+For anticlocwise: Just do opposite operation of clockwise.
+90 => reverse columns + transpose
+180 => Reverse columns + reverse rows
+270 => Reverse columns + Transpose
+
+other way for both clockwise and anticlock wise:
+180 => rotate 2 times by '90'
+270 => rotate 3 times by '90' and so on.
+
+Link: https://blogs.sas.com/content/iml/2013/10/18/rotating-matrices.html#:~:text=For%20example%2C%20the%20adjacent%20diagram,the%20rows%20and%20then%20transposing.
+"""
 
 # Java Code 
 """
@@ -107,7 +106,6 @@ class Solution {
         }
     }
 }
-
 //Method 2
 import java.util.*;
 
@@ -134,7 +132,6 @@ class Solution {
 # C++ Code 
 """
 //Method 1
-
 #include <vector>
 
 using namespace std;

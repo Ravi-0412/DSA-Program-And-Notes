@@ -12,8 +12,6 @@ Check Conditions:
 If cnt is 0, the strings are already equal, so return true.
 If cnt is 2, check if swapping the characters at positions i and j in one string makes it equal to the other string.
 If both conditions are met, return true; otherwise, return false.
-
-# Time : O(n), space: O(1)
 """
 
 class Solution(object):

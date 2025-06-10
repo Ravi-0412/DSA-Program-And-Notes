@@ -9,8 +9,6 @@
 # Then we can partition array like : put elements till 'i-1' into 1st (max one) and put elements from 'i' till last into 2nd one (min one).
 # After that value of partition will be same as : nums[i] - nums[i-1].
 
-# Time = O(n*logn)
-
 class Solution:
     def findValueOfPartition(self, nums: List[int]) -> int:
         nums.sort()

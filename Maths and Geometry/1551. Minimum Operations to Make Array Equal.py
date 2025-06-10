@@ -1,4 +1,5 @@
 
+
 """
 In this type of question where you have to make each element equal and both
 increment and decrement operation is allowed then 

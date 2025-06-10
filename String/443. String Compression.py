@@ -1,4 +1,4 @@
-# Method 1: 
+
 class Solution:
     def compress(self, chars: List[str]) -> int:
         AnsIndex= 0
@@ -70,8 +70,7 @@ class Solution {
         // return chars.length; // will give incorrect ans as chars will be diff but compiler is automatically modifying char till our ans.
     }
 }
-
-// If asked for only length of compressed string given no need to modify the original chars array.
+//Method 2
 class Solution {
     public int compress(char[] chars) {
         int ans = 0;
@@ -131,9 +130,7 @@ public:
         // return chars.size(); // will give incorrect ans as chars will be diff but compiler is automatically modifying char till our ans.
     }
 };
-
-
-// If asked for only length of compressed string given no need to modify the original chars array.
+//Method 2
 class Solution {
 public:
     int compress(vector<char>& chars) {

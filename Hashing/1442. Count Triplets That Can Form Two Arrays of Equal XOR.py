@@ -46,7 +46,7 @@ class Solution:
                         cnt += 1
         return cnt
 
-# Method 3: 
+# Method 3: Optimising to O(n^2)
 # Logic: 1) We are searching for sub-array of length ≥ 2 and we need to split it to 2 non-empty arrays 
 # so that the xor of the first array is equal to the xor of the second array. 
 # vvi: 2)  This is equivalent to searching for no of sub-array with xor = 0.
@@ -57,8 +57,6 @@ class Solution:
 
 # why ?
 # if length is 'n' then no of ways we can divide it in (i, j, k) = n -1 (no of element should >= 2).
-
-# tIme: O(n^3)
 
 
 class Solution:
@@ -149,8 +147,6 @@ class Solution:
 
 # Java Code 
 """
-// Method 1
-
 import java.util.HashMap;
 import java.util.List;
 

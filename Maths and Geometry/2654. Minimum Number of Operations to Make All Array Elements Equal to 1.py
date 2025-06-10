@@ -12,9 +12,6 @@ we will have to do gcd operation "j-i" times.
 for solving, we will check every possible subarray from each index and will try to make gcd=1 including all its next ele one by one.
 time= O(n^2 * logn)  
 for time complexity gcd: https://codeforces.com/blog/entry/48417  
-
-Note: if Q "find the min operation to make any ele =1 by relacing(like above Q)".
-we would have applied the same approach: "find the smallest subarray we for which we can make any ele of that subarray= 1 " then ans= j -i.
 """
 
 import math
@@ -34,4 +31,7 @@ class Solution:
         return ans if ans!= float('inf') else -1
 
 
+# Note: if Q "find the min operation to make any ele =1 by relacing(like above Q)".
+# we would have applied the same approach: "find the smallest subarray we for which we can make any ele of that subarray= 1 " then ans= j -i.
 
+# later try by other approach also(solution in sheet).

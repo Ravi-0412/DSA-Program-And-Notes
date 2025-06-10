@@ -19,7 +19,7 @@
 # if c >= pre, k++.
 # last return 4*k - n
 
-# time: O(n), space : O(1)
+# time: O(n)
 class Solution:
     def addMinimum(self, word: str) -> int:
         pre= 'z'  # any very large char , it must be greater than the all the char in string.
@@ -72,5 +72,6 @@ public:
     }
 };
 """
-
+# method 2...
+# Try by other methods given in sheet.
 

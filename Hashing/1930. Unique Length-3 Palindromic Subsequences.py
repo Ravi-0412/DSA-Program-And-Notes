@@ -7,6 +7,8 @@ That is the number of palindromes with that character in the first and last posi
 
 Example: abcbba, we have two unique chars between first and last a (c and b), 
 and two - between first and last b (b and c). No characters in between c so it forms no palindromes.
+
+time: O(n), space: O(26)
 """
 
 class Solution:

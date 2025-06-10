@@ -6,8 +6,6 @@
 # So when you see '(' depth will increase by 1 and when you will see ')' depth will decrease by 1.
 # Just take maximum after each character.
 
-# Time : O(n), space : O(14) [0-9, +, -, *, /]
-
 class Solution:
     def maxDepth(self, s: str) -> int:
         skip = {"0", "1", "2","3", "4" ,"5","6","7","8","9", "+", "-", "*", "/"}

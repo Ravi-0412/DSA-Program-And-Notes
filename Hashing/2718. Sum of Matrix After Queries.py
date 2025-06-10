@@ -1,18 +1,16 @@
-"""
-Time : O(N) where N = q.size()
-Space : O(N) where N = n
+# Time : O(N) where N = q.size()
+# Space : O(N) where N = n
 
-logic: queries on same row/col for multiple time will get overritten by last one
-i.e only last query on each row and col will affect the sum.
-so start from last queries.
+# logic: queries on same row/col for multiple time will get overritten by last one
+# i.e only last query on each row and col will affect the sum.
+# so start from last queries.
 
-We start with the last query and go backwards.
-We track id of rows and columns we have seen ,  so we can ignore earlier queries that will be overwritten.
-We also track how many rows and columns are still not covered by any query.
+# We start with the last query and go backwards.
+# We track id of rows and columns we have seen ,  so we can ignore earlier queries that will be overwritten.
+# We also track how many rows and columns are still not covered by any query.
 
-val * remaining_cols_cnt for a row,
-val * remaining_rows_cnt for a column.
-"""
+# v * remaining_cols_cnt for a row,
+# v * remaining_rows_cnt for a column.
 
 class Solution:
     def matrixSumQueries(self, n: int, queries: List[List[int]]) -> int:

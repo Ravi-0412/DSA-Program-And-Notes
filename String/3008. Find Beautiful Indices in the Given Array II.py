@@ -1,4 +1,4 @@
-# Brute Force: 
+# Brute Force: Tle
 
 class Solution:
     def beautifulIndices(self, s: str, a: str, b: str, k: int) -> List[int]:

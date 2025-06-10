@@ -3,7 +3,6 @@
 # logic:
 # Get the frequency of each character.
 # Then find the first character that has a frequency of one.
-# time: O(n), space : O(26)
 
 class Solution:
     def firstUniqChar(self, s: str) -> int:
@@ -60,30 +59,13 @@ public:
 """
 
 # Method 2:
+# store freq and first_index of each char in map.
+
+
+
+
+# Method 2:
 # for each character store the count and 1st index in hashmap.
-# time: O(n), space : O(u) , u: No of distinct character in s
-
-class Solution:
-    def firstUniqChar(self, s: str) -> int:
-        char_map = {}
-
-        # Traverse the string to populate the map
-        for i, c in enumerate(s):
-            if c not in char_map:
-                char_map[c] = [1, i]  # store count and first index
-            else:
-                char_map[c][0] += 1  # increment count
-
-        # Initialize the result to be larger than any valid index
-        result = len(s)
-
-        # Iterate through the map to find the minimum index of characters that appear exactly once
-        for count, index in char_map.values():
-            if count == 1:
-                result = min(result, index)
-
-        # If no unique character is found, return -1
-        return -1 if result == len(s) else result
 
 # Java Code 
 """

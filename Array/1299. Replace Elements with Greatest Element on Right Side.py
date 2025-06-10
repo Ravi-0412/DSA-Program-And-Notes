@@ -4,8 +4,6 @@
 # max_seen_so_far will contain the maximum ele seen till now from right side
 # and replace the iterating element with max_ele_seen_so_far as we are traversing from right to left
 
-# time = O(n), space = O(1)
-
 class Solution:
     def replaceElements(self, arr: List[int]) -> List[int]:
         n= len(arr)

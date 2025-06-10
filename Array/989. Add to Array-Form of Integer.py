@@ -1,4 +1,3 @@
-# Method 1
 # time= space= O(n)
 
 """
@@ -18,80 +17,75 @@ class Solution:
 
 # Java
 """
-import java.util.*;
-
 class Solution {
     public List<Integer> addToArrayForm(int[] num, int k) {
-        StringBuilder b = new StringBuilder();
-        for (int n : num) {
-            b.append(n);  // first converting the arr into string
+        List<Integer> result = new ArrayList<>();
+        int n = num.length;
+        int i = n - 1;
+        while (i >= 0 || k > 0) {
+            if (i >= 0) k += num[i--];
+            result.add(0, k % 10);
+            k /= 10;
         }
-
-        String s = String.valueOf(Long.parseLong(b.toString()) + k);  // converted the array into integer and added 'k' and then into string.
-        
-        List<Integer> ans = new ArrayList<>();
-        for (char c : s.toCharArray()) {
-            ans.add(c - '0');  // finally converted the string ans into list
-        }
-        
-        return ans;
+        return result;
     }
 }
 """
 
 # C++ 
 """
-#include <iostream>
-#include <vector>
-#include <string>
-
-using namespace std;
-
 class Solution {
 public:
     vector<int> addToArrayForm(vector<int>& num, int k) {
-        string b;
-        for (int n : num) {
-            b += to_string(n);  // first converting the arr into string
+        vector<int> result;
+        int i = num.size() - 1;
+        while (i >= 0 || k > 0) {
+            if (i >= 0) k += num[i--];
+            result.insert(result.begin(), k % 10);
+            k /= 10;
         }
-
-        string s = to_string(stoll(b) + k);  // converted the array into integer and added 'k' and then into string.
-
-        vector<int> ans;
-        for (char c : s) {
-            ans.push_back(c - '0');  // finally converted the string ans into list
-        }
-
-        return ans;
+        return result;
     }
 };
-
 """
-
 # Method 2: Same as "445. Add Two Numbers II".
+# Shortcut and very good  method
+
+# Logic: We are taking k as carry.
+# We start from the last or lowest digit in array num add k.
+# Then update k and move untill the highest digit.
+# After traversing array if carry is > 0 then we add it to begining of num.
+
+# Example: `num` = [2,1,5], `k` = 806
+# At index 2 num = [2, 1, 811] 
+# So, `k` = 81 and `num` = [2, 1, 1]
+
+# At index 1 num = [2, 82, 1]
+# So, `k` = 8 and `num` = [2, 2, 1]
+
+# At index 0 num = [10, 2, 1]
+# So, `k` = 1 and `num` = [0, 2, 1]
+
+# Now `k` > 0
+# So, we add at the beginning of num
+# `num` = [1, 0, 2, 1]
+
+# Note:  K is at most 5 digit (k <= 10**4) so after loop if k > 0 then time complexity of adding at front won't matter.
+
 # Time = O(n) , space = O(1)
-"""
-Logic: We are taking k as carry.
-We start from the last or lowest digit in array num add k.
-Then update k and move untill the highest digit.
-After traversing array if carry is > 0 then we add it to begining of num.
 
-Example: `num` = [2,1,5], `k` = 806
-At index 2 num = [2, 1, 811] 
-So, `k` = 81 and `num` = [2, 1, 1]
+class Solution:
+    def addToArrayForm(self, num: List[int], k: int) -> List[int]:
+        n = len(num)
+        for i in range(n-1, -1, -1):
+            k , num[i] = divmod(num[i] + k , 10)
+        while k > 0:
+            k , a = divmod(k , 10)
+            num = [a] + num
+        
+        return num
 
-At index 1 num = [2, 82, 1]
-So, `k` = 8 and `num` = [2, 2, 1]
-
-At index 0 num = [10, 2, 1]
-So, `k` = 1 and `num` = [0, 2, 1]
-
-Now `k` > 0
-So, we add at the beginning of num
-`num` = [1, 0, 2, 1]
-
-Note:  K is at most 5 digit (k <= 10**4) so after loop if k > 0 then time complexity of adding at front won't matter.
-"""
+# Other way (More better)
 from typing import List
 
 class Solution:
@@ -117,18 +111,20 @@ import java.util.*;
 
 class Solution {
     public List<Integer> addToArrayForm(int[] num, int k) {
+        int n = num.length;
         List<Integer> result = new ArrayList<>();
-        int i = num.length - 1;
-
-        while (i >= 0 || k > 0) {
-            if (i >= 0) {
-                k += num[i];
-                i--;
-            }
+        
+        for (int i = n - 1; i >= 0; i--) {
+            k += num[i]; 
             result.add(k % 10);
             k /= 10;
         }
-
+        
+        while (k > 0) {
+            result.add(k % 10);
+            k /= 10;
+        }
+        
         Collections.reverse(result);
         return result;
     }
@@ -137,29 +133,34 @@ class Solution {
 
 # C++ Code 
 """
-#include <iostream>
-#include <vector>
-#include <algorithm>
 
-using namespace std;
+class Solution:
+    def addToArrayForm(self, num: List[int], k: int) -> List[int]:
+        n = len(num)
+        for i in range(n-1, -1, -1):
+            k , num[i] = divmod(num[i] + k , 10)
+        while k > 0:
+            k , a = divmod(k , 10)
+            num = [a] + num
+        
+        return num
 
-class Solution {
-public:
-    vector<int> addToArrayForm(vector<int>& num, int k) {
-        vector<int> result;
-        int i = num.size() - 1;
+# Other way (More better)
+from typing import List
 
-        while (i >= 0 || k > 0) {
-            if (i >= 0) {
-                k += num[i];
-                i--;
-            }
-            result.push_back(k % 10);
-            k /= 10;
-        }
-
-        reverse(result.begin(), result.end());
-        return result;
-    }
-};
+class Solution:
+    def addToArrayForm(self, num: List[int], k: int) -> List[int]:
+        result = []
+        i = len(num) - 1
+        
+        while i >= 0 or k > 0:
+            if i >= 0:
+                k += num[i]
+                i -= 1
+            
+            result.append(k % 10)
+            k //= 10
+        
+        result.reverse()
+        return result
 """

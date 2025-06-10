@@ -1,5 +1,4 @@
 # First part solution where len(word) <= 26 and all characters are different.
-# 1st part: 3014. Minimum Number of Pushes to Type Word I
 
 # Logic : we have '8' keys (2- 9) and on these '8' keys, we can place 26 characters i.e 
 # '3' char on 6 keys and 4 character on '2' keys.
@@ -22,82 +21,33 @@ class Solution:
             # Next '8' char at 2nd position for all '8' keys 
             # And remaining char at 3rd position.
             return 8 + 8*2 + (n- 16) * 3
-        # for n == 25 and n == 26
+        if n == 25:
+            # we can place '8' char at 1st position for all '8' keys.
+            # Next '8' char at 2nd position for all '8' keys
+            # Next '8' char at 3rd position for all '8' keys.
+            # And remaining '1' char at 4th position at any key.  
+            return 8 + 8*2 + 8 * 3 + 1 * 4
+        # if n == 26:
         # we can place '8' char at 1st position for all '8' keys.
         # Next '8' char at 2nd position for all '8' keys
         # Next '8' char at 3rd position for all '8' keys.
-        # And remaining '2' char at 4th position at any key.  (n - 24): we will have to type '4' times and number of such char will be either 1 or 2
-        return 8 + 8*2 + 8 * 3 + (n - 24) * 4  
+        # And remaining '1' char at 4th position at any key. 
+        return 8 + 8*2 + 8 * 3 + 2 * 4
 
-# Java
-"""
-// Time: O(1)
-public class Solution {
-    public int minimumPushes(String word) {
-        int n = word.length();
-        // System.out.println(n + " length");
-
-        if (n <= 8) {
-            // we can place all char at 1st position for all 'n' keys.
-            return n;
-        }
-        if (n <= 16) {
-            // we can place '8' char at 1st position for all '8' keys.
-            // And remaining char at 2nd position.
-            return 8 + (n - 8) * 2;
-        }
-        if (n <= 24) {
-            // we can place '8' char at 1st position for all '8' keys.
-            // Next '8' char at 2nd position for all '8' keys 
-            // And remaining char at 3rd position.
-            return 8 + 8 * 2 + (n - 16) * 3;
-        }
-        // for n == 25 and n == 26
-        // we can place '8' char at 1st position for all '8' keys.
-        // Next '8' char at 2nd position for all '8' keys
-        // Next '8' char at 3rd position for all '8' keys.
-        // And remaining '2' char at 4th position at any key. (n - 24): we will have to type '4' times and number of such char will be either 1 or 2
-        return 8 + 8 * 2 + 8 * 3 + (n - 24) * 4;
-    }
-}
-""" 
-
-# C++
-"""
-// Time: O(1)
-#include <string>
-using namespace std;
-
-class Solution {
-public:
-    int minimumPushes(string word) {
-        int n = word.length();
-        // cout << n << " length" << endl;
-
-        if (n <= 8) {
-            // we can place all char at 1st position for all 'n' keys.
-            return n;
-        }
-        if (n <= 16) {
-            // we can place '8' char at 1st position for all '8' keys.
-            // And remaining char at 2nd position.
-            return 8 + (n - 8) * 2;
-        }
-        if (n <= 24) {
-            // we can place '8' char at 1st position for all '8' keys.
-            // Next '8' char at 2nd position for all '8' keys 
-            // And remaining char at 3rd position.
-            return 8 + 8 * 2 + (n - 16) * 3;
-        }
-        // for n == 25 and n == 26
-        // we can place '8' char at 1st position for all '8' keys.
-        // Next '8' char at 2nd position for all '8' keys
-        // Next '8' char at 3rd position for all '8' keys.
-        // And remaining '2' char at 4th position at any key. (n - 24): we will have to type '4' times and number of such char will be either 1 or 2
-        return 8 + 8 * 2 + 8 * 3 + (n - 24) * 4;
-    }
-};
-"""
+# Above code without comment
+class Solution:
+    def minimumPushes(self, word: str) -> int:
+        n = len(word)
+        # print(n, "length")
+        if n <= 8:
+            return n
+        if n <= 16 :
+            return 8 + (n - 8) *2
+        if n <= 24:
+            return 8 + 8*2 + (n- 16) * 3
+        return 8 + 8*2 + 8 * 3 + (n - 24) * 4     
+                                    # (n - 24): we will have to type '4' times and number of such char will be either 1 or 2
+        
 
 # Actual question
     
@@ -113,7 +63,6 @@ i.e character having highest 8th frequency we will have to push 'one' time, and 
     
 # Time = space = O(n)
 
-from collections import Counter
 class Solution:
     def minimumPushes(self, word: str) -> int:
         freq = Counter(word)
@@ -133,6 +82,20 @@ class Solution:
             
 # Java Code 
 """
+import java.util.*;
+
+class Solution {
+    public int minimumPushes(String word) {
+        int n = word.length();
+
+        if (n <= 8) return n;
+        if (n <= 16) return 8 + (n - 8) * 2;
+        if (n <= 24) return 8 + 8 * 2 + (n - 16) * 3;
+        return 8 + 8 * 2 + 8 * 3 + (n - 24) * 4; 
+    }
+}
+
+// Optimized approach with frequency-based calculation
 class Solution {
     public int minimumPushes(String word) {
         Map<Character, Integer> freq = new HashMap<>();
@@ -158,6 +121,25 @@ class Solution {
 
 # C++ Code 
 """
+#include <string>
+#include <unordered_map>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int minimumPushes(string word) {
+        int n = word.size();
+
+        if (n <= 8) return n;
+        if (n <= 16) return 8 + (n - 8) * 2;
+        if (n <= 24) return 8 + 8 * 2 + (n - 16) * 3;
+        return 8 + 8 * 2 + 8 * 3 + (n - 24) * 4; 
+    }
+};
+
+// Optimized approach with frequency-based calculation
 class Solution {
 public:
     int minimumPushes(string word) {

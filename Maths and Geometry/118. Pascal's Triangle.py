@@ -1,5 +1,3 @@
-# Logic: Just see how we will current element using previous one.
-
 # time: O(n^2)
 
 class Solution:
@@ -17,6 +15,9 @@ class Solution:
             ans.append(row_wise)
         return ans
 
+
+# python solution
+# https://leetcode.com/problems/pascals-triangle/solutions/38128/python-4-lines-short-solution-using-map/
 
 
 # Java Code

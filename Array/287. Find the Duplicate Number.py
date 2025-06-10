@@ -6,8 +6,12 @@
 # But here ans_ele can have any freq from 2,3,....till 'n'.
 # So this will also don't work.
 
-
 # Method 1:
+# store freq and check if freq > 1
+
+# Method 2: Marking visited value within the array
+
+# Method 3:
 
 # Logic: Since all values of the array are between '1' to 'n' and array size is 'n+1' .
 # so index can go from '0' to 'n'.
@@ -18,7 +22,7 @@
 # if you find value at index 'num' negative, it will mean that that number is repeating.
 # So 'num' will be our ans only.
 
-# Note : we are modifying array in this method. But we are not allowed to do this.
+# Note : we are modifying array in this method.
 
 # Time = O(n), space = O(1)
 
@@ -36,7 +40,7 @@ class Solution:
             nums[idx] = - nums[idx]
 
 
-# Mmethod 2:
+# Mmethod 4:
 # using slow and fast pointer.
 
 # How to think?
@@ -59,10 +63,11 @@ class Solution:
 
 # Q is based on this logic only.
 
-# Note: Here we are not modifying the array. 
+# Time = O(n), space = O(1)
+
+# Note: Here we are not modifying the array.
 
 # Just same logic :" 142. Linked List Cycle II".
-# Time = O(n), space = O(1)
 
 class Solution:
     def findDuplicate(self, nums: List[int]) -> int:
@@ -84,7 +89,7 @@ class Solution:
 
 # Java Code 
 """
-//Method 1
+//Method 3
 class Solution {
     // Method 1: Modifying the array
     // Time = O(n), Space = O(1)
@@ -104,7 +109,6 @@ class Solution {
         return -1;  // This line should never be reached
     }
 }
-
 //Method 4
 class Solution {
     // Method 4: Using slow and fast pointer (Floyd’s Cycle Detection Algorithm)
@@ -161,7 +165,7 @@ public:
         return -1;  // This line should never be reached
     }
 };
-//Method 2
+//Method 4
 class Solution {
 public:
     // Method 4: Using slow and fast pointer (Floyd’s Cycle Detection Algorithm)

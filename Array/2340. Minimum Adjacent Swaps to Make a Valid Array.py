@@ -6,6 +6,7 @@
 # when i > j
 
 # Therefore in this case, we will subtract '1' from ans.
+# time : O(n), space : O(1)
 
 class Solution:
     def minimumSwaps(self, nums):

@@ -1,4 +1,4 @@
-# 1st method(i solved):
+# 1st method:
 # if there will be any cycle then length of the linked will
 # be more than the maximum no of elements according to the given constraint
 # just find the length if >maximum length of the linked list then there 
@@ -15,6 +15,14 @@ class Solution:
                 length+= 1
         return False
 
+"""
+Method 1 is not efficient because it checks the length of the linked list against a fixed maximum value (10001 in this case).
+# This approach does not actually detect cycles; it only checks if the length exceeds a certain limit.
+Method 1 Analysis:
+Time Complexity: O(n), where n is the number of nodes in the linked list.
+Space Complexity: O(1), as it uses a constant amount of space for the length variable.
+# This method does not correctly identify cycles in the linked list.
+"""
 
 # 2nd method : storing the address into the hashmap or set
 # why set came into mind: since we have to find cycle means same address can't repeat again while traversing and
@@ -35,6 +43,11 @@ class Solution:
             temp = temp.next
         return False
 
+"""
+Method 2 Analysis:
+Time Complexity: O(n), where n is the number of nodes in the linked list.
+Space Complexity: O(n), as it uses a hash map to store the addresses of nodes.
+"""
 
 # my mistake in method 2 
 class Solution:
@@ -65,6 +78,11 @@ class Solution:
             head = head.next
         return False
 
+"""
+Method 3 Analysis:
+Time Complexity: O(n), where n is the number of nodes in the linked list.
+Space Complexity: O(1), as it uses a constant amount of space by modifying the node values.
+"""
 
 # 4th method: Floyd's cycle detection algorithm(submitted on GFG)
 # time: o(n), space= o(1)
@@ -82,6 +100,12 @@ class Solution:
                 return True
         return False
 
+"""
+Method 4 Analysis:
+Time Complexity: O(n), where n is the number of nodes in the linked list.
+Space Complexity: O(1), as it uses a constant amount of space with two pointers (slow and fast).
+NOTE : This method is efficient and widely used for cycle detection in linked lists.
+"""
 
 # Java Code 
 """

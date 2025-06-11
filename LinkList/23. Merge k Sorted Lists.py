@@ -59,8 +59,8 @@ class Solution:
 
 
 # method 3: very simpler and cleaner
-# time and space is just same as above
 # logic: just use the concept of merge sort (divide and conquer technique)
+# time complexity is O(n*logK), space: O(logk)
 
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
@@ -99,7 +99,7 @@ class ListNode {
 class Solution {
     public ListNode mergeKLists(List<ListNode> lists) {
         if (lists.isEmpty()) return null;
-        if (lists.size() == 1) return lists.get(0);
+        if (lists.size() == 1) return lists.get(0); // every 1D array is a linked list in itself so we can return this
 
         ListNode newHead = mergeTwoLists(lists.get(0), lists.get(1));
         for (int i = 2; i < lists.size(); i++) {
@@ -159,8 +159,7 @@ import java.util.List;
 class Solution {
     public ListNode mergeKLists(List<ListNode> lists) {
         if (lists.isEmpty()) return null;
-        if (lists.size() == 1) return lists.get(0);
-
+        if (lists.size() == 1) return lists.get(0);   
         int mid = lists.size() / 2;
         ListNode left = mergeKLists(lists.subList(0, mid));
         ListNode right = mergeKLists(lists.subList(mid, lists.size()));
@@ -191,7 +190,7 @@ class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
         if (lists.empty()) return nullptr;
-        if (lists.size() == 1) return lists[0];
+        if (lists.size() == 1) return lists[0];   // every 1D array is a linked list in itself so we can return this
 
         ListNode* newHead = mergeTwoLists(lists[0], lists[1]);
         for (size_t i = 2; i < lists.size(); i++) {

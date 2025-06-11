@@ -1,8 +1,8 @@
-# this giving time out(on gfg) ,but correct only
+
+# method 1: 
 # time: O(n^2)
 # logic: Just take each element one by one and search for its duplicates in the remaining list, just like we do for array(brute force)
 
-# method 1: 
 class Solution:
     def removeDuplicates(self, head):
         current= head
@@ -41,6 +41,55 @@ class Solution:
 # sort the list and apply the concept of removing duplicates from the sorted list
 # time: O(nlogn)
 
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+class Solution:
+    def removeDuplicates(self, head):
+        # Step 1: Sort the list using merge sort
+        head = self.sortList(head)
+
+        # Step 2: Remove duplicates from sorted list
+        curr = head
+        while curr and curr.next:
+            if curr.val == curr.next.val:
+                curr.next = curr.next.next
+            else:
+                curr = curr.next
+        return head
+
+    def sortList(self, head):
+        if not head or not head.next:
+            return head
+        # Split list
+        slow, fast = head, head.next
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        mid = slow.next
+        slow.next = None
+
+        # Recursive sort
+        left = self.sortList(head)
+        right = self.sortList(mid)
+
+        # Merge sorted halves
+        return self.merge(left, right)
+
+    def merge(self, l1, l2):
+        dummy = ListNode()
+        tail = dummy
+        while l1 and l2:
+            if l1.val < l2.val:
+                tail.next, l1 = l1, l1.next
+            else:
+                tail.next, l2 = l2, l2.next
+            tail = tail.next
+        tail.next = l1 or l2
+        return dummy.next
+
 
 # method 3:
 # store the visited ele in set and for each ele whether that is present in set or not
@@ -69,12 +118,10 @@ def removeDuplicates(self, head):
 """
 //Method 1
 class ListNode {
-    int val;
+    int data;
     ListNode next;
-
-    ListNode(int x) {
-        val = x;
-        next = null;
+    ListNode(int data) {
+        this.data = data;
     }
 }
 
@@ -82,54 +129,84 @@ class Solution {
     public ListNode removeDuplicates(ListNode head) {
         ListNode current = head;
 
-        while (current != null && current.next != null) {
+        while (current != null && current.next != null) {  // have to check till 'n-1'
             ListNode current1 = current;
 
-            while (current1.next != null) {
-                if (current.val == current1.next.val) {
-                    current1.next = current1.next.next; // Skipping duplicates
+            while (current1.next != null) {  // this will go till end
+                if (current.data == current1.next.data) {
+                    current1.next = current1.next.next;  // assuming the next node after that we checked may be distinct
                 } else {
+                    // here current1 already be pointing to the distinct node than 'current' so simply we have to current1 one step ahead
                     current1 = current1.next;
                 }
             }
 
-            current = current.next; // Move to next distinct element
+            // now current.next will point to the next distinct ele 
+            current = current.next;
         }
 
         return head;
     }
 }
+
+
 //Method 2
-import java.util.ArrayList;
-import java.util.Collections;
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) { this.val = val; }
+}
 
 class Solution {
     public ListNode removeDuplicates(ListNode head) {
-        if (head == null) return null;
+        // Step 1: Sort the list
+        head = sortList(head);
 
-        ArrayList<Integer> values = new ArrayList<>();
-        ListNode current = head;
-
-        while (current != null) {
-            values.add(current.val);
-            current = current.next;
-        }
-
-        Collections.sort(values);
-
-        ListNode newHead = new ListNode(values.get(0));
-        ListNode temp = newHead;
-
-        for (int i = 1; i < values.size(); i++) {
-            if (!values.get(i).equals(values.get(i - 1))) {
-                temp.next = new ListNode(values.get(i));
-                temp = temp.next;
+        // Step 2: Remove duplicates from sorted list
+        ListNode curr = head;
+        while (curr != null && curr.next != null) {
+            if (curr.val == curr.next.val) {
+                curr.next = curr.next.next;
+            } else {
+                curr = curr.next;
             }
         }
+        return head;
+    }
 
-        return newHead;
+    private ListNode sortList(ListNode head) {
+        if (head == null || head.next == null) return head;
+        ListNode slow = head, fast = head.next;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode mid = slow.next;
+        slow.next = null;
+        ListNode left = sortList(head);
+        ListNode right = sortList(mid);
+        return merge(left, right);
+    }
+
+    private ListNode merge(ListNode l1, ListNode l2) {
+        ListNode dummy = new ListNode(0), tail = dummy;
+        while (l1 != null && l2 != null) {
+            if (l1.val < l2.val) {
+                tail.next = l1;
+                l1 = l1.next;
+            } else {
+                tail.next = l2;
+                l2 = l2.next;
+            }
+            tail = tail.next;
+        }
+        tail.next = (l1 != null) ? l1 : l2;
+        return dummy.next;
     }
 }
+
+
+
 //Method 3
 import java.util.HashSet;
 
@@ -158,16 +235,10 @@ class Solution {
 # C++ Code 
 """
 //Method 1
-#include <iostream>
-
-using namespace std;
-
-class ListNode {
-public:
-    int val;
+struct ListNode {
+    int data;
     ListNode* next;
-
-    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x) : data(x), next(nullptr) {}
 };
 
 class Solution {
@@ -175,55 +246,84 @@ public:
     ListNode* removeDuplicates(ListNode* head) {
         ListNode* current = head;
 
-        while (current && current->next) {
+        while (current && current->next) {  // have to check till 'n-1'
             ListNode* current1 = current;
 
-            while (current1->next) {
-                if (current->val == current1->next->val) {
-                    current1->next = current1->next->next; // Skipping duplicates
+            while (current1->next) {  // this will go till end
+                if (current->data == current1->next->data) {
+                    current1->next = current1->next->next;  // assuming the next node after that we checked may be distinct
                 } else {
+                    // here current1 already be pointing to the distinct node than 'current' so simply we have to current1 one step ahead
                     current1 = current1->next;
                 }
             }
-            
-            current = current->next; // Move to next distinct element
+
+            // now current->next will point to the next distinct ele 
+            current = current->next;
         }
 
         return head;
     }
 };
+
+
 //Method 2
-#include <algorithm>
-#include <vector>
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int val) : val(val), next(nullptr) {}
+};
 
 class Solution {
 public:
     ListNode* removeDuplicates(ListNode* head) {
-        if (!head) return nullptr;
+        // Step 1: Sort the list
+        head = sortList(head);
 
-        vector<int> values;
-        ListNode* current = head;
-
-        while (current) {
-            values.push_back(current->val);
-            current = current->next;
-        }
-
-        sort(values.begin(), values.end());
-
-        ListNode* newHead = new ListNode(values[0]);
-        ListNode* temp = newHead;
-
-        for (size_t i = 1; i < values.size(); i++) {
-            if (values[i] != values[i - 1]) {
-                temp->next = new ListNode(values[i]);
-                temp = temp->next;
+        // Step 2: Remove duplicates
+        ListNode* curr = head;
+        while (curr && curr->next) {
+            if (curr->val == curr->next->val) {
+                curr->next = curr->next->next;
+            } else {
+                curr = curr->next;
             }
         }
+        return head;
+    }
 
-        return newHead;
+    ListNode* sortList(ListNode* head) {
+        if (!head || !head->next) return head;
+        ListNode* slow = head, *fast = head->next;
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        ListNode* mid = slow->next;
+        slow->next = nullptr;
+        ListNode* left = sortList(head);
+        ListNode* right = sortList(mid);
+        return merge(left, right);
+    }
+
+    ListNode* merge(ListNode* l1, ListNode* l2) {
+        ListNode dummy(0), *tail = &dummy;
+        while (l1 && l2) {
+            if (l1->val < l2->val) {
+                tail->next = l1;
+                l1 = l1->next;
+            } else {
+                tail->next = l2;
+                l2 = l2->next;
+            }
+            tail = tail->next;
+        }
+        tail->next = l1 ? l1 : l2;
+        return dummy.next;
     }
 };
+
+
 //Method 3
 #include <unordered_set>
 

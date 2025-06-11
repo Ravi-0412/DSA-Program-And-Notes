@@ -30,6 +30,12 @@ class Solution:
         # now change the pointer to delete the element
         first.next= first.next.next 
         return dummy.next 
+    
+"""
+Methhod 1 analysis:
+Time Complexity: O(m+n) where m is the length of the linked list and n is the position from the end.
+Space Complexity: O(1) as we are not using any extra space.
+"""
 
 # 2nd method(best one): in one travesal
 class Solution:
@@ -53,9 +59,13 @@ class Solution:
         second.next= second.next.next
         return dummy.next  
 
+"""
+Method 2 analysis:
+Time Complexity: O(m+n) where m is the length of the linked list and n is the position from the end.
+Space Complexity: O(1) as we are not using any extra space.
+"""
 
-# Method 3: just same logic as method 2
-# in one pass.
+# Method 3: just same logic as method 2 but in one pass.
 class Solution:
     def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
         dummy= ListNode()

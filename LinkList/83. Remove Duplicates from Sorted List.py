@@ -1,5 +1,11 @@
 
 # method 1:
+"""
+As the list is sorted, we can use a two-pointer technique to remove duplicates.
+We will traverse the list and compare each node with the next one. 
+If they are the same, we skip the next node by changing the link. If they are different, we move to the next node.
+Continue this until we reach the end of the list.
+"""
 class Solution:
     def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
         if head== None:
@@ -15,10 +21,21 @@ class Solution:
                 temp = temp.next
             current = current.next 
         return head
+"""
+Time Complexity: O(n) where n is the number of nodes in the linked list.
+Space Complexity: O(1) as we are not using any extra space.
+"""
+
+# method 2 : concise and better way of method 1
+# my mistake: i was missing 1st while loop
 
 
-# method 2 : concise way of method 1
-# Better one
+"""
+What's make it concise and better?
+This method is more concise because it uses a single pointer (curr) to traverse the list and remove duplicates in one pass.
+It removes duplicates immediately by checking the next node's value against the current node's value, and if they match, it skips the next node.
+It removes all duplicates immediately by skipping all consecutive nodes with the same value right away inside a nested loop.
+"""
 class Solution:
     def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
         curr= head   # cur will point to last distinct ele.
@@ -27,8 +44,10 @@ class Solution:
                 curr.next= curr.next.next
             curr= curr.next
         return head
-    
-# my mistake: i was missing 1st while loop
+"""
+Time Complexity: O(n) where n is the number of nodes in the linked list.
+Space Complexity: O(1) as we are not using any extra space.
+"""
 
 
 
@@ -48,126 +67,122 @@ def deleteDuplicates(self, head):
             return head.next if head.next.val == head.val else head
         return head   # will act as base case also
 
-
-# Java Code 
 """
-//Method 1
-class ListNode {
-    int val;
-    ListNode next;
+Time Complexity: O(n) where n is the number of nodes in the linked list.
+Space Complexity: O(n) due to the recursion stack.
+"""
 
-    ListNode(int x) {
-        val = x;
-        next = null;
-    }
-}
 
+# java
+"""
+// Method 1 :
 class Solution {
     public ListNode deleteDuplicates(ListNode head) {
-        if (head == null) return head;
-
-        ListNode temp = head;
-        ListNode current = head.next;
-
+        if (head == null) {
+            return head;
+        }
+        // we are joining distinct node with the help of temp
+        ListNode temp = head;        // temp will always point to the pre distinct ele
+        ListNode current = head.next; // will point from the 2nd ele 
         while (current != null) {
-            if (current.val == temp.val) { // If duplicate
-                temp.next = current.next; // Skip duplicate node
+            if (current.val == temp.val) {  // if duplicates
+                temp.next = current.next;  // skipping the duplicates, thinking next node might be distinct
             } else {
-                temp = temp.next; // Move to next distinct node
+                // here temp.next already be pointing to the distinct node than 'temp' so simply make temp = temp.next
+                temp = temp.next;
             }
             current = current.next;
         }
-
         return head;
     }
 }
-//Method 2
+
+// method 2
 class Solution {
     public ListNode deleteDuplicates(ListNode head) {
-        ListNode curr = head;
-
+        ListNode curr = head; // curr will point to last distinct ele.
         while (curr != null) {
             while (curr.next != null && curr.next.val == curr.val) {
-                curr.next = curr.next.next; // Skip duplicates
+                curr.next = curr.next.next;
             }
             curr = curr.next;
         }
-
         return head;
     }
 }
-//Method 3
+
+// Method 3
 class Solution {
     public ListNode deleteDuplicates(ListNode head) {
         if (head != null && head.next != null) {
             head.next = deleteDuplicates(head.next);
+            // agar aage wala node ka value same h to hm apne aap ko usme include nhi kar sakte isliye 'head.next' return kar denge
+            // agar aage wala node ka value different h to hm apne aap ko usme include kar sakte isliye apna value include karke return kar denge,
+            // isliye 'head' return kar rhe.
             return (head.next.val == head.val) ? head.next : head;
         }
-        return head;
+        return head;   // will act as base case also
     }
 }
+
 """
 
-# C++ Code 
+# C++
 """
-//Method 1
-#include <iostream>
-
-using namespace std;
-
-class ListNode {
-public:
-    int val;
-    ListNode* next;
-
-    ListNode(int x) : val(x), next(nullptr) {}
-};
+// Method 1:
 
 class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {
-        if (!head) return head;
-
-        ListNode* temp = head;  // temp will always point to last distinct node
-        ListNode* current = head->next; // start from second node
-
-        while (current) {
-            if (current->val == temp->val) {  // If duplicate
-                temp->next = current->next;  // Skip duplicate node
+        if (head == nullptr) {
+            return head;
+        }
+        // we are joining distinct node with the help of temp
+        ListNode* temp = head;         // temp will always point to the pre distinct ele
+        ListNode* current = head->next; // will point from the 2nd ele 
+        while (current != nullptr) {
+            if (current->val == temp->val) {  // if duplicates
+                temp->next = current->next;  // skipping the duplicates, thinking next node might be distinct
             } else {
-                temp = temp->next; // Move to next distinct node
+                // here temp->next already be pointing to the distinct node than 'temp' so simply make temp = temp.next
+                temp = temp->next;
             }
             current = current->next;
         }
-
         return head;
     }
 };
-//Method 2
+
+
+// Method 2:
 class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {
-        ListNode* curr = head;
-
-        while (curr) {
-            while (curr->next && curr->next->val == curr->val) {
-                curr->next = curr->next->next; // Skip duplicates
+        ListNode* curr = head; // curr will point to last distinct ele.
+        while (curr != nullptr) {
+            while (curr->next != nullptr && curr->next->val == curr->val) {
+                curr->next = curr->next->next;
             }
             curr = curr->next;
         }
-
         return head;
     }
 };
-//Method 3
+
+// Method 3:
 class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {
-        if (head && head->next) {
+        if (head != nullptr && head->next != nullptr) {
             head->next = deleteDuplicates(head->next);
+            // agar aage wala node ka value same h to hm apne aap ko usme include nhi kar sakte isliye 'head.next' return kar denge
+            // agar aage wala node ka value different h to hm apne aap ko usme include kar sakte isliye apna value include karke return kar denge,
+            // isliye 'head' return kar rhe.
             return (head->next->val == head->val) ? head->next : head;
         }
-        return head;
+        return head;  // will act as base case also
     }
 };
+
+
 """

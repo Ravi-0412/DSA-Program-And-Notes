@@ -4,7 +4,12 @@
 # it basically checking the address of the node, if equal then intesection point exist at that node
 # other don't exist
 
-# But it will take extra O(N) space
+"""
+Method 1 analysis:
+Time Complexity: O(m+n) where m and n are the lengths of the two linked lists.
+Space Complexity: O(m) where m is the length of the first linked list (to store addresses in hashmap).
+"""
+
 def getIntersectionNode(self, headA, headB) ->:
         curr1,curr2,hashmap1= headA, headB,{}
         while curr1:
@@ -16,13 +21,14 @@ def getIntersectionNode(self, headA, headB) ->:
             curr2= curr2.next
         return None
 
+# Method 2:
 # find the diff in the length of linked list
 # now move the linklist with greater length equal to the len_diff 
 # now start moving the both linked list simultaneously and keep checking
 # whether they point to the same Node
 # if no common point exist then intersection point doesn't exist
 # basically comapring the address of the nodes
-# time: O(m+n)
+# time: O(m+n), space: O(1)
 
 class Solution:
     def getIntersectionNode(self, headA, headB):
@@ -57,164 +63,29 @@ class Solution:
             curr1,curr2= curr1.next, curr2.next
         return None
 
-# Java Code 
 """
-//Method 1
-import java.util.HashMap;
+# Method 3:
+# Using two pointers technique
+# We can use two pointers to find the intersection point.
+# We will traverse both linked lists simultaneously, and when we reach the end of one list, we will switch to the other list.
+# This way, both pointers will traverse the same number of nodes, and they will meet at the intersection point if it exists.
 
-class ListNode {
-    int val;
-    ListNode next;
-
-    ListNode(int x) {
-        val = x;
-        next = null;
-    }
-}
-
-class Solution {
-    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        HashMap<ListNode, Boolean> hashmap = new HashMap<>();
-
-        // Store all nodes from first linked list in hashmap
-        while (headA != null) {
-            hashmap.put(headA, true);
-            headA = headA.next;
-        }
-
-        // Traverse second list, checking for intersection
-        while (headB != null) {
-            if (hashmap.containsKey(headB)) {
-                return headB;
-            }
-            headB = headB.next;
-        }
-
-        return null;
-    }
-}
-//Method 2
-class Solution {
-    public int getLength(ListNode head) {
-        int length = 0;
-        while (head != null) {
-            length++;
-            head = head.next;
-        }
-        return length;
-    }
-
-    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        int length1 = getLength(headA);
-        int length2 = getLength(headB);
-
-        // Adjust the longer list
-        if (length1 > length2) {
-            return findIntersection(length1 - length2, headA, headB);
-        } else {
-            return findIntersection(length2 - length1, headB, headA);
-        }
-    }
-
-    private ListNode findIntersection(int diff, ListNode head1, ListNode head2) {
-        while (diff-- > 0) {
-            head1 = head1.next;
-        }
-
-        while (head1 != null && head2 != null) {
-            if (head1 == head2) {
-                return head1;
-            }
-            head1 = head1.next;
-            head2 = head2.next;
-        }
-
-        return null;
-    }
-}
 """
+class Solution:
+    def getIntersectionNode(self, headA, headB):
+        if not headA or not headB:
+            return None
+        
+        curr1, curr2 = headA, headB
+        
+        while curr1 != curr2:
+            curr1 = curr1.next if curr1 else headB
+            curr2 = curr2.next if curr2 else headA
+            
+        return curr1
 
-# C++ Code 
-"""
-//Method 1
-#include <iostream>
-#include <unordered_map>
-
-using namespace std;
-
-class ListNode {
-public:
-    int val;
-    ListNode* next;
-
-    ListNode(int x) : val(x), next(nullptr) {}
-};
-
-class Solution {
-public:
-    ListNode* getIntersectionNode(ListNode* headA, ListNode* headB) {
-        unordered_map<ListNode*, bool> hashmap;
-
-        // Store all nodes from first linked list in hashmap
-        while (headA) {
-            hashmap[headA] = true;
-            headA = headA->next;
-        }
-
-        // Traverse second list, checking for intersection
-        while (headB) {
-            if (hashmap.find(headB) != hashmap.end()) {
-                return headB;
-            }
-            headB = headB->next;
-        }
-
-        return nullptr;
-    }
-};
-//Method 2
-class Solution {
-public:
-    int getLength(ListNode* head) {
-        int length = 0;
-        while (head) {
-            length++;
-            head = head->next;
-        }
-        return length;
-    }
-
-    ListNode* getIntersectionNode(ListNode* headA, ListNode* headB) {
-        int length1 = getLength(headA);
-        int length2 = getLength(headB);
-
-        // Adjust the longer list
-        if (length1 > length2) {
-            return findIntersection(length1 - length2, headA, headB);
-        } else {
-            return findIntersection(length2 - length1, headB, headA);
-        }
-    }
-
-private:
-    ListNode* findIntersection(int diff, ListNode* head1, ListNode* head2) {
-        while (diff--) {
-            head1 = head1->next;
-        }
-
-        while (head1 && head2) {
-            if (head1 == head2) {
-                return head1;
-            }
-            head1 = head1->next;
-            head2 = head2->next;
-        }
-
-        return nullptr;
-    }
-};
-"""
-# Try by this method also later
-# https://leetcode.com/problems/intersection-of-two-linked-lists/solutions/49785/java-solution-without-knowing-the-difference-in-len/
-
+# Method 3 analysis:
+# Time Complexity: O(m+n) where m and n are the lengths of the two linked lists.
+# Space Complexity: O(1) as we are not using any extra space.
+# Note: This method works because if there is an intersection, both pointers will eventually meet at the intersection point.
 

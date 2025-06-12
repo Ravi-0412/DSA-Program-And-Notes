@@ -27,9 +27,15 @@ class Solution:
 
 
 # Method 2: Very better one
-# Just two sum logic and above logic combination.
+''''
+Approach :
+1) We have to take 2 pointer one is from starting index and one is from last index of the list 
+2) Sort the list
+3) if the sum of the values of the elements according to the index is less than equal to the target then we can include all the possibilities.
 
-# Time = O(n*sqrt(n))
+ Time = O(n*sqrt(n))
+ Space = O(1)
+'''
 
 class Solution:
     def numSubseq(self, nums: List[int], target: int) -> int:

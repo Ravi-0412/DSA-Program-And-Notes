@@ -1,9 +1,6 @@
-# Observation:
-# all left elements must be same only otherwise they can cancel each other.
-
 # My mistake:
 
-# It will wrong ans in cases like : 
+# It will give wrong ans in cases like : 
 # [1,3,3,3,4] , this will give ans = 3 but ans should be equal to '1'.
 # (1,3),(1, 4) then only one '3' will be remaining.
 
@@ -25,6 +22,8 @@ class Solution:
         return j - i + 1
 
 # Method 1:
+# Observation: all left elements must be same only otherwise they can cancel each other.
+
 # Cancelling the two most frequent ele first to minimise the length.
 
 # Here we need to cancel the two most frequent ele and then again we need to put their remaining frequency after cancellation
@@ -62,9 +61,6 @@ class Solution:
 
 # Method 2: Using two pointer
 # Optimising taking benefit of sorted array.
-
-# https://leetcode.com/problems/minimum-array-length-after-pair-removals/solutions/4059768/c-java-python-two-pointer-approach/
-# Analyse why other cases won't work.
 
 # Logic:  compare the last element with the element in the middle of the array. 
 # If our condition is satisfied, then remove this pair.
@@ -112,10 +108,6 @@ class Solution:
                 i += 1
             j += 1
         return ans
-    
-
-# Note : method '2' and '3' are not initiutive at all.
-# Have to think why it's working.
 
 
 # method 4:

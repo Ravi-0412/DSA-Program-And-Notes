@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Q is totally same as "jump game 1 " but changed the explanation to confuse.
 # Here we have to find the minimum no of jumps required to go to last index.
 # method 1: we can do by DP like jump game 1 but will go in O(n^2)
@@ -15,6 +17,9 @@
 # 'l', 'r' tell the range of curr level you are considering now. after considering each level you incr the 'ans' by '1'.
 
 # easier and better one. Totally same as multiospurce bfs logic.
+
+# Time : O(n), space: O(1)
+
 class Solution:
     def jump(self, nums: List[int]) -> int:
         ans, l, r= 0, 0, 0  
@@ -29,6 +34,11 @@ class Solution:
 
 # method 2: good one
 # same way we solved 'Jump Game'.
+# we only need to run loop till 'n-2' because we will must reach 'n-1' in next level since it is given that there is at least one path possible.
+# i.e considering all the level before we will must reach the last index.
+# Time : O(n), space: O(1)
+
+
 class Solution:
     def jump(self, nums: List[int]) -> int:
         jumps= 0   # will tell the min no jumps required. will tell only how many level we traversed to raech the last index.
@@ -40,9 +50,6 @@ class Solution:
                 lastJumpedPos= farthest  # increasing the range i.e ele to be considered in next level.
                 jumps+= 1
         return jumps
-
-# we only need to run loop till 'n-2' because we will must reach 'n-1' in next level since it is given that there is at least one path possible.
-# i.e considering all the level before we will must reach the last index.
 
 
 # Similar Q:
@@ -104,6 +111,7 @@ public:
         return ans;
     }
 };
+
 // Method 2: good one
 // same way we solved 'Jump Game'.
 class Solution {

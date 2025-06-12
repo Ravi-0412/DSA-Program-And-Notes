@@ -1,3 +1,5 @@
+# Method 1:
+
 # Logic: 
 # Optimize the total sum in two steps:
 
@@ -9,6 +11,8 @@
 # Because for same column, bit value will same(when we convert binary to integer)
 # so it's only better to flip if no of '1' > no of '0' so that we can bring more '1' 
 # and this will increase the value. 
+
+# Time : O(row * col), space: O(1)
 
 class Solution:
     def matrixScore(self, grid: List[List[int]]) -> int:

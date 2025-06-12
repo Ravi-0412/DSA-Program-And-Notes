@@ -1,5 +1,5 @@
 """
-my mistakes: i was thinking like 'find the max no of overlapping interval at once' and subtract '-1'.
+my mistake: i was thinking like 'find the max no of overlapping interval at once' and subtract '-1'.
 which is same as "253. meeting rooms 2"
 Reason: if some interval is very big then it make make a lot of intervals overlapping so our ans will be more than expected.
 e.g: [1, 10], [2, 3], [3, 4], [4,5]... 
@@ -16,7 +16,6 @@ Finding "max no of non-overlapping interval" is exactly same as classical proble
 https://en.wikipedia.org/wiki/Interval_scheduling#Interval_Scheduling_Maximization
 
 for intervlas problems, draw the intervals on the number line and see.
-Diagram in notes. page : 165
 
 How to solve ?
 Vvi: Just think intervals as real life event then to attend the maximum no of events ,
@@ -82,8 +81,8 @@ class Solution:
                 preEnd= min(preEnd, end)  # No need of this in 1st method because  earlier one will have lesser ending time
         return ans
 
-
-# Other way to directly find the 'max no of non-overlapping interval' when we sort based on start time.
+# Method 3: 
+# Directly find the 'max no of non-overlapping interval' when we sort based on start time.
 
 
 class Solution:
@@ -100,183 +99,3 @@ class Solution:
                 # delete the one having larger ending time and keep the one having lesser ending time.
                 preEnd= min(preEnd, end)  
         return len(intervals) - count
-
-# Java Code 
-"""
-//  Method 1 (Sort by end time, count non-overlapping)
-import java.util.*;
-
-class Solution {
-    public int eraseOverlapIntervals(int[][] intervals) {
-        // Sort intervals by their ending time
-        Arrays.sort(intervals, (a, b) -> Integer.compare(a[1], b[1]));
-
-        int preEnd = intervals[0][1];  // will keep track end time of last added interval.
-        int count = 1;  // will count the max no of non-overlapping intervals.
-                       // Starting from 1 because if not overlap then at 1st time we will have to add both the intervals.
-
-        for (int i = 1; i < intervals.length; i++) {
-            int start = intervals[i][0];
-            int end = intervals[i][1];
-
-            // if they are not overlapping
-            if (start >= preEnd) {
-                preEnd = end;
-                count++;
-            }
-            // if overlapping, skip the cur one since pre ending interval will be before only and we already taken that.
-        }
-
-        return intervals.length - count;
-    }
-}
-//Method 2 (Sort by start time, directly compute answer)
-import java.util.*;
-
-class Solution {
-    public int eraseOverlapIntervals(int[][] intervals) {
-        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
-
-        int preEnd = intervals[0][1];
-        int ans = 0;
-
-        for (int i = 1; i < intervals.length; i++) {
-            int start = intervals[i][0];
-            int end = intervals[i][1];
-
-            if (start >= preEnd) {  // if they are not overlapping
-                preEnd = end;
-            } else {  // if they are overlapping
-                ans++;
-                // delete the one having larger ending time and keep the one having lesser ending time.
-                preEnd = Math.min(preEnd, end);
-            }
-        }
-
-        return ans;
-    }
-}
-//Method 3 (Sort by start time, count non-overlapping directly)
-import java.util.*;
-
-class Solution {
-    public int eraseOverlapIntervals(int[][] intervals) {
-        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
-
-        int preEnd = intervals[0][1];  // will keep tarck of last added inetrval.
-        int count = 1;  // will count the max no of non-overlapping intervals.
-                       // Starting from 1 because if not overlap then at 1st time we will have to add both the intervals.
-
-        for (int i = 1; i < intervals.length; i++) {
-            int start = intervals[i][0];
-            int end = intervals[i][1];
-
-            if (start >= preEnd) {  // if they are not overlapping
-                preEnd = end;
-                count++;
-            } else {  // if they are overlapping
-                // delete the one having larger ending time and keep the one having lesser ending time.
-                preEnd = Math.min(preEnd, end);
-            }
-        }
-
-        return intervals.length - count;
-    }
-}
-"""
-
-# C++ Code 
-"""
-// Method 1 (Sort by end time, count non-overlapping)
-#include <vector>
-#include <algorithm>
-using namespace std;
-
-class Solution {
-public:
-    int eraseOverlapIntervals(vector<vector<int>>& intervals) {
-        // Sort intervals by their ending time
-        sort(intervals.begin(), intervals.end(), [](const vector<int>& a, const vector<int>& b) {
-            return a[1] < b[1];
-        });
-
-        int preEnd = intervals[0][1];  // will keep track end time of last added interval.
-        int count = 1;  // will count the max no of non-overlapping intervals.
-                       // Starting from 1 because if not overlap then at 1st time we will have to add both the intervals.
-
-        for (int i = 1; i < intervals.size(); i++) {
-            int start = intervals[i][0];
-            int end = intervals[i][1];
-
-            // if they are not overlapping
-            if (start >= preEnd) {
-                preEnd = end;
-                count++;
-            }
-            // if overlapping, skip the cur one since pre ending interval will be before only and we already taken that.
-        }
-
-        return intervals.size() - count;
-    }
-};
-// Method 2 (Sort by start time, directly compute answer)
-#include <vector>
-#include <algorithm>
-using namespace std;
-
-class Solution {
-public:
-    int eraseOverlapIntervals(vector<vector<int>>& intervals) {
-        sort(intervals.begin(), intervals.end());
-
-        int preEnd = intervals[0][1];
-        int ans = 0;
-
-        for (int i = 1; i < intervals.size(); i++) {
-            int start = intervals[i][0];
-            int end = intervals[i][1];
-
-            if (start >= preEnd) {  // if they are not overlapping
-                preEnd = end;
-            } else {  // if they are overlapping
-                ans++;
-                // delete the one having larger ending time and keep the one having lesser ending time.
-                preEnd = min(preEnd, end);  // No need of this in 1st method because earlier one will have lesser ending time
-            }
-        }
-
-        return ans;
-    }
-};
-//  Method 3 (Sort by start time, count non-overlapping directly)
-#include <vector>
-#include <algorithm>
-using namespace std;
-
-class Solution {
-public:
-    int eraseOverlapIntervals(vector<vector<int>>& intervals) {
-        sort(intervals.begin(), intervals.end());
-
-        int preEnd = intervals[0][1];  // will keep tarck of last added inetrval.
-        int count = 1;  // will count the max no of non-overlapping intervals.
-                       // Starting from 1 because if not overlap then at 1st time we will have to add both the intervals.
-
-        for (int i = 1; i < intervals.size(); i++) {
-            int start = intervals[i][0];
-            int end = intervals[i][1];
-
-            if (start >= preEnd) {  // if they are not overlapping
-                preEnd = end;
-                count++;
-            } else {  // if they are overlapping
-                // delete the one having larger ending time and keep the one having lesser ending time.
-                preEnd = min(preEnd, end);
-            }
-        }
-
-        return intervals.size() - count;
-    }
-};
-
-"""

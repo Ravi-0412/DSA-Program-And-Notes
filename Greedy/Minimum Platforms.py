@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Logic: Exactly same as "253. meeting Rooms II"
 # except here in case of same arrival and depart time we will need one platform.
 # (Given: At any given instance of time, same platform can not be used for both departure of a train and arrival of another train. In such cases, we need different platforms.)

@@ -1,5 +1,9 @@
+# method 1: 
+
 # Logic: Just move in all the four directions sequentially that will give the ans.
 # first move into top row -> then last row -> then last col ->  then 1st col (in remaining one).
+# Time complexity = O(m * n)  
+# Space Complexity: O(1)
 
 class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
@@ -34,8 +38,6 @@ class Solution:
         return res
 
 
-# later try to do by solution in the sheet.
-
 
 # Java
 """"
@@ -51,19 +53,20 @@ class Solution {
         int left = 0, right = col - 1;
 
         while (res.size() < row * col) {
-            // Traverse right
+            // Traverse right, proper row should be fixed
             for (int c = left; c <= right && res.size() < row * col; c++) {
                 res.add(matrix[up][c]);
             }
-            // Traverse down
+            // Traverse down, proper col should be fixed
+
             for (int r = up + 1; r <= down && res.size() < row * col; r++) {
                 res.add(matrix[r][right]);
             }
-            // Traverse left
+            // Traverse left, proper row should be fixed
             for (int c = right - 1; c >= left && res.size() < row * col; c--) {
                 res.add(matrix[down][c]);
             }
-            // Traverse up
+            // Traverse up, proper col should be fixed
             for (int r = down - 1; r > up && res.size() < row * col; r--) {
                 res.add(matrix[r][left]);
             }

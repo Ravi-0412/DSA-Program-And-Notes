@@ -2,7 +2,7 @@
 # We will need to perform minimum of (count//2) operation to remove almost-equal char from these.
 # (We can change the middle char for minimum operation).
 
-# Time : O(n)
+# Time : O(n), space : O(1)
 
 class Solution:
     def removeAlmostEqualCharacters(self, word: str) -> int:
@@ -31,6 +31,8 @@ class Solution:
 # 4) Also if we change the char to a new one that means we are sure that the next char should not be checked 
 # so iterate one more to skip check for the immidiate next char.
 
+# Time : O(n), space : O(1)
+
 class Solution:
     def removeAlmostEqualCharacters(self, word: str) -> int:
         n = len(word)
@@ -42,4 +44,4 @@ class Solution:
                 i += 1   # No need to check next char
             i += 1
         return ans
-        
+

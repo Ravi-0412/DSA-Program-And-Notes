@@ -1,5 +1,12 @@
-# BRute force: O(n^2)
+# Method 1:
+# Brute Time Complexity :  O(n^2) , Space Complexity:O(1)
 # find the area between every pair of container and take the maximum
+''' Approach :
+    1)in this brute force approach we have to take all possible pairs of l and r to find the maximum area between l and r
+    2)length = l-r
+    3)width  = minimum of (height[r], height[l])
+    3) Area = length * width
+'''
 class Solution:
     def maxArea(self, height: List[int]) -> int:
         maxArea= 0
@@ -9,8 +16,41 @@ class Solution:
                 maxArea= max(maxArea, curr_Area)
         return maxArea
 
+'''
+C++ Code:
 
-# time: O(n)
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int maxArea = 0;
+        for (int l = 0; l < height.size(); ++l) {
+            for (int r = l + 1; r < height.size(); ++r) {
+                int curr_Area = (r - l) * min(height[l], height[r]);
+                maxArea = max(maxArea, curr_Area);
+            }
+        }
+        return maxArea;
+    }
+};
+
+Java Code :
+
+class Solution {
+    public int maxArea(int[] height) {
+        int maxArea = 0;
+        for (int l = 0; l < height.length; l++) {
+            for (int r = l + 1; r < height.length; r++) {
+                int curr_Area = (r - l) * Math.min(height[l], height[r]);
+                maxArea = Math.max(maxArea, curr_Area);
+            }
+        }
+        return maxArea;
+    }
+}
+
+'''
+
+# Method 2: 
 # using two pointer
 
 # Idea: 
@@ -21,6 +61,9 @@ class Solution:
 
 # So we can start from two end points and move the pointer for which height is less.
 # From here we get idea of two pointer.
+
+# time: O(n)
+# Space :O(1)
 
 class Solution:
     def maxArea(self, height: List[int]) -> int:
@@ -36,96 +79,47 @@ class Solution:
                 l+= 1
         return maxArea
 
-# Java Code
+
 """
-//Method 1
-import java.util.*;
-
-class Solution {
-    public int maxArea(int[] height) {
-        int maxArea = 0;
-        int n = height.length;
-
-        for (int l = 0; l < n; l++) {
-            for (int r = l + 1; r < n; r++) {
-                int curr_Area = (r - l) * Math.min(height[r], height[l]); // length * width
-                maxArea = Math.max(maxArea, curr_Area);
-            }
-        }
-        return maxArea;
-    }
-}
-//Method 2
-class Solution {
-    public int maxArea(int[] height) {
-        int maxArea = 0;
-        int l = 0, r = height.length - 1;  // For maximizing width
-
-        while (l < r) {
-            int curr_Area = (r - l) * Math.min(height[r], height[l]);
-            maxArea = Math.max(maxArea, curr_Area);
-
-            // Move the pointer with the smaller height
-            if (height[l] > height[r]) {
-                r--;
-            } else {
-                l++;
-            }
-        }
-        return maxArea;
-    }
-}
-"""
-
-# C++ Code
-"""
-//Method 1
-#include <iostream>
-#include <vector>
-#include <algorithm>
-
-using namespace std;
-
+C++ Code  :
 class Solution {
 public:
     int maxArea(vector<int>& height) {
         int maxArea = 0;
-        int n = height.size();
-
-        for (int l = 0; l < n; l++) {
-            for (int r = l + 1; r < n; r++) {
-                int curr_Area = (r - l) * min(height[r], height[l]); // length * width
-                maxArea = max(maxArea, curr_Area);
-            }
-        }
-        return maxArea;
-    }
-};
-//Method 2
-#include <iostream>
-#include <vector>
-#include <algorithm>
-
-using namespace std;
-
-class Solution {
-public:
-    int maxArea(vector<int>& height) {
-        int maxArea = 0;
-        int l = 0, r = height.size() - 1;  // For maximizing width
-
+        int l = 0, r = height.size() - 1;
         while (l < r) {
-            int curr_Area = (r - l) * min(height[r], height[l]);
+            int curr_Area = (r - l) * min(height[l], height[r]);
             maxArea = max(maxArea, curr_Area);
-
-            // Move the pointer with the smaller height
+            // move which is smaller since we are decreasing the width so we will try to move the smaller to get the bigger height.
             if (height[l] > height[r]) {
                 r--;
-            } else {
+            } else { // can write above two into one
                 l++;
             }
         }
         return maxArea;
     }
 };
+
+Java Code :
+class Solution {
+    public int maxArea(int[] height) {
+        int left = 0;
+        int right = height.length - 1;
+        int maxArea = 0;
+
+        while (left < right) {
+            int currentArea = Math.min(height[left], height[right]) * (right - left);
+            maxArea = Math.max(maxArea, currentArea);
+
+            if (height[left] < height[right]) {
+                left++;
+            } else {  // can write above two into one
+                right--;
+            }
+        }
+
+        return maxArea;
+    }
+}
 """

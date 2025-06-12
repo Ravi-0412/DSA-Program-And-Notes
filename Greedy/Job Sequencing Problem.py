@@ -25,8 +25,6 @@ For this start checking for empty slot from 'job_deadline' in reverse direction.
 mark that empty slot as occupied.
 5) Return ans
 
-Submitted on gfg.
-
 time: O(n^2)
 """
 
@@ -159,6 +157,8 @@ public:
 };
 
 """
+
+
 # If jobs are given in form of array like Jobs[i] = [job_id, deadline, profit]
 
 def JobScheduling(Jobs,n):
@@ -272,6 +272,3 @@ public:
 };
 
 """
-# python used function and methods
-# https://www.geeksforgeeks.org/python-list-sort-method/
-# https://www.askpython.com/python/built-in-methods/python-max-method

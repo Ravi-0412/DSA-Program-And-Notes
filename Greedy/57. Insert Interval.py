@@ -1,4 +1,5 @@
-# Method 1: add newInterval into intervals.
+# Method 1: 
+# add newInterval into intervals.
 # After that question reduces to 'Merge overalpping intervals'.
 
 # Time: O(n*logn)
@@ -640,6 +641,7 @@ public:
         return output;
     }
 };
+
 //Method 3
 #include <vector>
 using namespace std;

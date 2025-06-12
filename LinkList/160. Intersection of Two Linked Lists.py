@@ -89,3 +89,111 @@ class Solution:
 # Space Complexity: O(1) as we are not using any extra space.
 # Note: This method works because if there is an intersection, both pointers will eventually meet at the intersection point.
 
+
+# Java
+// Method 2: 
+"""
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode curr1 = headA, curr2 = headB;
+        int length1 = 0, length2 = 0;
+        // find length of linklist1
+        while (curr1 != null) {
+            length1++;
+            curr1 = curr1.next;
+        }
+        // find length of linklist2
+        while (curr2 != null) {
+            length2++;
+            curr2 = curr2.next;
+        }
+        // find the diff and according call the function
+        if (length1 > length2) {
+            int d = length1 - length2;
+            return IntersectionNode(d, headA, headB);
+        } else {
+            int d = length2 - length1;
+            return IntersectionNode(d, headB, headA);
+        }
+    }
+
+    public ListNode IntersectionNode(int d, ListNode head1, ListNode head2) {
+        ListNode curr1 = head1, curr2 = head2;
+        for (int i = 0; i < d; i++) {
+            curr1 = curr1.next;
+        }
+        while (curr1 != null && curr2 != null) {
+            if (curr1 == curr2) {  // if linklist from curr1 and curr2 is same
+                                   // in java all variable address will same if they point to the same data
+                                   // e.g:
+                                        // Integer a = 5;
+                                        // Integer x = a, y = a;
+                                        // System.out.println(System.identityHashCode(x) + " " + System.identityHashCode(y));
+                                        // address of both x and y will be same
+                // System.out.println(System.identityHashCode(curr1) + " " + System.identityHashCode(curr2));
+                // here address of both will be same as they will be pointing to the same data like above
+                return curr1;
+            }
+            curr1 = curr1.next;
+            curr2 = curr2.next;
+        }
+        return null;
+    }
+}
+
+"""
+
+# C++ 
+"""
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode* curr1 = headA;
+        ListNode* curr2 = headB;
+        int length1 = 0, length2 = 0;
+        // find length of linklist1
+        while (curr1) {
+            length1++;
+            curr1 = curr1->next;
+        }
+        // find length of linklist2
+        while (curr2) {
+            length2++;
+            curr2 = curr2->next;
+        }
+        // find the diff and according call the function
+        if (length1 > length2) {
+            int d = length1 - length2;
+            return IntersectionNode(d, headA, headB);
+        } else {
+            int d = length2 - length1;
+            return IntersectionNode(d, headB, headA);
+        }
+    }
+
+    ListNode* IntersectionNode(int d, ListNode* head1, ListNode* head2) {
+        ListNode* curr1 = head1;
+        ListNode* curr2 = head2;
+        for (int i = 0; i < d; i++) {
+            curr1 = curr1->next;
+        }
+        while (curr1 && curr2) {
+            if (curr1 == curr2) {  // if linklist from curr1 and curr2 is same
+                                   // in C++ all variable address will same if they point to the same data
+                                   // e.g:
+                                        // int a = 5;
+                                        // int* x = &a;
+                                        // int* y = &a;
+                                        // cout << x << " " << y;  // address of both x and y will be same
+                // cout << curr1 << " " << curr2;
+                // here address of both will be same as they will be pointing to the same data like above
+                return curr1;
+            }
+            curr1 = curr1->next;
+            curr2 = curr2->next;
+        }
+        return nullptr;
+    }
+};
+
+"""

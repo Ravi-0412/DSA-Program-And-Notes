@@ -1,8 +1,10 @@
-# time= O(n^2)
-# space= O(n)
+
 
 # logic: we are greedily trying to form the palindrome using two pointer.
 # we can only move lefrt and right, when we are sure that char at placed at proper position from left and right.
+# time= O(n^2)
+# space= O(n)
+
 class Solution:
     def minMovesToMakePalindrome(self, s):
         left , right= 0, len(s) -1

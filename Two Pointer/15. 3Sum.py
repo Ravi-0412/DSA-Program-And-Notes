@@ -8,6 +8,9 @@
 # 2) For avoiding we can include the first element either 'i' or 'j' or 'k' but 
 # for other element we will have to check to skip if previous element is same.
 
+# Time Complexity :O(n^3)
+# Space Complexity :O(1), no extra space used except answer
+
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         n = len(nums)
@@ -41,7 +44,7 @@ class Solution:
 
 # Also in outer loop, we will only apply "two sum" for cur number if it is distinct only.
 
-# time: O(n^2)
+# time: O(n^2), sapce: O(1)
 
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:

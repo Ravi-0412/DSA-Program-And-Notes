@@ -1,31 +1,35 @@
-# how we can think this is a greedy based problem.
-# we can only start from station whose gas capacity- cost to reach another station is >=0. 
-# we are greedy about above diff only.
+# method 1:
 
-# start from '0'th gas station and 
-# if we run out of fuel say at some ith gas station. All the gas station between ith and starting point are bad starting point as well.
-# So, this means we can start trying at next gas station on the i + 1 station.
-# i.e If we are not able to reach 'B' from "A" the, no station that is in between 'A' and 'B' can reach 'B'.\
+"""
+how we can think this is a greedy based problem.
+we can only start from station whose gas capacity- cost to reach another station is >=0. 
+we are greedy about above diff only.
 
-# Proof?
-# suppose there are c1,c2,...,ck station between 'A' and 'B'.
-# A --- C1 --- C2  --- ... Ck --- B
+start from '0'th gas station and 
+if we run out of fuel say at some ith gas station. All the gas station between ith and starting point are bad starting point as well.
+So, this means we can start trying at next gas station on the i + 1 station.
+i.e If we are not able to reach 'B' from "A" the, no station that is in between 'A' and 'B' can reach 'B'.\
 
-# Facts:
-# i)   A cannot reach B
-# ii)  There are C1,C2, ..., Ck between A and B
-# iii) A can reach C1, C2, ..., Ck
+Proof?
+suppose there are c1,c2,...,ck station between 'A' and 'B'.
+A --- C1 --- C2  --- ... Ck --- B
 
-# Proof by contradiction:
-# Assume: C1 can reach B
-# A can reach C1 (by Fact3) & C1 can reach B => A can reach B (Contradict with Fact1 !)
-# => assumption is wrong, C1 cannot reach B
-# Same proof could be applied to C2 ~ Ck
-# => any station between A and B that A can reach cannot reach B
+Facts:
+i)   A cannot reach B
+ii)  There are C1,C2, ..., Ck between A and B
+iii) A can reach C1, C2, ..., Ck
 
-# Note: we don't need to check in circular way because of above reason only.
+Proof by contradiction:
+Assume: C1 can reach B
+A can reach C1 (by Fact3) & C1 can reach B => A can reach B (Contradict with Fact1 !)
+=> assumption is wrong, C1 cannot reach B
+Same proof could be applied to C2 ~ Ck
+=> any station between A and B that A can reach cannot reach B
 
-# time: O(n)
+Note: we don't need to check in circular way because of above reason only.
+
+time: O(n), space: O(1)
+"""
 class Solution:
     def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
         if sum(gas) < sum(cost):  # not possible from any gas station

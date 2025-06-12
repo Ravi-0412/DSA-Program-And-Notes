@@ -1,21 +1,28 @@
-# logic: 
-# Each senate R must ban its next closest senate D who is from another party, or else D will ban its next senate from R's party.
+# Method 1:
 
-# The idea is to use two queues to save the index of each senate from R's and D's parties, respectively. 
-# During each round, we delete the banned senate's index; and plus the remainning senate's index
-# with n(the length of the input string senate), then move it to the back of its respective queue.
+"""
+logic: 
+Each senate R must ban its next closest senate D who is from another party, or else D will ban its next senate from R's party.
 
-# VVI: Since the voting is done such that both sides perform the most optimal strategy, 
-# the senators who have already voted will not be a problem to the other team for that round.
-# So, instead of eliminating a senator who has already moved, the best move for each team is to eliminate the next senator who has the power to vote.
-# This works perfectly with the queue approach since we can just place the senators who have voted at the end.
+The idea is to use two queues to save the index of each senate from R's and D's parties, respectively. 
+During each round, we delete the banned senate's index; and plus the remainning senate's index
+with n(the length of the input string senate), then move it to the back of its respective queue.
 
-# Note: why greedy?
-#  The game keeps going in loop until all people from single party is left. (e.g: "RRDDD")
-# Otherwise people at alst of array will not get removed.
+VVI: Since the voting is done such that both sides perform the most optimal strategy, 
+the senators who have already voted will not be a problem to the other team for that round.
+So, instead of eliminating a senator who has already moved, the best move for each team is to eliminate the next senator who has the power to vote.
+This works perfectly with the queue approach since we can just place the senators who have voted at the end.
 
-# Note: Opponent will want to remove the closest one in opposition first because after that other party will get the right to vote later
-# which will result in removing more opponents.
+Note: why greedy?
+ The game keeps going in loop until all people from single party is left. (e.g: "RRDDD")
+Otherwise people at alst of array will not get removed.
+
+Note: Opponent will want to remove the closest one in opposition first because after that other party will get the right to vote later
+which will result in removing more opponents.
+
+Time = space = O(n)
+"""
+
 class Solution:
     def predictPartyVictory(self, senate: str) -> str:
         n = len(senate)
@@ -35,6 +42,7 @@ class Solution:
             else:
                 qd.append(n + r)
         return 'Radiant' if qr else "Dire"
+
 
 
 # my mistakes and approaches

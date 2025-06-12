@@ -25,6 +25,7 @@ Hm balloon ko minEnd point of any ballons se throw karna start karenge hmesha, m
 Note: If we sort according to starting point and apply the same logic then, it won't give correct ans.
 Reason: if 1st point has bigger ending point then many point which has lesser end point, we will miss those points giving incorrect ans.
 
+# Time: O(n*logn), space: O(1)
 """
 
 class Solution:
@@ -40,28 +41,3 @@ class Solution:
             # else it will get bursted by pre throw only
         return ans
 
-# Java
-"""
-class Solution {
-    public int findMinArrowShots(int[][] points) {
-        if (points.length == 0) return 0;
-
-        // Sort the balloons by their end coordinates
-        Arrays.sort(points, Comparator.comparingInt(a -> a[1]));
-
-        int arrows = 1;  // We need at least one arrow
-        int curEnd = points[0][1];  // First arrow is shot at the end of the first balloon
-
-        for (int i = 1; i < points.length; i++) {
-            if (points[i][0] > curEnd) {  
-                // A new arrow is needed
-                arrows++;
-                curEnd = points[i][1];  // Update the shooting point
-            }
-            // Else, the current balloon is already burst by the previous arrow
-        }
-
-        return arrows;
-    }
-}
-"""

@@ -1,6 +1,3 @@
-# Intuition first , code next (Python,java and c++) , time complexity analysis at the last.
-
-# Intuition :
 
 '''
 the frog should make the journey from first stone to last, and last to first without touching any stone twice. (excpet the first and last stone). 
@@ -12,9 +9,8 @@ Ok, let's see both the approaches one by one.
 
 '''
 
-
+# Method 1: 
 # Binary Search Approach :
-
 '''
 
 initialise the boundaried to 0 and 10**9 for performing binary search - If you not aware of binary search, please learn it first.
@@ -41,17 +37,25 @@ This is just to make sure the skipped stones from the forward pass didn’t brea
 If we find a jump that’s too far and can't be skipped, we return False.
 If both directions are okay, it means the path is valid for the current mid.
 
+
+"""
+TIME COMPLEXITY ANALYSIS :
+
+-> Binary search - 0(logn)
+-> Iterating throught the array in helper function each time we make a call - O(n)
+-> So, the overall time complexity is O(nlogn)
+
+SPACE COMPLEXITY ANALYSIS :
+ O(n) for the set used in the helper function.
+"""
 '''
 
-
-# CODE :
-
 # PYTHON :
-
 
 class Solution:
     def maxJump(self, stones: List[int]) -> int:
         n = len(stones)
+
         def helper(mid):
             dels = set()
             prev = stones[0]
@@ -83,130 +87,9 @@ class Solution:
                 
 
 
-
-# JAVA :
-
-'''
-
-import java.util.*;
-
-class Solution {
-    public int maxJump(int[] stones) {
-        int n = stones.length;
-
-        // Helper function
-        boolean helper(int mid, int[] stones) {
-            Set<Integer> dels = new HashSet<>();
-            int prev = stones[0];
-            int idx = 0;
-
-            for (int i = 1; i < n; i++) {
-                if (Math.abs(stones[i] - prev) > mid) {
-                    if (idx == i - 1) {
-                        return false;
-                    }
-                    prev = stones[i - 1];
-                    dels.add(i - 1);
-                } else {
-                    prev = stones[i];
-                    idx = i;
-                }
-            }
-
-            prev = stones[n - 1];
-            for (int i = n - 2; i >= 0; i--) {
-                if (dels.contains(i)) continue;
-                if (Math.abs(stones[i] - prev) > mid) return false;
-                prev = stones[i];
-            }
-
-            return true;
-        }
-
-        int l = 0, r = (int) 1e9 + 1, ans = -1;
-        while (l <= r) {
-            int mid = l + (r - l) / 2;
-            if (helper(mid, stones)) {
-                ans = mid;
-                r = mid - 1;
-            } else {
-                l = mid + 1;
-            }
-        }
-
-        return ans;
-    }
-}
-'''
-
-# C++ : 
-
-'''
-#include <vector>
-#include <set>
-#include <cmath>
-using namespace std;
-class Solution {
-public:
-    bool helper(int mid, vector<int>& stones) {
-        int n = stones.size();
-        set<int> dels;
-        int prev = stones[0];
-        int idx = 0;
-
-        for (int i = 1; i < n; i++) {
-            if (abs(stones[i] - prev) > mid) {
-                if (idx == i - 1) return false;
-                prev = stones[i - 1];
-                dels.insert(i - 1);
-            } else {
-                prev = stones[i];
-                idx = i;
-            }
-        }
-        prev = stones[n - 1];
-        for (int i = n - 2; i >= 0; i--) {
-            if (dels.count(i)) continue;
-            if (abs(stones[i] - prev) > mid) return false;
-            prev = stones[i];
-        }
-        return true;
-    }
-    int maxJump(vector<int>& stones) {
-        int l = 0, r = 1e9 + 1, ans = -1;
-        while (l <= r) {
-            int mid = l + (r - l) / 2;
-            if (helper(mid, stones)) {
-                ans = mid;
-                r = mid - 1;
-            } else {
-                l = mid + 1;
-            }
-        }
-        return ans;
-    }
-};
-
-'''
-
-# TIME COMPLEXITY ANALYSIS :
-
-# -> Binary search - 0(logn)
-# -> Iterating throught the array in helper function each time we make a call - O(n)
-# -> So, the overall time complexity is O(nlogn)
-
-# SPACE COMPLEXITY ANALYSIS :
-#  O(n) for the set used in the helper function.
-
-
-
-
+# Method 2: 
 # Now, can we come up with a better solution, which is more intuitive and less complex?
 # Yes, it is the greedy approach.
-
-
-# Greedy Approach :
-
 
 '''
 The greedy approach is more intuitive and straightforward.
@@ -217,12 +100,13 @@ You can think of it like a zig-zag pattern, where the frog jumps over stones in 
 
 # The elements at even indices represent the stones the frog jumps on while going from the first stone to the last, and the elements at odd indices represent the stones it jumps on while coming back.
 # This is the exact intution behind the greedy approach.
-# Look down at the code now for deeper understanding.
+# Look at the code now for deeper understanding.
 
+# TIME COMPLEXITY ANALYSIS :
+# -> The time complexity is O(n) as we are iterating through the array once.
 
-
-# CODE:
-
+# SPACE COMPLEXITY ANALYSIS :
+# -> The space complexity is O(1) as we are not using any extra space except for a few variables.
 
 # PYTHON : 
 
@@ -250,6 +134,8 @@ class Solution {
 
         int ans = 0;
         // Jump every two stones (zig-zag: forward + backward)
+        // same num is used twice, one for going forward one for going backward.
+
         for (int i = 2; i < n; i++) {
             ans = Math.max(ans, stones[i] - stones[i - 2]);
         }
@@ -275,6 +161,8 @@ public:
         }
 
         int ans = 0;
+        // Jump every two stones (zig-zag: forward + backward)
+        // same num is used twice, one for going forward one for going backward.
         for (int i = 2; i < n; i++) {
             ans = max(ans, stones[i] - stones[i - 2]);
         }
@@ -284,12 +172,5 @@ public:
 };
 '''
 
-# TIME COMPLEXITY ANALYSIS :
-# -> The time complexity is O(n) as we are iterating through the array once.
 
-# SPACE COMPLEXITY ANALYSIS :
-# -> The space complexity is O(1) as we are not using any extra space except for a few variables.
-
-# So, the greedy approach is more intuitive and less complex than the binary search approach.
-# However, both approaches are valid and can be used based on the problem requirements and constraints.
 

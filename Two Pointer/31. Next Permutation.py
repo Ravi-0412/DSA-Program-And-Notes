@@ -47,6 +47,9 @@ So to get minimum number value from index 'i' to last, we will have to reverse a
 
 For visualisation take e.g : [9, 4, 8, 3, 6, 5, 2, 1]
 i = 4, j = 5
+
+Time complexity : O(n)
+Space Complexity : O(1)
 """
 
 class Solution:

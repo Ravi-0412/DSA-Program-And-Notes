@@ -1,23 +1,32 @@
-# # Brute force(not accepted on leetcode), time: o(n^2), space: o(1)
-# class Solution:
-#     def findUnsortedSubarray(self, nums: List[int]) -> int:
-#         n= len(nums)
-#         #start,end will give the starting and last index index of subarray respectively
-#         start, end= n,0
-#         for i in range(n-1):
-#             for j in range(i+1,n):
-#                 if nums[i]> nums[j]:
-#                     start= min(start,i)
-#                     end=   max(end,j)
-#         if(end==0):  # for already sorted array
-#             return 0
-#         else:
-#             return  end-start+1
+# Method 1:
+# Brute force
+"""
+Compare all pairs (i, j) where i < j. If nums[i] > nums[j], 
+update the start and end indices of the subarray. 
+After checking all such pairs, return the length of the subarray (end - start + 1). 
+If no such pair exists, the array is already sorted, so return 0.
+"""
+#  time: o(n^2), space: o(1)
+class Solution:
+    def findUnsortedSubarray(self, nums: List[int]) -> int:
+        n= len(nums)
+        #start,end will give the starting and last index index of subarray respectively
+        start, end= n,0
+        for i in range(n-1):
+            for j in range(i+1,n):
+                if nums[i]> nums[j]:
+                    start= min(start,i)
+                    end=   max(end,j)
+        if(end==0):  # for already sorted array
+            return 0
+        else:
+            return  end-start+1
 
 
-# 2nd method- time: o(nlogn), space= o(n)
-# just same logic of method 1
+# 2nd method
 # when there is any q of sorting, try approach of sorting the array and find the solution from that
+# time: o(nlogn), space= o(n)
+
 class Solution:
     def findUnsortedSubarray(self, nums: List[int]) -> int:
         n= len(nums)
@@ -36,25 +45,29 @@ class Solution:
             return end-start+1
 
 
-# 3rd method using stack , time:O(n), space: O(n)
-# my mistake: for start index, i was just checking the first time it is violating the increasing order sequence and 
-# for end, i was checking 1st time it is violating the decreasing order sequence
+# 3rd method: 
+"""
+using stack
 
-# but this can be totally wrong e.g:
-# [1,2,11,12,13,14,10,7,8,9],  [5,6,7,8,9,1,10,15,4], [1,2,2,2,2,0,5,7,4], [1,2,3,6,4,8,15,10,10,10,10,10], [1],[2,1] etc.
+my mistake: for start index, i was just checking the first time it is violating the increasing order sequence and 
+for end, i was checking 1st time it is violating the decreasing order sequence
 
-# Why it is violating take 1st example: [1,2,11,12,13,14,10,7,8,9]
-# from start we are getting out of sequence at index '2' and from last at index '6'
-# But sorting fromindex '2' to '6' will give wrong ans.
-# As '7,8,9' also needs to be included.
+but this can be totally wrong e.g:
+[1,2,11,12,13,14,10,7,8,9],  [5,6,7,8,9,1,10,15,4], [1,2,2,2,2,0,5,7,4], [1,2,3,6,4,8,15,10,10,10,10,10], [1],[2,1] etc.
 
-# How to solve this issue?
-# For each index we need to find the index where that ele can fit.
-# for this we need to find the next smaller or equal to left and here idea of stack comes.
+Why it is violating take 1st example: [1,2,11,12,13,14,10,7,8,9]
+from start we are getting out of sequence at index '2' and from last at index '6'
+But sorting fromindex '2' to '6' will give wrong ans.
+As '7,8,9' also needs to be included.
 
-# Note: Since we can't get track of length so we have to check this also for 'end' using another loop.
+How to solve this issue?
+For each index we need to find the index where that ele can fit.
+for this we need to find the next smaller or equal to left and here idea of stack comes.
 
-# time: o(n), space= o(n)
+Note: Since we can't get track of length so we have to check this also for 'end' using another loop.
+
+time: o(n), space= o(n)
+"""
 class Solution:
     def findUnsortedSubarray(self, nums: List[int]) -> int:
         n= len(nums)
@@ -82,7 +95,7 @@ class Solution:
 
 
 # method 4: optimising the space complexity
-# just reverse way of above logic, method 3
+# just reverse method 3
 class Solution:
     def findUnsortedSubarray(self, nums: List[int]) -> int:
         if len(nums) <2:

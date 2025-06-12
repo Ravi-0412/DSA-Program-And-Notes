@@ -14,111 +14,84 @@
 
 # If we pass complete the iteration without returning False, then we will return True.
 
-# CODES : 
-
-# PYTHON
-
-
-class Solution:
-    def canAttendMeetings(self, intervals: List[Interval]) -> bool:
-        intervals.sort(key=lambda i: i.start)
-
-        for i in range(1, len(intervals)):
-            i1 = intervals[i - 1]
-            i2 = intervals[i]
-
-            if i1.end > i2.start:
-                return False
-        return True
-    
-
-
-
-
-# JAVA 
-
-
-
-
-# import java.util.*;
-
-# class Interval {
-#     int start;
-#     int end;
-
-#     Interval() {}
-#     Interval(int s, int e) {
-#         start = s;
-#         end = e;
-#     }
-# }
-
-# class Solution {
-#     public boolean canAttendMeetings(Interval[] intervals) {
-#         Arrays.sort(intervals, (a, b) -> a.start - b.start);
-
-#         for (int i = 1; i < intervals.length; i++) {
-#             if (intervals[i - 1].end > intervals[i].start) {
-#                 return false;
-#             }
-#         }
-#         return true;
-#     }
-# }
-
-
-
-
-
-# C++
-
-
-
-
-
-#include <vector>
-#include <algorithm>
-
-# using namespace std;
-
-# struct Interval {
-#     int start;
-#     int end;
-#     Interval() {}
-#     Interval(int s, int e) : start(s), end(e) {}
-# };
-
-# class Solution {
-# public:
-#     bool canAttendMeetings(vector<Interval>& intervals) {
-#         sort(intervals.begin(), intervals.end(), [](const Interval &a, const Interval &b) {
-#             return a.start < b.start;
-#         });
-
-#         for (int i = 1; i < intervals.size(); i++) {
-#             if (intervals[i - 1].end > intervals[i].start) {
-#                 return false;
-#             }
-#         }
-#         return true;
-#     }
-# };
-
-
-
-
-
+"""
 # TIME COMPLEXITY : 
 
-# -> Sorting : 0(n log n)
-# -> Iteration : 0(n)
+# -> Sorting : 0(n log n), Iteration : 0(n)
 
 # Overall : 0(n log n)
 
+# SPACE COMPLEXITY : O(1) 
+"""
+
+class Solution:
+    def canAttendMeetings(self, intervals: List[List[int]]) -> bool:
+        # sort intervals by start time
+        intervals.sort(key=lambda i: i[0])
+
+        for i in range(1, len(intervals)):
+            prev = intervals[i - 1]
+            curr = intervals[i]
+
+            # if the previous meeting ends after the current one starts, conflict
+            if prev[1] > curr[0]:
+                return False
+
+        return True
+
+# java
+"""
+import java.util.*;
+
+class Solution {
+    public boolean canAttendMeetings(int[][] intervals) {
+        // sort intervals by start time
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+
+        for (int i = 1; i < intervals.length; i++) {
+            // if the previous meeting ends after the current one starts, conflict
+            if (intervals[i - 1][1] > intervals[i][0]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+"""
+
+
+# C++
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    bool canAttendMeetings(vector<vector<int>>& intervals) {
+        // sort intervals by start time
+        sort(intervals.begin(), intervals.end(), [](const vector<int>& a, const vector<int>& b) {
+            return a[0] < b[0];
+        });
+
+        for (int i = 1; i < intervals.size(); i++) {
+            // if the previous meeting ends after the current one starts, conflict
+            if (intervals[i - 1][1] > intervals[i][0]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+};
+"""
 
 
 
-# SPACE COMPLEXITY :
 
-# O(1) (if sorting is in-place)
+
+
+
+
 

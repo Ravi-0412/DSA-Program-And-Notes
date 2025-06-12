@@ -1,20 +1,24 @@
-# every children must be given at least '1' candy.
-# So initialise ans array with '1' i.e ans = [1] *n .
+# Method 1:
 
-# Logic: we have to make sure of two things:
-# 1) children with a higher rating get more candy than its left neighbor.
-# For this, Traverse from left to right and if :
-# ratings[i] > ratings[i-1] : we must give ith child atleast one more candy than (i-1)th child :
-# ans[i] = ans[i-1] +1 
+"""
+every children must be given at least '1' candy.
+So initialise ans array with '1' i.e ans = [1] *n .
 
-# 2)  children with a higher rating get more candy than its right neighbor.
-# for this, Traverse from Right to Left and if :
-# ratings[i] > ratings[i+1] : we must give ith child atleast one more candy than (i+1)th child:
-# ans[i] = ans[i+1] + 1
+Logic: we have to make sure of two things:
+1) children with a higher rating get more candy than its left neighbor.
+For this, Traverse from left to right and if :
+ratings[i] > ratings[i-1] : we must give ith child atleast one more candy than (i-1)th child :
+ans[i] = ans[i-1] +1 
 
-# Last sum of 'ans' will give the ans.
+2)  children with a higher rating get more candy than its right neighbor.
+for this, Traverse from Right to Left and if :
+ratings[i] > ratings[i+1] : we must give ith child atleast one more candy than (i+1)th child:
+ans[i] = ans[i+1] + 1
 
-# Time = space = O(n)
+Last sum of 'ans' will give the ans.
+
+Time = space = O(n)
+"""
 
 class Solution:
     def candy(self, ratings: List[int]) -> int:
@@ -31,10 +35,10 @@ class Solution:
         return sum(ans)
 
 
-# Method 2: Optimising to O(1) space
-# Link: https://leetcode.com/problems/candy/solutions/135698/simple-solution-with-one-pass-using-o-1-space/
-# Logic:
+# Method 2: 
 """
+Optimising to O(1) space
+
 The fundamental idea is that we aren't bothering with calculating each child's 
 candy value itself, but rather it's impact on the total needed.
 For upwards and equal slopes these values align. 
@@ -43,6 +47,8 @@ to satisfy the requirement of them having more candy than lower rated neighbours
 
 This method is basically answering this question: If I insert one more kid to the end of this array, 
 how does the total amount of candy needed change.
+
+Time = O(n), space: O(1)
 """
 
 class Solution:

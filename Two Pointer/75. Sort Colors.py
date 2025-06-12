@@ -1,9 +1,91 @@
 # 1st method is sorting
 # since you have to arrange the ele in ascending order basically so sorting will always a solution
-# time: O(nlogn)
+# time: O(nlogn), space: O(1)
+
+class Solution:
+    def sortColors(self, nums: List[int]) -> None:
+        nums.sort()
+
+# Java
+"""
+import java.util.Arrays;
+
+class Solution {
+    public void sortColors(int[] nums) {
+        // 1st method is sorting
+        // since you have to arrange the ele in ascending order basically so sorting will always a solution
+        // time: O(nlogn)
+        Arrays.sort(nums);
+    }
+}
+"""
+
+# C++
+"""
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+    }
+};
+"""
+
+# 2nd Method
+"""
+Approach:
+1) Count the number of 0s, 1s, and 2s in the array.
+
+2) Overwrite the array: first all 0s, then 1s, then 2s.
+
+Time: O(n), Space: O(1) (in-place, just using 3 counters)
+"""
+
+class Solution:
+    def sortColors(self, nums: List[int]) -> None:
+        count = [0] * 3
+        for num in nums:
+            count[num] += 1
+        index = 0
+        for i in range(3):
+            for _ in range(count[i]):
+                nums[index] = i
+                index += 1
+
+# Java
+"""
+class Solution {
+    public void sortColors(int[] nums) {
+        int[] count = new int[3];
+        for (int num : nums) count[num]++;
+        int index = 0;
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < count[i]; j++)
+                nums[index++] = i;
+    }
+}
+"""
+
+# C++
+"""
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int count[3] = {0};
+        for (int num : nums) count[num]++;
+        int index = 0;
+        for (int i = 0; i < 3; ++i)
+            for (int j = 0; j < count[i]; ++j)
+                nums[index++] = i;
+    }
+};
+"""
 
 
-# 2nd method:
+# 3rd method:
 """
 just count the no of 0,1,2 in an list of size '3' then store ans according to count.
 
@@ -22,6 +104,11 @@ Before low all will be zero and low will point to the first one at last,
 after high all will be 2, high will point to the last one at last.
 
 This is known as  " dutch partitioning algorithm".
+
+# Note vvi: keep above logic in mind, may be helpful in other problems also
+
+Time Complexity : O(n)
+Space Complexity : O(1)
 """
 
 class Solution:
@@ -120,7 +207,6 @@ public:
     }
 };
 """
-# Note vvi: keep above logic in mind, may be helpful in other problems also
 
-# Also do by other method in sheet.
+
 

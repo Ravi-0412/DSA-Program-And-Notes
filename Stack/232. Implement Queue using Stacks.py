@@ -1,4 +1,4 @@
-# 'pop' and 'peek' will tell 
+# Method 1: 
 
 class MyQueue:
     
@@ -36,8 +36,8 @@ class MyQueue:
         return (self.stack1== [] and self.stack2== [])
         
 
-
-# optimising the above solution
+# Method 2: 
+# optimising method 1
 # Here no need to move el from stack2 to stack1.
 # only need to move ele from stack1 to stack2 for ans when stack2 is empty.
 
@@ -88,6 +88,7 @@ class MyQueue:
 # Java Code 
 """
 //Method 1
+
 import java.util.Stack;
 
 class MyQueue {
@@ -238,6 +239,7 @@ public:
         return stack1.empty() && stack2.empty();
     }
 };
+
 //Method 2
 #include <iostream>
 #include <stack>

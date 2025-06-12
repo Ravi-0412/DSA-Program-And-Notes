@@ -17,7 +17,7 @@
 
 # for more clarity: Read solution link in sheet and read the comments by "Iemeore" and "Wuxb09" under that solution.
 
-# time: O(n) = space
+# time = space = O(n)
 class Solution:
     def nthUglyNumber(self, n: int) -> int:
         ugly= [1]  # first ugly number is '1' only.  # list will automatically get maintained in sorted order.
@@ -32,5 +32,3 @@ class Solution:
             if ugly[-1]== ugly[p5] * 5: p5+= 1
         return ugly[n-1]  # ugly[-1]
 
-
-# Related Q: "263. Ugly Number I"

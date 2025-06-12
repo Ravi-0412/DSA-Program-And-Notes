@@ -1,7 +1,9 @@
+# Method 1
+
 # if s is a subsequence of 't' then lcs of 's' and 't'
 # must be equal to the 's' itself as lcs of two strings is
 # always less than or equal to the length of min(length of either string)
-# time; O(n*m)
+# time = space = O(n*m)
 class Solution:
     def isSubsequence(self, s: str, t: str) -> bool:
         x,y= len(s), len(t)

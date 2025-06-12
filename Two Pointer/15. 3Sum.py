@@ -1,10 +1,12 @@
+
+
+# Method1 : Brute Force
+# Just check all the possibility
+
 # Logic: to avoid duplicates , 1)we will have to bring all the duplicates together so that we can easily check for duplicates,
 # and best way to bring same ele together is just sort the array.
 # 2) For avoiding we can include the first element either 'i' or 'j' or 'k' but 
 # for other element we will have to check to skip if previous element is same.
-
-# Method1: Brute Force
-# Just check all the possibility
 
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:

@@ -1,6 +1,10 @@
 # method 1: swapping the values(submitted on Leetcode)
 # swapping type of q you can do by swapping the values but it's not a good method, good comapnies will not accept in interview
 # not a good method.. Do by swapping nodes
+"""
+In this approach, we traverse the linked list to find the kth node from the beginning and the kth node from the end.
+After the traversal, we swap the values of these two nodes.
+"""
 class Solution:
     def swapNodes(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
         beg,end, curr=head,head,head
@@ -16,16 +20,20 @@ class Solution:
                 end= end.next
         beg.val, end.val= end.val, beg.val
         return head
+    
+"""
+Method 1 Analysis:
+Time Complexity: O(n), where n is the number of nodes in the linked list. We traverse the list once to find the kth nodes.
+Space Complexity: O(1), as we are not using any extra space for data structures.
+"""
 
+# Method 2: 
 # note: logic for changing node or swapping node- phla: ek dummy node lena h corner case ko dekhte huye
 #  jis node ko attach karna h wahan pe pointer chahiye and jis node se attach akrna h wahan pe pointer chahiye
 # ye tmko lana h and then uske bad pointer change kar dena h
 
 # Note VVI: cycle se bachne ke liye ,node swap karte time ek direction wala sb link change karo then other direction se cycle na bane dekhte huye.
 
-# 2nd method : found from submissions
-# https://leetcode.com/problems/swapping-nodes-in-a-linked-list/discuss/1054370/Python-3-or-Swapping-NODES-or-Swapping-Values-or-One-Pass-or-Fully-explained
-# very good one
 class Solution:
     def swapNodes(self, head: ListNode, k: int) -> ListNode:
         left= right= head  # i am sure that both left and right will go at least till head(1st ele). so initialise with that only
@@ -59,157 +67,8 @@ class Solution:
 # right.next= temp
 # return dummy.next
 
-# Java Code 
 """
-//Method 1
-class ListNode {
-    int val;
-    ListNode next;
-
-    ListNode(int x) {
-        val = x;
-        next = null;
-    }
-}
-
-class Solution {
-    public ListNode swapNodes(ListNode head, int k) {
-        ListNode beg = head, end = head, curr = head;
-        int count = 0;
-
-        // Traverse and identify kth node from beginning and end
-        while (curr.next != null) {
-            curr = curr.next;
-            count++;
-
-            if (count < k) {
-                beg = beg.next;
-            }
-            if (count >= k) {
-                end = end.next;
-            }
-        }
-
-        // Swap values of kth nodes
-        int temp = beg.val;
-        beg.val = end.val;
-        end.val = temp;
-
-        return head;
-    }
-}
-//Method 2
-class Solution {
-    public ListNode swapNodes(ListNode head, int k) {
-        ListNode left = head, right = head;
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-        ListNode preLeft = dummy, preRight = dummy;
-
-        // Point left to kth node from start
-        for (int i = 1; i < k; i++) {
-            preLeft = left;
-            left = left.next;
-        }
-
-        // Point right to kth node from end
-        ListNode nullChecker = left;
-        while (nullChecker.next != null) {
-            nullChecker = nullChecker.next;
-            preRight = right;
-            right = right.next;
-        }
-
-        // Avoid swapping the same node
-        if (left == right) return dummy.next;
-
-        // Swap nodes by changing pointers
-        preLeft.next = right;
-        preRight.next = left;
-        ListNode temp = left.next;
-        left.next = right.next;
-        right.next = temp;
-
-        return dummy.next;
-    }
-}
-"""
-
-# C++ Code 
-"""
-//Method 1
-#include <iostream>
-
-using namespace std;
-
-class ListNode {
-public:
-    int val;
-    ListNode* next;
-
-    ListNode(int x) : val(x), next(nullptr) {}
-};
-
-class Solution {
-public:
-    ListNode* swapNodes(ListNode* head, int k) {
-        ListNode* beg = head;
-        ListNode* end = head;
-        ListNode* curr = head;
-        int count = 0;
-
-        // Traverse and identify kth node from beginning and end
-        while (curr->next) {
-            curr = curr->next;
-            count++;
-
-            if (count < k) {
-                beg = beg->next;
-            }
-            if (count >= k) {
-                end = end->next;
-            }
-        }
-
-        // Swap values of kth nodes
-        swap(beg->val, end->val);
-        return head;
-    }
-};
-//Method 2
-class Solution {
-public:
-    ListNode* swapNodes(ListNode* head, int k) {
-        ListNode* left = head;
-        ListNode* right = head;
-        ListNode* dummy = new ListNode(0);
-        dummy->next = head;
-        ListNode* pre_left = dummy;
-        ListNode* pre_right = dummy;
-
-        // Point left to kth node from start
-        for (int i = 1; i < k; i++) {
-            pre_left = left;
-            left = left->next;
-        }
-
-        // Point right to kth node from end
-        ListNode* null_checker = left;
-        while (null_checker->next) {
-            null_checker = null_checker->next;
-            pre_right = right;
-            right = right->next;
-        }
-
-        // Avoid swapping the same node
-        if (left == right) return dummy->next;
-
-        // Swap nodes by changing pointers
-        pre_left->next = right;
-        pre_right->next = left;
-        swap(left->next, right->next);
-
-        return dummy->next;
-    }
-};
+Method 2 Analysis:
+Time Complexity: O(n), where n is the number of nodes in the linked list. We traverse the list once to find the kth nodes.
+Space Complexity: O(1), as we are not using any extra space for data structures.
 """

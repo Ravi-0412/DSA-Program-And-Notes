@@ -19,6 +19,11 @@
 
 # time= space= O(n)
 
+"""
+First we will calculate the prefix sum of each node and store it in a hashmap.
+Then we will iterate through the linked list again, using the prefix sum to determine which nodes to remove.
+So we will use a hashmap to store the prefix sums and their corresponding nodes.
+"""
 class Solution:
     def removeZeroSumSublists(self, head: Optional[ListNode]) -> Optional[ListNode]:
         dummy= ListNode(0)
@@ -44,10 +49,11 @@ class Solution:
             cur.next= prefixSum[curSum].next   # remove the nodes if cursum has occured more than one time else will automatically point to his next.
             cur = cur.next
         return dummy.next
-
-
-# Note vvi: If asked for sum = k then we have to check 'curSum + k' in prefixSum.
-# If later at some node curSum is = 'curSum + k ' then, it means sum of node from 'cur.next' to node 'prefixSum[curSum + k]' is = k.
+"""
+Method 1 Analysis:
+Time Complexity: O(n), where n is the number of nodes in the linked list. We traverse the list twice.
+Space Complexity: O(n), for the hashmap that stores the prefix sums and their corresponding nodes.
+"""
 
 
 # My mistakes:
@@ -82,93 +88,3 @@ class Solution:
                 prefixSum[curSum]= cur
             cur= cur.next
         return dummy.next
-
-# Java Code 
-"""
-import java.util.HashMap;
-
-class ListNode {
-    int val;
-    ListNode next;
-
-    ListNode(int x) {
-        val = x;
-        next = null;
-    }
-}
-
-class Solution {
-    public ListNode removeZeroSumSublists(ListNode head) {
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-        HashMap<Integer, ListNode> prefixSum = new HashMap<>();
-        prefixSum.put(0, dummy);
-        int curSum = 0;
-        ListNode cur = head;
-
-        // First pass: Store the last occurrence of each prefix sum
-        while (cur != null) {
-            curSum += cur.val;
-            prefixSum.put(curSum, cur);
-            cur = cur.next;
-        }
-
-        // Second pass: Adjust pointers to remove zero-sum sequences
-        curSum = 0;
-        cur = dummy;
-        while (cur != null) {
-            curSum += cur.val;
-            cur.next = prefixSum.get(curSum).next;
-            cur = cur.next;
-        }
-
-        return dummy.next;
-    }
-}
-"""
-
-# C++ Code 
-"""
-#include <iostream>
-#include <unordered_map>
-
-using namespace std;
-
-class ListNode {
-public:
-    int val;
-    ListNode* next;
-    
-    ListNode(int x) : val(x), next(nullptr) {}
-};
-
-class Solution {
-public:
-    ListNode* removeZeroSumSublists(ListNode* head) {
-        ListNode* dummy = new ListNode(0);
-        dummy->next = head;
-        unordered_map<int, ListNode*> prefixSum;
-        prefixSum[0] = dummy;
-        int curSum = 0;
-        ListNode* cur = head;
-
-        // First pass: Store the last occurrence of each prefix sum
-        while (cur) {
-            curSum += cur->val;
-            prefixSum[curSum] = cur;
-            cur = cur->next;
-        }
-
-        // Second pass: Adjust pointers to remove zero-sum sequences
-        curSum = 0;
-        cur = dummy;
-        while (cur) {
-            curSum += cur->val;
-            cur->next = prefixSum[curSum]->next;
-            cur = cur->next;
-        }
-
-        return dummy->next;
-    }
-};
-"""

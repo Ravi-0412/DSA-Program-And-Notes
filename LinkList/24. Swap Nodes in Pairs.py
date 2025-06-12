@@ -1,5 +1,12 @@
-
+# Method 1:
 # very basic approach.. this can be modified to two pointer only curr_odd and pre
+"""
+A dummy node is used to handle edge cases like:
+1. If the list has only one node, we can return it directly.
+2. If the list has an even number of nodes, we can swap the last pair without worrying about the next node.
+After each swap, we update the pointers to continue swapping the next pair of nodes.
+Return the next of the dummy node, which points to the new head of the modified list.
+"""
 class Solution:
     def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
         dummy= ListNode(0)
@@ -25,7 +32,11 @@ class Solution:
                 curr_even= curr_odd
                 curr_odd= curr_even
         return dummy.next
-
+"""
+Method 1 Analysis:
+Time Complexity: O(n), where n is the number of nodes in the linked list. We traverse the list once.
+Space Complexity: O(1), as we are not using any extra space for data structures.
+"""
 
 
 # 2nd method(better one):
@@ -56,147 +67,9 @@ class Solution:
             pre= curr
             curr= curr.next
         return dummy.next
-
-# Java Code 
-"""
-//Method 1
-class ListNode {
-    int val;
-    ListNode next;
-
-    ListNode(int x) {
-        val = x;
-        next = null;
-    }
-}
-
-class Solution {
-    public ListNode swapPairs(ListNode head) {
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-
-        if (head == null || head.next == null) return head;
-
-        ListNode currEven = head;
-        ListNode currOdd = dummy;
-        ListNode pre = dummy;
-        int len = 1;
-
-        while (currEven.next != null) {
-            pre = currOdd;
-            currOdd = currEven;
-            currEven = currEven.next;
-            len++;
-
-            if (len % 2 == 0) { // Swap when length is even
-                pre.next = currEven;
-                currOdd.next = currEven.next;
-                currEven.next = currOdd;
-
-                // Update pointers
-                currEven = currOdd;
-                currOdd = currEven;
-            }
-        }
-
-        return dummy.next;
-    }
-}
-//Method 2
-class Solution {
-    public ListNode swapPairs(ListNode head) {
-        if (head == null || head.next == null) return head;
-
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-        ListNode pre = dummy;
-        ListNode curr = head;
-
-        while (curr != null && curr.next != null) {
-            pre.next = curr.next;
-            curr.next = pre.next.next;
-            pre.next.next = curr;
-
-            // Update pointers
-            pre = curr;
-            curr = curr.next;
-        }
-
-        return dummy.next;
-    }
-}
+""""
+Method 2 Analysis:
+Time Complexity: O(n), where n is the number of nodes in the linked list. We traverse the list once.
+Space Complexity: O(1), as we are not using any extra space for data structures.
 """
 
-# C++ Code 
-"""
-//Method 1
-#include <iostream>
-
-using namespace std;
-
-class ListNode {
-public:
-    int val;
-    ListNode* next;
-
-    ListNode(int x) : val(x), next(nullptr) {}
-};
-
-class Solution {
-public:
-    ListNode* swapPairs(ListNode* head) {
-        ListNode* dummy = new ListNode(0);
-        dummy->next = head;
-
-        if (!head || !head->next) return head;
-
-        ListNode* curr_even = head;
-        ListNode* curr_odd = dummy;
-        ListNode* pre = dummy;
-        int len = 1;
-
-        while (curr_even->next) {
-            pre = curr_odd;
-            curr_odd = curr_even;
-            curr_even = curr_even->next;
-            len++;
-
-            if (len % 2 == 0) { // Swap when length is even
-                pre->next = curr_even;
-                curr_odd->next = curr_even->next;
-                curr_even->next = curr_odd;
-
-                // Update pointers to proceed to next swap
-                curr_even = curr_odd;
-                curr_odd = curr_even;
-            }
-        }
-
-        return dummy->next;
-    }
-};
-//Method 2
-class Solution {
-public:
-    ListNode* swapPairs(ListNode* head) {
-        if (!head || !head->next) return head;
-
-        ListNode* dummy = new ListNode(0);
-        dummy->next = head;
-        ListNode* pre = dummy;
-        ListNode* curr = head;
-
-        while (curr && curr->next) {
-            pre->next = curr->next;
-            curr->next = pre->next->next;
-            pre->next->next = curr;
-
-            // Update pointers
-            pre = curr;
-            curr = curr->next;
-        }
-
-        return dummy->next;
-    }
-};
-"""

@@ -1,3 +1,4 @@
+# Method 1: 
 # Exactly sam elogic as: "114. Flatten Binary Tree to Linked List".
 # Here we need to take care of one more pointer 'prev' which is simple only.
 
@@ -115,5 +116,3 @@ public:
     }
 };
 """
-# try by this also and other approaches as well later.
-# https://leetcode.com/problems/flatten-a-multilevel-doubly-linked-list/solutions/150321/easy-understanding-java-beat-95-7-with-explanation/

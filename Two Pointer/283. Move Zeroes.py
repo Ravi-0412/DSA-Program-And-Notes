@@ -19,6 +19,47 @@ class Solution:
                 l += 1 
         return nums
 
+# Java
+"""
+class Solution {
+    public void moveZeroes(int[] nums) {
+        int l = 0, r = nums.length - 1;
+        while (l < r) {
+            if (nums[l] == 0) {
+                int temp = nums[l];
+                nums[l] = nums[r];
+                nums[r] = temp;
+                r--;  // No need to increment 'l' as swapped value might still be zero
+            } else {
+                l++;
+            }
+        }
+    }
+}
+"""
+
+# C++ 
+"""
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int l = 0, r = nums.size() - 1;
+        while (l < r) {
+            if (nums[l] == 0) {
+                swap(nums[l], nums[r]);
+                r--;  // No need to increment 'l' as swapped value might still be zero
+            } else {
+                l++;
+            }
+        }
+    }
+};
+"""
 
 # Now coming to actual Q.
 
@@ -43,7 +84,7 @@ class Solution:
                 nums[i], nums[k]= nums[k], nums[i]
             i+= 1
         
-
+# Method 2: 
 # optimising the above method
 # In above one we are always searching from 'i+ 1' even though we have already traverses more index than 'i + 1'.
 class Solution:
@@ -82,22 +123,6 @@ class Solution:
 //Method 1
 class Solution {
     public void moveZeroes(int[] nums) {
-        int l = 0, r = nums.length - 1;
-        while (l < r) {
-            if (nums[l] == 0) {
-                int temp = nums[l];
-                nums[l] = nums[r];
-                nums[r] = temp;
-                r--;  // No need to increment 'l' as swapped value might still be zero
-            } else {
-                l++;
-            }
-        }
-    }
-}
-//Method 2
-class Solution {
-    public void moveZeroes(int[] nums) {
         int n = nums.length;
         int i = 0;  // Position where next non-zero element should be placed
 
@@ -116,7 +141,7 @@ class Solution {
         }
     }
 }
-//Method 3
+//Method 2
 class Solution {
     public void moveZeroes(int[] nums) {
         int n = nums.length;
@@ -139,7 +164,8 @@ class Solution {
         }
     }
 }
-//Method 4
+
+//Method 3
 class Solution {
     public void moveZeroes(int[] nums) {
         int n = nums.length;
@@ -169,26 +195,6 @@ using namespace std;
 class Solution {
 public:
     void moveZeroes(vector<int>& nums) {
-        int l = 0, r = nums.size() - 1;
-        while (l < r) {
-            if (nums[l] == 0) {
-                swap(nums[l], nums[r]);
-                r--;  // No need to increment 'l' as swapped value might still be zero
-            } else {
-                l++;
-            }
-        }
-    }
-};
-//Method 2
-#include <iostream>
-#include <vector>
-
-using namespace std;
-
-class Solution {
-public:
-    void moveZeroes(vector<int>& nums) {
         int n = nums.size();
         int i = 0;  // Position where next non-zero element should be placed
 
@@ -205,7 +211,8 @@ public:
         }
     }
 };
-//Method 3
+
+//Method 2
 #include <iostream>
 #include <vector>
 
@@ -232,7 +239,8 @@ public:
         }
     }
 };
-//Method 4
+
+//Method 3
 #include <iostream>
 #include <vector>
 

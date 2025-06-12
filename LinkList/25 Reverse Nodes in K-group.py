@@ -1,7 +1,8 @@
-# time: O(n), space: O(1)
-# did myself
+# Method 1:
+
 # logic: just go on incrementing the count, when you see count== k reverse the node node k in group 
 # by storing the head of th enode that has not beem reversed till now  thats all
+# time: O(n), space: O(1)
 
 class Solution:
     def reverseKGroup(self, head, k) :

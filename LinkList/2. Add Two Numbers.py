@@ -1,3 +1,5 @@
+# Method 1: 
+
 # logic: Just we do the sum of two number given on paper.
 # we keep on doing the sum either 1) first no has some ele remaining 2) second no has some ele remaining  3) carry is non zero
 # here doing the same thing we are calculating the cursum of each position of l1 and l2, and adding with carry.
@@ -5,8 +7,8 @@
 # Note: Here given LSB on left side, so we are calculating from left side only because in simple addition also we start from LSB only.
 # We are exactly doing what we do in simple addition. we always start from LSB and go to MSB
 
-
-# time: O(m+n)
+# To read about divmod for python people.
+# https://www.tutorialsteacher.com/python/divmod-method
 
 class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
@@ -26,86 +28,40 @@ class Solution:
             cur= cur.next
         return ans.next
     
-# To read about divmod
-# https://www.tutorialsteacher.com/python/divmod-method
-
-# Java Code 
 """
-class ListNode {
-    int val;
-    ListNode next;
+Method 1 Analysis:
+Time Complexity: O(max(m, n)), where m and n are the lengths of the two linked lists. We traverse each list once.
+Space Complexity: O(max(m, n)). The length of the new list is at most max(m,n)+1.
+"""
+    
 
-    ListNode(int x) {
-        val = x;
-        next = null;
-    }
-}
 
+# java
+"""
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode ans = new ListNode(0); // Creating a dummy node
+        ListNode ans = new ListNode(0); // creating a dummy node to handle inserting at first
         ListNode cur = ans;
         int carry = 0;
-
-        while (l1 != null || l2 != null || carry != 0) {
+        ListNode cur1 = l1, cur2 = l2;
+        while (cur1 != null || cur2 != null || carry != 0) {
             int curSum = carry;
-            if (l1 != null) {
-                curSum += l1.val;
-                l1 = l1.next;
+            if (cur1 != null) {
+                curSum += cur1.val;
+                cur1 = cur1.next;
             }
-            if (l2 != null) {
-                curSum += l2.val;
-                l2 = l2.next;
+            if (cur2 != null) {
+                curSum += cur2.val;
+                cur2 = cur2.next;
             }
             carry = curSum / 10;
-            cur.next = new ListNode(curSum % 10);
+            int sum = curSum % 10;
+            cur.next = new ListNode(sum);
             cur = cur.next;
         }
-
         return ans.next;
     }
 }
-"""
-
-# C++ Code 
-"""
-#include <iostream>
-
-using namespace std;
-
-class ListNode {
-public:
-    int val;
-    ListNode* next;
-    
-    ListNode(int x) : val(x), next(nullptr) {}
-};
-
-class Solution {
-public:
-    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode* ans = new ListNode(0); // Creating a dummy node
-        ListNode* cur = ans;
-        int carry = 0;
-
-        while (l1 || l2 || carry) {
-            int curSum = carry;
-            if (l1) {
-                curSum += l1->val;
-                l1 = l1->next;
-            }
-            if (l2) {
-                curSum += l2->val;
-                l2 = l2->next;
-            }
-            carry = curSum / 10;
-            cur->next = new ListNode(curSum % 10);
-            cur = cur->next;
-        }
-
-        return ans->next;
-    }
-};
 """
 
 

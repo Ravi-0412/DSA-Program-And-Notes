@@ -1,4 +1,4 @@
-
+# Method 1: 
 
 # logic: we are greedily trying to form the palindrome using two pointer.
 # we can only move lefrt and right, when we are sure that char at placed at proper position from left and right.
@@ -35,3 +35,98 @@ class Solution:
             else: 
                 left, right= left +1 , right -1
         return ans
+
+
+# Java
+"""
+class Solution {
+    public int minMovesToMakePalindrome(String s) {
+        int left = 0, right = s.length() - 1;
+        char[] arr = s.toCharArray();  // we can't modify string so converting into array
+        int ans = 0;
+
+        while (left < right) {
+            // if char from left and right is not same
+            if (arr[left] != arr[right]) {
+                int r = right;
+
+                // search for nearest char from right which matches the char at left
+                while (arr[left] != arr[r]) {
+                    r--;
+                }
+
+                if (r == left) {
+                    // char at 'left' has odd occurrence, so this should be at center only
+                    // move it one step toward center and continue checking (don't jump both pointers)
+                    ans++;
+                    char temp = arr[r];
+                    arr[r] = arr[r + 1];
+                    arr[r + 1] = temp;
+                } else {
+                    // we found duplicate of the char, move it to correct position step by step
+                    while (r < right) {
+                        char temp = arr[r];
+                        arr[r] = arr[r + 1];
+                        arr[r + 1] = temp;
+                        r++;
+                        ans++;
+                    }
+                    left++;
+                    right--;
+                }
+            } else {
+                // already char at left and right is at proper position
+                left++;
+                right--;
+            }
+        }
+
+        return ans;
+    }
+}
+"""
+
+# C++
+"""
+class Solution {
+public:
+    int minMovesToMakePalindrome(string s) {
+        int left = 0, right = s.length() - 1;
+        int ans = 0;
+
+        while (left < right) {
+            // if char from left and right is not same
+            if (s[left] != s[right]) {
+                int r = right;
+
+                // search for nearest char from right which matches the char at left
+                while (s[left] != s[r]) {
+                    r--;
+                }
+
+                if (r == left) {
+                    // char at 'left' has odd occurrence, so this should be at center only
+                    // move it one step toward center and continue checking (don't jump both pointers)
+                    ans++;
+                    swap(s[r], s[r + 1]);
+                } else {
+                    // we found duplicate of the char, move it to correct position step by step
+                    while (r < right) {
+                        swap(s[r], s[r + 1]);
+                        r++;
+                        ans++;
+                    }
+                    left++;
+                    right--;
+                }
+            } else {
+                // already char at left and right is at proper position
+                left++;
+                right--;
+            }
+        }
+
+        return ans;
+    }
+};
+"""

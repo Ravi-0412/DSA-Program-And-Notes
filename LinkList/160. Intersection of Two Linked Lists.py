@@ -1,11 +1,11 @@
 # Method 1:
-# just traverse the 1st linklist and store its address in hashmap with val =1(just any value)
+# just traverse the 1st linklist and store its address in hashmap or a set with val =1(just any value)
 # after that traverse the other linklist and check whether that node was in hashmap1
 # it basically checking the address of the node, if equal then intesection point exist at that node
 # other don't exist
 
 """
-Method 1 analysis:
+Analysis:
 Time Complexity: O(m+n) where m and n are the lengths of the two linked lists.
 Space Complexity: O(m) where m is the length of the first linked list (to store addresses in hashmap).
 """
@@ -70,6 +70,11 @@ class Solution:
 # We will traverse both linked lists simultaneously, and when we reach the end of one list, we will switch to the other list.
 # This way, both pointers will traverse the same number of nodes, and they will meet at the intersection point if it exists.
 
+Analysis:
+# Time Complexity: O(m+n) where m and n are the lengths of the two linked lists.
+# Space Complexity: O(1) as we are not using any extra space.
+# Note: This method works because if there is an intersection, both pointers will eventually meet at the intersection point.
+
 """
 class Solution:
     def getIntersectionNode(self, headA, headB):
@@ -84,115 +89,241 @@ class Solution:
             
         return curr1
 
-# Method 3 analysis:
-# Time Complexity: O(m+n) where m and n are the lengths of the two linked lists.
-# Space Complexity: O(1) as we are not using any extra space.
-# Note: This method works because if there is an intersection, both pointers will eventually meet at the intersection point.
-
 
 # Java
-// Method 2: 
 """
+// Method 1:
 public class Solution {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        HashSet<ListNode> set = new HashSet<>();
         ListNode curr1 = headA, curr2 = headB;
-        int length1 = 0, length2 = 0;
-        // find length of linklist1
-        while (curr1 != null) {
-            length1++;
-            curr1 = curr1.next;
-        }
-        // find length of linklist2
-        while (curr2 != null) {
-            length2++;
-            curr2 = curr2.next;
-        }
-        // find the diff and according call the function
-        if (length1 > length2) {
-            int d = length1 - length2;
-            return IntersectionNode(d, headA, headB);
-        } else {
-            int d = length2 - length1;
-            return IntersectionNode(d, headB, headA);
-        }
-    }
 
-    public ListNode IntersectionNode(int d, ListNode head1, ListNode head2) {
-        ListNode curr1 = head1, curr2 = head2;
-        for (int i = 0; i < d; i++) {
+        // Store all nodes from headA in a set
+        while (curr1 != null) {
+            set.add(curr1);
             curr1 = curr1.next;
         }
-        while (curr1 != null && curr2 != null) {
-            if (curr1 == curr2) {  // if linklist from curr1 and curr2 is same
-                                   // in java all variable address will same if they point to the same data
-                                   // e.g:
-                                        // Integer a = 5;
-                                        // Integer x = a, y = a;
-                                        // System.out.println(System.identityHashCode(x) + " " + System.identityHashCode(y));
-                                        // address of both x and y will be same
-                // System.out.println(System.identityHashCode(curr1) + " " + System.identityHashCode(curr2));
-                // here address of both will be same as they will be pointing to the same data like above
-                return curr1;
+
+        // Traverse list B and check if any node is in the set
+        while (curr2 != null) {
+            if (set.contains(curr2)) {
+                return curr2;
             }
-            curr1 = curr1.next;
             curr2 = curr2.next;
         }
+
         return null;
     }
 }
 
+
+// Method 2:
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode curr1 = headA, curr2 = headB;
+        int length1 = 0, length2 = 0;
+
+        // Find length of list1
+        while (curr1 != null) {
+            length1++;
+            curr1 = curr1.next;
+        }
+
+        // Find length of list2
+        while (curr2 != null) {
+            length2++;
+            curr2 = curr2.next;
+        }
+
+        // Find the difference and call the helper function
+        if (length1 > length2) {
+            return findIntersection(length1 - length2, headA, headB);
+        } else {
+            return findIntersection(length2 - length1, headB, headA);
+        }
+    }
+
+    public ListNode findIntersection(int d, ListNode head1, ListNode head2) {
+        ListNode curr1 = head1, curr2 = head2;
+
+        // Move the pointer of the longer list by 'd' steps
+        for (int i = 0; i < d; i++) {
+            curr1 = curr1.next;
+        }
+
+        // Traverse both together and find the first common node
+        while (curr1 != null && curr2 != null) {
+            if (curr1 == curr2) return curr1;
+            curr1 = curr1.next;
+            curr2 = curr2.next;
+        }
+
+        return null;
+    }
+}
+
+
+// Method 3:
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) return null;
+
+        ListNode curr1 = headA, curr2 = headB;
+
+        // When one reaches the end, redirect to the other list's head
+        while (curr1 != curr2) {
+            curr1 = (curr1 != null) ? curr1.next : headB;
+            curr2 = (curr2 != null) ? curr2.next : headA;
+        }
+
+        return curr1;
+    }
+}
+
+
 """
 
-# C++ 
+
+# C++
 """
+// Method 1:
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        unordered_set<ListNode*> visited;
+        ListNode* curr1 = headA;
+        ListNode* curr2 = headB;
+
+        // Store all nodes from headA in a set
+        while (curr1) {
+            visited.insert(curr1);
+            curr1 = curr1->next;
+        }
+
+        // Traverse list B and check if any node is in the set
+        while (curr2) {
+            if (visited.count(curr2)) {
+                return curr2;
+            }
+            curr2 = curr2->next;
+        }
+
+        return nullptr;
+    }
+};
+
+
+// Method 2:
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
         ListNode* curr1 = headA;
         ListNode* curr2 = headB;
         int length1 = 0, length2 = 0;
-        // find length of linklist1
+
+        // Find length of list1
         while (curr1) {
             length1++;
             curr1 = curr1->next;
         }
-        // find length of linklist2
+
+        // Find length of list2
         while (curr2) {
             length2++;
             curr2 = curr2->next;
         }
-        // find the diff and according call the function
+
+        // Find the difference and call the helper function
         if (length1 > length2) {
-            int d = length1 - length2;
-            return IntersectionNode(d, headA, headB);
+            return findIntersection(length1 - length2, headA, headB);
         } else {
-            int d = length2 - length1;
-            return IntersectionNode(d, headB, headA);
+            return findIntersection(length2 - length1, headB, headA);
         }
     }
 
-    ListNode* IntersectionNode(int d, ListNode* head1, ListNode* head2) {
+    ListNode* findIntersection(int d, ListNode* head1, ListNode* head2) {
         ListNode* curr1 = head1;
         ListNode* curr2 = head2;
+
+        // Move the pointer of the longer list by 'd' steps
         for (int i = 0; i < d; i++) {
             curr1 = curr1->next;
         }
+
+        // Traverse both together and find the first common node
         while (curr1 && curr2) {
-            if (curr1 == curr2) {  // if linklist from curr1 and curr2 is same
-                                   // in C++ all variable address will same if they point to the same data
-                                   // e.g:
-                                        // int a = 5;
-                                        // int* x = &a;
-                                        // int* y = &a;
-                                        // cout << x << " " << y;  // address of both x and y will be same
-                // cout << curr1 << " " << curr2;
-                // here address of both will be same as they will be pointing to the same data like above
-                return curr1;
-            }
+            if (curr1 == curr2) return curr1;
             curr1 = curr1->next;
             curr2 = curr2->next;
         }
+
         return nullptr;
+    }
+};
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode* curr1 = headA;
+        ListNode* curr2 = headB;
+        int length1 = 0, length2 = 0;
+
+        // Find length of list1
+        while (curr1) {
+            length1++;
+            curr1 = curr1->next;
+        }
+
+        // Find length of list2
+        while (curr2) {
+            length2++;
+            curr2 = curr2->next;
+        }
+
+        // Find the difference and call the helper function
+        if (length1 > length2) {
+            return findIntersection(length1 - length2, headA, headB);
+        } else {
+            return findIntersection(length2 - length1, headB, headA);
+        }
+    }
+
+    ListNode* findIntersection(int d, ListNode* head1, ListNode* head2) {
+        ListNode* curr1 = head1;
+        ListNode* curr2 = head2;
+
+        // Move the pointer of the longer list by 'd' steps
+        for (int i = 0; i < d; i++) {
+            curr1 = curr1->next;
+        }
+
+        // Traverse both together and find the first common node
+        while (curr1 && curr2) {
+            if (curr1 == curr2) return curr1;
+            curr1 = curr1->next;
+            curr2 = curr2->next;
+        }
+
+        return nullptr;
+    }
+};
+
+
+// Method 3:
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        if (!headA || !headB) return nullptr;
+
+        ListNode* curr1 = headA;
+        ListNode* curr2 = headB;
+
+        // When one reaches the end, redirect to the other list's head
+        while (curr1 != curr2) {
+            curr1 = (curr1 != nullptr) ? curr1->next : headB;
+            curr2 = (curr2 != nullptr) ? curr2->next : headA;
+        }
+
+        return curr1;
     }
 };
 

@@ -91,8 +91,8 @@ public:
 };
 """
 
-# Method 2: Do by Two pointer approach in space = O(1)
-
+# Method 2: 
+# Do by Two pointer approach in space = O(1)
 # My mistake
 
 # While condition in case of if 's[i] == '#' or t[j] == '#' is wrong.
@@ -126,7 +126,6 @@ class Solution:
         print(i, j)
         # return 1
         return s[: i + 1] == t[: j + 1]
-
 
 # Correcting above solution
 

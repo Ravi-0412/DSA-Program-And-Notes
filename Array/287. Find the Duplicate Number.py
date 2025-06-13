@@ -37,7 +37,7 @@ class Solution:
 
 
 # Mmethod 2:
-# using slow and fast pointer.
+# Floyd's Cycle Detection Algorithm= > using slow and fast pointer.
 
 # How to think?
 # The key is to understand how to treat the input array as a linked list.
@@ -82,110 +82,97 @@ class Solution:
             if slow== slow1:
                 return slow
 
-# Java Code 
+
+# Java
 """
-//Method 1
-class Solution {
-    // Method 1: Modifying the array
-    // Time = O(n), Space = O(1)
+// Method 1:
+public class Solution {
     public int findDuplicate(int[] nums) {
         for (int num : nums) {
-            int idx = Math.abs(num);  // taking abs of 'num' to check value at that index
-                                      // because we are modifying the array so later elements may contain negative values.
-                                      // But index can't be negative.
-
+            int idx = Math.abs(num);  // taking abs of 'num' to check value at that index.
+                                       // because we are modifying the array so later ele may contain negative values.
+                                       // But index can't be negative.
             if (nums[idx] < 0) {
-                // 'num' index wala element i.e 'num' only is already visited.
+                // 'num' index wala ele i.e 'num' only is already visited.
                 return idx;
             }
-            // Mark 'num' as visited by changing the value at index 'num' to negative value.
+            // mark 'num' visited by changing the value at index 'num' to negative value.
             nums[idx] = -nums[idx];
         }
-        return -1;  // This line should never be reached
+        return -1;
     }
 }
 
-//Method 4
-class Solution {
-    // Method 4: Using slow and fast pointer (Floyd’s Cycle Detection Algorithm)
-    // Time = O(n), Space = O(1)
+
+// Method 2:
+public class Solution {
     public int findDuplicate(int[] nums) {
-        // Find the intersection point (cycle detection)
-        int slow = 0, fast = 0;
+        // find whether cycle exist or not , but here it will exist for sure
+        // for this , find the intersection point(index) slow and fast
+        int slow = 0, fast = 0;  // we have to start from index '0' only
         while (true) {
             slow = nums[slow];
             fast = nums[nums[fast]];
-            if (fast == slow) {
-                break;
-            }
+            if (fast == slow) break;
         }
 
-        // Find the starting node of the cycle
+        // now find the starting node of the cycle
         int slow1 = 0;
         while (true) {
             slow = nums[slow];
             slow1 = nums[slow1];
-            if (slow == slow1) {
-                return slow;
-            }
+            if (slow == slow1) return slow;
         }
     }
 }
+
+
 """
 
-# C++ Code 
+
+# C++
 """
-//Method 3
-#include <vector>
-#include <cstdlib>
-
-using namespace std;
-
+// Method 1:
 class Solution {
 public:
-    // Method 1: Modifying the array
-    // Time = O(n), Space = O(1)
     int findDuplicate(vector<int>& nums) {
         for (int num : nums) {
-            int idx = abs(num);  // taking abs of 'num' to check value at that index
-                                 // because we are modifying the array so later elements may contain negative values.
-                                 // But index can't be negative.
-
+            int idx = abs(num);  // taking abs of 'num' to check value at that index.
+                                  // because we are modifying the array so later ele may contain negative values.
+                                  // But index can't be negative.
             if (nums[idx] < 0) {
-                // 'num' index wala element i.e 'num' only is already visited.
+                // 'num' index wala ele i.e 'num' only is already visited.
                 return idx;
             }
-            // Mark 'num' as visited by changing the value at index 'num' to negative value.
+            // mark 'num' visited by changing the value at index 'num' to negative value.
             nums[idx] = -nums[idx];
         }
-        return -1;  // This line should never be reached
+        return -1;
     }
 };
-//Method 2
+
+
+// Method 2:
 class Solution {
 public:
-    // Method 4: Using slow and fast pointer (Floyd’s Cycle Detection Algorithm)
-    // Time = O(n), Space = O(1)
     int findDuplicate(vector<int>& nums) {
-        // Find the intersection point (cycle detection)
-        int slow = 0, fast = 0;
+        // find whether cycle exist or not , but here it will exist for sure
+        // for this , find the intersection point(index) slow and fast
+        int slow = 0, fast = 0;  // we have to start from index '0' only
         while (true) {
             slow = nums[slow];
             fast = nums[nums[fast]];
-            if (fast == slow) {
-                break;
-            }
+            if (fast == slow) break;
         }
 
-        // Find the starting node of the cycle
+        // now find the starting node of the cycle
         int slow1 = 0;
         while (true) {
             slow = nums[slow];
             slow1 = nums[slow1];
-            if (slow == slow1) {
-                return slow;
-            }
+            if (slow == slow1) return slow;
         }
     }
 };
+
 """

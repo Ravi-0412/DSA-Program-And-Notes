@@ -43,7 +43,81 @@ class Solution:
                 qd.append(n + r)
         return 'Radiant' if qr else "Dire"
 
+# Java
+"""
+import java.util.*;
 
+class Solution {
+    public String predictPartyVictory(String senate) {
+        int n = senate.length();
+        Queue<Integer> qr = new LinkedList<>();
+        Queue<Integer> qd = new LinkedList<>();
+
+        for (int i = 0; i < n; i++) {
+            char c = senate.charAt(i);
+            if (c == 'R') {
+                qr.add(i);
+            } else {
+                qd.add(i);
+            }
+        }
+
+        while (!qr.isEmpty() && !qd.isEmpty()) {
+            int r = qr.poll();
+            int d = qd.poll();
+            if (r < d) {
+                // means 'r'(Radiant) will ban 'd' but this 'r' should not ban any other 'd' before we traverse all the unbanned ele that has come before him
+                // but this can be banned from other 'r' having lesser index so we will have
+                // to increase its index value as lower index will ban only the greater one. so just add in queue with 'n + r'.
+                qr.add(r + n);
+            } else {
+                qd.add(d + n);
+            }
+        }
+
+        return qr.isEmpty() ? "Dire" : "Radiant";
+    }
+}
+"""
+
+# C++
+"""
+#include <queue>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    string predictPartyVictory(string senate) {
+        int n = senate.length();
+        queue<int> qr, qd;
+
+        for (int i = 0; i < n; i++) {
+            if (senate[i] == 'R') {
+                qr.push(i);
+            } else {
+                qd.push(i);
+            }
+        }
+
+        while (!qr.empty() && !qd.empty()) {
+            int r = qr.front(); qr.pop();
+            int d = qd.front(); qd.pop();
+
+            if (r < d) {
+                // means 'r'(Radiant) will ban 'd' but this 'r' should not ban any other 'd' before we traverse all the unbanned ele that has come before him
+                // but this can be banned from other 'r' having lesser index so we will have
+                // to increase its index value as lower index will ban only the greater one. so just add in queue with 'n + r'.
+                qr.push(r + n);
+            } else {
+                qd.push(d + n);
+            }
+        }
+
+        return qr.empty() ? "Dire" : "Radiant";
+    }
+};
+"""
 
 # my mistakes and approaches
 # 1) One people was banning more than one

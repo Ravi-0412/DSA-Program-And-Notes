@@ -1,4 +1,5 @@
-# 1st method: using hashmap like as usual for all problems of this type.
+# 1st method: 
+# using hashmap like as usual for all problems of this type.
 '''
 Approach :
 1) Here we take i to traverse the list and take  hashmap to store ith number and its index 
@@ -57,7 +58,8 @@ public:
 
 '''
 
-# 2nd method : using two pointer (this q was mainly given because of this)
+# 2nd method : 
+# using two pointer (this q was mainly given because of this)
 # vvi basic logic: hmko pointer ko aisa jagah rakhna h jisse hm sure dekh paye ki kis side move karna h.
 # Aisa Q like closest pair, minDiff of pairs etc  sbka yhi logic h.
 
@@ -81,43 +83,61 @@ class Solution:
             else:  # we found the target
                 return start+1, end+1
 
-'''
-C++ Code
-class Solution {
-public:
-    vector<int> twoSum(vector<int>& numbers, int target) {
-        int start = 0, end = numbers.size() - 1;
-        while (start < end) {
-            if (numbers[start] + numbers[end] > target) {
-                end--;
-            } else if (numbers[start] + numbers[end] < target) {
-                start++;
-            } else {
-                return {start + 1, end + 1};
-            }
-        }
-        return {};
-    }
-};
 
-Java Code
+"""
 class Solution {
     public int[] twoSum(int[] numbers, int target) {
-        int start = 0, end = numbers.length - 1;
-        while (start < end) {
+        int n = numbers.length;
+        int start = 0, end = n - 1;
+
+        while (start < end) {  // start can't be equal to end as we can't use the same ele twice
+
+            // in this case our ans will lie before end since array is sorted so incr start will incr the more 
             if (numbers[start] + numbers[end] > target) {
-                end--;
-            } else if (numbers[start] + numbers[end] < target) {
-                start++;
-            } else {
-                return new int[] {start + 1, end + 1};
+                end -= 1;
+            }
+            // in this case our ans will lie after start since array is sorted
+            else if (numbers[start] + numbers[end] < target) {
+                start += 1;
+            }
+            else {  // we found the target
+                return new int[]{start + 1, end + 1};
             }
         }
-        return new int[0];
+
+        return new int[]{-1, -1};  // should not reach here if input guarantees one solution
     }
 }
 
-'''
+"""
+
+# C++
+"""
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        int n = numbers.size();
+        int start = 0, end = n - 1;
+
+        while (start < end) {  // start can't be equal to end as we can't use the same ele twice
+
+            // in this case our ans will lie before end since array is sorted so incr start will incr the more 
+            if (numbers[start] + numbers[end] > target) {
+                end -= 1;
+            }
+            // in this case our ans will lie after start since array is sorted
+            else if (numbers[start] + numbers[end] < target) {
+                start += 1;
+            }
+            else {  // we found the target
+                return {start + 1, end + 1};
+            }
+        }
+
+        return {-1, -1};  // should not reach here if input guarantees one solution
+    }
+};
+"""
 
 # Extension: 
 # If asked to find the no of such pairs then:
@@ -143,44 +163,61 @@ def count_pairs_with_sum(arr, target):
     
     return count # return the no of valid pair found 
 
-'''
-C++ Code :
-int countPairsWithSum(vector<int>& arr, int target) {
-    int left = 0, right = arr.size() - 1, count = 0;
-    while (left < right) {
-        int current_sum = arr[left] + arr[right];
-        if (current_sum == target) {
-            count++;
-            left++;
-            right--;
-        } else if (current_sum < target) {
-            left++;
-        } else {
-            right--;
-        }
-    }
-    return count;
-}
 
-Java Code : 
-public int countPairsWithSum(int[] arr, int target) {
-    int left = 0, right = arr.length - 1, count = 0;
-    while (left < right) {
-        int current_sum = arr[left] + arr[right];
-        if (current_sum == target) {
-            count++;
-            left++;
-            right--;
-        } else if (current_sum < target) {
-            left++;
-        } else {
-            right--;
-        }
-    }
-    return count;
-}
+# Java
+"""
+class Solution {
+    public int countPairsWithSum(int[] arr, int target) {
+        int left = 0;
+        int right = arr.length - 1;
+        int count = 0; // To store the number of valid pairs
 
-'''
+        while (left < right) {
+            int currentSum = arr[left] + arr[right];
+
+            if (currentSum == target) { // if one pair found 
+                count += 1;
+                left += 1;
+                right -= 1;
+            } else if (currentSum < target) { // if pair not found
+                left += 1; // target value is greater so increment the left by one because the list is sorted
+            } else {
+                right -= 1; // target value is smaller so decrement the right by one because the list is sorted
+            }
+        }
+
+        return count; // return the no of valid pair found 
+    }
+}
+"""
+
+# C++
+"""
+class Solution {
+public:
+    int countPairsWithSum(vector<int>& arr, int target) {
+        int left = 0;
+        int right = arr.size() - 1;
+        int count = 0; // To store the number of valid pairs
+
+        while (left < right) {
+            int currentSum = arr[left] + arr[right];
+
+            if (currentSum == target) { // if one pair found 
+                count += 1;
+                left += 1;
+                right -= 1;
+            } else if (currentSum < target) { // if pair not found
+                left += 1; // target value is greater so increment the left by one because the list is sorted
+            } else {
+                right -= 1; // target value is smaller so decrement the right by one because the list is sorted
+            }
+        }
+
+        return count; // return the no of valid pair found 
+    }
+};
+"""
 
 # b) Duplicate allowed
 
@@ -221,81 +258,110 @@ def count_pairs_with_sum(arr, target):
     
     return count # return the no of valid pair found 
 
-'''
-# C++ Code
-int countPairsWithSum(vector<int>& arr, int target) {
-    int left = 0, right = arr.size() - 1, count = 0;
+# Java
+"""
+class Solution {
+    public int countPairsWithSum(int[] arr, int target) {
+        int left = 0;
+        int right = arr.length - 1;
+        int count = 0; // To store the number of valid pairs
 
-    while (left < right) {
-        int current_sum = arr[left] + arr[right];
-        
-        if (current_sum == target) {
-            if (arr[left] == arr[right]) {
-                int num_elements = right - left + 1;
-                count += (num_elements * (num_elements - 1)) / 2;
-                break;
-            } else {
-                int left_count = 1, right_count = 1;
-                while (left + 1 < right && arr[left] == arr[left + 1]) {
+        while (left < right) {
+            int currentSum = arr[left] + arr[right];
+
+            if (currentSum == target) {
+                if (arr[left] == arr[right]) {
+                    // If both pointers are at the same element, count combinations
+                    int numElements = right - left + 1; // Total elements between left and right
+                    count += (numElements * (numElements - 1)) / 2; // comb(n, 2)
+                    break; // All remaining pairs are already counted, so exit loop
+                } else {
+                    // Count occurrences of arr[left] and arr[right]
+                    int leftCount = 1;
+                    int rightCount = 1;
+
+                    // Count how many times arr[left] is repeated
+                    while (left + 1 < right && arr[left] == arr[left + 1]) {
+                        left++;
+                        leftCount++;
+                    }
+
+                    // Count how many times arr[right] is repeated
+                    while (right - 1 > left && arr[right] == arr[right - 1]) {
+                        right--;
+                        rightCount++;
+                    }
+
+                    // Total pairs formed by these repeated values
+                    count += leftCount * rightCount; // (m*n)
                     left++;
-                    left_count++;
-                }
-                while (right - 1 > left && arr[right] == arr[right - 1]) {
                     right--;
-                    right_count++;
                 }
-                count += left_count * right_count;
-                left++;
-                right--;
-            }
-        } else if (current_sum < target) {
-            left++;
-        } else {
-            right--;
-        }
-    }
-
-    return count;
-}
-
-# Java Code
-
-public int countPairsWithSum(int[] arr, int target) {
-    int left = 0, right = arr.length - 1, count = 0;
-
-    while (left < right) {
-        int current_sum = arr[left] + arr[right];
-
-        if (current_sum == target) {
-            if (arr[left] == arr[right]) {
-                int num_elements = right - left + 1;
-                count += (num_elements * (num_elements - 1)) / 2;
-                break;
+            } else if (currentSum < target) {
+                left++; // target value is greater so increment the left by one because the list is sorted
             } else {
-                int left_count = 1, right_count = 1;
-                while (left + 1 < right && arr[left] == arr[left + 1]) {
-                    left++;
-                    left_count++;
-                }
-                while (right - 1 > left && arr[right] == arr[right - 1]) {
-                    right--;
-                    right_count++;
-                }
-                count += left_count * right_count;
-                left++;
-                right--;
+                right--; // target value is smaller so decrement the right by one because the list is sorted
             }
-        } else if (current_sum < target) {
-            left++;
-        } else {
-            right--;
         }
+
+        return count; // return the no of valid pair found 
     }
-
-    return count;
 }
+"""
 
-'''
+
+# C++
+"""
+class Solution {
+public:
+    int countPairsWithSum(vector<int>& arr, int target) {
+        int left = 0;
+        int right = arr.size() - 1;
+        int count = 0; // To store the number of valid pairs
+
+        while (left < right) {
+            int currentSum = arr[left] + arr[right];
+
+            if (currentSum == target) {
+                if (arr[left] == arr[right]) {
+                    // If both pointers are at the same element, count combinations
+                    int numElements = right - left + 1; // Total elements between left and right
+                    count += (numElements * (numElements - 1)) / 2; // comb(n, 2)
+                    break; // All remaining pairs are already counted, so exit loop
+                } else {
+                    // Count occurrences of arr[left] and arr[right]
+                    int leftCount = 1;
+                    int rightCount = 1;
+
+                    // Count how many times arr[left] is repeated
+                    while (left + 1 < right && arr[left] == arr[left + 1]) {
+                        left++;
+                        leftCount++;
+                    }
+
+                    // Count how many times arr[right] is repeated
+                    while (right - 1 > left && arr[right] == arr[right - 1]) {
+                        right--;
+                        rightCount++;
+                    }
+
+                    // Total pairs formed by these repeated values
+                    count += leftCount * rightCount; // (m*n)
+                    left++;
+                    right--;
+                }
+            } else if (currentSum < target) {
+                left++; // target value is greater so increment the left by one because the list is sorted
+            } else {
+                right--; // target value is smaller so decrement the right by one because the list is sorted
+            }
+        }
+
+        return count; // return the no of valid pair found 
+    }
+};
+"""
+
 
 # c) Given two strictly sorted arrays in ascending order and a target.
 # count no of pairs whose sum = target such that one ele is taken from arr1 and other is from arr2.
@@ -321,80 +387,61 @@ def count_pairs_with_sum(arr1, arr2, target):
     return count # return the no of valid pair found 
 
 
-'''
-C++ Code 
-int countPairsWithSum(vector<int>& arr, int target) {
-    int left = 0, right = arr.size() - 1, count = 0;
+# Java
+"""
+class Solution {
+    public int countPairsWithSum(int[] arr1, int[] arr2, int target) {
+        int left = 0; // this pointer starts from the starting point of the arr1
+        int right = arr2.length - 1; // this pointer starts from the last index of arr2
+        int count = 0; // To store the number of valid pairs
 
-    while (left < right) {
-        int current_sum = arr[left] + arr[right];
-        
-        if (current_sum == target) {
-            if (arr[left] == arr[right]) {
-                int num_elements = right - left + 1;
-                count += (num_elements * (num_elements - 1)) / 2;
-                break;
-            } else {
-                int left_count = 1, right_count = 1;
-                while (left + 1 < right && arr[left] == arr[left + 1]) {
-                    left++;
-                    left_count++;
-                }
-                while (right - 1 > left && arr[right] == arr[right - 1]) {
-                    right--;
-                    right_count++;
-                }
-                count += left_count * right_count;
+        while (left < arr1.length && right >= 0) {
+            int currentSum = arr1[left] + arr2[right];
+
+            if (currentSum == target) { // if one pair found 
+                count++;
                 left++;
                 right--;
-            }
-        } else if (current_sum < target) {
-            left++;
-        } else {
-            right--;
-        }
-    }
-
-    return count;
-}
-
-Java Code
-public int countPairsWithSum(int[] arr, int target) {
-    int left = 0, right = arr.length - 1, count = 0;
-
-    while (left < right) {
-        int current_sum = arr[left] + arr[right];
-
-        if (current_sum == target) {
-            if (arr[left] == arr[right]) {
-                int num_elements = right - left + 1;
-                count += (num_elements * (num_elements - 1)) / 2;
-                break;
+            } else if (currentSum < target) {
+                left++; // target value is greater so increment the left by one because the list is sorted
             } else {
-                int left_count = 1, right_count = 1;
-                while (left + 1 < right && arr[left] == arr[left + 1]) {
-                    left++;
-                    left_count++;
-                }
-                while (right - 1 > left && arr[right] == arr[right - 1]) {
-                    right--;
-                    right_count++;
-                }
-                count += left_count * right_count;
+                right--; // target value is smaller so decrement the right by one because the list is sorted
+            }
+        }
+
+        return count; // return the no of valid pair found 
+    }
+}
+"""
+
+# C++
+"""
+class Solution {
+public:
+    int countPairsWithSum(vector<int>& arr1, vector<int>& arr2, int target) {
+        int left = 0; // this pointer starts from the starting point of the arr1
+        int right = arr2.size() - 1; // this pointer starts from the last index of arr2
+        int count = 0; // To store the number of valid pairs
+
+        while (left < arr1.size() && right >= 0) {
+            int currentSum = arr1[left] + arr2[right];
+
+            if (currentSum == target) { // if one pair found 
+                count++;
                 left++;
                 right--;
+            } else if (currentSum < target) {
+                left++; // target value is greater so increment the left by one because the list is sorted
+            } else {
+                right--; // target value is smaller so decrement the right by one because the list is sorted
             }
-        } else if (current_sum < target) {
-            left++;
-        } else {
-            right--;
         }
+
+        return count; // return the no of valid pair found 
     }
+};
+"""
 
-    return count;
-}
-
-'''
 
 # d) If arrays are sorted but not strictly means duplicate are allowed
 def count_pairs_with_sum(arr1, arr2, target):
@@ -430,70 +477,96 @@ def count_pairs_with_sum(arr1, arr2, target):
             right -= 1 # target value is smaller so decrement the right by one because the list is sorted
     
     return count # return the no of valid pair found 
-'''
-C++ Code
-int countPairsWithSum(vector<int>& arr1, vector<int>& arr2, int target) {
-    int left = 0, right = arr2.size() - 1, count = 0;
 
-    while (left < arr1.size() && right >= 0) {
-        int current_sum = arr1[left] + arr2[right];
 
-        if (current_sum == target) {
-            int left_val = arr1[left], right_val = arr2[right];
-            int left_count = 0, right_count = 0;
+# java
+"""
+class Solution {
+    public int countPairsWithSum(int[] arr1, int[] arr2, int target) {
+        int left = 0; // this pointer starts from the starting point of the arr1
+        int right = arr2.length - 1; // this pointer starts from the last index of arr2
+        int count = 0; // To store the number of valid pairs
 
-            while (left < arr1.size() && arr1[left] == left_val) {
-                left_count++;
-                left++;
+        while (left < arr1.length && right >= 0) {
+            int currentSum = arr1[left] + arr2[right];
+
+            if (currentSum == target) { // if one valid pair found
+                int leftVal = arr1[left];
+                int rightVal = arr2[right];
+
+                int leftCount = 0;
+                int rightCount = 0;
+
+                // Count occurrences of the current element in arr1
+                while (left < arr1.length && arr1[left] == leftVal) {
+                    leftCount++;
+                    left++;
+                }
+
+                // Count occurrences of the current element in arr2
+                while (right >= 0 && arr2[right] == rightVal) {
+                    rightCount++;
+                    right--;
+                }
+
+                count += leftCount * rightCount; // Total pairs formed by these repeated values
+
+            } else if (currentSum < target) {
+                left++; // target value is greater so increment the left by one because the list is sorted
+            } else {
+                right--; // target value is smaller so decrement the right by one because the list is sorted
             }
-            while (right >= 0 && arr2[right] == right_val) {
-                right_count++;
-                right--;
-            }
-
-            count += left_count * right_count;
-        } else if (current_sum < target) {
-            left++;
-        } else {
-            right--;
         }
+
+        return count; // return the no of valid pair found
     }
-
-    return count;
 }
+"""
 
-Java Code
-public int countPairsWithSum(int[] arr1, int[] arr2, int target) {
-    int left = 0, right = arr2.length - 1, count = 0;
+# C++
+"""
+class Solution {
+public:
+    int countPairsWithSum(vector<int>& arr1, vector<int>& arr2, int target) {
+        int left = 0; // this pointer starts from the starting point of the arr1
+        int right = arr2.size() - 1; // this pointer starts from the last index of arr2
+        int count = 0; // To store the number of valid pairs
 
-    while (left < arr1.length && right >= 0) {
-        int current_sum = arr1[left] + arr2[right];
+        while (left < arr1.size() && right >= 0) {
+            int currentSum = arr1[left] + arr2[right];
 
-        if (current_sum == target) {
-            int left_val = arr1[left], right_val = arr2[right];
-            int left_count = 0, right_count = 0;
+            if (currentSum == target) { // if one valid pair found
+                int leftVal = arr1[left];
+                int rightVal = arr2[right];
 
-            while (left < arr1.length && arr1[left] == left_val) {
-                left_count++;
-                left++;
+                int leftCount = 0;
+                int rightCount = 0;
+
+                // Count occurrences of the current element in arr1
+                while (left < arr1.size() && arr1[left] == leftVal) {
+                    leftCount++;
+                    left++;
+                }
+
+                // Count occurrences of the current element in arr2
+                while (right >= 0 && arr2[right] == rightVal) {
+                    rightCount++;
+                    right--;
+                }
+
+                count += leftCount * rightCount; // Total pairs formed by these repeated values
+
+            } else if (currentSum < target) {
+                left++; // target value is greater so increment the left by one because the list is sorted
+            } else {
+                right--; // target value is smaller so decrement the right by one because the list is sorted
             }
-            while (right >= 0 && arr2[right] == right_val) {
-                right_count++;
-                right--;
-            }
-
-            count += left_count * right_count;
-        } else if (current_sum < target) {
-            left++;
-        } else {
-            right--;
         }
+
+        return count; // return the no of valid pair found
     }
-
-    return count;
-}
-
-'''
+};
+"""
 
 # Note vvi: whenever you get this type of Q then try to fix one ele somehow 
 # and find the other two ele using "Two sum" for sorted/unsorted array.

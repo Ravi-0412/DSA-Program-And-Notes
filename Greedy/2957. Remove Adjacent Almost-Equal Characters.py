@@ -19,6 +19,62 @@ class Solution:
             i += 1
         return ans
     
+# Java
+"""
+class Solution {
+    public int removeAlmostEqualCharacters(String word) {
+        int n = word.length();
+        int ans = 0;
+        int i = 0;
+
+        while (i < n) {
+            int cnt = 1;
+
+            // Finding the number of consecutive almost-equal starting from 'i'.
+            while (i + 1 < n && Math.abs(word.charAt(i) - word.charAt(i + 1)) <= 1) {
+                i++;
+                cnt++;
+            }
+
+            ans += (cnt / 2);
+            i++;
+        }
+
+        return ans;
+    }
+}
+"""
+
+# C++
+"""
+#include <string>
+#include <cmath>
+using namespace std;
+
+class Solution {
+public:
+    int removeAlmostEqualCharacters(string word) {
+        int n = word.size();
+        int ans = 0;
+        int i = 0;
+
+        while (i < n) {
+            int cnt = 1;
+
+            // Finding the number of consecutive almost-equal starting from 'i'.
+            while (i + 1 < n && abs(word[i] - word[i + 1]) <= 1) {
+                i++;
+                cnt++;
+            }
+
+            ans += (cnt / 2);
+            i++;
+        }
+
+        return ans;
+    }
+};
+"""
 
 # method 2:
 # Steps: 
@@ -45,3 +101,49 @@ class Solution:
             i += 1
         return ans
 
+# Java
+"""
+class Solution {
+    public int removeAlmostEqualCharacters(String word) {
+        int n = word.length();
+        int ans = 0;
+        int i = 1;
+
+        while (i < n) {
+            if (Math.abs(word.charAt(i) - word.charAt(i - 1)) <= 1) {
+                ans += 1;
+                i += 1; // No need to check next char
+            }
+            i += 1;
+        }
+
+        return ans;
+    }
+}
+"""
+
+# C++
+"""
+#include <string>
+#include <cmath>
+using namespace std;
+
+class Solution {
+public:
+    int removeAlmostEqualCharacters(string word) {
+        int n = word.length();
+        int ans = 0;
+        int i = 1;
+
+        while (i < n) {
+            if (abs(word[i] - word[i - 1]) <= 1) {
+                ans += 1;
+                i += 1; // No need to check next char
+            }
+            i += 1;
+        }
+
+        return ans;
+    }
+}
+"""

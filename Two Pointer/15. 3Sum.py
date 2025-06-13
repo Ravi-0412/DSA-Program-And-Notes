@@ -1,6 +1,6 @@
 
-
-# Method1 : Brute Force
+# Method1 : 
+# Brute Force
 # Just check all the possibility
 
 # Logic: to avoid duplicates , 1)we will have to bring all the duplicates together so that we can easily check for duplicates,
@@ -32,7 +32,77 @@ class Solution:
                         ans.append([nums[i], nums[j], nums[k]])
         return ans
 
-# Method 2: Optimise using Two sum.
+# Java
+"""
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        int n = nums.length;
+        Arrays.sort(nums);
+        List<List<Integer>> ans = new ArrayList<>();
+
+        for (int i = 0; i < n - 2; i++) {
+            // if not 1st element then skip otherwise it will lead to duplicate.
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+            for (int j = i + 1; j < n - 1; j++) {
+                // if not 1st element for cur 'i' then skip otherwise it will lead to duplicate.
+                if (j > i + 1 && nums[j] == nums[j - 1]) continue;
+
+                for (int k = j + 1; k < n; k++) {
+                    // if not 1st element for cur 'j' then skip otherwise it will lead to duplicate.
+                    if (k > j + 1 && nums[k] == nums[k - 1]) continue;
+
+                    if (nums[i] + nums[j] + nums[k] == 0) {
+                        ans.add(Arrays.asList(nums[i], nums[j], nums[k]));
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+}
+"""
+
+# C++
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        int n = nums.size();
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> ans;
+
+        for (int i = 0; i < n - 2; i++) {
+            // if not 1st element then skip otherwise it will lead to duplicate.
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+            for (int j = i + 1; j < n - 1; j++) {
+                // if not 1st element for cur 'i' then skip otherwise it will lead to duplicate.
+                if (j > i + 1 && nums[j] == nums[j - 1]) continue;
+
+                for (int k = j + 1; k < n; k++) {
+                    // if not 1st element for cur 'j' then skip otherwise it will lead to duplicate.
+                    if (k > j + 1 && nums[k] == nums[k - 1]) continue;
+
+                    if (nums[i] + nums[j] + nums[k] == 0) {
+                        ans.push_back({nums[i], nums[j], nums[k]});
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
+"""
+
+# Method 2: 
+# Optimise using Two sum.
 # and for every ele apply two sum if its not duplicate. and since sorted so we can use two pointer approach for Two sum.
 
 # Note: Since only number is mattering in ans (not index) , we can sort array.
@@ -45,6 +115,8 @@ class Solution:
 # Also in outer loop, we will only apply "two sum" for cur number if it is distinct only.
 
 # time: O(n^2), sapce: O(1)
+
+# Note: Jahan bhi distinct ka bat ho sorting ka ek bar jaroor socho.
 
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
@@ -74,44 +146,8 @@ class Solution:
         return ans
 
 
-# Note: Jahan bhi distinct ka bat ho sorting ka ek bar jaroor socho.
-
-# Similar Q: 
-# 1) 18. 4Sum
-# 2) Count the triplets
-
-
-
 # Java Code 
 """
-//Method 1
-import java.util.*;
-
-class Solution {
-    public List<List<Integer>> threeSum(int[] nums) {
-        int n = nums.length;
-        Arrays.sort(nums);
-        List<List<Integer>> ans = new ArrayList<>();
-
-        for (int i = 0; i < n - 2; i++) {
-            if (i > 0 && nums[i] == nums[i - 1]) continue; // Skip duplicate values for 'i'
-
-            for (int j = i + 1; j < n - 1; j++) {
-                if (j > i + 1 && nums[j] == nums[j - 1]) continue; // Skip duplicate values for 'j'
-
-                for (int k = j + 1; k < n; k++) {
-                    if (k > j + 1 && nums[k] == nums[k - 1]) continue; // Skip duplicate values for 'k'
-
-                    if (nums[i] + nums[j] + nums[k] == 0) {
-                        ans.add(Arrays.asList(nums[i], nums[j], nums[k]));
-                    }
-                }
-            }
-        }
-        return ans;
-    }
-}
-//Method 2
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -157,75 +193,57 @@ class Solution {
 
 # C++ Code 
 """
-//Method 1
-#include <iostream>
 #include <vector>
 #include <algorithm>
-
 using namespace std;
 
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
-        int n = nums.size();
         sort(nums.begin(), nums.end());
         vector<vector<int>> ans;
+        int n = nums.size();
 
         for (int i = 0; i < n - 2; i++) {
-            if (i > 0 && nums[i] == nums[i - 1]) continue; // Skip duplicate values for 'i'
-
-            for (int j = i + 1; j < n - 1; j++) {
-                if (j > i + 1 && nums[j] == nums[j - 1]) continue; // Skip duplicate values for 'j'
-
-                for (int k = j + 1; k < n; k++) {
-                    if (k > j + 1 && nums[k] == nums[k - 1]) continue; // Skip duplicate values for 'k'
-
-                    if (nums[i] + nums[j] + nums[k] == 0) {
-                        ans.push_back({nums[i], nums[j], nums[k]});
-                    }
-                }
+            // check if we can take this 'nums[i]' as first element.
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                // if we take this 'nums[i]' as first element then it will give duplicate
+                continue;
             }
-        }
-        return ans;
-    }
-};
-//Method 2
-#include <iostream>
-#include <vector>
-#include <algorithm>
 
-using namespace std;
-
-class Solution {
-public:
-    vector<vector<int>> threeSum(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
-        vector<vector<int>> ans;
-        int n = nums.size();
-
-        for (int i = 0; i < n - 2; i++) {
-            if (i > 0 && nums[i] == nums[i - 1]) continue; // Skip duplicate values for 'i'
-
-            int start = i + 1, end = n - 1;
+            int start = i + 1, end = n - 1;  // check for 'Two sum' in remaining array ahead.
             while (start < end) {
                 int threeSum = nums[i] + nums[start] + nums[end];
-
                 if (threeSum > 0) {
-                    end--;
+                    end -= 1;
                 } else if (threeSum < 0) {
-                    start++;
+                    start += 1;
                 } else {
+                    // means we have found one of the ans.
                     ans.push_back({nums[i], nums[start], nums[end]});
 
-                    // Move 'start' to next distinct element to avoid duplicate triplets
-                    start++;
+                    // in this case there can be duplicates after 'start' pointer and before right pointer, 
+                    // which may lead to duplicate if they form total = 0
+                    // so either incr 'start' to new ele or decr 'end' to new element. No need to move both otherwise we may miss some answers.
+                    start += 1;
+
+                    // checking for duplicates
                     while (start < end && nums[start] == nums[start - 1]) {
-                        start++;
+                        start += 1;
                     }
                 }
             }
         }
+
         return ans;
     }
 };
 """
+
+
+# Similar Q: 
+# 1) 18. 4Sum
+# 2) Count the triplets
+
+
+

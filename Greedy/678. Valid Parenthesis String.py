@@ -30,6 +30,77 @@ class Solution:
             return self.check(s, ind+1, openCount +1) or self.check(s, ind+1, openCount -1) or self.check(s, ind+1, openCount)
         return self.check(s, ind+1, openCount)    # if only either '(' or ')' comes at current index.
 
+
+# Java
+"""
+class Solution {
+    public boolean checkValidString(String s) {
+        int openCount = 0;  // count the no of open parenthesis
+        return check(s, 0, openCount);  // '0': start index from where we have to check.
+    }
+
+    public boolean check(String s, int ind, int openCount) {
+        if (openCount < 0) return false;
+
+        if (ind == s.length()) return openCount == 0;
+
+        char ch = s.charAt(ind);
+
+        if (ch == '(') {
+            openCount += 1;
+        } else if (ch == ')') {
+            if (openCount <= 0) return false;
+            openCount -= 1;
+        } else if (ch == '*') {
+            // we have three choices either treat this as 1) '('  2) ')' or 3) empty string. 
+            // and if any of them return True then return True.
+            return check(s, ind + 1, openCount + 1) ||
+                   check(s, ind + 1, openCount - 1) ||
+                   check(s, ind + 1, openCount);
+        }
+
+        return check(s, ind + 1, openCount);  // if only either '(' or ')' comes at current index.
+    }
+}
+"""
+
+# C++
+"""
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    bool checkValidString(string s) {
+        int openCount = 0;  // count the no of open parenthesis
+        return check(s, 0, openCount);  // '0': start index from where we have to check.
+    }
+
+    bool check(const string& s, int ind, int openCount) {
+        if (openCount < 0) return false;
+
+        if (ind == s.length()) return openCount == 0;
+
+        char ch = s[ind];
+
+        if (ch == '(') {
+            openCount += 1;
+        } else if (ch == ')') {
+            if (openCount <= 0) return false;
+            openCount -= 1;
+        } else if (ch == '*') {
+            // we have three choices either treat this as 1) '('  2) ')' or 3) empty string. 
+            // and if any of them return True then return True.
+            return check(s, ind + 1, openCount + 1) ||
+                   check(s, ind + 1, openCount - 1) ||
+                   check(s, ind + 1, openCount);
+        }
+
+        return check(s, ind + 1, openCount);  // if only either '(' or ')' comes at current index.
+    }
+};
+"""
+
 # Method 2 :
 # optimising the above solution
 # time= space= O(n^2) 
@@ -57,6 +128,98 @@ class Solution:
             dp[ind][openCount]= self.check(s, ind+1, openCount +1, dp) or self.check(s, ind+1, openCount -1, dp) or self.check(s, ind+1, openCount, dp)
         return dp[ind][openCount]
     
+# Java
+"""
+class Solution {
+    public boolean checkValidString(String s) {
+        int n = s.length();
+        int[][] dp = new int[n + 1][n + 1];
+        
+        // initialize all to -1
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= n; j++) {
+                dp[i][j] = -1;
+            }
+        }
+
+        int openCount = 0;  // count the no of open parenthesis
+        return check(s, 0, openCount, dp);  // '0': start index from where we have to check.
+    }
+
+    public boolean check(String s, int ind, int openCount, int[][] dp) {
+        if (openCount < 0) return false;
+        if (ind == s.length()) return openCount == 0;
+
+        if (dp[ind][openCount] != -1) return dp[ind][openCount] == 1;
+
+        char ch = s.charAt(ind);
+
+        if (ch == '(') {
+            dp[ind][openCount] = check(s, ind + 1, openCount + 1, dp) ? 1 : 0;
+        } else if (ch == ')') {
+            if (openCount <= 0) return false;
+            dp[ind][openCount] = check(s, ind + 1, openCount - 1, dp) ? 1 : 0;
+        } else if (ch == '*') {
+            // we have three choices either treat this as 1) '('  2) ')' or 3) empty string. 
+            // and if any of them return True then return True.
+            boolean res = check(s, ind + 1, openCount + 1, dp) ||
+                          check(s, ind + 1, openCount - 1, dp) ||
+                          check(s, ind + 1, openCount, dp);
+            dp[ind][openCount] = res ? 1 : 0;
+        } else {
+            dp[ind][openCount] = check(s, ind + 1, openCount, dp) ? 1 : 0;
+        }
+
+        return dp[ind][openCount] == 1;
+    }
+}
+"""
+
+
+# C++
+"""
+#include <string>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    bool checkValidString(string s) {
+        int n = s.length();
+        vector<vector<int>> dp(n + 1, vector<int>(n + 1, -1));
+        int openCount = 0;  // count the no of open parenthesis
+        return check(s, 0, openCount, dp);  // '0': start index from where we have to check.
+    }
+
+    bool check(string& s, int ind, int openCount, vector<vector<int>>& dp) {
+        if (openCount < 0) return false;
+        if (ind == s.length()) return openCount == 0;
+
+        if (dp[ind][openCount] != -1) return dp[ind][openCount] == 1;
+
+        char ch = s[ind];
+
+        if (ch == '(') {
+            dp[ind][openCount] = check(s, ind + 1, openCount + 1, dp) ? 1 : 0;
+        } else if (ch == ')') {
+            if (openCount <= 0) return false;
+            dp[ind][openCount] = check(s, ind + 1, openCount - 1, dp) ? 1 : 0;
+        } else if (ch == '*') {
+            // we have three choices either treat this as 1) '('  2) ')' or 3) empty string. 
+            // and if any of them return True then return True.
+            bool res = check(s, ind + 1, openCount + 1, dp) ||
+                       check(s, ind + 1, openCount - 1, dp) ||
+                       check(s, ind + 1, openCount, dp);
+            dp[ind][openCount] = res ? 1 : 0;
+        } else {
+            dp[ind][openCount] = check(s, ind + 1, openCount, dp) ? 1 : 0;
+        }
+
+        return dp[ind][openCount] == 1;
+    }
+};
+"""
+
 
 # Method  3: 
 
@@ -205,3 +368,4 @@ public:
     }
 };
 '''
+

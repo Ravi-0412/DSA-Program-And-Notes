@@ -110,3 +110,180 @@ class LRUCache:
     #         # now delete Lru from hashmap also
     #         del self.cache[lst_used.key]    # only in this case we need to delete from hashmap
     #         self.Insert(self.cache[key])
+
+
+
+# java
+"""
+class Node {
+    int key, val;
+    Node prev, next;
+
+    public Node(int key, int val) {
+        this.key = key;
+        this.val = val;
+    }
+}
+
+class LRUCache {
+    int cap;
+    Map<Integer, Node> cache;
+    Node Lru, Mru;
+
+    public LRUCache(int capacity) {
+        this.cap = capacity;
+        this.cache = new HashMap<>();
+        // doubly Linked List with key-value pair.
+        this.Lru = new Node(0, 0);  // Lru.next will always point to the least recently used Node. Keeping Lru leftmost side of the list 
+        this.Mru = new Node(0, 0);  // Mru.pre will always point to the most recently used Node. keeping Mru rightmost side of the list
+        this.Lru.next = this.Mru;
+        this.Mru.prev = this.Lru;
+    }
+
+    // insertion will always happen at right side just before Mru as any inserted ele will become the Mru
+    // Logic: Just we insert before a give node 'mru' in a doubly linklist.
+    // Time : O(1)
+    private void insert(Node node) {
+        // first connect the new_node to nodes on its next and prev.
+        node.next = Mru;
+        node.prev = Mru.prev;
+        // Now connect the existing nodes to new node.
+        Mru.prev.next = node;
+        Mru.prev = node;
+    }
+
+    // we will have to delete from any position like when put is called and capacity if full.
+    // Time : O(1)
+    private void delete(Node node) {
+        // just like we delete the middle node in doubly linked list.
+        // In short
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+
+    public int get(int key) {
+        // if key in cache, just delete from its position and keep it at the rightmost side as this is Mru now.
+        // and return its val
+        // if not present then simply return -1
+        if (cache.containsKey(key)) {
+            delete(cache.get(key)); // passing the node that we have to delete
+            insert(cache.get(key));
+            return cache.get(key).val; // return the value of node associated with key.
+        }
+        return -1;
+    }
+
+    public void put(int key, int value) {
+        // if key in cache, just delete from its position.
+        // after that insert it at the righmost side  as this is Mru now. 
+        // we have to insert if not present also 
+        // if not present then add in hashmap. 
+
+        if (cache.containsKey(key)) {
+            delete(cache.get(key));
+        }
+        cache.put(key, new Node(key, value));
+        insert(cache.get(key));
+
+        // after inserting check if capacity of cache is greater than given capacity.
+        if (cache.size() > cap) {
+            // delete the Lru from the list i.e node just after the Lru pointer
+            Node lstUsed = Lru.next;  // storing the node that we have to delete. lst_used: least recently used
+            delete(lstUsed);
+            // now delete Lru from hashmap also
+            cache.remove(lstUsed.key); // only in this case we need to delete from hashmap
+        }
+    }
+}
+"""
+
+
+# C++
+"""
+class Node {
+public:
+    int key, val;
+    Node* prev;
+    Node* next;
+
+    Node(int k, int v) {
+        key = k;
+        val = v;
+        prev = nullptr;
+        next = nullptr;
+    }
+};
+
+class LRUCache {
+private:
+    int cap;
+    unordered_map<int, Node*> cache;
+    Node* Lru;
+    Node* Mru;
+
+public:
+    LRUCache(int capacity) {
+        cap = capacity;
+        // doubly Linked List with key-value pair.
+        Lru = new Node(0, 0); // Lru->next will always point to the least recently used Node. Keeping Lru leftmost side of the list 
+        Mru = new Node(0, 0); // Mru->prev will always point to the most recently used Node. keeping Mru rightmost side of the list
+        Lru->next = Mru;
+        Mru->prev = Lru;
+    }
+
+    // insertion will always happen at right side just before Mru as any inserted ele will become the Mru
+    // Logic: Just we insert before a give node 'mru' in a doubly linklist.
+    // Time : O(1)
+    void insert(Node* node) {
+        // first connect the new_node to nodes on its next and prev.
+        node->next = Mru;
+        node->prev = Mru->prev;
+        // Now connect the existing nodes to new node.
+        Mru->prev->next = node;
+        Mru->prev = node;
+    }
+
+    // we will have to delete from any position like when put is called and capacity if full.
+    // Time : O(1)
+    void deleteNode(Node* node) {
+        // just like we delete the middle node in doubly linked list.
+        // In short
+        node->prev->next = node->next;
+        node->next->prev = node->prev;
+    }
+
+    int get(int key) {
+        // if key in cache, just delete from its position and keep it at the rightmost side as this is Mru now.
+        // and return its val
+        // if not present then simply return -1
+        if (cache.find(key) != cache.end()) {
+            deleteNode(cache[key]);
+            insert(cache[key]);
+            return cache[key]->val;
+        }
+        return -1;
+    }
+
+    void put(int key, int value) {
+        // if key in cache, just delete from its position.
+        // after that insert it at the righmost side  as this is Mru now. 
+        // we have to insert if not present also 
+        // if not present then add in hashmap. 
+
+        if (cache.find(key) != cache.end()) {
+            deleteNode(cache[key]);
+        }
+        cache[key] = new Node(key, value);
+        insert(cache[key]);
+
+        // after inserting check if capacity of cache is greater than given capacity.
+        if (cache.size() > cap) {
+            // delete the Lru from the list i.e node just after the Lru pointer
+            Node* lstUsed = Lru->next;  // storing the node that we have to delete. lst_used: least recently used
+            deleteNode(lstUsed);
+            // now delete Lru from hashmap also
+            cache.erase(lstUsed->key); // only in this case we need to delete from hashmap
+        }
+    }
+};
+"""

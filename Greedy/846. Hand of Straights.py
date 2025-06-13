@@ -30,6 +30,116 @@ class Solution:
                 first_ele+= 1
         return True
 
+# Java
+"""
+import java.util.*;
+
+class Solution {
+    public boolean isNStraightHand(int[] hand, int groupSize) {
+        int n = hand.length;
+        
+        if (n % groupSize != 0) {
+            return false;
+        }
+
+        if (groupSize == 1) {
+            return true;
+        }
+
+        // cnt = collections.defaultdict(int)
+        Map<Integer, Integer> cnt = new HashMap<>();
+        for (int num : hand) {
+            cnt.put(num, cnt.getOrDefault(num, 0) + 1);
+        }
+
+        // since we want minimum each time for a group
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for (int num : hand) {
+            pq.offer(num);
+        }
+
+        for (int i = 0; i < n / groupSize; i++) {
+            // finding the 1st ele of group
+            int first_ele = pq.poll();
+            
+            // check if this ele has already occured to it's frequency and find the ele with atleast one freq remaining.
+            while (cnt.get(first_ele) == 0) {
+                first_ele = pq.poll();
+            }
+
+            // now find all the elements of the group, we have got the starting ele of gr in 'first_ele'
+            // other remaining number must be consecutive to that.
+            for (int j = 0; j < groupSize; j++) {
+                cnt.put(first_ele, cnt.getOrDefault(first_ele, 0) - 1);
+                if (cnt.get(first_ele) < 0) {
+                    // means this no is not available or it has been used equal to no of times of it's frequency.
+                    return false;
+                }
+                first_ele += 1;
+            }
+        }
+        return true;
+    }
+}
+"""
+
+# C++
+"""
+#include <vector>
+#include <queue>
+#include <unordered_map>
+using namespace std;
+
+class Solution {
+public:
+    bool isNStraightHand(vector<int>& hand, int groupSize) {
+        int n = hand.size();
+
+        if (n % groupSize != 0) {
+            return false;
+        }
+
+        if (groupSize == 1) {
+            return true;
+        }
+
+        // cnt = collections.defaultdict(int)
+        unordered_map<int, int> cnt;
+        for (int num : hand) {
+            cnt[num]++;
+        }
+
+        // since we want minimum each time for a group
+        priority_queue<int, vector<int>, greater<int>> pq;
+        for (int num : hand) {
+            pq.push(num);
+        }
+
+        for (int i = 0; i < n / groupSize; i++) {
+            // finding the 1st ele of group
+            int first_ele = pq.top(); pq.pop();
+
+            // check if this ele has already occured to it's frequency and find the ele with atleast one freq remaining.
+            while (cnt[first_ele] == 0) {
+                first_ele = pq.top(); pq.pop();
+            }
+
+            // now find all the elements of the group, we have got the starting ele of gr in 'first_ele'
+            // other remaining number must be consecutive to that.
+            for (int j = 0; j < groupSize; j++) {
+                cnt[first_ele]--;
+                if (cnt[first_ele] < 0) {
+                    // means this no is not available or it has been used equal to no of times of it's frequency.
+                    return false;
+                }
+                first_ele += 1;
+            }
+        }
+
+        return true;
+    }
+};
+"""
 
 # Method 2: No need of heap, we can sort and use pointer
 """

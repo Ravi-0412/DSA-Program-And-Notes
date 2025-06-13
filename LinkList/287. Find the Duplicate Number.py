@@ -1,156 +1,178 @@
-# Method 1: Marking visited in input array only.
-# Logic: when you see any number nums[i] then, mark it as visited by making 
-# value at index 'nums[i]' as negative i.e nums[nums[i]] = - nums[nums[i]]. it means we have seen 'nums[i]'.
-# So for each element nums[i], check if we have already visited 'nums[i]' by checking if 'nums[nums[i]] < 0'.
-# if negative then nums[i] is our ans.
+# Note: 1) Here duplicate ele can repeat any number of times.
+# So sum(nums) - sum_till_n won't work.
 
-# When can we apply this logic?
-# when value of array element lies in range '0' to 'n-1' i.e 0 <= nums[i] <= n - 1 . n = len(array)
-# Then we can mark visited in same array only.
-class Solution(object):
-    def findDuplicate(self, nums):
-        for i  in range(len(nums)):    
-            ind = abs(nums[i])  # nums[i] can be negative so make it +ve first to check at its index
-            if nums[ind] < 0:
-                # means we have visited 'nums[i]' before so return abs(nums[i]) as nums[i] can be negative also
-                return abs(nums[i])
-            nums[ind] = -nums[ind]    # nums[nums[i]] = - nums[nums[i]] will give wrong and because 'nums[i]' can be negative
-                                      # e.g: [1, 2, 2]
-        return 1
+# Note : 2) we can reduce this q : "find the element with max frequency".
+# We can think logic of 'majority ele' to do this but majority ele logic only works if 'majority ele' exists for sure.
+# But here ans_ele can have any freq from 2,3,....till 'n'.
+# So this will also don't work.
 
-# Method 2: 
 
-# here that number can repeat any no of times
-# time: O(n), space: O(1)
-# logic: sb number ko pointer mano, like index 1 pe jo number h usko kahan point karna chahiye apne value ke anusar(kis index pe)
-# diagram banao like: 'i' index pe kon sa number h say 'x' then 'x' should point to number sitting on index 'i' ,
-# isi tarah se diagram banao
-# finally ek linklist jaisa banega diagram or jo number repeat ho rha hoga wahan pe more than one pointer hoga
-# (you will get that number directly).
+# Method 1:
 
-# since only 'n' different number is kept as 'n+1' location then there must be atleast one no repeaetd and there must be a cycle.
+# Logic: Since all values of the array are between '1' to 'n' and array size is 'n+1' .
+# so index can go from '0' to 'n'.
 
-# Note: now this Q reduces to , find the starting node in a cyclic linklist that will be the ans.
+# How to do?
+# While tarversing array say cur_num =  'num' then, mark the ele at index 'num' to its negative value.
+# You are just marking to check that you have already visited 'num' before and 
+# if you find value at index 'num' negative, it will mean that that number is repeating.
+# So 'num' will be our ans only.
 
-# for this , 1) first find the intersection point of slow and fast pointer 
-# 2) now take one pointer from start say as 'slow1' and move 'slow' and 'slow1' one step ahead till they meet 
-# 3) the node at which they will meet will be the starting node of the cycle
+# Note : we are modifying array in this method. But we are not allowed to do this.
 
-# Note: the distance of 'node at which cycle start' from start and from the node where 'slow' and 'fast' has intersected will be always same
-# always keep in mind the above things
+# Time = O(n), space = O(1)
+
+
+class Solution:
+    def findDuplicate(self, nums: List[int]) -> int:
+        for num in nums:
+            idx = abs(num)   # taking abs of 'num' to check value at that index.
+                            # because we are modifying the array so later ele may contain negative values.
+                            # But index can't be negative.
+            if nums[idx] < 0:
+                # 'num' index wala ele i.e 'num' only is already visited.
+                return idx
+            # mark 'num' visited by changing the value at index 'num' to negative value.
+            nums[idx] = - nums[idx]
+
+
+# Mmethod 2:
+# Floyd's Cycle Detection Algorithm= > using slow and fast pointer.
+
+# How to think?
+# The key is to understand how to treat the input array as a linked list.
+
+# Take the array [1,3,4,2] as an example, the index of this
+# array is [0,1,2,3], we can map the index to the nums[n]
+# i.e 0→1→3→2→4 
+
+# How mapping: 
+# index '0' pe kon sa num h (1), '1' index pe kon sa number h '3', '3' index pe kon sa number h '2' ,.......
+# till index goes out of bound like linklist.
+
+# take another example
+# array : [1,3,4,2,2]
+# then it will form linklist like: 0 ->1 ->3 -> 2 -> 4 -> 2 -> 4 .....
+# Here you can see cycle starts to repeat from num = 2.
+
+# So now this Q reduces to: "Find the starting node from which cycle starts in linklist".
+
+# Q is based on this logic only.
+
+# Note: Here we are not modifying the array. 
+
+# Just same logic :" 142. Linked List Cycle II".
+# Time = O(n), space = O(1)
 
 class Solution:
     def findDuplicate(self, nums: List[int]) -> int:
         # find whether cycle exist or not , but here it will exist for sure
-        # for this , find the intersection point of  slow and fast
-        slow, fast= 0, 0  # we have to start with number from index '0' only
+        # for this , find the intersection point(index) slow and fast
+        slow, fast= 0, 0  # we have to start from index '0' only
         while True:
             slow= nums[slow]
-            fast= nums[nums[fast]]   # we have to incremenet fast two times so wrote like this
+            fast= nums[nums[fast]]
             if fast== slow:
                 break
-        # now find the starting node of the cycle
+        # now fins the starting node of the cycle
         slow1= 0
         while True:
             slow= nums[slow]
-            slow1= nums[slow2]
+            slow1= nums[slow1]
             if slow== slow1:
                 return slow
 
 
-# java
+# Java
 """
-// method 1:
-class Solution {
+// Method 1:
+public class Solution {
     public int findDuplicate(int[] nums) {
-        for (int i = 0; i < nums.length; i++) {
-            int index = Math.abs(nums[i]);
-            if (nums[index] < 0) {
-                return index;
+        for (int num : nums) {
+            int idx = Math.abs(num);  // taking abs of 'num' to check value at that index.
+                                       // because we are modifying the array so later ele may contain negative values.
+                                       // But index can't be negative.
+            if (nums[idx] < 0) {
+                // 'num' index wala ele i.e 'num' only is already visited.
+                return idx;
             }
-            nums[index] = -nums[index];
+            // mark 'num' visited by changing the value at index 'num' to negative value.
+            nums[idx] = -nums[idx];
         }
-        return 1;  // only for sake for returning int
+        return -1;
     }
 }
 
 
 // Method 2:
-
-class Solution {
+public class Solution {
     public int findDuplicate(int[] nums) {
         // find whether cycle exist or not , but here it will exist for sure
-        // for this , find the intersection point of  slow and fast
-        int slow = 0, fast = 0;
+        // for this , find the intersection point(index) slow and fast
+        int slow = 0, fast = 0;  // we have to start from index '0' only
         while (true) {
             slow = nums[slow];
-            fast = nums[nums[fast]];   // we have to increment fast two times so wrote like this
-            if (fast == slow) {
-                break;
-            }
+            fast = nums[nums[fast]];
+            if (fast == slow) break;
         }
+
         // now find the starting node of the cycle
-        slow = 0;
+        int slow1 = 0;
         while (true) {
             slow = nums[slow];
-            fast = nums[fast];
-            if (slow == fast) {
-                return slow;
-            }
+            slow1 = nums[slow1];
+            if (slow == slow1) return slow;
         }
     }
 }
 
+
 """
 
-# C++ Code
+
+# C++
 """
-//Method 1
-#include <iostream>
-#include <vector>
-
-using namespace std;
-
+// Method 1:
 class Solution {
 public:
     int findDuplicate(vector<int>& nums) {
-        for (int i = 0; i < nums.size(); i++) {
-            int ind = abs(nums[i]); // Ensure index is positive
-            if (nums[ind] < 0) {
-                return abs(nums[i]); // Found duplicate
+        for (int num : nums) {
+            int idx = abs(num);  // taking abs of 'num' to check value at that index.
+                                  // because we are modifying the array so later ele may contain negative values.
+                                  // But index can't be negative.
+            if (nums[idx] < 0) {
+                // 'num' index wala ele i.e 'num' only is already visited.
+                return idx;
             }
-            nums[ind] = -nums[ind]; // Mark index as visited
+            // mark 'num' visited by changing the value at index 'num' to negative value.
+            nums[idx] = -nums[idx];
         }
-        return -1; // Shouldn't reach here as per problem constraints
+        return -1;
     }
 };
-//Method 2
-#include <iostream>
-#include <vector>
 
-using namespace std;
 
+// Method 2:
 class Solution {
 public:
     int findDuplicate(vector<int>& nums) {
-        // Step 1: Detect cycle
-        int slow = nums[0];
-        int fast = nums[0];
-
+        // find whether cycle exist or not , but here it will exist for sure
+        // for this , find the intersection point(index) slow and fast
+        int slow = 0, fast = 0;  // we have to start from index '0' only
         while (true) {
-            slow = nums[slow];         // Move slow pointer one step
-            fast = nums[nums[fast]];   // Move fast pointer two steps
-            if (slow == fast) break;   // Cycle detected
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+            if (fast == slow) break;
         }
 
-        // Step 2: Find entry point of cycle
-        int slow1 = nums[0];
-        while (slow1 != slow) {
+        // now find the starting node of the cycle
+        int slow1 = 0;
+        while (true) {
             slow = nums[slow];
             slow1 = nums[slow1];
+            if (slow == slow1) return slow;
         }
-
-        return slow; // Duplicate number
     }
 };
+
 """

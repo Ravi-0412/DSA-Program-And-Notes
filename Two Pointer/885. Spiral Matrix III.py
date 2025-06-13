@@ -1,3 +1,6 @@
+# Method 1: 
+# Similar code as 'Spiral 1 and spiral 2'
+
 # Logic : 
 """
 Take steps one by one.
@@ -23,7 +26,6 @@ When we will complete a spiral i.e after going all directions.
 # Time O(max(R,C)^2)
 # Space O(R*C) for output
 
-# Method 1: Similar code as 'Spiral 1 and spiral 2'
 
 class Solution(object):
     
@@ -71,7 +73,10 @@ class Solution(object):
             
         return res
 
-# Method 2: Concise one
+# Method 2: 
+# Concise one of method 1
+# Time O(max(R,C)^2)
+# Space O(R*C) for output
 class Solution:
     def spiralMatrixIII(self, rows, cols, rStart, cStart):
         directions =  [[0, 1], [1, 0], [0, -1], [-1, 0]] # east, south, west, north

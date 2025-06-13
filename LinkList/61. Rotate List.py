@@ -22,6 +22,11 @@ make pre.next= None and last.next = head and make head = kth node from end and r
 
 You can try this on your own.
 """
+"""
+Analysis:
+Time Complexity: O(n), where n is the number of nodes in the linked list. We traverse the list once to find the length and once more to find the new head.
+Space Complexity: O(1), as we are not using any extra space for data structures.
+"""
 
 class Solution:
     def rotateRight(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
@@ -47,12 +52,6 @@ class Solution:
         cur.next = None
         last_node.next= head
         return head_node_after_rotation
-"""
-Method 1 Analysis:
-Time Complexity: O(n), where n is the number of nodes in the linked list. We traverse the list once to find the length and once more to find the new head.
-Space Complexity: O(1), as we are not using any extra space for data structures.
-"""
-
 
 
 # 2nd method : 
@@ -60,6 +59,11 @@ Space Complexity: O(1), as we are not using any extra space for data structures.
 # step: 1) starting till 'n-k' tak reverse karo then
 # 2) last ka 'k' node ko reverse karke phle wale ke saath attach kar do
 # 3) finally jo linlist upper aaya hoga usko reverse kar do pura
+"""
+Analysis:
+Time Complexity: O(n), where n is the number of nodes in the linked list. We traverse the list to find the length and then to find the new tail.
+Space Complexity: O(1), as we are not using any extra space for data structures.
+"""
 
 class Solution:
     def rotateRight(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
@@ -91,8 +95,149 @@ class Solution:
         
         return new_head
 
+
+# Java
 """
-Method 2 Analysis:
-Time Complexity: O(n), where n is the number of nodes in the linked list. We traverse the list to find the length and then to find the new tail.
-Space Complexity: O(1), as we are not using any extra space for data structures.
+// Method 1:
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if (head == null) return head;
+
+        ListNode curr = head;
+        int n = 0; // for length
+        ListNode last_node = null; // storing the last ele as we have to connect this next to head of current linklist
+
+        while (curr != null) {
+            n++;
+            last_node = curr;
+            curr = curr.next;
+        }
+
+        k = k % n;
+        if (k == 0) return head;  // if 'k' is '0' or multiple of length then we have to return the same list
+
+        int count = 1; // will go till 'n-k'
+        ListNode cur = head;
+        while (count < n - k) {
+            cur = cur.next;
+            count++;
+        }
+
+        ListNode head_node_after_rotation = cur.next;
+        cur.next = null;
+        last_node.next = head;
+
+        return head_node_after_rotation;
+    }
+}
+
+
+// Method 2:
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if (head == null || head.next == null || k == 0) return head;
+
+        // Step 1: Find the length of the list and the last node
+        int length = 1;
+        ListNode last_node = head;
+        while (last_node.next != null) {
+            last_node = last_node.next;
+            length++;
+        }
+
+        // Step 2: Calculate effective rotations
+        k = k % length;
+        if (k == 0) return head;
+
+        // Step 3: Find the new tail (n-k) and new head (n-k+1)
+        ListNode new_tail = head;
+        for (int i = 0; i < length - k - 1; i++) {
+            new_tail = new_tail.next;
+        }
+
+        ListNode new_head = new_tail.next;
+
+        // Step 4: Rotate the list
+        new_tail.next = null;
+        last_node.next = head;
+
+        return new_head;
+    }
+}
+
+
+
+"""
+
+# C++
+"""
+// Method 1:
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        if (!head) return head;
+
+        ListNode* curr = head;
+        int n = 0; // for length
+        ListNode* last_node = nullptr; // storing the last ele as we have to connect this next to head of current linklist
+
+        while (curr) {
+            n++;
+            last_node = curr;
+            curr = curr->next;
+        }
+
+        k = k % n;
+        if (k == 0) return head;  // if 'k' is '0' or multiple of length then we have to return the same list
+
+        int count = 1; // will go till 'n-k'
+        ListNode* cur = head;
+        while (count < n - k) {
+            cur = cur->next;
+            count++;
+        }
+
+        ListNode* head_node_after_rotation = cur->next;
+        cur->next = nullptr;
+        last_node->next = head;
+
+        return head_node_after_rotation;
+    }
+};
+
+// Method 2:
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        if (!head || !head->next || k == 0) return head;
+
+        // Step 1: Find the length of the list and the last node
+        int length = 1;
+        ListNode* last_node = head;
+        while (last_node->next) {
+            last_node = last_node->next;
+            length++;
+        }
+
+        // Step 2: Calculate effective rotations
+        k = k % length;
+        if (k == 0) return head;
+
+        // Step 3: Find the new tail (n-k) and new head (n-k+1)
+        ListNode* new_tail = head;
+        for (int i = 0; i < length - k - 1; i++) {
+            new_tail = new_tail->next;
+        }
+
+        ListNode* new_head = new_tail->next;
+
+        // Step 4: Rotate the list
+        new_tail->next = nullptr;
+        last_node->next = head;
+
+        return new_head;
+    }
+};
+
+
 """

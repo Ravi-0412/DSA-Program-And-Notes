@@ -41,3 +41,60 @@ class Solution:
             # else it will get bursted by pre throw only
         return ans
 
+
+# Java
+"""
+import java.util.Arrays;
+
+class Solution {
+    public int findMinArrowShots(int[][] points) {
+        // sorting based on ending point
+        Arrays.sort(points, (a, b) -> Integer.compare(a[1], b[1]));
+
+        int ans = 1;
+        int curEnd = points[0][1];  // just we are throwing the balloons from this coordinate
+
+        for (int i = 1; i < points.length; i++) {
+            if (curEnd < points[i][0]) {
+                // we will need new throw.
+                ans += 1;
+                curEnd = points[i][1];  // new throw point, end point of cur one.
+            }
+            // else it will get bursted by pre throw only
+        }
+
+        return ans;
+    }
+}
+"""
+
+# C++
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int findMinArrowShots(vector<vector<int>>& points) {
+        // sorting based on ending point
+        sort(points.begin(), points.end(), [](const vector<int>& a, const vector<int>& b) {
+            return a[1] < b[1];
+        });
+
+        int ans = 1;
+        int curEnd = points[0][1];  // just we are throwing the balloons from this coordinate
+
+        for (int i = 1; i < points.size(); i++) {
+            if (curEnd < points[i][0]) {
+                // we will need new throw.
+                ans += 1;
+                curEnd = points[i][1];  // new throw point, end point of cur one.
+            }
+            // else it will get bursted by pre throw only
+        }
+
+        return ans;
+    }
+};
+"""

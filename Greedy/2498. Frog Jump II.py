@@ -84,7 +84,126 @@ class Solution:
             else:
                 l = mid + 1 
         return ans
-                
+
+# java
+"""
+import java.util.*;
+
+class Solution {
+    int[] stones;
+    int n;
+
+    public int maxJump(int[] stones) {
+        this.stones = stones;
+        this.n = stones.length;
+
+        int l = 0, r = 1000000000 + 1;
+        int ans = -1;
+        while (l <= r) {
+            int mid = l + (r - l) / 2;
+            if (helper(mid)) {
+                ans = mid;
+                r = mid - 1;
+            } else {
+                l = mid + 1;
+            }
+        }
+        return ans;
+    }
+
+    // helper(mid)
+    boolean helper(int mid) {
+        Set<Integer> dels = new HashSet<>();
+        int prev = stones[0];
+        int idx = 0;
+        for (int i = 1; i < n; i++) {
+            if (Math.abs(stones[i] - prev) > mid) {
+                if (idx == i - 1) {
+                    return false;
+                }
+                prev = stones[i - 1];
+                dels.add(i - 1);
+            } else {
+                prev = stones[i];
+                idx = i;
+            }
+        }
+        prev = stones[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            if (dels.contains(i)) {
+                continue;
+            }
+            if (Math.abs(stones[i] - prev) > mid) {
+                return false;
+            }
+            prev = stones[i];
+        }
+        return true;
+    }
+}
+"""
+
+# C++ 
+"""
+#include <vector>
+#include <unordered_set>
+#include <cmath>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> stones;
+    int n;
+
+    int maxJump(vector<int>& inputStones) {
+        stones = inputStones;
+        n = stones.size();
+
+        int l = 0, r = 1000000000 + 1;
+        int ans = -1;
+        while (l <= r) {
+            int mid = l + (r - l) / 2;
+            if (helper(mid)) {
+                ans = mid;
+                r = mid - 1;
+            } else {
+                l = mid + 1;
+            }
+        }
+        return ans;
+    }
+
+    // helper(mid)
+    bool helper(int mid) {
+        unordered_set<int> dels;
+        int prev = stones[0];
+        int idx = 0;
+        for (int i = 1; i < n; i++) {
+            if (abs(stones[i] - prev) > mid) {
+                if (idx == i - 1) {
+                    return false;
+                }
+                prev = stones[i - 1];
+                dels.insert(i - 1);
+            } else {
+                prev = stones[i];
+                idx = i;
+            }
+        }
+        prev = stones[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            if (dels.count(i)) {
+                continue;
+            }
+            if (abs(stones[i] - prev) > mid) {
+                return false;
+            }
+            prev = stones[i];
+        }
+        return true;
+    }
+};
+"""
 
 
 # Method 2: 

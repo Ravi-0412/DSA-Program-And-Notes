@@ -94,8 +94,11 @@ class Solution:
             return 0
 
 
-# method 4: optimising the space complexity
+# method 4: 
+# optimising the space complexity
 # just reverse method 3
+# time: o(n), space= o(n)
+
 class Solution:
     def findUnsortedSubarray(self, nums: List[int]) -> int:
         if len(nums) <2:
@@ -123,3 +126,246 @@ class Solution:
             return end - start + 1
         else: # means array is sorted
             return 0
+
+
+# Java
+"""
+// Method 1:
+class Solution {
+    public int findUnsortedSubarray(int[] nums) {
+        int n = nums.length;
+        // start,end will give the starting and last index index of subarray respectively
+        int start = n, end = 0;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (nums[i] > nums[j]) {
+                    start = Math.min(start, i);
+                    end = Math.max(end, j);
+                }
+            }
+        }
+        if (end == 0)  // for already sorted array
+            return 0;
+        else
+            return end - start + 1;
+    }
+}
+
+// Method 2:
+class Solution {
+    public int findUnsortedSubarray(int[] nums) {
+        int n = nums.length;
+        int[] sorted_nums = nums.clone();
+        Arrays.sort(sorted_nums);
+        int start = n - 1, end = 0;
+        // compare both list, whenever there will be 1st mistmatch that will the 'start' value
+        // and last mismatch will give the value of 'end'
+        // in case of any mismatch keep updating the start and end 
+        for (int i = 0; i < n; i++) {
+            if (nums[i] != sorted_nums[i]) {
+                start = Math.min(start, i);
+                end = Math.max(end, i);
+            }
+        }
+        if (end == 0)  // means array is already sorted
+            return 0;
+        else
+            return end - start + 1;
+    }
+}
+
+// Method 3:
+class Solution {
+    public int findUnsortedSubarray(int[] nums) {
+        int n = nums.length;
+        Stack<Integer> stack = new Stack<>(); // used to store the index of start and end 
+        int start = n - 1, end = 0;
+
+        // For each ele, search for its proper position in the array
+        for (int i = 0; i < n; i++) {
+            while (!stack.isEmpty() && nums[stack.peek()] > nums[i]) {
+                // out of order means 'stack' top may be the possible index from we have to start sorting.
+                start = Math.min(start, stack.pop());
+            }
+            stack.push(i);
+        }
+
+        stack.clear();
+        for (int i = n - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && nums[stack.peek()] < nums[i]) {
+                end = Math.max(end, stack.pop());
+            }
+            stack.push(i);
+        }
+
+        // if array is not sorted then start will be somewhere before end. so 'end-start' will be greater than zero
+        if (end - start > 0)  // means array is not already sorted, if array is already sorted then start = n-1 and end = 0
+            return end - start + 1;  // this will give the final ans
+        else  // if array is already sorted
+            return 0;
+    }
+}
+
+// Method 4:
+class Solution {
+    public int findUnsortedSubarray(int[] nums) {
+        if (nums.length < 2) return 0;
+
+        int prev_max = nums[0];   // it will store the largest pre ele till now
+        int end = 0;  // maximum till where we need to sort.
+        // find the largest index not in place from starting to find the 'end'
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] < prev_max) {
+                // if inordered . nums[i] bda hona chahiye tha
+                end = i;
+            } else {  // means in order
+                // max_seen (prev_max) se bhi bda then order me h
+                prev_max = nums[i];
+            }
+        }
+
+        int start = nums.length - 1;
+        int prev = nums[start];   // min index from where we need to sort
+        for (int i = nums.length - 2; i >= 0; i--) {
+            if (prev < nums[i]) {
+                start = i;
+            } else {
+                prev = nums[i];
+            }
+        }
+
+        if (end != 0)
+            return end - start + 1;
+        else // means array is sorted
+            return 0;
+    }
+}
+"""
+
+# C++
+"""
+// Method 1:
+class Solution {
+public:
+    int findUnsortedSubarray(vector<int>& nums) {
+        int n = nums.size();
+        // start,end will give the starting and last index of subarray respectively
+        int start = n, end = 0;
+        for (int i = 0; i < n - 1; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                if (nums[i] > nums[j]) {
+                    start = min(start, i);
+                    end = max(end, j);
+                }
+            }
+        }
+        if (end == 0)  // for already sorted array
+            return 0;
+        else
+            return end - start + 1;
+    }
+};
+
+// Method 2:
+class Solution {
+public:
+    int findUnsortedSubarray(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> sorted_nums(nums.begin(), nums.end());
+        sort(sorted_nums.begin(), sorted_nums.end());
+        int start = n - 1, end = 0;
+        
+        // compare both list, whenever there will be 1st mismatch that will be the 'start' value
+        // and last mismatch will give the value of 'end'
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] != sorted_nums[i]) {
+                start = min(start, i);
+                end = max(end, i);
+            }
+        }
+        if (end == 0)  // means array is already sorted
+            return 0;
+        else
+            return end - start + 1;
+    }
+};
+
+
+// Method 3:
+class Solution {
+public:
+    int findUnsortedSubarray(vector<int>& nums) {
+        int n = nums.size();
+        stack<int> stk;  // used to store the index of start and end
+        int start = n - 1, end = 0;
+
+        // For each ele, search for its proper position in the array
+        for (int i = 0; i < n; ++i) {
+            while (!stk.empty() && nums[stk.top()] > nums[i]) {
+                // out of order means 'stk' top may be the possible index from we have to start sorting.
+                start = min(start, stk.top());
+                stk.pop();
+            }
+            stk.push(i);
+        }
+
+        while (!stk.empty()) stk.pop(); // clear stack
+
+        for (int i = n - 1; i >= 0; --i) {
+            while (!stk.empty() && nums[stk.top()] < nums[i]) {
+                end = max(end, stk.top());
+                stk.pop();
+            }
+            stk.push(i);
+        }
+
+        // if array is not sorted then start will be somewhere before end.
+        if (end - start > 0)
+            return end - start + 1;
+        else  // array is already sorted
+            return 0;
+    }
+};
+
+
+// Method 4:
+class Solution {
+public:
+    int findUnsortedSubarray(vector<int>& nums) {
+        if (nums.size() < 2) return 0;
+
+        int prev_max = nums[0];   // it will store the largest pre ele till now
+        int end = 0;  // maximum till where we need to sort.
+
+        // find the largest index not in place from starting to find the 'end'
+        for (int i = 1; i < nums.size(); ++i) {
+            if (nums[i] < prev_max) {
+                // if unordered. nums[i] bda hona chahiye tha
+                end = i;
+            } else {
+                // means in order
+                // max_seen (prev_max) se bhi bda then order me h
+                prev_max = nums[i];
+            }
+        }
+
+        int start = nums.size() - 1;
+        int prev = nums[start];   // min index from where we need to sort
+
+        for (int i = nums.size() - 2; i >= 0; --i) {
+            if (prev < nums[i]) {
+                start = i;
+            } else {
+                prev = nums[i];
+            }
+        }
+
+        if (end != 0)
+            return end - start + 1;
+        else  // means array is sorted
+            return 0;
+    }
+};
+
+
+"""

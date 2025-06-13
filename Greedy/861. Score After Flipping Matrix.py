@@ -52,18 +52,19 @@ class Solution:
 
 # Java
 """
-class Solution {
+public class Solution {
     public int matrixScore(int[][] grid) {
         int m = grid.length, n = grid[0].length;
 
-        // Flip rows if the first element is 0
+        // flip rows if its first element is = 0
+        // so that leftmost bit can become '1' for greater number
         for (int i = 0; i < m; i++) {
             if (grid[i][0] == 0) {
-                flipRow(grid, i);
+                flipRow(grid, i, n);
             }
         }
 
-        // Flip columns if the number of 0s is greater than the number of 1s
+        // flip column from '1' if no of '0' is > no of '1'.
         for (int c = 1; c < n; c++) {
             int noOfZero = 0;
             for (int r = 0; r < m; r++) {
@@ -71,33 +72,90 @@ class Solution {
                     noOfZero++;
                 }
             }
+            // if no of zero > no of '1' in this row then flip the row
             if (noOfZero > m - noOfZero) {
-                flipCol(grid, c);
+                flipCol(grid, c, m);
             }
         }
 
-        // Calculate the final score
+        // Now find the ans
         int ans = 0;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
+                // add value of this 'bit' in binary
+                // this will be equal to grid_value * (2 ** 'no of element on right')
                 ans += grid[i][j] * (1 << (n - j - 1));
             }
         }
         return ans;
     }
 
-    private void flipRow(int[][] grid, int r) {
-        int n = grid[0].length;
+    private void flipRow(int[][] grid, int r, int n) {
         for (int c = 0; c < n; c++) {
             grid[r][c] ^= 1;
         }
     }
 
-    private void flipCol(int[][] grid, int c) {
-        int m = grid.length;
+    private void flipCol(int[][] grid, int c, int m) {
         for (int r = 0; r < m; r++) {
             grid[r][c] ^= 1;
         }
     }
 }
+"""
+
+# C++
+"""
+class Solution {
+public:
+    int matrixScore(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size();
+
+        // flip rows if its first element is = 0
+        // so that leftmost bit can become '1' for greater number
+        for (int i = 0; i < m; i++) {
+            if (grid[i][0] == 0) {
+                flipRow(grid, i, n);
+            }
+        }
+
+        // flip column from '1' if no of '0' is > no of '1'.
+        for (int c = 1; c < n; c++) {
+            int noOfZero = 0;
+            for (int r = 0; r < m; r++) {
+                if (grid[r][c] == 0) {
+                    noOfZero++;
+                }
+            }
+            // if no of zero > no of '1' in this row then flip the row
+            if (noOfZero > m - noOfZero) {
+                flipCol(grid, c, m);
+            }
+        }
+
+        // Now find the ans
+        int ans = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                // add value of this 'bit' in binary
+                // this will be equal to grid_value * (2 ** 'no of element on right')
+                ans += grid[i][j] * (1 << (n - j - 1));
+            }
+        }
+        return ans;
+    }
+
+private:
+    void flipRow(vector<vector<int>>& grid, int r, int n) {
+        for (int c = 0; c < n; c++) {
+            grid[r][c] ^= 1;
+        }
+    }
+
+    void flipCol(vector<vector<int>>& grid, int c, int m) {
+        for (int r = 0; r < m; r++) {
+            grid[r][c] ^= 1;
+        }
+    }
+};
 """

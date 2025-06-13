@@ -37,9 +37,6 @@ class Solution:
         return pre  
 
 
-# go through the other approaches in discussion and Neetcode video
-
-
 # Java
 """
 class Solution {

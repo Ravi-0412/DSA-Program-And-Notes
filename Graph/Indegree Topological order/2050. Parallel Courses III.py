@@ -1,5 +1,3 @@
-# Method 1: 
-
 # Q: find the total months required when we will complete all the courses of last level.
 
 """
@@ -12,6 +10,7 @@ This greedy approach won't work.
 e.g : Input: n = 5, relations = [[1,2],[2,5],[3,4],[4,5]], time = [2, 7, 10, 2, 3]
 if we apply this logic then ans = 20 .
 
+Read this: https://leetcode.com/problems/parallel-courses-iii/solutions/1816306/reason-for-10th-test-case-failure-reason-for-wrong-answer/
 """
 
 class Solution:
@@ -50,8 +49,6 @@ class Solution:
 
 
 # Correct method:
-
-
 """
 
 Note: 1st draw above example on pen and paper  for proper visualisation.
@@ -113,34 +110,35 @@ class Solution:
 """
 import java.util.*;
 
-class Solution {
+public class Solution {
     public int minimumTime(int n, int[][] relations, int[] time) {
         List<List<Integer>> adjList = new ArrayList<>();
-        for (int i = 0; i < n; i++) adjList.add(new ArrayList<>());
+        for (int i = 0; i < n; i++) {
+            adjList.add(new ArrayList<>());
+        }
 
-        // building the adjacency list
         for (int[] rel : relations) {
             int prev = rel[0] - 1;
             int next = rel[1] - 1;
-            adjList.get(prev).add(next);  // converting to zero-based indexing
+            adjList.get(prev).add(next);
         }
 
         int[] indegree = new int[n];
-        // finding the indegree of each vertices
         for (int i = 0; i < n; i++) {
             for (int neighbor : adjList.get(i)) {
-                indegree[neighbor]++;  // if neighbor is adj to 'i' means there is one indegree edge to 'neighbor'
+                indegree[neighbor]++;
             }
         }
 
         Queue<Integer> queue = new LinkedList<>();
+        int[] maxTime = Arrays.copyOf(time, n);
+
         for (int i = 0; i < n; i++) {
             if (indegree[i] == 0) {
                 queue.offer(i);
             }
         }
 
-        int[] maxTime = Arrays.copyOf(time, n);
         int months = 0;
 
         while (!queue.isEmpty()) {
@@ -148,15 +146,11 @@ class Solution {
             for (int i = 0; i < size; i++) {
                 int u = queue.poll();
                 months = Math.max(months, maxTime[u]);
-
-                // after popping, decrease the indegree of all nodes adjacent to 'u'
-                for (int v : adjList.get(u)) {
-                    indegree[v]--;
-                    maxTime[v] = Math.max(maxTime[v], maxTime[u] + time[v]);
-
-                    // if indegree becomes zero, we can take this course next
-                    if (indegree[v] == 0) {
-                        queue.offer(v);
+                for (int neighbor : adjList.get(u)) {
+                    indegree[neighbor]--;
+                    maxTime[neighbor] = Math.max(maxTime[neighbor], maxTime[u] + time[neighbor]);
+                    if (indegree[neighbor] == 0) {
+                        queue.offer(neighbor);
                     }
                 }
             }
@@ -165,69 +159,6 @@ class Solution {
         return months;
     }
 }
-
-"""
-
-# C++
-"""
-#include <vector>
-#include <queue>
-#include <algorithm>
-using namespace std;
-
-class Solution {
-public:
-    int minimumTime(int n, vector<vector<int>>& relations, vector<int>& time) {
-        vector<vector<int>> adjList(n);
-
-        // building the adjacency list
-        for (auto& rel : relations) {
-            int prev = rel[0] - 1;
-            int next = rel[1] - 1;
-            adjList[prev].push_back(next);  // converting to zero-based indexing
-        }
-
-        vector<int> indegree(n, 0);
-        // finding the indegree of each vertices
-        for (int i = 0; i < n; i++) {
-            for (int neighbor : adjList[i]) {
-                indegree[neighbor]++;  // if neighbor is adj to 'i' means there is one indegree edge to 'neighbor'
-            }
-        }
-
-        queue<int> q;
-        for (int i = 0; i < n; i++) {
-            if (indegree[i] == 0) {
-                q.push(i);
-            }
-        }
-
-        vector<int> maxTime = time;  // copy initial times
-        int months = 0;
-
-        while (!q.empty()) {
-            int size = q.size();
-            for (int i = 0; i < size; i++) {
-                int u = q.front(); q.pop();
-                months = max(months, maxTime[u]);
-
-                // after popping, decrease the indegree of all nodes adjacent to 'u'
-                for (int v : adjList[u]) {
-                    indegree[v]--;
-                    maxTime[v] = max(maxTime[v], maxTime[u] + time[v]);
-
-                    // if indegree becomes zero, we can take this course next
-                    if (indegree[v] == 0) {
-                        q.push(v);
-                    }
-                }
-            }
-        }
-
-        return months;
-    }
-};
-
 """
 
 
@@ -277,179 +208,56 @@ class Solution:
             dfs(course)
         return max(dp)
 
-
 # java
 """
 import java.util.*;
 
-class Solution {
-    List<List<Integer>> adjList;
-    int[] dp;
-    int[] time;
-
+public class Solution {
     public int minimumTime(int n, int[][] relations, int[] time) {
-        this.time = time;
-        adjList = new ArrayList<>();
-        for (int i = 0; i < n; i++) adjList.add(new ArrayList<>());
-        
+        List<List<Integer>> adjList = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adjList.add(new ArrayList<>());
+        }
+
         for (int[] rel : relations) {
             int prev = rel[0] - 1;
             int next = rel[1] - 1;
-            adjList.get(prev).add(next); // converting to zero-based indexing
+            adjList.get(prev).add(next);
         }
 
-        dp = new int[n];
+        int[] dp = new int[n];
         Arrays.fill(dp, -1);
 
-        // will be called only for 1st level i.e indegree '0'. 
-        // For other courses it will get calculated inside 'dfs' automatically.
-        // Calling for all courses one by one to take care of multiple components.
+        int maxTime = 0;
         for (int i = 0; i < n; i++) {
-            dfs(i);
+            maxTime = Math.max(maxTime, dfs(i, adjList, dp, time));
         }
 
-        int maxTime = 0;
-        for (int t : dp) {
-            maxTime = Math.max(maxTime, t);
-        }
         return maxTime;
     }
 
-    // will give max_path_sum when we start from this given 'course'
-    private int dfs(int course) {
-        if (dp[course] != -1) return dp[course];
+    private int dfs(int course, List<List<Integer>> adjList, int[] dp, int[] time) {
+        if (dp[course] != -1) {
+            return dp[course];
+        }
 
         if (adjList.get(course).isEmpty()) {
-            // If there is no adjacent node to this course i.e. this course is at last level.
             dp[course] = time[course];
             return dp[course];
         }
 
-        // find max path from all its adjacents and add its time to get max_path_sum from this 'course'
         int maxPathSum = 0;
         for (int next : adjList.get(course)) {
-            maxPathSum = Math.max(maxPathSum, dfs(next));
+            maxPathSum = Math.max(maxPathSum, dfs(next, adjList, dp, time));
         }
+
         dp[course] = time[course] + maxPathSum;
         return dp[course];
     }
 }
-
 """
     
 
-# C++
-"""
-#include <vector>
-#include <algorithm>
-using namespace std;
+# Related Q:
+# 1) "1376. Time Needed to Inform All Employees"
 
-class Solution {
-public:
-    vector<vector<int>> adjList;
-    vector<int> dp;
-    vector<int> time;
-
-    int minimumTime(int n, vector<vector<int>>& relations, vector<int>& time) {
-        this->time = time;
-        adjList.resize(n);
-
-        for (auto& rel : relations) {
-            int prev = rel[0] - 1;
-            int next = rel[1] - 1;
-            adjList[prev].push_back(next);  // converting to zero-based indexing
-        }
-
-        dp.assign(n, -1);
-
-        // will be called only for 1st level i.e indegree '0'. 
-        // For other courses it will get calculated inside 'dfs' automatically.
-        // Calling for all courses one by one to take care of multiple components.
-        for (int i = 0; i < n; ++i) {
-            dfs(i);
-        }
-
-        int maxTime = 0;
-        for (int t : dp) {
-            maxTime = max(maxTime, t);
-        }
-        return maxTime;
-    }
-
-    // will give max_path_sum when we start from this given 'course'
-    int dfs(int course) {
-        if (dp[course] != -1) return dp[course];
-
-        if (adjList[course].empty()) {
-            // If there is no adjacent node to this course i.e. this course is at last level.
-            dp[course] = time[course];
-            return dp[course];
-        }
-
-        // find max path from all its adjacents and add its time to get max_path_sum from this 'course'
-        int maxPathSum = 0;
-        for (int next : adjList[course]) {
-            maxPathSum = max(maxPathSum, dfs(next));
-        }
-        dp[course] = time[course] + maxPathSum;
-        return dp[course];
-    }
-};
-#include <vector>
-#include <algorithm>
-using namespace std;
-
-class Solution {
-public:
-    vector<vector<int>> adjList;
-    vector<int> dp;
-    vector<int> time;
-
-    int minimumTime(int n, vector<vector<int>>& relations, vector<int>& time) {
-        this->time = time;
-        adjList.resize(n);
-
-        for (auto& rel : relations) {
-            int prev = rel[0] - 1;
-            int next = rel[1] - 1;
-            adjList[prev].push_back(next);  // converting to zero-based indexing
-        }
-
-        dp.assign(n, -1);
-
-        // will be called only for 1st level i.e indegree '0'. 
-        // For other courses it will get calculated inside 'dfs' automatically.
-        // Calling for all courses one by one to take care of multiple components.
-        for (int i = 0; i < n; ++i) {
-            dfs(i);
-        }
-
-        int maxTime = 0;
-        for (int t : dp) {
-            maxTime = max(maxTime, t);
-        }
-        return maxTime;
-    }
-
-    // will give max_path_sum when we start from this given 'course'
-    int dfs(int course) {
-        if (dp[course] != -1) return dp[course];
-
-        if (adjList[course].empty()) {
-            // If there is no adjacent node to this course i.e. this course is at last level.
-            dp[course] = time[course];
-            return dp[course];
-        }
-
-        // find max path from all its adjacents and add its time to get max_path_sum from this 'course'
-        int maxPathSum = 0;
-        for (int next : adjList[course]) {
-            maxPathSum = max(maxPathSum, dfs(next));
-        }
-        dp[course] = time[course] + maxPathSum;
-        return dp[course];
-    }
-};
-
-
-"""

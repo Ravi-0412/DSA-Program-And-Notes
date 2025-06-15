@@ -1,5 +1,3 @@
-# Method 1: 
-
 """
 logic: when we form tree according the hierarchy then ans= "max cost from root to leaf" where cost= time
 i.e Max path sum from root to leaf.
@@ -13,9 +11,8 @@ say if 'i' will pass info to 'j' then add 'j' adjacent to 'i'.
 It will be a directed graph + no_cyclic. so no need of visited set.
 """
 
+
 # time: O(n)
-
-
 class Solution:
     def numOfMinutes(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:
         hierarchy= collections.defaultdict(list)  # just forming adjacency list, directed graph
@@ -42,39 +39,32 @@ import java.util.*;
 
 class Solution {
     public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
-        Map<Integer, List<Integer>> hierarchy = new HashMap<>();  // just forming adjacency list, directed graph
-
+        Map<Integer, List<Integer>> hierarchy = new HashMap<>();
         for (int i = 0; i < manager.length; i++) {
             if (manager[i] == -1) continue;
-            hierarchy.computeIfAbsent(manager[i], k -> new ArrayList<>()).add(i);  // manager[i] will pass info to these employee
+            hierarchy.computeIfAbsent(manager[i], k -> new ArrayList<>()).add(i);
         }
 
-        // now apply multisource bfs , with source as head.
-        Queue<int[]> q = new LinkedList<>();
-        q.offer(new int[]{informTime[headID], headID});  // [time_to_pass_info, person_who_will_pass_info]
-        int ans = 0;  // minimum time taken can be 'zero'
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(new int[]{informTime[headID], headID});
+        int ans = 0;
 
-        while (!q.isEmpty()) {
-            int[] curr = q.poll();
-            int time = curr[0], id = curr[1];
+        while (!queue.isEmpty()) {
+            int[] current = queue.poll();
+            int time = current[0], id = current[1];
             ans = Math.max(ans, time);
 
             if (hierarchy.containsKey(id)) {
                 for (int emp : hierarchy.get(id)) {
-                    // keep on adding time since it is passing from one person to another just like minimum spanning Tree
-                    q.offer(new int[]{time + informTime[emp], emp});
-                    // informTime[i] == 0 if employee i has no subordinates. This restriction will handle automatically
-                    // if 'emp' has no subordinate.
+                    queue.add(new int[]{time + informTime[emp], emp});
                 }
             }
         }
+
         return ans;
     }
 }
-
 """
-
-
 # C++ Code 
 """
 #include <vector>
@@ -86,65 +76,32 @@ class Solution {
 public:
     int numOfMinutes(int n, int headID, vector<int>& manager, vector<int>& informTime) {
         unordered_map<int, vector<int>> hierarchy;  // just forming adjacency list, directed graph
-
-        for (int i = 0; i < manager.size(); ++i) {
+        for (int i = 0; i < (int)manager.size(); i++) {
             if (manager[i] == -1) continue;
-            hierarchy[manager[i]].push_back(i);  // manager[i] will pass info to these employee
+            hierarchy[manager[i]].push_back(i);  // manager[i] will pass info to these employees
         }
 
-        // now apply multisource bfs , with source as head.
-        queue<pair<int, int>> q;
+        queue<pair<int,int>> q;
         q.push({informTime[headID], headID});  // [time_to_pass_info, person_who_will_pass_info]
         int ans = 0;  // minimum time taken can be 'zero'
-
+        
         while (!q.empty()) {
-            auto [time, id] = q.front();
-            q.pop();
+            auto [time, id] = q.front(); q.pop();
             ans = max(ans, time);
-
-            for (int emp : hierarchy[id]) {
+            for (int direct_emp : hierarchy[id]) {
                 // keep on adding time since it is passing from one person to another just like minimum spanning Tree
-                q.push({time + informTime[emp], emp});
                 // informTime[i] == 0 if employee i has no subordinates. This restriction will handle automatically
-                // if 'emp' has no subordinate.
+                // if 'direct_emp' has no subordinate.
+                q.push({time + informTime[direct_emp], direct_emp});
             }
         }
         return ans;
     }
 };
 
-
 """
 
-# method 2:  
-# using dfs
-
-# my mistake
-# it will give ' sum of time of all inform time'.
-# e.g: n = 15, head = 0, manager = [-1,0,0,1,1,2,2,3,3,4,4,5,5,6,6] , time = [1,1,1,1,1,1,1,0,0,0,0,0,0,0,0]
-    # it will give ans = 7 but actual ans = 3
-
-# Note vvi: Understand the difference between these two mathod properly.
-# Understand this why giving incorrect ans later.
-    
-class Solution:
-    def numOfMinutes(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:
-        hierarchy= collections.defaultdict(list)  # just forming adjacency list, directed graph
-        for i in range(len(manager)):
-            if manager[i]== -1:
-                continue
-            hierarchy[manager[i]].append(i)  # manager[i] will pass info to these employee
-    
-        def dfs(u):
-            ans= informTime[u]
-            for v in hierarchy[u]:
-                ans= max(ans + dfs(v), ans)
-            return ans
-
-        return dfs(headID)
-    
-
-# Correct solution
+# method 2:  using dfs
 
 class Solution:
     def numOfMinutes(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:
@@ -172,7 +129,7 @@ class Solution {
 
         for (int i = 0; i < manager.length; i++) {
             if (manager[i] == -1) continue;
-            hierarchy.computeIfAbsent(manager[i], k -> new ArrayList<>()).add(i);   // manager[i] will pass info to these employees
+            hierarchy.computeIfAbsent(manager[i], k -> new ArrayList<>()).add(i);
         }
 
         return dfs(headID, hierarchy, informTime);
@@ -189,8 +146,6 @@ class Solution {
     }
 }
 """
-
-
 # C++ Code 
 """
 #include <vector>
@@ -223,10 +178,8 @@ public:
 };
 
 """
-
-
-# Method 3: 
-# Better one. Just same as ""2050. Parallel Courses III"." 
+# Other way of writing this
+# Better one. Just same as ""2050. Parallel Courses III"." 2nd method.
 
 class Solution:
     def numOfMinutes(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:
@@ -303,6 +256,89 @@ public:
 };
 
 """
+# my mistake in dfs code
+# it will give ' sum of time of all inform time'.
+# e.g: n = 15, head = 0, manager = [-1,0,0,1,1,2,2,3,3,4,4,5,5,6,6] , time = [1,1,1,1,1,1,1,0,0,0,0,0,0,0,0]
+    # it will give ans = 7 but actual ans = 3
 
+# Note vvi: Understand the difference between these two mathod properly.
+# Understand this why giving incorrect ans later.
+    
+class Solution:
+    def numOfMinutes(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:
+        hierarchy= collections.defaultdict(list)  # just forming adjacency list, directed graph
+        for i in range(len(manager)):
+            if manager[i]== -1:
+                continue
+            hierarchy[manager[i]].append(i)  # manager[i] will pass info to these employee
+    
+        def dfs(u):
+            ans= informTime[u]
+            for v in hierarchy[u]:
+                ans= max(ans + dfs(v), ans)
+            return ans
 
+        return dfs(headID)
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    HashMap<Integer, List<Integer>> hierarchy = new HashMap<>();  // just forming adjacency list, directed graph
+    int[] informTime;
+
+    public int dfs(int u) {
+        int ans = informTime[u];
+        if (hierarchy.containsKey(u)) {
+            for (int v : hierarchy.get(u)) {
+                ans = Math.max(ans + dfs(v), ans);
+            }
+        }
+        return ans;
+    }
+
+    public int numOfMinutes(int n, int headID, int[] manager, int[] informTime_) {
+        informTime = informTime_;
+        hierarchy.clear();
+        for (int i = 0; i < manager.length; i++) {
+            if (manager[i] == -1) continue;
+            hierarchy.computeIfAbsent(manager[i], k -> new ArrayList<>()).add(i); // manager[i] will pass info to these employee
+        }
+        return dfs(headID);
+    }
+}
+
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    unordered_map<int, vector<int>> hierarchy;  // just forming adjacency list, directed graph
+    vector<int> informTime;
+
+    int dfs(int u) {
+        int ans = informTime[u];
+        for (int v : hierarchy[u]) {
+            ans = max(ans + dfs(v), ans);
+        }
+        return ans;
+    }
+
+    int numOfMinutes(int n, int headID, vector<int>& manager, vector<int>& informTime_) {
+        informTime = informTime_;
+        hierarchy.clear();
+        for (int i = 0; i < (int)manager.size(); i++) {
+            if (manager[i] == -1) continue;
+            hierarchy[manager[i]].push_back(i);  // manager[i] will pass info to these employee
+        }
+        return dfs(headID);
+    }
+};
+
+"""

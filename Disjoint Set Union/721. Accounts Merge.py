@@ -1,5 +1,3 @@
-# Method 1: 
-
 """
 How to think about DSU ?
 for simplicity replace the name->0,1,2... for each account.
@@ -73,171 +71,162 @@ class Solution:
             ans.append(merged_account)
         return ans
 
-
 # Java
 """
 import java.util.*;
 
 class DSU {
-    int v;
-    int[] parent;
-    int[] size;
+    int[] parent, size;
 
-    public DSU(int n) {
-        v = n;
-        parent = new int[n];        // here '0' based indexing is used in Q.
-        size = new int[n];          // will give the size of each parent component.
-                                    // initially size of all be '1'(node itself).
+    DSU(int n) {
+        parent = new int[n];
+        size = new int[n];
         for (int i = 0; i < n; i++) {
             parent[i] = i;
             size[i] = 1;
         }
     }
 
-    // finding the ultimate parent
-    public int findUPar(int n) {
-        if (n == parent[n]) {
-            // Root parent will be the parent of itself. so continue till we find that.
-            return n;
-        }
-
-        // this will assign the root parent of every node coming in that ultimate root.
-        // This is called path compression.
-        return parent[n] = findUPar(parent[n]);
+    int findUPar(int node) {
+        if (parent[node] == node) return node;
+        return parent[node] = findUPar(parent[node]);
     }
 
-    public boolean unionBySize(int n1, int n2) {
-        int p1 = findUPar(n1);
-        int p2 = findUPar(n2);
-
-        if (p1 == p2) {
-            // we can't do union since they belong to the same component.
-            return false;
-        }
-
-        // wherever we are assigning the parent means we are directly connecting those two nodes.
-        if (size[p1] < size[p2]) {
-            // attaching ultimate parent of 'n1' i.e p1 to ultimate parent of 'n2' i.e p2.
-            parent[p1] = p2;
-            size[p2] += size[p1]; // increase the size of p2 by size of p1.
+    void unionBySize(int u, int v) {
+        int pu = findUPar(u), pv = findUPar(v);
+        if (pu == pv) return;
+        if (size[pu] < size[pv]) {
+            parent[pu] = pv;
+            size[pv] += size[pu];
         } else {
-            // rank[p1]>= rank[p2]
-            // attaching ultimate parent of 'n2' i.e p2 to ultimate parent of 'n1' i.e p1.
-            parent[p2] = p1;
-            size[p1] += size[p2];
+            parent[pv] = pu;
+            size[pu] += size[pv];
         }
-        return true;
     }
 }
 
 class Solution {
-    public int makeConnected(int n, int[][] connections) {
-        if (connections.length < n - 1) {
-            return -1;
-        }
-
+    public List<List<String>> accountsMerge(List<List<String>> accounts) {
+        int n = accounts.size();
         DSU dsu = new DSU(n);
+        Map<String, Integer> mailToIndex = new HashMap<>();
 
-        for (int[] edge : connections) {
-            int n1 = edge[0], n2 = edge[1];
-            dsu.unionBySize(n1, n2);
-        }
-
-        int component = 0;
         for (int i = 0; i < n; i++) {
-            if (dsu.parent[i] == i) {
-                component++;
+            for (int j = 1; j < accounts.get(i).size(); j++) {
+                String mail = accounts.get(i).get(j);
+                if (!mailToIndex.containsKey(mail)) {
+                    mailToIndex.put(mail, i);
+                } else {
+                    dsu.unionBySize(i, mailToIndex.get(mail));
+                }
             }
         }
 
-        return component - 1;
+        Map<Integer, List<String>> merged = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : mailToIndex.entrySet()) {
+            String mail = entry.getKey();
+            int parent = dsu.findUPar(entry.getValue());
+            merged.computeIfAbsent(parent, x -> new ArrayList<>()).add(mail);
+        }
+
+        List<List<String>> result = new ArrayList<>();
+        for (Map.Entry<Integer, List<String>> entry : merged.entrySet()) {
+            List<String> emails = entry.getValue();
+            Collections.sort(emails);
+            List<String> account = new ArrayList<>();
+            account.add(accounts.get(entry.getKey()).get(0));
+            account.addAll(emails);
+            result.add(account);
+        }
+
+        return result;
     }
 }
-
-
 """
 
-
-# C++
+# C++ Code 
 """
-#include <vector>
+#include <bits/stdc++.h>
 using namespace std;
 
 class DSU {
 public:
-    int v;
     vector<int> parent, size;
-
     DSU(int n) {
-        v = n;
-        parent.resize(n);          // here '0' based indexing is used in Q.
-        size.assign(n, 1);         // will give the size of each parent component.
-                                   // initially size of all be '1'(node itself).
-        for (int i = 0; i < n; ++i) {
-            parent[i] = i;
-        }
+        parent.resize(n);
+        size.resize(n, 1);
+        for (int i = 0; i < n; i++) parent[i] = i;
     }
 
-    // finding the ultimate parent
     int findUPar(int n) {
-        if (n == parent[n]) {
-            // Root parent will be the parent of itself. so continue till we find that.
+        if (n == parent[n])  // same comment as Python
             return n;
-        }
-
-        // This is called path compression.
-        return parent[n] = findUPar(parent[n]);
+        parent[n] = findUPar(parent[n]);
+        return parent[n];
     }
 
-    bool unionBySize(int n1, int n2) {
-        int p1 = findUPar(n1);
-        int p2 = findUPar(n2);
-
-        if (p1 == p2) {
-            // we can't do union since they belong to the same component.
-            return false;
-        }
-
-        // wherever we are assigning the parent means we are directly connecting those two nodes.
+    void unionBySize(int n1, int n2) {
+        int p1 = findUPar(n1), p2 = findUPar(n2);
+        if (p1 == p2)  // we can't do union since they belong to the same component.
+            return;
+            // return False
         if (size[p1] < size[p2]) {
-            // attaching ultimate parent of 'n1' i.e p1 to ultimate parent of 'n2' i.e p2.
             parent[p1] = p2;
-            size[p2] += size[p1];  // increase the size of p2 by size of p1.
-        } else {
-            // size[p1] >= size[p2]
-            // attaching ultimate parent of 'n2' i.e p2 to ultimate parent of 'n1' i.e p1.
+            size[p2] += size[p1];
+        } else {  // rank[p1]>= rank[p2]
             parent[p2] = p1;
             size[p1] += size[p2];
         }
-
-        return true;
     }
 };
 
 class Solution {
 public:
-    int makeConnected(int n, vector<vector<int>>& connections) {
-        if (connections.size() < n - 1) {
-            return -1;
-        }
-
+    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
+        int n = accounts.size();
         DSU dsu(n);
-
-        for (auto& edge : connections) {
-            int n1 = edge[0], n2 = edge[1];
-            dsu.unionBySize(n1, n2);
-        }
-
-        int component = 0;
-        for (int i = 0; i < n; ++i) {
-            if (dsu.parent[i] == i) {
-                component++;
+        unordered_map<string, int> mail_to_Name;
+        for (int name = 0; name < n; name++) {  // first index will represent the name in each account.
+            for (int emails = 1; emails < (int)accounts[name].size(); emails++) {  // email for each account will start from '1' for each name.
+                string mail = accounts[name][emails];
+                if (mail_to_Name.find(mail) == mail_to_Name.end()) {  // if this email is not into 'map'
+                    mail_to_Name[mail] = name;
+                } else {  // join the two accounts(name into 1 by updating the parent)
+                    dsu.unionBySize(name, mail_to_Name[mail]);
+                    // no need to map this curr mail because this same mail is already there.
+                }
             }
         }
+        // map with mail-> account_no(i.e 0,1,2) is created
+        // Now disjoint set is also created and account with same email id is merged into one.
 
-        return component - 1;
+        // Now take email one by one from 'map' and add that to the ultimate parent of their account_no(values) with name in sorted order.
+        // first merging mail together belonging to same account.
+        vector<vector<string>> mergedMail(n);
+        for (auto& [mail, account_no] : mail_to_Name) {
+            int ultimate_parent = dsu.findUPar(account_no);
+            mergedMail[ultimate_parent].push_back(mail);
+        }
+        // now all mail will be get merged into respective parent account
+
+        // now add the name before these mails.
+        // print(mergedMail); // (Python print removed in C++)
+        vector<vector<string>> ans;
+        for (int i = 0; i < n; i++) {
+            if (mergedMail[i].empty()) {  // after merging there may not be any mail because they are already added to parent account.
+                continue;
+            }
+            sort(mergedMail[i].begin(), mergedMail[i].end());  // sorting emails after merging.
+            vector<string> merged_account;  // to store the name and email for each account after merging
+            merged_account.push_back(accounts[i][0]);  // adding the name of each count first
+            for (auto& mail : mergedMail[i]) {
+                merged_account.push_back(mail);
+            }
+            ans.push_back(merged_account);
+        }
+        return ans;
     }
 };
 
-
 """
+# Later try by DFS also.

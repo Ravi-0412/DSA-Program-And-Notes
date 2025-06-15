@@ -1,5 +1,3 @@
-# Method 1: 
-
 # Q: Find min absolute diff between consecutive cell of all the possible paths.
 
 # just same as Dijakstra Algo. Just slight modification acc to the Q.
@@ -38,8 +36,7 @@ class Solution:
                     heapq.heappush(heap, (min_diff_till_now, nr, nc))  
 
 
-# Method 2: 
-# Using binary search
+# Method 2: Using binary search
 # Time complexity:O(M∗N∗log(M∗N))
 class Solution:
     def minimumEffortPath(self, heights: List[List[int]]) -> int:
@@ -115,21 +112,39 @@ class Solution {
         return 0; // fallback, should not happen
     }
 
-    
-// Method 2: 
- import java.util.*;
+    // Method 2: Using binary search + BFS
+    public int minimumEffortPathBinarySearch(int[][] heights) {
+        int n = heights.length, m = heights[0].length;
 
-class Solution {
-    int[][] heights;
-    int n, m;
+        // Just bfs only
+        // Is it possible to reach destination having height diff between any two consecutive <=k.
+        boolean isPossible(int k) {
+            Set<String> visited = new HashSet<>();
+            Queue<int[]> q = new LinkedList<>();
+            q.offer(new int[]{0, 0});
+            visited.add("0,0");
+            int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
-    public int minimumEffortPath(int[][] heights) {
-        this.heights = heights;
-        this.n = heights.length;
-        this.m = heights[0].length;
+            while (!q.isEmpty()) {
+                int[] curr = q.poll();
+                int r = curr[0], c = curr[1];
+                if (r == n - 1 && c == m - 1) {
+                    return true;
+                }
+                for (int[] d : directions) {
+                    int nr = r + d[0], nc = c + d[1];
+                    String nkey = nr + "," + nc;
+                    if (nr >= 0 && nr < n && nc >= 0 && nc < m && !visited.contains(nkey) &&
+                        Math.abs(heights[r][c] - heights[nr][nc]) <= k) {
+                        q.offer(new int[]{nr, nc});
+                        visited.add(nkey);
+                    }
+                }
+            }
+            return false;
+        }
 
-        int start = 0, end = (int) 1e6;
-
+        int start = 0, end = 1000000;
         while (start < end) {
             int mid = start + (end - start) / 2;
             if (isPossible(mid)) {
@@ -142,38 +157,7 @@ class Solution {
         }
         return start;
     }
-
-    // Just bfs only
-    // Is it possible to reach destination having height diff between any two consecutive <=k.
-    public boolean isPossible(int k) {
-        Queue<int[]> q = new LinkedList<>();
-        boolean[][] visited = new boolean[n][m];
-        q.offer(new int[]{0, 0});
-        visited[0][0] = true;
-
-        int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // up, down. left, right
-
-        while (!q.isEmpty()) {
-            int[] cell = q.poll();
-            int r = cell[0], c = cell[1];
-            if (r == n - 1 && c == m - 1)
-                return true;
-
-            for (int[] dir : directions) {
-                int nr = r + dir[0];
-                int nc = c + dir[1];
-                if (nr >= 0 && nr < n && nc >= 0 && nc < m &&
-                    !visited[nr][nc] &&
-                    Math.abs(heights[r][c] - heights[nr][nc]) <= k) {
-                    q.offer(new int[]{nr, nc});
-                    visited[nr][nc] = true;
-                }
-            }
-        }
-        return false;
-    }
 }
-   
 
 """
 # C++ Code 
@@ -223,26 +207,40 @@ public:
         return 0; // fallback, should not happen
     }
 
-    
-// Method 2: 
-#include <bits/stdc++.h>
-using namespace std;
+    // Method 2: Using binary search + BFS
+    bool isPossible(int k, vector<vector<int>>& heights) {
+        int n = (int)heights.size();
+        int m = (int)heights[0].size();
+        set<pair<int,int>> visited;
+        queue<pair<int,int>> q;
+        q.push({0, 0});
+        visited.insert({0, 0});
+        vector<vector<int>> directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // up, down, left, right
 
-class Solution {
-public:
-    int n, m;
-    vector<vector<int>> heights;
+        while (!q.empty()) {
+            auto curr = q.front();
+            q.pop();
+            int r = curr.first, c = curr.second;
+            if (r == n - 1 && c == m - 1) {
+                return true;
+            }
+            for (auto &d : directions) {
+                int nr = r + d[0], nc = c + d[1];
+                if (nr >= 0 && nr < n && nc >= 0 && nc < m && visited.count({nr, nc}) == 0 &&
+                    abs(heights[r][c] - heights[nr][nc]) <= k) {
+                    q.push({nr, nc});
+                    visited.insert({nr, nc});
+                }
+            }
+        }
+        return false;
+    }
 
-    int minimumEffortPath(vector<vector<int>>& heights) {
-        this->heights = heights;
-        n = heights.size();
-        m = heights[0].size();
-
-        int start = 0, end = 1e6;
-
+    int minimumEffortPathBinarySearch(vector<vector<int>>& heights) {
+        int start = 0, end = 1000000;
         while (start < end) {
-            int mid = start + (end - start) / 2;
-            if (isPossible(mid)) {
+            int mid = start + (end - start)/2;
+            if (isPossible(mid, heights)) {
                 // then find more less
                 end = mid;
             } else {
@@ -251,33 +249,6 @@ public:
             }
         }
         return start;
-    }
-
-    // Just bfs only
-    // Is it possible to reach destination having height diff between any two consecutive <=k.
-    bool isPossible(int k) {
-        queue<pair<int, int>> q;
-        vector<vector<bool>> visited(n, vector<bool>(m, false));
-        q.push({0, 0});
-        visited[0][0] = true;
-
-        vector<pair<int, int>> directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // up, down. left, right
-
-        while (!q.empty()) {
-            auto [r, c] = q.front(); q.pop();
-            if (r == n - 1 && c == m - 1) return true;
-
-            for (auto [dr, dc] : directions) {
-                int nr = r + dr, nc = c + dc;
-                if (nr >= 0 && nr < n && nc >= 0 && nc < m &&
-                    !visited[nr][nc] &&
-                    abs(heights[r][c] - heights[nr][nc]) <= k) {
-                    q.push({nr, nc});
-                    visited[nr][nc] = true;
-                }
-            }
-        }
-        return false;
     }
 };
 

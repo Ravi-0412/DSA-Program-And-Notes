@@ -1,9 +1,5 @@
-# Method 1: 
-
 # Q: have to find the city from which we can reach the smallest no of nodes within the threshold.
 # since we have to find the optimal for each city then only Algo comes into mind is 'Floyd Warshall Algo'.
-# for finding the count of city(smallest reachable ) just subtract '-1' from the minCity as we were also including the same city while calculating.
-
 
 class Solution:
     def findTheCity(self, n: int, edges: List[List[int]], distanceThreshold: int) -> int:
@@ -35,6 +31,7 @@ class Solution:
                 ans= i
         return ans
 
+# for finding the count of city(smallest reachable ) just subtract '-1' from the minCity as we were also including the same city while calculating.
 
 # Java Code 
 """

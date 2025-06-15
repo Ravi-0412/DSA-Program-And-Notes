@@ -1,6 +1,3 @@
-# Method 1: 
-
-"""
 # observe: For the input 5, we can reach with only 7 steps: AARARAA. Because we can step back.
 
 
@@ -23,7 +20,6 @@
 # sometime your solution may get accepted using bfs like this and few more Q. 
 
 # Time:  O(2^n). Each step we have two choice
-"""
 class Solution:
     def racecar(self, target: int) -> int:
 
@@ -33,48 +29,7 @@ class Solution:
             return min(1 + solve(position + speed, speed *2), 1 + solve(position, -1), 1 + solve(position, 1))
         return solve(0, 1)
 
-
-# java
-"""
-class Solution {
-    public int racecar(int target) {
-        return solve(0, 1, target);
-    }
-
-    private int solve(int pos, int speed, int target) {
-        if (pos == target) return 0;
-        return Math.min(
-            1 + solve(pos + speed, speed * 2, target),
-            Math.min(1 + solve(pos, -1, target), 1 + solve(pos, 1, target))
-        );
-    }
-}
-
-"""
-
-
-# C++
-"""
-class Solution {
-public:
-    int racecar(int target) {
-        return solve(0, 1, target);
-    }
-
-    int solve(int pos, int speed, int target) {
-        if (pos == target) return 0;
-        return 1 + min({
-            solve(pos + speed, speed * 2, target),
-            solve(pos, -1, target),
-            solve(pos, 1, target)
-        });
-    }
-};
-
-"""
-
-# Method 2: 
-# Trying to mix the condition using bfs to avoid checking all states.
+# Trying to mix the condition using bfs
 # Still getting Tle for some input.
 # Time = O(2^n). Each step we have two choice
 class Solution:
@@ -95,62 +50,6 @@ class Solution:
                 queue.append((moves + 1, pos, 1))
 
 
-# Java
-"""
-class Solution {
-    public int racecar(int target) {
-        Queue<int[]> queue = new LinkedList<>();
-        queue.offer(new int[]{0, 0, 1});  // moves, position, speed
-
-        while (!queue.isEmpty()) {
-            int[] curr = queue.poll();
-            int moves = curr[0], pos = curr[1], speed = curr[2];
-            if (pos == target) return moves;
-
-            // Choice 1: Accelerate
-            queue.offer(new int[]{moves + 1, pos + speed, 2 * speed});
-
-            // Choice 2: Reverse
-            if (speed > 0)
-                queue.offer(new int[]{moves + 1, pos, -1});
-            else
-                queue.offer(new int[]{moves + 1, pos, 1});
-        }
-        return -1; // never reached
-    }
-}
-
-"""
-
-# C++
-"""
-class Solution {
-public:
-    int racecar(int target) {
-        queue<tuple<int, int, int>> q;
-        q.push({0, 0, 1}); // moves, pos, speed
-
-        while (!q.empty()) {
-            auto [moves, pos, speed] = q.front(); q.pop();
-            if (pos == target) return moves;
-
-            // Choice 1: Accelerate
-            q.push({moves + 1, pos + speed, 2 * speed});
-
-            // Choice 2: Reverse
-            if (speed > 0)
-                q.push({moves + 1, pos, -1});
-            else
-                q.push({moves + 1, pos, 1});
-        }
-        return -1;
-    }
-};
-
-
-"""
-
-# Method 3: 
 # Optimisation
 # In above solution , we are calling blindly i.e at every state we are taking all possible choices
 # So if we can visualise the case and a/c that case if we take the choice then somewhat it will get optimised.
@@ -179,57 +78,4 @@ class Solution:
                 queue.append((moves + 1, pos, -vel / abs(vel)))
 
 
-# Java
-"""
-class Solution {
-    public int racecar(int target) {
-        Queue<int[]> queue = new LinkedList<>();
-        queue.offer(new int[]{0, 0, 1});  // moves, position, speed
-
-        while (!queue.isEmpty()) {
-            int[] curr = queue.poll();
-            int moves = curr[0], pos = curr[1], speed = curr[2];
-            if (pos == target) return moves;
-
-            // Case 1: Accelerate
-            queue.offer(new int[]{moves + 1, pos + speed, 2 * speed});
-
-            // Case 2: Reverse if moving in wrong direction
-            if ((pos + speed > target && speed > 0) || (pos + speed < target && speed < 0)) {
-                queue.offer(new int[]{moves + 1, pos, speed > 0 ? -1 : 1});
-            }
-        }
-        return -1;
-    }
-}
-
-
-"""
-
-
-# C++
-"""
-class Solution {
-public:
-    int racecar(int target) {
-        queue<tuple<int, int, int>> q;
-        q.push({0, 0, 1}); // moves, pos, speed
-
-        while (!q.empty()) {
-            auto [moves, pos, speed] = q.front(); q.pop();
-            if (pos == target) return moves;
-
-            // Case 1: Accelerate
-            q.push({moves + 1, pos + speed, 2 * speed});
-
-            // Case 2: Reverse if going wrong direction
-            if ((pos + speed > target && speed > 0) || (pos + speed < target && speed < 0)) {
-                q.push({moves + 1, pos, speed > 0 ? -1 : 1});
-            }
-        }
-        return -1;
-    }
-};
-
-
-"""
+# Later try by dp also.

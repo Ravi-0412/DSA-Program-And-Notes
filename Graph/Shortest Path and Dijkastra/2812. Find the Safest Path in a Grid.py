@@ -1,5 +1,3 @@
-# Method 1: 
-
 # Logic: Have to find path as far as from any of the thieves.
 
 # Combination of: "286 walls and gates " + "778. Swim in Rising Water".
@@ -8,6 +6,7 @@
 # 2) find the minimum distance using similar approach as "778. Swim in Rising Water".
 
 # understand and visualise properly.
+# Try by other approaches also later.
 
 class Solution:
     def maximumSafenessFactor(self, grid: List[List[int]]) -> int:
@@ -63,19 +62,39 @@ class Solution:
 import java.util.*;
 
 class Solution {
-    int[][] directions = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
-    int n;
-
-    public int maximumSafenessFactor(List<List<Integer>> gridList) {
-        int[][] grid = new int[gridList.size()][];
-        for (int i = 0; i < gridList.size(); i++) {
-            grid[i] = gridList.get(i).stream().mapToInt(Integer::intValue).toArray();
-        }
-
-        n = grid.length;
+    public int maximumSafenessFactor(int[][] grid) {
+        int n = grid.length;
+        int[][] directions = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 
         // First find the minimum distance of each cell from any of the thieves using multisource bfs
-        int[][] minDist = calMinimumDist(grid);
+        Map<String, Integer> calMinimumDist() {
+            Queue<int[]> q = new LinkedList<>();
+            Map<String, Integer> min_dist = new HashMap<>();
+            for (int r = 0; r < n; r++) {
+                for (int c = 0; c < n; c++) {
+                    if (grid[r][c] == 1) {
+                        q.offer(new int[]{r, c, 0}); // [i, j, distance_from_any_thieves]
+                        min_dist.put(r + "," + c, 0);
+                    }
+                }
+            }
+            while (!q.isEmpty()) {
+                int[] cur = q.poll();
+                int r = cur[0], c = cur[1], dist = cur[2];
+                for (int[] dir : directions) {
+                    int nr = r + dir[0];
+                    int nc = c + dir[1];
+                    String key = nr + "," + nc;
+                    if (nr >= 0 && nr < n && nc >= 0 && nc < n && !min_dist.containsKey(key)) {
+                        min_dist.put(key, dist + 1);
+                        q.offer(new int[]{nr, nc, dist + 1});
+                    }
+                }
+            }
+            return min_dist;
+        }
+
+        Map<String, Integer> min_dist = calMinimumDist();
 
         // Now find the minimum distance to go from (0, 0) to (n - 1, n - 1)
         // Just similar as : "778. Swim in Rising Water".
@@ -85,80 +104,80 @@ class Solution {
         // in "778. Swim in Rising Water", while adding we were taking maximum and out of all those
         // maximum, we will take minimum for ans. so we wil use 'minHeap'
 
-        PriorityQueue<int[]> maxHeap = new PriorityQueue<>((a, b) -> b[0] - a[0]);
-        boolean[][] visited = new boolean[n][n];
-
-        maxHeap.offer(new int[]{minDist[0][0], 0, 0});
-        visited[0][0] = true;
+        PriorityQueue<int[]> maxHeap = new PriorityQueue<>( (a,b) -> Integer.compare(b[0], a[0]) );
+        Set<String> visited = new HashSet<>();
+        String startKey = "0,0";
+        visited.add(startKey);
+        maxHeap.offer(new int[]{min_dist.getOrDefault(startKey, 0), 0, 0});
 
         while (!maxHeap.isEmpty()) {
-            int[] curr = maxHeap.poll();
-            int dist = curr[0], r = curr[1], c = curr[2];
-
-            if (r == n - 1 && c == n - 1) return dist;
-
-            for (int[] d : directions) {
-                int nr = r + d[0], nc = c + d[1];
-                if (0 <= nr && nr < n && 0 <= nc && nc < n && !visited[nr][nc]) {
-                    visited[nr][nc] = true;
-                    int newDist = Math.min(dist, minDist[nr][nc]);
-                    maxHeap.offer(new int[]{newDist, nr, nc});
-                }
+            int[] cur = maxHeap.poll();
+            int dist = cur[0], r = cur[1], c = cur[2];
+            if (r == n - 1 && c == n - 1) {
+                return dist;
             }
-        }
-
-        return 0;
-    }
-
-    public int[][] calMinimumDist(int[][] grid) {
-        Queue<int[]> q = new LinkedList<>();
-        int[][] dist = new int[n][n];
-        for (int[] row : dist) Arrays.fill(row, -1);
-
-        for (int r = 0; r < n; r++) {
-            for (int c = 0; c < n; c++) {
-                if (grid[r][c] == 1) {
-                    q.offer(new int[]{r, c, 0});
-                    dist[r][c] = 0;
-                }
-            }
-        }
-
-        while (!q.isEmpty()) {
-            int[] curr = q.poll();
-            int r = curr[0], c = curr[1], d = curr[2];
-
             for (int[] dir : directions) {
-                int nr = r + dir[0], nc = c + dir[1];
-                if (0 <= nr && nr < n && 0 <= nc && nc < n && dist[nr][nc] == -1) {
-                    dist[nr][nc] = d + 1;
-                    q.offer(new int[]{nr, nc, d + 1});
+                int nr = r + dir[0];
+                int nc = c + dir[1];
+                String key = nr + "," + nc;
+                if (nr >= 0 && nr < n && nc >= 0 && nc < n && !visited.contains(key)) {
+                    int min_distance_to_reach_grid = Math.min(dist, min_dist.getOrDefault(key, Integer.MAX_VALUE));
+                    maxHeap.offer(new int[]{min_distance_to_reach_grid, nr, nc});
+                    visited.add(key);
                 }
             }
         }
 
-        return dist;
+        return -1;  // if no path found
     }
 }
-
 
 """
 
 # C++ Code 
 """
-#include <bits/stdc++.h>
+#include <vector>
+#include <queue>
+#include <unordered_map>
+#include <unordered_set>
+#include <tuple>
+#include <algorithm>
 using namespace std;
 
 class Solution {
-    int n;
-    vector<vector<int>> directions = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
-
 public:
     int maximumSafenessFactor(vector<vector<int>>& grid) {
-        n = grid.size();
+        int n = (int)grid.size();
+        vector<vector<int>> directions{{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 
         // First find the minimum distance of each cell from any of the thieves using multisource bfs
-        vector<vector<int>> minDist = calMinimumDist(grid);
+        auto calMinimumDist = [&]() {
+            queue<tuple<int,int,int>> q; // r,c,dist
+            unordered_map<int, unordered_map<int,int>> min_dist;
+            for (int r = 0; r < n; r++) {
+                for (int c = 0; c < n; c++) {
+                    if (grid[r][c] == 1) {
+                        q.emplace(r, c, 0);  // [i, j, distance_from_any_thieves]
+                        min_dist[r][c] = 0;
+                    }
+                }
+            }
+            while (!q.empty()) {
+                auto [r, c, dist] = q.front();
+                q.pop();
+                for (auto& dir : directions) {
+                    int nr = r + dir[0];
+                    int nc = c + dir[1];
+                    if (nr >= 0 && nr < n && nc >= 0 && nc < n && min_dist[nr].find(nc) == min_dist[nr].end()) {
+                        min_dist[nr][nc] = dist + 1;
+                        q.emplace(nr, nc, dist + 1);
+                    }
+                }
+            }
+            return min_dist;
+        };
+
+        auto min_dist = calMinimumDist();
 
         // Now find the minimum distance to go from (0, 0) to (n - 1, n - 1)
         // Just similar as : "778. Swim in Rising Water".
@@ -168,60 +187,35 @@ public:
         // in "778. Swim in Rising Water", while adding we were taking maximum and out of all those
         // maximum, we will take minimum for ans. so we wil use 'minHeap'
 
-        priority_queue<tuple<int, int, int>> maxHeap;
-        vector<vector<bool>> visited(n, vector<bool>(n, false));
+        using T = tuple<int,int,int>; // dist, r, c
+        auto cmp = [](const T& a, const T& b) { return get<0>(a) < get<0>(b); };
+        priority_queue<T, vector<T>, decltype(cmp)> maxHeap(cmp);
 
-        maxHeap.push({minDist[0][0], 0, 0});
-        visited[0][0] = true;
+        unordered_set<int> visited;  // encode (r,c) as r * n + c
+        visited.insert(0 * n + 0);
+        maxHeap.emplace(min_dist[0][0], 0, 0);
 
         while (!maxHeap.empty()) {
             auto [dist, r, c] = maxHeap.top();
             maxHeap.pop();
 
-            if (r == n - 1 && c == n - 1) return dist;
-
+            if (r == n-1 && c == n-1) {
+                return dist;
+            }
             for (auto& dir : directions) {
-                int nr = r + dir[0], nc = c + dir[1];
-                if (nr >= 0 && nr < n && nc >= 0 && nc < n && !visited[nr][nc]) {
-                    visited[nr][nc] = true;
-                    int newDist = min(dist, minDist[nr][nc]);
-                    maxHeap.push({newDist, nr, nc});
+                int nr = r + dir[0];
+                int nc = c + dir[1];
+                int encoded = nr * n + nc;
+                if (nr >= 0 && nr < n && nc >= 0 && nc < n && visited.find(encoded) == visited.end()) {
+                    int min_distance_to_reach_grid = min(dist, min_dist[nr][nc]);
+                    maxHeap.emplace(min_distance_to_reach_grid, nr, nc);
+                    visited.insert(encoded);
                 }
             }
         }
 
-        return 0;
-    }
-
-    vector<vector<int>> calMinimumDist(vector<vector<int>>& grid) {
-        vector<vector<int>> dist(n, vector<int>(n, -1));
-        queue<tuple<int, int, int>> q;
-
-        for (int r = 0; r < n; ++r) {
-            for (int c = 0; c < n; ++c) {
-                if (grid[r][c] == 1) {
-                    dist[r][c] = 0;
-                    q.push({r, c, 0});
-                }
-            }
-        }
-
-        while (!q.empty()) {
-            auto [r, c, d] = q.front();
-            q.pop();
-
-            for (auto& dir : directions) {
-                int nr = r + dir[0], nc = c + dir[1];
-                if (nr >= 0 && nr < n && nc >= 0 && nc < n && dist[nr][nc] == -1) {
-                    dist[nr][nc] = d + 1;
-                    q.push({nr, nc, d + 1});
-                }
-            }
-        }
-
-        return dist;
+        return -1;  // if no path found
     }
 };
-
 
 """

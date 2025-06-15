@@ -1,28 +1,15 @@
-# Method 1
-
 """
-using BFS
-
 Can detect cycle even graph is given as component
 
-logic: 
-- We want to detect if the graph has a cycle or not.
-- For each node:
-  - If it is not visited, start a BFS from that node.
-  - While doing BFS, check each neighbor:
-    - If the neighbor is already visited **and is not the parent** of the current node, 
-        it means **there is a cycle**.
-    - This happens because you found another way to reach the neighbor, forming a loop.
-        since undirected graph is two way(btwn two node) so it will be a cycle only.
-- Every time you start a BFS on an unvisited node, you found a new connected component.
+method 1 : using BFS
+time complexity is same as BFS
 
-Note: this method can also be used to detect the no of connected components in the undirected graph.
+logic: if adjacent node of any vertex is already visited and if it is not parent then there is a cycle .
+because if that is not parent and already visited then there must be another path also for reaching that adjacent node from curr node and 
+since undirected graph is two way(btwn two node) so it will be a cycle only.
+
+this method can also be used to detect the no of connected components in the undirected graph.
 just count the no of times BFS is called that will be the ans.
-
-Time complexity Same as BFS traversal:  
-  `O(V + E)` where  
-  `V` = number of vertices (nodes)  
-  `E` = number of edges
 """
 
 
@@ -83,78 +70,60 @@ print(g.visited)
 """
 import java.util.*;
 
-public class Graph {
-    int V;
-    boolean[] visited;
-    Map<Integer, List<Integer>> AdjList;
+class Graph {
+    private int V;
+    private boolean[] visited;
+    private Map<Integer, List<Integer>> adjList;
 
     public Graph(int n) {
         V = n;
         visited = new boolean[n];
-        AdjList = new HashMap<>();
+        adjList = new HashMap<>();
         for (int i = 0; i < n; i++) {
-            AdjList.put(i, new ArrayList<>());
+            adjList.put(i, new ArrayList<>());
         }
     }
 
     public void addEdge(int u, int v) {
-        AdjList.get(u).add(v);
-        AdjList.get(v).add(u);
+        adjList.get(u).add(v);
+        adjList.get(v).add(u);
     }
 
-    public boolean BFS(Map<Integer, List<Integer>> adj, int src) {
-        Queue<int[]> Q = new LinkedList<>();
-        // while adding vertex to Q, add its parent node also
-        Q.offer(new int[]{src, -1});
-        while (!Q.isEmpty()) {
-            int[] curr = Q.poll();
-            int node = curr[0], parent = curr[1];
-            for (int neighbor : AdjList.get(node)) {
+    public boolean BFS(int src) {
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{src, -1});
+
+        while (!q.isEmpty()) {
+            int[] current = q.poll();
+            int curr = current[0];
+            int parent = current[1];
+
+            for (int neighbor : adjList.get(curr)) {
                 if (!visited[neighbor]) {
                     visited[neighbor] = true;
-                    Q.offer(new int[]{neighbor, node});
-                } else if (neighbor != parent) {  // visited and not parent means cycle
-                    return true;
+                    q.offer(new int[]{neighbor, curr});
+                } else if (neighbor != parent) {
+                    return true; // Found a cycle
                 }
             }
         }
-        // return false  // no need of this line
-        return false;
+        return false; // No cycle found
     }
 
-    public boolean isCycle(int n, Map<Integer, List<Integer>> adj) {
-        for (int i = 0; i < n; i++) {
+    public boolean isCycle() {
+        Arrays.fill(visited, false); // Reset visited array
+
+        for (int i = 0; i < V; i++) {
             if (!visited[i]) {
                 visited[i] = true;
-                if (BFS(adj, i)) {
-                    return true;
+                if (BFS(i)) {
+                    return true; // Cycle detected
                 }
             }
         }
-        // if no component has cycle then return false
-        return false;
-    }
-
-    public static void main(String[] args) {
-        Graph g = new Graph(11);
-        g.addEdge(0, 1);
-        g.addEdge(1, 3);
-        g.addEdge(2, 4);
-        g.addEdge(4, 9);
-        g.addEdge(4, 5);
-        g.addEdge(5, 6);
-        // g.addEdge(5, 8);
-        g.addEdge(9, 8);
-        g.addEdge(8, 7);
-        g.addEdge(6, 7);
-        g.addEdge(7, 10);
-
-        System.out.println(g.AdjList);
-        System.out.println(g.isCycle(11, g.AdjList));
-        System.out.println(Arrays.toString(g.visited));
+        return false; // No cycle detected
     }
 }
-
 
 """
 
@@ -162,8 +131,9 @@ public class Graph {
 """
 #include <iostream>
 #include <vector>
-#include <unordered_map>
 #include <queue>
+#include <unordered_map>
+
 using namespace std;
 
 class Graph {
@@ -182,78 +152,44 @@ public:
         AdjList[v].push_back(u);
     }
 
-    bool BFS(unordered_map<int, vector<int>>& adj, int src) {
+    bool BFS(int src) {
         queue<pair<int, int>> Q;
-        // while adding vertex to Q, add its parent node also
         Q.push({src, -1});
+
         while (!Q.empty()) {
-            auto [curr, parent] = Q.front(); Q.pop();
-            for (int neighbor : AdjList[curr]) {
-                if (!visited[neighbor]) {
-                    visited[neighbor] = true;
-                    Q.push({neighbor, curr});
-                } else if (neighbor != parent) { // visited and not parent means cycle
+            auto [curr, parent] = Q.front();
+            Q.pop();
+
+            for (int u : AdjList[curr]) {
+                if (!visited[u]) {
+                    visited[u] = true;
+                    Q.push({u, curr});
+                } else if (u != parent) {
+                    // Visited and not parent means a cycle
                     return true;
                 }
             }
         }
-        // return false  // no need of this line
         return false;
     }
 
-    bool isCycle(int n, unordered_map<int, vector<int>>& adj) {
+    bool isCycle(int n) {
         for (int i = 0; i < n; ++i) {
             if (!visited[i]) {
                 visited[i] = true;
-                if (BFS(adj, i)) {
+                if (BFS(i)) {
                     return true;
                 }
             }
         }
-        // if no component has cycle then return false
         return false;
     }
 };
 
-int main() {
-    Graph g(11);
-    g.addEdge(0, 1);
-    g.addEdge(1, 3);
-    g.addEdge(2, 4);
-    g.addEdge(4, 9);
-    g.addEdge(4, 5);
-    g.addEdge(5, 6);
-    // g.addEdge(5, 8);
-    g.addEdge(9, 8);
-    g.addEdge(8, 7);
-    g.addEdge(6, 7);
-    g.addEdge(7, 10);
-
-    cout << boolalpha << g.isCycle(11, g.AdjList) << endl;
-
-    // print visited
-    for (bool v : g.visited) cout << v << " ";
-    cout << endl;
-    return 0;
-}
-
-
 """
 
-# method 2: 
-"""
-using DFS
-
-The logic is the same as BFS, just using DFS instead.
-- For each node:
-  - If it is not visited, start a DFS from that node.
-  - While exploring neighbors:
-    - If the neighbor is already visited and is not the parent, it means there is a cycle.
-    - This means the neighbor was visited from a different path, forming a loop.
-- Every time you start a DFS from an unvisited node, it means you found a new connected component.
-Time complexity : Same as dfs traversal
-"""
-
+# # method 2: using DFS
+# logic is exactly same as BFS
 from collections import defaultdict
 class Graph:
     def __init__(self,n):
@@ -364,8 +300,6 @@ class Graph {
     }
 }
 """
-
-
 # C++ Code 
 """
 // Method 2: Using DFS

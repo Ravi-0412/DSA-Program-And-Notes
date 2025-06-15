@@ -1,5 +1,3 @@
-# Method 1: 
-
 # logic: totally same as Bellman ford
 # just relax the every edge in each iteration seeing the previous modified array
 # relaxing edge one time will give the optimal ans till one stop and so on
@@ -15,8 +13,6 @@
 # optimise hoga + already optimise edge also if they are connected to any viisted node till now. 
 # isi tarah se ye repeat hota rhega or har bar har edge optimise hota rhega agar wo connected hoga to
 # Note: we will optimise seeing the previous iteration result not the current one 
-
-
 class Solution:
     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
         prices= ['inf']*n  # this will store the actual ans
@@ -49,67 +45,78 @@ class Solution:
 """
 import java.util.*;
 
-class Solution {
+public class Solution {
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-        int[] prices = new int[n];  // this will store the actual ans
+        // prices will store the actual ans
+        int[] prices = new int[n];
         Arrays.fill(prices, Integer.MAX_VALUE);
-        prices[src] = 0;   // make the source price as 0
-
+        prices[src] = 0;  // make the source price as 0
+        
         // we have to run loop k+1 time to get the optimal ans as every edge should be relaxed k+1 times for k stops
         for (int i = 0; i <= k; i++) {
             // copying like this (changing the value at an index) will update the values in new array also
             // when we will update the values in original array or vice versa( it creates the reference for the same object). 
-            // But we have to change the value only in tempPrices for each edge 
+            // But we have change the value only in tempPrices for each edge 
+            
             int[] tempPrices = prices.clone();  // this create another copy of the original array
-
+            
             // we will update the current iteration ans in the tempPrices seeing the previous optimise ans(prices), so we copied 
             for (int[] flight : flights) {
                 int s = flight[0], d = flight[1], p = flight[2];
-                if (prices[s] == Integer.MAX_VALUE) {  // it means that the stopage s(source) is not reachable till ith stop
+                if (prices[s] == Integer.MAX_VALUE) {
+                    // it means that the stopage s(source) is not reachable till ith stop
+                    // it basically means that 'd' is not connected to the any node that has been updated(relaxed) till now
                     continue;
                 }
                 if (prices[s] + p < tempPrices[d]) {
                     tempPrices[d] = prices[s] + p;
                 }
             }
-            prices = tempPrices.clone();  // this will always work fine
+            // prices = tempPrices;  // here this will also work as we are not updating prices array anywhere            
+            prices = tempPrices;  // this will always work fine 
         }
-        return prices[dst] == Integer.MAX_VALUE ? -1 : prices[dst];
+        return (prices[dst] == Integer.MAX_VALUE) ? -1 : prices[dst];
     }
 }
 
 """
 # C++ Code 
 """
-#include <bits/stdc++.h>
+#include <vector>
+#include <climits>  // For INT_MAX
 using namespace std;
 
 class Solution {
 public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        vector<int> prices(n, INT_MAX);  // this will store the actual ans
+        // prices will store the actual ans
+        vector<int> prices(n, INT_MAX);
         prices[src] = 0;  // make the source price as 0
-
+        
         // we have to run loop k+1 time to get the optimal ans as every edge should be relaxed k+1 times for k stops
-        for (int i = 0; i <= k; ++i) {
+        for (int i = 0; i <= k; i++) {
             // copying like this (changing the value at an index) will update the values in new array also
             // when we will update the values in original array or vice versa( it creates the reference for the same object). 
-            // But we have to change the value only in tempPrices for each edge 
+            // But we have change the value only in tempPrices for each edge 
+            
             vector<int> tempPrices = prices;  // this create another copy of the original array
-
+            
             // we will update the current iteration ans in the tempPrices seeing the previous optimise ans(prices), so we copied 
             for (auto& flight : flights) {
                 int s = flight[0], d = flight[1], p = flight[2];
-                if (prices[s] == INT_MAX) {  // it means that the stopage s(source) is not reachable till ith stop
+                if (prices[s] == INT_MAX) {
+                    // it means that the stopage s(source) is not reachable till ith stop
+                    // it basically means that 'd' is not connected to the any node that has been updated(relaxed) till now
                     continue;
                 }
                 if (prices[s] + p < tempPrices[d]) {
                     tempPrices[d] = prices[s] + p;
                 }
             }
-            prices = tempPrices;  // this will always work fine
+            // prices = tempPrices;  // here this will also work as we are not updating prices array anywhere            
+            prices = tempPrices;  // this will always work fine 
         }
-        return prices[dst] == INT_MAX ? -1 : prices[dst];
+        return (prices[dst] == INT_MAX) ? -1 : prices[dst];
     }
 };
 

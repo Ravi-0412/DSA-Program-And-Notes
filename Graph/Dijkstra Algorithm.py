@@ -1,5 +1,3 @@
-# Method 1: 
-
 """
 using min heap, time: 0(E*logV). Every edge will get relaxed exactly one time. 
 logic: same as Bfs only diff is we use here min_heap instead of Queue with weight.
@@ -19,6 +17,8 @@ Reason: we go breadth wise to reach the other cell as soon as possible.
 
 If weighted then think of Dijkastra Algo.
 
+Related Q:
+1) 2092. Find All People With Secret
 """
 
 from collections import defaultdict
@@ -52,110 +52,7 @@ def ShortestPath(adj,n, src):
     return distance
 
 
-# Java
-"""
-import java.util.*;
-
-public class Solution {
-    public int[] shortestPath(int[][] adj, int n, int src) {
-        Map<Integer, List<int[]>> edges = new HashMap<>();  // converting into adjacency list with adjacent edges and their weights
-
-        for (int[] edge : adj) {
-            edges.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(new int[]{edge[1], edge[2]});
-        }
-
-        int[] distance = new int[n];
-        Arrays.fill(distance, Integer.MAX_VALUE);
-        distance[src] = 0;   // will contain the distance of source to all other vertices
-
-        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> a[0] - b[0]); // first element is weight
-        minHeap.offer(new int[]{0, src});
-        Set<Integer> visited = new HashSet<>();
-
-        while (!minHeap.isEmpty()) {
-            int[] curr = minHeap.poll();
-            int w1 = curr[0], n1 = curr[1];
-
-            // it means for this node, we have got the optimal ans so we will relax all the nodes to this node and mark this node as visited
-            // since we are marking any node visited only we have relaxed all the outgoing edge through that vertex
-            // so there can be many instances of same node in the minHeap and once we have relaxed all the edges through that node 
-            // then, no need to relax all the edges through that node again anymore so simply skip
-            if (visited.contains(n1)) continue;
-            visited.add(n1); // only mark visited if we are going to relax all outgoing edges from the curr node
-
-            if (!edges.containsKey(n1)) continue;
-            for (int[] neighbor : edges.get(n1)) {
-                int n2 = neighbor[0], w2 = neighbor[1];
-                if (!visited.contains(n2)) {
-                    if (distance[n2] > w1 + w2) {
-                        distance[n2] = w1 + w2;
-                        // you can only add any node to visited if you have found the optimal ans for that node i.e when you will pop
-                    }
-                    // when we push more than one ele in heap, 
-                    // it creates the min/max heap acc to the 1st element (1st pushed element)
-                    minHeap.offer(new int[]{distance[n2], n2});
-                }
-            }
-        }
-        return distance;
-    }
-}
-
-
-"""
-
-
-# C++
-"""
-#include <bits/stdc++.h>
-using namespace std;
-
-class Solution {
-public:
-    vector<int> shortestPath(vector<vector<int>>& adj, int n, int src) {
-        unordered_map<int, vector<pair<int, int>>> edges; // converting into adjacency list with adjacent edges and their weights
-
-        for (auto& edge : adj) {
-            edges[edge[0]].push_back({edge[1], edge[2]});
-        }
-
-        vector<int> distance(n, INT_MAX);
-        distance[src] = 0;  // will contain the distance of source to all other vertices
-
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap;
-        minHeap.push({0, src});
-        unordered_set<int> visited;
-
-        while (!minHeap.empty()) {
-            auto [w1, n1] = minHeap.top(); minHeap.pop();
-
-            // it means for this node, we have got the optimal ans so we will relax all the nodes to this node and mark this node as visited
-            // since we are marking any node visited only we have relaxed all the outgoing edge through that vertex
-            // so there can be many instances of same node in the minHeap and once we have relaxed all the edges through that node 
-            // then, no need to relax all the edges through that node again anymore so simply skip
-            if (visited.count(n1)) continue;
-            visited.insert(n1); // only mark visited if we are going to relax all outgoing edges from the curr node
-
-            for (auto& [n2, w2] : edges[n1]) {
-                if (!visited.count(n2)) {
-                    if (distance[n2] > w1 + w2) {
-                        distance[n2] = w1 + w2;
-                        // you can only add any node to visited if you have found the optimal ans for that node i.e when you will pop
-                    }
-                    // when we push more than one ele in heap, 
-                    // it creates the min/max heap acc to the 1st element (1st pushed element)
-                    minHeap.push({distance[n2], n2});
-                }
-            }
-        }
-
-        return distance;
-    }
-};
-"""
-
-# Method 2:
-# Better one: Another way of writing method 1
+# another way of writing (better one)
 def ShortestPath1(adj,n, src):
     edges= defaultdict(list)  # converting into adjacency list with adjacent edges and their weights
     for u,v,w in adj:
@@ -175,47 +72,51 @@ def ShortestPath1(adj,n, src):
                 heapq.heappush(minHeap,(w1+w2, n2))  
     return distance
 adj= [[0,1,10],[0,2,5],[1,3,1],[1,2,2],[2,1,3],[2,4,2],[2,3,9],[3,4,4],[4,0,7],[4,3,6]]
+# print(ShortestPath(adj, 5, 0))
 print(ShortestPath1(adj, 5, 0))
-
 
 # Java
 """
-import java.util.*;
-
 public class Solution {
     public int[] shortestPath1(int[][] adj, int n, int src) {
-        Map<Integer, List<int[]>> edges = new HashMap<>(); // converting into adjacency list with adjacent edges and their weights
+        // Convert input edge list to adjacency list with weights
+        Map<Integer, List<int[]>> edges = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            edges.put(i, new ArrayList<>());
+        }
 
-        for (int[] edge : adj) {
-            edges.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(new int[]{edge[1], edge[2]});
+        for (int[] e : adj) {
+            int u = e[0];
+            int v = e[1];
+            int w = e[2];
+            edges.get(u).add(new int[]{v, w});
         }
 
         int[] distance = new int[n];
-        Arrays.fill(distance, 9999999);  // large number instead of infinity
-        distance[src] = 0;  // will contain the distance of source to all other vertices
+        Arrays.fill(distance, Integer.MAX_VALUE);
+        distance[src] = 0;  // will contain the shortest distance from source to all vertices
 
-        PriorityQueue<int[]> minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
-        minHeap.offer(new int[]{0, src}); // first element should be weight as it will create the heap using 1st element
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+        minHeap.offer(new int[]{0, src});  // first element = weight, second = node
 
         Set<Integer> visited = new HashSet<>();
 
         while (!minHeap.isEmpty()) {
             int[] top = minHeap.poll();
-            int w1 = top[0], n1 = top[1];
+            int w1 = top[0];
+            int n1 = top[1];
 
-            // it means for this node, we have got the optimal ans so we will relax all the nodes to this node
             if (visited.contains(n1)) continue;
 
-            distance[n1] = w1;  // popped one means we have found minimum distance of that
-            visited.add(n1);   // only mark visited if we are going to relax all the outgoing edges from the current node
+            distance[n1] = w1;  // finalized shortest distance for n1
+            visited.add(n1);    // mark as visited only when we're about to relax outgoing edges
 
-            if (!edges.containsKey(n1)) continue;
+            for (int[] edge : edges.get(n1)) {
+                int n2 = edge[0];
+                int w2 = edge[1];
 
-            for (int[] neighbor : edges.get(n1)) {
-                int n2 = neighbor[0], w2 = neighbor[1];
                 if (!visited.contains(n2)) {
-                    // if not visited then simply add in minHeap. 'n2' with MinDistance will be automatically on the top of heap.
-                    minHeap.offer(new int[]{w1 + w2, n2});
+                    minHeap.offer(new int[]{w1 + w2, n2});  // add with updated weight
                 }
             }
         }
@@ -223,56 +124,100 @@ public class Solution {
         return distance;
     }
 }
-
 """
-
-
-# C++ Code 
+#C++ Code 
 """
-#include <bits/stdc++.h>
+#include <vector>
+#include <queue>
+#include <set>
+#include <cmath>
 using namespace std;
 
 class Solution {
 public:
-    vector<int> shortestPath1(vector<vector<int>>& adj, int n, int src) {
-        unordered_map<int, vector<pair<int, int>>> edges; // converting into adjacency list with adjacent edges and their weights
+    // Method 1: Using Dijkstra-like approach with min-heap (priority_queue)
+    int minimumEffortPath(vector<vector<int>>& heights) {
+        int n = (int)heights.size();
+        int m = (int)heights[0].size();
+        set<pair<int,int>> visited;
+        // priority_queue stores {diff, {r, c}} with smallest diff on top
+        priority_queue< pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>> > heap;
+        heap.push({0, {0, 0}});  // {diff, {r, c}}
 
-        for (auto& edge : adj) {
-            edges[edge[0]].push_back({edge[1], edge[2]});
-        }
+        while (!heap.empty()) {
+            auto curr = heap.top();
+            heap.pop();
+            int diff = curr.first, r = curr.second.first, c = curr.second.second;
+            if (r == n - 1 && c == m - 1) {
+                return diff;
+            }
+            // this i was missing. mark visited only after you relax all directions from a cell, not when you visit for 1st time itself.
+            if (visited.count({r, c})) {
+                continue;
+            }
+            visited.insert({r, c});
 
-        vector<int> distance(n, 9999999); // large number instead of infinity
-        distance[src] = 0;  // will contain the distance of source to all other vertices
-
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap;
-        minHeap.push({0, src}); // first element should be weight as it will create the heap using 1st element
-
-        unordered_set<int> visited;
-
-        while (!minHeap.empty()) {
-            auto [w1, n1] = minHeap.top(); minHeap.pop();
-
-            // it means for this node, we have got the optimal ans so we will relax all the nodes to this node
-            if (visited.count(n1)) continue;
-
-            distance[n1] = w1;  // popped one means we have found minimum distance of that
-            visited.insert(n1);  // only mark visited if we are going to relax all the outgoing edges from the current node
-
-            for (auto& [n2, w2] : edges[n1]) {
-                if (!visited.count(n2)) {
-                    // if not visited then simply add in minHeap. 'n2' with MinDistance will be automatically on the top of heap.
-                    minHeap.push({w1 + w2, n2});
+            vector<vector<int>> directions = {{r-1, c}, {r+1, c}, {r, c-1}, {r, c+1}}; // up, down, left, right
+            for (auto &d : directions) {
+                int nr = d[0], nc = d[1];
+                if (nr >= 0 && nr < n && nc >= 0 && nc < m && visited.count({nr, nc}) == 0) {
+                    int curr_diff = abs(heights[r][c] - heights[nr][nc]);
+                    // we have already taken the path with difference = 'diff' so we can't take less than that for curr path so maximising.
+                    int min_diff_till_now = max(diff, curr_diff);
+                    // you can only reach cell (nr, nc) with minimum diff between any two cell = min_diff_till_now  
+                    heap.push({min_diff_till_now, {nr, nc}});
                 }
             }
         }
+        return 0; // fallback, should not happen
+    }
 
-        return distance;
+    // Method 2: Using binary search + BFS
+    bool isPossible(int k, vector<vector<int>>& heights) {
+        int n = (int)heights.size();
+        int m = (int)heights[0].size();
+        set<pair<int,int>> visited;
+        queue<pair<int,int>> q;
+        q.push({0, 0});
+        visited.insert({0, 0});
+        vector<vector<int>> directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // up, down, left, right
+
+        while (!q.empty()) {
+            auto curr = q.front();
+            q.pop();
+            int r = curr.first, c = curr.second;
+            if (r == n - 1 && c == m - 1) {
+                return true;
+            }
+            for (auto &d : directions) {
+                int nr = r + d[0], nc = c + d[1];
+                if (nr >= 0 && nr < n && nc >= 0 && nc < m && visited.count({nr, nc}) == 0 &&
+                    abs(heights[r][c] - heights[nr][nc]) <= k) {
+                    q.push({nr, nc});
+                    visited.insert({nr, nc});
+                }
+            }
+        }
+        return false;
+    }
+
+    int minimumEffortPathBinarySearch(vector<vector<int>>& heights) {
+        int start = 0, end = 1000000;
+        while (start < end) {
+            int mid = start + (end - start)/2;
+            if (isPossible(mid, heights)) {
+                // then find more less
+                end = mid;
+            } else {
+                // check bigger value
+                start = mid + 1;
+            }
+        }
+        return start;
     }
 };
+
 """
-
-
-# Extension: 
 
 """
 Now if we want to print shortest path from source to any node.
@@ -393,8 +338,6 @@ public class Solution {
     }
  }
 """
-
-
 #C++ Code 
 """
 #include <iostream>

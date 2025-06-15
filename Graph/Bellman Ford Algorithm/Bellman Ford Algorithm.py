@@ -1,5 +1,3 @@
-# Method 1: 
-
 """
 Theory:
 1) It has capacity to detect whether a graph has negative weight cycle or not.
@@ -53,98 +51,46 @@ BellmanFord(0,edges,5)
 """
 import java.util.*;
 
-public class BellmanFord {
-    public static void BellmanFord(int src, int[][] edges, int n) {
+public class Solution {
+
+    public void bellmanFord(int src, int[][] edges, int n) {
         int[] distance = new int[n];
-        Arrays.fill(distance, 999999);
+        Arrays.fill(distance, Integer.MAX_VALUE);
         distance[src] = 0;
 
-        // to get the optimal ans if there is no negative weight cycle
+        // Relax all edges (n - 1) times
         for (int i = 0; i < n - 1; i++) {
-            int[] tempDistance = distance.clone();
+            int[] tempDistance = Arrays.copyOf(distance, n);
+
             for (int[] edge : edges) {
-                int s = edge[0], d = edge[1], w = edge[2];
-                if (distance[s] == 999999)  // first check if we have reached the source till now or not
-                    continue;
-                if (tempDistance[d] > distance[s] + w) {
-                    // if we can more optimise distance of 'd' using the calculation till now
-                    tempDistance[d] = distance[s] + w;
+                int u = edge[0], v = edge[1], w = edge[2];
+
+                if (distance[u] == Integer.MAX_VALUE) continue;
+
+                if (tempDistance[v] > distance[u] + w) {
+                    tempDistance[v] = distance[u] + w;
                 }
             }
-            distance = tempDistance.clone();  // will tell what is the minimum distance to all nodes from source
-                                              // after 'i'th iteration
+
+            distance = Arrays.copyOf(tempDistance, n);  // update distance after each pass
         }
 
-        // now to check the negative cycle
+        // Check for negative weight cycle
         for (int[] edge : edges) {
-            int s = edge[0], d = edge[1], w = edge[2];
-            if (distance[s] != 999999 && distance[d] > distance[s] + w) {
-                // first check if we have reached the source
-                System.out.println("negative weight cycle is there");
+            int u = edge[0], v = edge[1], w = edge[2];
+
+            if (distance[u] != Integer.MAX_VALUE && distance[v] > distance[u] + w) {
+                System.out.println("Negative weight cycle is there");
                 return;
             }
         }
 
-        System.out.println(Arrays.toString(distance));
-    }
-
-    public static void main(String[] args) {
-        int[][] edges = {
-            {0, 1, -1}, {0, 2, 4}, {1, 2, 3}, {1, 4, 2},
-            {3, 2, 5}, {3, 1, 1}, {4, 3, -3}
-        };
-        BellmanFord(0, edges, 5);
-    }
-}
-"""
-
-
-# C++
-"""
-#include <bits/stdc++.h>
-using namespace std;
-
-void BellmanFord(int src, vector<vector<int>>& edges, int n) {
-    vector<int> distance(n, 999999);
-    distance[src] = 0;
-
-    // to get the optimal ans if there is no negative weight cycle
-    for (int i = 0; i < n - 1; ++i) {
-        vector<int> tempDistance = distance;
-        for (auto& edge : edges) {
-            int s = edge[0], d = edge[1], w = edge[2];
-            if (distance[s] == 999999)  // first check if we have reached the source till now or not
-                continue;
-            if (tempDistance[d] > distance[s] + w) {
-                // if we can more optimise distance of 'd' using the calculation till now
-                tempDistance[d] = distance[s] + w;
-            }
-        }
-        distance = tempDistance;  // will tell what is the minimum distance to all nodes from source
-                                  // after 'i'th iteration
-    }
-
-    // now to check the negative cycle
-    for (auto& edge : edges) {
-        int s = edge[0], d = edge[1], w = edge[2];
-        if (distance[s] != 999999 && distance[d] > distance[s] + w) {
-            // first check if we have reached the source
-            cout << "negative weight cycle is there" << endl;
-            return;
+        // Print final distances
+        System.out.println("Shortest distances from source " + src + ":");
+        for (int i = 0; i < n; i++) {
+            System.out.println("Node " + i + " --> " + (distance[i] == Integer.MAX_VALUE ? "INF" : distance[i]));
         }
     }
-
-    for (int d : distance) cout << d << " ";
-    cout << endl;
-}
-
-int main() {
-    vector<vector<int>> edges = {
-        {0, 1, -1}, {0, 2, 4}, {1, 2, 3}, {1, 4, 2},
-        {3, 2, 5}, {3, 1, 1}, {4, 3, -3}
-    };
-    BellmanFord(0, edges, 5);
-    return 0;
 }
 """
 

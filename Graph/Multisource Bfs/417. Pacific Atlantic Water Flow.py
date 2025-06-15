@@ -1,5 +1,3 @@
-# Method 1: 
-
 """
 Q meaning: you have to return all that grid in a 2D matrix from which water can flow to both pacific and atlantic ocean
 we are going reverse i.e from ocean to the cells
@@ -43,121 +41,59 @@ class Solution:
         return list(pac & atl)    # Take intersection of both sets
 
 
+# method 2: By Bfs using same logic as we did in case of "No of island"
+
 
 # Java
 """
-import java.util.*;
+// Method 1:
 
-class Solution {
-    int row, col;
-    int[][] heights;
-    boolean[][] pac, atl;
+public class Solution {
+    private int row, col;
+    private int[][] heights;
+    private Set<List<Integer>> pacific;
+    private Set<List<Integer>> atlantic;
+    private int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // up, down, left, right
 
     public List<List<Integer>> pacificAtlantic(int[][] heights) {
+        this.row = heights.length;
+        this.col = heights[0].length;
         this.heights = heights;
-        row = heights.length;
-        col = heights[0].length;
-        pac = new boolean[row][col];
-        atl = new boolean[row][col];
+        this.pacific = new HashSet<>();
+        this.atlantic = new HashSet<>();
 
-        // cells that are in the 1st and last row can reach the pacific and atlantic respectively
         for (int c = 0; c < col; c++) {
-            DFS(0, c, pac, heights[0][c]);         // 1st row
-            DFS(row - 1, c, atl, heights[row - 1][c]);  // last row
+            dfs(0, c, pacific, heights[0][c]);
+            dfs(row - 1, c, atlantic, heights[row - 1][c]);
         }
 
-        // cells that are in the 1st and last col can reach the pacific and atlantic respectively
         for (int r = 0; r < row; r++) {
-            DFS(r, 0, pac, heights[r][0]);         // 1st column
-            DFS(r, col - 1, atl, heights[r][col - 1]); // last column
+            dfs(r, 0, pacific, heights[r][0]);
+            dfs(r, col - 1, atlantic, heights[r][col - 1]);
         }
 
-        // now find out the cells that are present in both pacific and atlantic cell and them into ans
-        List<List<Integer>> ans = new ArrayList<>();
-        for (int r = 0; r < row; r++) {
-            for (int c = 0; c < col; c++) {
-                if (pac[r][c] && atl[r][c]) {
-                    ans.add(Arrays.asList(r, c));
-                }
+        List<List<Integer>> result = new ArrayList<>();
+        for (List<Integer> cell : pacific) {
+            if (atlantic.contains(cell)) {
+                result.add(cell);
             }
         }
-        return ans;
+
+        return result;
     }
 
-    void DFS(int r, int c, boolean[][] visited, int preHeight) {
-        if (r < 0 || r >= row || c < 0 || c >= col || visited[r][c] || heights[r][c] < preHeight) {
+    private void dfs(int r, int c, Set<List<Integer>> visited, int prevHeight) {
+        if (r < 0 || r >= row || c < 0 || c >= col || visited.contains(Arrays.asList(r, c)) || heights[r][c] < prevHeight) {
             return;
         }
-        // now means this cell can reach the ocean so add in the visited
-        visited[r][c] = true;
-        int[][] directions = {{-1,0},{1,0},{0,-1},{0,1}}; // up, down, left, right
-        for (int[] d : directions) {
-            int r1 = r + d[0], c1 = c + d[1];
-            DFS(r1, c1, visited, heights[r][c]);
+
+        visited.add(Arrays.asList(r, c));
+        for (int[] direction : directions) {
+            int newRow = r + direction[0];
+            int newCol = c + direction[1];
+            dfs(newRow, newCol, visited, heights[r][c]);
         }
     }
 }
-
-
-"""
-
-
-# C++
-"""
-#include <vector>
-using namespace std;
-
-class Solution {
-    int row, col;
-    vector<vector<int>> heights;
-    vector<vector<bool>> pac, atl;
-
-public:
-    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
-        this->heights = heights;
-        row = heights.size();
-        col = heights[0].size();
-        pac = vector<vector<bool>>(row, vector<bool>(col, false));
-        atl = vector<vector<bool>>(row, vector<bool>(col, false));
-
-        // cells that are in the 1st and last row can reach the pacific and atlantic respectively
-        for (int c = 0; c < col; ++c) {
-            DFS(0, c, pac, heights[0][c]);         // 1st row
-            DFS(row - 1, c, atl, heights[row - 1][c]); // last row
-        }
-
-        // cells that are in the 1st and last col can reach the pacific and atlantic respectively
-        for (int r = 0; r < row; ++r) {
-            DFS(r, 0, pac, heights[r][0]);         // 1st column
-            DFS(r, col - 1, atl, heights[r][col - 1]); // last column
-        }
-
-        // now find out the cells that are present in both pacific and atlantic cell and them into ans
-        vector<vector<int>> ans;
-        for (int r = 0; r < row; ++r) {
-            for (int c = 0; c < col; ++c) {
-                if (pac[r][c] && atl[r][c]) {
-                    ans.push_back({r, c});
-                }
-            }
-        }
-        return ans;
-    }
-
-private:
-    void DFS(int r, int c, vector<vector<bool>>& visited, int preHeight) {
-        if (r < 0 || r >= row || c < 0 || c >= col || visited[r][c] || heights[r][c] < preHeight) {
-            return;
-        }
-        // now means this cell can reach the ocean so add in the visited
-        visited[r][c] = true;
-        vector<pair<int, int>> directions = {{-1,0},{1,0},{0,-1},{0,1}}; // up, down, left, right
-        for (auto [dr, dc] : directions) {
-            int r1 = r + dr, c1 = c + dc;
-            DFS(r1, c1, visited, heights[r][c]);
-        }
-    }
-};
-
 
 """

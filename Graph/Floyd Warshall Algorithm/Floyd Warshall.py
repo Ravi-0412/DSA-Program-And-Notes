@@ -1,5 +1,3 @@
-# method 1: 
-
 """
 what does it give?
 it gives shortest path between all pairs of vertices.
@@ -68,24 +66,23 @@ class Solution:
 
 # java
 """
-class Solution {
+import java.util.*;
+
+public class Solution {
     public void shortest_distance(int[][] matrix) {
         int n = matrix.length;
 
-        // for simplicity change the weight of (i,i)= 0 and and if not edge then to 'inf'
+        // Step 1: Replace -1 with INF and set matrix[i][i] = 0
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (matrix[i][j] == -1) {
+                if (matrix[i][j] == -1)
                     matrix[i][j] = Integer.MAX_VALUE;
-                }
-                if (i == j) {
+                if (i == j)
                     matrix[i][j] = 0;
-                }
             }
         }
 
-        // now apply the algorithm
-        // Distance of shortest path between i -> j with {0, 1, 2,...k} as internal vertices.
+        // Step 2: Apply Floyd-Warshall algorithm
         for (int k = 0; k < n; k++) {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
@@ -96,36 +93,38 @@ class Solution {
             }
         }
 
-        // Note: If you will change the order of 'i', 'j' and 'k' then it won't work.
-
-        // for detecting the negative weight cycle
+        // Step 3: Detect negative weight cycles
         for (int i = 0; i < n; i++) {
             if (matrix[i][i] < 0) {
-                System.out.println("there is negative weight cycle");
+                System.out.println("There is a negative weight cycle");
                 return;
             }
         }
 
-        // change while returning, change what we have changed at start
+        // Step 4: Replace INF back to -1 for output formatting
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (matrix[i][j] == Integer.MAX_VALUE) {
+                if (matrix[i][j] == Integer.MAX_VALUE)
                     matrix[i][j] = -1;
-                }
-                if (i == j) {
+                if (i == j)
                     matrix[i][j] = 0;
-                }
             }
+        }
+
+        // Optional: Print the matrix
+        System.out.println("Shortest distance matrix:");
+        for (int[] row : matrix) {
+            System.out.println(Arrays.toString(row));
         }
     }
 }
-
-
 """
 
-# C++
+# C++ Code 
 """
-#include <bits/stdc++.h>
+#include <vector>
+#include <iostream>
+#include <climits>  // For INT_MAX
 using namespace std;
 
 class Solution {
@@ -133,20 +132,17 @@ public:
     void shortest_distance(vector<vector<int>>& matrix) {
         int n = matrix.size();
 
-        // for simplicity change the weight of (i,i)= 0 and and if not edge then to 'inf'
+        // Step 1: Replace -1 with INF and set matrix[i][i] = 0
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (matrix[i][j] == -1) {
+                if (matrix[i][j] == -1)
                     matrix[i][j] = INT_MAX;
-                }
-                if (i == j) {
+                if (i == j)
                     matrix[i][j] = 0;
-                }
             }
         }
 
-        // now apply the algorithm
-        // Distance of shortest path between i -> j with {0, 1, 2,...k} as internal vertices.
+        // Step 2: Apply Floyd-Warshall algorithm
         for (int k = 0; k < n; k++) {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
@@ -157,26 +153,31 @@ public:
             }
         }
 
-        // Note: If you will change the order of 'i', 'j' and 'k' then it won't work.
-
-        // for detecting the negative weight cycle
+        // Step 3: Detect negative weight cycles
         for (int i = 0; i < n; i++) {
             if (matrix[i][i] < 0) {
-                cout << "there is negative weight cycle" << endl;
+                cout << "There is a negative weight cycle" << endl;
                 return;
             }
         }
 
-        // change while returning, change what we have changed at start
+        // Step 4: Replace INF back to -1 for output formatting
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (matrix[i][j] == INT_MAX) {
+                if (matrix[i][j] == INT_MAX)
                     matrix[i][j] = -1;
-                }
-                if (i == j) {
+                if (i == j)
                     matrix[i][j] = 0;
-                }
             }
+        }
+
+        // Optional: Print the matrix
+        cout << "Shortest distance matrix:" << endl;
+        for (auto &row : matrix) {
+            for (auto &val : row) {
+                cout << val << " ";
+            }
+            cout << endl;
         }
     }
 };

@@ -1,5 +1,3 @@
-# Method 1: 
-
 """
 logic: just simple bfs to find the cost from src to destination.
 Difficult part to think how we can do by graph.
@@ -105,7 +103,7 @@ public class Solution {
         Set<String> visited = new HashSet<>();
 
         queue.offer(new Pair(src, 1.0));
-        visited.add(src);    // we are adding reverse also so there will be cycle . so take visited.
+        visited.add(src);
 
         while (!queue.isEmpty()) {
             Pair current = queue.poll();
@@ -140,8 +138,6 @@ public class Solution {
     }
 }
 """
-
-
 # C++ Code 
 """
 #include <iostream>
@@ -168,7 +164,7 @@ public:
                 return -1.0;
             }
             queue<pair<string, double>> q;
-            unordered_set<string> visited;   // we are adding reverse also so there will be cycle . so take visited.
+            unordered_set<string> visited;   // visited to avoid cycles
             q.push({src, 1.0});              // [variable, values_till_now]
             visited.insert(src);
 
@@ -198,3 +194,4 @@ public:
 
 """
 
+# Later do by dfs

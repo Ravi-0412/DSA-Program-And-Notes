@@ -1,4 +1,3 @@
-# Method 1: 
 """
 At any time you see, find the shortest steps/path you should immediately think Breadth-First-Search or dijkastra.
 logic: beginword will be at level '0' and now just keep all the words which can be formed by changing one char at level 1 ,
@@ -53,126 +52,18 @@ class Solution(object):
                         q.append((step + 1, nei))
                         visited.add(nei)
         return 0
-
-
-# JAva
-"""
-import java.util.*;
-
-class Solution {
-    public int ladderLength(String beginWord, String endWord, List<String> words) {
-        if (!words.contains(endWord)) return 0;
-        words.add(beginWord);
-        int n = words.size();
-        Map<String, List<String>> adj = new HashMap<>();
-        // Build adjacency list for words differing by one letter
-        for (int i = 0; i < n; i++) {
-            String w1 = words.get(i);
-            for (int j = i + 1; j < n; j++) {
-                String w2 = words.get(j);
-                int cnt = 0;
-                for (int k = 0; k < w1.length(); k++)
-                    if (w1.charAt(k) != w2.charAt(k)) cnt++;
-                if (cnt == 1) {
-                    adj.computeIfAbsent(w1, x -> new ArrayList<>()).add(w2);
-                    adj.computeIfAbsent(w2, x -> new ArrayList<>()).add(w1);
-                }
-            }
-        }
-
-        Deque<Pair<String,Integer>> q = new ArrayDeque<>();
-        q.add(new Pair<>(beginWord,1));
-        Set<String> visited = new HashSet<>();
-        visited.add(beginWord);
-
-        while (!q.isEmpty()) {
-            int size = q.size();
-            while (size-- > 0) {
-                Pair<String,Integer> p = q.poll();
-                String word = p.getKey();
-                int step = p.getValue();
-
-                for (String nei : adj.getOrDefault(word, Collections.emptyList())) {
-                    if (nei.equals(endWord)) return step + 1;
-                    if (!visited.contains(nei)) {
-                        q.add(new Pair<>(nei, step + 1));
-                        visited.add(nei);
-                    }
-                }
-            }
-        }
-        return 0;
-    }
-
-    // Helper class
-    private static class Pair<K,V> {
-        final K key; final V value;
-        Pair(K k, V v){ key=k; value=v; }
-        K getKey(){ return key; }
-        V getValue(){ return value; }
-    }
-}
-"""
-
-
-# C++
-"""
-#include <bits/stdc++.h>
-using namespace std;
-
-class Solution {
-public:
-    int ladderLength(string beginWord, string endWord, vector<string>& words) {
-        if (find(words.begin(), words.end(), endWord) == words.end()) return 0;
-        words.push_back(beginWord);
-        int n = words.size();
-        unordered_map<string, vector<string>> adj;
-        // Build adjacency list for words differing by one letter
-        for (int i = 0; i < n; i++) {
-            for (int j = i+1; j < n; j++) {
-                int cnt = 0;
-                for (int k = 0; k < words[i].size(); k++)
-                    if (words[i][k] != words[j][k]) cnt++;
-                if (cnt == 1) {
-                    adj[words[i]].push_back(words[j]);
-                    adj[words[j]].push_back(words[i]);
-                }
-            }
-        }
-
-        queue<pair<string,int>> q;
-        q.push({beginWord,1});
-        unordered_set<string> visited{beginWord};
-
-        while (!q.empty()) {
-            int sz = q.size();
-            while (sz-- > 0) {
-                auto [word, step] = q.front(); q.pop();
-                for (auto& nei : adj[word]) {
-                    if (nei == endWord) return step + 1;
-                    if (!visited.count(nei)) {
-                        visited.insert(nei);
-                        q.push({nei, step + 1});
-                    }
-                }
-            }
-        }
-        return 0;
-    }
-};
+    
 
 """
+optimising the above solution:
+Logic: Instead of checking character difference between each pair of word
+check what all possible words we can get which is in 'wordList' by changing an character of a word.
 
+Time Complexity :- BigO(M^2 * N), where M is size of dequeued word & N is size of our word list
+Space Complexity :- BigO(M * N) where M is no. of character that we had in our string & N is the size of our wordList.
 
-# Method 2: 
-# optimising the above solution:
-# Logic: Instead of checking character difference between each pair of word
-# check what all possible words we can get which is in 'wordList' by changing an character of a word.
-
-# Time Complexity :- BigO(M^2 * N), where M is size of dequeued word & N is size of our word list
-# Space Complexity :- BigO(M * N) where M is no. of character that we had in our string & N is the size of our wordList.
-
-# Can do using normal bfs also taking extra variable by herew multisource bfs is making more sense.
+Can do using normal bfs also taking extra variable by herew multisource bfs is making more sense.
+"""
 
 class Solution(object):
     def ladderLength(self, beginWord, endWord, wordList):
@@ -214,104 +105,55 @@ class Solution(object):
                             
         return 0   # return default if there is no any sequence is present
 
-
-# java
+# Java
 """
 import java.util.*;
 
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
         if (!wordList.contains(endWord)) return 0;
+        
+        Map<String, List<String>> map = new HashMap<>();
         wordList.add(beginWord);
-        Map<String, List<String>> dic = new HashMap<>();
-        // Map intermediate forms to words
-        for (String w : wordList) {
+        
+        for (String word : wordList) {
             for (int i = 0; i < beginWord.length(); i++) {
-                String pattern = w.substring(0,i) + "*" + w.substring(i+1);
-                dic.computeIfAbsent(pattern, x -> new ArrayList<>()).add(w);
+                String pattern = word.substring(0, i) + "*" + word.substring(i + 1);
+                map.computeIfAbsent(pattern, k -> new ArrayList<>()).add(word);
             }
         }
-
+        
         Set<String> visited = new HashSet<>();
-        Queue<String> Q = new ArrayDeque<>();
-        Q.add(beginWord);
+        Queue<String> queue = new LinkedList<>();
+        queue.add(beginWord);
         visited.add(beginWord);
         int level = 1;
-
-        while (!Q.isEmpty()) {
-            int size = Q.size();
-            while (size-- > 0) {
-                String word = Q.poll();
+        
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int s = 0; s < size; s++) {
+                String word = queue.poll();
                 for (int i = 0; i < word.length(); i++) {
-                    String pattern = word.substring(0,i) + "*" + word.substring(i+1);
-                    for (String nei : dic.getOrDefault(pattern, Collections.emptyList())) {
+                    String pattern = word.substring(0, i) + "*" + word.substring(i + 1);
+                    for (String nei : map.getOrDefault(pattern, new ArrayList<>())) {
                         if (!visited.contains(nei)) {
                             if (nei.equals(endWord)) return level + 1;
+                            queue.add(nei);
                             visited.add(nei);
-                            Q.add(nei);
                         }
                     }
                 }
             }
             level++;
         }
+        
         return 0;
     }
 }
 """
 
-
-# c++
+# method 2: Better one. Do by this only
 """
-#include <bits/stdc++.h>
-using namespace std;
-
-class Solution {
-public:
-    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
-        if (find(wordList.begin(), wordList.end(), endWord) == wordList.end()) return 0;
-        wordList.push_back(beginWord);
-        unordered_map<string, vector<string>> dic;
-        // Map intermediate forms to words
-        for (auto& w : wordList) {
-            for (int i = 0; i < beginWord.size(); i++) {
-                string pattern = w.substr(0,i) + '*' + w.substr(i+1);
-                dic[pattern].push_back(w);
-            }
-        }
-
-        unordered_set<string> visited{beginWord};
-        queue<string> Q;
-        Q.push(beginWord);
-        int level = 1;
-
-        while (!Q.empty()) {
-            int sz = Q.size();
-            while (sz-- > 0) {
-                string word = Q.front(); Q.pop();
-                for (int i = 0; i < word.size(); i++) {
-                    string pattern = word.substr(0,i) + '*' + word.substr(i+1);
-                    for (auto& nei : dic[pattern]) {
-                        if (!visited.count(nei)) {
-                            if (nei == endWord) return level + 1;
-                            visited.insert(nei);
-                            Q.push(nei);
-                        }
-                    }
-                }
-            }
-            level++;
-        }
-        return 0;
-    }
-};
-
-"""
-
-
-# method 3: 
-"""
-# Better one. Do by this only
 logic: Try to replace each char of each word from 'a' to 'z'.
 and check if the new_word formed by replacing exist in wordlist or not.
 
@@ -347,91 +189,45 @@ class Solution(object):
             shortest_path += 1                
         return 0   # return default if there is no any sequence is present
 
-
 # Java
 """
 import java.util.*;
 
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        if (!wordList.contains(endWord)) return 0;
         Set<String> wordSet = new HashSet<>(wordList);
-        Queue<String> Q = new ArrayDeque<>();
-        Q.add(beginWord);
+        if (!wordSet.contains(endWord)) return 0;
+        
         Set<String> visited = new HashSet<>();
+        Queue<String> queue = new LinkedList<>();
+        queue.offer(beginWord);
         visited.add(beginWord);
-        int shortest_path = 1;
-
-        while (!Q.isEmpty()) {
-            int size = Q.size();
-            while (size-- > 0) {
-                String word = Q.poll();
-                for (int j = 0; j < word.length(); j++) {
-                    char[] arr = word.toCharArray();
-                    for (char ch = 'a'; ch <= 'z'; ch++) {
-                        if (arr[j] == ch) continue;
-                        char prev = arr[j];
-                        arr[j] = ch;
-                        String nextWord = new String(arr);
+        
+        int shortestPath = 1;
+        
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int s = 0; s < size; s++) {
+                String word = queue.poll();
+                char[] wordChars = word.toCharArray();
+                for (int i = 0; i < wordChars.length; i++) {
+                    char originalChar = wordChars[i];
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        wordChars[i] = c;
+                        String nextWord = new String(wordChars);
                         if (wordSet.contains(nextWord) && !visited.contains(nextWord)) {
-                            if (nextWord.equals(endWord)) return shortest_path + 1;
+                            if (nextWord.equals(endWord)) return shortestPath + 1;
+                            queue.offer(nextWord);
                             visited.add(nextWord);
-                            Q.add(nextWord);
                         }
-                        arr[j] = prev;
                     }
+                    wordChars[i] = originalChar;
                 }
             }
-            shortest_path++;
+            shortestPath++;
         }
-
+        
         return 0;
     }
 }
-
-
-"""
-
-
-# C++ 
-"""
-#include <bits/stdc++.h>
-using namespace std;
-
-class Solution {
-public:
-    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
-        unordered_set<string> wordSet(wordList.begin(), wordList.end());
-        if (!wordSet.count(endWord)) return 0;
-        queue<string> Q;
-        unordered_set<string> visited{beginWord};
-        Q.push(beginWord);
-        int shortest_path = 1;
-
-        while (!Q.empty()) {
-            int sz = Q.size();
-            while (sz-- > 0) {
-                string word = Q.front(); Q.pop();
-                for (int j = 0; j < word.size(); j++) {
-                    char original = word[j];
-                    for (char ch = 'a'; ch <= 'z'; ch++) {
-                        if (ch == original) continue;
-                        word[j] = ch;
-                        if (wordSet.count(word) && !visited.count(word)) {
-                            if (word == endWord) return shortest_path + 1;
-                            visited.insert(word);
-                            Q.push(word);
-                        }
-                    }
-                    word[j] = original;
-                }
-            }
-            shortest_path++;
-        }
-
-        return 0;
-    }
-};
-
-
 """

@@ -1,5 +1,3 @@
-# Method 1: 
-
 """
 # (Kosaraju Algorithm)
 
@@ -19,6 +17,11 @@ If we can reach then it means they are strongly connected to each other.
 
 time: O(n +E)
 Space : O(n)
+"""
+"""
+Related Question
+1) 1520. Maximum Number of Non-Overlapping Substrings
+Solution Link in sheet
 """
 
 from collections import defaultdict
@@ -75,7 +78,6 @@ g.addEdge(0,2)
 g.addEdge(0,3)
 g.addEdge(3,4)
 g.KosaRaju(g.AdjList, 5)
-
 
 # java
 """
@@ -167,7 +169,6 @@ class Graph {
 }
 
 """
-
 
 # C++ Code 
 """
@@ -273,6 +274,3 @@ int main() {
 }
 
 """
-
-Related Question
-# 1) 1520. Maximum Number of Non-Overlapping Substrings

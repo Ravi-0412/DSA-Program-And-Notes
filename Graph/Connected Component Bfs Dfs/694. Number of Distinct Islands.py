@@ -1,5 +1,3 @@
-# Method 1: 
-
 """
 just similar as '200.No of Island'.
 We need to keep track of what all cells we covered, when starting from a cell and to check if that is 
@@ -40,147 +38,57 @@ class Solution:
         
         return len(islands)
 
-
 # Java
 """
 import java.util.*;
 
 class Solution {
-    public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
-        if (!wordList.contains(endWord)) {  // corner case
-            return Collections.emptyList();
-        }
-        Set<String> wordSet = new HashSet<>(wordList);
-        Map<String, List<String>> parents = new HashMap<>();
-        Set<String> curLevel = new HashSet<>();
-        curLevel.add(beginWord);
-        int shortestPath = 1;  // will give ans for 1st part "127.Word ladder"
+    public int numDistinctIslands(int[][] grid) {
+        int row = grid.length;
+        int col = grid[0].length;
 
-        while (!curLevel.isEmpty()) {
-            wordSet.removeAll(curLevel);  // Remove all words in curLevel
-            Set<String> nextLevel = new HashSet<>();
+        Set<String> islands = new HashSet<>();
+        boolean[][] visited = new boolean[row][col];
 
-            for (String word : curLevel) {
-                char[] arr = word.toCharArray();
-                for (int j = 0; j < arr.length; j++) {
-                    char old = arr[j];
-                    for (char c = 'a'; c <= 'z'; c++) {
-                        arr[j] = c;
-                        String nextWord = new String(arr);
-                        if (wordSet.contains(nextWord)) {
-                            nextLevel.add(nextWord);
-                            parents.computeIfAbsent(nextWord, k -> new ArrayList<>())
-                                   .add(word);
-                        }
-                    }
-                    arr[j] = old;
+        int[][] directions = {
+            {0, -1}, // left
+            {0, 1},  // right
+            {-1, 0}, // up
+            {1, 0}   // down
+        };
+
+        for (int r = 0; r < row; r++) {
+            for (int c = 0; c < col; c++) {
+                if (grid[r][c] == 1 && !visited[r][c]) {
+                    List<String> includedCell = new ArrayList<>();
+                    includedCell.add("0:0");
+                    dfs(grid, r, c, r, c, visited, includedCell, directions);
+                    islands.add(String.join(",", includedCell));
                 }
             }
-
-            if (nextLevel.contains(endWord)) {
-                break;
-            }
-            curLevel = nextLevel;
-            shortestPath++;
         }
 
-        List<List<String>> ans = new ArrayList<>();
-        dfs(endWord, beginWord, parents, new ArrayList<>(), ans);
-        return ans;
+        return islands.size();
     }
 
+    private void dfs(int[][] grid, int r, int c, int baseR, int baseC,
+                     boolean[][] visited, List<String> shape, int[][] directions) {
+        visited[r][c] = true;
 
-    private void dfs(String word, String beginWord, Map<String, List<String>> parents,
-                     List<String> path, List<List<String>> ans) {
-        if (word.equals(beginWord)) {
-            path.add(beginWord);
-            List<String> built = new ArrayList<>(path);
-            Collections.reverse(built);
-            ans.add(built);
-            return;
+        for (int[] dir : directions) {
+            int nr = r + dir[0];
+            int nc = c + dir[1];
+
+            if (nr >= 0 && nc >= 0 && nr < grid.length && nc < grid[0].length
+                && grid[nr][nc] == 1 && !visited[nr][nc]) {
+                int relR = nr - baseR;
+                int relC = nc - baseC;
+                shape.add(relR + ":" + relC);
+                dfs(grid, nr, nc, baseR, baseC, visited, shape, directions);
+            }
         }
-        if (!parents.containsKey(word)) return;
-        path.add(word);
-        for (String p : parents.get(word)) {
-            dfs(p, beginWord, parents, path, ans);
-        }
-        path.remove(path.size() - 1);
     }
 }
-
-
 """
 
-
-# C++
-"""
-#include <vector>
-#include <string>
-#include <unordered_set>
-#include <unordered_map>
-using namespace std;
-
-class Solution {
-public:
-    vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {
-        // corner case
-        unordered_set<string> wordSet(wordList.begin(), wordList.end());
-        if (!wordSet.count(endWord)) return {};
-
-        unordered_map<string, vector<string>> parents;
-        unordered_set<string> curLevel = {beginWord};
-        int shortestPath = 1;  // will give ans for 1st part "127.Word ladder"
-
-        while (!curLevel.empty()) {
-            for (auto& w : curLevel) wordSet.erase(w);  // Remove all in curLevel
-            unordered_set<string> nextLevel;
-
-            for (auto& word : curLevel) {
-                string nextWord = word;
-                for (int j = 0; j < word.size(); j++) {
-                    char orig = nextWord[j];
-                    for (char c = 'a'; c <= 'z'; c++) {
-                        nextWord[j] = c;
-                        if (wordSet.count(nextWord)) {
-                            nextLevel.insert(nextWord);
-                            parents[nextWord].push_back(word);
-                        }
-                    }
-                    nextWord[j] = orig;
-                }
-            }
-            if (nextLevel.count(endWord)) break;
-            curLevel.swap(nextLevel);
-            shortestPath++;
-        }
-
-        vector<vector<string>> ans;
-        vector<string> path;
-        dfs(endWord, beginWord, parents, path, ans);
-        return ans;
-    }
-
-private:
-    // Backtracking helper (instead of nested function)
-    void dfs(const string& word, const string& beginWord,
-             unordered_map<string, vector<string>>& parents,
-             vector<string>& path, vector<vector<string>>& ans) {
-        if (word == beginWord) {
-            path.push_back(beginWord);
-            vector<string> built(path.rbegin(), path.rend());
-            ans.push_back(built);
-            path.pop_back();
-            return;
-        }
-        if (!parents.count(word)) return;
-        path.push_back(word);
-        for (auto& p : parents[word]) {
-            dfs(p, beginWord, parents, path, ans);
-        }
-        path.pop_back();
-    }
-};
-
-
-"""
 

@@ -1,16 +1,35 @@
-#  Q: The way we exactly play the snake and ladder game in Ludo.
+"""
+ Q: The way we exactly play the snake and ladder game in Ludo.
 
-# logic: Just we have to apply bfs or multisource bfs.
-# Main problem and tough part of this Q is to convert the Square no -> coordinates.
-# After that exactly same as bfs..
-# Understand this conversion properly by drawing on pen and paer for more clarity.
+logic: Just we have to apply bfs or multisource bfs.
+Main problem and tough part of this Q is to convert the Square no -> coordinates.
+After that exactly same as bfs..
+Understand this conversion properly by drawing on pen and paer for more clarity.
+
+my mistake: i was finding the exact col by taking the 'row_no' from top i.e 
+after calculating the exact row no from top.
+
+Note:This Q can be also asked like this:"find the minimum number of dice throws required to reach the last cell(destination) from the source (1st cell)."
+
+time= space= O(n*n)
+"""
 
 # my mistake: i was finding the exact col by taking the 'row_no' from top i.e 
 # after calculating the exact row no from top.
+# it will depend from bottom.
 
-# Note:This Q can be also asked like this:"find the minimum number of dice throws required to reach the last cell(destination) from the source (1st cell)."
+def SquareNoToCoordinate(square):  # will return the coordinate of the 'square' no.
+            r, c= divmod(square- 1, n)   # square no is in '1' based indexing.
+            # so for getting the coordinates in '0' based indexing(board) dividing by 'n-1'. 
+            # it will give row no from bottom , so from top row no will be...
+            r= (n -1) - r   # board is zero based indexing so subtracting with 'n-1'
+            # for finding exact col , it will depend on whether row is odd or even
+            if r% 2:  # if odd from top
+                return [r, c]
+            return [r, n-c-1]
 
-# time= space= O(n*n)
+
+# Correct solution 
 
 class Solution:
     def snakesAndLadders(self, board: List[List[int]]) -> int:
@@ -179,20 +198,6 @@ public:
 };
 
 """
-
-# my mistake: i was finding the exact col by taking the 'row_no' from top i.e 
-# after calculating the exact row no from top.
-# it will depend from bottom.
-
-def SquareNoToCoordinate(square):  # will return the coordinate of the 'square' no.
-            r, c= divmod(square- 1, n)   # square no is in '1' based indexing.
-            # so for getting the coordinates in '0' based indexing(board) dividing by 'n-1'. 
-            # it will give row no from bottom , so from top row no will be...
-            r= (n -1) - r   # board is zero based indexing so subtracting with 'n-1'
-            # for finding exact col , it will depend on whether row is odd or even
-            if r% 2:  # if odd from top
-                return [r, c]
-            return [r, n-c-1]
 
 
 

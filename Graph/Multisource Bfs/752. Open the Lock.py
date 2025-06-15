@@ -1,4 +1,5 @@
-# Logic: 
+# method 1: 
+
 """
 You can move(change) any of four wheels in two direction either clockwise or anti-clockwise.
 

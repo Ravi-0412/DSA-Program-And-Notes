@@ -1,24 +1,55 @@
+# Method 1: 
+
 """
-logic: Every bipartite graph should be coloured with exactly two colors.
-use the concept of graph coloring and try to color with two color.
-no need of visited array in this because color array can work like visited also.
+Using BFS
+
+Bipartite Graph:  Check Using Coloring
+What is a Bipartite Graph?
+A graph is bipartite if:
+- You can split its nodes into two groups (or colors) such that no two connected nodes share the same group.
+- In other words, every edge connects nodes with different colors.
 
 Note: just similar logic as we detect cycle in undirected graph.
 
-Logic: if any node is not visited, then color it with different color than its parent and 
-if already visited then check it's color with the color of its neighbour. if same return False.
+Logic
+We use the idea of graph coloring:
+- Try to color the graph using only two colors: `0` and `1`.
+- If all adjacent (connected) nodes get different colors, the graph is **bipartite**.
+- If any two connected nodes get the same color, the graph is **not bipartite**.
+
+Algorithm Overview
+- Use a `color[]` array to keep track of each node's color:
+  - `-1` means the node hasn't been colored yet.
+  - `0` and `1` represent two different colors.
+- This `color[]` array also works as a **visited array**.
+- For each unvisited node:
+  - Color it (e.g., with `0`).
+  - Use **DFS or BFS** to color all its neighbors with the **opposite color**.
+- While traversing:
+  - If a neighbor is **already colored**, check:
+    - If it has the **same color** → Not bipartite → Return `False`.
+
 
 Note: xor of any number with 0 will give the same no  and  xor with '1' give the different number.
 so to color the adjacent node with different color, we will take 1^color[parent].
 And since we are only using '0' and '1' so number will be always : 0 or 1.
+We can easily switch between `0` and `1` using XOR:
+1 ^ 0 = 1 → flips 0 to 1
+1 ^ 1 = 0 → flips 1 to 0
+So, 1 ^ color[current_node] gives the other color automatically.
 
-Note: Complete graph can never be bipartite.
+Notes to Remember
+1. You don’t need a separate visited[] array. → If color[node] is not -1, it means it’s already visited.
+2. A complete graph with more than 2 nodes can never be bipartite (because all nodes are connected to each other, so we need more than 2 colors).
+3. This idea is similar to checking for cycles in an undirected graph.
+4. You can also solve this using m-coloring backtracking: Just set m = 2 (because we only want to use 2 colors).
 
-Note: It can done also by 'm-coloring' problem using backtracking.
-Just replace 'm' -> 2.
+
+Time Complexity: O(V + E)
+Space: O(V)
+V = number of vertices (nodes)
+E = number of edges
 """
-
-# method 1: using BFS
 
 class Solution:
     def isBipartite(self, graph: List[List[int]]) -> bool:
@@ -147,29 +178,8 @@ public:
 };
 
 """
-# method 2: By using DFS
-class Solution:
-    def isBipartite(self, graph: List[List[int]]) -> bool:
-        n= len(graph)
-        color= [-1]*n
-        for v in range(n):
-            if color[v]== -1:
-                color[v]= 1
-                if  self.DfsCheck(graph,v,color)== False:
-                    return False
-        return True
-
-    def DfsCheck(self, graph, src, color):
-        for u in graph[src]:
-            if color[u] == -1:  # means not visited
-                color[u] = 1^color[src]
-                if self.DfsCheck(graph,u,color) == False:
-                    return False
-            elif color[u]== color[src]:
-                return False
-        # return True # no need of this 
-
-
+# method 2:
+# By using DFS
 
 # my mistakes
 class Solution:
@@ -201,22 +211,63 @@ class Solution:
         # return True   # no need of this
 
 
+# Corrected solution 
+
+"""
+i) A graph is bipartite if you can color all nodes using 2 colors such that no two adjacent nodes have the same color.
+ii) Initialize a color array of size n with -1 (unvisited).
+iii) Loop through all nodes to ensure disconnected components are also checked.
+
+iv) For each unvisited node:
+a) Assign it an initial color (say 1).
+b) Start DFS:
+    b.1) For every neighbor:
+    b.1.1) If unvisited, assign it the opposite color using 1 ^ color[current].
+    b.1.2) Recursively call DFS.
+    b.1.3) If at any point, a neighbor has the same color as the current node, the graph is not bipartite.
+
+v) If DFS completes without conflict, the graph is bipartite.
+
+Time Complexity: O(V + E)
+Space Complexity: O(V)
+V = number of vertices (nodes)
+E = number of edges
+"""
+class Solution:
+    def isBipartite(self, graph: List[List[int]]) -> bool:
+        n= len(graph)
+        color= [-1]*n
+        for v in range(n):
+            if color[v]== -1:
+                color[v]= 1
+                if  self.DfsCheck(graph,v,color)== False:
+                    return False
+        return True
+
+    def DfsCheck(self, graph, src, color):
+        for u in graph[src]:
+            if color[u] == -1:  # means not visited
+                color[u] = 1^color[src]
+                if self.DfsCheck(graph,u,color) == False:
+                    return False
+            elif color[u]== color[src]:
+                return False
+        return True
+
+
+
 # Java
 """
-import java.util.*;
-
 class Solution {
     public boolean isBipartite(int[][] graph) {
         int n = graph.length;
-        boolean[] visited = new boolean[n];
         int[] color = new int[n];
-        Arrays.fill(color, -1);
+        Arrays.fill(color, -1);  // all nodes unvisited
 
         for (int v = 0; v < n; v++) {
-            if (!visited[v]) {
-                color[v] = 0;
-                visited[v] = true;
-                if (!DFSVisit(graph, v, visited, color)) {
+            if (color[v] == -1) {
+                color[v] = 1;
+                if (!dfsCheck(graph, v, color)) {
                     return false;
                 }
             }
@@ -224,22 +275,17 @@ class Solution {
         return true;
     }
 
-    public boolean DFSVisit(int[][] graph, int src, boolean[] visited, int[] color) {
-        // color[v] = 0   // writing here this one will give 'False' always as for every node it will set(update) the color as '0'
-                          // But will work properly in case of 'BFS' as there is no recursive call
+    public boolean dfsCheck(int[][] graph, int src, int[] color) {
         for (int u : graph[src]) {
-            if (!visited[u]) {
-                visited[u] = true;
-                // color[u] = 0 ^ color[src];  // xor with 0 will give the same no i.e same color so was getting false for all inputs
-                color[u] = 1 ^ color[src];    // xor with '1' gives a different number. So color first node with '1' only to write code like this.
-                if (!DFSVisit(graph, u, visited, color)) {
+            if (color[u] == -1) {  // means not visited
+                color[u] = 1 ^ color[src];
+                if (!dfsCheck(graph, u, color)) {
                     return false;
                 }
             } else if (color[u] == color[src]) {
                 return false;
             }
         }
-        // return true;   // no need of this
         return true;
     }
 }
@@ -248,23 +294,16 @@ class Solution {
 
 # C++ Code 
 """
-#include <vector>
-using namespace std;
-
 class Solution {
 public:
     bool isBipartite(vector<vector<int>>& graph) {
         int n = graph.size();
-        vector<bool> visited(n, false);
-        vector<int> color(n, -1);
+        vector<int> color(n, -1);  // all nodes unvisited
 
-        for (int v = 0; v < n; ++v) {
-            if (!visited[v]) {
-                // color[v] = 0;
-                // visited[v] = true;
-                color[v] = 0;
-                visited[v] = true;
-                if (!DFSVisit(graph, v, visited, color)) {
+        for (int v = 0; v < n; v++) {
+            if (color[v] == -1) {
+                color[v] = 1;
+                if (!dfsCheck(graph, v, color)) {
                     return false;
                 }
             }
@@ -272,22 +311,17 @@ public:
         return true;
     }
 
-    bool DFSVisit(vector<vector<int>>& graph, int src, vector<bool>& visited, vector<int>& color) {
-        // color[v]= 0   // writing here this one will give 'False' always as for every node it will set(update) the color as '0'
-                         // But will work properly in case of 'BFS' as there is no recursive call
+    bool dfsCheck(vector<vector<int>>& graph, int src, vector<int>& color) {
         for (int u : graph[src]) {
-            if (!visited[u]) {
-                visited[u] = true;
-                // color[u] = 0 ^ color[src];  // xor with 0 will give the same no i.e same color so was getting false for all inputs
-                color[u] = 1 ^ color[src];     // xor with '1' gives a different number. So color first node with '1' only to write code like this.
-                if (!DFSVisit(graph, u, visited, color)) {
+            if (color[u] == -1) {  // means not visited
+                color[u] = 1 ^ color[src];
+                if (!dfsCheck(graph, u, color)) {
                     return false;
                 }
             } else if (color[u] == color[src]) {
                 return false;
             }
         }
-        // return true;   // no need of this
         return true;
     }
 };

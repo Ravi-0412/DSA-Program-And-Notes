@@ -1,7 +1,7 @@
+# Method 1:
 
-# 1st approach come in mind is:
+# My mistake
 # But giving wrong ans for test case : 18 , don't know why. Have to ask someone.
-
 # Logic: From each stop we are going to all possible stops we can go using cur_bus.
 
 class Solution:
@@ -42,6 +42,7 @@ class Solution:
                         visited.add(stop1)
         return -1
 
+
 # Correct one
 
 # Logic: when we are any stop , which all stops we can go.
@@ -53,6 +54,27 @@ class Solution:
 
 # In above one, we are going only to those stops where cur_bus can go but here
 # We are going to all those stops that we can go from cur_stop considering all buses that come at cur_stop.
+
+"""
+Note: No need of 'visited' set for stops because all buses at that stop will marked visited
+So later for same stop , bus won't get added into queue.
+So we can do without this. 
+But it may improve time little bit because it will avoid 'for loop' i.e 'for bus in busStop[curStop]'.
+
+Note vvi: if we mark 'stop' only as visited instead of 'buses' then we will get TLE.
+Reason: At each stop, we are checking the routes of bus which come to that stop.
+And len(route) can be 10^5  i.e 'for stop in routes[bus]'.
+By marking 'bus' as visited, we avoid this for loop.
+
+And without visited set for 'stop', it is getting accepted because it will suffer for loop
+'for bus in busStop[curStop]' which can be maximum '500'. given: '1 <= routes.length <= 500
+
+Note: Better mark both visited and avoid these confusion.
+
+But this may help in other questions i.e if some for loop is causing more repititive thing than other
+Then try to avoid that for loop that is causing more repititive thing.
+Like we must try to avoid for loop: 'for bus in busStop[curStop]' anyhow then we will think of other one.
+"""
 
 class Solution:
     def numBusesToDestination(self, routes: List[List[int]], source: int, target: int) -> int:
@@ -87,23 +109,112 @@ class Solution:
                         visited_bus.add(bus)
         return -1
     
-# Note: No need of 'visited' set for stops because all buses at that stop will marked visited
-# So later for same stop , bus won't get added into queue.
-# So we can do without this. 
-# But it may improve time little bit because it will avoid 'for loop' i.e 'for bus in busStop[curStop]'.
 
-# Note vvi: if we mark 'stop' only as visited instead of 'buses' then we will get TLE.
-# Reason: At each stop, we are checking the routes of bus which come to that stop.
-# And len(route) can be 10^5  i.e 'for stop in routes[bus]'.
-# By marking 'bus' as visited, we avoid this for loop.
+# Java
+"""
+import java.util.*;
 
-# And without visited set for 'stop', it is getting accepted because it will suffer for loop
-# 'for bus in busStop[curStop]' which can be maximum '500'. given: '1 <= routes.length <= 500
+class Solution {
+    public int numBusesToDestination(int[][] routes, int source, int target) {
+        if (source == target) return 0;
 
-# Note: Better mark both visited and avoid these confusion.
+        Map<Integer, Set<Integer>> busStop = new HashMap<>(); // [stop : buses_that_we_can_take_from_this_stop]
 
-# But this may help in other questions i.e if some for loop is causing more repititive thing than other
-# Then try to avoid that for loop that is causing more repititive thing.
-# Like we must try to avoid for loop: 'for bus in busStop[curStop]' anyhow then we will think of other one.
+        for (int bus = 0; bus < routes.length; bus++) {
+            for (int stop : routes[bus]) {
+                busStop.computeIfAbsent(stop, x -> new HashSet<>()).add(bus);
+            }
+        }
+
+        Queue<Integer> q = new ArrayDeque<>();
+        Set<Integer> visited_bus = new HashSet<>();  // will store the buses we have taken
+        Set<Integer> visited_stop = new HashSet<>(); // will store the stops which we have taken
+        visited_stop.add(source);
+        q.add(source);
+        int ans = 0;
+
+        while (!q.isEmpty()) {
+            ans++;
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                int curStop = q.poll();
+                // which all stops we can reach from cur stop
+                // for this 1st we need to go to all the buses that come at this stop
+                for (int bus : busStop.getOrDefault(curStop, new HashSet<>())) {
+                    // then include all stops where the cur bus goes
+                    if (!visited_bus.contains(bus)) {
+                        for (int stop : routes[bus]) {
+                            if (stop == target) return ans;
+                            if (!visited_stop.contains(stop)) {
+                                q.add(stop);
+                                visited_stop.add(stop);
+                            }
+                        }
+                        visited_bus.add(bus);
+                    }
+                }
+            }
+        }
+
+        return -1;
+    }
+}
+"""
+
+
+# C++
+"""
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int numBusesToDestination(vector<vector<int>>& routes, int source, int target) {
+        if (source == target) return 0;
+
+        unordered_map<int, unordered_set<int>> busStop; // [stop : buses_that_we_can_take_from_this_stop]
+
+        for (int bus = 0; bus < routes.size(); bus++) {
+            for (int stop : routes[bus]) {
+                busStop[stop].insert(bus);
+            }
+        }
+
+        queue<int> q;
+        unordered_set<int> visited_bus;   // will store the buses we have taken
+        unordered_set<int> visited_stop;  // will store the stops which we have taken
+        visited_stop.insert(source);
+        q.push(source);
+        int ans = 0;
+
+        while (!q.empty()) {
+            ans++;
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                int curStop = q.front(); q.pop();
+                // which all stops we can reach from cur stop
+                // for this 1st we need to go to all the buses that come at this stop
+                for (int bus : busStop[curStop]) {
+                    // then include all stops where the cur bus goes
+                    if (visited_bus.find(bus) == visited_bus.end()) {
+                        for (int stop : routes[bus]) {
+                            if (stop == target) return ans;
+                            if (visited_stop.find(stop) == visited_stop.end()) {
+                                q.push(stop);
+                                visited_stop.insert(stop);
+                            }
+                        }
+                        visited_bus.insert(bus);
+                    }
+                }
+            }
+        }
+
+        return -1;
+    }
+};
+"""
+    
+
 
 

@@ -59,7 +59,7 @@ class Graph:
         # while traversing back put the node into the stack and node with less no of outorder vertices 
         # will be kept first(as it will start traversing back at this node only) so final ans will be the opposite of stack
 
-         node with largest visiting time(or minimum finishing time) is pushed first when there is no further adjacent node is there which has not been visited
+        #  node with largest visiting time(or minimum finishing time) is pushed first when there is no further adjacent node is there which has not been visited
         stack.append(src)
 
     def TopoSort(self,n, adj):
@@ -232,8 +232,6 @@ int main() {
 
 """
 
-# another way using dfs: this submitted in Q "269 Alien dictionary"
-
 
 # method 2 using BFS: Kahn's Algorithm
 """
@@ -291,7 +289,6 @@ class Graph:
             print(ans)
 
 
-        
 # test case 1
 # g= Graph(6)
 # g.addEdge(5,2)
@@ -323,68 +320,69 @@ g.FindTopoSort()
 """
 import java.util.*;
 
-public class Graph {
+class Graph {
     private int V;
     private int[] indegree;
-    private List<List<Integer>> adjList;
+    private List<List<Integer>> AdjList;
 
     public Graph(int n) {
         this.V = n;
         indegree = new int[n];
-        adjList = new ArrayList<>();
+        AdjList = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            adjList.add(new ArrayList<>());
+            AdjList.add(new ArrayList<>());
         }
     }
 
     public void addEdge(int u, int v) {
-        adjList.get(u).add(v);
+        AdjList.get(u).add(v);
     }
 
-    // Calculate the indegree of all nodes
-    public void calculateIndegree() {
+    // calculate the indegree of all node
+    public void Indegree_count() {
         for (int i = 0; i < V; i++) {
-            for (int neighbor : adjList.get(i)) {
-                indegree[neighbor]++;
+            for (int k : AdjList.get(i)) {  // if k is adj to 'i' means there is one indegree edge to 'k'
+                indegree[k]++;
             }
         }
     }
 
-    public void findTopoSort() {
-        calculateIndegree();  // Must be called before starting the topo sort
+    public void FindTopoSort() {
+        Queue<Integer> Q = new LinkedList<>();
+        List<Integer> ans = new ArrayList<>();
 
-        Queue<Integer> queue = new LinkedList<>();
-        List<Integer> result = new ArrayList<>();
-
-        // Add all nodes with indegree 0 to the queue
+        // find the node with indegree '0' as this node will come 1st in the topological order
+        // i.e it will be the source node and after that apply the BFS
         for (int i = 0; i < V; i++) {
-            if (indegree[i] == 0) {
-                queue.offer(i);
+            if (indegree[i] == 0) {  // this will put node with indegree '0' of all component into the 'Q'
+                Q.add(i);
             }
         }
 
-        int count = 0;
-
-        while (!queue.isEmpty()) {
-            int u = queue.poll();
-            result.add(u);
+        int count = 0;  // will count the no of times node is added in the ans
+        while (!Q.isEmpty()) {
+            int u = Q.poll();
             count++;
+            ans.add(u);
 
-            for (int neighbor : adjList.get(u)) {
-                indegree[neighbor]--;
-                if (indegree[neighbor] == 0) {
-                    queue.offer(neighbor);
+            // after poping decrease the indegree of all node adjacent to 'u'
+            for (int j : AdjList.get(u)) {
+                indegree[j]--;
+                if (indegree[j] == 0) {
+                    Q.add(j);
                 }
             }
         }
 
+        // note: count will be less than 'V' if there is a cycle
         if (count != V) {
-            System.out.println("There exists a cycle in the graph");
+            System.out.println("there exist a cycle in the graph");
         } else {
-            System.out.println("Topological Sort: " + result);
+            System.out.println(ans);
         }
     }
 }
+
 
 """
 
@@ -392,19 +390,19 @@ public class Graph {
 """
 #include <iostream>
 #include <vector>
-#include <unordered_map>
 #include <queue>
 using namespace std;
 
 class Graph {
-public:
     int V;
     vector<int> indegree;
-    unordered_map<int, vector<int>> AdjList;
+    vector<vector<int>> AdjList;
 
+public:
     Graph(int n) {
         V = n;
-        indegree.resize(n, 0);
+        indegree.assign(n, 0);
+        AdjList.resize(n);
     }
 
     void addEdge(int u, int v) {
@@ -413,7 +411,7 @@ public:
 
     // calculate the indegree of all node
     void Indegree_count() {
-        for (int i = 0; i < V; i++) {
+        for (int i = 0; i < V; ++i) {
             for (int k : AdjList[i]) {  // if k is adj to 'i' means there is one indegree edge to 'k'
                 indegree[k]++;
             }
@@ -426,42 +424,39 @@ public:
 
         // find the node with indegree '0' as this node will come 1st in the topological order
         // i.e it will be the source node and after that apply the BFS
-        for (int i = 0; i < V; i++) {   // will also work for more than one component
-            if (indegree[i] == 0) {  // this will put node with indegree '0' of all component into the 'Q' and will check for each component
+        for (int i = 0; i < V; ++i) {
+            if (indegree[i] == 0) {  // this will put node with indegree '0' of all component into the 'Q'
                 Q.push(i);
             }
         }
 
         int count = 0;  // will count the no of times node is added in the ans
         while (!Q.empty()) {
-            count++;
             int u = Q.front();
             Q.pop();
+            count++;
             ans.push_back(u);
+
             // after poping decrease the indegree of all node adjacent to 'u'
             for (int j : AdjList[u]) {
                 indegree[j]--;
-                if (indegree[j] == 0) {  // after decreasing if any node has indegree == 0 then put in the Q
+                if (indegree[j] == 0) {
                     Q.push(j);
                 }
             }
         }
 
-        // note: count will be less than 'V'.
-        if (count != V) {  // for checking the cycle in directed graph using BFS ..
+        // note: count will be less than 'V' if there is a cycle
+        if (count != V) {
             cout << "there exist a cycle in the graph" << endl;
         } else {
-            for (int node : ans) {
-                cout << node << " ";
-            }
+            for (int node : ans) cout << node << " ";
             cout << endl;
         }
     }
 };
 
 """
-
-# Note: Use this template in other Q of topological sort
 
 # 1) Dfs template
     
@@ -561,8 +556,8 @@ public class Solution {
         return true;
     }
 }
-
 """
+
 
 # C++ Code 
 """

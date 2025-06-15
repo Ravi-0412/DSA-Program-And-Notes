@@ -7,6 +7,8 @@ like if any land cell is surrounded by '2' land then it's contribution will be '
 So for every land cell, count the neighbour land cell in all four directions.
 say count of such neighbour = 'k'  then cur land cell will contribute '4-k' to the ans.
 Add for all land cell for final ans.
+
+Time: O(row * col), sapce: O(1)
 """
 
 class Solution:
@@ -90,6 +92,7 @@ public:
 # Just reverse of above
 # Logic: Count the no of water cell for every land cell.
 # if any land cell has 'k' water cell on its four directions then it will contribute 'k' unit of parameter to ans.
+# Time: O(row * col), sapce: O(1)
 
 class Solution:
     def islandPerimeter(self, grid: List[List[int]]) -> int:

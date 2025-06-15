@@ -1,3 +1,5 @@
+# Method 1:
+
 """
 Note: Terminal nodes has no outgoing vertices so these can't be part of a cycle.
 And safe nodes will have all its edges to terminal nodes only so this also can't be part of any cycle.
@@ -53,35 +55,19 @@ class Solution:
 
 # Java
 """
-class Solution {
+import java.util.*;
+
+public class Solution {
+    Set<Integer> visited = new HashSet<>();
+    Set<Integer> pathVisited = new HashSet<>();
+    List<Integer> ans = new ArrayList<>();
+
     public List<Integer> eventualSafeNodes(int[][] graph) {
         int n = graph.length;
-        Set<Integer> visited = new HashSet<>();
-        Set<Integer> path_visited = new HashSet<>();  // making this as local variable for each dfs call will give error
-        List<Integer> ans = new ArrayList<>();
-
-        // checking cycle
-        boolean dfs(int node, int[][] graph, Set<Integer> visited, Set<Integer> path_visited, List<Integer> ans) {
-            visited.add(node);
-            path_visited.add(node);
-            for (int nei : graph[node]) {
-                if (!visited.contains(nei)) {
-                    if (dfs(nei, graph, visited, path_visited, ans)) {
-                        return true;  // means we have found a cycle. so simply return
-                    }
-                } else if (path_visited.contains(nei)) {
-                    return true;  // means cycle so simply return
-                }
-            }
-            // if neither of nei is part of a cycle means that is a safe node.
-            ans.add(node);  // only extra line than cycle detection.
-            path_visited.remove(node);
-            return false;
-        }
 
         for (int i = 0; i < n; i++) {
             if (!visited.contains(i)) {
-                dfs(i, graph, visited, path_visited, ans);  // we have to call for each component. we don't have to return
+                dfs(i, graph);  // we have to call for each component. we don't have to return
             }
         }
 
@@ -89,73 +75,97 @@ class Solution {
         return ans;
     }
 
-    private boolean dfs(int node, int[][] graph, Set<Integer> visited, Set<Integer> path_visited, List<Integer> ans) {
+    // checking cycle
+    private boolean dfs(int node, int[][] graph) {
         visited.add(node);
-        path_visited.add(node);
+        pathVisited.add(node);
+
         for (int nei : graph[node]) {
             if (!visited.contains(nei)) {
-                if (dfs(nei, graph, visited, path_visited, ans)) {
+                if (dfs(nei, graph)) {
+                    // means we have found a cycle. so simply return we don't have to include any node as safe.
                     return true;
                 }
-            } else if (path_visited.contains(nei)) {
+            } else if (pathVisited.contains(nei)) {
+                // means cycle so simply return, because all nodes part of this cycle will not be in our ans.
                 return true;
             }
         }
-        ans.add(node);
-        path_visited.remove(node);
+
+        // if neither of nei is part of a cycle means that is a safe node.
+        ans.add(node);  // only extra line than cycle detection.
+        pathVisited.remove(node);
         return false;
     }
 }
 
 """
+
+
 # C++ Code 
 """
+#include <vector>
+#include <unordered_set>
+#include <algorithm>
+using namespace std;
+
 class Solution {
 public:
+    unordered_set<int> visited;
+    unordered_set<int> pathVisited;
+    vector<int> ans;
+
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
         int n = graph.size();
-        unordered_set<int> visited;
-        unordered_set<int> path_visited;  // making this as local variable for each dfs call will give error
-        vector<int> ans;
 
-        function<bool(int)> dfs = [&](int node) {
-            visited.insert(node);
-            path_visited.insert(node);
-            for (int nei : graph[node]) {
-                if (!visited.count(nei)) {
-                    if (dfs(nei) == true) {  // means we have found a cycle. so simply return
-                        return true;
-                    }
-                } else if (path_visited.count(nei)) {  // means cycle so simply return
-                    return true;
-                }
-            }
-            // if neither of nei is part of a cycle means that is a safe node.
-            ans.push_back(node);  // only extra line than cycle detection.
-            path_visited.erase(node);
-            return false;
-        };
-
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; ++i) {
             if (!visited.count(i)) {
-                dfs(i);  // we have to call for each component. we don't have to return
+                dfs(i, graph);  // we have to call for each component. we don't have to return
             }
         }
 
         sort(ans.begin(), ans.end());
         return ans;
     }
+
+    // checking cycle
+    bool dfs(int node, vector<vector<int>>& graph) {
+        visited.insert(node);
+        pathVisited.insert(node);
+
+        for (int nei : graph[node]) {
+            if (!visited.count(nei)) {
+                if (dfs(nei, graph)) {
+                    // means we have found a cycle. so simply return we don't have to include any node as safe.
+                    return true;
+                }
+            } else if (pathVisited.count(nei)) {
+                // means cycle so simply return, because all nodes part of this cycle will not be in our ans.
+                return true;
+            }
+        }
+
+        // if neither of nei is part of a cycle means that is a safe node.
+        ans.push_back(node);  // only extra line than cycle detection.
+        pathVisited.erase(node);
+        return false;
+    }
 };
 
+
 """
 
-# Method 2: Kahn's Algo only
+
+# Method 2: 
 """
+Kahn's Algo only
+
 Nodes that do not lead to a cycle are called "eventual safe nodes".
 If we reverse the graph, then terminal nodes (no outgoing edges) become sources.
 Using Kahn’s algorithm (topological sort) on the reversed graph, we can find all nodes
 that eventually lead to terminal nodes (i.e., safe nodes) by following paths backwards.
 Any node that can reach a terminal node without hitting a cycle is marked safe.
+
 """
 from collections import deque, defaultdict
 from typing import List
@@ -192,38 +202,38 @@ class Solution:
 """
 import java.util.*;
 
-class Solution {
+public class Solution {
     public List<Integer> eventualSafeNodes(int[][] graph) {
         int n = graph.length;
         List<List<Integer>> reverseGraph = new ArrayList<>();
         int[] indegree = new int[n];
 
-        // Step 1: Create reverse graph
         for (int i = 0; i < n; i++) {
             reverseGraph.add(new ArrayList<>());
         }
 
+        // Build reverse graph and count original outdegrees
         for (int u = 0; u < n; u++) {
             for (int v : graph[u]) {
-                reverseGraph.get(v).add(u); // Reverse the edge u -> v to v -> u
-                indegree[u]++; // Original node u has an outgoing edge, count for indegree
+                reverseGraph.get(v).add(u);
+                indegree[u]++;
             }
         }
 
-        // Step 2: Topological sort using Kahn's algorithm
+        // Start with terminal nodes (outdegree 0)
         Queue<Integer> queue = new LinkedList<>();
         for (int i = 0; i < n; i++) {
             if (indegree[i] == 0) {
-                queue.offer(i); // Terminal nodes in original graph
+                queue.offer(i);
             }
         }
 
-        boolean[] isSafe = new boolean[n];
+        boolean[] safe = new boolean[n];
 
+        // Kahn's algorithm to find safe nodes
         while (!queue.isEmpty()) {
             int node = queue.poll();
-            isSafe[node] = true;
-
+            safe[node] = true;
             for (int prev : reverseGraph.get(node)) {
                 indegree[prev]--;
                 if (indegree[prev] == 0) {
@@ -232,10 +242,10 @@ class Solution {
             }
         }
 
-        // Step 3: Collect safe nodes and sort
+        // Collect and return safe nodes
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            if (isSafe[i]) {
+            if (safe[i]) {
                 result.add(i);
             }
         }
@@ -244,12 +254,15 @@ class Solution {
         return result;
     }
 }
+
+
 """
+
+
 # C++ Code 
 """
 #include <vector>
 #include <queue>
-#include <unordered_map>
 #include <algorithm>
 using namespace std;
 
@@ -257,13 +270,13 @@ class Solution {
 public:
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
         int n = graph.size();
-        unordered_map<int, vector<int>> reverse_graph;
+        vector<vector<int>> reverseGraph(n);
         vector<int> indegree(n, 0);
 
         // Build reverse graph and count original outdegrees
         for (int u = 0; u < n; ++u) {
             for (int v : graph[u]) {
-                reverse_graph[v].push_back(u);
+                reverseGraph[v].push_back(u);
                 indegree[u]++;
             }
         }
@@ -271,7 +284,9 @@ public:
         // Start with terminal nodes (outdegree 0)
         queue<int> q;
         for (int i = 0; i < n; ++i) {
-            if (indegree[i] == 0) q.push(i);
+            if (indegree[i] == 0) {
+                q.push(i);
+            }
         }
 
         vector<bool> safe(n, false);
@@ -280,7 +295,7 @@ public:
         while (!q.empty()) {
             int node = q.front(); q.pop();
             safe[node] = true;
-            for (int prev : reverse_graph[node]) {
+            for (int prev : reverseGraph[node]) {
                 indegree[prev]--;
                 if (indegree[prev] == 0) {
                     q.push(prev);
@@ -291,11 +306,15 @@ public:
         // Collect and return safe nodes
         vector<int> result;
         for (int i = 0; i < n; ++i) {
-            if (safe[i]) result.push_back(i);
+            if (safe[i]) {
+                result.push_back(i);
+            }
         }
+
         sort(result.begin(), result.end());
         return result;
     }
 };
+
 
 """

@@ -1,3 +1,5 @@
+# Method 1: 
+
 """
 Note: In one semester you can study any number of courses as long as you have studied all the prerequisites for the course you are studying.
 

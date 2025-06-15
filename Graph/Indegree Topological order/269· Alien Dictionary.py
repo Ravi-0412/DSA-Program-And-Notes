@@ -1,3 +1,5 @@
+# Method 1: 
+
 """
 logic: whenever you have to find the sorted sequence (or order of sequence) given distinct node/val and relation between them, 
 just think of topological sorting
@@ -145,6 +147,7 @@ class Solution {
 
 """
 
+
 # C++ Code 
 """
 #include <iostream>
@@ -232,5 +235,3 @@ public:
 };
 
 """
-# other way:
-# Link: https://leetcode.com/problems/alien-dictionary/solutions/70119/java-ac-solution-using-bfs/

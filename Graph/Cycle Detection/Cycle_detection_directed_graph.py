@@ -1,13 +1,17 @@
 # method 1: By DFS
 """
-it can't be done by one array and with parent logic(like undirected graph) because
-the adjacent node of current vertex can also be visited by other path but it may not be the cycle
-because in directed graph is one directional (btw two vertex) unlike undirected graph.
-e.g: [[0,1], [0,2],[1,2]]
+Note: it can't be done by one array and with parent logic(like undirected graph)
+Use two arrays:
+  - `visited[]`: marks if a node was ever visited.
+  - `dfsVisited[]`: marks if it's in the current DFS path.
+- If during DFS, a neighbor is already in `dfsVisited`, it means a cycle exists.
 
-so here we will need two array one dfs_visited to check if the adjacent node of curr node is 
-visited in current DFS call or not.
-if visited in curr DFS call then it contain a cycle otherwise not.
+Why Not Just One Array?
+- In directed graphs, a node can be visited from different paths.
+- Only if it’s visited in the same DFS path, it forms a cycle.
+
+Time Complexity: same as DFS traversal.
+
 """
 
 from collections import defaultdict
@@ -184,16 +188,24 @@ public:
 
 """
 
-# another way using dfs: this submitted in Q "269 Alien dictionary"
-# understand the logic properly and do here 
 
+# Method 2: 
+"""
+# Using BFS (Kahn’s Algorithm)
 
-# method 2: using BFS(kahn's Algorithm)
-# this is under topological sort (Method 2)
+- Count in-degrees of each node.
+- Add nodes with in-degree `0` to the queue.
+- Remove them one by one, reducing in-degrees of neighbors.
+- If not all nodes are processed → cycle exists.
 
+This is Topological Sort using BFS.
 
-# Dfs template to use in other Q
-# Just code of: 207. Course Schedule
+Dfs template to use in other Q
+Just code of: 207. Course Schedule
+Time Complexity: same as DFS traversal.
+
+"""
+# Python code
 from collections import defaultdict
 import collections
 class Solution:
@@ -273,7 +285,6 @@ class Solution {
 
 # C++ Code
 """
-// C++ version of Leetcode 207: Course Schedule using DFS Cycle Detection
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>

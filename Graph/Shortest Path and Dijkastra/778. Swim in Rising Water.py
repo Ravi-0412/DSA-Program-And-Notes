@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Question language is little tough to understand.
 
 # This is a good and easy problem.
@@ -49,6 +51,91 @@ class Solution:
                     heapq.heappush(minHeap,(min_till_needed,(r,c)))
 
 
+# Java
+"""
+import java.util.*;
+
+class Solution {
+    public int swimInWater(int[][] grid) {
+        int row = grid.length, col = grid[0].length;
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
+        minHeap.offer(new int[]{grid[0][0], 0, 0});
+        boolean[][] visited = new boolean[row][col];
+        visited[0][0] = true;
+
+        // from here bfs logic
+        int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+        while (!minHeap.isEmpty()) {
+            int[] curr = minHeap.poll();
+            int time = curr[0], r1 = curr[1], c1 = curr[2];
+
+            if (r1 == row - 1 && c1 == col - 1) {  // you reached the destination
+                return time;
+            }
+
+            // visited[r1][c1] = true;   // marking here will lead to TLE and wrong ans.
+
+            for (int[] dir : directions) {
+                int r = r1 + dir[0], c = c1 + dir[1];
+                if (r >= 0 && r < row && c >= 0 && c < col && !visited[r][c]) {
+                    visited[r][c] = true;  // mark visite here only as there can't be any more optimal path possible for (r,c) because we have to include the curr cell value also.
+                    int minTillNeeded = Math.max(time, grid[r][c]);  // put the max val as we can only reach (r,c) with this time only, not in time less than this.
+                    minHeap.offer(new int[]{minTillNeeded, r, c});
+                }
+            }
+        }
+
+        return -1;
+    }
+}
+"""
+
+
+# C++
+"""
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int swimInWater(vector<vector<int>>& grid) {
+        int row = grid.size(), col = grid[0].size();
+        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<>> minHeap;
+        minHeap.push({grid[0][0], 0, 0});
+        vector<vector<bool>> visited(row, vector<bool>(col, false));
+        visited[0][0] = true;
+
+        // from here bfs logic
+        vector<pair<int, int>> directions = {{-1,0}, {1,0}, {0,-1}, {0,1}};
+
+        while (!minHeap.empty()) {
+            auto [time, r1, c1] = minHeap.top();
+            minHeap.pop();
+
+            if (r1 == row - 1 && c1 == col - 1) {  // you reached the destination
+                return time;
+            }
+
+            // visited[r1][c1] = true;   // marking here will lead to TLE and wrong ans.
+
+            for (auto [dr, dc] : directions) {
+                int r = r1 + dr, c = c1 + dc;
+                if (r >= 0 && r < row && c >= 0 && c < col && !visited[r][c]) {
+                    visited[r][c] = true;  // mark visite here only as there can't be any more optimal path possible for (r,c) because we have to include the curr cell value also.
+                    int minTillNeeded = max(time, grid[r][c]);  // put the max val as we can only reach (r,c) with this time only, not in time less than this.
+                    minHeap.push({minTillNeeded, r, c});
+                }
+            }
+        }
+
+        return -1;
+    }
+};
+
+"""
+
+# Method 2: 
 # since for every cell, we will get the ans when we will see the node for 1st time itself 
 # then we can mark visited at that time itself and check for ans at 1st time when we will see any cell.
 class Solution:
@@ -71,11 +158,87 @@ class Solution:
                     visited.add((r,c))  # mark visite here only as there can't be any more optimal path possible for (r,c) because we have to include the curr cell value also.
                     heapq.heappush(minHeap,(min_till_needed,(r,c)))
 
-# Related Q:
-# 1) 3341. Find Minimum Time to Reach Last Room I
-# 2) 3342. Find Minimum Time to Reach Last Room II
 
-# Related Q:
-# Note: Analyse these question properly like why in one q we are getting ans on 1st time and why in other getting after poping.
-# 1) 2577. Minimum Time to Visit a Cell In a Grid
-# 2) 1631. Path With Minimum Effort
+# Java
+"""
+import java.util.*;
+
+class Solution {
+    public int swimInWater(int[][] grid) {
+        int row = grid.length, col = grid[0].length;
+        if (row == 1) {
+            return 0;
+        }
+
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
+        minHeap.offer(new int[]{grid[0][0], 0, 0});
+        boolean[][] visited = new boolean[row][col];
+        visited[0][0] = true;
+
+        while (!minHeap.isEmpty()) {
+            int[] curr = minHeap.poll();
+            int time = curr[0], r1 = curr[1], c1 = curr[2];
+            int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+            for (int[] dir : directions) {
+                int r = r1 + dir[0], c = c1 + dir[1];
+                if (r >= 0 && r < row && c >= 0 && c < col && !visited[r][c]) {
+                    int minTillNeeded = Math.max(time, grid[r][c]);  // put the max val as we can only reach (r,c) with this time only, not in time less than this.
+                    if (r == row - 1 && c == col - 1) {
+                        return minTillNeeded;
+                    }
+                    visited[r][c] = true;  // mark visite here only as there can't be any more optimal path possible for (r,c) because we have to include the curr cell value also.
+                    minHeap.offer(new int[]{minTillNeeded, r, c});
+                }
+            }
+        }
+
+        return -1;
+    }
+}
+
+"""
+
+
+# C++
+"""
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int swimInWater(vector<vector<int>>& grid) {
+        int row = grid.size(), col = grid[0].size();
+        if (row == 1) {
+            return 0;
+        }
+
+        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<>> minHeap;
+        minHeap.push({grid[0][0], 0, 0});
+        vector<vector<bool>> visited(row, vector<bool>(col, false));
+        visited[0][0] = true;
+
+        while (!minHeap.empty()) {
+            auto [time, r1, c1] = minHeap.top();
+            minHeap.pop();
+
+            vector<pair<int, int>> directions = {{-1,0}, {1,0}, {0,-1}, {0,1}};
+            for (auto [dr, dc] : directions) {
+                int r = r1 + dr, c = c1 + dc;
+                if (r >= 0 && r < row && c >= 0 && c < col && !visited[r][c]) {
+                    int minTillNeeded = max(time, grid[r][c]);  // put the max val as we can only reach (r,c) with this time only, not in time less than this.
+                    if (r == row - 1 && c == col - 1) {
+                        return minTillNeeded;
+                    }
+                    visited[r][c] = true;  // mark visite here only as there can't be any more optimal path possible for (r,c) because we have to include the curr cell value also.
+                    minHeap.push({minTillNeeded, r, c});
+                }
+            }
+        }
+
+        return -1;
+    }
+};
+
+"""

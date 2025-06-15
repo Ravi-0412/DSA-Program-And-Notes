@@ -1,3 +1,5 @@
+# Method 1: 
+
 # here we are also checking from each node only.
 # but it will in O(n) because after any node is 'seen' then we will skip simply.
 
@@ -35,3 +37,96 @@ class Solution:
             dfs(node)
         
         return self.ans
+
+
+# Java
+"""
+
+import java.util.*;
+
+public class Solution {
+    int ans = -1;
+    Map<Integer, Integer> visiting;  // node -> distance
+    Set<Integer> seen;
+    int[] edges;
+
+    public int longestCycle(int[] edges) {
+        this.edges = edges;
+        visiting = new HashMap<>();
+        seen = new HashSet<>();
+
+        for (int node = 0; node < edges.length; node++) {
+            dfs(node);
+        }
+
+        return ans;
+    }
+
+    void dfs(int node) {
+        // if seen then simply skip. we already calculated the cycle for this node before only (in previous iteration)
+        if (!seen.contains(node)) {
+            // check if node in visiting. if it is, then means cycle
+            // cycle length = no of node visited till now in current cycle - distance at which we visited this node
+            if (visiting.containsKey(node)) {
+                ans = Math.max(ans, visiting.size() - visiting.get(node));  // '-' for removing extra node which is not part of cycle
+            }
+            // now traverse the adj node of current node if there is outgoing edge
+            else if (edges[node] != -1) {
+                visiting.put(node, visiting.size());  // distance only
+                // seen.add(node); // marking here seen will give incorrect ans as we have not fully traversed from the node from which we started
+                dfs(edges[node]);
+                visiting.remove(node);  // now this node won't be in current cycle
+            }
+
+            seen.add(node);  // means we have completed the traversal from current node. so mark as seen
+        }
+    }
+}
+"""
+
+
+# C++
+"""
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
+class Solution {
+public:
+    int ans = -1;
+    unordered_map<int, int> visiting; // node -> distance
+    unordered_set<int> seen;
+    vector<int> edges;
+
+    int longestCycle(vector<int>& edges) {
+        this->edges = edges;
+
+        for (int node = 0; node < edges.size(); ++node) {
+            dfs(node);
+        }
+
+        return ans;
+    }
+
+    void dfs(int node) {
+        // if seen then simply skip. we already calculated the cycle for this node before only (in previous iteration)
+        if (!seen.count(node)) {
+            // check if node in visiting. if it is, then means cycle
+            // cycle length = no of node visited till now in current cycle - distance at which we visited this node
+            if (visiting.count(node)) {
+                ans = max(ans, (int)visiting.size() - visiting[node]);  // '-' for removing extra node which is not part of cycle
+            }
+            // now traverse the adj node of current node if there is outgoing edge
+            else if (edges[node] != -1) {
+                visiting[node] = visiting.size(); // distance only
+                // seen.insert(node); // marking here seen will give incorrect ans as we have not fully traversed from the node from which we started
+                dfs(edges[node]);
+                visiting.erase(node); // now this node won't be in current cycle
+            }
+
+            seen.insert(node);  // means we have completed the traversal from current node. so mark as seen
+        }
+    }
+};
+"""

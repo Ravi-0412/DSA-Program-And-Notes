@@ -1,3 +1,5 @@
+# Method 1 :
+
 """
 just the topological sorting
 how to reach think about topo sort?: 
@@ -16,8 +18,7 @@ But in Q. "210.course Schedule 2", we need to go by topological sort only since 
 And order we can only get by topological sorting.
 """
 
-# method 1 :
-# dfs to check cycle
+
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         AdjList= defaultdict(list)
@@ -45,7 +46,8 @@ class Solution:
         return True
     
     
-# method 2: using topological sort
+# method 2: 
+# using topological sort
 
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
@@ -89,11 +91,11 @@ class Solution:
             return False
         return True
         
-        
 
 
-# # method 3: Dfs (already done in topological sorting)
-# # very better solution: used only one array (we can use another array 'path_visited' also like we used to do)
+# method 3: 
+# Dfs (already done in topological sorting)
+# very better solution: used only one array (we can use another array 'path_visited' also like we used to do)
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         AdjList= defaultdict(list)
@@ -131,35 +133,35 @@ class Solution:
 # Java
 """"
 // Method 1:
-class Solution {
+import java.util.*;
+
+public class Solution {
+    Map<Integer, List<Integer>> AdjList = new HashMap<>();
+    Set<Integer> visited = new HashSet<>();
+    Set<Integer> pathVisited = new HashSet<>();
+
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        Map<Integer, List<Integer>> AdjList = new HashMap<>();
         // first convert into adjacency list(edges) for directed graph
-        for (int[] prerequisite : prerequisites) {
-            int second = prerequisite[0];
-            int first = prerequisite[1];
-            if (!AdjList.containsKey(first)) {
-                AdjList.put(first, new ArrayList<>());
-            }
-            AdjList.get(first).add(second);
+        for (int[] pre : prerequisites) {
+            int second = pre[0], first = pre[1];
+            AdjList.computeIfAbsent(first, k -> new ArrayList<>()).add(second);
         }
 
-        Set<Integer> visited = new HashSet<>();
-        Set<Integer> pathVisited = new HashSet<>();
         for (int i = 0; i < numCourses; i++) {
-            if (!visited.contains(i) && checkCycle(i, AdjList, visited, pathVisited)) {
+            if (!visited.contains(i) && checkCycle(i)) {
+                // if cycle simply return False, else continue checking for another node
                 return false;
             }
         }
         return true;
     }
 
-    private boolean checkCycle(int src, Map<Integer, List<Integer>> AdjList, Set<Integer> visited, Set<Integer> pathVisited) {
+    public boolean checkCycle(int src) {
         visited.add(src);
         pathVisited.add(src);
         for (int u : AdjList.getOrDefault(src, new ArrayList<>())) {
             if (!visited.contains(u)) {
-                if (checkCycle(u, AdjList, visited, pathVisited)) {
+                if (checkCycle(u)) {
                     return true;
                 }
             } else if (pathVisited.contains(u)) {
@@ -171,115 +173,106 @@ class Solution {
     }
 }
 
+
 // Method 2:
 import java.util.*;
 
-class Solution {
+public class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         Map<Integer, List<Integer>> AdjList = new HashMap<>();
-        // first convert into adjacency list(edges) for directed graph
-        for (int[] prerequisite : prerequisites) {
-            int first = prerequisite[1];
-            int second = prerequisite[0];
-            if (!AdjList.containsKey(second)) {
-                AdjList.put(second, new ArrayList<>());
-            }
-            AdjList.get(second).add(first);
+        for (int i = 0; i < numCourses; i++) {
+            AdjList.put(i, new ArrayList<>());
         }
 
-        int n = numCourses;
-        int[] indegree = new int[n];
+        // first convert into adjacency list(edges) for directed graph
+        for (int[] pair : prerequisites) {
+            int first = pair[1], second = pair[0];
+            AdjList.get(second).add(first);  // phle 2nd wala course karenge tb hi first kar sakte h.
+        }
+
+        int[] indegree = new int[numCourses];
 
         // finding the indegree of each vertices
-        for (int i = 0; i < n; i++) {
-            if (AdjList.containsKey(i)) {
-                for (int k : AdjList.get(i)) {
-                    indegree[k]++;
-                }
+        for (int i = 0; i < numCourses; i++) {
+            for (int k : AdjList.get(i)) {
+                indegree[k]++;
             }
         }
 
         // now applying the BFS to get the topological order
         int count = 0;
-        List<Integer> ans = new ArrayList<>();
-        Deque<Integer> Q = new LinkedList<>();
+        Queue<Integer> Q = new LinkedList<>();
+        // count will tell how many courses we have finished(how many nodes we have visited).
 
-        // find all the nodes with indegree '0' as these node will come 1st in the topological order
-        // i.e it will be the source node and after that apply the BFS.
-        // since we are putting all the nodes having indegree = 0, so it will also take care if there is multiple components.
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < numCourses; i++) {
             if (indegree[i] == 0) {
-                Q.offerLast(i);
+                Q.offer(i);
             }
         }
 
         while (!Q.isEmpty()) {
             count++;
-            int u = Q.pollFirst();
-            ans.add(u);
-            // after popping decrease the indegree of all node adjacent to 'u'
-            if (AdjList.containsKey(u)) {
-                for (int j : AdjList.get(u)) {
-                    indegree[j]--;
-                    if (indegree[j] == 0) {
-                        Q.offerLast(j);
-                    }
+            int u = Q.poll();
+            for (int j : AdjList.get(u)) {
+                indegree[j]--;
+                if (indegree[j] == 0) {
+                    Q.offer(j);
                 }
             }
         }
 
-        if (count != n) { // for checking the cycle in directed graph using BFS. count will always less than 'n' in case of cycle
-            return false;
+        if (count != numCourses) {
+            return false;  // for checking the cycle in directed graph using BFS
         }
         return true;
     }
 }
 
 
+
 // Method 3:
 
-class Solution {
+import java.util.*;
+
+public class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         Map<Integer, List<Integer>> AdjList = new HashMap<>();
+        for (int i = 0; i < numCourses; i++) {
+            AdjList.put(i, new ArrayList<>());
+        }
+
         // first convert into adjacency list(edges) for directed graph
-        for (int[] prerequisite : prerequisites) {
-            int second = prerequisite[0];
-            int first = prerequisite[1];
-            if (!AdjList.containsKey(first)) {
-                AdjList.put(first, new ArrayList<>());
-            }
+        for (int[] pre : prerequisites) {
+            int second = pre[0], first = pre[1];
             AdjList.get(first).add(second);
         }
-        int[] visited = new int[numCourses];
-        Stack<Integer> stack = new Stack<>();
+
+        int[] visited = new int[numCourses]; // 0: unvisited, 1: visited, -1: visiting
+        List<Integer> stack = new ArrayList<>();
+
         for (int i = 0; i < numCourses; i++) {
             if (!findTopoSort(AdjList, i, stack, visited)) {
-                return false;
+                return false;  // if cycle simply return False, else continue checking for another node
             }
         }
+
         return true;
     }
 
     // Returns true if path is possible i.e no cycle.
-    private boolean findTopoSort(Map<Integer, List<Integer>> adj, int src, Stack<Integer> stack, int[] visited) {
-        // base case for checking whether we have visited all the adjacent node.. if visited then check on another node
-        if (visited[src] == 1) {
-            return true;
-        }
-        // base case for checking cycle
-        if (visited[src] == -1) {
-            return false;
-        }
+    public boolean findTopoSort(Map<Integer, List<Integer>> adj, int src, List<Integer> stack, int[] visited) {
+        if (visited[src] == 1) return true;   // been visited and added to the stack(ans)
+        if (visited[src] == -1) return false; // means cycle as the current node(src) is already visited in current cycle only
 
-        // code starts from here
-        visited[src] = -1;
+        visited[src] = -1;  // Marking 'src' node as visited in current cycle
         for (int u : adj.getOrDefault(src, new ArrayList<>())) {
             if (!findTopoSort(adj, u, stack, visited)) {
-                return false;
+                return false;  // cycle
             }
         }
-        visited[src] = 1;
-        stack.push(src);
+
+        visited[src] = 1;  // means we have visited the 'src' and its neighbors
+        stack.add(src);    // storing the course completion in reverse order
         return true;
     }
 }
@@ -288,34 +281,40 @@ class Solution {
 # C++ Code 
 """
 //Method 1
+
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
 class Solution {
 public:
+    unordered_map<int, vector<int>> AdjList;
+    unordered_set<int> visited;
+    unordered_set<int> pathVisited;
+
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        unordered_map<int, vector<int>> AdjList;
         // first convert into adjacency list(edges) for directed graph
-        for (auto& prerequisite : prerequisites) {
-            int second = prerequisite[0];
-            int first = prerequisite[1];
+        for (auto& pre : prerequisites) {
+            int second = pre[0], first = pre[1];
             AdjList[first].push_back(second);
         }
 
-        unordered_set<int> visited;
-        unordered_set<int> pathVisited;
-        for (int i = 0; i < numCourses; i++) {
-            if (!visited.count(i) && checkCycle(i, AdjList, visited, pathVisited)) {
+        for (int i = 0; i < numCourses; ++i) {
+            if (!visited.count(i) && checkCycle(i)) {
+                // if cycle simply return False, else continue checking for another node
                 return false;
             }
         }
         return true;
     }
 
-    bool checkCycle(int src, unordered_map<int, vector<int>>& AdjList, 
-                    unordered_set<int>& visited, unordered_set<int>& pathVisited) {
+    bool checkCycle(int src) {
         visited.insert(src);
         pathVisited.insert(src);
         for (int u : AdjList[src]) {
             if (!visited.count(u)) {
-                if (checkCycle(u, AdjList, visited, pathVisited)) {
+                if (checkCycle(u)) {
                     return true;
                 }
             } else if (pathVisited.count(u)) {
@@ -327,98 +326,113 @@ public:
     }
 };
 
+
 //Method 2
+
+#include <vector>
+#include <queue>
+#include <unordered_map>
+using namespace std;
+
 class Solution {
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         unordered_map<int, vector<int>> AdjList;
+        for (int i = 0; i < numCourses; ++i) {
+            AdjList[i] = {};
+        }
+
         // first convert into adjacency list(edges) for directed graph
-        for (auto& prerequisite : prerequisites) {
-            int first = prerequisite[1];
-            int second = prerequisite[0];
-            AdjList[second].push_back(first);
+        for (auto& pair : prerequisites) {
+            int first = pair[1], second = pair[0];
+            AdjList[second].push_back(first);  // phle 2nd wala course karenge tb hi first kar sakte h.
         }
 
         vector<int> indegree(numCourses, 0);
 
         // finding the indegree of each vertices
-        for (int i = 0; i < numCourses; i++) {
+        for (int i = 0; i < numCourses; ++i) {
             for (int k : AdjList[i]) {
                 indegree[k]++;
             }
         }
 
+        // now applying the BFS to get the topological order
         int count = 0;
-        vector<int> ans;
-        deque<int> Q;
-
-        // find all the nodes with indegree '0' as these nodes will come 1st in the topological order
-        for (int i = 0; i < numCourses; i++) {
+        queue<int> Q;
+        for (int i = 0; i < numCourses; ++i) {
             if (indegree[i] == 0) {
-                Q.push_back(i);
+                Q.push(i);
             }
         }
 
         while (!Q.empty()) {
+            int u = Q.front(); Q.pop();
             count++;
-            int u = Q.front();
-            Q.pop_front();
-            ans.push_back(u);
-
             for (int j : AdjList[u]) {
                 indegree[j]--;
                 if (indegree[j] == 0) {
-                    Q.push_back(j);
+                    Q.push(j);
                 }
             }
         }
 
-        if (count != numCourses) { // for checking the cycle in directed graph using BFS
-            return false;
+        if (count != numCourses) {
+            return false; // for checking the cycle in directed graph using BFS
         }
         return true;
     }
 };
 
+
 //Method 3
+
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
 class Solution {
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         unordered_map<int, vector<int>> AdjList;
+        for (int i = 0; i < numCourses; ++i) {
+            AdjList[i] = {};
+        }
+
         // first convert into adjacency list(edges) for directed graph
-        for (auto& prerequisite : prerequisites) {
-            int second = prerequisite[0];
-            int first = prerequisite[1];
+        for (auto& pre : prerequisites) {
+            int second = pre[0], first = pre[1];
             AdjList[first].push_back(second);
         }
 
-        vector<int> visited(numCourses, 0);
-        stack<int> st;
+        vector<int> visited(numCourses, 0); // 0: unvisited, 1: visited, -1: visiting
+        vector<int> stack; // store the course completion in reverse order
 
-        for (int i = 0; i < numCourses; i++) {
-            if (!findTopoSort(AdjList, i, st, visited)) {
-                return false;
+        for (int i = 0; i < numCourses; ++i) {
+            if (!findTopoSort(AdjList, i, stack, visited)) {
+                return false; // if cycle simply return False, else continue checking for another node
             }
         }
+
         return true;
     }
 
-    // Returns true if path is possible i.e no cycle.
-    bool findTopoSort(unordered_map<int, vector<int>>& adj, int src, 
-                      stack<int>& st, vector<int>& visited) {
-        if (visited[src] == 1) return true;
-        if (visited[src] == -1) return false;
+    bool findTopoSort(unordered_map<int, vector<int>>& adj, int src, vector<int>& stack, vector<int>& visited) {
+        if (visited[src] == 1) return true;   // already visited and added to the stack(ans)
+        if (visited[src] == -1) return false; // means cycle as the current node(src) is already visited in current cycle only
 
-        visited[src] = -1;
+        visited[src] = -1;  // Marking 'src' as visited in current cycle
         for (int u : adj[src]) {
-            if (!findTopoSort(adj, u, st, visited)) {
-                return false;
+            if (!findTopoSort(adj, u, stack, visited)) {
+                return false; // cycle
             }
         }
-        visited[src] = 1;
-        st.push(src);
+
+        visited[src] = 1;    // all neighbors are visited and added to ans
+        stack.push_back(src); // store node in reverse topological order
         return true;
     }
 };
+
 
 """

@@ -1,4 +1,4 @@
-# Logic an dexplanation in notes, page: 15 & 16
+# Method 1
 
 class DSU:
     def __init__(self, n):
@@ -53,33 +53,31 @@ class Solution:
 
 # Java
 """
+import java.util.*;
+
 class DSU {
-    private int[] parent;
-    private int[] size;
-    private int count;
-    
+    int[] parent, size;
+    int count = 0;
+
     public DSU(int n) {
         parent = new int[n];
         size = new int[n];
-        count = 0;
         for (int i = 0; i < n; i++) {
             parent[i] = i;
             size[i] = 1;
         }
     }
-    
+
     public int findParent(int n) {
-        if (n == parent[n]) {
-            return n;
-        }
-        parent[n] = findParent(parent[n]); // Path compression
-        return parent[n];
+        if (n == parent[n]) return n;
+        return parent[n] = findParent(parent[n]);
     }
-    
+
     public void union(int n1, int n2) {
         int p1 = findParent(n1);
         int p2 = findParent(n2);
         if (p1 == p2) {
+            // Means new cycle so number of component will increase
             count++;
             return;
         }
@@ -91,10 +89,6 @@ class DSU {
             size[p1] += size[p2];
         }
     }
-    
-    public int getCount() {
-        return count;
-    }
 }
 
 class Solution {
@@ -102,33 +96,116 @@ class Solution {
         int n = grid.length;
         int dots = (n + 1) * (n + 1);
         DSU dsu = new DSU(dots * dots);
-        
+
         // 1st connect boundary with (0, 0)
-        for (int i = 0; i <= n; i++) {
-            for (int j = 0; j <= n; j++) {
+        for (int i = 0; i < n + 1; i++) {
+            for (int j = 0; j < n + 1; j++) {
                 if (i == 0 || i == n || j == 0 || j == n) {
+                    // find the cell number(index) in 1D for this (i, j)
                     int index = i * (n + 1) + j;
                     dsu.union(0, index);
                 }
             }
         }
-        
+
         // Traverse grid and join based on slashes
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (grid[i].charAt(j) == '/') {
-                    int index1 = i * (n + 1) + (j + 1);
-                    int index2 = (i + 1) * (n + 1) + j;
+                char ch = grid[i].charAt(j);
+                if (ch == '/') {
+                    int index1 = i * (n + 1) + (j + 1);         // dot1
+                    int index2 = (i + 1) * (n + 1) + j;         // dot2
                     dsu.union(index1, index2);
-                } else if (grid[i].charAt(j) == '\\') {
-                    int index1 = i * (n + 1) + j;
-                    int index2 = (i + 1) * (n + 1) + (j + 1);
+                } else if (ch == '\\') {
+                    int index1 = i * (n + 1) + j;               // dot1
+                    int index2 = (i + 1) * (n + 1) + (j + 1);   // dot2
                     dsu.union(index1, index2);
                 }
             }
         }
-        
-        return dsu.getCount();
+
+        return dsu.count;
     }
 }
+"""
+
+
+# C++
+"""
+#include <vector>
+#include <string>
+using namespace std;
+
+class DSU {
+public:
+    vector<int> parent, size;
+    int count = 0;
+
+    DSU(int n) {
+        parent.resize(n);
+        size.assign(n, 1);
+        for (int i = 0; i < n; ++i) parent[i] = i;
+    }
+
+    int findParent(int n) {
+        if (n == parent[n]) return n;
+        return parent[n] = findParent(parent[n]);
+    }
+
+    void unionSets(int n1, int n2) {
+        int p1 = findParent(n1);
+        int p2 = findParent(n2);
+        if (p1 == p2) {
+            // Means new cycle so number of component will increase
+            count++;
+            return;
+        }
+        if (size[p1] < size[p2]) {
+            parent[p1] = p2;
+            size[p2] += size[p1];
+        } else {
+            parent[p2] = p1;
+            size[p1] += size[p2];
+        }
+    }
+};
+
+class Solution {
+public:
+    int regionsBySlashes(vector<string>& grid) {
+        int n = grid.size();
+        int dots = (n + 1) * (n + 1);
+        DSU dsu(dots * dots);
+
+        // 1st connect boundary with (0, 0)
+        for (int i = 0; i < n + 1; i++) {
+            for (int j = 0; j < n + 1; j++) {
+                if (i == 0 || i == n || j == 0 || j == n) {
+                    // find the cell number(index) in 1D for this (i, j)
+                    int index = i * (n + 1) + j;
+                    dsu.unionSets(0, index);
+                }
+            }
+        }
+
+        // Traverse grid and join based on slashes
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == '/') {
+                    int index1 = i * (n + 1) + (j + 1);          // dot1
+                    int index2 = (i + 1) * (n + 1) + j;          // dot2
+                    dsu.unionSets(index1, index2);
+                } else if (grid[i][j] == '\\') {
+                    int index1 = i * (n + 1) + j;                // dot1
+                    int index2 = (i + 1) * (n + 1) + (j + 1);    // dot2
+                    dsu.unionSets(index1, index2);
+                }
+            }
+        }
+
+        return dsu.count;
+    }
+};
+
+
 """

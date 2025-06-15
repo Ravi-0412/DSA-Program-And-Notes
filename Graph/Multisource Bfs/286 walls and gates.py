@@ -1,3 +1,5 @@
+# Method 1: 
+
 """
 can be done by dfs but it will take o(m*n)^2 as for evey cell you have to run the dfs
 
@@ -46,45 +48,92 @@ class Solution:
 """
 import java.util.*;
 
-public class Solution {
+class Solution {
     public void wallsAndGates(int[][] rooms) {
-        int row = rooms.length;
-        int col = rooms[0].length;
+        int row = rooms.length, col = rooms[0].length;
         Queue<int[]> q = new LinkedList<>();
         int distance = 0;
 
+        // Appending all the gates into the 'Q'
         for (int r = 0; r < row; r++) {
             for (int c = 0; c < col; c++) {
-                // Appending all the gates into the queue
                 if (rooms[r][c] == 0) {
                     q.offer(new int[]{r, c});
                 }
             }
         }
 
-        int[][] directions = {{-1,0}, {1,0}, {0,-1}, {0,1}};
+        int[][] directions = {{-1,0},{1,0},{0,-1},{0,1}};  // up, down, left, right
 
         while (!q.isEmpty()) {
-            distance++; // All rooms at level 1 will have distance 1
+            distance++;  // all room at level 1 will have distance 1
             int size = q.size();
+
             for (int i = 0; i < size; i++) {
                 int[] cell = q.poll();
                 int r1 = cell[0], c1 = cell[1];
+
                 for (int[] dir : directions) {
-                    int r = r1 + dir[0];
-                    int c = c1 + dir[1];
-                    // If rooms[r][c] is not 'INF' means it's already marked,
-                    // and that will be the minimum distance only, so we are not checking it again
+                    int r = r1 + dir[0], c = c1 + dir[1];
+                    // if a[r][c] is not 'inf' means if already marked then that will be minimum distance only so not checking that condition
                     if (r >= 0 && r < row && c >= 0 && c < col && rooms[r][c] == Integer.MAX_VALUE) {
                         rooms[r][c] = distance;
-                        q.offer(new int[]{r, c}); // For next iteration
+                        q.offer(new int[]{r, c});  // for next iteration
                     }
                 }
             }
         }
     }
 }
+
+
 """
 
 
+# C++
+"""
+#include <vector>
+#include <queue>
+using namespace std;
+
+class Solution {
+public:
+    void wallsAndGates(vector<vector<int>>& rooms) {
+        int row = rooms.size(), col = rooms[0].size();
+        queue<pair<int, int>> q;
+        int distance = 0;
+
+        // Appending all the gates into the 'Q'
+        for (int r = 0; r < row; ++r) {
+            for (int c = 0; c < col; ++c) {
+                if (rooms[r][c] == 0) {
+                    q.push({r, c});
+                }
+            }
+        }
+
+        vector<vector<int>> directions = {{-1,0},{1,0},{0,-1},{0,1}};  // up, down, left, right
+
+        while (!q.empty()) {
+            distance++;  // all room at level 1 will have distance 1
+            int size = q.size();
+
+            for (int i = 0; i < size; ++i) {
+                auto [r1, c1] = q.front(); q.pop();
+
+                for (auto& dir : directions) {
+                    int r = r1 + dir[0], c = c1 + dir[1];
+                    // if a[r][c] is not 'inf' means if already marked then that will be minimum distance only so not checking that condition
+                    if (r >= 0 && r < row && c >= 0 && c < col && rooms[r][c] == INT_MAX) {
+                        rooms[r][c] = distance;
+                        q.push({r, c});  // for next iteration
+                    }
+                }
+            }
+        }
+    }
+};
+
+
+"""
 

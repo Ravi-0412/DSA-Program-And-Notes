@@ -1,8 +1,10 @@
 # logic: 
 """
 When you see that given a source/index , you can go to some other point/ index &&
-using those enext points you can go some other point and so on.
+using those next points you can go some other point and so on.
 Then must think of bfs / multisource bfs or dfs.
+
+Time: O(V+ E), space: O(V). Just same as bfs
 """
 class Solution:
     def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:

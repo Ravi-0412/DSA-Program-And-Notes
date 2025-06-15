@@ -1,21 +1,26 @@
 """
-📘 What is DFS (Depth First Search)?
+DFS (Depth-First Search) ?
+DFS is a graph (or tree) traversal algorithm that explores as far as possible down one path before backtracking.
 
-DFS is a way to explore or traverse a graph. In DFS, we start from one node and 
-go as deep as we can along each path before coming back (backtracking).
+How it works ?
+i) Start from a node.
+ii) Go to one of its neighbors.
+iii)Then go to that neighbor's neighbor, and so on...
+iv) If you reach a dead end (no unvisited neighbors), go back (backtrack) and try other paths.
 
-✅ DFS is like exploring a maze – you go forward until there's no way, 
-then come back and try another way.
+DFS can be done recursively or using a stack.
 
-🕒 Time Complexity: O(V + E)
+Usecase:
+i) cycle detection in a graph.
+ii) Pathfinding in a maze (to explore all paths).
+iii) Topological sorting in DAGs.
+iv) Finding connected components in a graph.
+v) Solving puzzles (like Sudoku, word search).
+
+Time Complexity: O(V + E), sapce: O(V)
 - V = number of vertices (nodes)
 - E = number of edges (connections)
 
-👀 Useful for:
-- Finding paths
-- Detecting cycles
-- Topological sorting
-- Maze solving
 """
 
 from collections import defaultdict
@@ -61,9 +66,8 @@ class Graph:
         self.last_time_visited[u] = self.time
         self.colors[u] = 'black'  # Mark as done
 
-# -----------------------------------------
-# 🔁 Example: Create a graph and run DFS
-# -----------------------------------------
+
+
 g= Graph(6)
 g.add_edge(0,1)
 g.add_edge(0,2)
@@ -77,9 +81,8 @@ g.add_edge(5,5)
 print(g.graph)
 g.DFS()
 
-# -----------------------------------------
-Java Version
------------------------------------------
+
+# Java Version
 
 """
 import java.util.*;
@@ -88,129 +91,167 @@ class Graph {
     int V;
     String[] colors;
     int[] pred;
-    int[] firstTime, lastTime;
     int time;
+    int[] first_time_visited;
+    int[] last_time_visited;
     Map<Integer, List<Integer>> graph;
 
-    Graph(int n) {
+    // Step 1: Define a Graph class
+    public Graph(int n) {
         V = n;
-        colors = new String[n];
+        colors = new String[n];  // Track status: white (unvisited), gray (visiting), black (visited)
         Arrays.fill(colors, "white");
-        pred = new int[n];
+        pred = new int[n];       // To store the parent (for path tracking)
         Arrays.fill(pred, -1);
-        firstTime = new int[n];
-        lastTime = new int[n];
+        time = 0;                // To track discovery and finish time
+        first_time_visited = new int[n];
+        last_time_visited = new int[n];
         graph = new HashMap<>();
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < n; i++) {
             graph.put(i, new ArrayList<>());
+        }
     }
 
-    void addEdge(int u, int v) {
+    // Step 2: Add a directed edge from u to v
+    public void add_edge(int u, int v) {
         graph.get(u).add(v);
     }
 
-    void DFS() {
-        System.out.println("DFS traversal:");
-        for (int i = 0; i < V; i++) {
-            if (colors[i].equals("white")) {
-                DFSVisit(i);
+    // Step 3: Start DFS for all unvisited nodes
+    public void DFS() {
+        System.out.println("📌 DFS Traversal Order:");
+        for (int u = 0; u < V; u++) {
+            if (colors[u].equals("white")) {
+                DFS_Visit(u);
             }
         }
+        System.out.println();
+        System.out.println(" First visit time of each node: " + Arrays.toString(first_time_visited));
+        System.out.println(" Last visit time of each node:  " + Arrays.toString(last_time_visited));
     }
 
-    void DFSVisit(int u) {
-        time++;
-        firstTime[u] = time;
+    // Step 4: Recursive DFS function
+    public void DFS_Visit(int u) {
+        time += 1;
+        first_time_visited[u] = time;
         colors[u] = "gray";
-        System.out.print(u + " ");
-        for (int v : graph.get(u)) {
+        System.out.print(u + " ");  // Visit this node
+
+        for (int v : graph.get(u)) {  // Visit all neighbors
             if (colors[v].equals("white")) {
                 pred[v] = u;
-                DFSVisit(v);
+                DFS_Visit(v);
             }
         }
-        time++;
-        lastTime[u] = time;
-        colors[u] = "black";
+
+        time += 1;
+        last_time_visited[u] = time;
+        colors[u] = "black";  // Mark as done
     }
 
     public static void main(String[] args) {
+        //  Example: Create a graph and run DFS
         Graph g = new Graph(6);
-        g.addEdge(0, 1);
-        g.addEdge(0, 2);
-        g.addEdge(1, 2);
-        g.addEdge(2, 3);
-        g.addEdge(3, 1);
-        g.addEdge(4, 3);
-        g.addEdge(4, 5);
-        g.addEdge(5, 5);
+        g.add_edge(0, 1);
+        g.add_edge(0, 2);
+        g.add_edge(1, 2);
+        g.add_edge(2, 3);
+        g.add_edge(3, 1);
+        g.add_edge(4, 3);
+        g.add_edge(4, 5);
+        g.add_edge(5, 5);
+
+        System.out.println(g.graph);
         g.DFS();
     }
 }
 """
 
------------------------------------------
-C++ Version
------------------------------------------
-"""
+# C++ Version
 
+"""
 #include <iostream>
 #include <vector>
 #include <unordered_map>
+#include <list>
+#include <string>
 using namespace std;
 
 class Graph {
-    int V;
-    vector<string> colors;
-    vector<int> pred, firstTime, lastTime;
-    int time;
-    unordered_map<int, vector<int>> graph;
-
 public:
-    Graph(int n) : V(n), colors(n, "white"), pred(n, -1), firstTime(n, 0), lastTime(n, 0), time(0) {}
+    int V;
+    vector<string> colors;               // Track status: white (unvisited), gray (visiting), black (visited)
+    vector<int> pred;                    // To store the parent (for path tracking)
+    int time;                            // To track discovery and finish time
+    vector<int> first_time_visited;
+    vector<int> last_time_visited;
+    unordered_map<int, list<int>> graph;  // Adjacency list
 
-    void addEdge(int u, int v) {
+    // Step 1: Define a Graph class
+    Graph(int n) {
+        V = n;
+        colors.resize(n, "white");
+        pred.resize(n, -1);
+        time = 0;
+        first_time_visited.resize(n, 0);
+        last_time_visited.resize(n, 0);
+    }
+
+    // Step 2: Add a directed edge from u to v
+    void add_edge(int u, int v) {
         graph[u].push_back(v);
     }
 
+    // Step 3: Start DFS for all unvisited nodes
     void DFS() {
-        cout << "DFS traversal: ";
+        cout << " DFS Traversal Order:\n";
         for (int u = 0; u < V; ++u) {
             if (colors[u] == "white") {
-                DFSVisit(u);
+                DFS_Visit(u);
             }
         }
+        cout << "\n First visit time of each node: ";
+        for (int t : first_time_visited) cout << t << " ";
+        cout << "\n Last visit time of each node:  ";
+        for (int t : last_time_visited) cout << t << " ";
         cout << endl;
     }
 
-    void DFSVisit(int u) {
-        time++;
-        firstTime[u] = time;
+    // Step 4: Recursive DFS function
+    void DFS_Visit(int u) {
+        time += 1;
+        first_time_visited[u] = time;
         colors[u] = "gray";
-        cout << u << " ";
-        for (int v : graph[u]) {
+        cout << u << " ";  // Visit this node
+
+        for (int v : graph[u]) {  // Visit all neighbors
             if (colors[v] == "white") {
                 pred[v] = u;
-                DFSVisit(v);
+                DFS_Visit(v);
             }
         }
-        time++;
-        lastTime[u] = time;
-        colors[u] = "black";
+
+        time += 1;
+        last_time_visited[u] = time;
+        colors[u] = "black";  // Mark as done
     }
 };
 
 int main() {
+    // Example: Create a graph and run DFS
     Graph g(6);
-    g.addEdge(0, 1);
-    g.addEdge(0, 2);
-    g.addEdge(1, 2);
-    g.addEdge(2, 3);
-    g.addEdge(3, 1);
-    g.addEdge(4, 3);
-    g.addEdge(4, 5);
-    g.addEdge(5, 5);
+    g.add_edge(0, 1);
+    g.add_edge(0, 2);
+    g.add_edge(1, 2);
+    g.add_edge(2, 3);
+    g.add_edge(3, 1);
+    g.add_edge(4, 3);
+    g.add_edge(4, 5);
+    g.add_edge(5, 5);
+
     g.DFS();
+
     return 0;
 }
+
 """

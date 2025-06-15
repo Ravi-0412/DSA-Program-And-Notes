@@ -1,3 +1,5 @@
+# Methiod 1: 
+
 """
 logic: Just exacyly same as 'M-coloring'.
 just treat garden as nodes and flowers as color.
@@ -13,9 +15,14 @@ Note: there is no node that has more than 3 neighbors, always one possible color
 so There must be one color availabe to color a node anytime.
 
 Note: Due to this reason, this  brute force solution get accepted.
-"""
 
-# time: O(4**n)
+i) time: O(4*n) = O(n)
+ii) Space Complexity: O(n + e)
+adj stores all edges: O(n + e)
+color array of size n + 1: O(n)
+Recursion stack: up to O(n) in the worst case
+
+"""
 
 import collections
 from typing import List
@@ -54,53 +61,101 @@ class Solution:
 """
 import java.util.*;
 
-public class Solution {
+class Solution {
+    Map<Integer, List<Integer>> adj = new HashMap<>();
+    int[] color;
+    int n;
+
     public int[] gardenNoAdj(int n, int[][] paths) {
-        List<Integer>[] adj = new ArrayList[n + 1]; // 1-based indexing
-        for (int i = 0; i <= n; i++) {
-            adj[i] = new ArrayList<>();
+        this.n = n;
+        color = new int[n + 1];  // 1-based indexing
+
+        // Build adjacency list
+        for (int i = 1; i <= n; i++) {
+            adj.put(i, new ArrayList<>());
+        }
+        for (int[] path : paths) {
+            adj.get(path[0]).add(path[1]);
+            adj.get(path[1]).add(path[0]);
         }
 
-        for (int[] edge : paths) {
-            int u = edge[0];
-            int v = edge[1];
-            adj[u].add(v);
-            adj[v].add(u);
-        }
-
-        int[] color = new int[n + 1]; // index 0 unused, flower types are 1 to 4
-
-        // start from garden 1
-        isPlantingPossible(1, n, color, adj);
-
-        // return final answer skipping 0th index
-        return Arrays.copyOfRange(color, 1, n + 1);
+        // Start backtracking from garden 1
+        isPlantingPossible(1);
+        return Arrays.copyOfRange(color, 1, n + 1);  // Skip index 0 for 1-based result
     }
 
-    // check if it's safe to plant this color
-    private boolean isSafe(int node, int nodeColor, int[] color, List<Integer>[] adj) {
+    // Check if the current flower color is safe for the garden
+    private boolean isSafe(int node, int nodeColor) {
+        for (int neighbor : adj.get(node)) {
+            if (color[neighbor] == nodeColor) return false;
+        }
+        return true;
+    }
+
+    // Try assigning colors recursively to each garden
+    private boolean isPlantingPossible(int node) {
+        if (node == n + 1) return true;
+
+        for (int i = 1; i <= 4; i++) {  // Try flower types 1 to 4
+            if (isSafe(node, i)) {
+                color[node] = i;
+                if (isPlantingPossible(node + 1)) return true;
+                // Backtracking step not needed since problem guarantees a solution
+            }
+        }
+        return false;
+    }
+}
+"""
+
+
+# C++
+"""
+class Solution {
+public:
+    vector<vector<int>> adj;
+    vector<int> color;
+    int n;
+
+    vector<int> gardenNoAdj(int n, vector<vector<int>>& paths) {
+        this->n = n;
+        color.resize(n + 1, -1);  // 1-based indexing
+        adj.resize(n + 1);
+
+        // Build adjacency list
+        for (auto& path : paths) {
+            adj[path[0]].push_back(path[1]);
+            adj[path[1]].push_back(path[0]);
+        }
+
+        // Start backtracking from garden 1
+        isPlantingPossible(1);
+        vector<int> result(color.begin() + 1, color.end());  // Skip index 0
+        return result;
+    }
+
+    // Check if the current flower color is safe for the garden
+    bool isSafe(int node, int nodeColor) {
         for (int nei : adj[node]) {
             if (color[nei] == nodeColor) return false;
         }
         return true;
     }
 
-    private boolean isPlantingPossible(int node, int n, int[] color, List<Integer>[] adj) {
+    // Try assigning colors recursively to each garden
+    bool isPlantingPossible(int node) {
         if (node == n + 1) return true;
 
-        for (int i = 1; i <= 4; i++) {
-            if (isSafe(node, i, color, adj)) {
+        for (int i = 1; i <= 4; i++) {  // Try flower types 1 to 4
+            if (isSafe(node, i)) {
                 color[node] = i;
-                if (isPlantingPossible(node + 1, n, color, adj)) {
-                    return true;
-                }
-                // No need to reset color[node] = 0 because a solution is guaranteed
+                if (isPlantingPossible(node + 1)) return true;
+                // Backtracking step not needed since problem guarantees a solution
             }
         }
-
         return false;
     }
-}
+};
 """
 
 
@@ -118,9 +173,15 @@ This means that there must be a flower to choose from for each garden and
 you don't have to worry about choosing the order of the garden to plant flowers in.
 
 Note: color every node with least value color available(not used by its neighbour).
+
+i) time: O(4*n) = O(n)
+ii) Space Complexity: O(n + e)
+adj stores all edges: O(n + e)
+color array of size n + 1: O(n)
+Recursion stack: up to O(n) in the worst case
+
 """
 
-# time: O(4*n)
 
 class Solution:
     def gardenNoAdj(self, n: int, paths: List[List[int]]) -> List[int]:
@@ -148,40 +209,34 @@ class Solution:
 """
 import java.util.*;
 
-public class Solution {
+class Solution {
     public int[] gardenNoAdj(int n, int[][] paths) {
-        List<Integer>[] adj = new ArrayList[n];
-        
-        // Initialize adjacency list
+        List<List<Integer>> adj = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            adj[i] = new ArrayList<>();
+            adj.add(new ArrayList<>());
         }
 
-        // Build the adjacency list (0-based indexing)
-        for (int[] edge : paths) {
-            int u = edge[0] - 1;
-            int v = edge[1] - 1;
-            adj[u].add(v);
-            adj[v].add(u);
+        for (int[] path : paths) {
+            adj.get(path[0] - 1).add(path[1] - 1);
+            adj.get(path[1] - 1).add(path[0] - 1);
         }
 
-        int[] res = new int[n];  // will store the flower type for each garden (1 to 4)
+        int[] res = new int[n];  // for each flower, we have to return the color
 
+        // color each node with available color
         for (int i = 0; i < n; i++) {
-            boolean[] usedColors = new boolean[5];  // index 1 to 4
+            boolean[] usedColors = new boolean[5];  // will store the used colors by the nei of node 'i'
 
-            // Check which colors are already used by neighbors
-            for (int neighbor : adj[i]) {
-                int color = res[neighbor];
-                if (color != 0) {
-                    usedColors[color] = true;
-                }
+            // check whatever color has been used by its neighbor.
+            for (int nei : adj.get(i)) {
+                usedColors[res[nei]] = true;  // mark used
             }
 
-            // Assign the first available color not used by neighbors
-            for (int c = 1; c <= 4; c++) {
-                if (!usedColors[c]) {
-                    res[i] = c;
+            // check which color has not been used till now by its nei.
+            for (int color = 1; color <= 4; color++) {
+                if (!usedColors[color]) {
+                    // if not used then color the current node with current 'color'
+                    res[i] = color;
                     break;
                 }
             }
@@ -190,4 +245,42 @@ public class Solution {
         return res;
     }
 }
+"""
+
+
+# C++
+"""
+class Solution {
+public:
+    vector<int> gardenNoAdj(int n, vector<vector<int>>& paths) {
+        vector<vector<int>> adj(n);
+        for (auto& path : paths) {
+            adj[path[0] - 1].push_back(path[1] - 1);
+            adj[path[1] - 1].push_back(path[0] - 1);
+        }
+
+        vector<int> res(n, 0);  // for each flower, we have to return the color
+
+        // color each node with available color
+        for (int i = 0; i < n; i++) {
+            vector<bool> usedColors(5, false);  // will store the used colors by the nei of node 'i'
+
+            // check whatever color has been used by its neighbor
+            for (int nei : adj[i]) {
+                usedColors[res[nei]] = true;  // mark used
+            }
+
+            // check which color has not been used till now by its nei.
+            for (int color = 1; color <= 4; color++) {
+                if (!usedColors[color]) {
+                    // if not used then color the current node with current 'color'
+                    res[i] = color;
+                    break;
+                }
+            }
+        }
+
+        return res;
+    }
+};
 """

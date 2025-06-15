@@ -159,6 +159,11 @@ At the end, dummy.next will point to the new head of the reversed list
 """
 # Do on pen and paper and understand.
 # This method we can use in "92. Reverse Linked List II"  for concise code.
+"""
+Method 3 Analysis:
+# Time Complexity: O(N) — traverse the list once
+# Space Complexity: O(1) — only a few pointers used
+"""
 
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
@@ -272,10 +277,7 @@ public:
 };
 
 
-Method 3 Analysis:
-# Time Complexity: O(N) — traverse the list once
-# Space Complexity: O(1) — only a few pointers used
-"""
+
 
 # Method 4: By recursion
 # just the conversion of above iterative into recursive.
@@ -288,6 +290,12 @@ Recursively call the function, moving forward until current reaches the end
 Then, as the calls return, flip the pointers so current.next points back to pre
 In the end, return the new head once everything's reversed
 """
+"""
+Analysis:
+# Time Complexity: O(N) — each node visited once
+# Space Complexity: O(N) — recursive call stack
+"""
+
 # Bottom up(like we do in Tree till we reach the leaf node or 'None' ).
 
 class Solution:
@@ -375,11 +383,6 @@ public:
 };
 
 
-Analysis:
-# Time Complexity: O(N) — each node visited once
-# Space Complexity: O(N) — recursive call stack
-"""
-
 # another way of writing the above code
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]: 
@@ -397,10 +400,60 @@ class Solution:
         return headreverse  # at last return head reverse
 
 
-# method 5: Recursion using only one parameter
+# method 5:
+# Recursion using only one parameter
 # Logic: After reaching base case 'that last node' should be head for reverse order.
 # That reverse node should not change.
-# Only change the pointer to reverse the direction and return the same 'reverseNode' always like above recursive methods.
+# Only change the pointer to reverse the direction and return the same 'reverseNode' always like above recursive methods.# Note vvi: Whenever you have comapare 1st and last ele , 
+# do sum of 1st and last ele, append 1st to last ele , or any operation related to 1st and last ele.
+# Must think of 'reversing linklist' and how we can get ans from reversing.
+
+# mistakes
+# i got my mistake: for using a variable defined in other function, just put both the function inside a class and 
+# make that variable a member variable using 'self.variable_name'
+# for using a variable that is passed as parameter in other function inside a class. just call that variable using self
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        pre,curr= None, head
+        return self.helper(pre,curr)
+    def helper(self,pre,curr):
+        if curr==None:
+            head= pre   # if we write self.head then it's giving correct ans
+        else:
+            self.helper(curr,curr.next)  
+            curr.next= pre
+        return head    # if we write self.head then it's giving correct ans
+
+
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        pre,curr= None, head
+        return self.helper(pre,curr)
+    def helper(self,pre,curr):  
+        if curr.next:    # for avoiding cycle, go till one step ahead like. while curr:           
+            return self.helper(curr,curr.next)  # when you will write like this it will simply return,
+            #  it will not process the below next statement so direction won't get changed
+        curr.next= pre  # this will lead to cycle as pre is pointing to just one before curr 
+        return curr
+
+# tried changing the just above method
+# this will only give the 1st ele as you are not storing the returned value anywhere, and returning the curr each time
+# and at last curr will point to head only so it will only return the 1st element
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        pre,curr= None, head
+        return self.helper(pre,curr)
+    def helper(self,pre,curr):
+        if curr.next:             
+            self.helper(curr,curr.next)  # when you will write like this it will simply return,
+            #  it will not process the below next statement so direction won't get changed
+            if pre!=None:
+                pre.next= None
+            curr.next= pre
+        return curr   
+
+# Corrected code
+
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         if not head or not head.next:  # if there is no node or only one node. start reversing after you reach the last node
@@ -448,128 +501,3 @@ public:
         return reverseHead;
     }
 };
-
-
-Method 4 Analysis:
-# Time Complexity: O(N) — each node visited once
-# Space Complexity: O(N) — recursion stack depth
-"""
-
-# Note vvi: Whenever you have comapare 1st and last ele , 
-# do sum of 1st and last ele, append 1st to last ele , or any operation related to 1st and last ele.
-# Must think of 'reversing linklist' and how we can get ans from reversing.
-
-# Questions based on this:
-# 234. Palindrome Linked List
-# 61. Rotate List
-# 2130. Maximum Twin Sum of a Linked List
-# 143. Reorder List
-
-# mistakes
-# i got my mistake: for using a variable defined in other function, just put both the function inside a class and 
-# make that variable a member variable using 'self.variable_name'
-# for using a variable that is passed as parameter in other function inside a class. just call that variable using self
-class Solution:
-    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        pre,curr= None, head
-        return self.helper(pre,curr)
-    def helper(self,pre,curr):
-        if curr==None:
-            head= pre   # if we write self.head then it's giving correct ans
-        else:
-            self.helper(curr,curr.next)  
-            curr.next= pre
-        return head    # if we write self.head then it's giving correct ans
-
-
-class Solution:
-    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        pre,curr= None, head
-        return self.helper(pre,curr)
-    def helper(self,pre,curr):  
-        if curr.next:    # for avoiding cycle, go till one step ahead like. while curr:           
-            return self.helper(curr,curr.next)  # when you will write like this it will simply return,
-            #  it will not process the below next statement so direction won't get changed
-        curr.next= pre  # this will lead to cycle as pre is pointing to just one before curr 
-        return curr
-
-# tried changing the just above method
-# this will only give the 1st ele as you are not storing the returned value anywhere, and returning the curr each time
-# and at last curr will point to head only so it will only return the 1st element
-class Solution:
-    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        pre,curr= None, head
-        return self.helper(pre,curr)
-    def helper(self,pre,curr):
-        if curr.next:             
-            self.helper(curr,curr.next)  # when you will write like this it will simply return,
-            #  it will not process the below next statement so direction won't get changed
-            if pre!=None:
-                pre.next= None
-            curr.next= pre
-        return curr   
-
-
-
-# Template for using in other questions:
-def reverseList(self, head) :
-        if not head: return head 
-        pre,current= None,head 
-        while current:  
-            temp= current.next  
-            current.next = pre    
-            pre= current        
-            current= temp     
-        return pre              
-
-# java
-"""
-class ListNode {
-    int val;
-    ListNode next;
-    ListNode(int val) { this.val = val; }
-}
-
-class Solution {
-    public ListNode reverseList(ListNode head) {
-        if (head == null) return head;
-        ListNode pre = null, current = head;
-
-        while (current != null) {
-            ListNode temp = current.next;
-            current.next = pre;
-            pre = current;
-            current = temp;
-        }
-
-        return pre;
-    }
-}
-"""
-
-# c++
-"""
-struct ListNode {
-    int val;
-    ListNode* next;
-    ListNode(int x) : val(x), next(nullptr) {}
-};
-
-class Solution {
-public:
-    ListNode* reverseList(ListNode* head) {
-        if (head == nullptr) return head;
-        ListNode* pre = nullptr;
-        ListNode* current = head;
-
-        while (current != nullptr) {
-            ListNode* temp = current->next;
-            current->next = pre;
-            pre = current;
-            current = temp;
-        }
-
-        return pre;
-    }
-};
-"""

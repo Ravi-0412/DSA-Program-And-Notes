@@ -3,6 +3,16 @@
 # note: we can reach the same stone by taking the same number of jump many times.
 # That's why it will give TLE by Recursion.
 
+"""
+The goal is to determine whether the frog can reach the last stone.
+Use map/set to represent a mapping from the stone.
+Notice that no need to calculate the last stone.
+On each step, we look if any other stone can be reached from it, 
+if so, we update that stone's steps by adding step, step + 1, step - 1. 
+If we can reach the final stone, we return true
+"""
+
+
 # method 1: Recursive
 class Solution(object):
     def canCross(self, stones):
@@ -22,7 +32,7 @@ class Solution(object):
 
         return solve(0, 0)
 
-
+# method 2: 
 # memoising 
 # logic: store the (stone, jump) in set so that we can skip when we will reach that stone with same jump again.
 
@@ -48,9 +58,33 @@ class Solution(object):
             return False
 
         return solve(0, 0)
-    
 
-# method 2: itertaive
+# Method 3: 
+#Tabulation
+#time: O(n^2), space : O(n^2)
+class Solution(object):
+    def canCross(self, stones):
+        self.target = stones[-1]
+        stoneSet = set(stones)
+
+        # key = current stone, value = set of all jump sizes we can use to reach that stone
+        dp = {stone: set() for stone in stones}
+        dp[0].add(0)  # start at stone 0 with jump 0
+
+        for stone in stones:
+            for jump in dp[stone]:
+                for j in (jump - 1, jump, jump + 1):
+                    if j > 0 and (stone + j) in stoneSet:
+                        dp[stone + j].add(j)
+                        if (stone + j) == self.target:
+                            return True  # early exit if target is reached
+
+        return False
+   
+
+
+# method 4: 
+# itertaive
 class Solution:
     def canCross(self, stones: List[int]) -> bool:
         # first jump must be of one unit only.

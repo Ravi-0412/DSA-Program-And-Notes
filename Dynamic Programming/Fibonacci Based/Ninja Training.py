@@ -1,58 +1,33 @@
-# write the logic in notes for all steps in detail(VVI)
-# notes: page 152
-def ninjaTraining(n: int, points: List[List[int]]) -> int:
-    return Reward(n,3,points)
+# Method 1; 
 
-def Reward(day,last,points):
-    if day== 0:
-        return 0
-    maxPoints= 0
-    for task in range(3):
-        if task!= last:
-            maxPoints= max(maxPoints,points[day-1][task]+Reward(day-1,task,points))
-    return maxPoints
+"""
+logic: 
 
-# Not able to memoise and do Tabulation.
-# check later.
-# got ans by other approach. simple one.
+The first approach that comes to our mind is the greedy approach. Now see the below example and try to understand that how it doesn’t give the correct solution.
+example : DAY 1 :  10 30 20
+          DAY 2 :  10 100 20
 
-# method2: memoization
-# time complexity= O(n*4)*3. for each state you were making three function call
-# space: O(n)recursion depth + O(n*4).
+          Greedily, we'll pick 30 from day 1 (MAX) and 20 (Second MAX after 100) from day 2 as 100 cannot be picked due same activity cannot take place in two consecutive days
+          so we end up the total as (30 + 20) = 50 points
 
-# Note: for dimension of dp variables, check range in which we are taking values from array.
-# for day we are using from: day '0' to day 'n-1'. and for task : from '0' to '3'.
+          But clearly we can see, the actual answer should be (20 from day1 + 100 from day2) = 120 points
 
-# Not able to memoise
-def ninjaTraining(n: int, points: List[List[int]]) -> int:
-    dp= [[-1 for last in range(4)] for day in range(n +1)]
-    return Reward(n,3,points, dp)
+          so greedy fails!!
 
-def Reward(day,last,points, dp):
-    if day== 0:   # we have processed one task on each day.
-        return 0
-    if dp[day-1][last]!= -1:
-        return dp[day-1][last]
-    maxPoints= 0
-    for task in range(3):
-        if task!= last:
-            maxPoints= max(dp[day-1][last],points[day-1][task]+Reward(day-1,task,points, dp))
-    dp[day-1][last]= maxPoints
-    return dp[day-1][last]
+          Now we try out all possible options and Recursion will be the one which generates all possible options.
 
-# not able to convert into Tbaulation with same logic.
-# def ninjaTraining(n: int, points: List[List[int]]) -> int:
-#     dp= [[0 for last in range(4)] for day in range(n)]
-#     for day in range(1, n+1):
-#         for last in range(4): # 3 +1
-#             for task in range(3):
-#                 dp[day-1][last]= max(dp[day-1][last], points[day-1][task] + dp[day-1][task])
-#     return dp[n-1][3]
+          what two things we need to consider here is 
+          i) the current day as day ranges from 0 to n-1
+          ii) the last chosen activity what we chose for day-1 or day+1 (it depends on how we consider the recursion call (0 to n-1) or (n-1 to 0) )
 
+          f(currDay, lastAct) --> The maximum points till currDay with lastAct acitivity on pervious day
+          Base case :  considering recursion call (n-1 to 0):
+                     when we reach at day = 0 we calculate the max points and return it
 
+                     considering recursion call (0 to n-1);
+                     when we reach at day = n-1 we calcuate the max points and return it.
+"""
 
-# Approach 2: 
-#  To make index of day same as function call.
 # starting from day '0' with last task= 3.
 
 def ninjaTraining(n: int, points: List[List[int]]) -> int:
@@ -67,6 +42,7 @@ def Reward(day,last,points):
             maxPoints= max(maxPoints,points[day][task]+Reward(day+1,task,points))
     return maxPoints
 
+# Method 2: 
 # memoization
 # time complexity= O(n*4)*3. for each state you were making three function call
 # space: O(n)recursion depth + O(n*4).
@@ -86,8 +62,9 @@ def Reward(day,last,points, dp):
     dp[day][last]= maxPoints
     return dp[day][last]
 
+# Method 3: 
 # Tabulation
-# just convert the variable chnaging in function in for loop(from base case to value it can go) 
+# just convert the variable changing in function in for loop(from base case to value it can go) 
 # and after that just copy paste the recursive Q after base case.
 # keep the variabe name same in for loop as name variable in recursive function.
 def ninjaTraining(n: int, points: List[List[int]]) -> int:

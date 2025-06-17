@@ -1,3 +1,5 @@
+# Method 1:
+
 # Logic: if we close at 'i'th hour then, 
 # penalty = no of elements on left of i(excluded) having value 'N' + no of elements of right of i(included) having value 'Y'
 # i.e number of 'N' passed +  number of 'Y' remaining
@@ -12,11 +14,11 @@
 
 # After this we have to find the minimum 'i' for which sum of penality is minimum.
 
-# Time: O(n)
-
 # Here we are doing thinking: what will be the penalty if we close the shop at the 'i'th hour.
 
 # Note: we can do in two pass. While finding 'prefixSumN' we can update our ans as well.
+
+# Time = space = O(n)
 
 class Solution:
     def bestClosingTime(self, customers: str) -> int:
@@ -46,6 +48,7 @@ class Solution:
         return earliestHour
 
 
+# Method 2:
 # Better one: in single pass without prefix sum
 
 # As at any instance i, remaining 'Y' should be minimum and remaining 'N' should be maximum. 
@@ -55,6 +58,8 @@ class Solution:
 
 # # Here we are doing thinking: what will be the maxScore if we can get if we keep open the shop till 'i'th hour.
 # After this hour , score will start decreasing so will close the shop after this hour.
+
+# Time = O(n), space = O(1)
 
 class Solution:
     def bestClosingTime(self, customers: str) -> int:
@@ -71,128 +76,3 @@ class Solution:
         return ind + 1
 
 
-# Java Code 
-"""
-//Method 1
-import java.util.*;
-
-class Solution {
-    public int bestClosingTime(String customers) {
-        int n = customers.length();
-        int[] prefixSumY = new int[n + 1]; // Tracks penalty for closing at 'i' due to 'Y'
-        int[] prefixSumN = new int[n + 1]; // Tracks penalty for closing at 'i' due to 'N'
-
-        for (int i = n - 1; i >= 0; i--) {
-            prefixSumY[i] = prefixSumY[i + 1] + (customers.charAt(i) == 'Y' ? 1 : 0);
-        }
-
-        for (int i = 0; i < n; i++) {
-            prefixSumN[i + 1] = prefixSumN[i] + (customers.charAt(i) == 'N' ? 1 : 0);
-        }
-
-        int earliestHour = n + 1;
-        int minPenalty = n + 1;
-
-        for (int i = 0; i <= n; i++) {
-            int curHourPenalty = prefixSumY[i] + prefixSumN[i];
-            if (curHourPenalty < minPenalty) {
-                earliestHour = i;
-                minPenalty = curHourPenalty;
-            }
-        }
-
-        return earliestHour;
-    }
-}
-//Method 2
-class Solution {
-    /*
-    Explanation:
-    - Track the score where `Y` increases it (customers present) and `N` decreases it.
-    - Keep track of max score and the index it occurs at.
-    - Once score starts decreasing, closing time should be after this index (`ind + 1`).
-    */
-    public int bestClosingTime(String customers) {
-        int ind = -1, score = 0, maxScore = 0;
-
-        for (int i = 0; i < customers.length(); i++) {
-            if (customers.charAt(i) == 'Y') {
-                score++;
-            } else {
-                score--;
-            }
-            if (score > maxScore) {
-                maxScore = score;
-                ind = i;
-            }
-        }
-        return ind + 1;
-    }
-}
-"""
-
-# C++ Code 
-"""
-//Method 1
-#include <vector>
-#include <string>
-#include <algorithm>
-
-using namespace std;
-
-class Solution {
-public:
-    int bestClosingTime(string customers) {
-        int n = customers.size();
-        vector<int> prefixSumY(n + 1, 0); // Tracks penalty for closing at 'i' due to 'Y'
-        vector<int> prefixSumN(n + 1, 0); // Tracks penalty for closing at 'i' due to 'N'
-
-        for (int i = n - 1; i >= 0; i--) {
-            prefixSumY[i] = prefixSumY[i + 1] + (customers[i] == 'Y' ? 1 : 0);
-        }
-
-        for (int i = 0; i < n; i++) {
-            prefixSumN[i + 1] = prefixSumN[i] + (customers[i] == 'N' ? 1 : 0);
-        }
-
-        int earliestHour = n + 1;
-        int minPenalty = n + 1;
-
-        for (int i = 0; i <= n; i++) {
-            int curHourPenalty = prefixSumY[i] + prefixSumN[i];
-            if (curHourPenalty < minPenalty) {
-                earliestHour = i;
-                minPenalty = curHourPenalty;
-            }
-        }
-
-        return earliestHour;
-    }
-};
-//Method 2
-class Solution {
-public:
-    /*
-    Explanation:
-    - Track the score where `Y` increases it (customers present) and `N` decreases it.
-    - Keep track of max score and the index it occurs at.
-    - Once score starts decreasing, closing time should be after this index (`ind + 1`).
-    */
-    int bestClosingTime(string customers) {
-        int ind = -1, score = 0, maxScore = 0;
-
-        for (int i = 0; i < customers.size(); i++) {
-            if (customers[i] == 'Y') {
-                score++;
-            } else {
-                score--;
-            }
-            if (score > maxScore) {
-                maxScore = score;
-                ind = i;
-            }
-        }
-        return ind + 1;
-    }
-};
-"""

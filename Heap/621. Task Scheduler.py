@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Logic: We have to minimise the idle time for overall minimum time.
 # And for this we need to utilise the cooldown time between two task.
 # And for reducing cooldown time between tasks process the most frequent one first as 
@@ -23,6 +25,7 @@
 # time: O(26*logn + m*n). m= #tasks. in case tasks= a,a,a,a,... we may have to wait till m*n
 
 import collections
+from collections import Counter
 import heapq
 class Solution:
     def leastInterval(self, tasks: List[str], n: int) -> int:
@@ -48,7 +51,8 @@ class Solution:
         return time
     
 
-# Method 2: Better one
+# Method 2: 
+# Better one
 # using logic of Q: "358. Rearrange String k Distance Apart".
 # 1) We need to arrange the characters in string such that each same character is K distance apart,
 #  where distance in this problems is time b/w two similar task execution.
@@ -105,198 +109,3 @@ class Solution:
         
         return cnt
 
-
-# Java Code 
-"""
-//Method 1
-import java.util.*;
-
-class Solution {
-    public int leastInterval(char[] tasks, int n) {
-        Map<Character, Integer> freq = new HashMap<>();
-        for (char task : tasks) {
-            freq.put(task, freq.getOrDefault(task, 0) + 1);
-        }
-
-        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
-        maxHeap.addAll(freq.values());
-
-        Queue<int[]> cooldownQueue = new LinkedList<>();
-        int time = 0;
-
-        while (!maxHeap.isEmpty() || !cooldownQueue.isEmpty()) {
-            time++;
-
-            if (!maxHeap.isEmpty()) {
-                int count = maxHeap.poll() - 1;
-                if (count > 0) {
-                    cooldownQueue.add(new int[]{count, time + n});
-                }
-            }
-
-            if (!cooldownQueue.isEmpty() && cooldownQueue.peek()[1] == time) {
-                maxHeap.add(cooldownQueue.poll()[0]);
-            }
-        }
-
-        return time;
-    }
-}
-//Method 2
-import java.util.*;
-
-class Solution {
-    public int leastInterval(char[] tasks, int n) {
-        if (tasks.length == 0) return -1;
-
-        Map<Character, Integer> freq = new HashMap<>();
-        for (char task : tasks) {
-            freq.put(task, freq.getOrDefault(task, 0) + 1);
-        }
-
-        PriorityQueue<int[]> maxHeap = new PriorityQueue<>((a, b) -> Integer.compare(b[0], a[0]));
-        for (Map.Entry<Character, Integer> entry : freq.entrySet()) {
-            maxHeap.offer(new int[]{entry.getValue(), entry.getKey()});
-        }
-
-        int totalTime = 0;
-        while (!maxHeap.isEmpty()) {
-            int interval = n + 1;
-            List<int[]> temp = new ArrayList<>();
-
-            while (interval > 0 && !maxHeap.isEmpty()) {
-                int[] entry = maxHeap.poll();
-                int freqCount = entry[0] - 1;  // Decrease frequency since task is executed
-                temp.add(new int[]{freqCount, entry[1]});
-                interval--;
-                totalTime++;
-            }
-
-            // Push back remaining tasks
-            for (int[] entry : temp) {
-                if (entry[0] > 0) {
-                    maxHeap.offer(entry);
-                }
-            }
-
-            if (maxHeap.isEmpty()) break;
-
-            totalTime += interval;  // CPU idle time if tasks are still pending
-        }
-
-        return totalTime;
-    }
-}
-"""
-
-# C++ Code 
-"""
-//Method 1
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <unordered_map>
-
-using namespace std;
-
-class Solution {
-public:
-    int leastInterval(vector<char>& tasks, int n) {
-        unordered_map<char, int> freq;
-        for (char task : tasks) {
-            freq[task]++;
-        }
-
-        priority_queue<int> maxHeap;
-        for (auto& pair : freq) {
-            maxHeap.push(pair.second);
-        }
-
-        queue<pair<int, int>> cooldownQueue; // Stores (remaining count, available time)
-        int time = 0;
-
-        while (!maxHeap.empty() || !cooldownQueue.empty()) {
-            time++;
-
-            if (!maxHeap.empty()) {
-                int count = maxHeap.top();
-                maxHeap.pop();
-                count--;
-
-                if (count > 0) {
-                    cooldownQueue.push({count, time + n});
-                }
-            }
-
-            if (!cooldownQueue.empty() && cooldownQueue.front().second == time) {
-                maxHeap.push(cooldownQueue.front().first);
-                cooldownQueue.pop();
-            }
-        }
-
-        return time;
-    }
-};
-//Method 2
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <unordered_map>
-
-using namespace std;
-
-class Solution {
-public:
-    int leastInterval(vector<char>& tasks, int n) {
-        if (tasks.empty()) return -1;
-
-        unordered_map<char, int> freq;
-        for (char task : tasks) {
-            freq[task]++;
-        }
-
-        priority_queue<pair<int, char>> maxHeap;
-        for (auto& pair : freq) {
-            maxHeap.push({-pair.second, pair.first});  // Max heap with (-frequency, task)
-        }
-
-        int totalTime = 0;
-        while (!maxHeap.empty()) {
-            int interval = n + 1;
-            vector<pair<int, char>> temp;
-
-            while (interval > 0 && !maxHeap.empty()) {
-                auto [negFreq, task] = maxHeap.top();
-                maxHeap.pop();
-                int freqCount = -negFreq - 1;  // Decrease frequency since task is executed
-                temp.push_back({freqCount, task});
-                interval--;
-                totalTime++;
-            }
-
-            // Push back remaining tasks
-            for (auto& [freqCount, task] : temp) {
-                if (freqCount > 0) {
-                    maxHeap.push({-freqCount, task});
-                }
-            }
-
-            if (maxHeap.empty()) break;
-
-            totalTime += interval;  // CPU idle time if tasks are still pending
-        }
-
-        return totalTime;
-    }
-};
-"""
-
-
-# Later do using formula:
-# https://leetcode.com/problems/task-scheduler/solutions/3280549/full-explanation-using-priority-queue-and-formula-based-approach/
-# https://leetcode.com/problems/task-scheduler/solutions/760131/java-concise-solution-intuition-explained-in-detail/
-
-
-
-# Related Q:
-# 1) 358. Rearrange String k Distance Apart    => Try later

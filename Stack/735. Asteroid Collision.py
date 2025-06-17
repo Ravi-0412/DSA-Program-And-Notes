@@ -1,3 +1,5 @@
+# Method 1: 
+
 # very nice Q.
 # logic: overall, there are totally 4 scenarios will happen: 1.(+,+) 2.(-,-) 3.(+,-) 4.(-,+)  => see this combination as resultant also 
 # But collision will hapen in 3rd case only.(not even in 4th case)
@@ -122,6 +124,5 @@ public:
     }
 };
 """
-# Similar / extended Q
-# 1) 2751. Robot Collisions
+
 

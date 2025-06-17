@@ -47,7 +47,6 @@ class MyQueue:
 
 # note: no need to keep track of ele in stack2, we can directly check using len(stack2).
 
-
 # time: average time for operation will be O(1).
 
 class MyQueue:
@@ -136,6 +135,8 @@ class MyQueue {
         return stack1.isEmpty() && stack2.isEmpty();
     }
 }
+
+
 //Method 2
 import java.util.Stack;
 
@@ -240,6 +241,7 @@ public:
     }
 };
 
+
 //Method 2
 #include <iostream>
 #include <stack>
@@ -293,7 +295,8 @@ public:
     }
 };
 """
-# Try this also.
 
+
+# Extension: 
 # optimize for pop operation in O(1) time, didn't care about push's time complexity.
 # This way , i have done in Q: "225.Implement stack using Queues"

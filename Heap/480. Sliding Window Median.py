@@ -8,6 +8,7 @@
 
 # Note: may interviewer may not accept this and may ask for some other solution i. using heaps.
 # time: O(n*logk)
+
 from sortedcontainers import SortedList
 class Solution:
     def medianSlidingWindow(self, nums: List[int], k: int) -> List[float]:
@@ -29,14 +30,13 @@ class Solution:
             j+= 1
         return ans
 
-# method 2: using heaps
-# Try later agai and understand properly the intuition
-# behind 'if nums[i] <= large[0][0]:'
+# method 2: 
+# using heaps
+# Understand properly the intuition behind 'if nums[i] <= large[0][0]:'
 
 # Note: we are putting extra one ele in case 'k' is odd into large(minHeap).
-    
-# Link: https://leetcode.com/problems/sliding-window-median/
 
+import heapq
 class Solution:
     def medianSlidingWindow(self, nums: List[int], k: int) -> List[float]:
 
@@ -107,172 +107,3 @@ class Solution:
             # But we will get the correct median.
             ans.append(get_med(small, large, k))
         return ans
-
-# Java Code 
-"""
-//Method 1
-import java.util.*;
-
-class Solution {
-    public double[] medianSlidingWindow(int[] nums, int k) {
-        int n = nums.length;
-        double[] ans = new double[n - k + 1];
-        TreeSet<Integer> window = new TreeSet<>(); // Maintains ordered elements in the window
-
-        for (int i = 0; i < k; i++) {
-            window.add(nums[i]);
-        }
-
-        for (int i = k; i <= n; i++) {
-            // Compute median
-            List<Integer> sortedList = new ArrayList<>(window);
-            if (k % 2 == 1) {
-                ans[i - k] = sortedList.get(k / 2);
-            } else {
-                ans[i - k] = (sortedList.get(k / 2) + sortedList.get(k / 2 - 1)) / 2.0;
-            }
-
-            // Remove leftmost element from window (except at last iteration)
-            if (i < n) {
-                window.add(nums[i]);
-                window.remove(nums[i - k]);
-            }
-        }
-        return ans;
-    }
-}
-//Method 2
-import java.util.*;
-
-class Solution {
-    public double[] medianSlidingWindow(int[] nums, int k) {
-        int n = nums.length;
-        double[] ans = new double[n - k + 1];
-        PriorityQueue<int[]> small = new PriorityQueue<>((a, b) -> b[0] - a[0]); // maxHeap
-        PriorityQueue<int[]> large = new PriorityQueue<>((a, b) -> a[0] - b[0]); // minHeap
-
-        // Initialize heaps with first 'k' elements
-        for (int i = 0; i < k; i++) {
-            small.offer(new int[]{nums[i], i});
-        }
-
-        // Move half from 'small' to 'large' to balance heaps
-        for (int i = 0; i < k - k / 2; i++) {
-            large.offer(new int[]{-small.poll()[0], small.peek()[1]});
-        }
-
-        ans[0] = k % 2 == 1 ? large.peek()[0] : (large.peek()[0] - small.peek()[0]) / 2.0;
-
-        for (int i = k; i < n; i++) {
-            int x = nums[i], idx = i;
-            if (x >= large.peek()[0]) {
-                large.offer(new int[]{x, idx});
-                if (nums[i - k] <= large.peek()[0]) {
-                    small.offer(new int[]{-large.poll()[0], large.peek()[1]});
-                }
-            } else {
-                small.offer(new int[]{-x, idx});
-                if (nums[i - k] >= large.peek()[0]) {
-                    large.offer(new int[]{-small.poll()[0], small.peek()[1]});
-                }
-            }
-
-            while (!small.isEmpty() && small.peek()[1] <= i - k) small.poll();
-            while (!large.isEmpty() && large.peek()[1] <= i - k) large.poll();
-
-            ans[i - k + 1] = k % 2 == 1 ? large.peek()[0] : (large.peek()[0] - small.peek()[0]) / 2.0;
-        }
-
-        return ans;
-    }
-}
-"""
-
-# C++ Code 
-"""
-//Method 1
-#include <iostream>
-#include <vector>
-#include <set>
-
-using namespace std;
-
-class Solution {
-public:
-    vector<double> medianSlidingWindow(vector<int>& nums, int k) {
-        vector<double> ans;
-        multiset<int> window(nums.begin(), nums.begin() + k); // Ordered container for window elements
-        auto mid = next(window.begin(), k / 2); // Iterator pointing to median position
-
-        for (int i = k; i <= nums.size(); i++) {
-            // Compute median
-            if (k % 2) {
-                ans.push_back(*mid);
-            } else {
-                ans.push_back((*mid + *prev(mid)) / 2.0);
-            }
-
-            // Remove leftmost element from window (except at last iteration)
-            if (i < nums.size()) {
-                window.insert(nums[i]);
-                if (nums[i] < *mid) mid--;
-                if (nums[i - k] <= *mid) mid++;
-                window.erase(window.lower_bound(nums[i - k]));
-            }
-        }
-        return ans;
-    }
-};
-//Method 2
-#include <iostream>
-#include <vector>
-#include <queue>
-
-using namespace std;
-
-class Solution {
-public:
-    vector<double> medianSlidingWindow(vector<int>& nums, int k) {
-        vector<double> ans;
-        priority_queue<pair<int, int>> small; // maxHeap
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> large; // minHeap
-
-        // Initialize heaps with first 'k' elements
-        for (int i = 0; i < k; i++) {
-            small.push({-nums[i], i});
-        }
-
-        // Move half from 'small' to 'large' to balance heaps
-        for (int i = 0; i < k - k / 2; i++) {
-            large.push({-small.top().first, small.top().second});
-            small.pop();
-        }
-
-        ans.push_back(k % 2 ? large.top().first : (large.top().first - small.top().first) / 2.0);
-
-        for (int i = k; i < nums.size(); i++) {
-            int x = nums[i], idx = i;
-            if (x >= large.top().first) {
-                large.push({x, idx});
-                if (nums[i - k] <= large.top().first) {
-                    small.push({-large.top().first, large.top().second});
-                    large.pop();
-                }
-            } else {
-                small.push({-x, idx});
-                if (nums[i - k] >= large.top().first) {
-                    large.push({-small.top().first, small.top().second});
-                    small.pop();
-                }
-            }
-
-            while (!small.empty() && small.top().second <= i - k) small.pop();
-            while (!large.empty() && large.top().second <= i - k) large.pop();
-
-            ans.push_back(k % 2 ? large.top().first : (large.top().first - small.top().first) / 2.0);
-        }
-
-        return ans;
-    }
-};
-"""

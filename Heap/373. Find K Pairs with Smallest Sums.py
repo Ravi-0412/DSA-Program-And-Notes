@@ -1,3 +1,5 @@
+# Method 1: 
+
 # smallest ele will be at the start only. 
 # So we will push (nums1[0] + nums1[0] ,0, 0) => (sum, index1, index2).
 # But next minimum can be at index (0, 1) or (1, 0).
@@ -111,7 +113,8 @@ public:
 };
 """
 
-# Related Q:
+# Extension:  
+
 # 1) Maximum Sum Combinations
 
 # 2) Merge k sorted arrays

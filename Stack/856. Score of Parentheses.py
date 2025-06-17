@@ -1,4 +1,5 @@
-# logic:
+# Method 1: 
+
 # Addition: for simple paranthesis
 # multiplication: for nested paranthesis.
 
@@ -20,6 +21,7 @@
 # Note: any () in the string gives a score depending on its depth.
 
 # time= space= O(n)
+
 class Solution:
     def scoreOfParentheses(self, s: str) -> int:
         stack= []
@@ -44,7 +46,7 @@ class Solution:
 # But here we are calculating the score at once acc to the depth so doing power of '2'. 
 # https://leetcode.com/problems/score-of-parentheses/solutions/1856699/c-beats-100-omg-o-1-space-explained/
 
-# Diff from above method :
+# Diff from above method 1 :
 # Ans: upper wale me har ke ')' milne pe score find kar rhe, yahan ek hi bar kar rhe pure depth ka.
 
 # time: O(n), space: O(1).

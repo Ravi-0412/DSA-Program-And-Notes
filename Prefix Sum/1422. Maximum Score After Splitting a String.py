@@ -21,6 +21,7 @@ class Solution:
           # Number of 'zero' till 'i' and number of one till 'i+1'.
             ans = max(ans, prefixZeroCount[i + 1] + suffixOneCount[i + 1]) 
         return ans
+
             
 # Method 2: Space optimised and in single pass
 # time = O(n)

@@ -1,3 +1,5 @@
+# Method 1: 
+
 # just write down and take xor till 8 or 12 ,you will see it is 
 # following a sequence of repitition with below conclusions 
 
@@ -15,6 +17,7 @@ def xor_n(n):
 
 print(xor_n(8))
 print(xor_n(5))
+
 
 # Java Code
 """

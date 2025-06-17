@@ -1,3 +1,5 @@
+# Basic:
+
 # Note: kiske help se implement kar rhe h , uske operation se 'jisko' implement kar rhe uska operation ka ans
 # milna chahiye.
 
@@ -10,7 +12,8 @@
 # In similar way when we will implement 'queue' using stack.
 
 
-# Method 1: Using Two queues
+# Method 1: 
+# Using Two queues
 # Note: Here 'taking' variable like Q: "232. Implement Queue using Stacks" won't work
 # because last added element should come first.
 
@@ -104,6 +107,7 @@ class MyStack {
         return q1.isEmpty() && q2.isEmpty();
     }
 }
+
 //Method 2
 import java.util.LinkedList;
 import java.util.Queue;
@@ -185,6 +189,8 @@ public:
         return q1.empty() && q2.empty();
     }
 };
+
+
 //Method 2
 #include <iostream>
 #include <queue>

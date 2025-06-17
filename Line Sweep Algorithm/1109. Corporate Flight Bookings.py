@@ -1,3 +1,5 @@
+# method 1 : 
+
 # Brute force: for each flight in range add given seats.
 # time: O(n^2), space = O(n)
 
@@ -16,6 +18,7 @@ class Solution:
         return answer
 
 
+# Method 2: 
 # Optimisation using: Sweep line
 
 # Idea:
@@ -81,15 +84,6 @@ class Solution {
 
 //Method 2
 class Solution {
-    /*
-    Explanation:
-    - Consider a booking `[first, last, seats]` as `seats` passengers boarding at `first` stop
-      and leaving at `last+1` stop.
-    - Instead of updating the full range manually, simply:
-      1) Add `seats` at `first - 1`
-      2) Subtract `seats` at `last` (if `last` is within bounds)
-      3) Compute cumulative sum to get passengers at each stop.
-    */
     public int[] corpFlightBookings(int[][] bookings, int n) {
         // Initialize the result array with zeros
         int[] answer = new int[n];
@@ -138,18 +132,11 @@ public:
         return answer;
     }
 };
+
+
 //Method 2
 class Solution {
 public:
-    /*
-    Explanation:
-    - Consider a booking `[first, last, seats]` as `seats` passengers boarding at `first` stop
-      and leaving at `last+1` stop.
-    - Instead of updating the full range manually, simply:
-      1) Add `seats` at `first - 1`
-      2) Subtract `seats` at `last` (if `last` is within bounds)
-      3) Compute cumulative sum to get passengers at each stop.
-    */
     vector<int> corpFlightBookings(vector<vector<int>>& bookings, int n) {
         // Initialize the result array with zeros
         vector<int> answer(n, 0);
@@ -172,8 +159,7 @@ public:
     }
 };
 """
-# Similar question
-# 1. 2381. Shifting Letters II
+
 
 
         

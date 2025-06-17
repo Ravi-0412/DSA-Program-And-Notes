@@ -13,7 +13,11 @@
 
 # Time : O(n*logn)
 
-# submitted on Gfg.
+"""
+Note vvvi: Jahan bhi count karna ho like: find no of elements on left/right greater than cur ele etc.. then try to think of merge sort.
+Only need to modify merge function according to given question.
+"""
+
 class Solution:  
     def inversionCount(self, arr, n):
         return self.merge_sort_count_inversion(arr, 0, n-1)
@@ -55,16 +59,3 @@ class Solution:
         return inv_count
 
 
-# Note vvvi: Jahan bhi count karna ho like: find no of elements on left/right greater than cur ele etc.. then try to think of merge sort.
-# Only need to modify merge function according to Q.
-
-# Related Q: 
-# 1) "493. Reverse Pairs", 
-# 2) "315. Count of Smaller Numbers After Self"
-
-
-# Note: Study this article properly to get logic of different algo that will help in solving these types of Q.
-# https://leetcode.com/problems/reverse-pairs/solutions/97268/general-principles-behind-problems-similar-to-reverse-pairs/
-
-
-# Also try by BST and Segment tree logic.

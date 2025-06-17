@@ -1,4 +1,5 @@
-# Logic: Brute force
+# method 1: 
+# Brute force
 # Find the area of each possible rectangle and take maximum i.e 
 # area of rectangle from (0, 0) to (i, j) where 0<= i < row and 0 <= j < col.
 
@@ -22,8 +23,7 @@ class Solution:
         heights= [0 for i in range(col)]
         for i in range(row):
             for j in range(col):
-                # if matrix[i][j]== 0:   # don't know why writing like this is not working in leetcode but working in GFG
-                if matrix[i][j]== '0':  # this is working properly in leetcode but giving error in GFG
+                if matrix[i][j]== '0':  
                     heights[j]= 0 
                 else:
                     heights[j]+= 1                
@@ -134,5 +134,3 @@ class Solution:
         return maxArea
 
 """
-
-# Later do by DP also

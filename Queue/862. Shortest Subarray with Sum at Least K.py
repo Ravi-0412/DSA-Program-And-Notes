@@ -1,3 +1,5 @@
+# Method 1: 
+
 # vvi: only Poistive values solution i.e q :""209. Minimum Size Subarray Sum"
 #  won't work since number is "-ve" number also.
 # Because inner while loop can break before finding the shortest subarray after adding the curr ele.
@@ -54,13 +56,10 @@ class Solution:
         return ans if ans <=n else -1
 
 
-# Related Q:
-# 1) "209. Minimum Size Subarray Sum"
-# 2) 239. Sliding Window Maximum
-# 3) 1425. Constrained Subsequence Sum
+# Extesnion: 
 
 # Note: if you will comment the "2nd while loop" then it will work for "+ve" values
-# submitted by commenting for Q: "209. Minimum Size Subarray Sum".
+# i.e for question:  "209. Minimum Size Subarray Sum".
 
 class Solution:
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
@@ -81,5 +80,10 @@ class Solution:
             j+= 1
         return ans if ans <=n else 0
 
+
+# Related Q:
+# 1) "209. Minimum Size Subarray Sum"
+# 2) 239. Sliding Window Maximum
+# 3) 1425. Constrained Subsequence Sum
 
 

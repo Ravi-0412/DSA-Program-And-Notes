@@ -1,3 +1,5 @@
+# Method 1: 
+
 # we will get max ans by changing the same number by "num*(2^k)".
 # Reason: To maximize the result, we should pick the numbers having their Left Most Set Bit (LMSB) farthest among all elements.
 
@@ -13,8 +15,9 @@
 # Ans : When we multiply a number by 2 then this equal to shifting the values to the left by 1 places.
 # So to have a largest value we should shift a single number to the k number of times which end up with max value possible.
 # now we don't know exactly which value to shift k times, so we check the same for all possible numbers and keep tracking the max value.
-
 # https://leetcode.com/problems/maximum-or/solutions/3521223/c-intuition-with-explanation-proof-of-why-time-o-n/
+
+
 
 class Solution:
     def maximumOr(self, nums: List[int], k: int) -> int:

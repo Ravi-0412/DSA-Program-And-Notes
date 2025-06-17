@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Time = space = O(n)
 
 class Solution:

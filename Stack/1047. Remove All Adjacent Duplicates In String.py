@@ -1,3 +1,5 @@
+# method 1
+
 # time= space= O(n)
 
 class Solution:
@@ -75,10 +77,9 @@ public:
     }
 };
 """
-# Later try by two pointer also
 
 
-# Related Q:
+# Extesnion 
 """
 1) 2390. Removing Stars From a String
 2) 3174. Clear Digits

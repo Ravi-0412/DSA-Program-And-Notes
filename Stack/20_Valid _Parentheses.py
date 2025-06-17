@@ -1,4 +1,5 @@
-# method 1: simplest solution
+# method 1: 
+# simplest solution
 # How to think of stack?
 # agar koi closing bracket dikha tb , pichla wala same type ka open bracket hona chahiye.
 # first opened will be closed at last.
@@ -27,7 +28,8 @@ class Solution:
         return stack == [0]    # means no extra char remaining in stack 
 
 
-# method 2: concise one
+# method 2: 
+# concise one
 # logic: push closing braces of the current braces after seeing the opening braces
 # and when you encouter the closed parenthesis check the ele on top of stack
 # if same as current char then continue the loop
@@ -76,6 +78,7 @@ class Solution {
         return stack.size() == 1; // Stack should only contain the initialized '0' element
     }
 }
+
 //Method 2
 import java.util.Stack;
 
@@ -99,6 +102,7 @@ class Solution {
 # C++ Code 
 """
 //Method 1
+
 #include <iostream>
 #include <stack>
 #include <string>
@@ -128,6 +132,8 @@ public:
         return st.size() == 1; // Stack should only contain the initialized '0' element
     }
 };
+
+
 //Method 2
 #include <iostream>
 #include <stack>

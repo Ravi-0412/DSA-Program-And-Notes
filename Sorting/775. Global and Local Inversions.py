@@ -29,8 +29,8 @@ class Solution:
         return True
 
 
-# method 2: Very nicee logic
-# Explanation: 
+# method 2: 
+# Very nicee logic
 # Q reduce to :
 # Suppose you have a sorted array [1, 2, 3, 4, 5], and each element differ by one. 
 # How can you create a new array with same local inversion and global inversion by swap elements?
@@ -63,13 +63,14 @@ class Solution:
                 return False
         return True
 
-# VVI: method 3
+# method 3
 # Generalize method 2 to any integer array (not necessarily a 0->N permutation).
 # Logic: check if local inversion is enough to sort the array except last two element i.e
 # if swap ele (nums[i-1] , nums[i]) if there is local inversion then our array must be sorted finally.
 
 # This means no need to use global inversion to sort the array so
 # count of local and global must be same.
+
 class Solution:
     def isIdealPermutation(self, nums: List[int]) -> bool:
         n= len(nums)
@@ -89,26 +90,6 @@ class Solution:
         return True
 
 
-# Same method won't work with for lop in python.
-
-# since we can't incr the iterating variable we are using in for loop(here 'i') manually.
-# it will always start checking from the next value only.
-# so used while loop instead of for loop.
-# Read this : https://stackoverflow.com/questions/15363138/scope-of-python-variable-in-for-loop#comment21706302_15363138
-class Solution:
-    def isIdealPermutation(self, nums: List[int]) -> bool:
-        n= len(nums)
-        # check if local inversion is enough to sort the array.
-        for i in range(1, n):
-            if nums[i-1] > nums[i]:
-                nums[i-1], nums[i]= nums[i], nums[i-1]
-                # the recently swapped ele should not be swapped anymore otherwise, we will get global inversion.
-                i+=  1  # so incr 'i'.   # This doesn't work in python
-        # Now check if array is sorted or not afterward.  (Here array might not be sorted for last input)
-        for i in range(1, n):
-            if nums[i-1] > nums[i]:
-                return False
-        return True
 
 # Java Code 
 """
@@ -127,14 +108,9 @@ class Solution {
         return true;
     }
 }
+
 //Method 2
 class Solution {
-    /*
-    Explanation:
-    - The element at index `i` must be positioned at `i-1`, `i`, or `i+1` for local and global inversions to be equal.
-    - If the difference `Math.abs(nums[i] - i) > 1`, it means a non-local inversion exists.
-    - Works for numbers from `0` to `n-1`, with each number occurring once.
-    */
     public boolean isIdealPermutation(int[] nums) {
         int n = nums.length;
         for (int i = 0; i < n; i++) {
@@ -145,36 +121,38 @@ class Solution {
         return true;
     }
 }
+
 //Method 3
+
 class Solution {
-    /*
-    Explanation:
-    - If local inversion can sort the array, then the global inversion count will match.
-    - If swapping elements at `i-1` and `i` ensures sorting without extra swaps, the inversion is local.
-    */
     public boolean isIdealPermutation(int[] nums) {
         int n = nums.length;
         int i = 1;
 
         while (i < n) {
+            // swap if we find any local inversion.
             if (nums[i - 1] > nums[i]) {
                 int temp = nums[i - 1];
                 nums[i - 1] = nums[i];
-                nums[i] = temp; // Swap if local inversion exists
-                i++; // Ensure no double swap at the same index
+                nums[i] = temp;
+                // the recently swapped ele should not be swapped anymore otherwise, we will get global inversion.
+                i += 1;  // so incr 'i'. if inversion then we incr 'i' by '2' in total. 
+                // Swapping at same index at two times will count in global so once local found then check for next index i.e i + 2.
             }
-            i++;
+            i += 1;
         }
 
-        // Now check if array is sorted afterward
-        for (int j = 1; j < n; j++) {
-            if (nums[j - 1] > nums[j]) {
+        // Now check if array is sorted or not afterward.  (Here array might not be sorted for last input)
+        for (i = 1; i < n; i++) {
+            if (nums[i - 1] > nums[i]) {
                 return false;
             }
         }
+
         return true;
     }
 }
+
 """
 
 # C++ Code 
@@ -199,15 +177,11 @@ public:
         return true;
     }
 };
+
+
 //Method 2
 class Solution {
 public:
-    /*
-    Explanation:
-    - The element at index `i` must be positioned at `i-1`, `i`, or `i+1` for local and global inversions to be equal.
-    - If the difference `abs(nums[i] - i) > 1`, it means a non-local inversion exists.
-    - Works for numbers from `0` to `n-1`, with each number occurring once.
-    */
     bool isIdealPermutation(vector<int>& nums) {
         int n = nums.size();
         for (int i = 0; i < n; i++) {
@@ -218,33 +192,36 @@ public:
         return true;
     }
 };
+
+
 //Method 3
+
 class Solution {
 public:
-    /*
-    Explanation:
-    - If local inversion can sort the array, then the global inversion count will match.
-    - If swapping elements at `i-1` and `i` ensures sorting without extra swaps, the inversion is local.
-    */
     bool isIdealPermutation(vector<int>& nums) {
         int n = nums.size();
         int i = 1;
 
         while (i < n) {
+            // swap if we find any local inversion.
             if (nums[i - 1] > nums[i]) {
-                swap(nums[i - 1], nums[i]); // Swap if local inversion exists
-                i++; // Ensure no double swap at the same index
+                swap(nums[i - 1], nums[i]);
+                // the recently swapped ele should not be swapped anymore otherwise, we will get global inversion.
+                i += 1;  // so incr 'i'. if inversion then we incr 'i' by '2' in total. 
+                // Swapping at same index at two times will count in global so once local found then check for next index i.e i + 2.
             }
-            i++;
+            i += 1;
         }
 
-        // Now check if array is sorted afterward
-        for (int i = 1; i < n; i++) {
+        // Now check if array is sorted or not afterward.  (Here array might not be sorted for last input)
+        for (i = 1; i < n; i++) {
             if (nums[i - 1] > nums[i]) {
                 return false;
             }
         }
+
         return true;
     }
 };
+
 """

@@ -1,3 +1,5 @@
+# Method 1:
+
 # Logic: We need to only care about brackets.
 # So we can just check combination of '(' and ')' ignoring alphabetical character.
 # When we will see '(' we will push index of '(' into stack  and 
@@ -31,76 +33,3 @@ class Solution:
         # Now return the ans as string
         return  "".join(list_s)
 
-# Java Code 
-"""
-import java.util.Stack;
-
-class Solution {
-    public String minRemoveToMakeValid(String s) {
-        StringBuilder result = new StringBuilder(s);
-        Stack<Integer> stack = new Stack<>();
-
-        // First pass: Mark invalid parentheses
-        for (int i = 0; i < result.length(); i++) {
-            if (result.charAt(i) == '(') {
-                stack.push(i);
-            } else if (result.charAt(i) == ')') {
-                if (!stack.isEmpty()) {
-                    stack.pop();
-                } else {
-                    result.setCharAt(i, '*'); // Mark invalid ')'
-                }
-            }
-        }
-
-        // Second pass: Remove remaining '(' with no matching pair
-        while (!stack.isEmpty()) {
-            result.setCharAt(stack.pop(), '*'); // Mark invalid '('
-        }
-
-        // Remove all marked characters
-        return result.toString().replace("*", "");
-    }
-}
-"""
-
-# C++ Code 
-"""
-#include <iostream>
-#include <stack>
-#include <string>
-
-using namespace std;
-
-class Solution {
-public:
-    string minRemoveToMakeValid(string s) {
-        string result = s;
-        stack<int> st;
-
-        // First pass: Mark invalid parentheses
-        for (int i = 0; i < result.size(); i++) {
-            if (result[i] == '(') {
-                st.push(i);
-            } else if (result[i] == ')') {
-                if (!st.empty()) {
-                    st.pop();
-                } else {
-                    result[i] = '*'; // Mark invalid ')'
-                }
-            }
-        }
-
-        // Second pass: Remove remaining '(' with no matching pair
-        while (!st.empty()) {
-            result[st.top()] = '*'; // Mark invalid '('
-            st.pop();
-        }
-
-        // Remove all marked characters
-        result.erase(remove(result.begin(), result.end(), '*'), result.end());
-
-        return result;
-    }
-};
-"""

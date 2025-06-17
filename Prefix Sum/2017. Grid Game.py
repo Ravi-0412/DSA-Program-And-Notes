@@ -32,8 +32,8 @@ class Solution:
 
         return ans
 
-  # Java Code 
-  """
+# Java Code 
+"""
 import java.util.*;
 
 class Solution {
@@ -52,10 +52,10 @@ class Solution {
         return ans;
     }
 }
-  """
+"""
 
-  # C++ Code 
-  """
+# C++ Code 
+"""
 #include <vector>
 #include <cmath>
 #include <algorithm>
@@ -79,4 +79,4 @@ public:
         return ans;
     }
 };
-  """
+"""

@@ -1,3 +1,5 @@
+# Method 1: 
+
 # just similar to "2402. Meeting Rooms III"
 
 # logic: we need to keep track of all projects we can complete using curr 'w'.
@@ -25,6 +27,7 @@ class Solution:
             # Add the maxProfit project that we can afford with 'w'.
             w+= -1* heapq.heappop(maxProfit)
         return w
+
 
 # Java Code 
 """

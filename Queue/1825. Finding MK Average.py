@@ -19,6 +19,7 @@ class MKAverage:
         s = sum(arr[self.k:self.n-self.k])
         return s//l
 
+# Method 2: 
 # Logic: Just focus on how we will get sum of those remaining ele for which we have to find the average.
 
 # Intutition: We need to remove the ele from start if len(data_structure) > m.
@@ -108,9 +109,9 @@ class MKAverage:
             return -1
         return (self.total - self.sum_first_k - self.sum_last_k) // (self.m - 2 * self.k)
 
-# Method 2: Using segment tree
+# Method 3: 
+# Using segment tree
 # Link: https://leetcode.com/problems/finding-mk-average/solutions/1152438/python3-fenwick-tree/
-# Wrote code of this lin uisng chatgpt , understand later properly.
 
 class Fenwick: 
 
@@ -188,102 +189,4 @@ class MKAverage:
         # Return the MK average
         return total_sum // (self.m - 2 * self.k)
 
-    # Java
-"""
-import java.util.Deque;
-import java.util.LinkedList;
-
-class Fenwick {
-
-    private int[] tree;
-
-    public Fenwick(int n) {
-        tree = new int[n + 1];  // Fenwick Tree (0-based)
-    }
-
-    // Returns the prefix sum from index 0 to k
-    public int prefixSum(int k) {
-        k += 1;  // Fenwick tree is 1-indexed
-        int sum = 0;
-        while (k > 0) {
-            sum += tree[k];
-            k &= (k - 1);  // Move to the previous segment (unset last set bit)
-        }
-        return sum;
-    }
-
-    // Adds delta to the element at index k
-    public void update(int k, int delta) {
-        k += 1;  // Fenwick tree is 1-indexed
-        while (k < tree.length) {
-            tree[k] += delta;
-            k += k & -k;  // Move to the next segment (add last set bit)
-        }
-    }
-}
-
-public class MKAverage {
-
-    private int m, k;
-    private Deque<Integer> window;
-    private Fenwick sumTree, countTree;
-
-    public MKAverage(int m, int k) {
-        this.m = m;  // Total number of elements to consider in the sliding window
-        this.k = k;  // The number of smallest and largest elements to ignore
-        this.window = new LinkedList<>();  // Stores the most recent 'm' elements
-        this.sumTree = new Fenwick(100000 + 1);  // Fenwick Tree for managing sums of elements
-        this.countTree = new Fenwick(100000 + 1);  // Fenwick Tree for managing counts of elements
-    }
-
-    public void addElement(int num) {
-        // Add an element to the sliding window
-        window.addLast(num);
-        sumTree.update(num, num);  // Add the value to the sum tree
-        countTree.update(num, 1);  // Increment the count for the number
-
-        // If the window exceeds size 'm', remove the oldest element
-        if (window.size() > m) {
-            int oldest = window.pollFirst();
-            sumTree.update(oldest, -oldest);  // Remove the value from the sum tree
-            countTree.update(oldest, -1);  // Decrement the count for the number
-        }
-    }
-
-    // Binary search to find the k-th smallest element using count_tree
-    private int findKthSmallest(int k) {
-        int low = 0, high = 100000 + 1;
-        while (low < high) {
-            int mid = (low + high) / 2;
-            if (countTree.prefixSum(mid) < k) {
-                low = mid + 1;
-            } else {
-                high = mid;
-            }
-        }
-        return low;
-    }
-
-    public int calculateMKAverage() {
-        // If the window is not yet full, return -1
-        if (window.size() < m) {
-            return -1;
-        }
-
-        // Find the k-th smallest and m-k-th smallest elements
-        int lowerBound = findKthSmallest(k);  // k-th smallest element
-        int upperBound = findKthSmallest(m - k);  // m-k-th smallest element
-
-        // Calculate the sum of the elements between lowerBound and upperBound
-        int totalSum = sumTree.prefixSum(upperBound) - sumTree.prefixSum(lowerBound);
-
-        // Adjust for elements that fall on the boundary
-        totalSum += (countTree.prefixSum(lowerBound) - k) * lowerBound;
-        totalSum -= (countTree.prefixSum(upperBound) - (m - k)) * upperBound;
-
-        // Return the MK average
-        return totalSum / (m - 2 * k);
-    }
-}
-"""
-        
+    

@@ -1,6 +1,33 @@
+# Method 1: 
+
 # Brute force:
 # Just calculate the 'prefix' and 'suffix' multiplication then, 
 # ans[i] = prefix[i - 1] * suffix[i + 1]
+# Time: O(n), Space: O(n)
+
+from typing import List
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        
+        prefix = [1] * n
+        suffix = [1] * n
+        ans = [1] * n
+
+        # Build prefix product
+        for i in range(1, n):
+            prefix[i] = prefix[i - 1] * nums[i - 1]
+        
+        # Build suffix product
+        for i in range(n - 2, -1, -1):
+            suffix[i] = suffix[i + 1] * nums[i + 1]
+        
+        # Build answer
+        for i in range(n):
+            ans[i] = prefix[i] * suffix[i]
+        
+        return ans
+
 
 # Method 2: 
 # Optimising space
@@ -10,6 +37,12 @@
 
 # 1) Traverse from left to right and store the 'prefix' for each ele.
 # 2) for 'suffix' traverse right to left.
+"""
+# observation:
+# 1) if count of '0' will be = 1 then all elements will have value= 0 excecpt the '0'th ele.
+# 2) if count of '0' >= 2 then value= 0 for all elements.
+"""
+
 # time: O(n),space: O(1)
 
 class Solution:
@@ -28,24 +61,11 @@ class Solution:
         return ans
 
 
-# observation:
-# 1) if count of '0' will be = 1 then all elements will have value= 0 excecpt the '0'th ele.
-# 2) if count of '0' >= 2 then value= 0 for all elements.
-
-
-# Link: https://leetcode.com/problems/product-of-array-except-self/solutions/1342916/3-minute-read-mimicking-an-interview/
 # Java Code
 """
 # Method 1:
 
 class Solution {
-    /*
-    Brute force approach using prefix and suffix arrays:
-    - Compute prefix product array storing products from start to `i-1`.
-    - Compute suffix product array storing products from `i+1` to end.
-    - Final answer is computed as `prefix[i - 1] * suffix[i + 1]`.
-    - Time complexity: `O(n)`, Space complexity: `O(n)`.
-    */
     public int[] productExceptSelf(int[] nums) {
         int n = nums.length;
         int[] prefix = new int[n];
@@ -77,13 +97,6 @@ class Solution {
 # method 2:
 
 class Solution {
-    /*
-    Optimized approach:
-    - Instead of maintaining separate arrays for prefix and suffix, use variables.
-    - First pass: Calculate prefix products and store them in `ans`.
-    - Second pass: Compute suffix products and update `ans` accordingly.
-    - Time complexity: `O(n)`, Space complexity: `O(1)` (excluding output array).
-    */
     public int[] productExceptSelf(int[] nums) {
         int n = nums.length;
         int[] ans = new int[n];
@@ -110,20 +123,14 @@ class Solution {
 
 # C++ Code 
 """
-//Method 1
+// Method 1:
+
 #include <vector>
 
 using namespace std;
 
 class Solution {
 public:
-    /*
-    Brute force approach using prefix and suffix arrays:
-    - Compute prefix product array storing products from start to `i-1`.
-    - Compute suffix product array storing products from `i+1` to end.
-    - Final answer is computed as `prefix[i - 1] * suffix[i + 1]`.
-    - Time complexity: `O(n)`, Space complexity: `O(n)`.
-    */
     vector<int> productExceptSelf(vector<int>& nums) {
         int n = nums.size();
         vector<int> prefix(n, 1), suffix(n, 1), ans(n, 1);
@@ -146,16 +153,11 @@ public:
         return ans;
     }
 };
+
+
 //Method 2
 class Solution {
 public:
-    /*
-    Optimized approach:
-    - Instead of maintaining separate arrays for prefix and suffix, use variables.
-    - First pass: Calculate prefix products and store them in `ans`.
-    - Second pass: Compute suffix products and update `ans` accordingly.
-    - Time complexity: `O(n)`, Space complexity: `O(1)` (excluding output array).
-    */
     vector<int> productExceptSelf(vector<int>& nums) {
         int n = nums.size();
         vector<int> ans(n, 1);

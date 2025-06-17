@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Similar to 'inversion count in an array".
 
 # Note: Here logic of reverse pair and merge is different.
@@ -17,9 +19,6 @@
 # After that all element on right that we passed will be count as ans for currrent_ele on left.
 
 # if cur_ele on left is > that much no of element on right then remaining no on left will be obvious > these elements on right.
-
-# See the code
-
 
 # Note vvi: In these type of question , if you will first merge and then find the ans 
 # i.e 'inversion count' or 'no of smaller ele' etc based on Q.

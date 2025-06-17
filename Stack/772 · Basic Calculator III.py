@@ -1,3 +1,5 @@
+# method 1: 
+
 # logic: similar as basic calculator 2. Little modification for '(' and ')'.
 
 # when we  see "(", we have to find the result first for this bracket and similar for nested bracket also.
@@ -12,6 +14,12 @@
 # if ")":
 #  we add all the res(of stack) till we see the operator in stack.
 # When we see operator then we have to do operation for this operator with stack top and the sum of res of current braces.
+
+"""
+About 'isinstance(object, type)'
+The isinstance() function returns True if the specified object is of the specified type, otherwise False.
+If the type parameter is a tuple, this function will return True if the object is one of the types in the tuple.
+"""
 
 # time= space= O(n)
 class Solution:
@@ -36,7 +44,7 @@ class Solution:
                 num= num*10 + int(c)
             if c== "(":
                 stack.append(lastOperator)
-                num, lastOperator= 0, "+"   # we will calculate now for bracket from scratch. Just like we are doing recurison 
+                num, lastOperator= 0, "+"   # we will calculate now for bracket from scratch. Just like we are doing recursion
             if c in all_operators or i== len(s)-1:
                 update(lastOperator, num)   
                 # check if c== ')'.
@@ -69,6 +77,7 @@ class Solution {
             }
 
             if (c == '(') {
+                // we will calculate now for bracket from scratch. Just like we are doing recursion
                 opStack.push(lastOperator);
                 num = 0;
                 lastOperator = '+';
@@ -79,9 +88,11 @@ class Solution {
 
                 if (c == ')') {
                     num = 0;
+                    // Find the last operator just before '(' that we had pushed into stack.
                     while (!numStack.isEmpty() && numStack.peek() instanceof Integer) {
                         num += numStack.pop();
                     }
+                    // now perform the operation for operator in stack(just after pre '(' )
                     update(numStack, opStack.pop(), num);
                 }
 
@@ -151,6 +162,7 @@ public:
             }
 
             if (c == '(') {
+                // we will calculate now for bracket from scratch. Just like we are doing recursion
                 opStack.push(lastOperator);
                 num = 0;
                 lastOperator = '+';
@@ -161,10 +173,12 @@ public:
 
                 if (c == ')') {
                     num = 0;
+                    // Find the last operator just before '(' that we had pushed into stack.
                     while (!numStack.empty() && typeid(numStack.top()) == typeid(int)) {
                         num += numStack.top();
                         numStack.pop();
                     }
+                    // now perform the operation for operator in stack(just after pre '(' )
                     update(opStack.top(), num);
                     opStack.pop();
                 }
@@ -183,15 +197,3 @@ public:
     }
 };
 """
-
-# About 'isinstance(object, type)'
-# The isinstance() function returns True if the specified object is of the specified type, otherwise False.
-# If the type parameter is a tuple, this function will return True if the object is one of the types in the tuple.
-
-
-
-# same ans for "224. Basic Calculator"
-
-
-# Related Q:
-# 394. Decode String

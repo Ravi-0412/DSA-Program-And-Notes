@@ -1,4 +1,6 @@
-# time: O(nlogk)
+# Method 1: 
+
+
 # my mistakes: i was not able to handle the case when diff is equal
 # and we have to return in sorted order-> this not said in Q but we have to return like this only
 import heapq
@@ -18,7 +20,9 @@ def KClosest(arr,n,x,k):
 # Note: when we pass more than one parameter in heap then it will make the heap acc to first para only.
 # If in case the first para is equal then it will make acc to the 2nd para and so on
 
-# so to bring the small house no in case of match, add the num with negative sign
+# so to bring the small house no in case of match, add the num with negative sign.
+# time: O(nlogk)
+
 class Solution:
     def Kclosest(self, arr, n, x, k):
         from heapq import heapify,heappush,heappop
@@ -79,6 +83,8 @@ class Solution {
     }
 }
 """
+
+
 # C++ Code 
 """
 #include <iostream>

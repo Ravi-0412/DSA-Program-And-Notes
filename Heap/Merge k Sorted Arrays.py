@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Logic: 1st minimum can be 1st ele of any of the arrays.
 # For getting this we can put 1st ele from all the arrays and select the minimum one.
 # For this we can use min Heap.

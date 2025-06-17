@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Intuition: 1) we have to take sum from num1 and minimum from nums2.
 # so order will not matter.
 # 2) for maximum we have to maximise ele in both the array i.e maximize both the sum and the multiplier(min ele from nums2).
@@ -33,14 +35,27 @@
 
 # Note: Zip + sorting +  heap + slding window(poping)
 
+# Note: Array length must be equal otherwise this logic won't work.
+
+"""
+Note: while poping when len(minHeap) > k then , current n1 can be also poped.
+e.g: Take both array in descending order
+then why we are blindly multiplying by 'n2' since it's pair can get poped also??
+Because in such case answer won't come multiplying by current 'n2'.
+
+
+
+Note: Why won't sort both array in descending order.
+And traverse nums2 and for each ele of nums2 take 'k' max_ele from nums1.
+
+This won't work because this will not guarantee that ele of nums2 is one of the chosen indices of nums1.
+
+But ziping it together will guarantee this.
+"""
+
 # Time complexity: O( N * Log(N) + (N-k) * Log(k) )
 # Space complexity: O(N) + O(k) = O(N+K)
 
-# Note: Array length must be equal otherwise this logic won't work.
-
-# for better understanding, go through links:
-# https://leetcode.com/problems/maximum-performance-of-a-team/solutions/539680/java-detailed-explanation-priorityqueue-o-nlogn/
-# https://leetcode.com/problems/maximum-performance-of-a-team/solutions/539687/java-c-python-priority-queue/
 
 class Solution:
     def maxScore(self, nums1: List[int], nums2: List[int], k: int) -> int:
@@ -67,104 +82,7 @@ class Solution:
                 ans= max(ans, n1sum * n2)
         return ans
 
-# Note: while poping when len(minHeap) > k then , current n1 can be also poped.
-# e.g: Take both array in descending order
-# then why we are blindly multiplying by 'n2' since it's pair can get poped also??
-# Because in such case answer won't come multiplying by current 'n2'.
 
-
-
-# Note: Why won't sort both array in descending order.
-# And traverse nums2 and for each ele of nums2 take 'k' max_ele from nums1.
-
-# This won't work because this will not guarantee that ele of nums2 is one of the chosen indices of nums1.
-
-# But ziping it together will guarantee this.
-
-# Java Code 
-"""
-import java.util.*;
-
-class Solution {
-    public int maxScore(int[] nums1, int[] nums2, int k) {
-        List<int[]> pairs = new ArrayList<>();
-
-        // Mapping elements from nums1 to nums2
-        for (int i = 0; i < nums1.length; i++) {
-            pairs.add(new int[]{nums1[i], nums2[i]});
-        }
-
-        // Sorting the pairs by values in nums2 in descending order
-        pairs.sort((a, b) -> Integer.compare(b[1], a[1]));
-
-        int ans = 0, n1sum = 0;
-        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-
-        for (int[] pair : pairs) {
-            int n1 = pair[0], n2 = pair[1];
-
-            n1sum += n1;
-            minHeap.offer(n1); // Removing the minimum from nums1 if subsequence length exceeds 'k'
-
-            if (minHeap.size() > k) {
-                n1sum -= minHeap.poll();
-            }
-
-            if (minHeap.size() == k) {
-                ans = Math.max(ans, n1sum * n2);
-            }
-        }
-
-        return ans;
-    }
-}
-"""
-
-# C++ Code 
-"""
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <algorithm>
-
-using namespace std;
-
-class Solution {
-public:
-    int maxScore(vector<int>& nums1, vector<int>& nums2, int k) {
-        vector<pair<int, int>> pairs;
-        
-        // Mapping elements from nums1 to nums2
-        for (size_t i = 0; i < nums1.size(); i++) {
-            pairs.push_back({nums1[i], nums2[i]});
-        }
-
-        // Sorting the pairs by values in nums2 in descending order
-        sort(pairs.begin(), pairs.end(), [](const pair<int, int>& a, const pair<int, int>& b) {
-            return a.second > b.second;
-        });
-
-        int ans = 0, n1sum = 0;
-        priority_queue<int, vector<int>, greater<int>> minHeap;
-
-        for (const auto& [n1, n2] : pairs) {
-            n1sum += n1;
-            minHeap.push(n1); // Removing the minimum from nums1 if subsequence length exceeds 'k'
-
-            if (minHeap.size() > k) {
-                n1sum -= minHeap.top();
-                minHeap.pop();
-            }
-
-            if (minHeap.size() == k) {
-                ans = max(ans, n1sum * n2);
-            }
-        }
-
-        return ans;
-    }
-};
-"""
 
 # Related Q:
 # 1383. Maximum Performance of a Team    => Exactly same question

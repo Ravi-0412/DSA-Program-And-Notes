@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Brute force
 # time: O(n^3)
 
@@ -24,8 +26,8 @@ class Solution:
         return self.isValid(i+1, s, open)
 
 
-# method 2: using stack
-# time= space= O(n)
+# method 2: 
+# using stack
 # logic: Put '(' always into stack
 # and ')' when we are not able to find any valid after we see ')'.
 # Pushing ')' will denote that after index of ')' , paranthesis are vlid.
@@ -35,6 +37,9 @@ class Solution:
 # when you see ')': pop and check if stack is empty or not.
 # if empty push the curr index into stack.
 # if not empty then we got one valid ans.
+
+# time= space= O(n)
+
 class Solution:
     def longestValidParentheses(self, s: str) -> int:
         ans= 0
@@ -51,8 +56,7 @@ class Solution:
         return ans 
 
 
-# method 3:
-# time: o(n), space: O(1)
+# method 3: 
 
 # for valid one: open== close
 # logic: for left to right: when at any index if we see open > close => it means till no string can be valid till this index.
@@ -62,6 +66,9 @@ class Solution:
 # Ans: if we go only from either left to right, OR either from right to left then we may get the ans less than the required.
 # e.g: "(()".. if we go from left to right then no way we will find open== close and we will get ans= 0
 # But ans will be '2'. And this we will get when we will traverse from right to left.
+
+# time: o(n), space: O(1)
+
 class Solution:
     def longestValidParentheses(self, s: str) -> int:
         n= len(s)
@@ -119,6 +126,7 @@ class Solution {
         return ans;
     }
 }
+
 //Method 2
 import java.util.Stack;
 
@@ -144,6 +152,7 @@ class Solution {
         return ans;
     }
 }
+
 //Method 3
 class Solution {
     public int longestValidParentheses(String s) {
@@ -208,6 +217,7 @@ public:
         return ans;
     }
 };
+
 //Method 2
 #include <iostream>
 #include <stack>
@@ -238,6 +248,7 @@ public:
         return ans;
     }
 };
+
 //Method 3
 #include <iostream>
 #include <string>

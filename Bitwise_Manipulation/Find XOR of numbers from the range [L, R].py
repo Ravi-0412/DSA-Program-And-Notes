@@ -1,3 +1,5 @@
+# method 1: 
+
 # xor bw two no: 'a' and 'b
 # equal to= f(b)^ f(a-1)
 # take xor till zero to b and after that  to remove the
@@ -24,6 +26,7 @@ b= int(input("enter the 2nd no: "))
 xor1= xor_n(a-1)   # xor to remove the extra no
 xor2= xor_n(b)     #  xor from zero till b
 print(xor2^xor1)
+
 
 # Java Code 
 """

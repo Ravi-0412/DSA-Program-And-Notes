@@ -1,3 +1,5 @@
+# Basic: 
+
 """
 Note: First understand Why Dp won't work here?
 Two points to consider here:
@@ -11,8 +13,8 @@ Here it's not like I have choice either I can pick ladder or brick, I also need 
 
 """
 
-
-# Logic: Using Heap
+# method 1: 
+# Using Heap
 """
 it's better to use ladder for larger difference and bricks for smaller difference you will waste too many bricks.
 

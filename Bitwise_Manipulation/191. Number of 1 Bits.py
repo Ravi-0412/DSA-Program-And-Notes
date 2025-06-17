@@ -1,9 +1,10 @@
-# method 1: using the inbuilt function to convert decimal into binary
-# then count the number of '1'
-# time: O(n)
-
+# method 1: 
+# using the inbuilt function to convert decimal into binary then, count the number of '1'.
 # bin(N) converts the integer N to its binary representation as a string. For example, if N is 5, bin(5) returns '0b101'.
 # '.replace("ob", "") : is used to remove the "0b" part of the binary string
+# time: O(n)
+
+
 
 class Solution:
     def hammingWeight(self, n: int) -> int:
@@ -22,7 +23,7 @@ class Solution:
             n >>= 1
         return count
 
-# method3: VVI
+# method 3: 
 # No of time loop execute =  to the no of set bits  
 # Logic: as n is formed from 'n-1' by changing one bit and so on every iteration one '1' will get cancelled out when we will take '&',
 # as while taking add and updating, the value tends towards zero very fast as bits changes.
@@ -52,6 +53,7 @@ class Solution {
         return Integer.bitCount(n); // Inbuilt function to count set bits
     }
 }
+
 //Method 2
 class Solution {
     public int hammingWeight(int n) {
@@ -63,6 +65,7 @@ class Solution {
         return count;
     }
 }
+
 //Method 3
 class Solution {
     public int hammingWeight(int n) {
@@ -89,6 +92,7 @@ public:
         return __builtin_popcount(n); // Inbuilt function to count set bits in integer
     }
 };
+
 //Method 2
 #include <iostream>
 
@@ -105,6 +109,7 @@ public:
         return count;
     }
 };
+
 //Method 3
 #include <iostream>
 

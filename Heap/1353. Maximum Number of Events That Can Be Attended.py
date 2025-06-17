@@ -1,3 +1,5 @@
+# Method 1:
+
 # Very good and logical.
 
 # Intuition: For attending maximum event, we will have to attend according to ending time.
@@ -13,8 +15,13 @@
 # for this we need to get the least end day of events among the available events till today.
 # for this we will use the minHeap to keep track of least end day of event.
 
+"""
+# Q: Why only sorting won't work?
+# Because we can't decide the cur event we have to attend or not using the start and end date of pre one.
+"""
 
 # Time : O(N *log(N) + D*log(N)), D= totalDays
+
 
 class Solution:
     def maxEvents(self, events: List[List[int]]) -> int:
@@ -131,5 +138,4 @@ public:
     }
 };
 """
-# Q: Why only sorting won't work?
-# Because we can't decide the cur event we have to attend or not using the start and end date of pre one.
+

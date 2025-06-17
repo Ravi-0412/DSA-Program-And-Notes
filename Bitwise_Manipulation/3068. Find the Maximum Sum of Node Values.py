@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Logic: 1) For max we should take xor of any number at most once because doing xor 
 # with same number again will bring to original number.
 # e.g: n ^ x ^ x = n
@@ -45,7 +47,6 @@ class Solution:
         return ans + sum(nums)
 
 
-# later do in O(n) and O(1) space using solution in sheet.
 
 
 # Java

@@ -1,11 +1,104 @@
+# Method 1: 
+
 # Brute force:
 # check for each possible length.
 # Time: O(n^3)
 
-# can see gfg code
+
+class Solution:
+    def maxOfMins(self, arr):
+        n = len(arr)
+        res = []
+
+        # check for each possible length.
+        for k in range(1, n + 1):  # window size from 1 to n
+            max_min = float('-inf')
+
+            for i in range(n - k + 1):  # slide window
+                # find min in current window
+                curr_min = float('inf')
+                for j in range(i, i + k):
+                    curr_min = min(curr_min, arr[j])
+
+                max_min = max(max_min, curr_min)
+
+            res.append(max_min)
+
+        return res
 
 
-# method 2: Optimisation using stack
+# Java
+"""
+import java.util.*;
+
+class Solution {
+    public List<Integer> maxOfMins(int[] arr) {
+        int n = arr.length;
+        List<Integer> res = new ArrayList<>();
+
+        // check for each possible length.
+        for (int k = 1; k <= n; k++) {  // window size from 1 to n
+            int maxMin = Integer.MIN_VALUE;
+
+            for (int i = 0; i <= n - k; i++) {  // slide window
+                int currMin = Integer.MAX_VALUE;
+
+                for (int j = i; j < i + k; j++) {
+                    currMin = Math.min(currMin, arr[j]);
+                }
+
+                maxMin = Math.max(maxMin, currMin);
+            }
+
+            res.add(maxMin);
+        }
+
+        return res;
+    }
+}
+
+
+"""
+
+# C++
+"""
+#include <vector>
+#include <algorithm>
+#include <climits>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> maxOfMins(vector<int>& arr) {
+        int n = arr.size();
+        vector<int> res;
+
+        // check for each possible length.
+        for (int k = 1; k <= n; k++) {  // window size from 1 to n
+            int maxMin = INT_MIN;
+
+            for (int i = 0; i <= n - k; i++) {  // slide window
+                int currMin = INT_MAX;
+
+                for (int j = i; j < i + k; j++) {
+                    currMin = min(currMin, arr[j]);
+                }
+
+                maxMin = max(maxMin, currMin);
+            }
+
+            res.push_back(maxMin);
+        }
+
+        return res;
+    }
+};
+
+
+"""
+
+# method 2: 
+# Optimisation using stack
 
 # Similar to q :"84. Largest Rectangle in Histogram".
 

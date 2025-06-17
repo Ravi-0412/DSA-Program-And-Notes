@@ -1,3 +1,5 @@
+# Method 1 :
+
 # Note vvi: What actually we need to find?
 # Ans: Minimum number (when subsequence is combined as a single number) of length 'k'. 
 
@@ -14,6 +16,8 @@
 
 # But we will only add ele in stack if len(stack) will be < k.
 
+# Note vvi: When you have to find smallest / greatest ele i..e number in ascending or descending order use stack.
+
 class Solution:
     def mostCompetitive(self, nums: List[int], k: int) -> List[int]:
         stack = []
@@ -27,8 +31,6 @@ class Solution:
                 stack.append(num)
         return stack
 
-# Note vvi: When you have to find smallest / greatest ele i..e number in ascending or descending order use stack.
-# use stack .
 
 # Java Code 
 """
@@ -94,9 +96,6 @@ public:
     }
 };
 """
-
-# Related Q:
-# 1) 402. Remove K Digits
 
 
 

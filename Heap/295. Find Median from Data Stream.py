@@ -1,4 +1,5 @@
-# method 1: very direct and simple. Brute Force
+# method 1: 
+# very direct and simple. Brute Force
 # just add the num into a list and for median sort the list and return the ans according to the length of the list
 # every time median is called, we are sorting the array 
 # time: O(1*log1+ 2*log2+ 3*log3 + 4*log4..... + (5*10^4)*log(5*10^4))
@@ -17,7 +18,8 @@ class MedianFinder:
         else:
             return (self.nums[mid] + self.nums[mid-1])/2
 
-# method 2:
+# other way for python user
+
 # If we can find any data structure which :
 # 1) Automtically store element in sorted order in less than O(n) 
 # 2) add, delete operation in O(n) then we can solve this question.
@@ -43,7 +45,7 @@ class MedianFinder:
         return (self.lst[n//2 -1] + self.lst[n//2])/2
 
 
-# method 3:
+# method 2:
 # Most important for interview.
 
 # Logic: If we can get two middle in case of even no of elements and middle one in case of odd no of elements
@@ -97,6 +99,27 @@ class MedianFinder:
 
 # time: O(n*logk)
 
+
+# my mistake:
+# was adding directly first into the 'minHeap' then was checking length .
+# may give wrong ans in case of odd ele because median can be in the 'maxHeap' in this case.
+class MedianFinder:  
+    def __init__(self):
+        self.maxHeap, self.minHeap= [], []
+        
+    def addNum(self, num: int) -> None:
+        heapq.heappush(self.minHeap, num)
+        if len(self.minHeap) > len(self.maxHeap) + 1:
+            heapq.heappush(self.maxHeap, -1*heapq.heappop(self.minHeap))
+
+    def findMedian(self) -> float:
+        if len(self.minHeap)!= len(self.maxHeap): # median is in minHeap at the top
+            return self.minHeap[0]
+        # if length is equal then return the average
+        return (self.minHeap[0] - self.maxHeap[0])/2
+    
+# Correct code 
+
 import heapq
 class MedianFinder:  
     def __init__(self):
@@ -117,24 +140,9 @@ class MedianFinder:
         return (self.minHeap[0] - self.maxHeap[0])/2  # return (self.minHeap[0] + -1*self.maxHeap[0])/2
 
 
-# my mistake method 4:
-# was adding directly first into the 'minHeap' then was checking length .
-# may give wrong ans in case of odd ele because median can be in the 'maxHeap' in this case.
-class MedianFinder:  
-    def __init__(self):
-        self.maxHeap, self.minHeap= [], []
-        
-    def addNum(self, num: int) -> None:
-        heapq.heappush(self.minHeap, num)
-        if len(self.minHeap) > len(self.maxHeap) + 1:
-            heapq.heappush(self.maxHeap, -1*heapq.heappop(self.minHeap))
 
-    def findMedian(self) -> float:
-        if len(self.minHeap)!= len(self.maxHeap): # median is in minHeap at the top
-            return self.minHeap[0]
-        # if length is equal then return the average
-        return (self.minHeap[0] - self.maxHeap[0])/2
 
+# Extesnion: 
 # Note: In this type of Q or similar question like :
 "2102. Sequentially Ordinal Rank Tracker" 
 
@@ -143,157 +151,3 @@ class MedianFinder:
 
 # "2102. Sequentially Ordinal Rank Tracker" :
 # only one element matter to us for our ans.
-
-
-# Java Code
-"""
-//Method 1
-import java.util.*;
-
-class MedianFinder {
-    private List<Integer> nums = new ArrayList<>();
-
-    public void addNum(int num) {
-        nums.add(num);
-    }
-
-    public double findMedian() {
-        Collections.sort(nums);
-        int mid = nums.size() / 2;
-        if (nums.size() % 2 != 0) {
-            return nums.get(mid);
-        } else {
-            return (nums.get(mid) + nums.get(mid - 1)) / 2.0;
-        }
-    }
-}
-//Method 2
-import java.util.*;
-
-class MedianFinder {
-    private TreeSet<Integer> sortedList = new TreeSet<>();
-
-    public void addNum(int num) {
-        sortedList.add(num);
-    }
-
-    public double findMedian() {
-        int n = sortedList.size();
-        List<Integer> sortedArray = new ArrayList<>(sortedList);
-        if (n % 2 == 1) {
-            return sortedArray.get(n / 2);
-        }
-        return (sortedArray.get(n / 2) + sortedArray.get(n / 2 - 1)) / 2.0;
-    }
-}
-//Method 3: Using Two Heaps (Optimized for Interview)
-import java.util.*;
-
-class MedianFinder {
-    private PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder()); // Stores the smaller half
-    private PriorityQueue<Integer> minHeap = new PriorityQueue<>(); // Stores the larger half
-
-    public void addNum(int num) {
-        if (minHeap.size() == maxHeap.size()) {
-            maxHeap.offer(num);
-            minHeap.offer(maxHeap.poll());
-        } else {
-            minHeap.offer(num);
-            maxHeap.offer(minHeap.poll());
-        }
-    }
-
-    public double findMedian() {
-        if (minHeap.size() > maxHeap.size()) {
-            return minHeap.peek();
-        }
-        return (minHeap.peek() + maxHeap.peek()) / 2.0;
-    }
-}
-"""
-
-# C++ Code 
-"""
-//Method 1
-#include <iostream>
-#include <vector>
-#include <algorithm>
-
-using namespace std;
-
-class MedianFinder {
-private:
-    vector<int> nums;
-
-public:
-    void addNum(int num) {
-        nums.push_back(num);
-    }
-
-    double findMedian() {
-        sort(nums.begin(), nums.end());
-        int mid = nums.size() / 2;
-        if (nums.size() % 2 != 0) {
-            return nums[mid];
-        } else {
-            return (nums[mid] + nums[mid - 1]) / 2.0;
-        }
-    }
-};
-//Method 2
-#include <iostream>
-#include <vector>
-#include <set>
-
-using namespace std;
-
-class MedianFinder {
-private:
-    multiset<int> sortedList;
-
-public:
-    void addNum(int num) {
-        sortedList.insert(num);
-    }
-
-    double findMedian() {
-        int n = sortedList.size();
-        auto mid = next(sortedList.begin(), n / 2);
-        if (n % 2) {
-            return *mid;
-        }
-        return (*mid + *prev(mid)) / 2.0;
-    }
-};
-//Method 3: Using Two Heaps (Optimized for Interview)
-#include <iostream>
-#include <queue>
-
-using namespace std;
-
-class MedianFinder {
-private:
-    priority_queue<int> maxHeap; // Stores the smaller half
-    priority_queue<int, vector<int>, greater<int>> minHeap; // Stores the larger half
-
-public:
-    void addNum(int num) {
-        if (minHeap.size() == maxHeap.size()) {
-            maxHeap.push(num);
-            minHeap.push(maxHeap.top());
-            maxHeap.pop();
-        } else {
-            minHeap.push(num);
-            maxHeap.push(minHeap.top());
-            minHeap.pop();
-        }
-    }
-
-    double findMedian() {
-        if (minHeap.size() > maxHeap.size()) {
-            return minHeap.top();
-        }
-        return (minHeap.top() + maxHeap.top()) / 2.0;
-    }
-};
-"""

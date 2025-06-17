@@ -1,4 +1,5 @@
-# submitted on GFG
+# Method 1:
+
 # logic:  # scan the string and if you find any operand, push it into the stack and
         # if you find any operator(since here all are binary operator), pop two element
         # op1= stack[-2] and op2= stack[-1], res= op1 operator op2
@@ -7,6 +8,42 @@
 
 # Note: Here no need to worry about 'precedence and associativity' because we convert from
 # 'infix to postfix' only to get rid of these things so that we can calculate ans directly after seeing an operator.
+
+
+# my mistakes
+"""
+How isdigit() work in python?
+The str.isdigit() method in Python checks if all the characters in the string are digits. 
+It returns True if the string consists of digits only, and False otherwise.
+vi:  However, it does not account for negative signs or decimal points, 
+which means it will return False for negative numbers or floating-point numbers.
+"""
+
+
+class Solution:
+    def evalRPN(self, tokens: List[str]) -> int:
+        stack= []  # store the operand not operator like infix to postfix
+        for c in tokens:
+            if c.isdigit():  # will give False when no will be '-ve'. so '-ve' no won't get added to the stack.
+                stack.append(c)
+            else:  # means there is operator
+                print(stack)
+                op2= int(stack.pop())
+                op1= int(stack.pop())
+                if c== '+' :
+                    res= op1 + op2
+                if c== '-' :
+                    res= op1 - op2
+                if c== '*' :
+                    res= op1 * op2
+                if c== '/' :
+                    res= int(op1 / op2)
+                
+                stack.append(res)
+
+        return stack[-1]
+    
+# Correct code
 
 class Solution:
     def evalRPN(self, tokens: List[str]) -> int:
@@ -31,35 +68,9 @@ class Solution:
 
         return stack[-1]
 
-# my mistakes
-class Solution:
-    def evalRPN(self, tokens: List[str]) -> int:
-        stack= []  # store the operand not operator like infix to postfix
-        for c in tokens:
-            if c.isdigit():  # will give False when no will be '-ve'. so '-ve' no won't get added to the stack.
-                stack.append(c)
-            else:  # means there is operator
-                print(stack)
-                op2= int(stack.pop())
-                op1= int(stack.pop())
-                if c== '+' :
-                    res= op1 + op2
-                if c== '-' :
-                    res= op1 - op2
-                if c== '*' :
-                    res= op1 * op2
-                if c== '/' :
-                    res= int(op1 / op2)
-                
-                stack.append(res)
 
-        return stack[-1]
 
-# How isdigit() work in python?
-# The str.isdigit() method in Python checks if all the characters in the string are digits. 
-# It returns True if the string consists of digits only, and False otherwise.
-# vi:  However, it does not account for negative signs or decimal points, 
-# which means it will return False for negative numbers or floating-point numbers.
+
 
 # e.g: 
 print("-123".isdigit())  # Output: False

@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Similar logic as: "1008. Construct Binary Search Tree from Preorder Traversal"
 
 # Easiest one: using method 4 of "1008. Construct Binary Search Tree from Preorder Traversal".
@@ -19,38 +21,8 @@ class Solution:
 
         return build(post)
 
-# Java
-"""
-class Solution {
-    public TreeNode constructTree(int[] post, int n) {
-        return build(post, 0, n - 1);
-    }
 
-    private TreeNode build(int[] post, int start, int end) {
-        if (start > end) {
-            return null;
-        }
-
-        // Last element in the current segment is the root
-        TreeNode root = new TreeNode(post[end]);
-
-        // Find first smaller element than root from the end
-        int i = end - 1;
-        while (i >= start && post[i] > root.val) {
-            i--;
-        }
-
-        // Elements greater than root => right subtree
-        root.right = build(post, i + 1, end - 1);
-
-        // Elements smaller than root => left subtree
-        root.left = build(post, start, i);
-
-        return root;
-    }
-}
-"""
-
+# Method 2: 
 # logic: Since here last node will be the parent so we will traverse from right side(root side).
 # if any ele will be greater that will be right child and we can add them directly to the right of tree.
 # And if smaller then we we have to search for the node for which 'num' will be the left child.

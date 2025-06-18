@@ -1,3 +1,5 @@
+# Method 1: 
+
 # exactly same as "22. generate valid parantheis"
 
 # In above Q: No of '(' will be always >= no of ')'.
@@ -22,6 +24,7 @@ class Solution:
         
         AllNumber(0,0,"")  # (noOne, noZero, number)
         return ans
+
 
 # Java Code 
 """
@@ -53,6 +56,7 @@ class Solution {
     }
 }
 """
+
 
 # C++ Code 
 """

@@ -1,3 +1,5 @@
+# method 1: 
+
 """
 in other words we have to find: "Maximum sum of nodes in Binary tree such that no two are adjacent."
 
@@ -34,28 +36,3 @@ class Solution:
         
         return max(dfs(root))   # return max([withRoot, withoutRoot])
 
-# Java
-""
-class Solution {
-    public int rob(TreeNode root) {
-        int[] result = dfs(root);
-        return Math.max(result[0], result[1]);
-    }
-
-    private int[] dfs(TreeNode root) {
-        if (root == null) {
-            return new int[]{0, 0};  // [withRoot, withoutRoot]
-        }
-        
-        int[] leftPair = dfs(root.left);
-        int[] rightPair = dfs(root.right);
-        
-        // when we include the current node
-        int withRoot = root.val + leftPair[1] + rightPair[1];
-        // when we don't include the current node
-        int withoutRoot = Math.max(leftPair[0], leftPair[1]) + Math.max(rightPair[0], rightPair[1]);
-        
-        return new int[]{withRoot, withoutRoot};
-    }
-}"
-"""

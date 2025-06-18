@@ -1,3 +1,5 @@
+# method 1: 
+
 # steps to do:
 # 1) find the inorder traversal of both the tree and store in separate arrays.
 # 2) Now merge two arrays(sorted form) and store them into a list.

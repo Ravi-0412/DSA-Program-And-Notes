@@ -1,3 +1,5 @@
+# Method 1: 
+
 # very easy and good Q.
 
 # How we can get the new node val?

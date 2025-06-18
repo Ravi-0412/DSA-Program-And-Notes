@@ -1,8 +1,11 @@
-# Logic: Basically asking kth largest element using number from 1 to n only one time.
 
-# Method 1: Store all the possible permutations in list and then sort the list and return list[k-1]
+
+# Method 1: 
+# Logic: Basically asking kth largest element using number from 1 to n only one time.
+# Store all the possible permutations in list and then sort the list and return list[k-1]
 # correct only but giving TLE
-# time: O(n!*n + n!logn!)
+# time: O(n!*n + n!logn!)]
+
 class Solution:
     def getPermutation(self, n: int, k: int) -> str:
         num_arr= [str(i) for i in range(1,n+1)]
@@ -21,7 +24,7 @@ class Solution:
             remaining_char= arr[:i] + arr[i+1:]
             self.permutations(remaining_char,ans,per + added_char)
 
-
+# Methdd 2: 
 # optimised one: VVI
 # write the thinking process and logic in detail
 # Q with very good and very basic logic
@@ -58,8 +61,18 @@ class Solution:
         self.permutations(arr,ans, remaining_k)
 
 
+# Method 3: 
 # converting into iterative form, very good one and easy one.
-# Mine way
+
+# Note: Why making 'k' = k-1 first.
+# I tried keeping same 'k' and while loop : "while k > 1".
+# But it will give index out of bound.
+# e.g: n = 2 and k = 2. => Index = 2 , out of bound.
+
+# So to reduce the index just make k = k -1.
+
+# Note: If asked for 'Kth permutation' in any general(unsorted array), then just sort the array and do the same thing.
+
 class Solution:
     def getPermutation(self, n: int, k: int) -> str:
         num_arr= [str(i+1) for i in range(n)] # we have to return ans in string. num is from '1 to n'.
@@ -81,11 +94,4 @@ class Solution:
             return 1
         return n*self.fact(n-1)
     
-# Note: Why making 'k' = k-1 first.
-# I tried keeping same 'k' and while loop : "while k > 1".
-# But it will give index out of bound.
-# e.g: n = 2 and k = 2. => Index = 2 , out of bound.
 
-# So to reduce the index just make k = k -1.
-
-# Note: If asked for 'Kth permutation' in any general(unsorted array), then just sort the array and do the same thing.

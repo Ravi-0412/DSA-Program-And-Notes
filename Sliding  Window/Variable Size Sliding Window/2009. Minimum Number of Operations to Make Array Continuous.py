@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Logic: we if we consider any ele say 'nums[i]' as starting ele then max number we can include in 
 # arr say nums[j] = nums[i] + (n - 1)
 
@@ -34,7 +36,8 @@ class Solution:
         return ans
 
 
-# Method 2: Using Binary search
+# Method 2: 
+# Using Binary search
 # Since we are finding the last ele nums[j] for each nums[i] in sorted array(after getting unique ele)
 
 # For finding the index 'j' we can use binary search

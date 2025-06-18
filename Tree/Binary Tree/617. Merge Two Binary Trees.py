@@ -1,3 +1,5 @@
+# method 1: 
+
 # time: O(n)
 
 # logic: if any of the tree is None simply return the not_None tree.

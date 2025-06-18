@@ -1,3 +1,5 @@
+# method 1: 
+
 # logic: Brute force just checked the left and right height for every node
 # time: 0(n^2)
 # space: O(n): if skew tree recursion depth will go O(n)
@@ -19,6 +21,7 @@ class Solution:
         r= self.maxDepth(root.right)
         return 1+ max(l,r)
 
+# Method 2: 
 # more concise way of writing above code
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
@@ -33,7 +36,8 @@ class Solution:
             return 0
         return 1 + max(self.maxDepth(root.left),self.maxDepth(root.right))
 
-# method 2: O(n)
+# method 3
+# time: O(n)
 """
 There is lot of repitition in above method.
 
@@ -66,6 +70,7 @@ Note: we can't return True/False based on True/false because in Python True->1 a
 
 '-1' means tree is unbalanced 
 """
+
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
         # just apply the logic odf maxDepth
@@ -80,33 +85,10 @@ class Solution:
             return 1+ max(left,right)
             
         return check(root)!= -1  # if not equal to '-1' means balanced
-
-# Java
-"""
-class Solution {
-    public boolean isBalanced(TreeNode root) {
-        return check(root) != -1;
-    }
     
-    private int check(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-        
-        int left = check(root.left);
-        int right = check(root.right);
-        
-        if (left == -1 || right == -1 || Math.abs(left - right) > 1) {
-            return -1;
-        }
-        
-        return 1 + Math.max(left, right);
-    }
-}
-"""
 
-# Method 3:
-# Simplest way of writing above logic using 'ans' as global variable.
+# Method 4:
+# Simplest way of writing Method 3 logic using 'ans' as global variable.
 # Do by this only
 
 class Solution:
@@ -124,27 +106,3 @@ class Solution:
 
         maxDepth(root)
         return self.ans
-
-# Java
-"""
-class Solution {
-    private boolean ans = true;
-    
-    public boolean isBalanced(TreeNode root) {
-        maxDepth(root);
-        return ans;
-    }
-    
-    private int maxDepth(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-        int l = maxDepth(root.left);
-        int r = maxDepth(root.right);
-        if (Math.abs(l - r) > 1) {
-            ans = false;
-        }
-        return 1 + Math.max(l, r);
-    }
-}
-"""

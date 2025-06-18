@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Simplifying rules
 """
 i) Each digit in the pattern must be adjacent to the previous digit, either vertically, horizontally, or diagonally.
@@ -67,76 +69,3 @@ class Solution:
         self.ans *= 4
         dfs({5}, 5)
         return self.ans
-
-# Java
-"""
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-class Solution {
-    private final Map<Integer, Integer> skip = new HashMap<>();
-    private int ans = 0;
-
-    public int numberOfPatterns(int m, int n) {
-        // Initialize skip map
-        skip.put(10 * 1 + 7, 4);
-        skip.put(10 * 1 + 3, 2);
-        skip.put(10 * 1 + 9, 5);
-        skip.put(10 * 2 + 8, 5);
-        skip.put(10 * 3 + 7, 5);
-        skip.put(10 * 3 + 9, 6);
-        skip.put(10 * 4 + 6, 5);
-        skip.put(10 * 7 + 9, 8);
-
-        // Reset the answer counter
-        ans = 0;
-
-        // Check patterns starting with each digit
-        Set<Integer> visited = new HashSet<>();
-        
-        // Patterns starting with digit 1
-        visited.add(1);
-        dfs(visited, 1, m, n);
-        visited.clear();
-
-        // Patterns starting with digit 2
-        visited.add(2);
-        dfs(visited, 2, m, n);
-        visited.clear();
-        
-        // Multiply by 4 to account for symmetry (starting from 1, 3, 7, 9)
-        ans *= 4;
-
-        // Patterns starting with digit 5
-        visited.add(5);
-        dfs(visited, 5, m, n);
-        visited.clear();
-        
-        return ans;
-    }
-
-    private void dfs(Set<Integer> visited, int last, int m, int n) {
-        if (visited.size() >= m) {
-            ans++;
-        }
-        if (visited.size() == n) {
-            return;
-        }
-        for (int i = 1; i <= 9; i++) {
-            if (!visited.contains(i)) {
-                int pairMin = Math.min(last, i);
-                int pairMax = Math.max(last, i);
-                int pairKey = 10 * pairMin + pairMax;
-                if (!skip.containsKey(pairKey) || visited.contains(skip.get(pairKey))) {
-                    visited.add(i);
-                    dfs(visited, i, m, n);
-                    visited.remove(i);
-                }
-            }
-        }
-    }
-}
-
-"""

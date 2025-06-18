@@ -1,3 +1,5 @@
+# Method 1: 
+
 # recursive way: way better and logical.
 # logic: All the duplicates must come to same subset, must not go to different subset otherwise we will get duplicate subset in the ans.
 # for checking duplicates array must be sorted.
@@ -10,6 +12,7 @@
 # so using while loop till we find any distinct ele.
 
 # other everything is just same as subset Q.
+
 class Solution:
     def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
         nums.sort()
@@ -32,6 +35,7 @@ class Solution:
         return res
 
 
+# Extension: 
 # Note: Apply same logic in all questions where duplicates are allowed and asking for unique subsets/combinations.
 # i.e a) sorting 2) move to distinct number in case of not-take.
 # e.g: 1) 40. Combination Sum II

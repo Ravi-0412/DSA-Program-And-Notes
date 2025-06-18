@@ -1,11 +1,11 @@
+# method 1: 
+
 """
 same way as we search but if there is '.' then we have to check all the possibility at that node, 
 that case we have to check using dfs(backtrcaking).
+for searching: 1st write the logic of normal search then for  dot  "." write recursion.
 """
 
-# for searching: 1st write the logic of normal search then for  dot  "." write recursion.
-
-# Method 1:
 class TrieNode:
     def __init__(self):
         self.children= {}  # will point to children. and can be max of 26('a' to 'z').
@@ -48,7 +48,6 @@ class WordDictionary:
 
 
 # Method 2: 
-# i thought like this.
 class TrieNode:
     def __init__(self):
         self.children= {}  # will point to children. and can be max of 26('a' to 'z').
@@ -96,7 +95,6 @@ class WordDictionary:
 # Java
 """
 // method 1:
-# Here for children, we used array of TrieNode.
 
 class TrieNode {
     public TrieNode[] children = new TrieNode[26]; // will point to children and can be max of 26 ('a' to 'z').

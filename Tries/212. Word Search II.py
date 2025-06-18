@@ -1,5 +1,5 @@
-
-# getting TLE using the logic of 'word search 1' i.e serarching the word one by one.
+# Method 1: 
+# TLE using the logic of 'word search 1' i.e serarching the word one by one.
 # time: O(w.m*n.4^(m*n))  , w: # words
 
 class Solution:
@@ -114,7 +114,7 @@ class Solution:
         return list(ans)
         
 
-# Method 3: my way (just same we did word search 1)
+# Method 3: 
 
 class TrieNode:
     def __init__(self):

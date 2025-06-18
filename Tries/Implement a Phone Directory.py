@@ -1,3 +1,5 @@
+# Method 1: 
+
 # for every prefix in 'search_contact(qList)' , we have to return all contacts starting from that 'prefix'. 
 
 class TrieNode:
@@ -60,79 +62,3 @@ class Solution:
                 self.getSuggestions(cur.children[char], temp, prefix + char)
 
 
-# Java
-"""
-import java.util.*;
-
-class TrieNode {
-    Map<Character, TrieNode> children;
-    boolean isEndOfWord;
-
-    TrieNode() {
-        children = new TreeMap<>();
-        isEndOfWord = false;
-    }
-}
-
-class Trie {
-    TrieNode root;
-
-    Trie() {
-        root = new TrieNode();
-    }
-
-    void insert(String word) {
-        TrieNode cur = root;
-        for (char c : word.toCharArray()) {
-            cur.children.putIfAbsent(c, new TrieNode());
-            cur = cur.children.get(c);
-        }
-        cur.isEndOfWord = true;
-    }
-
-    void getSuggestions(TrieNode node, List<String> temp, String prefix) {
-        if (node.isEndOfWord) {
-            temp.add(prefix);
-        }
-        for (Map.Entry<Character, TrieNode> entry : node.children.entrySet()) {
-            getSuggestions(entry.getValue(), temp, prefix + entry.getKey());
-        }
-    }
-}
-
-class Solution {
-    public List<List<String>> displayContacts(int n, String[] contact, String s) {
-        List<List<String>> ans = new ArrayList<>();
-        Trie trie = new Trie();
-
-        Set<String> contactSet = new HashSet<>(Arrays.asList(contact));
-        for (String word : contactSet) {
-            trie.insert(word);
-        }
-
-        TrieNode curr = trie.root;
-        StringBuilder prefix = new StringBuilder();
-
-        for (char c : s.toCharArray()) {
-            if (!curr.children.containsKey(c)) {
-                while (ans.size() < s.length()) {
-                    ans.add(Collections.singletonList("0"));
-                }
-                break;
-            }
-
-            prefix.append(c);
-            curr = curr.children.get(c);
-            List<String> temp = new ArrayList<>();
-            trie.getSuggestions(curr, temp, prefix.toString());
-            ans.add(temp);
-        }
-
-        while (ans.size() < s.length()) {
-            ans.add(Collections.singletonList("0"));
-        }
-
-        return ans;
-    }
-}
-"""

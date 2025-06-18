@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Note: Appplied same logic as "76. Minimum Window Substring".
 # i.e keep chekcing if you have find any ans and then try to shrink the subarray and keep updating the ans.
 
@@ -19,6 +21,19 @@
 
 # Just similar logic as "76. Minimum Window Substring".
 
+"""
+# Note: it won't work if there is "-ve" number also since inner while loop can break before finding the 
+# shortest subarray after adding the curr ele.
+
+# e.g: [84,-37,32,40,95], target= 167.
+# it will give output= 5 but it should be equal= 3.
+# Reason: '95' ko add karne ke bad sum >= 167 ho jayega and jb hm window ko shrink karenge after removing
+# '87' then sum < 167 ho jayega and loop break ho jayega. 
+# But agar '-37' ko bhi remove kar de tb bhi mera sum > 167 rhega but ye case consider hi nhi hoga.
+# e.g: [3,-2,5], k= 4. 
+# output= 3 but ans should = 1.
+"""
+
 class Solution:
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
         n= len(nums)
@@ -33,18 +48,6 @@ class Solution:
                 i+= 1
             j+= 1
         return ans if ans!= n + 1 else 0
-
-
-# Note: it won't work if there is "-ve" number also since inner while loop can break before finding the 
-# shortest subarray after adding the curr ele.
-
-# e.g: [84,-37,32,40,95], target= 167.
-# it will give output= 5 but it should be equal= 3.
-# Reason: '95' ko add karne ke bad sum >= 167 ho jayega and jb hm window ko shrink karenge after removing
-# '87' then sum < 167 ho jayega and loop break ho jayega. 
-# But agar '-37' ko bhi remove kar de tb bhi mera sum > 167 rhega but ye case consider hi nhi hoga.
-# e.g: [3,-2,5], k= 4. 
-# output= 3 but ans should = 1.
 
 
 # method 2: logic of Q :"862. Shortest Subarray with Sum at Least K"
@@ -118,10 +121,6 @@ class Solution {
                 ans = Math.min(ans, j - q.pollFirst());
             }
 
-            // while (!q.isEmpty() && prefixSum[j] <= prefixSum[q.peekLast()]) {
-            //     q.pollLast();
-            // }
-
             q.addLast(j);
             j++;
         }
@@ -187,10 +186,6 @@ public:
                 ans = min(ans, j - q.front());
                 q.pop_front();
             }
-
-            // while (!q.empty() && prefixSum[j] <= prefixSum[q.back()]) {
-            //     q.pop_back();
-            // }
 
             q.push_back(j);
             j++;

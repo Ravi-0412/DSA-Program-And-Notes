@@ -1,3 +1,5 @@
+# Method 1: 
+
 # subsequences is same as subset except subset doesn't maintain the relative order
 # but for subset also ans will be same only as (1,3) and (3,1) can't be in the subset as same time
 # because subset doesn't allow duplicates
@@ -28,12 +30,13 @@ print("possible subsequences or subset is: ")
 PrintSubsequence(0,arr,ans,3)
 
 
-# another way of writing .
+# Method 2: 
 # here we are modifying the 'ans' array using '+' that's why no need to pop() like above one. (just same as string).
 # Note: modifying array by '+' doesn't change the curr array, just change the array in calling function position just like 
 # we do 'append' and 'pop' while traversing back.
 
 # if you modify by append then you have to pop first then call the fn otherwise, you will get incorrect ans.
+
 def PrintSubsequence1(ind,arr,ans,n):
     if ind>= n:
         print(ans)
@@ -50,7 +53,9 @@ ans= []
 # print("possible subsequences or subset is: ")
 # PrintSubsequence1(0,arr,ans,3)
 
-# another way of writing the above code
+
+# Method 3: 
+# another way of writing the Method 3
 def PrintSubsequence2(arr,ans):
     if not arr:
         print(ans)
@@ -64,6 +69,8 @@ arr= [1,2,1]
 # print("possible subsequences or subset is: ")
 # PrintSubsequence2(arr,[])
 
+
+# Extension: 
 
 # Note vvi: This method is very very useful and widely used.
 # A lot of problems can be solved easily using above method only.

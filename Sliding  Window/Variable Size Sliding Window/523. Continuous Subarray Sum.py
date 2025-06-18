@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Note: we can say divisible by 'k' also.
 # Observation vvi: '%' works as complement in subarray problem for 'division' or 'multiple'.
 
@@ -17,6 +19,8 @@
 
 
 # Time complexity: O(n), space complexity: O(min(k, n)) if k != 0, else O(n).
+
+
 class Solution:
     def checkSubarraySum(self, nums: List[int], k: int) -> bool:
         sumTillIndex= {0: -1}   # {modulo_sum: index} # we will get this 'modulus' till index 'i' when we will divide by 'k'.
@@ -96,6 +100,8 @@ public:
     }
 };
 """
+
+
 # Related Q: 
 # 1)  "974. Subarray Sums Divisible by K"
 # 2) vvi: "2947. Count Beautiful Substrings I" , "2948. Count Beautiful Substrings II".

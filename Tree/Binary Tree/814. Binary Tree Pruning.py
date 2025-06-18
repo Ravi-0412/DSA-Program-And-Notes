@@ -1,3 +1,5 @@
+# method 1:
+
 # logic: just go Bottom up and if you have find any '1' either from its child or cur node itslef then 
 # we will include that node in ans.
 

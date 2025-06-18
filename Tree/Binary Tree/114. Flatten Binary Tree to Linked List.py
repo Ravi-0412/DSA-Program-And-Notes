@@ -38,7 +38,6 @@ class Solution(object):
         return root
     
 
-# Undersatand other method later
 
 # method 2: 
 # in above one first we were going root then left then right like preorder only
@@ -72,6 +71,7 @@ class Solution:
         return self.pre
 
 
+# Method 3: 
 # iterative one. just like do preorder only
 # very simple: every time you get any node then add to the 'last of right' and make the last.left= None
 # but extra space: o(n)
@@ -91,5 +91,3 @@ class Solution:
                 stack.append(node.left)
             last= node # to point the next node from the last added one
 
-# go through the other more approaches in striver video and do by those
-# https://www.youtube.com/watch?v=sWf7k1x9XR4&list=PLgUwDviBIf0q8Hkd7bK2Bpryj2xVJk8Vk&index=39&t=61s

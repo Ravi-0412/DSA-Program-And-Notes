@@ -1,11 +1,12 @@
+# method 1: 
+
 # just store the path for both the nodes in two separate array 
 # LCA: will be that node from that last where the path of both the nodes will match from the last.
 
 # Now Q reduces to: "Given Two arrays, find the the first ele common in both the array from last".
 # use Two pointer and for moving pointer: decr that index which is more. if equal decr both.
-
-# method 1: very basic
 # time: O(n)= space
+
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         path_p, path_q= [],[]
@@ -38,7 +39,8 @@ class Solution:
 
 
 
-# 2nd method: very better and very logical 
+# 2nd method: 
+# very better and very logical 
 """
 Optimising the space complexity to O(1)
 Here we are sure that both the nodes are present in the tree so we can utilise this.
@@ -74,8 +76,9 @@ class Solution:
 
 # Java Code 
 """
-// method 1: very basic
-// time: O(n)= space
+// method 1: 
+
+
 class Solution {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         List<TreeNode> path_p = new ArrayList<>();
@@ -118,20 +121,7 @@ class Solution {
     }
 }
 
-// 2nd method: very better and very logical 
-/*
-Optimising the space complexity to O(1)
-Here we are sure that both the nodes are present in the tree so we can utilise this.
-
-LCA: wo node hoga jahan pe bottom se dono node 1st time differ karenge i.e means is node ka left subtree ek node ko contain karega 
-and right subtree dusre node ko.
-So just apply bottom up Approach and if at any node if its both the left and right subtree give not None , it means curr node is LCA.
-
-One of the node can be the LCA also, so in this case one will have 'None'(doesn't contain any of the node) and other will have 'Not None'.
-then in this case the node with 'not None' will be LCA.
-
-Note: Here once we find the and then we will start returning ans from there itself.
-*/
+// 2nd method: 
 
 class Solution2 {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
@@ -161,8 +151,8 @@ class Solution2 {
 
 # C++ Code 
 """
-// method 1: very basic
-// time: O(n)= space
+// method 1: 
+
 class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
@@ -205,20 +195,7 @@ public:
     }
 };
 
-// 2nd method: very better and very logical 
-/*
-Optimising the space complexity to O(1)
-Here we are sure that both the nodes are present in the tree so we can utilise this.
-
-LCA: wo node hoga jahan pe bottom se dono node 1st time differ karenge i.e means is node ka left subtree ek node ko contain karega 
-and right subtree dusre node ko.
-So just apply bottom up Approach and if at any node if its both the left and right subtree give not None , it means curr node is LCA.
-
-One of the node can be the LCA also, so in this case one will have 'None'(doesn't contain any of the node) and other will have 'Not None'.
-then in this case the node with 'not None' will be LCA.
-
-Note: Here once we find the and then we will start returning ans from there itself.
-*/
+// 2nd method: 
 
 class Solution2 {
 public:
@@ -246,6 +223,7 @@ public:
     }
 };
 """
+
 # Related Q:
-1) 235. Lowest Common Ancestor of a Binary Search Tree
+# 1) 235. Lowest Common Ancestor of a Binary Search Tree
 

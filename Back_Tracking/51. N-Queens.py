@@ -1,5 +1,6 @@
+# Method 1: 
+
 # Q) find the no of possible ways to put the Queens
-# page: 21
 # in this we are placing row wise and once we got any safe place in a row, no need to check further col in that row.
 # as two Queens can't be in the same row
 
@@ -38,11 +39,6 @@ def isSafe(board,row,col):
     for i in range(len(board)):
         if board[i][col]=='Q':  # if any position is 'Q' means you cant place Queen  there
             return False
-
-    # checking the horizontal line where we want to place
-    # for i in range(len(board)):
-    #     if board[row][i]=='Q':  # if any position is true means you cant place Queen is there
-    #         return False
     
     # checking the upper left diagonal
     r,c= row,col
@@ -50,13 +46,6 @@ def isSafe(board,row,col):
         if board[r][c]== 'Q':  # if true 
             return False
         r,c= r-1,c-1
-
-    # checking the lower left diagonal
-    # r,c= row,col
-    # while(r<len(board) and c>=0):
-    #     if board[r][c]== 'Q':  # if true 
-    #         return False
-    #     r,c= r+1,c-1
         
     
     # checking the upper right diagonal
@@ -65,16 +54,7 @@ def isSafe(board,row,col):
         if board[r][c]== 'Q':  # if true 
             return False
         r,c= r-1,c+1
-    
-    # checking the lower right diagonal
-    # r,c= row,col
-    # while(r<len(board) and c<len(board)):
-    #     if board[r][c]== 'Q':  # if true 
-    #         return False
-    #     r,c= r+1,c+1
-        
-    
-    
+
     # if any of these are false means you cant place Queen at that position
     # you are here means all are position is safe so simply return True
     return True
@@ -90,7 +70,7 @@ print(NQueens(board,0))
                 
 
 
-# submitted on leetcode
+# Method 2: 
 # in this we were placing col wise
 # so we only need to check lower left diagonal, upper left diagonal and horizonatl
 # for whether Queen is safe orr not at that place
@@ -152,121 +132,3 @@ class Solution:
 # 2) 37. Sudoku Solver
 # 3) M-Coloring Problem
 
-# Java Code
-# Method 2:
-"""
-class Solution {
-    public List<List<String>> solveNQueens(int n) {
-        List<List<String>> all_board = new ArrayList<>();  // to store the result.
-        char[][] board = new char[n][n];
-        
-        // Initialize the board with '.'
-        for (int i = 0; i < n; i++) {
-            Arrays.fill(board[i], '.');
-        }
-
-        helper(all_board, board, 0);  // starting from column 0
-        return all_board;
-    }
-
-    private void helper(List<List<String>> all_board, char[][] board, int col) {
-        if (col == board.length) {
-            saveBoard(all_board, board);
-            return;
-        }
-
-        for (int row = 0; row < board.length; row++) {
-            if (isSafe(board, row, col)) {
-                board[row][col] = 'Q';
-                helper(all_board, board, col + 1);
-                board[row][col] = '.';
-            }
-        }
-    }
-
-    private void saveBoard(List<List<String>> all_board, char[][] board) {
-        List<String> new_board = new ArrayList<>();
-        for (int i = 0; i < board.length; i++) {
-            new_board.add(new String(board[i]));
-        }
-        all_board.add(new_board);
-    }
-
-    private boolean isSafe(char[][] board, int row, int col) {
-        // checking the horizontal row
-        for (int i = 0; i < board.length; i++) {
-            if (board[row][i] == 'Q') return false;
-        }
-
-        // checking the upper left diagonal
-        for (int r = row, c = col; r >= 0 && c >= 0; r--, c--) {
-            if (board[r][c] == 'Q') return false;
-        }
-
-        // checking the lower left diagonal
-        for (int r = row, c = col; r < board.length && c >= 0; r++, c--) {
-            if (board[r][c] == 'Q') return false;
-        }
-
-        return true;
-    }
-}
-
-
-"""
-
-# C++ Code 
-"""
-class Solution {
-public:
-    vector<vector<string>> solveNQueens(int n) {
-        vector<vector<string>> all_board;  // to store the result
-        vector<vector<char>> board(n, vector<char>(n, '.'));  // create empty board
-        helper(all_board, board, 0);  // starting from column 0
-        return all_board;
-    }
-
-    void helper(vector<vector<string>>& all_board, vector<vector<char>>& board, int col) {
-        if (col == board.size()) {
-            saveBoard(all_board, board);
-            return;
-        }
-
-        for (int row = 0; row < board.size(); row++) {
-            if (isSafe(board, row, col)) {
-                board[row][col] = 'Q';
-                helper(all_board, board, col + 1);
-                board[row][col] = '.';
-            }
-        }
-    }
-
-    void saveBoard(vector<vector<string>>& all_board, vector<vector<char>>& board) {
-        vector<string> new_board;
-        for (int i = 0; i < board.size(); i++) {
-            new_board.push_back(string(board[i].begin(), board[i].end()));
-        }
-        all_board.push_back(new_board);
-    }
-
-    bool isSafe(vector<vector<char>>& board, int row, int col) {
-        // checking the horizontal row
-        for (int i = 0; i < board.size(); i++) {
-            if (board[row][i] == 'Q') return false;
-        }
-
-        // checking the upper left diagonal
-        for (int r = row, c = col; r >= 0 && c >= 0; r--, c--) {
-            if (board[r][c] == 'Q') return false;
-        }
-
-        // checking the lower left diagonal
-        for (int r = row, c = col; r < board.size() && c >= 0; r++, c--) {
-            if (board[r][c] == 'Q') return false;
-        }
-
-        return true;
-    }
-};
-
-"""

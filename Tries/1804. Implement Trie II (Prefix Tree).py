@@ -1,9 +1,13 @@
+# Method 1: 
+
 # little bit modified the functions to get the ans easily.
 # just same logic only
 
 # Note: we are updating 'word_count' and 'prefix_count' after each node like 'isEndOfWord'.
 
-# submitted on codingninja.
+# Note: whenever you have to remove any word apply the prefix_count with isEndofWord(or word_count).
+# while adding incr the count of both and while removing decr the count.
+
 class TrieNode:
     def __init__(self):
         self.children= {}      # will point to children. and can be max of 26('a' to 'z').
@@ -56,8 +60,7 @@ class Trie:
         # now we have traversed all the char of 'word' so if 'cur.isEndOfWord== True' then it means this word is present otherwise not.
         return cur
 
-
-# another way
+# Method 2: 
 class TrieNode:
     def __init__(self):
         self.children= {}      # will point to children. and can be max of 26('a' to 'z').
@@ -107,12 +110,12 @@ class Trie:
         return cur
     
 
-# Note: whenever you have to remove any word apply the prefix_count with isEndofWord(or word_count).
-# while adding incr the count of both and while removing decr the count.
+
 
 #Java Code
 """
 //Method 1
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -189,6 +192,7 @@ class Trie {
 
 
 //Method 2
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -265,6 +269,7 @@ class Trie {
 #C++ Code 
 """
 //Method 1
+
 #include <unordered_map>
 #include <string>
 
@@ -339,6 +344,7 @@ public:
 };
 
 //Method 2
+
 #include <unordered_map>
 #include <string>
 

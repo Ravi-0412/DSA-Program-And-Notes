@@ -4,7 +4,7 @@ class Solution:
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         if not root:
             return None
-        q= deque([root])
+        q = deque([root])
         ans, level= [], []
         while q:
             for i in range(len(q)):  # we have to print level by level in a list
@@ -54,6 +54,8 @@ class Solution {
     }
 }
 """
+
+
 #C++ Code 
 """
 class Solution {
@@ -88,7 +90,8 @@ public:
 
 """
 
-# Related q:
+# Extension
+
 # 1) 515. Find Largest Value in Each Tree Row
 
 class Solution:
@@ -259,6 +262,7 @@ class Solution {
     }
 }
 """
+
 # C++ Code 
 """
 #include <queue>

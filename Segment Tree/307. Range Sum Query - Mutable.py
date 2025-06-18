@@ -1,4 +1,5 @@
-# method 1 : Brute force (TLE)
+# method 1 : 
+# Brute force (TLE)
 
 # for update: we have to update all prefixSum value from that index to last index by diff= val- nums[index]
 
@@ -22,22 +23,51 @@ class NumArray:
         return self.prefixSum[right + 1] - self.prefixSum[left]
 
 
-# Method 2: segement Tree (Q is based on this only)
+# Method 2: 
+# segement Tree 
+"""
+vvi: Now from here intro of segment tree starts
 
-# vvi: Now from here intro of segment tree starts
+why came ?
+In case when we are updating and we want query result also then it reduces the time complexity a lot.
 
-# why came ?
-# In case when we are updating and we want query result also then it reduces the time complexity a lot.
+If we use the prefixSum method then in this case if we want to update then,
+we have to update all prefixSum value from that index to last index by diff= val- nums[index]
+time: O(n)
 
-# If we use the prefixSum method then in this case if we want to update then,
-# we have to update all prefixSum value from that index to last index by diff= val- nums[index]
-# time: O(n)
+But using segment tree we can do this in  O(logn).
 
-# But using segment tree we can do this in  O(logn).
+Note vvvi: Few observations on segment tree implementation:
+1) we are find the 'mid' only while 'creating' the tree, not in operation like 'RangeSum' and 'update'.
+No need of finding 'mid' in these cases.
+After finding the mid , we make left node from index (l, mid) and right node from (mid + 1, r)
 
-# Note: Draw diagram from 'Rachit Jain or Kunal' video in notes
+2) RangeSum(l, r)
+In this for base case we are checking cases on node interval like: i) completely inside
+ii) completely outside   iii) overlapping      with given range
+Note: Here in each function call we are passing the same range for left and right i.e (l, r)
 
-# space = O(2*n - 1)
+3) updateVal
+Here we are checking the cases on 'index' not on 'node interval ' like :
+i) if index is completely outside the node interval
+ii) if inside the node interval => under this finding the ele 1st recursively.
+
+Note: This is the difference between 'RangeSum' function and 'updateVal' function.
+keep this in mind and also the reasons why in both we are checking differently and 
+why 'mid' is not required in 'RangeSum' and 'updateVal' function.
+
+Some points regarding this method of implementing the segment tree:
+1) follows the full binary tree property (all node will have exactly two node except the leaf node)
+2) No of nodes = 2*n - 1 . (n = length of given array)
+# How? => Total no of nodes = 2^h - 1= 2^(logn) - 1 == 2*n - 1
+
+So time complexity to create segment tree = O(n)
+
+3) Time complexity for update and getRangeSum : O(logn)
+
+space = O(2*n - 1)
+"""
+
 
 class Node(object):
     def __init__(self, startInterval, endInterval):
@@ -128,156 +158,64 @@ class NumArray(object):
         return RangeSum(self.root, left, right)
 
 
-# Note vvvi: Few observations on segment tree implementation:
-# 1) we are find the 'mid' only while 'creating' the tree, not in operation like 'RangeSum' and 'update'.
-# No need of finding 'mid' in these cases.
-# After finding the mid , we make left node from index (l, mid) and right node from (mid + 1, r)
+# Method 3: 
+"""
+Fenwick Tree (Binary Indexed Tree)
+CraeteBIT takes : O(logn) for one call so will take O(n *logn) for craeting the BIT (calling for each index).
+Update = getSum= O(logn)
 
-# 2) RangeSum(l, r)
-# In this for base case we are checking cases on node interval like: i) completely inside
-# ii) completely outside   iii) overlapping      with given range
-# Note: Here in each function call we are passing the same range for left and right i.e (l, r)
+Note: difference between 'Segment tree' and 'fenwick tree' is that 
+1) in fenwick tree for finding range sum(i, j), we get by
+'RangeSum(j) ( 0 to j)' - 'RangeSum(i)'.
+we need to go only from given node(index) to parent to find the RangeSum(i).
 
-# 3) updateVal
-# Here we are checking the cases on 'index' not on 'node interval ' like :
-# i) if index is completely outside the node interval
-# ii) if inside the node interval => under this finding the ele 1st recursively.
+2) searching time i.e getting query is less in fenwick than segment 
+fenwick : O(logn), segment : O(4*logn)
+Because : we need to go only from given node(index) to parent to find the RangeSum(i).
+Here we don't go in other subtree like 'segment tree' (with that much cases).
 
-# Note: This is the difference between 'RangeSum' function and 'updateVal' function.
-# keep this in mind and also the reasons why in both we are checking differently and 
-# why 'mid' is not required in 'RangeSum' and 'updateVal' function.
+2) Creation time is more in fenwick than segment
+fenwick : O(n*logn), segment : O(n)
 
-# Some points regarding this method of implementing the segment tree:
-# 1) follows the full binary tree property (all node will have exactly two node except the leaf node)
-# 2) No of nodes = 2*n - 1 . (n = length of given array)
-## How? => Total no of nodes = 2^h - 1= 2^(logn) - 1 == 2*n - 1
+3)
+Note vvi: You can't use 'Fenwick Tree' (Binary Indexed Tree) for finding 'min/max' in a given range.
+Reason: 
+it relies on the fact that the acummulative frequency from a to b is 'f(b)- f(a-1)', 
+and that property is not valid for the min/max functions
+i.e it stores value in range . if BIT[i] stores values in some range say (a, b) then, it will equal to 'f(b)- f(a-1)'.
 
-# So time complexity to create segment tree = O(n)
+Note: tree will get formed correctly only but you will not get desired result in a range for 'min/max'.
 
-# 3) Time complexity for update and getRangeSum : O(logn)
-
-
-# Template to use in other Q:
-# Just above code only , only removed the comment.
-
-class Node:
-    def __init__(self, startInterval, endInterval):
-        self.total = 0    # RangeSum of given interval
-        self.start = startInterval    # start interval of that node
-        self.end = endInterval        # end interval of that node
-        self.left = None
-        self.right = None
-
-class SegmentTree:
-
-    def __init__(self, nums: List[int]):          
-        self.nums = nums
-        n= len(nums)
-        self.root = self.createSegmentTree(nums, 0, n -1)
-    
-    def createSegmentTree(self, nums , l, r):
-        if l == r:
-            node = Node(l, r)
-            node.total = nums[l]
-            return node
-
-        node = Node(l, r)   # RangeSum for now will be '0', will assign later.
-
-        mid = (l + r)//2
-        node.left = self.createSegmentTree(nums , l, mid)
-        node.right = self.createSegmentTree(nums , mid + 1, r)
-
-        node.total = node.left.total + node.right.total
-        return node
-
-    def update(self, index: int, val: int) -> None:
-        
-        def updateValue(node, index , val):
-            if index < node.start or index > node.end:
-                return node.total
-
-            if index >= node.start and index <= node.end:    # No need of this 'if' we can do directly also
-                if node.start == index and node.end == index:
-                    node.total = val
-                    return val   # returning value to update value of parent directly
-                
-                node.total = updateValue(node.left, index , val) + updateValue(node.right, index , val)
-                return node.total
-
-        self.nums[index] = val
-        updateValue(self.root, index , val)
-
-    def sumRange(self, left: int, right: int) -> int:
-
-        def RangeSum(node, l, r):
-            if node.start >= l and node.end <= r :
-                return node.total
-            if node.start > r or node.end < l:
-                return 0
-
-            return RangeSum(node.left , l, r) + RangeSum(node.right , l, r)
-
-        return RangeSum(self.root, left, right)
-    
+So for min/max use 'segment tree' only not fenwick tree.
 
 
-# Method 4: Fenwick Tree (Binary Indexed Tree)
-# CraeteBIT takes : O(logn) for one call so will take O(n *logn) for craeting the BIT (calling for each index).
-# Update = getSum= O(logn)
+Note: 
+Now let's talk about function and some obseravtions:
+a) creating and update function:
+vvi: In these two function we are only updating values in 'next' of current node not in parent node.
 
-# Note: difference between 'Segment tree' and 'fenwick tree' is that 
-# 1) in fenwick tree for finding range sum(i, j), we get by
-# 'RangeSum(j) ( 0 to j)' - 'RangeSum(i)'.
-# we need to go only from given node(index) to parent to find the RangeSum(i).
-
-# 2) searching time i.e getting query is less in fenwick than segment 
-# fenwick : O(logn), segment : O(4*logn)
-# Because : we need to go only from given node(index) to parent to find the RangeSum(i).
-# Here we don't go in other subtree like 'segment tree' (with that much cases).
-
-# 2) Creation time is more in fenwick than segment
-# fenwick : O(n*logn), segment : O(n)
-
-# 3)
-# Note vvi: You can't use 'Fenwick Tree' (Binary Indexed Tree) for finding 'min/max' in a given range.
-# Reason: 
-# it relies on the fact that the acummulative frequency from a to b is 'f(b)- f(a-1)', 
-# and that property is not valid for the min/max functions
-# i.e it stores value in range . if BIT[i] stores values in some range say (a, b) then, it will equal to 'f(b)- f(a-1)'.
-
-# Note: tree will get formed correctly only but you will not get desired result in a range for 'min/max'.
-
-# So for min/max use 'segment tree' only not fenwick tree.
+How we get 'next' of index i'.
+i) find 2's complement of 'i' => '-i'
+ii) And(&) with original given index 'i' => 'i & -i'
+iii) Add(+) with original given index => next(i) = i + (i & -i)
 
 
-# Note: 
-# Now let's talk about function and some obseravtions:
-# a) creating and update function:
-# vvi: In these two function we are only updating values in 'next' of current node not in parent node.
+b)for getting RangeSum
+we are taking sum of values from parent not from 'next'.
 
-# How we get 'next' of index i'.
-# i) find 2's complement of 'i' => '-i'
-# ii) And(&) with original given index 'i' => 'i & -i'
-# iii) Add(+) with original given index => next(i) = i + (i & -i)
+How to get parent of 'i'.
+Ans: just swap the rightmost set bit to get the parent i.e unset last set bit 
+How to get this using bit?
 
+steps:
+i) find 2's complement of 'i' => '-i'
+ii) And(&) with original given index 'i' => 'i & -1'
+iii) subtract(-) with original given index => parent(i) = i - (i & -i)   # only diff from 'next'. here we are subtracting
 
-# b)for getting RangeSum
-# we are taking sum of values from parent not from 'next'.
+or in short
+ i &= i -1    # unset last set bit
+"""
 
-# How to get parent of 'i'.
-# Ans: just swap the rightmost set bit to get the parent i.e unset last set bit 
-# How to get this using bit?
-
-# steps:
-# i) find 2's complement of 'i' => '-i'
-# ii) And(&) with original given index 'i' => 'i & -1'
-# iii) subtract(-) with original given index => parent(i) = i - (i & -i)   # only diff from 'next'. here we are subtracting
-
-# or in short
-#  i &= i -1    # unset last set bit 
-
-
-# Note: Draw diagram from Tushar video in notes
 
 class NumArray:
     
@@ -323,10 +261,10 @@ class NumArray:
         # for 'getSum(i)' we need to go bottom up starting from node 'i' to root and keep adding the value.
         return self.getSum(right) - self.getSum(left - 1)
                             # for understanding 'right + 1' - 'left' because we are storing value one index ahead.
-    
 
+
+# Extension: 
 # Template to use in other Q
-# Above code only just removed the comment.
 
 class segmentTree:
     
@@ -363,572 +301,3 @@ class segmentTree:
 
 
 
-# Java Code
-# method 1 : Brute force (TLE)
-"""
-class NumArray {
-    int[] nums;
-    int[] prefixSum;
-
-    public NumArray(int[] nums) {
-        this.nums = nums;
-        int n = nums.length;
-        prefixSum = new int[n + 1];   // using 1-based indexing for prefix sum.
-        for (int i = 1; i <= n; i++) {
-            prefixSum[i] = this.nums[i - 1] + prefixSum[i - 1];
-        }
-    }
-
-    // for update: we have to update all prefixSum value from that index to last index by diff= val- nums[index]
-    public void update(int index, int val) {
-        int diff = val - nums[index];
-        nums[index] = val;
-        for (int i = index + 1; i <= nums.length; i++) {
-            prefixSum[i] = diff + prefixSum[i];
-        }
-    }
-
-    public int sumRange(int left, int right) {
-        return prefixSum[right + 1] - prefixSum[left];
-    }
-}
-"""
-
-# Method 2: segement Tree (Q is based on this only)
-"""
-class Node {
-    int total;   // RangeSum of given interval
-    int start;   // start interval of that node
-    int end;     // end interval of that node
-    Node left;
-    Node right;
-
-    Node(int startInterval, int endInterval) {
-        total = 0;
-        start = startInterval;
-        end = endInterval;
-        left = null;
-        right = null;
-    }
-}
-
-class NumArray {
-    int[] nums;
-    Node root;
-
-    public NumArray(int[] nums) {
-        this.nums = nums;
-        int n = nums.length;
-        root = createSegmentTree(nums, 0, n - 1);
-    }
-
-    Node createSegmentTree(int[] nums, int l, int r) {
-        // base case. All ele will be at leaf 
-        if (l == r) {
-            // when there is single ele, we will start returning to parent and will update the parent RangeSum(total) value.
-            Node node = new Node(l, r);
-            node.total = nums[l];
-            return node;
-        }
-        // make one node for current query
-        Node node = new Node(l, r);   // RangeSum for now will be '0', will assign later.
-        // we need to take sum of values from its children to update the RangeSum of this current node.
-        // Go bottom up and make tree Recursively
-
-        // range from 'l' to 'mid' will go to left and 'mid+1' to 'r' will go to right.
-        // mid = (r - l + 1) //2     // wrong , this will give len(interval) //2 but we need mid between given range only
-        int mid = (l + r) / 2;
-        node.left = createSegmentTree(nums, l, mid);
-        node.right = createSegmentTree(nums, mid + 1, r);
-
-        // Now assign the value of 'RangeSum' to cur Node interval i.e 'node'
-        // will be equal to sum of 'RangeSum' of its children.
-        node.total = node.left.total + node.right.total;
-        return node;
-    }
-
-    // just first seacrh the given index.
-    public void update(int index, int val) {
-        this.nums[index] = val;
-        updateValue(root, index, val);
-    }
-
-    int updateValue(Node node, int index, int val) {
-        // 1) if index lies completely outside the node interval.
-        // In this case just return the 'RangeSum' value of that node
-        // since from here no any node of cur subtree will get impacted.
-        if (index < node.start || index > node.end) {
-            return node.total;
-        }
-        // 2) index lies in node interval 
-        // In this case all node will get updated . But we will update bottom up only after updating the value at given index.
-        // ANd we can get any element as single entity at leaf only.
-        // So we will update going bottom up recursively.
-        if (node.start == index && node.end == index) {
-            // update the value and start returning from here and keep updating the parent also recursively.
-            node.total = val;
-            return val;   // returning value to update value of parent directly
-        }
-        // 'RangeSum' for current node will be sum of updated values of its children
-        // so call the function recursively for children and keep updating
-        node.total = updateValue(node.left, index, val) + updateValue(node.right, index, val);
-        return node.total;
-    }
-
-    public int sumRange(int left, int right) {
-        return RangeSum(root, left, right);
-    }
-
-    int RangeSum(Node node, int l, int r) {
-        // 1) node interval is completely inside the given query interval
-        // whole RangeSum will contribute to the ans
-        if (node.start >= l && node.end <= r) {
-            return node.total;
-        }
-        // 2) node interval is completely outside the query interval
-        // Return the default value based on operator i. for sum : "0", multiply : "1"
-        // minEle = return maxPossible , maxEle: return minPossible
-        if (node.start > r || node.end < l) {
-            return 0;
-        }
-        // 3) if node interval and query interval is overlapping
-        // In this case we need to calculate the ans recursively from its left and right child and return the sum of that.
-
-        // mid = (l + r) //2   // no need of finding 'mid' while find 'RangeSum' like 'creatingTree'. just pass the given range only in fn calls.
-        return RangeSum(node.left, l, r) + RangeSum(node.right, l, r);
-    }
-}
-"""
-#Method 3:
-"""
-class Node {
-    int total;    // RangeSum of given interval
-    int start;    // start interval of that node
-    int end;      // end interval of that node
-    Node left;
-    Node right;
-
-    public Node(int startInterval, int endInterval) {
-        this.total = 0;
-        this.start = startInterval;
-        this.end = endInterval;
-        this.left = null;
-        this.right = null;
-    }
-}
-
-class NumArray {
-    int[] nums;
-    Node root;
-
-    public NumArray(int[] nums) {
-        this.nums = nums;
-        int n = nums.length;
-        this.root = createSegmentTree(nums, 0, n - 1);
-    }
-
-    private Node createSegmentTree(int[] nums, int l, int r) {
-        if (l == r) {
-            Node node = new Node(l, r);
-            node.total = nums[l];
-            return node;
-        }
-
-        Node node = new Node(l, r);   // RangeSum for now will be '0', will assign later.
-
-        int mid = (l + r) / 2;
-        node.left = createSegmentTree(nums, l, mid);
-        node.right = createSegmentTree(nums, mid + 1, r);
-
-        node.total = node.left.total + node.right.total;
-        return node;
-    }
-
-    public void update(int index, int val) {
-        nums[index] = val;
-        updateValue(root, index, val);
-    }
-
-    private int updateValue(Node node, int index, int val) {
-        if (index < node.start || index > node.end) {
-            return node.total;
-        }
-
-        if (node.start == index && node.end == index) {
-            node.total = val;
-            return val;   // returning value to update value of parent directly
-        }
-
-        node.total = updateValue(node.left, index, val) + updateValue(node.right, index, val);
-        return node.total;
-    }
-
-    public int sumRange(int left, int right) {
-        return rangeSum(root, left, right);
-    }
-
-    private int rangeSum(Node node, int l, int r) {
-        if (node.start >= l && node.end <= r) {
-            return node.total;
-        }
-        if (node.start > r || node.end < l) {
-            return 0;
-        }
-
-        return rangeSum(node.left, l, r) + rangeSum(node.right, l, r);
-    }
-}
-"""
-#Method 4 Fenwick Tree (Binary Indexed Tree)
-"""
-class NumArray {
-    int[] nums;
-    int[] BIT;
-    int n;
-
-    public NumArray(int[] nums) {
-        this.nums = nums;
-        this.n = nums.length;
-        this.BIT = new int[n + 1];
-
-        // create BIT
-        for (int i = 0; i < n; i++) {
-            createBIT(i, nums[i]);
-        }
-    }
-
-    private void createBIT(int i, int val) {
-        i += 1;   // because BIT is following 1 based indexing not '0' based.
-        // Keep adding the values starting from current index 'i' in BIT 
-        // to other index by finding next until it goes out of range.
-        // Going top to bottom(given node to leaf)
-        while (i <= n) {
-            BIT[i] += val;
-            i += (i & -i);    // next index where we need to update
-        }
-    }
-
-    public void update(int index, int val) {
-        // find the diff between values we will get after updating
-        // After that we will add this 'diff' to all places where it can make impact i. next
-        int diff = val - nums[index];
-        // update the value at given index
-        nums[index] = val;
-        // Call the createBIT function to update the values at other places where it can make impact
-        createBIT(index, diff);
-    }
-
-    private int getSum(int i) {
-        int sum = 0;
-        i += 1;
-        while (i > 0) {   // going bottom up so index value will decrease
-            sum += BIT[i];
-            // parent = i - (i & -i)
-            // i = parent
-            i &= (i - 1);
-        }
-        return sum;
-    }
-
-    public int sumRange(int left, int right) {
-        // We will get ans in BIT method by getSum(right) - getSum(left - 1)   , just like prefixSum way
-        // for 'getSum(i)' we need to go bottom up starting from node 'i' to root and keep adding the value.
-        return getSum(right) - getSum(left - 1);
-        // for understanding 'right + 1' - 'left' because we are storing value one index ahead.
-    }
-}
-
-"""
-
-# C++ Code 
-# method 1 : Brute force (TLE)
-"""
-#include <vector>
-using namespace std;
-
-class NumArray {
-public:
-    vector<int> nums;
-    vector<int> prefixSum;
-
-    NumArray(vector<int>& nums) {
-        this->nums = nums;
-        int n = nums.size();
-        prefixSum.resize(n + 1, 0);  // using 1-based indexing for prefix sum.
-        for (int i = 1; i <= n; ++i) {
-            prefixSum[i] = this->nums[i - 1] + prefixSum[i - 1];
-        }
-    }
-
-    // for update: we have to update all prefixSum value from that index to last index by diff= val- nums[index]
-    void update(int index, int val) {
-        int diff = val - nums[index];
-        nums[index] = val;
-        for (int i = index + 1; i <= nums.size(); ++i) {
-            prefixSum[i] = diff + prefixSum[i];
-        }
-    }
-
-    int sumRange(int left, int right) {
-        return prefixSum[right + 1] - prefixSum[left];
-    }
-};
-"""
-# Method 2: segement Tree (Q is based on this only)
-"""
-#include <vector>
-using namespace std;
-
-class Node {
-public:
-    int total;   // RangeSum of given interval
-    int start;   // start interval of that node
-    int end;     // end interval of that node
-    Node* left;
-    Node* right;
-
-    Node(int startInterval, int endInterval) {
-        total = 0;
-        start = startInterval;
-        end = endInterval;
-        left = nullptr;
-        right = nullptr;
-    }
-};
-
-class NumArray {
-public:
-    vector<int> nums;
-    Node* root;
-
-    NumArray(vector<int>& nums) {
-        this->nums = nums;
-        int n = nums.size();
-        root = createSegmentTree(nums, 0, n - 1);
-    }
-
-    Node* createSegmentTree(vector<int>& nums, int l, int r) {
-        // base case. All ele will be at leaf 
-        if (l == r) {
-            // when there is single ele, we will start returning to parent and will update the parent RangeSum(total) value.
-            Node* node = new Node(l, r);
-            node->total = nums[l];
-            return node;
-        }
-        // make one node for current query
-        Node* node = new Node(l, r);   // RangeSum for now will be '0', will assign later.
-        // we need to take sum of values from its children to update the RangeSum of this current node.
-        // Go bottom up and make tree Recursively
-
-        // range from 'l' to 'mid' will go to left and 'mid+1' to 'r' will go to right.
-        // mid = (r - l + 1) //2     // wrong , this will give len(interval) //2 but we need mid between given range only
-        int mid = (l + r) / 2;
-        node->left = createSegmentTree(nums, l, mid);
-        node->right = createSegmentTree(nums, mid + 1, r);
-
-        // Now assign the value of 'RangeSum' to cur Node interval i.e 'node'
-        // will be equal to sum of 'RangeSum' of its children.
-        node->total = node->left->total + node->right->total;
-        return node;
-    }
-
-    // just first seacrh the given index.
-    void update(int index, int val) {
-        this->nums[index] = val;
-        updateValue(root, index, val);
-    }
-
-    int updateValue(Node* node, int index, int val) {
-        // 1) if index lies completely outside the node interval.
-        // In this case just return the 'RangeSum' value of that node
-        // since from here no any node of cur subtree will get impacted.
-        if (index < node->start || index > node->end) {
-            return node->total;
-        }
-        // 2) index lies in node interval 
-        // In this case all node will get updated . But we will update bottom up only after updating the value at given index.
-        // ANd we can get any element as single entity at leaf only.
-        // So we will update going bottom up recursively.
-        if (node->start == index && node->end == index) {
-            // update the value and start returning from here and keep updating the parent also recursively.
-            node->total = val;
-            return val;   // returning value to update value of parent directly
-        }
-        // 'RangeSum' for current node will be sum of updated values of its children
-        // so call the function recursively for children and keep updating
-        node->total = updateValue(node->left, index, val) + updateValue(node->right, index, val);
-        return node->total;
-    }
-
-    int sumRange(int left, int right) {
-        return RangeSum(root, left, right);
-    }
-
-    int RangeSum(Node* node, int l, int r) {
-        // 1) node interval is completely inside the given query interval
-        // whole RangeSum will contribute to the ans
-        if (node->start >= l && node->end <= r) {
-            return node->total;
-        }
-        // 2) node interval is completely outside the query interval
-        // Return the default value based on operator i. for sum : "0", multiply : "1"
-        // minEle = return maxPossible , maxEle: return minPossible
-        if (node->start > r || node->end < l) {
-            return 0;
-        }
-        // 3) if node interval and query interval is overlapping
-        // In this case we need to calculate the ans recursively from its left and right child and return the sum of that.
-
-        // mid = (l + r) //2   // no need of finding 'mid' while find 'RangeSum' like 'creatingTree'. just pass the given range only in fn calls.
-        return RangeSum(node->left, l, r) + RangeSum(node->right, l, r);
-    }
-};
-"""
-#Method 3:
-"""
-#include <vector>
-
-class Node {
-public:
-    int total;    // RangeSum of given interval
-    int start;    // start interval of that node
-    int end;      // end interval of that node
-    Node* left;
-    Node* right;
-
-    Node(int startInterval, int endInterval) {
-        total = 0;
-        start = startInterval;
-        end = endInterval;
-        left = nullptr;
-        right = nullptr;
-    }
-};
-
-class NumArray {
-public:
-    std::vector<int> nums;
-    Node* root;
-
-    NumArray(std::vector<int>& nums) {
-        this->nums = nums;
-        int n = nums.size();
-        root = createSegmentTree(nums, 0, n - 1);
-    }
-
-    Node* createSegmentTree(std::vector<int>& nums, int l, int r) {
-        if (l == r) {
-            Node* node = new Node(l, r);
-            node->total = nums[l];
-            return node;
-        }
-
-        Node* node = new Node(l, r);   // RangeSum for now will be '0', will assign later.
-
-        int mid = (l + r) / 2;
-        node->left = createSegmentTree(nums, l, mid);
-        node->right = createSegmentTree(nums, mid + 1, r);
-
-        node->total = node->left->total + node->right->total;
-        return node;
-    }
-
-    void update(int index, int val) {
-        nums[index] = val;
-        updateValue(root, index, val);
-    }
-
-    int updateValue(Node* node, int index, int val) {
-        if (index < node->start || index > node->end) {
-            return node->total;
-        }
-
-        if (node->start == index && node->end == index) {
-            node->total = val;
-            return val;   // returning value to update value of parent directly
-        }
-
-        node->total = updateValue(node->left, index, val) + updateValue(node->right, index, val);
-        return node->total;
-    }
-
-    int sumRange(int left, int right) {
-        return RangeSum(root, left, right);
-    }
-
-    int RangeSum(Node* node, int l, int r) {
-        if (node->start >= l && node->end <= r) {
-            return node->total;
-        }
-        if (node->start > r || node->end < l) {
-            return 0;
-        }
-
-        return RangeSum(node->left, l, r) + RangeSum(node->right, l, r);
-    }
-};
-"""
-#Method 4 Fenwick Tree (Binary Indexed Tree)
-"""
-#include <vector>
-using namespace std;
-
-class NumArray {
-public:
-    vector<int> nums;
-    vector<int> BIT;
-    int n;
-
-    NumArray(vector<int>& nums) {
-        this->nums = nums;
-        n = nums.size();
-        BIT.resize(n + 1, 0);
-
-        // create BIT
-        for (int i = 0; i < n; i++) {
-            createBIT(i, nums[i]);
-        }
-    }
-
-    void createBIT(int i, int val) {
-        i += 1;   // because BIT is following 1 based indexing not '0' based.
-        // Keep adding the values starting from current index 'i' in BIT 
-        // to other index by finding next until it goes out of range.
-        // Going top to bottom(given node to leaf)
-        while (i <= n) {
-            BIT[i] += val;
-            i += (i & -i);    // next index where we need to update
-        }
-    }
-
-    void update(int index, int val) {
-        // find the diff between values we will get after updating
-        // After that we will add this 'diff' to all places where it can make impact i. next
-        int diff = val - nums[index];
-        // update the value at given index
-        nums[index] = val;
-        // Call the createBIT function to update the values at other places where it can make impact
-        createBIT(index, diff);
-    }
-
-    int getSum(int i) {
-        int sum = 0;
-        i += 1;
-        while (i > 0) {   // going bottom up so index value will decrease
-            sum += BIT[i];
-            // parent = i - (i & -i)
-            // i = parent
-            i &= (i - 1);
-        }
-        return sum;
-    }
-
-    int sumRange(int left, int right) {
-        // We will get ans in BIT method by getSum(right) - getSum(left - 1)   , just like prefixSum way
-        // for 'getSum(i)' we need to go bottom up starting from node 'i' to root and keep adding the value.
-        return getSum(right) - getSum(left - 1);
-        // for understanding 'right + 1' - 'left' because we are storing value one index ahead.
-    }
-};
-
-"""

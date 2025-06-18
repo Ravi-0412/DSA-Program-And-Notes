@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Similar as as 'longest substring with k unique char' 
 # only diff is there in condition: 'window size should contain all unique char'
 # which means window size should be equal to len(hashmap).

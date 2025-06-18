@@ -85,18 +85,13 @@ class Solution:
                 outer.append(internal)    # and at alst append the internal created list to the outer list
         return outer
 
-
-# concise way of writing above code:
-# class Solution:
-#     def subsets(self, nums: List[int]) -> List[List[int]]:
-#         outer= [[]]   # our final ans will contain list of list
-#         for num in nums:
-#             outer+= [items+ [num] for items in outer]
-#         return outer
-
-
-# Related Q: 
-# 1) 90. Subsets II
+# concise way of writing method 3 in python
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        outer= [[]]   # our final ans will contain list of list
+        for num in nums:
+            outer+= [items+ [num] for items in outer]
+        return outer
 
 
 # Java Code 
@@ -264,4 +259,5 @@ public:
         return outer;
     }
 };
+
 """

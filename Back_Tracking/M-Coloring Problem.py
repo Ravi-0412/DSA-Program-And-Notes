@@ -1,3 +1,5 @@
+# Method 1: 
+
 # try to color the node one by one with every possible color
 
 # time: O(m^n): 

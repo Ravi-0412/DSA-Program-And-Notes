@@ -1,3 +1,5 @@
+# Method 1: 
+
 """
 logic: just check which substring starting from start is present in 'dict, 
 if it is present in dict then check for remaining string recursively and keep adding that to ans.

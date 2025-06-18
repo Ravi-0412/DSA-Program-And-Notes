@@ -1,3 +1,5 @@
+# Method 1: 
+
 # brute force
 # time: O(n^2)
 def SubArray_Sum(arr,k):
@@ -20,7 +22,7 @@ k = 33
 # k= 2
 # print(SubArray_Sum(arr,k))     
 
-
+# Method 2: 
 # sliding window but valid only if all number is +ve(> 0).
 # time : O(n)
 def Count_SubArray(arr,k):
@@ -43,11 +45,12 @@ arr= [1,1,1,1,2,1]
 k= 3
 print(Count_SubArray(arr,k))
 
-
+# Method 3: 
 # better one: just similar to "Two sum" method.
-# time: O(n)
 # VVI: analyse this Q and previous Q similarity and differences properly
 # Draw it on number line then you get the proper visualisation.
+# time = space = O(n)
+
 class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:
         ans,curr_sum= 0,0
@@ -63,153 +66,3 @@ class Solution:
             prefix_sum[curr_sum]= 1+ prefix_sum.get(curr_sum, 0) 
         return ans
 
-# Java Code 
-"""
-//Method 1
-import java.util.*;
-
-class Solution {
-    public int SubArray_Sum(int[] arr, int k) {
-        int ans = 0;
-        int n = arr.length;
-
-        for (int i = 0; i < n; i++) {
-            int wind_sum = 0;
-            for (int j = i; j < n; j++) {
-                wind_sum += arr[j];
-                if (wind_sum == k) {
-                    ans++;
-                }
-            }
-        }
-        return ans;
-    }
-}
-//Method 2
-class Solution {
-    public int Count_SubArray(int[] arr, int k) {
-        int i = 0, j = 0, win_sum = 0, ans = 0;
-        int n = arr.length;
-
-        while (j < n) {
-            win_sum += arr[j];
-
-            while (i <= j && win_sum > k) {
-                win_sum -= arr[i];
-                i++;
-            }
-
-            if (win_sum == k) {
-                ans++;
-            }
-
-            j++;  // Always increment 'j'
-        }
-        return ans;
-    }
-}
-//Method 3
-import java.util.*;
-
-class Solution {
-    public int subarraySum(int[] nums, int k) {
-        int ans = 0, curr_sum = 0;
-        Map<Integer, Integer> prefix_sum = new HashMap<>();
-        prefix_sum.put(0, 1);  // [sum: frequency]
-
-        for (int n : nums) {
-            curr_sum += n;
-            int diff = curr_sum - k;  // Find the difference
-
-            ans += prefix_sum.getOrDefault(diff, 0);  // If diff is present, subarray sum k is possible
-
-            prefix_sum.put(curr_sum, prefix_sum.getOrDefault(curr_sum, 0) + 1);  // Update frequency
-        }
-        return ans;
-    }
-}
-"""
-
-# C++ Code
-"""
-//Method 1
-#include <iostream>
-#include <vector>
-
-using namespace std;
-
-int SubArray_Sum(vector<int>& arr, int k) {
-    int ans = 0;
-    int n = arr.size();
-
-    for (int i = 0; i < n; i++) {
-        int wind_sum = 0;
-        for (int j = i; j < n; j++) {
-            wind_sum += arr[j];
-            if (wind_sum == k) {
-                ans++;
-            }
-        }
-    }
-    return ans;
-}
-//Method 2
-#include <iostream>
-#include <vector>
-
-using namespace std;
-
-int Count_SubArray(vector<int>& arr, int k) {
-    int i = 0, j = 0, win_sum = 0, ans = 0;
-    int n = arr.size();
-
-    while (j < n) {
-        win_sum += arr[j];
-
-        while (i <= j && win_sum > k) {
-            win_sum -= arr[i];
-            i++;
-        }
-
-        if (win_sum == k) {
-            ans++;
-        }
-
-        j++;  // Always increment 'j'
-    }
-    return ans;
-}
-//Method 3
-#include <iostream>
-#include <vector>
-#include <unordered_map>
-
-using namespace std;
-
-class Solution {
-public:
-    int subarraySum(vector<int>& nums, int k) {
-        int ans = 0, curr_sum = 0;
-        unordered_map<int, int> prefix_sum = {{0, 1}};  // [sum: frequency]
-
-        for (int n : nums) {
-            curr_sum += n;
-            int diff = curr_sum - k;  // Find the difference
-
-            ans += prefix_sum[diff];  // If diff is present, subarray sum k is possible
-
-            prefix_sum[curr_sum]++;  // Update frequency of current sum
-        }
-        return ans;
-    }
-};
-"""
-# Note: Extension of this Q and related Q
-"""
-1) 930. Binary Subarrays With Sum
-2) 1248. Count Number of Nice Subarrays
-3) Count Subarrays with Given XOR
-4) 525. Contiguous Array
-5) 974. Subarray Sums Divisible by K
-6) vvi:  "1074. Number of Submatrices That Sum to Target"
-"""

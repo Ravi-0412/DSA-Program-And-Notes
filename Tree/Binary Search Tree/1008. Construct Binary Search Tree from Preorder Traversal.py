@@ -22,11 +22,65 @@ class Solution:
 
         return root
 
-# method 2: simply sort and then apply the "convert the given sorted array into Balanced BST".
+# method 2: 
+# simply sort and then apply the "convert the given sorted array into Balanced BST".
 # time: O(n*logn) for both methods.
 
-# method 3: Take each ele in preorder and apply the normal method to form BST i.e insert node in BST one by one.
+class Solution:
+    def bstFromPreorder(self, preorder: List[int]) -> Optional[TreeNode]:
+        if not preorder:
+            return None
+
+        # Step 1: Sort the preorder traversal to get inorder traversal
+        inorder = sorted(preorder)
+
+        # Step 2: Build a map for quick lookup of indices in inorder
+        index_map = {val: i for i, val in enumerate(inorder)}
+
+        # Step 3: Recursive function to build tree from inorder using preorder
+        def build_tree(pre_start, pre_end, in_start, in_end):
+            if pre_start > pre_end or in_start > in_end:
+                return None
+
+            root_val = preorder[pre_start]
+            root = TreeNode(root_val)
+
+            # Find the root index in the inorder array
+            in_root_index = index_map[root_val]
+            left_tree_size = in_root_index - in_start
+
+            # Recursively build left and right subtrees
+            root.left = build_tree(pre_start + 1, pre_start + left_tree_size, in_start, in_root_index - 1)
+            root.right = build_tree(pre_start + left_tree_size + 1, pre_end, in_root_index + 1, in_end)
+
+            return root
+
+        return build_tree(0, len(preorder) - 1, 0, len(inorder) - 1)
+
+
+# method 3: 
+# Take each ele in preorder and apply the normal method to form BST i.e insert node in BST one by one.
 # time: O(n*logn).
+
+class Solution:
+    def bstFromPreorder(self, preorder: List[int]) -> Optional[TreeNode]:
+        if not preorder:
+            return None
+
+        def insert(root, val):
+            if not root:
+                return TreeNode(val)
+            if val < root.val:
+                root.left = insert(root.left, val)
+            else:
+                root.right = insert(root.right, val)
+            return root
+
+        root = TreeNode(preorder[0])
+        for val in preorder[1:]:
+            insert(root, val)
+
+        return root
 
 # Method 4:
 
@@ -74,38 +128,9 @@ class Solution:
                 stack.append(last.right)
         return root
 
-# Java
-"""
-class Solution {
-    public TreeNode bstFromPreorder(int[] preorder) {
-        if (preorder == null || preorder.length == 0) return null;
 
-        TreeNode root = new TreeNode(preorder[0]);
-        Stack<TreeNode> stack = new Stack<>();
-        stack.push(root);
-
-        for (int i = 1; i < preorder.length; i++) {
-            TreeNode node = new TreeNode(preorder[i]);
-            if (preorder[i] < stack.peek().val) {
-                stack.peek().left = node;
-                stack.push(node);
-            } else {
-                TreeNode last = null;
-                while (!stack.isEmpty() && stack.peek().val < preorder[i]) {
-                    last = stack.pop();
-                }
-                last.right = node;
-                stack.push(node);
-            }
-        }
-
-        return root;
-    }
-}
-"""
-
-
-# Method 5: Optimising space to O(1)
+# Method 5: 
+# Optimising space to O(1)
 # Time: O(n), space = O(1) 
 
 class Solution:
@@ -124,46 +149,3 @@ class Solution:
         root.right = self.build(preorder, bound)
         return root
 
-# Java
-"""
-class Solution {
-    private int i = 0;
-
-    public TreeNode bstFromPreorder(int[] preorder) {
-        return build(preorder, Integer.MAX_VALUE);
-    }
-
-    private TreeNode build(int[] preorder, int bound) {
-        if (i == preorder.length || preorder[i] > bound) {
-            return null;
-        }
-        TreeNode root = new TreeNode(preorder[i++]);
-        root.left = build(preorder, root.val);
-        root.right = build(preorder, bound);
-        return root;
-    }
-}
-"""
-#C++ Code 
-"""
-class Solution {
-private:
-    int i = 0;
-
-public:
-    TreeNode* bstFromPreorder(vector<int>& preorder) {
-        return build(preorder, INT_MAX);
-    }
-
-    TreeNode* build(vector<int>& preorder, int bound) {
-        if (i == preorder.size() || preorder[i] > bound) {
-            return nullptr;
-        }
-        TreeNode* root = new TreeNode(preorder[i++]);
-        root->left = build(preorder, root->val);
-        root->right = build(preorder, bound);
-        return root;
-    }
-};
-
-"""

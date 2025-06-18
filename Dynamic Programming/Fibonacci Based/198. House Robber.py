@@ -1,4 +1,5 @@
-# method1: 
+# method1 : 
+
 # Recursive way
 # just same logic as 'frog jump' only difference in base case
 # just reverse th Q, you are starting robing from house no 'n'
@@ -40,6 +41,7 @@ class Solution {
     }
 }
 """
+
 
 # C++
 """

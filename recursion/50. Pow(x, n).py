@@ -1,4 +1,5 @@
-# method 1: but giving recursion depth exceeded.
+# method 1: 
+# Will give recursion depth exceeded.
 class Solution:
     def myPow(self, x: float, n: int) -> float:
         if n < 0: 
@@ -11,6 +12,7 @@ class Solution:
             return x* self.myPow(x,n//2) *self.myPow(x,n//2)
         return self.myPow(x,n//2) * self.myPow(x,n//2)
 
+# Method 2: 
 # we have to minimise the repeatitive recursion call in above method or we can use DP.
 # time: O(logn)
 class Solution:
@@ -28,8 +30,7 @@ class Solution:
         return smallAns
 
 
-# 2nd method- time: O(logn)
-
+# method 3
 # Using Bit
 
 # Basic Idea is to divide the work using binary representation of exponents
@@ -41,9 +42,11 @@ class Solution:
 # i.e value changes when bit is '1' only.
 # Here we will also update the ans in same way only. It is same that we are adding the power when there is '1'.
 
+# time: O(logn)
+
 class Solution:
     def myPow(self, x: float, n: int) -> float:
-        if n<0:
+        if n < 0:
             x= 1/x
             n= -n
         ans = 1.0
@@ -74,6 +77,7 @@ class Solution {
         return myPow(x, n / 2) * myPow(x, n / 2);
     }
 }
+
 //Method 2
 class Solution {
     public double myPow(double x, int n) {
@@ -94,6 +98,7 @@ class Solution {
         return smallAns;  // If even
     }
 }
+
 //Method 3
 class Solution {
     public double myPow(double x, int n) {
@@ -140,6 +145,7 @@ public:
         return myPow(x, n / 2) * myPow(x, n / 2);
     }
 };
+
 //Method 2
 #include <iostream>
 
@@ -165,6 +171,7 @@ public:
         return smallAns;  // If even
     }
 };
+
 //Method 3
 #include <iostream>
 

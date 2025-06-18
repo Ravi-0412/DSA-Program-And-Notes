@@ -1,3 +1,5 @@
+# Method 1: 
+
 # here we are checking with pre number and in 'subset' we were chekcing with next number till we find any distinct number.
 
 # Here first time simply add because that will be a valid a permutation only but for next time after removing that ele.
@@ -8,7 +10,6 @@
 
 # So before adding any number we are checking if pre number was same, if was same then don't add that number.
 
-# Method 1: 
 class Solution:
     def permuteUnique(self, nums: List[int]) -> List[List[int]]:
         nums.sort()

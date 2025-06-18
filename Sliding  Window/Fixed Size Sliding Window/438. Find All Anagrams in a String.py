@@ -1,4 +1,5 @@
-# submitted on leetcode
+# Method 1:
+
 # anargam: is same like permutation only . meaning: har char hmko proper quantitity me chahiye that's it and same what permutation means
 # how sliding window: har window size of len(p), chance h ki hmko ans mile
 
@@ -13,6 +14,10 @@
 
 # count: btayega ki tmhare pass kitne letter bache h jo or chahiye 'anagram' ke liye in proper no of occurence. count will tell the number of unique char that you need 
 # count will be zero only when occurence of all ele in hashmap or say 'p' has become zero i.e means we have found all char in 'p' with no of times they are 'p' in string 's'
+
+# Note: ye fixed sliding window isliye h ki hmko har char proper quantity me chahiye together i.e hmko char window size= len(p)
+# me ans check karna hoga.
+
 class Solution:
     def findAnagrams(self, s: str, p: str) -> List[int]:
         i,j,hashmap= 0,0,{}
@@ -39,8 +44,7 @@ class Solution:
 		
 
 
-# Note: ye fixed sliding window isliye h ki hmko har char proper quantity me chahiye together i.e hmko char window size= len(p)
-# me ans check karna hoga.
+
 
 # Java Code
 """

@@ -1,4 +1,4 @@
-
+# Q: Given an array of integers, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
 
 # Time: O(n)
 # space: O(1)
@@ -20,7 +20,7 @@ def printSubarraySum(arr):
             ansEnd= i
             maxSum= curSum
     
-    print("maximum SubArray sum: ", arr[ansStart: ansEnd+ 1])
+    print("SubArray with maximum sum ", arr[ansStart: ansEnd+ 1], "with sum: ", maxSum)
             
 arr = [-2, -3, 4, -1, -2, 1, 5, -3]
 # arr = [-2, -5, 6, -2, -3, 1, 5, -6] 

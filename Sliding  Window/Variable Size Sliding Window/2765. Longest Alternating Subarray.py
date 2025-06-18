@@ -1,3 +1,5 @@
+# Mddtho 1: 
+
 # Logic: Checking each subarray.
 
 # Time: O(n^2)
@@ -20,8 +22,8 @@ class Solution:
                     ans = max(ans , j - i + 1)
         return ans if ans != 0 else -1
     
-
-# Shortcut of writing above
+# Method 2: 
+# Shortcut of writing Method 1
 # How?
 # Any alternating subarray must be of the form '2,3,2,3,2,3,........).
 # So if we start our subarray from index 'i' then to form the alternating subarray 
@@ -43,9 +45,14 @@ class Solution:
         return ans if ans != 0 else -1
 
 
+# Extesnion: 
+
 # Note vvi: In interview they will give higher constraint like n >= 10^5 or even >= 10^6.
 # Then above logic will not work.
 # so we have to optimise it.
+
+# Note: Why we are not updating 'i' to 'i+1'?
+# Ans: Because we only need to start from new sequence.
 
 # Time: O(n)
 
@@ -70,5 +77,4 @@ class Solution:
             j += 1
         return ans
     
-# Note: Why we are not updating 'i' to 'i+1'?
-# Ans: Because we only need to start from new sequence.
+

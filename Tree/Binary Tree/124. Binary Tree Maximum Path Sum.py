@@ -1,3 +1,5 @@
+# method 1: 
+
 """
 logic: Bottom up (can say DP only)
 Logic: For each node check that is root of the ans.
@@ -33,39 +35,3 @@ class Solution:
         self.ans= float('-inf')
         dfs(root)
         return self.ans
-
-# Java
-"""
-// Not able to writ ein exact same format
-
-// other way of writing above code
-public class Solution {
-    int maxSum = Integer.MIN_VALUE;
-
-    public int maxPathSum(TreeNode root) {
-        if (root == null)
-            return 0;
-
-        dfs(root);
-        return maxSum;
-    }
-
-    private int dfs(TreeNode root) {
-        if (root == null)
-            return 0;
-
-        int leftSum = Math.max(0, dfs(root.left)); // Max sum in the left subtree
-        int rightSum = Math.max(0, dfs(root.right)); // Max sum in the right subtree
-
-        // Calculate the maximum path sum passing through the current node
-        int currentSum = leftSum + rightSum + root.val;
-
-        // Update the maximum path sum found so far
-        maxSum = Math.max(maxSum, currentSum);
-
-        // Return the maximum sum of the path from the current node to its parent
-        return Math.max(leftSum, rightSum) + root.val;
-    }
-}
-
-"""

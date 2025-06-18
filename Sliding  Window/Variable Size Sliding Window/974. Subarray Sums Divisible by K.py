@@ -1,7 +1,13 @@
+# Method 1: 
+
 # just exactly same as "523. Continuous Subarray Sum".
 # in that Q we have to keep track of length also in case we see any duplicates, so we were storing {modulus: index}
 
 # Here we have to find no of subarray, so we are storing {modulus: count}.
+
+# Note: python '%' operator behave very differently if numerator is negative.
+# But still it will work because ans will depend on dulicates so it won't create any problem.
+
 class Solution:
     def subarraysDivByK(self, nums: List[int], k: int) -> int:
         ans= 0
@@ -18,9 +24,6 @@ class Solution:
                 modulusCount[curSum] = 1
         return ans
     
-
-# Note: python '%' operator behave very differently if numerator is negative.
-# But still it will work because ans will depend on dulicates so it won't create any problem.
 
 # Java Code 
 """

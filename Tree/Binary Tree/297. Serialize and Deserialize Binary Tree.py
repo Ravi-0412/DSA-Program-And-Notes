@@ -1,3 +1,5 @@
+# method 1: 
+
 """
 was easy only but i was not getting how to do it.
 for Serialise: just store the preorder with 'none' value also.

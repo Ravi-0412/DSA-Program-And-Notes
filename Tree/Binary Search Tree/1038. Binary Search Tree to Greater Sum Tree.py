@@ -1,4 +1,5 @@
-# method 1: Brute force
+# method 1: 
+# Brute force
 class Solution:
     def bstToGst(self, root: TreeNode) -> TreeNode:
         inorder = [0]*101  # if 'num' is present in bst then inorder[num] = num
@@ -25,9 +26,6 @@ class Solution:
         # now update the value of all nodes
         update(root)
         return root
-        
-
-    
 
 # method 2:
 
@@ -48,27 +46,8 @@ class Solution:
             self.bstToGst(root.left)
         return root
 
-# Java
-"""
-class Solution {
-    private int value = 0;
-
-    public TreeNode bstToGst(TreeNode root) {
-        if (root.right != null) {
-            bstToGst(root.right);
-        }
-        value += root.val;
-        root.val = value;
-
-        if (root.left != null) {
-            bstToGst(root.left);
-        }
-        return root;
-    }
-}
-"""
-
-# Other way to write above code
+# Method 3: 
+# Other way to write method 2
 class Solution:
     def bstToGst(self, root: TreeNode) -> TreeNode:
         def dfs(node, rightSum):
@@ -79,42 +58,6 @@ class Solution:
         dfs(root, 0)
         return root
 
-#Java Code
-"""
-class Solution {
-    public TreeNode bstToGst(TreeNode root) {
-        bstToGstHelper(root, 0);
-        return root;
-    }
 
-    // Returns right subtree sum after updating node
-    private int bstToGstHelper(TreeNode node, int rightSum) {
-        if (node == null) return rightSum;
-        rightSum = bstToGstHelper(node.right, rightSum);
-        node.val += rightSum;
-        return bstToGstHelper(node.left, node.val);
-    }
-}
-"""
-#C++ Code 
-"""
-class Solution {
-public:
-    TreeNode* bstToGst(TreeNode* root) {
-        bstToGstHelper(root, 0);
-        return root;
-    }
-
-private:
-    // Returns right subtree sum after updating node
-    int bstToGstHelper(TreeNode* node, int rightSum) {
-        if (node == nullptr) return rightSum;
-        rightSum = bstToGstHelper(node->right, rightSum);
-        node->val += rightSum;
-        return bstToGstHelper(node->left, node->val);
-    }
-};
-
-"""
 # same question
 # 1) 538. Convert BST to Greater Tree

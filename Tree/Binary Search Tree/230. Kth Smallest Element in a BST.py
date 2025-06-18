@@ -1,51 +1,78 @@
-"""
-method 1: do any traversal and then sort the ans and then return the kth ele from start
-time: O(n*logn), space: O(n)
+# method 1:
 
-method 2: just find the inorder traversal of the tree and return the kth element from the start
+"""
+Do any traversal and then sort the ans and then return the kth ele from start
+time: O(n*logn), space: O(n)
+"""
+
+class Solution:
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        def inorder(node):
+            if not node:
+                return []
+            return inorder(node.left) + [node.val] + inorder(node.right)
+        
+        all_vals = inorder(root)
+        all_vals.sort()
+        return all_vals[k - 1]
+
+# method 2: 
+"""
+just find the inorder traversal of the tree and return the kth element from the start
 inorder always give the ans in sorted form for BST
 time: O(n), space: O(n) for ans + recursion depth
+"""
+class Solution:
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        result = []
 
-method 3: rather than storing the ans in any array just keep a count for method 2
+        def inorder(node):
+            if not node:
+                return
+            inorder(node.left)
+            result.append(node.val)
+            inorder(node.right)
+
+        inorder(root)
+        return result[k - 1]
+
+# Method 3
+"""
+Rather than storing the ans in any array just keep a count for method 2
 and increment the count when you add any ele to the ans 
 and when count reaches 'k' just print the value of that node
-time: O(n), space: O(n) recursion depth
+time: O(n), space: O(n) recursion depth.
 
-Note: to avoid the space complexity in method 3
-use the morris inorder traversal
+Note: to avoid the space complexity we can use the morris inorder traversal.
+"""
 
+class Solution:
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        self.count = 0
+        self.result = None
 
-Note: All above method is taking O(n) space
+        def inorder(node):
+            if not node or self.result is not None:
+                return
+            inorder(node.left)
+            self.count += 1
+            if self.count == k:
+                self.result = node.val
+                return
+            inorder(node.right)
 
-Method 4: 
+        inorder(root)
+        return self.result
 
+# Method 4: 
+"""
 Optimsing to O(1) space
-
 Logic: Smallest node will be the leftmost node.
 so once you find '.left' of any node = None then that will be the smallest node as of now.
 And to get the next smaller node , move to its right.
 
 If it's right is also None then it will do backtrack function call to previous node and calculate in same way.
 """
-
-class Solution:
-    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
-
-        def findKthSmallest(root):
-            if root.left:
-                findKthSmallest(root.left)
-            self.count -= 1
-            if self.count == 0:
-                self.ans = root.val
-                return
-            # next smaller we will get from right side of root
-            if root.right:
-                findKthSmallest(root.right)
-
-        self.ans = -1
-        self.count = k
-        findKthSmallest(root)
-        return self.ans
 
 # My mistake
 # Note: if we do taking 'k' in function call only then we will get wrong ans
@@ -69,6 +96,30 @@ class Solution:
         self.ans = -1
         findKthSmallest(root, k)
         return self.ans
+    
+# Correct solution
+
+class Solution:
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+
+        def findKthSmallest(root):
+            if root.left:
+                findKthSmallest(root.left)
+            self.count -= 1
+            if self.count == 0:
+                self.ans = root.val
+                return
+            # next smaller we will get from right side of root
+            if root.right:
+                findKthSmallest(root.right)
+
+        self.ans = -1
+        self.count = k
+        findKthSmallest(root)
+        return self.ans
+
+
+# Method 5: 
         
 # Solution by taking 'k' as parameter and without ans as global variable
 """
@@ -78,6 +129,13 @@ In each recursive call, k needs to be updated and passed to the next call
 we won't know which node is the k-th smallest as the recursion unwinds.
 Return Early (root.val): The value of the k-th smallest element can only be found at one point, 
 and we need to pass that result up through the recursion without continuing the traversal once it's found.
+
+
+Note : Q) Why Method 5 is working and Method 4(My mistake) is not.
+i) left, k = findKthSmallest(root.left, k)   => Replacing k with the updated value returned by the recursive call.
+ii) ❌ First version: k is passed by value and modified locally — changes aren't reflected across recursive calls, so the count is lost.
+
+✅ Second version: Returns the updated k along with the result — each call gets the new k, maintaining correct state across recursion.
 """
 class Solution:
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
@@ -102,81 +160,3 @@ class Solution:
         result, _ = findKthSmallest(root, k)
         return result
 
-"""
-Note : Q) Why 2nd is working and 1st one is not.
-i) left, k = findKthSmallest(root.left, k)   => Replacing k with the updated value returned by the recursive call.
-ii) ❌ First version: k is passed by value and modified locally — changes aren't reflected across recursive calls, so the count is lost.
-
-✅ Second version: Returns the updated k along with the result — each call gets the new k, maintaining correct state across recursion.
-"""
-
-# Related Q:
-# 1) Kth largest element in BST
-# Here first call for right then for left.
-
-
-# Java
-"""
-// method 4:
-
-class Solution {
-    private int ans = -1;
-    private int count;
-
-    public int kthSmallest(TreeNode root, int k) {
-        this.count = k;
-        findKthSmallest(root);
-        return ans;
-    }
-
-    private void findKthSmallest(TreeNode root) {
-        if (root.left != null) {
-            findKthSmallest(root.left);
-        }
-
-        count--;
-        if (count == 0) {
-            ans = root.val;
-            return;
-        }
-
-        if (root.right != null) {
-            findKthSmallest(root.right);
-        }
-    }
-}
-
-"""
-
-# C++ Code
-"""
-class Solution {
-private:
-    int ans = -1;
-    int count;
-
-public:
-    int kthSmallest(TreeNode* root, int k) {
-        count = k;
-        findKthSmallest(root);
-        return ans;
-    }
-
-    void findKthSmallest(TreeNode* root) {
-        if (root->left != nullptr) {
-            findKthSmallest(root->left);
-        }
-
-        count--;
-        if (count == 0) {
-            ans = root->val;
-            return;
-        }
-
-        if (root->right != nullptr) {
-            findKthSmallest(root->right);
-        }
-    }
-};
-
-"""

@@ -1,3 +1,5 @@
+# Basic: 
+
 """
 logic: Every bipartite graph should be coloured with exactly two colors.
 use the concept of graph coloring and try to color with two color.
@@ -18,7 +20,8 @@ Note: It can done also by 'm-coloring' problem using backtracking.
 Just replace 'm' -> 2.
 """
 
-# method 1: using BFS
+# method 1: 
+# using BFS
 
 class Solution:
     def isBipartite(self, graph: List[List[int]]) -> bool:
@@ -95,7 +98,6 @@ class Solution {
     }
 }
 
-
 """
 
 # C++ Code 
@@ -147,29 +149,10 @@ public:
 };
 
 """
-# method 2: By using DFS
-class Solution:
-    def isBipartite(self, graph: List[List[int]]) -> bool:
-        n= len(graph)
-        color= [-1]*n
-        for v in range(n):
-            if color[v]== -1:
-                color[v]= 1
-                if  self.DfsCheck(graph,v,color)== False:
-                    return False
-        return True
-
-    def DfsCheck(self, graph, src, color):
-        for u in graph[src]:
-            if color[u] == -1:  # means not visited
-                color[u] = 1^color[src]
-                if self.DfsCheck(graph,u,color) == False:
-                    return False
-            elif color[u]== color[src]:
-                return False
-        # return True # no need of this 
 
 
+# method 2:
+# By using DFS
 
 # my mistakes
 class Solution:
@@ -199,6 +182,30 @@ class Solution:
             elif color[u]== color[src]:
                 return False
         # return True   # no need of this
+
+# Correct solution
+    
+class Solution:
+    def isBipartite(self, graph: List[List[int]]) -> bool:
+        n= len(graph)
+        color= [-1]*n
+        for v in range(n):
+            if color[v]== -1:
+                color[v]= 1
+                if  self.DfsCheck(graph,v,color)== False:
+                    return False
+        return True
+
+    def DfsCheck(self, graph, src, color):
+        for u in graph[src]:
+            if color[u] == -1:  # means not visited
+                color[u] = 1^color[src]
+                if self.DfsCheck(graph,u,color) == False:
+                    return False
+            elif color[u]== color[src]:
+                return False
+        return True
+
 
 
 # Java

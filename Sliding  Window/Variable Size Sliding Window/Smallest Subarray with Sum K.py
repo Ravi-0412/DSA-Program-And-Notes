@@ -1,4 +1,4 @@
-
+# Method 1: 
 # just same logic as "Longest Subarray having sum= k" but here we will update every time to minimise the length.
 def lenOfSmallestSubarr(A, N, K) : 
     prefix_sum= {0:-1}    # will store the extra sum(may be negative or positive).

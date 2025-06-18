@@ -2,10 +2,24 @@
 # Check for max in every window
 # Time : O(n - k + 1)*k
 
-# Method 3:
-# using 'SortedList' in python.
-from sortedcontainers import SortedList
+from typing import List
 
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        n = len(nums)
+        res = []
+
+        for i in range(n - k + 1):
+            window_max = max(nums[i:i+k])
+            res.append(window_max)
+
+        return res
+
+
+# Method 2:
+# using 'SortedList' in python and similar thing in java & C++.
+
+from sortedcontainers import SortedList
 class Solution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
         n = len(nums)
@@ -21,7 +35,6 @@ class Solution:
         return ans 
 
 # Method 3: 
-# Optimisation. Accepted 
 # Easier one
 # Use heap for finding the max ele in each window.
 
@@ -51,7 +64,6 @@ class Solution:
             ans.append(-maxHeap[0][0])
         return ans
 
-# Understand 'method 3' and 'method 4' later.
 
 # Method 4:
 # say NUMS : 1, 3, -1, -3, 5, 3, 6, 7
@@ -157,191 +169,3 @@ class Solution:
         return ans
 
 
-# Java
-"""
-// Method 3: 
-
-public class Solution {
-    public int[] maxSlidingWindow(int[] nums, int k) {
-        int n = nums.length;
-        int[] ans = new int[n - k + 1];
-        PriorityQueue<int[]> maxHeap = new PriorityQueue<>((a, b) -> b[0] - a[0]);
-
-        // Insert first 'k' elements in 'maxHeap' to get the answer for the 1st window.
-        // We need to remove elements that are out of the window, so we insert indices as well.
-        for (int i = 0; i < k; i++) {
-            maxHeap.offer(new int[]{nums[i], i});
-        }
-        ans[0] = maxHeap.peek()[0];  // for 1st window
-
-        // Now find the answer for remaining windows
-        for (int i = k; i < n; i++) {
-            // First, add the current element into the heap, because this can also be the answer for the current window.
-            maxHeap.offer(new int[]{nums[i], i});
-
-            // Then remove elements from the heap which are not part of the current window if they are on top of the heap.
-            // Elements out of the current window can be in the heap even after removal from the top,
-            // but if not on top, then they won't affect our answer.
-            // Due to this, for each element, time complexity will be 'log n' not 'log k' as there can be more than 'k' elements in the heap.
-            while (!maxHeap.isEmpty() && maxHeap.peek()[1] <= i - k) {
-                maxHeap.poll();
-            }
-
-            // Now the top of the heap will be the answer for the current window.
-            ans[i - k + 1] = maxHeap.peek()[0];
-        }
-        return ans;
-    }
-}
-
-
-// Method 5:
-
-public class Solution {
-    public int[] maxSlidingWindow(int[] nums, int k) {
-        Deque<Integer> deque = new ArrayDeque<>(); // will store indices of elements in monotonically decreasing order
-        int n = nums.length;
-        int[] ans = new int[n - k + 1];
-        int index = 0;
-
-        for (int j = 0; j < n; j++) {
-            // Remove elements from the deque that are smaller than the current element
-            while (!deque.isEmpty() && nums[j] > nums[deque.peekLast()]) {
-                deque.pollLast();
-            }
-
-            // Add the current element at the end of the deque
-            deque.offerLast(j);
-
-            // If the window has hit size k, update the results
-            if (j + 1 >= k) {
-                // The element at the front of the deque is the largest
-                ans[index++] = nums[deque.peekFirst()];
-                
-                // Remove the elements which are out of this window
-                if (deque.peekFirst() == j - k + 1) {
-                    deque.pollFirst();
-                }
-            }
-        }
-        return ans;
-    }
-}
-
-"""
-
-# C++ Code 
-"""
-//Method 3
-#include <iostream>
-#include <vector>
-#include <queue>
-
-using namespace std;
-
-class Solution {
-public:
-    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-        int n = nums.size();
-        vector<int> ans;
-        priority_queue<pair<int, int>> maxHeap;  
-
-        // Insert first 'k' elements in 'maxHeap' to get the answer for the first window.
-        for (int i = 0; i < k; i++) {
-            maxHeap.push({nums[i], i});  
-        }
-        ans.push_back(maxHeap.top().first);  // Answer for the first window
-
-        // Now find the answer for remaining windows
-        for (int i = k; i < n; i++) {
-            maxHeap.push({nums[i], i});  // Add the new element
-            
-            // Remove elements from heap that are out of the current window
-            while (!maxHeap.empty() && maxHeap.top().second <= i - k) {
-                maxHeap.pop();
-            }
-            
-            ans.push_back(maxHeap.top().first);  // Max element for current window
-        }
-        return ans;
-    }
-};
-//Method 4
-#include <iostream>
-#include <vector>
-
-using namespace std;
-
-class Solution {
-public:
-    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-        int n = nums.size();
-        vector<int> left(n, INT_MIN);  // Track max elements seen from left to right
-        vector<int> right(n, INT_MIN); // Track max elements seen from right to left
-        vector<int> ans;
-
-        // Computing left max values
-        for (int i = 0; i < n; i++) {
-            if (i % k == 0) {
-                left[i] = nums[i];  // Start of a new block
-            } else {
-                left[i] = max(left[i - 1], nums[i]);
-            }
-        }
-
-        // Computing right max values
-        right[n - 1] = nums[n - 1];
-        for (int i = n - 2; i >= 0; i--) {
-            if (i % k == k - 1) {
-                right[i] = nums[i];  // End of a new block
-            } else {
-                right[i] = max(right[i + 1], nums[i]);
-            }
-        }
-
-        // Compute the maximum value for each sliding window
-        for (int i = 0; i <= n - k; i++) {
-            ans.push_back(max(left[i + k - 1], right[i]));
-        }
-
-        return ans;
-    }
-};
-
-//Method 5
-#include <iostream>
-#include <vector>
-#include <deque>
-
-using namespace std;
-
-class Solution {
-public:
-    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-        deque<int> deq;  // Store indices in decreasing order
-        vector<int> ans;
-        int n = nums.size();
-
-        for (int i = 0; i < n; i++) {
-            // Remove elements that are out of the current window
-            if (!deq.empty() && deq.front() <= i - k) {
-                deq.pop_front();
-            }
-
-            // Maintain decreasing order in deque
-            while (!deq.empty() && nums[deq.back()] <= nums[i]) {
-                deq.pop_back();
-            }
-
-            deq.push_back(i);  // Add current element index
-
-            // Push max element from current window to result
-            if (i >= k - 1) {
-                ans.push_back(nums[deq.front()]);
-            }
-        }
-
-        return ans;
-    }
-};
-"""

@@ -1,3 +1,5 @@
+# Method 1: 
+
 # similar logic to "find anargam"
 
 # Logic: First find a valid window in which all char of 't' is present in s.

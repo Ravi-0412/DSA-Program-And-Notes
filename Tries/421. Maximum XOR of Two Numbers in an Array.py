@@ -1,5 +1,7 @@
+# Method 1:
+
 # just same as 'Q. maxXor'. Treat the given arr 'nums' as both arr1 and arr2. 
-# But giving Tle for last inputs.
+# Will give TLE for last inputs.
 # Time Complexity: O(N*32) + O(M*32)= space
 class TrieNode:
     def __init__(self):
@@ -42,7 +44,8 @@ class Solution:
         return ans
 
 
-# This same logic just we took two element to represent '0' and '1' at each node.
+# Method 2: 
+# In this logic just we took two element to represent '0' and '1' at each node.
 # do it this way only if you get tle in other questions as well involving bit + trie.
 class TrieNode:
     def __init__(self):
@@ -84,136 +87,9 @@ class Solution:
         return max_ans
 
 
-# java
-"""
-class TrieNode {
-    TrieNode[] children;  // will contains two num max i.e bit '0' and bit '1'.
 
-    public TrieNode() {
-        children = new TrieNode[2];
-    }
-}
-
-class Trie {
-    TrieNode root;
-
-    public Trie() {
-        root = new TrieNode();
-    }
-
-    // will insert in binary from leftmost side and each num is stored in '32' bit binary.
-    public void insert(int num) {
-        TrieNode cur = root;
-        for (int i = 31; i >= 0; i--) {
-            int bit = (num >> i) & 1;   // getting the bit at 'i'th position.
-            if (cur.children[bit] == null) {
-                cur.children[bit] = new TrieNode();
-            }
-            cur = cur.children[bit];
-        }
-    }
-
-    // will give the maximum xor of this number with all the number inserted in the Trie.
-    public int getMaxXor(int num) {
-        TrieNode cur = root;
-        int max_xor = 0;
-        for (int i = 31; i >= 0; i--) {
-            int bit = (num >> i) & 1;
-            // for maximum xor, we need the opposite of this 'bit'.
-            if (cur.children[1 - bit] != null) {
-                max_xor |= (1 << i);
-                cur = cur.children[1 - bit];
-            } else {
-                cur = cur.children[bit];
-            }
-        }
-        return max_xor;
-    }
-}
-
-class Solution {
-    public int findMaximumXOR(int[] nums) {
-        Trie trie = new Trie();
-        int ans = 0;
-        for (int num : nums) {
-            trie.insert(num);
-            ans = Math.max(ans, trie.getMaxXor(num));
-        }
-        return ans;
-    }
-}
-
-"""
-
-# C++ Code 
-"""
-#include <vector>
-using namespace std;
-
-class TrieNode {
-public:
-    TrieNode* children[2];  // will contains two num max i.e bit '0' and bit '1'.
-
-    TrieNode() {
-        children[0] = nullptr;
-        children[1] = nullptr;
-    }
-};
-
-class Trie {
-public:
-    TrieNode* root;
-
-    Trie() {
-        root = new TrieNode();
-    }
-
-    // will insert in binary from leftmost side and each num is stored in '32' bit binary.
-    void insert(int num) {
-        TrieNode* cur = root;
-        for (int i = 31; i >= 0; i--) {
-            int bit = (num >> i) & 1;   // getting the bit at 'i'th position.
-            if (!cur->children[bit]) {
-                cur->children[bit] = new TrieNode();
-            }
-            cur = cur->children[bit];
-        }
-    }
-
-    // will give the maximum xor of this number with all the number inserted in the Trie.
-    int getMaxXor(int num) {
-        TrieNode* cur = root;
-        int max_xor = 0;
-        for (int i = 31; i >= 0; i--) {
-            int bit = (num >> i) & 1;
-            // for maximum xor, we need the opposite of this 'bit'.
-            if (cur->children[1 - bit]) {
-                max_xor |= (1 << i);
-                cur = cur->children[1 - bit];
-            } else {
-                cur = cur->children[bit];
-            }
-        }
-        return max_xor;
-    }
-};
-
-class Solution {
-public:
-    int findMaximumXOR(vector<int>& nums) {
-        Trie trie;
-        int ans = 0;
-        for (int num : nums) {
-            trie.insert(num);
-            ans = max(ans, trie.getMaxXor(num));
-        }
-        return ans;
-    }
-};
-"""
-
-
-# method 2: using bit
+# method 3: 
+# using bit
 
 # for finding the max value, if we can get bit set(bit= 1) at rightmost sides then that will be our ans.
 # so we are taking the help of masking to extract those number by 100....00, 1100...00, 11100..000  etc for leftmost bit.
@@ -246,68 +122,3 @@ class Solution:
                     break
         return ans
 
-# Java Code 
-"""
-import java.util.HashSet;
-import java.util.Set;
-
-class Solution {
-    public int findMaximumXOR(int[] nums) {
-        int ans = 0, mask = 0;
-        for (int i = 31; i >= 0; i--) {
-            mask = mask | (1 << i);  // '1' is the max we can get at any position. mask will contain all '1'.
-            Set<Integer> found = new HashSet<>();
-            for (int num : nums) {
-                found.add(mask & num);
-            }
-            int target = ans | (1 << i);  // maximum we can get '1' at the 'i'th position. so we are fixing the target to get '1' at that 'i'th position.
-
-            // now do xor of num in 'found' with target and check if 'target ^ num' is in found.
-            // if it is in found then we can get our desired target by taking xor of two number.
-            // so update the ans and break
-            for (int prefix : found) {
-                if (found.contains(target ^ prefix)) {
-                    ans = target;
-                    break;
-                }
-            }
-        }
-        return ans;
-    }
-}
-
-"""
-
-# C++ Code 
-"""
-#include <vector>
-#include <unordered_set>
-using namespace std;
-
-class Solution {
-public:
-    int findMaximumXOR(vector<int>& nums) {
-        int ans = 0, mask = 0;
-        for (int i = 31; i >= 0; i--) {
-            mask = mask | (1 << i);  // '1' is the max we can get at any position. mask will contain all '1'.
-            unordered_set<int> found;
-            for (int num : nums) {
-                found.insert(mask & num);
-            }
-            int target = ans | (1 << i);  // maximum we can get '1' at the 'i'th position. so we are fixing the target to get '1' at that 'i'th position.
-
-            // now do xor of num in 'found' with target and check if 'target ^ num' is in found.
-            // if it is in found then we can get our desired target by taking xor of two number.
-            // so update the ans and break
-            for (int prefix : found) {
-                if (found.count(target ^ prefix)) {
-                    ans = target;
-                    break;
-                }
-            }
-        }
-        return ans;
-    }
-};
-
-"""

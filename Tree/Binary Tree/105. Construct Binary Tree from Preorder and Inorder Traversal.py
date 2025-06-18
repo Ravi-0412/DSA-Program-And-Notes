@@ -60,9 +60,6 @@ class Solution:
         return root
     
 
-# Related Q:
-# 1) 106. Construct Binary Tree from Inorder and Postorder Traversal
-
 
 # Java
 """
@@ -202,8 +199,8 @@ private:
 };
 """
 
-
-# Follow up question that came into my mind while solving this question:
+# Extension: 
+# This came into my mind while solving this question:
 """
 What if duplicates are also present?
 

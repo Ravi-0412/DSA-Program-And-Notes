@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Logic: Q reduces to "find the max length of subarray such that number of zero in that subarray can be at most 'k' ".
 # i.e Find the longest subarray with at most K zeros.
 # Then our ans = max(length_valid_subarray)
@@ -89,6 +91,7 @@ public:
 };
 """
 
+# Extesnion 
 # Follow up: Find all the indices of the 0s that were flipped to 1 in order to get the longest subarray of consecutive 1s.
 
 from typing import List
@@ -203,6 +206,8 @@ public:
     }
 };
 """
+
+
 # Note vvi: Whenever you have to find the 'largest subarray length of a single consecutive ele'
 # where you can change other ele then apply this logic only.
 

@@ -27,13 +27,11 @@ class Solution:
 # Method 2: PrefixSum + Greedy + Sliding window
 # Needs a lot of visualisation.
 
-# More explanation in notes, page: 78
-
 # https://www.youtube.com/watch?v=gGJhgzIHkCY&t=3238s
 # https://leetcode.com/problems/apply-operations-to-make-all-array-elements-equal-to-zero/solutions/3739101/java-c-python-greedy-sliding-window/
 
-
 # Time : O(n)
+
 class Solution:
     def checkArray(self, nums: List[int], k: int) -> bool:
         n = len(nums)
@@ -86,7 +84,7 @@ class Solution:
             extraOperations = nums[i] - impactPrefix[i]
             impactPrefix[i] += extraOperations  # overall impact that will be carry forward
             impactPrefix[i + k] -= extraOperations   # will impact till 'i + (k-1)' only.
-        print(extraOperations)   # will give the same initial array only in case of 'True'. Have to think why?
+        # print(extraOperations)   # will give the same initial array only in case of 'True'. Have to think why?
         return True
 
 

@@ -1,6 +1,7 @@
+
+
 # Q) You are allowed to move left, right, up, down. False means 'obstacle is there' and True means 'no obstacle'
 # will count and print the path as well
-# page: 19
 # same approach if obstacles are also there
 
 def Paths(ans, maze, row, col):

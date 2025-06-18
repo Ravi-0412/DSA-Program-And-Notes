@@ -1,3 +1,5 @@
+# Method 1 : 
+
 # time: O(n^2).
 # we are visiting every node only once but we are copying the path into 'ans'.
 # Each time it can cost O(n) for copying after finding any answer.
@@ -24,6 +26,8 @@ class Solution:
             return 
         self.AllPath(root.left, target- root.val, path + [root.val], ans)
         self.AllPath(root.right, target- root.val, path + [root.val], ans)
+
+
 
 # correct solution
 class Solution:
@@ -100,10 +104,6 @@ public:
 };
 
 """
-
-# Try to do iteratively using bfs and using stack also.(link in sheet)
-
-# Think yourself and do.
 
 
 # Related Q:

@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Q: we have to form 'n' pairs in such a way that they are balanced i.e we have to fill '2*n' boxes with '(' and ')'
 # in such a way that they form a valid paranthesis.
 
@@ -40,28 +42,12 @@ class Solution:
         Backtrack(0,0)    # this will tell the no of open and closed paranthesis we have added till now.
         return ans
 
-# storing the paranthesis formed in string
+# Method 2: 
 # Better one
-class Solution:
-    def generateParenthesis(self, n: int) -> List[str]:
-        ans= []
-        
-        def Backtrack(openP, closeP, paran):
-            if openP== closeP== n:  # means stack will be containing one of the valid parenthesis.
-                ans.append(paran)
-                return
-            # can only add '(' if the openP < n
-            if openP < n:
-                Backtrack(openP +1, closeP, paran + "(" )
-            # only add close paranthesis if no of open Paranthesis is greater than the no of close paranthesis.
-            # otherwise it won't be valid one.
-            if closeP < openP:
-                Backtrack(openP, closeP +1, paran + ")" )
-        
-        Backtrack(0,0, "")    # this will tell the no of open and closed paranthesis we have added till now.
-        return ans
+# storing the paranthesis formed in string
 
 
+# My initial mistake
 # writing like this will give error.
 # writing in two diff line chages globally like list only.
 class Solution:
@@ -86,8 +72,26 @@ class Solution:
         return ans
 
 
-# Related Q:
-# 1) Print N-bit binary numbers having more 1s than 0s
+# Correct solution
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        ans= []
+        
+        def Backtrack(openP, closeP, paran):
+            if openP== closeP== n:  # means stack will be containing one of the valid parenthesis.
+                ans.append(paran)
+                return
+            # can only add '(' if the openP < n
+            if openP < n:
+                Backtrack(openP +1, closeP, paran + "(" )
+            # only add close paranthesis if no of open Paranthesis is greater than the no of close paranthesis.
+            # otherwise it won't be valid one.
+            if closeP < openP:
+                Backtrack(openP, closeP +1, paran + ")" )
+        
+        Backtrack(0,0, "")    # this will tell the no of open and closed paranthesis we have added till now.
+        return ans
+
 
 
 # Java Code
@@ -128,6 +132,8 @@ class Solution {
         return ans;
     }
 }
+
+
 //Method 2
 import java.util.*;
 
@@ -200,6 +206,8 @@ public:
         return ans;
     }
 };
+
+
 //Method 2 
 #include <iostream>
 #include <vector>
@@ -234,3 +242,7 @@ public:
     }
 };
 """
+
+
+# Related Q:
+# 1) Print N-bit binary numbers having more 1s than 0s

@@ -19,7 +19,7 @@ class Solution:
             ans.append(curHeight)
         return ans
     
-
+# Method 2: 
 # Optimisation 
 # Logic vvi: Max height without current node will be max height elsewhere in the tree or height of sibling node + curr depth
 # And for getting the maxHeight , we need (curNode, curHeight, maxHeightPossible) as parameter in function.
@@ -58,57 +58,3 @@ class Solution:
         dfs(root, 0, 0)
         # now max height that we will get after removing any node is stored in 'ans' i.e [node: maxDepth]
         return [ans[v] for v in queries]
-
-# java
-"""
-class Solution {
-    private Map<Integer, Integer> heights = new HashMap<>();
-    private Map<Integer, Integer> maxDepthAfterRemoval = new HashMap<>();
-    
-    public int[] treeQueries(TreeNode root, int[] queries) {
-        // Step 1: Calculate height of each node
-        height(root);
-        
-        // Step 2: Perform DFS to calculate max depth after removing each node
-        dfs(root, 0, 0);
-        
-        // Prepare answer based on the queries
-        int[] answer = new int[queries.length];
-        for (int i = 0; i < queries.length; i++) {
-            answer[i] = maxDepthAfterRemoval.getOrDefault(queries[i], 0);
-        }
-        
-        return answer;
-    }
-    
-    private int height(TreeNode node) {
-        if (node == null) return 0;
-        
-        if (heights.containsKey(node.val)) {
-            return heights.get(node.val);
-        }
-        
-        int h = 1 + Math.max(height(node.left), height(node.right));
-        heights.put(node.val, h);
-        
-        return h;
-    }
-    
-    private void dfs(TreeNode node, int depth, int maxDepth) {
-        if (node == null) return;
-        
-        // Store the max depth after "removing" the current node
-        maxDepthAfterRemoval.put(node.val, maxDepth);
-        
-        // Traverse left and right children
-        // For the left child, use the right child's height for max depth
-        dfs(node.left, depth + 1, Math.max(maxDepth, depth + height(node.right)));
-        
-        // For the right child, use the left child's height for max depth
-        dfs(node.right, depth + 1, Math.max(maxDepth, depth + height(node.left)));
-    }
-}
-"""
-
-# Try by other approaches also.
-# https://leetcode.com/problems/height-of-binary-tree-after-subtree-removal-queries/solutions/2757990/python-3-explanation-with-pictures-dfs/

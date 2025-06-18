@@ -1,3 +1,5 @@
+# method 1: 
+
 # Logic: Just go bottom up and check the value of each node with its children sum.
 # Note: write base case for leaf node also because we don't have to check this for leaf node.
 

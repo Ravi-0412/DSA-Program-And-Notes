@@ -1,3 +1,4 @@
+# method 1:
 # Just applied 3rd method of Q: "98. Validate Binary Search Tree"
 # Only one difference: just return 'sum' also with minimum and maximum value
 

@@ -1,3 +1,4 @@
+# method 1: 
 # Just same as 'Kth smallest element in BST".
 # Logic: Largest node will be the rightmost node.
 # so once you find '.right' of any node = None then that will be the largest node as of now.

@@ -1,3 +1,5 @@
+# method 1: 
+
 """
 Logic: For each node check that is root of the ans.
 
@@ -34,6 +36,8 @@ class Solution:
         Height(root)
         return self.ans
 
+
+# Extension: 
 """
 Note vvi: When we will apply DP in tree then return function and ans can be different .
 so keep updating ans seeing the possible ans and return the function accordingly.
@@ -47,25 +51,3 @@ Related Q:
 """
 
 
-# Java
-"""
-class Solution {
-    int ans;
-
-    public int diameterOfBinaryTree(TreeNode root) {
-        ans = 0;
-        height(root);
-        return ans;
-    }
-
-    private int height(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-        int left = height(root.left);
-        int right = height(root.right);
-        ans = Math.max(ans, left + right);
-        return 1 + Math.max(left, right);
-    }
-}
-"""

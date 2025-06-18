@@ -1,3 +1,5 @@
+# Method 1 : 
+
 # if no given is only positive then we can apply sliding window with two pointer.
 
 class Solution:
@@ -17,10 +19,8 @@ class Solution:
             j += 1
         return -1 if ans == -1 else n - ans
 
-
-# Solution: will work with both positive and negative numbers.
-
-# time: O(n)= space
+# Method 2: 
+# will work with both positive and negative numbers.
 
 # vvi: just similar to "Two sum" method.
 # this approach will work for both positive and negative number
@@ -36,6 +36,7 @@ class Solution:
 
 # Note: hm map me agar curSum present nhi h tb hi hm "update" kar rhe (i.e first time only) because we wanted the longest subarray.
 # vvi: if have told to "find the Smallest subarray with sum equal to k" then we will update everytime to minimise the length.
+# time: O(n)= space
 
 class Solution:
     def lenOfLongSubarr (self, A, N, K) : 
@@ -57,12 +58,18 @@ class Solution:
                 
         return max_length
 
-
-# Another way of writing the above logic 
+# Method 3: 
+# Another way of writing the methid 1
 # Better one
 
 # just will check for complement each time not by curSum.
 # very good and concise approach.
+
+# Note: Agar 'curSum; check karenge har ele ke bad then ye question reduce ho jayega
+# "Largest subarray with 0 sum".
+
+# Note: Agar smallest subarray pucha hota tb 'Har bar index' ko update karte taki range small ho.
+
 class Solution:
     def lenOfLongSubarr (self, A, N, K) : 
         # just same logic as no of subarray with given sum 'k'
@@ -79,36 +86,6 @@ class Solution:
                 prefix_sum[curr_sum]= i    # i will tell the length of key in the prefix_sum 
                 
         return max_length
-
-
-# Note: Agar 'curSum; check karenge har ele ke bad then ye question reduce ho jayega
-# "Largest subarray with 0 sum".
-
-
-# Note: Agar smallest subarray pucha hota tb 'Har bar index' ko update karte taki range small ho.
-
-# Related Q:
-# 1) "Smallest Subarray with Sum K"
-# 2) "1658. Minimum Operations to Reduce X to Zero"
-# 3) "560. Subarray Sum Equals K"
-
-
-
-# Note VVVI: ek cheez Variable size sliding window me hmesha yaad rakho
-# 1)agar koi ele ans wala condition ko follow kar rha h tb include karte raho ya ans ke anusar(liye) 
-# curr index wala ele here 'j' me operation karte raho..and
-
-# 2) then check karo for two cases:
-# i) check for valid condition i.e if condition is valid. agar jo chahiye wo condition reach kar gya ho
-# then ans ko update karo 
-
-# ii) elif check for proper invalid condition acc to Q i.e if condition is invalid
-# then pre index say 'i' pe tab tak operate karo(or do the process to remove pre index 'i'th ele)
-# jb tak condition valid n ho jaye(use while loop with same elif condition) and while trying to making condition valid. 
-# you may come across valid case also inside this so,every time you operate on pre index 'i'
-# then keep checking for valid case also , if found add that to ans.. That's it
-
-# yhi do case bnega isme
 
 # Java Code 
 """
@@ -138,6 +115,7 @@ class Solution {
         return (ans == -1) ? -1 : n - ans;
     }
 }
+
 //Method 2
 import java.util.*;
 
@@ -163,6 +141,7 @@ class Solution {
         return max_length;
     }
 }
+
 //Method 3
 import java.util.*;
 
@@ -284,3 +263,31 @@ public:
     }
 };
 """
+
+
+# extension
+
+# Related Q:
+# 1) "Smallest Subarray with Sum K"
+# 2) "1658. Minimum Operations to Reduce X to Zero"
+# 3) "560. Subarray Sum Equals K"
+
+
+
+# Note VVVI: ek cheez Variable size sliding window me hmesha yaad rakho
+# 1)agar koi ele ans wala condition ko follow kar rha h tb include karte raho ya ans ke anusar(liye) 
+# curr index wala ele here 'j' me operation karte raho..and
+
+# 2) then check karo for two cases:
+# i) check for valid condition i.e if condition is valid. agar jo chahiye wo condition reach kar gya ho
+# then ans ko update karo 
+
+# ii) elif check for proper invalid condition acc to Q i.e if condition is invalid
+# then pre index say 'i' pe tab tak operate karo(or do the process to remove pre index 'i'th ele)
+# jb tak condition valid n ho jaye(use while loop with same elif condition) and while trying to making condition valid. 
+# you may come across valid case also inside this so,every time you operate on pre index 'i'
+# then keep checking for valid case also , if found add that to ans.. That's it
+
+# yhi do case bnega isme
+
+#

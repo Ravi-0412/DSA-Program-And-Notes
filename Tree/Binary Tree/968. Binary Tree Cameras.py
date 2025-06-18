@@ -1,3 +1,5 @@
+
+
 """
 Logic: each leaf node has only one of two ways it can be monitored:
 i)  Place a camera on the leaf node.

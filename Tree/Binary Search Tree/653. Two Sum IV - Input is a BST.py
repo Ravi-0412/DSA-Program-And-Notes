@@ -1,16 +1,165 @@
+# method 1: 
 """
-method 1: store the inorder 
+store the inorder 
 now problem reduces to "Two sum"
 then apply the two pointer approach for find the pair since inorder will be a sorted array 
 space= time= O(n)
+"""
+class Solution:
+    def findTarget(self, root: Optional[TreeNode], k: int) -> bool:
+        # Step 1: Get the in-order traversal (sorted array)
+        def inorder(node):
+            if not node:
+                return []
+            return inorder(node.left) + [node.val] + inorder(node.right)
+        
+        nums = inorder(root)
+        
+        # Step 2: Apply two-pointer approach
+        left, right = 0, len(nums) - 1
+        while left < right:
+            total = nums[left] + nums[right]
+            if total == k:
+                return True
+            elif total < k:
+                left += 1
+            else:
+                right -= 1
 
-method 2:
+        return False
+    
+# method 2:
+"""
 just store the remaining sum w.r.t each number you pop for inorder 
 After poping check whether that number is present in the hashmap for not
-if already presen then it means sum exist otherwise add the curr poped node into stack
+if already presen then it means sum exist otherwise add the curr poped node into stack.
+space= time= O(n)
+"""
+class Solution:
+    def findTarget(self, root: Optional[TreeNode], k: int) -> bool:
+        seen = set()
+        stack = []
+        curr = root
 
+        while curr or stack:
+            # Traverse left
+            while curr:
+                stack.append(curr)
+                curr = curr.left
 
-method 3: just use the 'BST iterator' i.e 'next' and 'prev'
+            curr = stack.pop()
+
+            # Check if current value is in the seen set
+            if curr.val in seen:
+                return True
+            else:
+                # Store the needed complement to reach k
+                seen.add(k - curr.val)
+
+            # Move to right subtree
+            curr = curr.right
+
+        return Falseclass Solution:
+    def findTarget(self, root: Optional[TreeNode], k: int) -> bool:
+        seen = set()
+        stack = []
+        curr = root
+
+        while curr or stack:
+            # Traverse left
+            while curr:
+                stack.append(curr)
+                curr = curr.left
+
+            curr = stack.pop()
+
+            # Check if current value is in the seen set
+            if curr.val in seen:
+                return True
+            else:
+                # Store the needed complement to reach k
+                seen.add(k - curr.val)
+
+            # Move to right subtree
+            curr = curr.right
+
+        return Falseclass Solution:
+    def findTarget(self, root: Optional[TreeNode], k: int) -> bool:
+        seen = set()
+        stack = []
+        curr = root
+
+        while curr or stack:
+            # Traverse left
+            while curr:
+                stack.append(curr)
+                curr = curr.left
+
+            curr = stack.pop()
+
+            # Check if current value is in the seen set
+            if curr.val in seen:
+                return True
+            else:
+                # Store the needed complement to reach k
+                seen.add(k - curr.val)
+
+            # Move to right subtree
+            curr = curr.right
+
+        return Falseclass Solution:
+    def findTarget(self, root: Optional[TreeNode], k: int) -> bool:
+        seen = set()
+        stack = []
+        curr = root
+
+        while curr or stack:
+            # Traverse left
+            while curr:
+                stack.append(curr)
+                curr = curr.left
+
+            curr = stack.pop()
+
+            # Check if current value is in the seen set
+            if curr.val in seen:
+                return True
+            else:
+                # Store the needed complement to reach k
+                seen.add(k - curr.val)
+
+            # Move to right subtree
+            curr = curr.right
+
+        return Falseclass Solution:
+    def findTarget(self, root: Optional[TreeNode], k: int) -> bool:
+        seen = set()
+        stack = []
+        curr = root
+
+        while curr or stack:
+            # Traverse left
+            while curr:
+                stack.append(curr)
+                curr = curr.left
+
+            curr = stack.pop()
+
+            # Check if current value is in the seen set
+            if curr.val in seen:
+                return True
+            else:
+                # Store the needed complement to reach k
+                seen.add(k - curr.val)
+
+            # Move to right subtree
+            curr = curr.right
+
+        return False
+
+# method 3:
+"""
+just use the 'BST iterator' i.e 'next' and 'prev'
 next will give element from start i.e smallest one and 'prev' will give element from last i.e largest one.
 Now problem reduces to "Two sum" with two pointer approach 'next' and 'prev'.
 

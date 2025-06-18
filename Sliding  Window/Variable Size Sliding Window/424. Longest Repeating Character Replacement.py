@@ -1,3 +1,5 @@
+# Method 1 :
+
 # logic: if in any window if no of characters other than the most frequent char is <=k then that is valid case 
 # and we can update our ans, we can replace these char with the most repeating char.
 

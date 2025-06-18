@@ -1,4 +1,4 @@
-# on gfg
+# Method 1: 
 # time: O(min(m,n))
 # check whether both are structurally and value wise same
 # better and concise and more intuitive

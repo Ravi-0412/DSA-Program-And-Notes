@@ -1,3 +1,5 @@
+# method 1: 
+
 # easy solution only.
 # just write the logic into code.
 # The time complexity should be 9 ^ m (m represents the number of blanks to be filled in), since each blank can have 9 choices.

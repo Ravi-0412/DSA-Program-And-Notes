@@ -3,6 +3,23 @@
 
 # Time = space = o(n)
 
+from typing import List
+
+class Solution:
+    def numSubarraysWithSum(self, nums: List[int], goal: int) -> int:
+        prefix_sum = {0: 1}
+        curr_sum = 0
+        count = 0
+        
+        for num in nums:
+            curr_sum += num
+            diff = curr_sum - goal
+            count += prefix_sum.get(diff, 0)
+            prefix_sum[curr_sum] = prefix_sum.get(curr_sum, 0) + 1
+        
+        return count
+
+
 # method 2: 
 # Since given value is only '0' and '1'.
 
@@ -23,11 +40,11 @@
 # we can say sum < goal too. So that means this contain that additional count which we want to remove
 # from atmostSubarray(nums,goal) result.
 
-# Time = O(n)
-# space = O(1)
 
 # Note: This will only work for elements '0' and '1'.
 
+# Time = O(n)
+# space = O(1)
 
 class Solution:
     def numSubarraysWithSum(self, nums: List[int], goal: int) -> int:
@@ -48,6 +65,8 @@ class Solution:
 
         return atMostSubarray(nums, goal) - atMostSubarray(nums, goal - 1)
     
+
+# Extension: 
 
 # Note: in these types of questions where you are told to find exactly 'k' 
 # Then try to think like this only i.e AtMost(k) - AtMost(k - 1).

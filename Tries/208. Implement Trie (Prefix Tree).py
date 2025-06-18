@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Time complexity of all is O(n).
 
 class TrieNode:
@@ -40,6 +42,24 @@ class Trie:
         # it means all char of prefix is present. so simply return True
         return True
 
+"""
+# Very short and another way of implementing tries in python
+# https://stackoverflow.com/questions/11015320/how-to-create-a-trie-in-python
+
+
+T = lambda: defaultdict(T)
+trie = T()
+for w in forbidden:
+    reduce(dict.__getitem__, w, trie)['#'] = True
+
+# Meaning: 
+# Will insert each word in tries 'trie' and mark the end of word by special symbol '#'.  => can you other symbol as well.
+
+# See use here :
+# https://leetcode.com/problems/length-of-the-longest-valid-substring/solutions/3771520/python-hashmap-and-trie-solutions/
+"""
+
+# Extension: 
 
 """
 Note: we can use trie where we are sure that every number or ele or every word will be made only from a fixed thing like number or letter.
@@ -125,22 +145,6 @@ class Trie:
         return True  # Only checks if prefix path exists
 
 
-# Very short and another way of implementing tries
-# Have to understand very properly.
-# https://stackoverflow.com/questions/11015320/how-to-create-a-trie-in-python
-
-
-T = lambda: defaultdict(T)
-trie = T()
-for w in forbidden:
-    reduce(dict.__getitem__, w, trie)['#'] = True
-
-# Meaning: 
-# Will insert each word in tries 'trie' and mark the end of word by special symbol '#'.  => can you other symbol as well.
-
-# See use here :
-# https://leetcode.com/problems/length-of-the-longest-valid-substring/solutions/3771520/python-hashmap-and-trie-solutions/
-
 
 # java Code
 """
@@ -205,66 +209,6 @@ class Trie {
 }
 """
 
-# Java Template
-"""
-class TrieNode {
-    TrieNode[] children;
-    boolean isEndOfWord;
-
-    public TrieNode() {
-        children = new TrieNode[26];
-        isEndOfWord = false;
-    }
-}
-
-public class Trie {
-    private TrieNode root;
-
-    public Trie() {
-        root = new TrieNode();
-    }
-
-    private int charToIndex(char ch) {
-        return ch - 'a';
-    }
-
-    public void insert(String word) {
-        TrieNode node = root;
-        for (char c : word.toCharArray()) {
-            int idx = charToIndex(c);
-            if (node.children[idx] == null) {
-                node.children[idx] = new TrieNode();
-            }
-            node = node.children[idx];
-        }
-        node.isEndOfWord = true;
-    }
-
-    public boolean search(String word) {
-        TrieNode node = root;
-        for (char c : word.toCharArray()) {
-            int idx = charToIndex(c);
-            if (node.children[idx] == null) {
-                return false;
-            }
-            node = node.children[idx];
-        }
-        return node.isEndOfWord;
-    }
-
-    public boolean startsWith(String prefix) {
-        TrieNode node = root;
-        for (char c : prefix.toCharArray()) {
-            int idx = charToIndex(c);
-            if (node.children[idx] == null) {
-                return false;
-            }
-            node = node.children[idx];
-        }
-        return true;
-    }
-}
-"""
 
 # C++ code
 """

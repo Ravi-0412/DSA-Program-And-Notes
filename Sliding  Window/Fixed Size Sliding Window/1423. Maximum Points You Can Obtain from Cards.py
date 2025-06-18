@@ -17,7 +17,8 @@ class Solution:
         return solve(0, n-1, k)
 
 
-# method 2: using sliding window
+# method 2: 
+# using sliding window
 """
 How to think this?
 Ans: After chooisng 'k' cards whatever way we choose, we will be left with a continous subarray of size= 'n -k' cards.
@@ -140,6 +141,7 @@ public:
         return solve(0, n - 1, k, cardPoints);
     }
 };
+
 //Method 2
 #include <iostream>
 #include <vector>

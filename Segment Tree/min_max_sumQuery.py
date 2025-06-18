@@ -1,17 +1,21 @@
-# Note vvi: You can't use 'Fenwick Tree' (Binary Indexed Tree) for finding 'min/max' in a given range.
-# Reason: 
-# it relies on the fact that the acummulative frequency from a to b is 'f(b)- f(a-1)', and that property is not valid for the min/max functions
-# i.e it stores value in range . if BIT[i] stores values in some range say (a, b) then, it will equal to 'f(b)- f(a-1)'.
+# method 1: 
 
-# Note: tree will get formed correctly only but you will not get desired result in a range for 'min/max'.
+"""
+Note vvi: You can't use 'Fenwick Tree' (Binary Indexed Tree) for finding 'min/max' in a given range.
+Reason: 
+it relies on the fact that the acummulative frequency from a to b is 'f(b)- f(a-1)', and that property is not valid for the min/max functions
+i.e it stores value in range . if BIT[i] stores values in some range say (a, b) then, it will equal to 'f(b)- f(a-1)'.
 
-# Use fenwick tree in operations other than 'min/max'.
+Note: tree will get formed correctly only but you will not get desired result in a range for 'min/max'.
+
+Use fenwick tree in operations other than 'min/max'.
 
 
-# code to get min/max/sum in a given range Using 'segment Tree'.
-# Use this template in case of min/max/sum
+code to get min/max/sum in a given range Using 'segment Tree'.
+Use this template in case of min/max/sum
 
-# Just similar logic to "307.Range Sum Query"
+Just similar logic to "307.Range Sum Query"
+"""
 
 class Node:
     def __init__(self, startInterval, endInterval):

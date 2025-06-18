@@ -1,9 +1,5 @@
-# Method 1: 
-# Store inorder in a deque then do all the operations.
 
-# Time: O(n)
-
-# Method 2:
+# Method 1:
 
 """
 reducing the space complexity to O(H)

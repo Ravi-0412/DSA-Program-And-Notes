@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Logic: start from each number and find all combination we can make of 'k' numbers.
 # Note: we only taking combination in increasing order because arrangement doesn't matter in combination.
 

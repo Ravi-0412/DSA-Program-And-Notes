@@ -25,6 +25,83 @@ class NumMatrix:
                 sum+= self.prefixSum[i][col2]
         return sum
 
+# Java Code 
+"""
+import java.util.*;
+
+class NumMatrix {
+    private int[][] mat;
+    private int[][] prefixSum;
+    private int r;  // no of row
+    private int c;  // no of column
+
+    public NumMatrix(int[][] matrix) {
+        this.mat = matrix;
+        this.r = matrix.length;  // no of row
+        this.c = matrix[0].length;  // no of column
+        this.prefixSum = new int[r][c];  // 2d array to store prefixSum of each row.
+
+        for (int i = 0; i < r; i++) {
+            prefixSum[i][0] = mat[i][0];
+            for (int j = 1; j < c; j++) {
+                prefixSum[i][j] = mat[i][j] + prefixSum[i][j - 1];
+            }
+        }
+    }
+
+    public int sumRegion(int row1, int col1, int row2, int col2) {
+        int sum = 0;
+        for (int i = row1; i <= row2; i++) {
+            if (col1 >= 1) {
+                sum += prefixSum[i][col2] - prefixSum[i][col1 - 1];
+            } else {
+                sum += prefixSum[i][col2];
+            }
+        }
+        return sum;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+using namespace std;
+
+class NumMatrix {
+private:
+    vector<vector<int>> mat;
+    vector<vector<int>> prefixSum;
+    int r;  // no of row
+    int c;  // no of column
+
+public:
+    NumMatrix(vector<vector<int>>& matrix) {
+        mat = matrix;
+        r = mat.size();  // no of row
+        c = mat[0].size();  // no of column
+        prefixSum = vector<vector<int>>(r, vector<int>(c, 0));  // 2d array to store prefixSum of each row.
+
+        for (int i = 0; i < r; i++) {
+            prefixSum[i][0] = mat[i][0];
+            for (int j = 1; j < c; j++) {
+                prefixSum[i][j] = mat[i][j] + prefixSum[i][j - 1];
+            }
+        }
+    }
+
+    int sumRegion(int row1, int col1, int row2, int col2) {
+        int sum = 0;
+        for (int i = row1; i <= row2; i++) {
+            if (col1 >= 1) {
+                sum += prefixSum[i][col2] - prefixSum[i][col1 - 1];
+            } else {
+                sum += prefixSum[i][col2];
+            }
+        }
+        return sum;
+    }
+};
+"""
 
 # method 2: 
 # soo nicee logic.
@@ -56,3 +133,62 @@ class NumMatrix:
     def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
         return self.sumMat[row2 + 1][col2 + 1] - self.sumMat[row2 + 1][col1] - self.sumMat[row1][col2 + 1] + self.sumMat[row1][col1]
 
+# Java Code 
+"""
+class NumMatrix {
+    private int[][] sumMat;
+
+    public NumMatrix(int[][] matrix) {
+        int row = matrix.length, col = matrix[0].length;
+        sumMat = new int[row + 1][col + 1];  // using 1 based indexing for "sumMat" to handle the corner cases
+                                            // when either row1 = 0 or col1 = 0 while subtraction (row above and column left) and also to find the prefix sum of row '0' and col '0'.
+
+        for (int i = 0; i < row; i++) {
+            int prefixSum = 0;  // will store the preSum of each row.
+            for (int j = 0; j < col; j++) {
+                prefixSum += matrix[i][j];
+                int above = sumMat[i][j + 1];
+                sumMat[i + 1][j + 1] = prefixSum + above;
+            }
+        }
+    }
+
+    public int sumRegion(int row1, int col1, int row2, int col2) {
+        return sumMat[row2 + 1][col2 + 1]
+             - sumMat[row2 + 1][col1]
+             - sumMat[row1][col2 + 1]
+             + sumMat[row1][col1];
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+using namespace std;
+
+class NumMatrix {
+private:
+    vector<vector<int>> sumMat;
+
+public:
+    NumMatrix(vector<vector<int>>& matrix) {
+        int row = matrix.size(), col = matrix[0].size();
+        sumMat = vector<vector<int>>(row + 1, vector<int>(col + 1, 0));  // using 1 based indexing for "sumMat" to handle the corner cases 
+                                                                         // when either row1= 0 or col1= 0 while subtraction (row above and column left) and also to find the prefix sum of row '0' and col '0'.
+
+        for (int i = 0; i < row; i++) {
+            int prefixSum = 0;  // will store the preSum of each row.
+            for (int j = 0; j < col; j++) {
+                prefixSum += matrix[i][j];
+                int above = sumMat[i][j + 1];
+                sumMat[i + 1][j + 1] = prefixSum + above;
+            }
+        }
+    }
+
+    int sumRegion(int row1, int col1, int row2, int col2) {
+        return sumMat[row2 + 1][col2 + 1] - sumMat[row2 + 1][col1] - sumMat[row1][col2 + 1] + sumMat[row1][col1];
+    }
+};
+"""

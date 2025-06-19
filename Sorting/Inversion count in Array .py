@@ -58,4 +58,107 @@ class Solution:
             k+= 1
         return inv_count
 
+# Java Code 
+"""
+class Solution {
+    public int inversionCount(int[] arr, int n) {
+        return mergeSortCountInversion(arr, 0, n - 1);
+    }
 
+    private int mergeSortCountInversion(int[] arr, int low, int up) {
+        int invCount = 0;
+        if (low < up) {  // to check if there is more than one element.
+            int mid = low + (up - low) / 2;
+            invCount += mergeSortCountInversion(arr, low, mid);
+            invCount += mergeSortCountInversion(arr, mid + 1, up);
+            invCount += merge(arr, low, mid, up);
+        }
+        return invCount;
+    }
+
+    // left part should be smaller and if it doesn't, there are inversions.
+    private int merge(int[] arr, int low, int mid, int up) {
+        int low1 = low, up1 = mid, low2 = mid + 1, up2 = up;
+        int invCount = 0;
+        int[] b = new int[up - low + 1];
+        int index = 0;
+
+        while (low1 <= up1 && low2 <= up2) {
+            if (arr[low1] <= arr[low2]) {
+                b[index++] = arr[low1++];
+            } else {  // all ele from low1 to up1 will be greater so count = up1 - low1 + 1
+                invCount += up1 - low1 + 1;  // being counted for each ele on left side.
+                b[index++] = arr[low2++];
+            }
+        }
+
+        while (low1 <= up1) {
+            b[index++] = arr[low1++];
+        }
+
+        while (low2 <= up2) {
+            b[index++] = arr[low2++];
+        }
+
+        for (int i = 0; i < b.length; i++) {
+            arr[low + i] = b[i];
+        }
+
+        return invCount;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int inversionCount(vector<int>& arr, int n) {
+        return mergeSortCountInversion(arr, 0, n - 1);
+    }
+
+private:
+    int mergeSortCountInversion(vector<int>& arr, int low, int up) {
+        int invCount = 0;
+        if (low < up) {  // to check if there is more than one element.
+            int mid = low + (up - low) / 2;
+            invCount += mergeSortCountInversion(arr, low, mid);
+            invCount += mergeSortCountInversion(arr, mid + 1, up);
+            invCount += merge(arr, low, mid, up);
+        }
+        return invCount;
+    }
+
+    // left part should be smaller and if it doesn't, there are inversions.
+    int merge(vector<int>& arr, int low, int mid, int up) {
+        int low1 = low, up1 = mid, low2 = mid + 1, up2 = up;
+        int invCount = 0;
+        vector<int> b;
+
+        while (low1 <= up1 && low2 <= up2) {
+            if (arr[low1] <= arr[low2]) {
+                b.push_back(arr[low1++]);
+            } else {  // all ele from low1 to up1 will be greater so count = up1 - low1 + 1
+                invCount += up1 - low1 + 1;  // being counted for each ele on left side.
+                b.push_back(arr[low2++]);
+            }
+        }
+
+        while (low1 <= up1) {
+            b.push_back(arr[low1++]);
+        }
+
+        while (low2 <= up2) {
+            b.push_back(arr[low2++]);
+        }
+
+        for (int i = 0; i < b.size(); i++) {
+            arr[low + i] = b[i];
+        }
+
+        return invCount;
+    }
+};
+"""

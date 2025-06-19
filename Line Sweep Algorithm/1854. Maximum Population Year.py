@@ -25,6 +25,65 @@ class Solution:
 
         return max_year
 
+# Java Code 
+"""
+class Solution {
+    public int maximumPopulation(int[][] logs) {
+        int[] year = new int[101];  // Covers years from 1950 to 2050 (inclusive)
+
+        // O(n) time to build population delta
+        for (int[] log : logs) {
+            year[log[0] - 1950] += 1;
+            year[log[1] - 1950] -= 1;
+        }
+
+        int maxNum = year[0];
+        int maxYear = 1950;
+
+        for (int i = 1; i < 101; i++) {
+            year[i] += year[i - 1];  // Prefix sum to get actual population
+            if (year[i] > maxNum) {
+                maxNum = year[i];
+                maxYear = i + 1950;
+            }
+        }
+
+        return maxYear;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int maximumPopulation(vector<vector<int>>& logs) {
+        int year[101] = {0};  // Covers years from 1950 to 2050 (inclusive)
+
+        // O(n) time to build population delta
+        for (auto& log : logs) {
+            year[log[0] - 1950] += 1;
+            year[log[1] - 1950] -= 1;
+        }
+
+        int maxNum = year[0];
+        int maxYear = 1950;
+
+        for (int i = 1; i < 101; i++) {
+            year[i] += year[i - 1];  // Prefix sum to get actual population
+            if (year[i] > maxNum) {
+                maxNum = year[i];
+                maxYear = i + 1950;
+            }
+        }
+
+        return maxYear;
+    }
+};
+"""
 
 # Related Q:
 # 1) 2848. Points That Intersect With Cars

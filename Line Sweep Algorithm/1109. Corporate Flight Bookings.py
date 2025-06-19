@@ -17,6 +17,56 @@ class Solution:
 
         return answer
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int[] corpFlightBookings(int[][] bookings, int n) {
+        // Initialize the result array with zeros
+        int[] answer = new int[n];
+
+        // Process each booking
+        for (int[] booking : bookings) {
+            int first = booking[0], last = booking[1], seats = booking[2];
+            // Update the seat counts for the range of flights
+            for (int i = first - 1; i < last; i++) {
+                answer[i] += seats;
+            }
+        }
+
+        return answer;
+    }
+}
+
+"""
+
+# C++ Code 
+"""
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> corpFlightBookings(vector<vector<int>>& bookings, int n) {
+        // Initialize the result array with zeros
+        vector<int> answer(n, 0);
+
+        // Process each booking
+        for (auto& booking : bookings) {
+            int first = booking[0], last = booking[1], seats = booking[2];
+            // Update the seat counts for the range of flights
+            for (int i = first - 1; i < last; i++) {
+                answer[i] += seats;
+            }
+        }
+
+        return answer;
+    }
+};
+"""
+
 
 # Method 2: 
 # Optimisation using: Sweep line
@@ -61,28 +111,6 @@ class Solution:
 
 # Java Code 
 """
-//Method 1
-import java.util.*;
-
-class Solution {
-    public int[] corpFlightBookings(int[][] bookings, int n) {
-        // Initialize the result array with zeros
-        int[] answer = new int[n];
-
-        // Process each booking
-        for (int[] booking : bookings) {
-            int first = booking[0], last = booking[1], seats = booking[2];
-            // Update the seat counts for the range of flights
-            for (int i = first - 1; i < last; i++) {
-                answer[i] += seats;
-            }
-        }
-
-        return answer;
-    }
-}
-
-//Method 2
 class Solution {
     public int[] corpFlightBookings(int[][] bookings, int n) {
         // Initialize the result array with zeros
@@ -96,8 +124,6 @@ class Solution {
                 answer[last] -= seats;
             }
         }
-
-        // Compute cumulative sum
         for (int i = 1; i < n; i++) {
             answer[i] += answer[i - 1];
         }
@@ -109,32 +135,6 @@ class Solution {
 
 # C++ Code 
 """
-//Method 1
-#include <vector>
-
-using namespace std;
-
-class Solution {
-public:
-    vector<int> corpFlightBookings(vector<vector<int>>& bookings, int n) {
-        // Initialize the result array with zeros
-        vector<int> answer(n, 0);
-
-        // Process each booking
-        for (auto& booking : bookings) {
-            int first = booking[0], last = booking[1], seats = booking[2];
-            // Update the seat counts for the range of flights
-            for (int i = first - 1; i < last; i++) {
-                answer[i] += seats;
-            }
-        }
-
-        return answer;
-    }
-};
-
-
-//Method 2
 class Solution {
 public:
     vector<int> corpFlightBookings(vector<vector<int>>& bookings, int n) {
@@ -149,8 +149,6 @@ public:
                 answer[last] -= seats;
             }
         }
-
-        // Compute cumulative sum
         for (int i = 1; i < n; i++) {
             answer[i] += answer[i - 1];
         }

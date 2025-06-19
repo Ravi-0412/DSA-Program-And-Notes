@@ -21,6 +21,39 @@ class Solution {
     }
 }
 
+# Python Code 
+"""
+class Solution:
+    def getSum(self, a: int, b: int) -> int:
+        ans = 0
+        for i in range(32):
+            # Get the i-th bit of a and b
+            setBitCount = (a >> i) & 1
+            setBitCount += (b >> i) & 1
+            # Add the result to ans if setBitCount is 1 or 2
+            ans += setBitCount * (1 << i)
+        return ans
+
+"""
+
+# C++ Code 
+"""
+class Solution {
+public:
+    int getSum(int a, int b) {
+        int ans = 0;
+        for (int i = 0; i < 32; i++) {
+            // Get the i-th bit of a and b
+            int setBitCount = (a >> i) & 1;
+            setBitCount += (b >> i) & 1;
+            // Add the result to ans if setBitCount is 1 or 2
+            ans += setBitCount * (1 << i);
+        }
+        return ans;
+    }
+};
+
+"""
 # Method 2:
 # 1) xor can give the answer if there is no carry at any bit.
 # for handling carry we will use '&'.
@@ -39,7 +72,36 @@ class Solution {
       return a; 
     }
 }
+# Python Code 
+"""
+class Solution:
+    def getSum(self, a: int, b: int) -> int:
+        while b != 0:
+            c = a & b       # storing the carry
+            a = a ^ b       # first find the sum assuming no carry
+            b = c << 1      # Move the carry to one position left
 
+        # Handle negative numbers to simulate 32-bit signed integer
+        return a if a <= 0x7FFFFFFF else ~(a ^ 0xFFFFFFFF)
+
+"""
+
+# C++ Code 
+"""
+class Solution {
+public:
+    int getSum(int a, int b) {
+        int c;
+        while (b != 0) {
+            c = (a & b);     // storing the carry
+            a = a ^ b;       // first find the sum assuming no carry
+            b = (c) << 1;    // Move the carry to one position left 
+        }
+        return a;
+    }
+};
+
+"""
 
 # method 3:
 
@@ -133,5 +195,58 @@ class Solution:
         
         return a
 
+# Java Code 
+"""
+class Solution {
+    public int getSum(int a, int b) {
+        // Mask to get 32-bit integer results
+        int mask = 0xFFFFFFFF;
+        while (b != 0) {
+            // Calculate carry
+            int carry = (a & b) & mask;
+            // Calculate the sum without carry
+            a = (a ^ b) & mask;
+            // Calculate the carry and shift it left
+            b = (carry << 1) & mask;
+        }
 
+        // If a is negative, return a properly signed integer
+        // i.e. convert 2's complement back to negative number
+        if (a > 0x7FFFFFFF) {  // 0x7FFFFFFF is the maximum positive value for a 32-bit signed integer
+            a = ~(a ^ mask);  // Convert to negative using 2's complement
+        }
+
+        return a;
+    }
+}
+
+"""
+
+# C++ Code 
+"""
+class Solution {
+public:
+    int getSum(int a, int b) {
+        // Mask to get 32-bit integer results
+        unsigned int mask = 0xFFFFFFFF;
+        while (b != 0) {
+            // Calculate carry
+            unsigned int carry = (a & b) & mask;
+            // Calculate the sum without carry
+            a = (a ^ b) & mask;
+            // Calculate the carry and shift it left
+            b = (carry << 1) & mask;
+        }
+
+        // If a is negative, return a properly signed integer
+        // i.e. convert 2's complement back to negative number
+        if (a > 0x7FFFFFFF) {  // 0x7FFFFFFF is the maximum positive value for a 32-bit signed integer
+            a = ~(a ^ mask);  // Convert to negative using 2's complement
+        }
+
+        return a;
+    }
+};
+
+"""
 

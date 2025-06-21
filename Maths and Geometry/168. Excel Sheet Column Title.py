@@ -36,27 +36,10 @@
 
 # Time : O(log26^n) , space : O(26)
 
-class Solution:
-    def convertToTitle(self, columnNumber: int) -> str:
-        colToChar = {0: 'Z', 1 : 'A', 2: 'B', 3: 'C', 4: 'D',5: 'E', 6: 'F', 7: 'G', 8: 'H', 9: 'I', 10: 'J',
-                     11: 'K', 12: 'L', 13: 'M', 14: 'N', 15: 'O', 16: 'P', 17: 'Q', 18: 'R', 19: 'S',
-                     20: 'T', 21: 'U', 22: 'V', 23: 'W', 24: 'X', 25: 'Y', 26: 'Z'}
-
-        ans = ""
-        while columnNumber > 26:
-            r = columnNumber % 26
-            ans = colToChar[r] + ans  # keep adding this 'r' title to the front
-            columnNumber = columnNumber // 26 if r != 0 else columnNumber // 26 - 1   # to handle cases like "52" and multiple of 'z'.
-        ans = colToChar[columnNumber] + ans
-        return ans
-    
-
 # My mistake at start:
 # 1) 
 # This will not work if 'columnNumber' is multiple of '26'.
 # Because for '0' there is no matching char.
-
-# Time : O(log26^n) , space : O(26)
 
 class Solution:
     def convertToTitle(self, columnNumber: int) -> str:
@@ -71,6 +54,23 @@ class Solution:
             columnNumber = columnNumber // 26
         ans = colToChar[columnNumber] + ans
         return ans
+
+# Correct code
+
+class Solution:
+    def convertToTitle(self, columnNumber: int) -> str:
+        colToChar = {0: 'Z', 1 : 'A', 2: 'B', 3: 'C', 4: 'D',5: 'E', 6: 'F', 7: 'G', 8: 'H', 9: 'I', 10: 'J',
+                     11: 'K', 12: 'L', 13: 'M', 14: 'N', 15: 'O', 16: 'P', 17: 'Q', 18: 'R', 19: 'S',
+                     20: 'T', 21: 'U', 22: 'V', 23: 'W', 24: 'X', 25: 'Y', 26: 'Z'}
+
+        ans = ""
+        while columnNumber > 26:
+            r = columnNumber % 26
+            ans = colToChar[r] + ans  # keep adding this 'r' title to the front
+            columnNumber = columnNumber // 26 if r != 0 else columnNumber // 26 - 1   # to handle cases like "52" and multiple of 'z'.
+        ans = colToChar[columnNumber] + ans
+        return ans
+    
 
 # Other way of writing same above logic
 class Solution:

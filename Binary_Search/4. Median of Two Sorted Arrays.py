@@ -1,10 +1,48 @@
-# method 1: Brute force
+# method 1: 
+# Brute force
 # just merge both the array in sorted order using the logic "merge two sorted array into one sorted array".
 # After that find the median.
 # time: O(n+ m)
 
+from typing import List
 
-# method 2: Using Binary Search
+class Solution:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        merged = []
+        i = j = 0
+        n, m = len(nums1), len(nums2)
+        
+        # Merge the two arrays
+        while i < n and j < m:
+            if nums1[i] < nums2[j]:
+                merged.append(nums1[i])
+                i += 1
+            else:
+                merged.append(nums2[j])
+                j += 1
+        
+        # If any elements left in nums1
+        while i < n:
+            merged.append(nums1[i])
+            i += 1
+        
+        # If any elements left in nums2
+        while j < m:
+            merged.append(nums2[j])
+            j += 1
+        
+        # Find median
+        total = n + m
+        if total % 2 == 1:
+            return float(merged[total // 2])
+        else:
+            mid1 = merged[total // 2 - 1]
+            mid2 = merged[total // 2]
+            return (mid1 + mid2) / 2.0
+
+
+# method 2: 
+# Using Binary Search
 # most optimised . Q is asking this Algorithm only.
 # time: O(log(m+ n))
 
@@ -58,99 +96,4 @@ class Solution:
             else:   # Bleft > Aright
                 l= i+1  # we have to move right in 'A', to decrease the index 'j'(to deacrease the no of ele from B in left partition)
 
-# Do by other approaches in the sheet.
 
-
-# Java Code 
-"""
-import java.util.*;
-
-class Solution {
-    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        int[] A = nums1, B = nums2;
-        int total = nums1.length + nums2.length;
-        int half = total / 2;
-
-        if (B.length < A.length) {
-            int[] temp = A;
-            A = B;
-            B = temp;  // Ensure A is the smaller array
-        }
-
-        int l = 0, r = A.length - 1;
-
-        while (true) {
-            int i = l + (r - l) / 2;  // Mid index in A (last element of left partition)
-            int j = half - i - 2;     // Last index in B's left partition
-
-            int Aleft = (i >= 0) ? A[i] : Integer.MIN_VALUE;
-            int Aright = (i + 1 < A.length) ? A[i + 1] : Integer.MAX_VALUE;
-            int Bleft = (j >= 0) ? B[j] : Integer.MIN_VALUE;
-            int Bright = (j + 1 < B.length) ? B[j + 1] : Integer.MAX_VALUE;
-
-            if (Aleft <= Bright && Bleft <= Aright) {
-                if (total % 2 == 1) {
-                    return Math.min(Aright, Bright);
-                } else {
-                    return (Math.max(Aleft, Bleft) + Math.min(Aright, Bright)) / 2.0;
-                }
-            } else if (Aleft > Bright) {
-                r = i - 1;
-            } else {
-                l = i + 1;
-            }
-        }
-    }
-}
-"""
-
-# C++ Code 
-"""
-#include <vector>
-#include <algorithm>
-
-using namespace std;
-
-class Solution {
-public:
-    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-        vector<int>& A = nums1;
-        vector<int>& B = nums2;
-        int total = nums1.size() + nums2.size();
-        int half = total / 2;
-
-        if (B.size() < A.size()) swap(A, B); // Ensure A is the smaller array
-
-        int l = 0, r = A.size() - 1;
-
-        while (true) {
-            int i = l + (r - l) / 2;  // Mid index in A (last element of left partition)
-            int j = half - i - 2;     // Last index in B's left partition
-
-            int Aleft = (i >= 0) ? A[i] : INT_MIN;
-            int Aright = (i + 1 < A.size()) ? A[i + 1] : INT_MAX;
-            int Bleft = (j >= 0) ? B[j] : INT_MIN;
-            int Bright = (j + 1 < B.size()) ? B[j + 1] : INT_MAX;
-
-            if (Aleft <= Bright && Bleft <= Aright) {
-                if (total % 2) {
-                    return min(Aright, Bright);
-                } else {
-                    return (max(Aleft, Bleft) + min(Aright, Bright)) / 2.0;
-                }
-            } else if (Aleft > Bright) {
-                r = i - 1;
-            } else {
-                l = i + 1;
-            }
-        }
-    }
-};
-"""
-
-
-
-
-
-
-        

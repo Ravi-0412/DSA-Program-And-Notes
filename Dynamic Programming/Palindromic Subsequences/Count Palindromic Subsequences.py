@@ -1,3 +1,5 @@
+# method 1: 
+
 # We also have to count duplicate subsequences
 
 # Logic: 
@@ -59,6 +61,8 @@ class Solution:
             dp[i][j] =  (self.solve(s, i + 1, j, dp) + self.solve(s, i, j - 1, dp) - self.solve(s, i + 1, j - 1, dp)) % self.mod
         return dp[i][j] % self.mod
 
+
+# Method 2: 
 # Tabulation
 class Solution:
     def countPS(self,s):
@@ -78,39 +82,3 @@ class Solution:
                     
         return dp[0][n-1] % self.mod
 
-# java
-"""
-class Solution {
-    public int countPS(String s) {
-        int n = s.length();
-        int mod = 1000000007;
-        
-        // Create a 2D DP array to store results of subproblems
-        int[][] dp = new int[n][n];
-        
-        // Single characters are palindromic subsequences
-        for (int i = 0; i < n; i++) {
-            dp[i][i] = 1;
-        }
-        
-        // Fill the DP table
-        for (int i = n - 1; i >= 0; i--) {
-            for (int j = i + 1; j < n; j++) {
-                if (s.charAt(i) == s.charAt(j)) {
-                    dp[i][j] = (1 + dp[i + 1][j] + dp[i][j - 1]) % mod;
-                } else {
-                    dp[i][j] = (dp[i + 1][j] + dp[i][j - 1] - dp[i + 1][j - 1] + mod) % mod;
-                }
-            }
-        }
-        
-        // Return the result for the entire string
-        return dp[0][n - 1];
-    }
-}
-
-"""
-
-# extension
-# 1) 730. Count Different Palindromic Subsequences
-# count distinct palindromic subsequences

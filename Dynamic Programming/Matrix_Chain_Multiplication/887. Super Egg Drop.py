@@ -1,3 +1,5 @@
+# Method 1: 
+
 """
 Just extension of Q : "1884. Egg Drop With 2 Eggs and N Floors".
 
@@ -44,9 +46,11 @@ class Solution:
             ans= min(ans, tempAns)          # for getting overall minimum
         dp[k][n]= ans
         return dp[k][n]
-    
 
-# memoization: TLE
+
+# Method 2: 
+# memoization: 
+# Will give TLE
 # Time Complexity: O((n^2) * k)
 # Space Complexity: O(k * n
 class Solution:
@@ -69,48 +73,15 @@ class Solution:
         dp[k][n]= ans
         return dp[k][n]
 
-# Java
-"""
-public class Solution {
-    public int superEggDrop(int k, int n) {
-        int[][] dp = new int[k + 1][n + 1];
-        // Initialize all values to -1 to indicate uncomputed states
-        for (int i = 0; i <= k; i++) {
-            for (int j = 0; j <= n; j++) {
-                dp[i][j] = -1;
-            }
-        }
-        return f(k, n, dp);
-    }
 
-    private int f(int k, int n, int[][] dp) {
-        if (k == 1 || n <= 1) {
-            return n;
-        }
-        if (dp[k][n] != -1) {
-            return dp[k][n];
-        }
-        int ans = Integer.MAX_VALUE;
-        for (int i = 1; i <= n; i++) {
-            int breakCase = f(k - 1, i - 1, dp);
-            int notBreakCase = f(k, n - i, dp);
-            int tempAns = 1 + Math.max(breakCase, notBreakCase);
-            ans = Math.min(ans, tempAns);
-        }
-        dp[k][n] = ans;
-        return dp[k][n];
-    }
-}
-"""
+# Method 3: 
 
 # optimising memoization using bottom up and binary search.
 # Instead of dropping from each possible floor, we can find the floor using binary search.
 # Time Complexity: O((n * k) * logn )
 # Space Complexity: O(n * k)
 
-# note: understand this approach properly from below links
-# https://leetcode.com/problems/super-egg-drop/solutions/792736/cpp-explained-recursive-memoization-optimization-dp-well-explained-easy-to-unserstand/
-# https://leetcode.com/problems/super-egg-drop/solutions/159079/python-dp-from-kn-2-to-knlogn-to-kn/
+
 class Solution:
     def superEggDrop(self, k: int, n: int) -> int:
         dp= [[-1 for i in range(n+1)] for j in range(k+1)]
@@ -143,53 +114,6 @@ class Solution:
         dp[k][n]= ans
         return dp[k][n]
 
-# Java
-"""
-public class Solution {
-    public int superEggDrop(int k, int n) {
-        int[][] dp = new int[k + 1][n + 1];
-        for (int i = 0; i <= k; i++) {
-            for (int j = 0; j <= n; j++) {
-                dp[i][j] = -1;
-            }
-        }
-        return f(k, n, dp);
-    }
 
-    private int f(int k, int n, int[][] dp) {
-        if (k == 1 || n <= 1) {
-            return n;
-        }
-        if (dp[k][n] != -1) {
-            return dp[k][n];
-        }
-
-        int ans = Integer.MAX_VALUE;
-        int low = 1, high = n;
-        while (low <= high) {
-            int mid = (low + high) / 2;
-            int left = f(k - 1, mid - 1, dp);
-            int right = f(k, n - mid, dp);
-            int temp = 1 + Math.max(left, right);
-
-            if (right > left) {
-                low = mid + 1;
-            } else {
-                high = mid - 1;
-            }
-
-            ans = Math.min(ans, temp);
-        }
-
-        dp[k][n] = ans;
-        return dp[k][n];
-    }
-}
-"""
-
-# method 2:
-# Try to understand this also later.
-# https://leetcode.com/problems/super-egg-drop/solutions/443089/simplest-python-dp-solution-with-detailed-explanation-99-time-100-mem/
-# https://leetcode.com/problems/super-egg-drop/solutions/158974/c-java-python-2d-and-1d-dp-o-klogn/
 
 

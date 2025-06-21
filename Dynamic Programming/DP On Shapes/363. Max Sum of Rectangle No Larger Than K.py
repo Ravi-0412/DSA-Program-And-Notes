@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Note : Similar to 'Maximum sum Rectangle' but here 
 # If we find the sum after including each row using Kedane's algo then we won't get 
 # correct ans because Kedane will give maximum sum and this maximum_sum can be < , =, or  > than 'k'.
@@ -23,46 +25,62 @@
 # we can get sum = right - left <= k and for getting maximum sum we will find smallest 'left'.
 
 
-from sortedcontainers import SortedList
 class Solution:
     def maxSumSubmatrix(self, matrix: List[List[int]], k: int) -> int:
-        row, col= len(matrix), len(matrix[0])
-        maxSum= -inf
+        row, col = len(matrix), len(matrix[0])
+        maxSum = float('-inf')
+
         for start in range(col):
-            sum= [0 for i in range(row)]
-            for end in range(start,col):
+            sum = [0 for _ in range(row)]
+            for end in range(start, col):
                 for r in range(row):
-                    sum[r]+= matrix[r][end]
-                # now find the maximum sum for current joined rows rectangle like Kedane Algo
-                currSum= self.MaximumSumSubArray(sum, k)
-                maxSum= max(currSum, maxSum) 
+                    sum[r] += matrix[r][end]
+                # now find the maximum sum for current joined rows rectangle like Kadane Algo
+                currSum = self.MaximumSumSubArray(sum, k)
+                maxSum = max(currSum, maxSum)
         return maxSum
-    
+
     def MaximumSumSubArray(self, arr, k):
-        right= 0  # will store the currsum for all index like 0,1,2...
-        seen= SortedList([0])  # will store the curr sum i.e 'right' in sorted order
-        ans= -inf
+        right = 0  # will store the currsum for all index like 0,1,2...
+        seen = [0]  # will store the curr sum i.e 'right' in sorted order
+        ans = float('-inf')
+
         for i in range(len(arr)):
-            right += arr[i] 
-            # After each curSum (right), find the smallest value of sum of left side side say 'left' such that 'left >= right - k'.
-            # Indirectly telling us to find the ceiling value of 'right-k'.
-            left = self.Ceiling(seen, right-k)  
-            if left != None:   # means if we have seen the this difference then update the ans
-                ans= max(ans, right - left)  # ans will be equal to 'right-left'
-            seen.add(right)  
+            right += arr[i]
+            # After each curSum (right), find the smallest value of sum of left side say 'left' such that 'left >= right - k'.
+            # Indirectly telling us to find the ceiling value of 'right - k'.
+            left = self.Ceiling(seen, right - k)
+            if left is not None:  # means if we have seen this difference then update the ans
+                ans = max(ans, right - left)  # ans will be equal to 'right - left'
+
+            # Insert 'right' into 'seen' in sorted order (like TreeSet or SortedList)
+            self.insertSorted(seen, right)
+
         return ans
 
     # We have to find the smallest value >= than 'key'
-    def Ceiling(self, SortedList, key):
-        # 1st get the index of 'key' 
-        ind= SortedList.bisect_left(key)   
-                # In case 'key' is present then we want 'key' only for smaller one so used 'bisect_left' 
-                # instead of 'bisect_right'. 'bisect_right' will give next bigger in case 'key' is present.
-        if ind < len(SortedList):
-            return SortedList[ind]
-        else:
-            return None
+    def Ceiling(self, arr, key):
+        # Do binary search for key
+        left, right = 0, len(arr) - 1
+        res = None
+        while left <= right:
+            mid = (left + right) // 2
+            if arr[mid] >= key:
+                res = arr[mid]
+                right = mid - 1
+            else:
+                left = mid + 1
+        return res
 
-# used python library
-# https://www.geeksforgeeks.org/python-sorted-containers-an-introduction/
-# https://www.geeksforgeeks.org/bisect-algorithm-functions-in-python/
+    # Insert value in sorted list using binary search
+    def insertSorted(self, arr, val):
+        left, right = 0, len(arr)
+        while left < right:
+            mid = (left + right) // 2
+            if arr[mid] < val:
+                left = mid + 1
+            else:
+                right = mid
+        arr.insert(left, val)
+
+

@@ -1,4 +1,5 @@
-# by Recursion
+# Method 1: 
+# By Recursion
 
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
@@ -28,7 +29,8 @@ class Solution:
         return False
 
 
-# method 2: memoization
+# method 2: 
+# memoisation
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
         m,n= len(s), len(p)
@@ -55,7 +57,8 @@ class Solution:
             dp[m][n]= False
         return dp[m][n] 
 
-# method 3: Tabulation
+# method 3: 
+# Tabulation
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
         m,n= len(s), len(p)
@@ -82,7 +85,8 @@ class Solution:
         return dp[m][n]
 
 
-# method 4: space optimised to O(n)
+# method 4: 
+# space optimised to O(n)
 # for base case 0th row means previous and other than zero means curr
 # so initialise based on the actual means of row and col 
 # we have to initialise 'curr' for every row 

@@ -1,3 +1,5 @@
+# Method 1: 
+
 """
 1) Let dp(mask, remainTime) is the minimum of work sessions needed to finish all the tasks represent by mask (where ith bit = 1 means tasks[i] need to proceed) with the remainTime we have for the current session.
 Then dp((1 << n) - 1, 0) is our result
@@ -44,57 +46,4 @@ class Solution:
         # Start with all tasks remaining (mask = (1 << n) - 1), and no time used in the current session
         return dp((1 << n) - 1, 0)
 
-# Java
-"""
-class Solution {
-    int n, sessionTime;
-    int[][] memo;
 
-    public int minSessions(int[] tasks, int sessionTime) {
-        n = tasks.length;
-        this.sessionTime = sessionTime;
-
-        // Initialize memo array with -1 (unvisited state)
-        memo = new int[1 << n][sessionTime + 1];
-        for (int i = 0; i < (1 << n); i++) {
-            for (int j = 0; j <= sessionTime; j++) {
-                memo[i][j] = -1;  // -1 indicates unvisited
-            }
-        }
-
-        return dp(tasks, (1 << n) - 1, 0);  // Start with all tasks pending and 0 time left
-    }
-
-    private int clearBit(int x, int k) {
-        return ~(1 << k) & x;
-    }
-
-    // DP function with memoization
-    private int dp(int[] tasks, int mask, int remainTime) {
-        if (mask == 0) return 0;  // All tasks done
-
-        // If already computed, return memoized result
-        if (memo[mask][remainTime] != -1) return memo[mask][remainTime];
-
-        int ans = n;  // Worst case: up to n sessions
-
-        for (int i = 0; i < n; i++) {
-            if (((mask >> i) & 1) == 1) {  // Task i is still pending
-                int newMask = clearBit(mask, i);  // Mark task i as done
-                if (tasks[i] <= remainTime) {
-                    // Fit the task into the current session
-                    ans = Math.min(ans, dp(tasks, newMask, remainTime - tasks[i]));
-                } else {
-                    // Task doesn't fit, start a new session
-                    ans = Math.min(ans, dp(tasks, newMask, sessionTime - tasks[i]) + 1);
-                }
-            }
-        }
-
-        memo[mask][remainTime] = ans;  // Memoize the result
-        return ans;
-    }
-}
-"""
-
-# TR to do in more optimal way, solution in sheet.

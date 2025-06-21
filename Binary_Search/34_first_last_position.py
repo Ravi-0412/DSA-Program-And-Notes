@@ -1,5 +1,5 @@
 
-# 2nd method: Best one
+# 1st method: Best one
 # Time: o(logn), space:o(1)   
 def search(nums,target,findStartIndex):
     ans= -1
@@ -42,36 +42,36 @@ print(searchRange(nums1,0))
 
 
 
-# # method 2: submitted on leetcode
-# class Solution:
-#     def searchRange(self, nums: List[int], target: int) -> List[int]:
-#         ans= [-1,-1]
-#         start= self.search(nums,target, 1)  # was missing 'self' before search
-#                                             # and due to this was getting error again and again
-#         end=   self.search(nums,target, 0)       
-#         ans[0]= start
-#         ans[1]= end
-#         return ans
+# method 2: 
+class Solution:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        ans= [-1,-1]
+        start= self.search(nums,target, 1)  # was missing 'self' before search
+                                            # and due to this was getting error again and again
+        end=   self.search(nums,target, 0)       
+        ans[0]= start
+        ans[1]= end
+        return ans
     
-#     def search(self,nums,target,findStartIndex):
-          # if findStartIndex== 1, it means we are finding the first position if '0' means we are finding the last position
-#         ans= -1
-#         start= 0
-#         end= len(nums)-1
-#         while(start<= end):
-#             mid= start+ (end-start)//2
-#             if nums[mid]> target:
-#                 end= mid-1
-#             elif nums[mid]< target:
-#                 start= mid+1
-#             else:
-#                 # potential ans has been found
-#                 ans= mid
-#                 if(findStartIndex==1):
-#                     end= mid-1
-#                 else:
-#                     start= mid+1
-#         return ans
+    def search(self,nums,target,findStartIndex):
+        #   if findStartIndex== 1, it means we are finding the first position if '0' means we are finding the last position
+        ans= -1
+        start= 0
+        end= len(nums)-1
+        while(start<= end):
+            mid= start+ (end-start)//2
+            if nums[mid]> target:
+                end= mid-1
+            elif nums[mid]< target:
+                start= mid+1
+            else:
+                # potential ans has been found
+                ans= mid
+                if(findStartIndex==1):
+                    end= mid-1
+                else:
+                    start= mid+1
+        return ans
 
 
 # Java Code 
@@ -109,6 +109,7 @@ class Solution {
         return ans;
     }
 }
+
 //Method 2
 class Solution {
     private int search(int[] nums, int target, int left, int right, boolean findStartIndex) {
@@ -177,6 +178,7 @@ public:
         return ans;
     }
 };
+
 //Method 2
 class Solution {
 public:

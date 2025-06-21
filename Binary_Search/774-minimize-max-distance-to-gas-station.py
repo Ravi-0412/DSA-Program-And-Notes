@@ -1,4 +1,6 @@
-# logic:Similar logic like "Allocate minimum no of pages" but very good Q.
+# method 1: 
+
+# logic: Similar logic like "Allocate minimum no of pages" but very good Q.
 # Q asking : 'k' gas station add karne ke bad minimum distance kisi bhi gas station ke beech kitna ho sakta h.
 
 # we can check for each posible ans(difference only) like if it is possible to keep all the stations with this 'diff' 
@@ -12,9 +14,9 @@
 
 # Raeson: Every adjacent gas staion can have max distance 'mid', so checking between every station.
 
-
-# submitted on lintcode(LC premium).
 # time: O(n* log(max(stations)))
+
+
 class Solution:
     def minmax_gas_dist(self, stations: List[int], k: int) -> float:
 
@@ -34,72 +36,3 @@ class Solution:
             else:
                 start= mid + delta
         return start
-
-# Java Code 
-"""
-import java.util.Arrays;
-
-class Solution {
-    public double minmaxGasDist(int[] stations, int k) {
-        double delta = 1e-6;  // Minimum allowable difference
-        double start = 0;
-        double end = Arrays.stream(stations).max().getAsInt();  // Maximum difference initially
-
-        while (end - start > delta) {
-            double mid = start + (end - start) / 2;
-            if (isPossible(stations, k, mid)) {
-                end = mid;
-            } else {
-                start = mid + delta;
-            }
-        }
-
-        return start;
-    }
-
-    private boolean isPossible(int[] stations, int k, double diff) {
-        int count = 0;
-        for (int i = 1; i < stations.length; i++) {
-            count += (stations[i] - stations[i - 1]) / diff;  // Number of additional stations needed
-        }
-        return count <= k;  // Can we place 'k' stations and maintain max distance <= diff?
-    }
-}
-"""
-
-# C++ Code 
-"""
-#include <vector>
-#include <cmath>
-#include <algorithm>
-
-using namespace std;
-
-class Solution {
-public:
-    double minmaxGasDist(vector<int>& stations, int k) {
-        auto isPossible = [&](double diff) {
-            int count = 0;
-            for (size_t i = 1; i < stations.size(); i++) {
-                count += (stations[i] - stations[i - 1]) / diff;  // Number of additional stations needed
-            }
-            return count <= k;  // Can we place 'k' stations and maintain max distance <= diff?
-        };
-
-        double delta = 1e-6;  // Minimum allowable difference
-        double start = 0;
-        double end = *max_element(stations.begin(), stations.end());
-
-        while (end - start > delta) {
-            double mid = start + (end - start) / 2;
-            if (isPossible(mid)) {
-                end = mid;
-            } else {
-                start = mid + delta;
-            }
-        }
-
-        return start;
-    }
-};
-"""

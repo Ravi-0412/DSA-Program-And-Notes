@@ -1,3 +1,5 @@
+# Basic: 
+
 # Logic: 
 """
 Say you have four stones a,b,c,d.
@@ -30,8 +32,11 @@ Clearly this subproblem is analogous to the knapsack problem.
 # So question reduces to find closest sum (sum of numbers) to (SUM/2).
 # for finding closest sum to sum(arr)/2. we can do like.
 
-# Using method of 'Minimum sum partition"
+
 # Method 1: 
+# Recursion  + memoisation
+# Using method of 'Minimum sum partition"
+
 class Solution:
     def lastStoneWeightII(self, stones: List[int]) -> int:
         total_sum = sum(stones)  # Calculate the total sum of all stones
@@ -52,14 +57,13 @@ class Solution:
         for i in range(half_sum + 1):
             if dp[i]:
                 max_subset_sum = i
-        
         # Calculate the minimum difference
         min_diff = total_sum - 2 * max_subset_sum
-        
         return min_diff
 
-# Method 2: 
 
+# Method 2: 
+# Tabulation 
 class Solution:
     def lastStoneWeightII(self, stones: List[int]) -> int:
         total, n= sum(stones), len(stones)

@@ -1,3 +1,5 @@
+# Method 1: 
+
 # in string matching you will come across only two cases i.e 'matched' and 'not matched' always 
 # for base case in string matching algo, base cases will be when :
 # 1) when 2nd string becomes empty(2nd index becomes zero) 2) when first string becomes empty(1st index becomes=0) and  
@@ -31,7 +33,8 @@ class Solution:
         return matched+ unMatched 
 
 
-# shorter way
+# method 2:
+# Shorter way of writing Method 1
 class Solution:
     def numDistinct(self, s: str, t: str) -> int:
         m, n= len(s), len(t)
@@ -49,6 +52,7 @@ class Solution:
         return self.helper(m-1, n, s, t)
 
 
+# Method 3: 
 # memoization
 class Solution:
     def numDistinct(self, s: str, t: str) -> int:
@@ -69,7 +73,7 @@ class Solution:
             dp[m][n]= self.helper(m-1, n, s, t, dp)
         return dp[m][n]
 
-
+# Method 4: 
 # Tabulation
 class Solution:
     def numDistinct(self, s: str, t: str) -> int:
@@ -85,7 +89,8 @@ class Solution:
                     dp[i][j]= dp[i-1][j] 
         return dp[m][n]
 
-# method 4: optimise space to O(n)
+# method 5: 
+# optimise space to O(n)
 
 
 # Related Q:

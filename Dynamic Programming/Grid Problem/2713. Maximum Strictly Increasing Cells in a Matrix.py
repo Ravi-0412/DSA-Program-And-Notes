@@ -1,4 +1,5 @@
-# method 1: Brute force
+# method 1: 
+# Brute force
 # logic: for (i,j), longest path= max(longest path in  row i, longest path in col j) + 1.
 
 # For row and col, we need to check every ele as for cur cell either ele on left or right may be greater.
@@ -33,6 +34,7 @@ class Solution:
             for j in range(n):
                 ans= max(ans, dfs(i, j))
         return ans
+
 
 # method 2:
 # optimising the above 
@@ -80,51 +82,3 @@ class Solution:
                 rows[i]= max(dp[i][j], rows[i])
                 cols[j]= max(dp[i][j], cols[j])
         return ans
-
-# java
-"""
-import java.util.*;
-
-class Solution {
-    public int maxIncreasingCells(int[][] mat) {
-        int m = mat.length, n = mat[0].length;
-        
-        // Create a map to store the positions of each value in the matrix
-        Map<Integer, List<int[]>> valToIndices = new HashMap<>();
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                valToIndices.computeIfAbsent(mat[i][j], k -> new ArrayList<>()).add(new int[]{i, j});
-            }
-        }
-
-        int[][] dp = new int[m][n];  // dp[i][j]: longest path starting from (i, j)
-        int[] rows = new int[m];  // rows[i]: longest path in ith row
-        int[] cols = new int[n];  // cols[j]: longest path in jth column
-        int ans = 1;  // minimum path is 1
-
-        // Traverse values in sorted order
-        List<Integer> sortedValues = new ArrayList<>(valToIndices.keySet());
-        Collections.sort(sortedValues);
-
-        for (int num : sortedValues) {
-            // Process all cells with the current value
-            List<int[]> indices = valToIndices.get(num);
-            for (int[] index : indices) {
-                int i = index[0], j = index[1];
-                // Update dp[i][j] with the max path length from rows[i] or cols[j]
-                dp[i][j] = 1 + Math.max(rows[i], cols[j]);
-                ans = Math.max(ans, dp[i][j]);
-            }
-            
-            // Update rows and cols based on the dp values calculated for this value
-            for (int[] index : indices) {
-                int i = index[0], j = index[1];
-                rows[i] = Math.max(dp[i][j], rows[i]);
-                cols[j] = Math.max(dp[i][j], cols[j]);
-            }
-        }
-
-        return ans;
-    }
-}
-"""

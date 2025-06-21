@@ -1,5 +1,7 @@
+# Method 1: 
+
 # Recursive approach 
-# correct only but giving TLE
+# correct only but give TLE
 
 class Solution:
     def matrixMultiplication(self, N, arr):
@@ -21,30 +23,10 @@ class Solution:
             mn= min(mn,tempAns)   # take minimum of all ans.
         return mn
 
-# Java
-"""
-public class Solution {
-    public int matrixMultiplication(int N, int[] arr) {
-        return MCM(arr, 1, N - 1);
-    }
 
-    private int MCM(int[] arr, int start, int end) {
-        if (start >= end) {
-            return 0;
-        }
 
-        int min = Integer.MAX_VALUE;
-        for (int k = start; k < end; k++) {
-            int temp = MCM(arr, start, k) + MCM(arr, k + 1, end) + arr[start - 1] * arr[k] * arr[end];
-            min = Math.min(min, temp);
-        }
-
-        return min;
-    }
-}
-"""
-
-# method 2: memoization
+# method 2: 
+# memoization
 # time: O(n^3)
 class Solution:
     def matrixMultiplication(self, N, arr):
@@ -65,39 +47,8 @@ class Solution:
         dp[start][end]= mn
         return dp[start][end]
 
-# Java
-"""
-public class Solution {
-    public int matrixMultiplication(int N, int[] arr) {
-        int[][] dp = new int[N][N];
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                dp[i][j] = -1;
-            }
-        }
-        return MCM(arr, 1, N - 1, dp);
-    }
 
-    private int MCM(int[] arr, int start, int end, int[][] dp) {
-        if (start >= end) {
-            return 0;
-        }
-        if (dp[start][end] != -1) {
-            return dp[start][end];
-        }
-
-        int min = Integer.MAX_VALUE;
-        for (int k = start; k < end; k++) {
-            int temp = MCM(arr, start, k, dp) + MCM(arr, k + 1, end, dp) + arr[start - 1] * arr[k] * arr[end];
-            min = Math.min(min, temp);
-        }
-
-        dp[start][end] = min;
-        return dp[start][end];
-    }
-}
-"""
-
+# Method 3: 
 # Tabulation:
 # Note: In MCM type Q, go from first valid input to first invalid input (both inclusive) or vice versa.
 # both looping variable should go till first function call after initialisng the base case.
@@ -115,24 +66,4 @@ class Solution:
                 dp[start][end]= mn
         return dp[1][N-1]   # we have called the recursive function for this variable value. so simply return that
 
-# Java
-"""
-public class Solution {
-    public int matrixMultiplication(int N, int[] arr) {
-        int[][] dp = new int[N][N];
 
-        for (int start = N - 2; start >= 1; start--) {
-            for (int end = start + 1; end < N; end++) {
-                int min = Integer.MAX_VALUE;
-                for (int k = start; k < end; k++) {
-                    int temp = dp[start][k] + dp[k + 1][end] + arr[start - 1] * arr[k] * arr[end];
-                    min = Math.min(min, temp);
-                }
-                dp[start][end] = min;
-            }
-        }
-
-        return dp[1][N - 1];
-    }
-}
-"""

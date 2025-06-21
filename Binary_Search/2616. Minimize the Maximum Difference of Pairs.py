@@ -1,3 +1,5 @@
+# method 1: 
+
 # What we have find indirectly:
 # Find the smallest difference say 'diff' such that we can find 'p' pairs having difference between them is <= 'diff'.
 # Just like we find the 1st index.
@@ -40,38 +42,10 @@ class Solution:
                 start= mid +1
         return start
 
-
-# Note: Follow up Q => "if given 'an index can appear more than once amongst those pairs p pairs' ".
-# wrong i think. Have to ask someone.
-
-class Solution:
-    def minimizeMax(self, nums: List[int], p: int) -> int:
-        n = len(nums)
-
-        def countPair(mid):
-            cnt = 0
-            i, j = 0, 1
-            while j < n:
-                while j < n and nums[j] - nums[i] <= mid:
-                    j += 1
-                cnt += j -i -1
-                i = j
-                j += 1
-            return cnt
-
-        nums.sort()
-        start, end = 0, nums[-1] - nums[0]
-        while start < end:
-            mid = start + (end- start)//2
-            if countPair(mid) >= p:
-                end = mid
-            else:
-                start = mid + 1
-        return start
-
+# Extension: 
 
 # Note vvvi: Every sub-function we are calling can be asked as a separate problem in interview 
-    # so keep those function pattern also in mind like when to use.
+# # so keep those function pattern also in mind like when to use.
 # Like: 1) " Count the no of pairs <= given_num such that no index appear more than once amongst those pairs".
 # Solution above
 

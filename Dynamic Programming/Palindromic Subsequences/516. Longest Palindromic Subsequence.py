@@ -1,3 +1,5 @@
+# Method 1:
+
 # logic: just reverse the string and find lcs of actual and reversed string
 # lcs will be our final ans as for palindrome reading from both sides will be same
 # so the subsequence in one must be there in other also
@@ -18,7 +20,8 @@ class Solution:
                     dp[i][j]= max(dp[i][j-1], dp[i-1][j])
         return dp[x][y]
 
-# Method 2: Travsersing in same string 's'
+# Method 2: 
+# Travsersing in same string 's'
 # Recursion + memoisation 
 
 # Logic: 
@@ -51,6 +54,7 @@ class Solution:
 
         return helper(0, n - 1)
 
+# Method 3: 
 # Tabulation
 class Solution:
     def longestPalindromeSubseq(self, s: str) -> int:

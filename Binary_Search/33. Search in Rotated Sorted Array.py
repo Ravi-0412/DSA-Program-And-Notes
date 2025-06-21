@@ -1,4 +1,5 @@
-# 1st method: first finding the index of min ele and calling the binary search on left side (before pivot) 
+# 1st method: 
+# first finding the index of min ele and calling the binary search on left side (before pivot) 
 # and right side from pivot till end
 # ele from index 0 till before index of  min ele will be sorted in ascending order and
 # ele from index of min ele till last index will be sorted in ascending order
@@ -52,7 +53,8 @@ class Solution:
         return -1
 
 
-# method2: By recursion(Template 2)
+# method 2: 
+# By recursion(Template 2)
 #logic: just finding the sorted part and checking whether ele lies in that or not ..
 # Reason: we can only applu binary search if array is sorted.
 
@@ -81,160 +83,3 @@ class Solution:
                     end= mid
         return start if nums[start]== target else -1
 
-
-# Similar Q:
-# 1) "81. Search in Rotated Sorted Array II".
-# https://github.com/Ravi-0412/DSA-Program-And-Notes/blob/main/Binary_Search/81.%20Search%20in%20Rotated%20Sorted%20Array%20II.py
-
-
-# Java Code 
-"""
-//Method 1
-class Solution {
-    private int binarySearch(int[] arr, int target, int low, int high) {
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
-            if (arr[mid] == target) {
-                return mid;
-            } else if (arr[mid] < target) {
-                low = mid + 1;
-            } else {
-                high = mid - 1;
-            }
-        }
-        return -1;
-    }
-
-    private int findPivot(int[] nums) {
-        int left = 0, right = nums.length - 1;
-        while (left < right) {
-            int mid = (left + right) / 2;
-            if (nums[left] > nums[mid]) {
-                right = mid - 1;
-            } else {
-                left = mid;
-            }
-        }
-        return left;
-    }
-
-    public int search(int[] nums, int target) {
-        int n = nums.length;
-        int pivot_index = findPivot(nums);
-        
-        int left = binarySearch(nums, target, 0, pivot_index - 1);
-        if (left == -1) {
-            int right = binarySearch(nums, target, pivot_index, n - 1);
-            return right;
-        }
-        return left;
-    }
-}
-//Method 2
-class Solution {
-    public int search(int[] nums, int target) {
-        int start = 0, end = nums.length - 1;
-
-        while (start < end) {
-            int mid = start + (end - start) / 2;
-
-            // Check if left part is sorted
-            if (nums[mid] >= nums[start]) {
-                if (nums[start] <= target && target <= nums[mid]) {
-                    end = mid;
-                } else {
-                    start = mid + 1;
-                }
-            } 
-            // Else right part must be sorted
-            else {
-                if (nums[mid + 1] <= target && target <= nums[end]) {
-                    start = mid + 1;
-                } else {
-                    end = mid;
-                }
-            }
-        }
-        return (nums[start] == target) ? start : -1;
-    }
-}
-"""
-
-# C++ Code 
-"""
-//Method 1
-#include <vector>
-
-using namespace std;
-
-class Solution {
-public:
-    int binarySearch(vector<int>& arr, int target, int low, int high) {
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
-            if (arr[mid] == target) {
-                return mid;
-            } else if (arr[mid] < target) {
-                low = mid + 1;
-            } else {
-                high = mid - 1;
-            }
-        }
-        return -1;
-    }
-
-    int findPivot(vector<int>& nums) {
-        int left = 0, right = nums.size() - 1;
-        while (left < right) {
-            int mid = (left + right) / 2;
-            if (nums[left] > nums[mid]) {
-                right = mid - 1;
-            } else {
-                left = mid;
-            }
-        }
-        return left;
-    }
-
-    int search(vector<int>& nums, int target) {
-        int n = nums.size();
-        int pivot_index = findPivot(nums);
-        
-        int left = binarySearch(nums, target, 0, pivot_index - 1);
-        if (left == -1) {
-            int right = binarySearch(nums, target, pivot_index, n - 1);
-            return right;
-        }
-        return left;
-    }
-};
-//Method 2
-class Solution {
-public:
-    int search(vector<int>& nums, int target) {
-        int start = 0, end = nums.size() - 1;
-
-        while (start < end) {
-            int mid = start + (end - start) / 2;
-
-            // Check if left part is sorted
-            if (nums[mid] >= nums[start]) {
-                if (nums[start] <= target && target <= nums[mid]) {
-                    end = mid;
-                } else {
-                    start = mid + 1;
-                }
-            } 
-            // Else right part must be sorted
-            else {
-                if (nums[mid + 1] <= target && target <= nums[end]) {
-                    start = mid + 1;
-                } else {
-                    end = mid;
-                }
-            }
-        }
-        return (nums[start] == target) ? start : -1;
-    }
-};
-"""

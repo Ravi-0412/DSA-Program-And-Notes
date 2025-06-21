@@ -1,9 +1,10 @@
-
+# Method 1:
+# Recursion
 # Approach: Front partitioning
 # logic: you can only partition at any index if string till that index is palindrome.
 # in this we only need to pass one parameter, for checking palindrome at each index.
 
-# method 1: Recursion
+
 class Solution:
     def minCut(self, s: str) -> int:
         n, i= len(s), 0
@@ -22,7 +23,8 @@ class Solution:
         return mincost
 
 
-# method 2: Memoization(Accepted)
+# method 2: 
+# Memoization(Accepted)
 # for time complexity: see the no of variable changing(say m) and no of 'for' loop (say p)
 # time= O(n*r1*r2*....).  r1, r2,....: are size of variable changing in function as well as inside the for loop.
 
@@ -48,49 +50,8 @@ class Solution:
         dp[i] = mincost
         return dp[i]
 
-# Java
-"""
-import java.util.*;
 
-public class Solution {
-    public int minCut(String s) {
-        int n = s.length();
-        int[] dp = new int[n + 1];
-        Arrays.fill(dp, -1);
-        return helper(s, 0, dp) - 1;
-    }
-
-    private int helper(String s, int i, int[] dp) {
-        if (i == s.length()) {
-            return 0;
-        }
-        if (dp[i] != -1) {
-            return dp[i];
-        }
-
-        int minCost = Integer.MAX_VALUE;
-        for (int j = i; j < s.length(); j++) {
-            String temp = s.substring(i, j + 1);
-            if (isPalindrome(temp)) {
-                int smallAns = 1 + helper(s, j + 1, dp);
-                minCost = Math.min(minCost, smallAns);
-            }
-        }
-
-        dp[i] = minCost;
-        return dp[i];
-    }
-
-    private boolean isPalindrome(String str) {
-        int l = 0, r = str.length() - 1;
-        while (l < r) {
-            if (str.charAt(l++) != str.charAt(r--)) return false;
-        }
-        return true;
-    }
-}
-"""
-
+# method 3: 
 # Tabulation
 class Solution:
     def minCut(self, s: str) -> int:
@@ -106,34 +67,4 @@ class Solution:
             dp[i]= mincost
         return dp[0] - 1
 
-# Java
-"""
-public class Solution {
-    public int minCut(String s) {
-        int n = s.length();
-        int[] dp = new int[n + 1];
 
-        for (int i = n - 1; i >= 0; i--) {
-            int minCost = Integer.MAX_VALUE;
-            for (int j = i; j < n; j++) {
-                if (isPalindrome(s, i, j)) {
-                    int smallAns = 1 + dp[j + 1];
-                    minCost = Math.min(minCost, smallAns);
-                }
-            }
-            dp[i] = minCost;
-        }
-
-        return dp[0] - 1;
-    }
-
-    private boolean isPalindrome(String s, int l, int r) {
-        while (l < r) {
-            if (s.charAt(l++) != s.charAt(r--)) {
-                return false;
-            }
-        }
-        return true;
-    }
-}
-"""

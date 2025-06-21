@@ -1,4 +1,5 @@
-# method 1: Brute force
+# method 1: 
+# Brute force
 # using heap
 # time: O(n^2 *log(n^2))
 # space : O(n^2)
@@ -13,7 +14,8 @@ class Solution:
                     heapq.heappop(heap)
         return -1*heap[0]
     
-# methopd 2: VVI (very good approach)
+# methopd 2: 
+# VVI (very good approach)
 # modifying heap and using the sorted rows and columns benefit.
 # logic: Since each of the rows in matrix are already sorted, we can understand the problem as 
 # "finding the kth smallest element from amongst M sorted rows."
@@ -44,7 +46,8 @@ class Solution(object):
 
 
 
-# method 3: using binary search (more optimised)
+# method 3: 
+# using binary search (more optimised)
 # time: O((m + n) *log(A)), A= difference between minimum value and maximum value in the matrix.
 # logic explanation: 
 # We have a way to count how many numbers are less than or equal to x in the table 
@@ -95,169 +98,6 @@ def count(m):
             cnt += c + 1
             r += 1
     return cnt
-
-# Java Code 
-"""
-//Method 1
-import java.util.PriorityQueue;
-
-class Solution {
-    public int kthSmallest(int[][] matrix, int k) {
-        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);
-        int m = matrix.length, n = matrix[0].length;
-
-        for (int r = 0; r < m; r++) {
-            for (int c = 0; c < n; c++) {
-                maxHeap.add(matrix[r][c] * -1);
-                if (maxHeap.size() > k) {
-                    maxHeap.poll();
-                }
-            }
-        }
-        return maxHeap.peek() * -1;
-    }
-}
-//Method 2
-import java.util.PriorityQueue;
-
-class Solution {
-    public int kthSmallest(int[][] matrix, int k) {
-        int m = matrix.length, n = matrix[0].length;
-        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> a[0] - b[0]);
-
-        // Insert first 'k' values from the first column
-        for (int r = 0; r < Math.min(k, m); r++) {
-            minHeap.add(new int[]{matrix[r][0], r, 0});
-        }
-
-        // Extract k-1 smallest elements
-        while (--k > 0) {
-            int[] top = minHeap.poll();
-            int r = top[1], c = top[2];
-
-            if (c + 1 < n) {
-                minHeap.add(new int[]{matrix[r][c + 1], r, c + 1});
-            }
-        }
-        return minHeap.peek()[0];
-    }
-}
-//Method 3
-class Solution {
-    private int countLessEqual(int[][] matrix, int mid) {
-        int row = matrix.length, col = matrix[0].length;
-        int cnt = 0, r = 0, c = col - 1;
-
-        while (r < row && c >= 0) {
-            if (matrix[r][c] > mid) {
-                c--;
-            } else {
-                cnt += c + 1;
-                r++;
-            }
-        }
-        return cnt;
-    }
-
-    public int kthSmallest(int[][] matrix, int k) {
-        int left = matrix[0][0], right = matrix[row - 1][col - 1];
-
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-            if (countLessEqual(matrix, mid) >= k) {
-                right = mid;
-            } else {
-                left = mid + 1;
-            }
-        }
-        return left;
-    }
-}
-"""
-
-# C++ Code 
-"""
-//Method 1
-#include <vector>
-#include <queue>
-
-using namespace std;
-
-class Solution {
-public:
-    int kthSmallest(vector<vector<int>>& matrix, int k) {
-        priority_queue<int> maxHeap;
-        int m = matrix.size(), n = matrix[0].size();
-
-        for (int r = 0; r < m; r++) {
-            for (int c = 0; c < n; c++) {
-                maxHeap.push(matrix[r][c] * -1);
-                if (maxHeap.size() > k) {
-                    maxHeap.pop();
-                }
-            }
-        }
-        return maxHeap.top() * -1;
-    }
-};
-//Method 2
-class Solution {
-public:
-    int kthSmallest(vector<vector<int>>& matrix, int k) {
-        int m = matrix.size(), n = matrix[0].size();
-        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<>> minHeap;
-
-        // Insert first 'k' values from the first column
-        for (int r = 0; r < min(k, m); r++) {
-            minHeap.emplace(matrix[r][0], r, 0);
-        }
-
-        // Extract k-1 smallest elements
-        while (--k > 0) {
-            auto [num, r, c] = minHeap.top();
-            minHeap.pop();
-            if (c + 1 < n) {
-                minHeap.emplace(matrix[r][c + 1], r, c + 1);
-            }
-        }
-        return get<0>(minHeap.top());
-    }
-};
-//Method 3 
-class Solution {
-public:
-    int countLessEqual(vector<vector<int>>& matrix, int mid) {
-        int row = matrix.size(), col = matrix[0].size();
-        int cnt = 0, r = 0, c = col - 1;
-
-        while (r < row && c >= 0) {
-            if (matrix[r][c] > mid) {
-                c--;
-            } else {
-                cnt += c + 1;
-                r++;
-            }
-        }
-        return cnt;
-    }
-
-    int kthSmallest(vector<vector<int>>& matrix, int k) {
-        int left = matrix[0][0], right = matrix.back().back();
-
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-            if (countLessEqual(matrix, mid) >= k) {
-                right = mid;
-            } else {
-                left = mid + 1;
-            }
-        }
-        return left;
-    }
-};
-"""
-# also try to understand the O(n) approach and do it later
-# https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/discuss/85170/O(n)-from-paper.-Yes-O(rows)
 
 
 # Similar Q:

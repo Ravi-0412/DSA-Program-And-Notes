@@ -1,4 +1,5 @@
-# method 1: use the unsorted approach i.e min heap
+# method 1: 
+# use the unsorted approach i.e min heap
 
 # since array is sorted, all the closest element will lie i) either left
 # ii) either right iii) or some left and some right of given ele

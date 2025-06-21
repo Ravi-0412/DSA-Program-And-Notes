@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Just same as normal bfs, onky diff here we need to keep track of 'no of obstacles that we had eliminated till now'
 # as well with cell indexes (i, j) .
 
@@ -31,6 +33,9 @@ class Solution:
         return -1
 
 
+# Method 2: 
+# DFS
+
 # My dfs code which is giving wrong ans at 53/55 test case
 # Why this is not working?
 """
@@ -43,9 +48,8 @@ q) But why with bfs it is working with only three parameter (i, j, obstacles_eli
 Reason: When BFS reaches a cell, it guarantees that it's reached with the fewest steps possible.
 SO once BFS reaches a cell, it never needs to consider coming back to that cell with fewer steps.
 But DFS explores paths in a depth-first manner, which means it can explore a long path before realizing that a shorter path was possible.
-
-Correct solution below
 """
+
 class Solution:
     def shortestPath(self, grid: List[List[int]], k: int) -> int:
         m, n = len(grid), len(grid[0])

@@ -42,6 +42,7 @@ def Reward(day,last,points):
             maxPoints= max(maxPoints,points[day][task]+Reward(day+1,task,points))
     return maxPoints
 
+
 # Method 2: 
 # memoization
 # time complexity= O(n*4)*3. for each state you were making three function call
@@ -61,6 +62,7 @@ def Reward(day,last,points, dp):
             maxPoints= max(maxPoints,points[day][task]+Reward(day+1,task,points, dp))
     dp[day][last]= maxPoints
     return dp[day][last]
+
 
 # Method 3: 
 # Tabulation

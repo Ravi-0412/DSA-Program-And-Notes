@@ -1,5 +1,5 @@
+# Method 1: 
 # just same logic what we did in Q: 140. Word Break II
-
 
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
@@ -15,7 +15,10 @@ class Solution:
                 return True
         return False
 
-# memoization
+
+
+# Method 2: 
+# Memoization
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
         wordSet= set(wordDict)  # to check any substring present or not in O(1)
@@ -34,54 +37,23 @@ class Solution:
                 return True
         dp[ind]= False
         return False
-    
-# Java
-"""
-import java.util.*;
-
-public class Solution {
-    public boolean wordBreak(String s, List<String> wordDict) {
-        Set<String> wordSet = new HashSet<>(wordDict);
-        int n = s.length();
-        Boolean[] dp = new Boolean[n + 1];
-        return helper(0, n, s, wordSet, dp);
-    }
-
-    private boolean helper(int index, int n, String s, Set<String> wordSet, Boolean[] dp) {
-        if (index == n) {
-            return true;
-        }
-        if (dp[index] != null) {
-            return dp[index];
-        }
-        for (int k = index + 1; k <= n; k++) {
-            if (wordSet.contains(s.substring(index, k)) && helper(k, n, s, wordSet, dp)) {
-                dp[index] = true;
-                return true;
-            }
-        }
-        dp[index] = false;
-        return false;
-    }
-}
-"""
 
 
-# Note vvi: 
-# Same method but when doing by taking actual string giving TLE.
-# Have to analyse this properly and discuss with someone.
+# Method 3:
+# Tabulation
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-        def dfs(s):
-            if not s:
-                return True
-            if s in cache:
-                return cache[s]
-            for i in range(len(s)):
-                if s[: i+1] in wordDict and self.wordBreak(s[i+1 :], wordDict):
-                    cache[s] = True
-                    return True
-            cache[s] = False
-            return False
-        cache = {}
-        return dfs(s)
+        wordSet = set(wordDict)  # to check any substring present or not in O(1)
+        n = len(s)
+        dp = [False] * (n + 1)
+        dp[n] = True  # Base case: if ind == n
+        
+        for ind in range(n - 1, -1, -1):
+            for k in range(ind + 1, n + 1):  # 'k' should go till 'n'
+                if s[ind:k] in wordSet and dp[k]:
+                    dp[ind] = True
+                    break  # No need to check further once we know it's breakable
+        
+        return dp[0]
+
+

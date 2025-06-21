@@ -1,4 +1,6 @@
-     # correct only but giving tle
+# Method 1: 
+
+# correct only but will give TLE
 # just reverse the problem i.e you have to reach (0,0) from (m-1,n-1) that's why u can take go left or up
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
@@ -8,7 +10,8 @@ class Solution:
             return 1
         return self.uniquePaths(m,n-1) + self.uniquePaths(m-1,n)
 
-# optimising the above solution using dp: memoization
+# Method 2:
+# memoization
 # time: O(n^2) 
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
@@ -23,7 +26,9 @@ class Solution:
         dp[m][n]= self.helper(m,n-1,dp) + self.helper(m-1,n,dp)
         return dp[m][n]
 
-# tabulation: bottom up (0,0) to (m-1,n-1). but for filling with base case you have to think opposite i.e from (m-1,n-1) to (0,0)
+# Method 3: 
+# tabulation:
+# Bottom up (0,0) to (m-1,n-1). but for filling with base case you have to think opposite i.e from (m-1,n-1) to (0,0)
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
         dp= [[-1 for i in range(n)]for i in range(m)]
@@ -37,6 +42,7 @@ class Solution:
                 dp[i][j]= dp[i][j-1] + dp[i-1][j]
         return dp[m-1][n-1]
 
+# Method 4: 
 # concise way of writing the above one
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
@@ -46,6 +52,8 @@ class Solution:
                 dp[i][j]= dp[i-1][j] + dp[i][j-1]
         return dp[m-1][n-1]
 
+
+# Method 5: 
 # tabulation: top down
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:

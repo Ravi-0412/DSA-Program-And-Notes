@@ -1,3 +1,5 @@
+# Method 1: 
+
 """
 If we closely observe the problem then we can convert this problem to longest Common Subsequence Problem.
 Firstly we will create another array of unique elements of original array and sort it. 
@@ -5,13 +7,11 @@ Now the longest increasing subsequence of our array must be present as a subsequ
 That’s why our problem is now reduced to finding the common subsequence between the two arrays.
 
 Time and Space: O(n^2)
-submited successfully on GFG but giving TLE on Leetcode
 
-# write the logic in notes in detail
 """
 
 class Solution:
-    #Function to find length of longest increasing subsequence.
+    # Function to find length of longest increasing subsequence.
     def longestSubsequence(self,a,n):
         a1= sorted(list(set(a)))
         n1= len(a1)
@@ -27,7 +27,8 @@ class Solution:
         return dp[x][y]
 
 
-# method 2: Better one
+# method 2: 
+# Better one
 """
 Note vvvi: This is better one template in case of 'take' and 'notTake'  which there is 'notTake' option always there.
 So just find the condition for 'take' and return the max(take, notTake)
@@ -57,6 +58,7 @@ class Solution:
         return max(take, notTake)
 
 
+# Method 3:
 # memoizing the above method
 # for matrix: we can't store -1 as pre_ind so we will do co-ordinate shift by +1 for pre_ind i.e for -1 we will write 0 and so on
 # so in this range of pre_ind will be from [0, n] instead of '-1' to   and range of 'ind' from '0' to 'n-1'
@@ -79,54 +81,8 @@ class Solution:
         dp[ind][pre_ind+1]= max(take, notTake)
         return dp[ind][pre_ind+1]
 
-# java
-"""
-class Solution {
-    // Function to find length of the longest increasing subsequence.
-    public int longestSubsequence(int n, int[] a) {
-        // dp[i][j] denotes max LIS starting from index i when 'j' is the index of the previous picked element.
-        int[][] dp = new int[n + 1][n + 1];
-        
-        // Initialize dp array with -1 (similar to Python's `dp = [[-1 for j in range(n+1)] for i in range(n +1)]`)
-        for (int i = 0; i <= n; i++) {
-            for (int j = 0; j <= n; j++) {
-                dp[i][j] = -1;
-            }
-        }
-        
-        // Start the helper function with ind = 0 and pre_ind = -1
-        return helper(0, -1, a, dp, n);
-    }
-    
-    private int helper(int ind, int pre_ind, int[] arr, int[][] dp, int n) {
-        // Base case: If we've processed all elements, return 0
-        if (ind == n) {
-            return 0;
-        }
-        
-        // If the result for this state has already been computed, return it
-        if (dp[ind][pre_ind + 1] != -1) {
-            return dp[ind][pre_ind + 1];
-        }
-        
-        // Not picking the current element
-        int notTake = helper(ind + 1, pre_ind, arr, dp, n);
-        
-        // Picking the current element (if valid)
-        int take = 0;
-        if (pre_ind == -1 || arr[ind] > arr[pre_ind]) {
-            take = 1 + helper(ind + 1, ind, arr, dp, n);
-        }
-        
-        // Store the result in dp array
-        dp[ind][pre_ind + 1] = Math.max(take, notTake);
-        
-        // Return the computed value for the current state
-        return dp[ind][pre_ind + 1];
-    }
-}
 
-"""
+# Method 4: 
 
 """
 converting to Tabulation VVI: Top down 
@@ -150,37 +106,9 @@ class Solution:
                 dp[ind][pre_ind +1]= max(take, notTake)
         return dp[0][0]   # return the dp for which you had called the recursive function. 
     
-# java
-"""
-class Solution {
-    public int lengthOfLIS(int[] nums) {
-        int n = nums.length;
-        // dp[i][j] stores the length of the longest increasing subsequence starting from index i when j is the index of the previous picked element.
-        int[][] dp = new int[n + 1][n + 1];
-        
-        // Bottom-up calculation
-        for (int ind = n - 1; ind >= 0; ind--) {
-            for (int pre_ind = ind - 1; pre_ind >= -1; pre_ind--) {
-                int take = 0;
-                int notTake = dp[ind + 1][pre_ind + 1];
-                
-                if (pre_ind == -1 || nums[ind] > nums[pre_ind]) {
-                    take = 1 + dp[ind + 1][ind + 1];
-                }
-                
-                dp[ind][pre_ind + 1] = Math.max(take, notTake);
-            }
-        }
-        
-        // The result is stored in dp[0][0], which corresponds to the case where we start from index 0 with no previous element.
-        return dp[0][0];
-    }
-}
 
-"""
-
-
-# Method 4: very better one    
+# Method 5: 
+# very better one    
 """
 logic: traverse the array from right to left . just the conversion of above logic and optimising the space to O(n).
 e.g: LIS[2] means nums[2] will get appened(+1) to any of the LIS ahead of it,
@@ -199,7 +127,7 @@ class Solution:
         # at last return the maximum in LIS
         return max(LIS)
 
-
+# Method 6: 
 """
 if you traverse from starting left to right
 write this logic in notes with printing the LIS, counting the number of LIS in detail
@@ -215,38 +143,7 @@ class Solution:
         return max(LIS)
 
 
-# in java
-"""
-class Solution {
-    public int lengthOfLIS(int[] nums) {
-        int n = nums.length;
-        int[] LIS = new int[n];  // LIS[i] indicates the length of the LIS that ends at index 'i'.
-        
-        // Initialize the LIS array with 1, as the smallest LIS ending at any index is 1 (the element itself).
-        for (int i = 0; i < n; i++) {
-            LIS[i] = 1;
-        }
-        
-        // Calculate LIS for each index
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < i; j++) {  // Check all previous indices
-                if (nums[j] < nums[i]) {   // If nums[j] can be included in the LIS ending at i
-                    LIS[i] = Math.max(LIS[i], LIS[j] + 1);  // Update LIS[i] if including nums[j] gives a longer subsequence
-                }
-            }
-        }
-        
-        // Find the maximum value in the LIS array, which represents the length of the longest increasing subsequence
-        int maxLIS = 0;
-        for (int i = 0; i < n; i++) {
-            maxLIS = Math.max(maxLIS, LIS[i]);
-        }
-        
-        return maxLIS;
-    }
-}
-
-"""
+# method 7:
 
 """
 best one: using binary search to find the proper position of curr index in case not follows the pattern 
@@ -289,71 +186,7 @@ class Solution:
                 idx= bisect.bisect_left(sub, num)  # simply bisect_left(sub,num). 
                 sub[idx]= num  # no need to check if idx >= len(sub) because if like this then must be greatest of all and this case is already covered above.
         return len(sub)
-    
-# java
-"""
-import java.util.ArrayList;
-import java.util.List;
 
-class Solution {
-    public int lengthOfLIS(int[] nums) {
-        List<Integer> sub = new ArrayList<>();  // This will store the elements in a strictly increasing order
-        
-        for (int num : nums) {
-            if (sub.isEmpty() || sub.get(sub.size() - 1) < num) {
-                // If sub is empty or the current number is greater than the last element in sub
-                sub.add(num);
-            } else {
-                // Find the position where the current number should be placed in sub
-                int idx = binarySearch(sub, num);
-                sub.set(idx, num);  // Replace the element at the found index with the current number
-            }
-        }
-        
-        return sub.size();  // The length of sub is the length of the longest increasing subsequence
-    }
-    
-    // Custom binary search function to find the index where num should be placed.
-    // just we find the 1st index .
-    private int binarySearch(List<Integer> sub, int num) {
-        int left = 0, right = sub.size() - 1;
-        
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            if (sub.get(mid) >= num) {
-                right = mid - 1;
-            } else {
-                left = mid + 1;
-            }
-        }
-        
-        return left;
-    }
-}
-
-"""
-
-
-# Note: when trying to do by "1235. Maximum Profit in Job Scheduling".
-# And same q of this method is not working in '1235. Maximum Profit in Job Scheduling'.
-
-# I am getting error . Have to ask someone
-# nums = [4,10,4,3,8,9] , getting : 4 but exp = 3
-
-class Solution:
-    def lengthOfLIS(self, nums: List[int]) -> int:
-
-        def solve(i):
-            if i >= len(nums):
-                return 0
-            j = i + 1
-            while j < len(nums):
-                if nums[j] > nums[i]:
-                    break
-                j += 1
-            return max(solve(i + 1), 1 + solve(j))
-        
-        return solve(0)
 
 # Related QUestions:
 """

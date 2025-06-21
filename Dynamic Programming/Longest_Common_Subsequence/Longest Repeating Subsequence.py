@@ -1,3 +1,4 @@
+# Method 1: 
 """
 take the same string and find the longest common subsequence
 only thing to change when both char are equal at same index
@@ -12,13 +13,13 @@ only thing you have to keep in mind that when both char are equal then must not 
 this will mean that same char is present at somewhere also means it is repeating
 """
 
-# 1st write the recursive equation
 
-# method 1: memoized 
+# method 1: 
+# Recursion + memoisation
 class Solution:
     def LongestRepeatingSubsequence(self, str):
-	    n= len(str)
-        dp= [[-1 for i in range(n+1)]for i in range(n+1)]
+	    n = len(str)
+        dp = [[-1 for i in range(n+1)]for i in range(n+1)]
         return self.LCS(n, n, str, str, dp)
     
     def LCS(self, m, n, s1, s2, dp):
@@ -33,7 +34,8 @@ class Solution:
         return dp[n][m]
 
 
-# method 2: To print the string also
+# method 2: 
+# To print the string also
 class Solution:
     def LongestRepeatingSubsequence(self, str):
         x = y = len(str)
@@ -72,6 +74,8 @@ class Solution:
 # LongestRepeatingSubsequence("aabb")
 # LongestRepeatingSubsequence("axbxcxdx")  
 
+
+# Extension : 
 
 # my mikstakes
 # to print the string and count together

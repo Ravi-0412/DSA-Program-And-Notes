@@ -1,6 +1,4 @@
-
-
-# method 1:
+# Basic: 
 
 # But this is interesting one because of :
 # 1) even no of piles
@@ -26,9 +24,10 @@
 
 # So, Alex always defeats Bob in this game.
 
-# Thata's why simply return True
+# That's why simply return True 
 
-# method 2:
+
+# method 1:
 # totally same as 486. predict winner, so didn't submit.
 
 class Solution:

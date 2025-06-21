@@ -1,4 +1,6 @@
-# shortest Common Supersequence will contain all the string in order except the lcs(we have to minus lcs to avoid its repitition) i.e every char we have to add only one
+# Method 1: 
+# shortest Common Supersequence will contain all the string in order except the 
+# lcs(we have to minus lcs to avoid its repitition) i.e every char we have to add only one
 # and lcs will be common in both so write lcs only one time 
 # will print length of shortest common supersequence
 # logic: lcs will be common in both the string for sure 
@@ -31,13 +33,14 @@ print("the length of shortest common supersequence is: ")
 print(shortestCommonSupersequence(x,y,s1,s2))
 
 
-# to print the string 'shortest common supersequence'
+# method 2: 
+# to print the string 'shortest common supersequence
+
 class Solution:
     def shortestCommonSupersequence(self, str1: str, str2: str) -> str:
         x,y= len(str1), len(str2)
         i,j, ans= x,y, ""
         dp= self.lcs(x,y,str1,str2)
-        print(dp)
         while(i>0 and j>0):
             if str1[i-1]== str2[j-1]:
                 ans= str1[i-1] + ans

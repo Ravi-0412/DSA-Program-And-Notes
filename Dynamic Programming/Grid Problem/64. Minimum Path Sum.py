@@ -1,4 +1,5 @@
-# method 1: Recursion
+# method 1: 
+# Recursion
 # just same as Q n: '62' 
 # for every cell minimum path = current cell val + min(path_sum of its left adjacent, path_sum of its upper adjacent)
 # if you go bottom-up in recursive.
@@ -19,6 +20,7 @@ class Solution:
         return grid[row][col] +  min(self.helper(row-1,col,grid), self.helper(row,col-1,grid))
     
 
+# method 2: 
 
 # my mistakes VVI:
 """
@@ -36,6 +38,8 @@ OR
 Better one: return very big value like 'float('inf)' then it will give correct ans.
 """
 
+# Correct solution with mistake commented
+
 class Solution:
     def minPathSum(self, grid: List[List[int]]) -> int:
         m,n= len(grid), len(grid[0])
@@ -50,31 +54,8 @@ class Solution:
             return float('inf')   # will give correct ans
         return grid[row][col] +  min(self.helper(row-1,col,grid), self.helper(row,col-1,grid))
 
-# Java
-"""
-public class Solution {
-    public int minPathSum(int[][] grid) {
-        int m = grid.length, n = grid[0].length;
-        return helper(m - 1, n - 1, grid);
-    }
-
-    private int helper(int row, int col, int[][] grid) {
-        if (row == 0 && col == 0) {
-            return grid[0][0];
-        }
-        if (row < 0 || col < 0) {
-            return Integer.MAX_VALUE;
-        }
-
-        int up = helper(row - 1, col, grid);
-        int left = helper(row, col - 1, grid);
-        return grid[row][col] + Math.min(up, left);
-    }
-}
-"""
-
-# My bottom- up dp solution.
-# Just above logic.
+# method 3: 
+# Tabulation
 class Solution:
     def minPathSum(self, grid: List[List[int]]) -> int:
         m, n = len(grid), len(grid[0])
@@ -92,41 +73,4 @@ class Solution:
                 dp[r][c] = grid[r][c] +  min(dp[r + 1][c] , dp[r][c + 1])
         return dp[0][0]
     
-# java
-"""
-class Solution {
-    public int minPathSum(int[][] grid) {
-        int m = grid.length;
-        int n = grid[0].length;
-        int[][] dp = new int[m][n];
-        
-        dp[m-1][n-1] = grid[m-1][n-1];
-        
-        // Fill the answers for the last row
-        for (int c = n - 2; c >= 0; c--) {
-            dp[m-1][c] = grid[m-1][c] + dp[m-1][c + 1];  // Sum of all elements to its right
-        }
-        
-        // Fill the answers for the last column
-        for (int r = m - 2; r >= 0; r--) {
-            dp[r][n-1] = grid[r][n-1] + dp[r + 1][n-1];  // Sum of all elements below it
-        }
-        
-        // Now start filling other rows and columns taking help of these values
-        for (int r = m - 2; r >= 0; r--) {
-            for (int c = n - 2; c >= 0; c--) {
-                dp[r][c] = grid[r][c] + Math.min(dp[r + 1][c], dp[r][c + 1]);
-            }
-        }
-        
-        return dp[0][0];
-    }
-}
-
-
-"""
-
-# similar q asked in interview
-# 1) https://www.geeksforgeeks.org/maximum-sum-path-in-a-matrix-from-top-left-to-bottom-right/
-# Instead on minimum we have to find maximum
 

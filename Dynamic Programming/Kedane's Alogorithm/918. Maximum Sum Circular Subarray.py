@@ -1,3 +1,5 @@
+# Method 1: 
+
 """
 Note: if we do like we do usually for simplicity i.e add elements from index '0' to 'n-1' to the last of given integer and 
 apply same logic as normal array then, it won't work.
@@ -58,20 +60,7 @@ class Solution:
         return maxSum  # all ele is negative
 
 
-# method 2: same logic only but different way of finding 'max sum in circular Subarray'.
-# Steps:Invert the sign of all the numbers in original subarray, 
-# and find the maximum subarray sum using Kadane algorithm. Then add it with the total sum. 
-# (which is similar to [total - minimum subarray sum ]).
-
-# if max_sum_circular_subarrray= total - minimum subarray sum= 0, it means all number is negative
-# so return min(nums)= max_sum_non_circular_subarray.
-# else return max( Non circular max sum + circular max sum ).
-
-# Code later by yourself(solution in link: 2nd no)
-
-# method 3:
-# Try by other method like ' Heap' and deque given in this link later.
-# https://leetcode.com/problems/maximum-sum-circular-subarray/solutions/1348545/python-3-solutions-clean-concise-o-1-space/
 
 
-# 
+
+

@@ -75,7 +75,6 @@ public class Solution {
     }
 }
 """
-
 # C++ Code 
 """
 class Solution {

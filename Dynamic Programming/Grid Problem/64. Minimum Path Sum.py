@@ -1,4 +1,5 @@
-# method 1: Recursion
+# method 1: 
+# Recursion
 # just same as Q n: '62' 
 # for every cell minimum path = current cell val + min(path_sum of its left adjacent, path_sum of its upper adjacent)
 # if you go bottom-up in recursive.
@@ -60,7 +61,7 @@ private:
     }
 };
 """
-
+# method 2: 
 # my mistakes VVI:
 """
 if row and col will go out of bound then left or up will be '0' then it will return '0' since we are returning minimum value.
@@ -76,6 +77,8 @@ OR
 
 Better one: return very big value like 'float('inf)' then it will give correct ans.
 """
+
+# Correct solution with mistake commented
 
 class Solution:
     def minPathSum(self, grid: List[List[int]]) -> int:
@@ -134,8 +137,8 @@ private:
 };
 """
 
-# My bottom- up dp solution.
-# Just above logic.
+# method 3: 
+# Tabulation
 class Solution:
     def minPathSum(self, grid: List[List[int]]) -> int:
         m, n = len(grid), len(grid[0])

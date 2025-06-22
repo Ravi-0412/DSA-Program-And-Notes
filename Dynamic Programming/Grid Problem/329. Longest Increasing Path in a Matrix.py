@@ -1,3 +1,5 @@
+# method 1 : 
+
 # mistakes: was doing correct only but was missing out of order cases of row and col(<0)
 
 # here no need to mark cell visited as it will only take the increasing one only,
@@ -8,6 +10,9 @@
 # Note: Maximum chahiye isliye sbka maximum le rhe h and current cell ka value ko add kar rhe h.
 
 # time: O(m * n * 4 ^ (m * n))
+
+# Correct code 
+
 class Solution:
     def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
         ans= 1  # each grid will contibute so automatically it will be '1'.
@@ -104,6 +109,7 @@ class Solution:
             for c in range(len(matrix[0])):
                 ans= max(ans, self.dfs(r, c,-1, matrix, dp))   # taking '-1' as pre: smaller value than all the possible values in the matrix
         return ans
+    
     def dfs(self, r, c, pre, mat, dp):
         # if out of order then simply return '0'.
         if r< 0 or r >= len(mat) or c< 0 or c >= len(mat[0]) or mat[r][c] <= pre:
@@ -198,14 +204,3 @@ private:
 };
 """
     
-# Related Q:
-# 1) 2328. Number of Increasing Paths in a Grid
-# Isme number chahiye isliye adjacent wale ka 'sum le lo ' and '1' add karke 
-# return kar do .
-
-
-
-
-# we can also use bfs.
-
-# top down approach will be very tough.

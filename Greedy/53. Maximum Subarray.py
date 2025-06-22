@@ -1,3 +1,5 @@
+# Method 1: 
+
 # brute force: O(n^2)
 # correct only but giving TLE
 
@@ -12,14 +14,14 @@ def maxSubArray(self, nums: List[int]) -> int:
     return max_sum
 
 
-# logic: har ele ke pass 2 choice, either curr_sum me include ho jaye ya khud curr_sum ban jaye. that's it.
-
 # 2nd method: 
-# Time: O(n)
+# logic: har ele ke pass 2 choice, either curr_sum me include ho jaye ya khud curr_sum ban jaye. that's it.
 # logic: To calculate sum(0,i), 
 # you have 2 choices: either adding sum(0,i-1) to a[i], or not. 
 # If sum(0,i-1) is negative , adding it to a[i] will only make a 
 # smaller sum, so we add only if it is positive 
+
+# Time: O(n)
 def maxSubArraySum(self,arr,N):
         max_so_far, max_ending_here= arr[0], arr[0]
         # max_ending here will give the max_sum till that index(after conidering all the ele max_sum possible till that index)
@@ -34,7 +36,8 @@ def maxSubArraySum(self,arr,N):
             max_so_far=      max(max_so_far, max_ending_here)
         return max_so_far
 
-# method 3: Kedane's Algo
+# method 3: 
+# Kedane's Algo
 # time: O(n)
 def maxSubArray(self, nums: List[int]) -> int:
         max_sum, curr_sum= nums[0], 0
@@ -49,7 +52,8 @@ def maxSubArray(self, nums: List[int]) -> int:
         return max_sum
 
 
-# method 4: By DP
+# method 4: 
+# By DP
 # exactly same approach as method 2.
 # just instead of storing into variable we stored the max_ending_here in an array 'dp'
 def maxSubArray(self, nums: List[int]) -> int:
@@ -61,25 +65,12 @@ def maxSubArray(self, nums: List[int]) -> int:
             max_sum= max(max_sum, dp[i])
         return max_sum
 
+
+# Extension: 
 # Note: If we want to fidn the "Smallest sum contiguous subarray". (GFG Q)
 # https://practice.geeksforgeeks.org/problems/smallest-sum-contiguous-subarray/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
 
-# we can apply the excatly similar logic as above
-class Solution:
-    def smallestSumSubarray(self, A, N):
-        total= sum(A)
-        curSum= A[0]
-        minSum= A[0]
-        for i in range(1, N):
-            if curSum > 0:  # we have to decrease 'curSum'.
-                curSum= A[i]
-            else:
-                curSum+= A[i]
-            minSum= min(minSum, curSum)
-        return minSum
-
-
-# shortcut of above
+# we can apply the excatly similar logic
 class Solution:
     def smallestSumSubarray(self, A, N):
         total= sum(A)
@@ -91,7 +82,6 @@ class Solution:
         return minSum
 
 
-# Try by divide & conquer later
 
 
 

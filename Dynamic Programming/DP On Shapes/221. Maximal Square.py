@@ -1,3 +1,4 @@
+# Method 1:
 # Logic: Just check how much side of square we can form from cur cell if cell value = 1.
 # it will depend on side we can form from i.e min(left, up, upper_left_diagonal) + 1.
 
@@ -84,7 +85,8 @@ public:
 };
 """
 
-# Method 2: If you don't want to modify the given matrix
+# Method 2: 
+#If you don't want to modify the given matrix
 
 class Solution:
     def maximalSquare(self, matrix: List[List[str]]) -> int:

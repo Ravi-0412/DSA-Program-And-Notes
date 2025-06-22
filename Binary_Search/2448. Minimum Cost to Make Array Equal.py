@@ -1,3 +1,5 @@
+# Basic: 
+
 # logic: All elements must lie between [min(nums), max(nums)] when all will be equal.
 
 # Note: the goal of this problem is to "find a num that makes the sum of moves minimum".
@@ -6,6 +8,8 @@
 # e.g: Well, you say, if our array is [2, 5], what if we can achieve min cost by making them 3 or 4?
 # For this to be the case, the cost for both 2 and 5 must be the same. 
 # But if the cost is same, we can achieve the same min cost if we pick 2 or 5.
+
+# Method 1: 
 
 # Brute force: Just caculating the cost of making all ele equal in above range.
 class Solution:
@@ -18,7 +22,8 @@ class Solution:
                 curCost += abs(nums[j] - i) * cost[j]
             ans= min(ans, curCost)
         return ans
-    
+
+
 # Method 2: 
 # Little bit optimising the above solution.
 # Taking only element of same array and making them equal.
@@ -32,7 +37,8 @@ class Solution:
                 curCost += abs(nums[j] - num) * cost[j]
             ans= min(ans, curCost)
         return ans
-    
+
+
 # Method 3: 
 # Optimising using binary Search
 
@@ -80,7 +86,8 @@ class Solution:
         return ans
 
 
-# method 3: Weighted median
+# method 4: 
+# Weighted median
 
 # logic: Think of the cost array as the weight of the corresponding num in the nums array. 
 # For example when nums = [1, 3, 5, 2] and cost = [2, 3, 1, 14], suppose we want to increase 1 in nums to 2, 
@@ -317,5 +324,3 @@ public:
 };
 """
 
-# Related Q: 
-"462. Minimum Moves to Equal Array Elements II", 

@@ -1,7 +1,22 @@
-# 1st method: Brute force O(n^2)
+# 1st method: 
+# Brute force O(n^2)
+
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        n = len(prices)
+        max_profit = 0
+        # Try buying on each day i
+        for i in range(n):
+            # Try selling on each future day j > i
+            for j in range(i + 1, n):
+                profit = prices[j] - prices[i]
+                if profit > max_profit:
+                    max_profit = profit
+        return max_profit
 
 
-# 2nd method: just like we buy and sell the stock in normal days
+# 2nd method: 
+# just like we buy and sell the stock in normal days
 # logic: Q reduces to.. we have to find the maximum difference between two ele 
 # and for getting max_diff first ele should be minimum_as_possible and second ele should be max_As_possible
 # greedy approach
@@ -18,7 +33,8 @@ def maxProfit(self, prices: List[int]) -> int:
         return ans
 
 
-# 3rd: very better and very easy
+# 3rd: 
+# very better and very easy
 # we have to find the minimum diff bw two ele. And that we will get by purchasing at min_price and selling it on higher price as far as possible. 
 # here very ele has two choice either that can be min_till_now or may not not. if not then update the ans if min then  max_profit will become '0'.
 class Solution:
@@ -31,23 +47,3 @@ class Solution:
         return max_profit
 
 
-# Java
-"""
-public class Solution {
-    public int maxProfit(int[] prices) {
-        if (prices == null || prices.length == 0) {
-            return 0;
-        }
-
-        int maxProfit = 0;
-        int leastSoFar = prices[0];
-
-        for (int price : prices) {
-            leastSoFar = Math.min(leastSoFar, price);
-            maxProfit = Math.max(maxProfit, price - leastSoFar);
-        }
-
-        return maxProfit;
-    }
-}
-"""

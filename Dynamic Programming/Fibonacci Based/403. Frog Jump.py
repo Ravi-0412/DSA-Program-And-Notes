@@ -1,3 +1,5 @@
+# Basic: 
+
 # logic: from cur stone move to next stone we can reach by taking the possible jump.
 
 # note: we can reach the same stone by taking the same number of jump many times.
@@ -13,7 +15,9 @@ If we can reach the final stone, we return true
 """
 
 
-# method 1: Recursive
+# method 1: 
+# Recursive
+
 class Solution(object):
     def canCross(self, stones):
         self.target = stones[-1]

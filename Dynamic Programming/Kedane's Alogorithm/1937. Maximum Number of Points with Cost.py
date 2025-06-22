@@ -1,4 +1,7 @@
-# Logic : Similar to "1014. Best Sightseeing Pair"
+# Method 1: 
+
+# Logic : 
+# Similar to "1014. Best Sightseeing Pair"
 """
 for 'X+1'th row (points[X + 1]) to pick say 'curr'
 for the index i in curr, we have:
@@ -18,9 +21,8 @@ lft[1], we need to make a choice, the value is the larger one between prev[1] or
 For lft[2], the value is the larger one between prev[2] or lft[1] - 1, so on so forth.
 
 Build right(rgt) using the same method.
-"""
-
 # Time: O(n^2)
+"""
 
 class Solution:
     def maxPoints(self, P: List[List[int]]) -> int:

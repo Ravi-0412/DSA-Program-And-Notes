@@ -1,8 +1,24 @@
-# method 1: Brute force
+# method 1: 
+# Brute force
 # check every pair
 # Time : O(n^2)
 
-# method 2: Optimising to O(n) 
+class Solution:
+    def maxScoreSightseeingPair(self, values: List[int]) -> int:
+        n = len(values)
+        max_score = float('-inf')
+        
+        # check every pair (i, j) where i < j
+        for i in range(n):
+            for j in range(i + 1, n):
+                score = values[i] + values[j] + i - j  # given formula
+                max_score = max(max_score, score)
+        
+        return max_score
+
+
+# method 2: 
+# Optimising to O(n) 
 # Using similar logic as : "121. Best Time to Buy and Sell Stock".
 
 # Logic: 

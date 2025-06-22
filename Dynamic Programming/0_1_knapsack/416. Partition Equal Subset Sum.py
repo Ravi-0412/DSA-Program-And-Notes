@@ -1,9 +1,13 @@
+# Method 1: 
+# Recursion + Memoisation
+
 # Problem reduces to: is there any subset possible which has sum equal to sum(array)//2
 
 # find the sum of the array, if sum is odd then no partition possible
 # if sum is even then may be possible
 # and for finding this, apply eaxctly the subset method on sum/2
 # time: space= O(n*(sum/2))
+
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
         list_sum= sum(nums)
@@ -111,6 +115,7 @@ public:
     }
 };
 """
+# Method 2:
 # Reducing space complexity to O(n).
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
@@ -213,3 +218,36 @@ public:
     }
 };
 """
+
+# Method 3:
+# Tabulation
+from typing import List
+
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        list_sum = sum(nums)
+        if list_sum % 2 != 0:
+            return False
+        sum_to_check = list_sum // 2
+        return self.isSubsetSum(len(nums), nums, sum_to_check)
+
+    def isSubsetSum(self, N, arr, sum):
+        # 1st initialise the matrix properly
+        dp = [[False for _ in range(sum + 1)] for _ in range(N + 1)]
+        
+        for i in range(N + 1):
+            for j in range(sum + 1):
+                if j == 0:   # sum == 0 
+                    dp[i][j] = True
+                elif i == 0:  # sum != 0 and number of elements = 0
+                    dp[i][j] = False
+        
+        # now just same as 0/1 Knapsack           
+        for i in range(1, N + 1):
+            for j in range(1, sum + 1):
+                if arr[i - 1] > j:
+                    dp[i][j] = dp[i - 1][j]
+                else:
+                    dp[i][j] = dp[i - 1][j - arr[i - 1]] or dp[i - 1][j]
+        
+        return dp[N][sum]

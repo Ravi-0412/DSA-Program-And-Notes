@@ -1,5 +1,7 @@
+# Method 1: 
+
 # Recursive approach 
-# correct only but giving TLE
+# correct only but give TLE
 
 class Solution:
     def matrixMultiplication(self, N, arr):
@@ -86,7 +88,8 @@ public:
 """
 
 
-# method 2: memoization
+# method 2:
+# memoization
 # time: O(n^3)
 class Solution:
     def matrixMultiplication(self, N, arr):
@@ -174,6 +177,7 @@ public:
 };
 """
 
+# Method 3: 
 # Tabulation:
 # Note: In MCM type Q, go from first valid input to first invalid input (both inclusive) or vice versa.
 # both looping variable should go till first function call after initialisng the base case.

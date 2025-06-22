@@ -1,3 +1,5 @@
+# method 1: 
+
 # Recursion + memoisation
 
 # Note: Same Q as "518. Coin Change II" but here order also matter.
@@ -23,17 +25,21 @@
 # So before taking any number just check 'if nums[i] <= target'.
 # And for base check if target == 0.
 
-class Solution:
+class Solution: 
     def combinationSum4(self, nums: List[int], target: int) -> int:
+        dp = [-1] * (target + 1)
 
-        @lru_cache(None)
         def solve(target):
             if target == 0:
                 return 1
+            if dp[target] != -1:
+                return dp[target]
+
             ans = 0
             for i in range(len(nums)):
                 if nums[i] <= target:
                     ans += solve(target - nums[i])   # sb possibility ko add karna h.
+            dp[target] = ans
             return ans
 
         return solve(target)
@@ -97,9 +103,3 @@ private:
 };
 """
 
-
-# Note vvi:
-# 1) If ALL numbers are negative, then the solution would be the same if you switch signs for numbers and target simultaneously. 
-
-# 2) However, there is no guaranteed finite solution if positive and negative numbers are mixed, e.g. nums=[1,-1, 2] target = 0
-# in this case , we can put one restriction that : "each number can only be used up to k times".

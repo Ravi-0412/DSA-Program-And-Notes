@@ -1,9 +1,10 @@
-
+# Method 1:
+# Recursion
 # Approach: Front partitioning
 # logic: you can only partition at any index if string till that index is palindrome.
 # in this we only need to pass one parameter, for checking palindrome at each index.
 
-# method 1: Recursion
+
 class Solution:
     def minCut(self, s: str) -> int:
         n, i= len(s), 0
@@ -86,7 +87,8 @@ public:
 """
 
 
-# method 2: Memoization(Accepted)
+# method 2: 
+# Memoization(Accepted)
 # for time complexity: see the no of variable changing(say m) and no of 'for' loop (say p)
 # time= O(n*r1*r2*....).  r1, r2,....: are size of variable changing in function as well as inside the for loop.
 
@@ -174,6 +176,7 @@ public:
 };
 """
 
+# method 3: 
 # Tabulation
 class Solution:
     def minCut(self, s: str) -> int:

@@ -47,7 +47,7 @@ class Solution:
             # find the no of coins required to form till row no= row
             coinsNeeded= (row *(row + 1))//2
             # we may form more rows.
-            if n>= coinsNeeded:
+            if n >= coinsNeeded:
                 start= row + 1
             else:
                 end= row -1
@@ -66,12 +66,16 @@ class Solution {
         return row - 1; // '-1' because last row is incomplete
     }
 }
+
+
 //Method 2
 class Solution {
     public int arrangeCoins(int n) {
         return (int)(Math.sqrt(2.0 * n + 0.25) - 0.5);
     }
 }
+
+
 //Method 3
 class Solution {
     public int arrangeCoins(int n) {
@@ -109,6 +113,8 @@ public:
         return row - 1; // '-1' because last row is incomplete
     }
 };
+
+
 //Method 2
 #include <cmath>
 
@@ -118,6 +124,8 @@ public:
         return int(sqrt(2.0 * n + 0.25) - 0.5);
     }
 };
+
+
 //Method 3
 class Solution {
 public:

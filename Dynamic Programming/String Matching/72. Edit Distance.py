@@ -1,5 +1,3 @@
-
-
 # method 1: Recursion(String matching)
 """
 logic: if matched then nothing to do , just move forward in both the words
@@ -111,7 +109,8 @@ private:
 };
 """
 
-# method 2: memoization
+# method 2:
+# memoization
 # Time Complexity: O(m*n) 
 # Auxiliary Space: O(m*n)
 class Solution:
@@ -216,6 +215,7 @@ private:
 };
 """
 
+# Method 3: 
 # Tabulation
 class Solution:
     def minDistance(self, word1: str, word2: str) -> int:
@@ -392,4 +392,3 @@ public:
     }
 };
 """
-

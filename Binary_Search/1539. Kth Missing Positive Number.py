@@ -1,3 +1,5 @@
+# Method 1: 
+
 # logic: our ans may like betweeen [1, n + k]  (max range: when there is no missing number and num is starting from '1'.)
 # store the given arr into set so that we can check in O(1).
 
@@ -82,6 +84,7 @@ class Solution {
         return -1;
     }
 }
+
 //Method 2
 class Solution {
     public int findKthPositive(int[] arr, int k) {
@@ -95,6 +98,7 @@ class Solution {
         return k;
     }
 }
+
 //Method 3
 class Solution {
     public int findKthPositive(int[] arr, int k) {
@@ -117,6 +121,7 @@ class Solution {
 # C++ Code 
 """
 //Method 1
+
 #include <vector>
 #include <unordered_set>
 
@@ -138,6 +143,7 @@ public:
         return -1;
     }
 };
+
 //Method 2
 class Solution {
 public:
@@ -152,6 +158,7 @@ public:
         return k;
     }
 };
+
 //Method 3
 class Solution {
 public:

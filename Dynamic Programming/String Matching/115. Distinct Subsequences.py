@@ -1,3 +1,5 @@
+# Method 1: 
+
 # in string matching you will come across only two cases i.e 'matched' and 'not matched' always 
 # for base case in string matching algo, base cases will be when :
 # 1) when 2nd string becomes empty(2nd index becomes zero) 2) when first string becomes empty(1st index becomes=0) and  
@@ -30,8 +32,62 @@ class Solution:
             unMatched= self.helper(m-1, n, s, t)
         return matched+ unMatched 
 
+# Java Code 
+"""
+class Solution {
+    public int numDistinct(String s, String t) {
+        int m = s.length(), n = t.length();
+        return helper(m, n, s, t);
+    }
 
-# shorter way
+    public int helper(int m, int n, String s, String t) {
+        if (n == 0)  // it means we have found a match of all char in 't'
+            return 1;
+        if (m == 0)  // n != 0 and m == 0 means match not found
+            return 0;
+
+        int matched = 0, unMatched = 0;
+
+        if (s.charAt(m - 1) == t.charAt(n - 1)) {
+            matched = helper(m - 1, n - 1, s, t) + helper(m - 1, n, s, t);  // include or skip current matched char
+        } else {
+            unMatched = helper(m - 1, n, s, t);  // search for same char of 't' in 's' at different index
+        }
+
+        return matched + unMatched;
+    }
+}
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    int numDistinct(string s, string t) {
+        int m = s.size(), n = t.size();
+        return helper(m, n, s, t);
+    }
+
+    int helper(int m, int n, const string& s, const string& t) {
+        if (n == 0)  // it means we have found a match of all char in 't'
+            return 1;
+        if (m == 0)  // n != 0 and m == 0 means match not found
+            return 0;
+
+        int matched = 0, unMatched = 0;
+
+        if (s[m - 1] == t[n - 1]) {
+            matched = helper(m - 1, n - 1, s, t) + helper(m - 1, n, s, t);  // include or skip current matched char
+        } else {
+            unMatched = helper(m - 1, n, s, t);  // search for same char of 't' in 's' at different index
+        }
+
+        return matched + unMatched;
+    }
+};
+"""
+
+# method 2:
+# Shorter way of writing Method 1
 class Solution:
     def numDistinct(self, s: str, t: str) -> int:
         m, n= len(s), len(t)
@@ -56,16 +112,17 @@ class Solution {
         return helper(m, n, s, t);
     }
 
-    private int helper(int m, int n, String s, String t) {
+    public int helper(int m, int n, String s, String t) {
         if (n == 0)
-            return 1;
+            return 1;  // it means we have found a match of all char in 't'
         if (m == 0)
-            return 0;
+            return 0;  // n != 0 and m == 0 means match not found
 
-        if (s.charAt(m - 1) == t.charAt(n - 1))
-            return helper(m - 1, n - 1, s, t) + helper(m - 1, n, s, t); 
+        if (s.charAt(m - 1) == t.charAt(n - 1)) {
+            return helper(m - 1, n - 1, s, t) + helper(m - 1, n, s, t);  
             // if you don't want to include the current matched one in ans.
             // so finding another occur of same char at different index in given string 's'
+        }
 
         // search for same char of 't' in 's' at different index
         return helper(m - 1, n, s, t);
@@ -74,27 +131,24 @@ class Solution {
 """
 # C++ Code 
 """
-#include <string>
-using namespace std;
-
 class Solution {
 public:
     int numDistinct(string s, string t) {
-        int m = s.size(), n = t.size();
+        int m = s.length(), n = t.length();
         return helper(m, n, s, t);
     }
 
-private:
     int helper(int m, int n, const string& s, const string& t) {
         if (n == 0)
-            return 1;
+            return 1;  // it means we have found a match of all char in 't'
         if (m == 0)
-            return 0;
+            return 0;  // n != 0 and m == 0 means match not found
 
-        if (s[m - 1] == t[n - 1])
-            return helper(m - 1, n - 1, s, t) + helper(m - 1, n, s, t); 
+        if (s[m - 1] == t[n - 1]) {
+            return helper(m - 1, n - 1, s, t) + helper(m - 1, n, s, t);  
             // if you don't want to include the current matched one in ans.
             // so finding another occur of same char at different index in given string 's'
+        }
 
         // search for same char of 't' in 's' at different index
         return helper(m - 1, n, s, t);
@@ -102,6 +156,7 @@ private:
 };
 """
 
+# Method 3: 
 # memoization
 class Solution:
     def numDistinct(self, s: str, t: str) -> int:
@@ -186,7 +241,7 @@ private:
     }
 };
 """
-
+# Method 4:
 # Tabulation
 class Solution:
     def numDistinct(self, s: str, t: str) -> int:
@@ -257,7 +312,8 @@ public:
     }
 };
 """
-# method 4: optimise space to O(n)
+# method 5:
+# optimise space to O(n)
 
 
 # Related Q:

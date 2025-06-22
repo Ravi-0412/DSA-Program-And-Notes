@@ -1,7 +1,85 @@
+# method 1: 
 # Note: thought to do by same method as 'printing lcs' but was becoming very tough and not getting how to do.
-
-# method 1: Try all substring
+# Try all substring
 # Time: O(n^3)
+
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        n = len(s)
+        max_len = 0
+        result = ""
+
+        # Try all substrings
+        for i in range(n):
+            for j in range(i, n):
+                sub = s[i:j+1]
+                if self.isPalindrome(sub):
+                    if (j - i + 1) > max_len:
+                        max_len = j - i + 1
+                        result = sub
+        return result
+
+    def isPalindrome(self, sub: str) -> bool:
+        return sub == sub[::-1]
+
+# Java Code 
+"""
+class Solution {
+    public String longestPalindrome(String s) {
+        int n = s.length();
+        int max_len = 0;
+        String result = "";
+
+        // Try all substrings
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                String sub = s.substring(i, j + 1);
+                if (isPalindrome(sub)) {
+                    if ((j - i + 1) > max_len) {
+                        max_len = j - i + 1;
+                        result = sub;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public boolean isPalindrome(String sub) {
+        return new StringBuilder(sub).reverse().toString().equals(sub);
+    }
+}
+"""
+
+# C++ Code 
+"""
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        int n = s.length();
+        int max_len = 0;
+        string result = "";
+
+        // Try all substrings
+        for (int i = 0; i < n; ++i) {
+            for (int j = i; j < n; ++j) {
+                string sub = s.substr(i, j - i + 1);
+                if (isPalindrome(sub)) {
+                    if ((j - i + 1) > max_len) {
+                        max_len = j - i + 1;
+                        result = sub;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    bool isPalindrome(const string& sub) {
+        return sub == string(sub.rbegin(), sub.rend());
+    }
+};
+"""
 
 # Method 2: 
 """
@@ -43,9 +121,84 @@ class Solution:
                 l-= 1
                 r+= 1
         return ans
-
-# Better to write above code
+# Java Code 
 """
+class Solution {
+    public String longestPalindrome(String s) {
+        String ans = "";
+        int ansLen = 0;
+        int n = s.length();
+
+        for (int i = 0; i < n; i++) {
+            // check for odd length palindrome
+            int l = i, r = i;
+            while (l >= 0 && r < n && s.charAt(l) == s.charAt(r)) {
+                if (r - l + 1 > ansLen) {
+                    ans = s.substring(l, r + 1);
+                    ansLen = r - l + 1;
+                }
+                l--;
+                r++;
+            }
+
+            // now check for even length palindrome
+            l = i;
+            r = i + 1;
+            while (l >= 0 && r < n && s.charAt(l) == s.charAt(r)) {
+                if (r - l + 1 > ansLen) {
+                    ans = s.substring(l, r + 1);
+                    ansLen = r - l + 1;
+                }
+                l--;
+                r++;
+            }
+        }
+
+        return ans;
+    }
+}
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        string ans = "";
+        int ansLen = 0;
+        int n = s.length();
+
+        for (int i = 0; i < n; ++i) {
+            // check for odd length palindrome
+            int l = i, r = i;
+            while (l >= 0 && r < n && s[l] == s[r]) {
+                if (r - l + 1 > ansLen) {
+                    ans = s.substr(l, r - l + 1);
+                    ansLen = r - l + 1;
+                }
+                l--;
+                r++;
+            }
+
+            // now check for even length palindrome
+            l = i;
+            r = i + 1;
+            while (l >= 0 && r < n && s[l] == s[r]) {
+                if (r - l + 1 > ansLen) {
+                    ans = s.substr(l, r - l + 1);
+                    ansLen = r - l + 1;
+                }
+                l--;
+                r++;
+            }
+        }
+
+        return ans;
+    }
+};
+"""
+
+# Method 3:
+# Better to write above code
 class Solution:
     def longestPalindrome(self, s: str) -> str:
 
@@ -69,7 +222,7 @@ class Solution:
                 ans = even_pal
 
         return ans
-"""
+
 
 # Java Code 
 """
@@ -79,9 +232,9 @@ class Solution {
 
         for (int i = 0; i < s.length(); i++) {
             // Check for odd-length palindrome
-            String odd_pal = expandAroundCenter(s, i, i);
+            String odd_pal = longestPal(s, i, i);
             // Check for even-length palindrome
-            String even_pal = expandAroundCenter(s, i, i + 1);
+            String even_pal = longestPal(s, i, i + 1);
 
             // Update the answer if the found palindrome is longer
             if (odd_pal.length() > ans.length()) {
@@ -95,7 +248,7 @@ class Solution {
         return ans;
     }
 
-    private String expandAroundCenter(String s, int l, int r) {
+    private String longestPal(String s, int l, int r) {
         while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
             l--;
             r++;
@@ -107,19 +260,16 @@ class Solution {
 
 # C++ Code 
 """
-#include <string>
-using namespace std;
-
 class Solution {
 public:
     string longestPalindrome(string s) {
         string ans = "";
 
-        for (int i = 0; i < s.length(); i++) {
+        for (int i = 0; i < s.length(); ++i) {
             // Check for odd-length palindrome
-            string odd_pal = expandAroundCenter(s, i, i);
+            string odd_pal = longestPal(s, i, i);
             // Check for even-length palindrome
-            string even_pal = expandAroundCenter(s, i, i + 1);
+            string even_pal = longestPal(s, i, i + 1);
 
             // Update the answer if the found palindrome is longer
             if (odd_pal.length() > ans.length()) {
@@ -134,7 +284,7 @@ public:
     }
 
 private:
-    string expandAroundCenter(const string& s, int l, int r) {
+    string longestPal(const string& s, int l, int r) {
         while (l >= 0 && r < s.length() && s[l] == s[r]) {
             l--;
             r++;
@@ -144,7 +294,8 @@ private:
 };
 """
 
-# Method 2: Using DP
+# Method 4: 
+# Using DP
 # logic: 
 """
 Observation: how we can avoid unnecessary re-computation while validating palindromes.
@@ -171,72 +322,68 @@ class Solution:
                         Max_Str = s[j:i+1]
         return Max_Str
 
-# Java Code
+# Java Code 
 """
 class Solution {
     public String longestPalindrome(String s) {
-        if (s.length() <= 1) return s;
+        if (s.length() <= 1)
+            return s;
 
-        int maxLen = 1;
-        String maxStr = s.substring(0, 1);
-        int n = s.length();
-        boolean[][] dp = new boolean[n][n];
-
-        // dp[j][i] : whether string from 'j to i' is palindrome or not
+        int Max_Len = 1;
+        String Max_Str = s.substring(0, 1);
+        boolean[][] dp = new boolean[s.length()][s.length()];
+        // dp[j][i] : whether string from 'j to i' is palindrome or not.
         // j: starting index , i: last index
-        for (int i = 0; i < n; i++) {
+
+        for (int i = 0; i < s.length(); i++) {
             dp[i][i] = true;
             for (int j = 0; j < i; j++) {
                 if (s.charAt(j) == s.charAt(i) && (i - j <= 2 || dp[j + 1][i - 1])) {
                     dp[j][i] = true;
-                    if (i - j + 1 > maxLen) {
-                        maxLen = i - j + 1;
-                        maxStr = s.substring(j, i + 1);
+                    if (i - j + 1 > Max_Len) {
+                        Max_Len = i - j + 1;
+                        Max_Str = s.substring(j, i + 1);
                     }
                 }
             }
         }
 
-        return maxStr;
+        return Max_Str;
     }
 }
 """
-# C++ Code
+# C++ Code 
 """
-#include <string>
-#include <vector>
-using namespace std;
-
 class Solution {
 public:
     string longestPalindrome(string s) {
-        if (s.length() <= 1) return s;
+        if (s.length() <= 1)
+            return s;
 
-        int maxLen = 1;
-        string maxStr = s.substr(0, 1);
+        int Max_Len = 1;
+        string Max_Str = s.substr(0, 1);
         int n = s.length();
         vector<vector<bool>> dp(n, vector<bool>(n, false));
-
-        // dp[j][i] : whether string from 'j to i' is palindrome or not
+        // dp[j][i] : whether string from 'j to i' is palindrome or not.
         // j: starting index , i: last index
+
         for (int i = 0; i < n; ++i) {
             dp[i][i] = true;
             for (int j = 0; j < i; ++j) {
                 if (s[j] == s[i] && (i - j <= 2 || dp[j + 1][i - 1])) {
                     dp[j][i] = true;
-                    if (i - j + 1 > maxLen) {
-                        maxLen = i - j + 1;
-                        maxStr = s.substr(j, i - j + 1);
+                    if (i - j + 1 > Max_Len) {
+                        Max_Len = i - j + 1;
+                        Max_Str = s.substr(j, Max_Len);
                     }
                 }
             }
         }
 
-        return maxStr;
+        return Max_Str;
     }
 };
 """
-# later try in O(n). SOlution in sheet.
 
 """
 Related question:

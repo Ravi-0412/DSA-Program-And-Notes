@@ -79,7 +79,8 @@ public:
 };
 """
 
-# Method 2: Using DP
+# Method 2: 
+# Using DP
 # Logic:
 """
 1) Let dp[i][j] represent the length of the longest common substring between the suffixes starting
@@ -159,7 +160,8 @@ public:
     }
 };
 """
-# Method 3: Optimised solution in O(n*logn) 
+# Method 3: 
+# Optimised solution in O(n*logn) 
 # Same method one :  question " 1044. Longest Duplicate Substring"
 
 class Solution:

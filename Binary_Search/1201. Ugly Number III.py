@@ -1,3 +1,5 @@
+# Method 1: 
+
 # logic: we are using the formula i.e given three numbers(a, b, c) and a num 'num', 
 # find the number of positive number from '1' to 'num' that is divisible by either a or b or c.
 # formula is: num/a + num/b + num/c – num/lcm(a, b) – num/lcm(b, c) – num/lcm(a, c) + num/lcm(a, b, c). 
@@ -21,6 +23,7 @@
 
 # time: O(log(max(n))*log(A))  # since every time we are calculating the lcm from gcd.
 # better use inbuilt lcm function to make code more readable.
+
 class Solution:
     def nthUglyNumber(self, n: int, a: int, b: int, c: int) -> int:
 
@@ -47,6 +50,8 @@ class Solution:
                 start= mid + 1
         return start
 
+
+# Method 2: 
 # to avoid calculating lcm again and again for same thing, we can store those lcm value into variabales.
 # to make code concise, used 'math.lcm(a,b)' to find lcm.
 # Also updated the range to which start and end can vary logically.
@@ -75,7 +80,7 @@ class Solution:
                 start= mid + 1
         return start
         
-
+# method 3: 
 
 # if given 'a', b, c are prime numbers then we can do directly like this.
 # since lcm of prime numbers= multiplications of number.
@@ -95,97 +100,3 @@ class Solution:
                 start= mid + 1
         return start
 
-# Java Code 
-"""
-import java.math.BigInteger;
-
-class Solution {
-    // Function to compute GCD using Euclidean algorithm
-    private int gcd(int num1, int num2) {
-        if (num1 == 0) return num2;
-        return gcd(num2 % num1, num1);
-    }
-
-    // Function to compute LCM using GCD
-    private long lcm(int num1, int num2) {
-        return (long) num1 * num2 / gcd(num1, num2);
-    }
-
-    // Function to count numbers divisible by a, b, or c up to 'num'
-    private int count(int num, int a, int b, int c, long ab, long bc, long ca, long abc) {
-        return num / a + num / b + num / c - num / ab - num / bc - num / ca + num / abc;
-    }
-
-    public int nthUglyNumber(int n, int a, int b, int c) {
-        int start = Math.min(Math.min(a, b), c);  // Min possible value
-        int end = start * n;                      // Max possible range
-
-        long ab = lcm(a, b);
-        long bc = lcm(b, c);
-        long ca = lcm(c, a);
-        long abc = lcm(a, lcm(b, c));
-
-        while (start < end) {
-            int mid = start + (end - start) / 2;
-            if (count(mid, a, b, c, ab, bc, ca, abc) >= n) {
-                end = mid;
-            } else {
-                start = mid + 1;
-            }
-        }
-
-        return start;
-    }
-}
-"""
-
-# C++ Code 
-"""
-#include <iostream>
-#include <cmath>
-#include <algorithm>
-
-using namespace std;
-
-class Solution {
-public:
-    // Function to compute GCD using Euclidean algorithm
-    int gcd(int num1, int num2) {
-        if (num1 == 0) return num2;
-        return gcd(num2 % num1, num1);
-    }
-
-    // Function to compute LCM using GCD
-    long long lcm(int num1, int num2) {
-        return (long long)(num1 * num2) / gcd(num1, num2);
-    }
-
-    // Function to count numbers divisible by a, b, or c up to 'num'
-    int count(int num, int a, int b, int c, long long ab, long long bc, long long ca, long long abc) {
-        return num / a + num / b + num / c - num / ab - num / bc - num / ca + num / abc;
-    }
-
-    int nthUglyNumber(int n, int a, int b, int c) {
-        int start = min({a, b, c});  // Min possible value
-        int end = start * n;         // Max possible range
-
-        long long ab = lcm(a, b);
-        long long bc = lcm(b, c);
-        long long ca = lcm(c, a);
-        long long abc = lcm(a, lcm(b, c));
-
-        while (start < end) {
-            int mid = start + (end - start) / 2;
-            if (count(mid, a, b, c, ab, bc, ca, abc) >= n) {
-                end = mid;
-            } else {
-                start = mid + 1;
-            }
-        }
-
-        return start;
-    }
-};
-"""
-# Similar Q:
-# i) 878. Nth Magical Number    => Exactly same Q

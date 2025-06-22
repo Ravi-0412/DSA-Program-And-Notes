@@ -1,3 +1,5 @@
+# Method 1: 
+
 """
 1) Let dp(mask, remainTime) is the minimum of work sessions needed to finish all the tasks represent by mask (where ith bit = 1 means tasks[i] need to proceed) with the remainTime we have for the current session.
 Then dp((1 << n) - 1, 0) is our result
@@ -51,33 +53,43 @@ import java.util.*;
 class Solution {
     public int minSessions(int[] tasks, int sessionTime) {
         int n = tasks.length;
-        int[][] memo = new int[1 << n][sessionTime + 1];  // memo[mask][remainingTime]
-        for (int[] row : memo) Arrays.fill(row, -1);
+        int[][] memo = new int[1 << n][sessionTime + 1];
+        for (int[] row : memo) Arrays.fill(row, -1);  // Initialize with -1 (unvisited)
 
-        return dp((1 << n) - 1, 0, tasks, sessionTime, memo);  // start with all tasks and 0 time used
+        return dp((1 << n) - 1, 0, tasks, sessionTime, memo);
+    }
+
+    // Clear bit at position k
+    private int clearBit(int x, int k) {
+        return ~(1 << k) & x;
     }
 
     private int dp(int mask, int remainTime, int[] tasks, int sessionTime, int[][] memo) {
-        if (mask == 0) return 0;  // All tasks done
+        if (mask == 0)
+            return 0;  // All tasks done, 0 sessions needed
 
-        if (memo[mask][remainTime] != -1) return memo[mask][remainTime];
+        // If already computed, return memoized result
+        if (memo[mask][remainTime] != -1)
+            return memo[mask][remainTime];
 
-        int ans = tasks.length;  // Worst case: one task per session
+        int n = tasks.length;
+        int ans = n;  // In worst case, up to n sessions
 
-        for (int i = 0; i < tasks.length; i++) {
-            if (((mask >> i) & 1) == 1) {  // Task i is still pending
-                int newMask = mask ^ (1 << i);  // Clear bit i (mark as done)
+        for (int i = 0; i < n; i++) {
+            if (((mask >> i) & 1) == 1) {  // If task i is still pending
+                int newMask = clearBit(mask, i);  // we are completing this task
                 if (tasks[i] <= remainTime) {
-                    // Fit task in current session
+                    // Fit the task into the current session
                     ans = Math.min(ans, dp(newMask, remainTime - tasks[i], tasks, sessionTime, memo));
                 } else {
-                    // Start new session
+                    // Task doesn't fit, so start a new session
                     ans = Math.min(ans, 1 + dp(newMask, sessionTime - tasks[i], tasks, sessionTime, memo));
                 }
             }
         }
 
-        return memo[mask][remainTime] = ans;
+        memo[mask][remainTime] = ans;  // Store the result in memo
+        return ans;
     }
 }
 """
@@ -91,32 +103,41 @@ class Solution {
 public:
     int minSessions(vector<int>& tasks, int sessionTime) {
         int n = tasks.size();
-        vector<vector<int>> memo(1 << n, vector<int>(sessionTime + 1, -1));
-        return dp((1 << n) - 1, 0, tasks, sessionTime, memo);  // Start with all tasks and 0 used time
+        vector<vector<int>> memo(1 << n, vector<int>(sessionTime + 1, -1));  // Initialize with -1 (unvisited)
+        return dp((1 << n) - 1, 0, tasks, sessionTime, memo);
     }
 
-    int dp(int mask, int remainTime, vector<int>& tasks, int sessionTime, vector<vector<int>>& memo) {
-        if (mask == 0) return 0;  // All tasks done
+private:
+    // Clear bit at position k
+    int clearBit(int x, int k) {
+        return ~(1 << k) & x;
+    }
 
-        if (memo[mask][remainTime] != -1) return memo[mask][remainTime];
+    int dp(int mask, int remainTime, const vector<int>& tasks, int sessionTime, vector<vector<int>>& memo) {
+        if (mask == 0)
+            return 0;  // All tasks done, 0 sessions needed
 
-        int ans = tasks.size();  // Worst case: one session per task
+        if (memo[mask][remainTime] != -1)
+            return memo[mask][remainTime];
 
-        for (int i = 0; i < tasks.size(); ++i) {
-            if ((mask >> i) & 1) {  // Task i is still pending
-                int newMask = mask ^ (1 << i);  // Clear bit i
+        int n = tasks.size();
+        int ans = n;  // In worst case, up to n sessions
+
+        for (int i = 0; i < n; ++i) {
+            if ((mask >> i) & 1) {  // If task i is still pending
+                int newMask = clearBit(mask, i);  // we are completing this task
                 if (tasks[i] <= remainTime) {
+                    // Fit the task into the current session
                     ans = min(ans, dp(newMask, remainTime - tasks[i], tasks, sessionTime, memo));
                 } else {
+                    // Task doesn't fit, so start a new session
                     ans = min(ans, 1 + dp(newMask, sessionTime - tasks[i], tasks, sessionTime, memo));
                 }
             }
         }
 
-        return memo[mask][remainTime] = ans;
+        memo[mask][remainTime] = ans;  // Store the result in memo
+        return ans;
     }
 };
 """
-
-
-# TR to do in more optimal way, solution in sheet.

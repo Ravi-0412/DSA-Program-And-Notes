@@ -1,3 +1,5 @@
+# Method 1: 
+
 """
 Note: the goal of this problem is to "find a num that makes the sum of moves is minimum".
 
@@ -80,6 +82,7 @@ public:
     }
 };
 """
+
 
 # Related Q
 # 296. Best Meeting Point

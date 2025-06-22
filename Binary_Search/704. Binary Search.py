@@ -1,3 +1,5 @@
+# Basic: 
+
 """
 Note: in Binary search mid will give the ans always. so for making any decision or condition in 'if' or 'while' loop, 
 just think from 'mid' i.e if it is not equal to mid then where to move for this 'if' condition.
@@ -428,5 +430,89 @@ int binary_search(vector<int>& arr, int key) {
 }
 
 """
-# Other questions that need exact this binary search logic: 
-# 1) 34. Find First and Last Position of Element in Sorted Array
+
+
+
+
+# Solution of actual question  
+# Method 1:
+class Solution:
+    def search(self, arr: List[int], key: int) -> int:
+        n= len(arr)
+        low=0
+        up= n-1
+        while(low<= up):
+            mid= low+ (up-low)//2
+            if arr[mid] == key:
+                return mid
+            elif(arr[mid]> key):  # mid ans deta but mid hi bda h to ab kahan 'key' hmko mil sakta h. mid se phle
+                up= mid-1
+            elif(arr[mid]<key):
+                low= mid+1
+        return -1
+        
+
+# Java
+class Solution:
+    def search(self, arr: List[int], key: int) -> int:
+        n= len(arr)
+        low=0
+        up= n-1
+        while(low<= up):
+            mid= low+ (up-low)//2
+            if arr[mid] == key:
+                return mid
+            elif(arr[mid]> key):  # mid ans deta but mid hi bda h to ab kahan 'key' hmko mil sakta h. mid se phle
+                up= mid-1
+            elif(arr[mid]<key):
+                low= mid+1
+        return -1
+        
+
+# Java
+"""
+class Solution {
+    public int search(int[] arr, int key) {
+        int n = arr.length;
+        int low = 0;
+        int up = n - 1;
+        
+        while (low <= up) {
+            int mid = low + (up - low) / 2;
+            if (arr[mid] == key) {
+                return mid;
+            } else if (arr[mid] > key) {  // 'key' will be before mid if mid is greater
+                up = mid - 1;
+            } else {  // 'key' will be after mid if mid is smaller
+                low = mid + 1;
+            }
+        }
+        return -1;  // 'key' is not present in the array
+    }
+}
+"""
+
+
+# C++
+"""
+class Solution {
+public:
+    int search(vector<int>& arr, int key) {
+        int n = arr.size();
+        int low = 0;
+        int up = n - 1;
+        
+        while (low <= up) {
+            int mid = low + (up - low) / 2;
+            if (arr[mid] == key) {
+                return mid;
+            } else if (arr[mid] > key) {  // 'key' will be before mid if mid is greater
+                up = mid - 1;
+            } else {  // 'key' will be after mid if mid is smaller
+                low = mid + 1;
+            }
+        }
+        return -1;  // 'key' is not present in the array
+    }
+};
+"""

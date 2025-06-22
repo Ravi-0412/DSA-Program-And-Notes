@@ -1,3 +1,4 @@
+# Method 1: 
 # Brute force
 class Solution:
     def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
@@ -201,9 +202,9 @@ private:
     }
 };
 """       
-
+# Method 3: 
 # Optimsing above solution using memoisation
-# Also no need to dfs(prefix) => 3rd call
+# Also no need to dfs(prefix)
 
 class Solution:
     def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
@@ -340,4 +341,3 @@ public:
 };
 """
 
-# Try using trie

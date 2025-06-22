@@ -1,4 +1,5 @@
-# method 1: Brute force
+# method 1: 
+# Brute force
 # logic: for (i,j), longest path= max(longest path in  row i, longest path in col j) + 1.
 
 # For row and col, we need to check every ele as for cur cell either ele on left or right may be greater.

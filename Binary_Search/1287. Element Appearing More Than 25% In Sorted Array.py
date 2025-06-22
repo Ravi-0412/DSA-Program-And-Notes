@@ -1,3 +1,5 @@
+# Method 1: 
+
 # logic: traverse the array and we will find same ele at 'i+ n//4' index means that is our ans.
 # since array is sorted so all will be continous only.
 
@@ -58,6 +60,7 @@ class Solution {
         return -1;
     }
 }
+
 //Method 2
 import java.util.*;
 
@@ -76,6 +79,7 @@ class Solution {
         return -1;
     }
 }
+
 //Method 3
 class Solution {
     public int findSpecialInteger(int[] arr) {
@@ -97,6 +101,7 @@ class Solution {
 # C++ Code 
 """
 //Method 1
+
 #include <vector>
 
 using namespace std;
@@ -115,7 +120,9 @@ public:
         return -1;
     }
 };
+
 //Method 2
+
 #include <vector>
 #include <algorithm>
 
@@ -137,6 +144,8 @@ public:
         return -1;
     }
 };
+
+
 //Method 3
 class Solution {
 public:

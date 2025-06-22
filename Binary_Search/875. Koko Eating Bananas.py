@@ -1,3 +1,5 @@
+# Method 1: 
+
 # the lower bound of the search space is 1, and upper bound is max(piles), 
 # because Koko can only choose one pile of bananas to eat every hour. 
 # so end= max(piles) 
@@ -27,6 +29,7 @@ class Solution:
 import java.util.*;
 
 class Solution {
+    // agar koko is speed se khata h then kya 'h' hour me pura banana kha payega? 
     public boolean isValid(int[] piles, int h, int speed) {
         int hour = 0;
         for (int pile : piles) {
@@ -62,6 +65,7 @@ using namespace std;
 
 class Solution {
 public:
+    // agar koko is speed se khata h then kya 'h' hour me pura banana kha payega? 
     bool isValid(vector<int>& piles, int h, int speed) {
         int hour = 0;
         for (int pile : piles) {

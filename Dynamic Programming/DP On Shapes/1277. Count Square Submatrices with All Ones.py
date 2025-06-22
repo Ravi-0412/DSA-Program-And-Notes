@@ -1,3 +1,7 @@
+# method 1: 
+# Recursion
+
+
 """
 Logic: Har ek cell (r, c) se check kar rhe ki maximum kitne side ka square form kar sakte h.
 Iske liye hmko 3 direction ka length ka min lena hoga i.e (diagonally upper-left, upper_cell, left_cell) => 
@@ -11,7 +15,6 @@ Isse hm direct Tabulation DP likh sakte h, Top - Down . See method 4.
 """
 
 """
-method 1: recursive.
 note: jyada dimag mat lagao recursion me , bs sahi logic socho or likh do.
 Yahan (0, 0) se ja rhe isliye hmko check karne ka direction change karna hoga.
 i.e min(down, right, lower_right diagonal).
@@ -102,7 +105,8 @@ private:
 """
 
 
-# method 2: memoization
+# method 2: 
+# memoization
 # Time : O(m*n)
 
 class Solution:
@@ -155,7 +159,7 @@ class Solution {
 
         dp[r][c] = 1 + Math.min(
             dfs(matrix, r + 1, c, dp),
-            Math.min(dfs(matrix, r, c + 1, dp), dfs(matrix, r + 1, c + 1, dp))
+            Math.min(dfs(matrix, r, c + 1, dp), dfs(matrix, r + 1, c + 1, dp)) //down, right, lower diagonal
         );
 
         return dp[r][c];
@@ -194,9 +198,9 @@ private:
             return dp[r][c];
 
         dp[r][c] = 1 + min({
-            dfs(matrix, r + 1, c, dp),
-            dfs(matrix, r, c + 1, dp),
-            dfs(matrix, r + 1, c + 1, dp)
+            dfs(matrix, r + 1, c, dp), // down
+            dfs(matrix, r, c + 1, dp), // right
+            dfs(matrix, r + 1, c + 1, dp) // lower diagonal
         });
 
         return dp[r][c];
@@ -204,7 +208,8 @@ private:
 };
 """
 
-# method 3: Tabulation (Bottom Up)
+# method 3:
+# Tabulation (Bottom Up)
 # in above approaches, we are just adding the ans of every cell to our final ans.
 # and ans of any cell, we are calculating by seeing the three values (down, right and right diagonal).
 class Solution:
@@ -305,19 +310,6 @@ class Solution:
                     ans+= dp[r][c]
         return ans
 
-# Other way of writing above code
-class Solution:
-    def countSquares(self, matrix: List[List[int]]) -> int:
-        row, col = len(matrix), len(matrix[0])
-        dp = [[0 for j in range(col + 1)] for i in range(row + 1)]
-        ans= 0
-        for r in range(1, row + 1):
-            for c in range(1, col + 1):
-                if matrix[r-1][c-1] == 1:
-                    dp[r][c]= 1+ min(dp[r-1][c], dp[r][c-1], dp[r-1][c-1])   # side length = min(up, left, upper-left diagonal)
-                    ans += dp[r][c]  # new formed square using current cell = side_length only
-        return ans
-
 # Java Code 
 """
 class Solution {
@@ -410,6 +402,68 @@ public:
 #include <algorithm>
 using namespace std;
 
+class Solution {
+public:
+    int countSquares(vector<vector<int>>& matrix) {
+        int row = matrix.size(), col = matrix[0].size();
+        vector<vector<int>> dp(row + 1, vector<int>(col + 1, 0));
+        int ans = 0;
+
+        for (int r = 1; r <= row; ++r) {
+            for (int c = 1; c <= col; ++c) {
+                if (matrix[r - 1][c - 1] == 1) {
+                    dp[r][c] = 1 + min({dp[r - 1][c], dp[r][c - 1], dp[r - 1][c - 1]});  // side length = min(up, left, upper-left diagonal)
+                    ans += dp[r][c];  // new formed square using current cell = side_length only
+                }
+            }
+        }
+
+        return ans;
+    }
+};
+"""
+
+# Method 5: 
+# Other way of write method 4
+class Solution:
+    def countSquares(self, matrix: List[List[int]]) -> int:
+        row, col = len(matrix), len(matrix[0])
+        dp = [[0 for j in range(col + 1)] for i in range(row + 1)]
+        ans= 0
+        for r in range(1, row + 1):
+            for c in range(1, col + 1):
+                if matrix[r-1][c-1] == 1:
+                    dp[r][c]= 1+ min(dp[r-1][c], dp[r][c-1], dp[r-1][c-1])   # side length = min(up, left, upper-left diagonal)
+                    ans += dp[r][c]  # new formed square using current cell = side_length only
+        return ans
+
+# Java Code 
+"""
+class Solution {
+    public int countSquares(int[][] matrix) {
+        int row = matrix.length, col = matrix[0].length;
+        int[][] dp = new int[row + 1][col + 1];
+        int ans = 0;
+
+        for (int r = 1; r <= row; r++) {
+            for (int c = 1; c <= col; c++) {
+                if (matrix[r - 1][c - 1] == 1) {
+                    dp[r][c] = 1 + Math.min(
+                        dp[r - 1][c], 
+                        Math.min(dp[r][c - 1], dp[r - 1][c - 1])
+                    );  // side length = min(up, left, upper-left diagonal)
+                    ans += dp[r][c];  // new formed square using current cell = side_length only
+                }
+            }
+        }
+
+        return ans;
+    }
+}
+"""
+
+# C++ Code 
+"""
 class Solution {
 public:
     int countSquares(vector<vector<int>>& matrix) {

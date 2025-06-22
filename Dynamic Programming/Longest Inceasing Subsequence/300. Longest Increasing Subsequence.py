@@ -1,3 +1,5 @@
+# Method 1: 
+
 """
 If we closely observe the problem then we can convert this problem to longest Common Subsequence Problem.
 Firstly we will create another array of unique elements of original array and sort it. 
@@ -5,13 +7,11 @@ Now the longest increasing subsequence of our array must be present as a subsequ
 That’s why our problem is now reduced to finding the common subsequence between the two arrays.
 
 Time and Space: O(n^2)
-submited successfully on GFG but giving TLE on Leetcode
 
-# write the logic in notes in detail
 """
 
 class Solution:
-    #Function to find length of longest increasing subsequence.
+    # Function to find length of longest increasing subsequence.
     def longestSubsequence(self,a,n):
         a1= sorted(list(set(a)))
         n1= len(a1)
@@ -91,7 +91,8 @@ private:
 };
 """
 
-# method 2: Better one
+# method 2: 
+# Better one
 """
 Note vvvi: This is better one template in case of 'take' and 'notTake'  which there is 'notTake' option always there.
 So just find the condition for 'take' and return the max(take, notTake)
@@ -170,7 +171,7 @@ private:
     }
 };
 """
-
+# Method 3:
 # memoizing the above method
 # for matrix: we can't store -1 as pre_ind so we will do co-ordinate shift by +1 for pre_ind i.e for -1 we will write 0 and so on
 # so in this range of pre_ind will be from [0, n] instead of '-1' to   and range of 'ind' from '0' to 'n-1'
@@ -254,7 +255,7 @@ private:
 };
 """
 
-
+# Method 4: 
 """
 converting to Tabulation VVI: Top down 
 little twist here: different from general pattern.
@@ -333,7 +334,8 @@ public:
 """
 
 
-# Method 4: very better one    
+# Method 5:
+# very better one    
 """
 logic: traverse the array from right to left . just the conversion of above logic and optimising the space to O(n).
 e.g: LIS[2] means nums[2] will get appened(+1) to any of the LIS ahead of it,
@@ -352,7 +354,60 @@ class Solution:
         # at last return the maximum in LIS
         return max(LIS)
 
+# Java Code 
+"""
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int[] LIS = new int[nums.length];  // LIS[i] indicates that LIS that end at index 'i' from last
+                                           // for each index at least ele at curr index will be get included so initialised with '1'
+        Arrays.fill(LIS, 1);
 
+        for (int i = nums.length - 1; i >= 0; i--) {
+            // for 'i'th index we have to merge this ele with any of the ans(LIS) after it. so we will check for all ele after this.
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[j] > nums[i]) { // checking whether this ele at 'j' can get added to LIS at 'i'.
+                    LIS[i] = Math.max(LIS[i], 1 + LIS[j]);  // Have to take max of all LIS ahead of it.
+                }
+            }
+        }
+
+        // at last return the maximum in LIS
+        int max = 0;
+        for (int len : LIS) {
+            max = Math.max(max, len);
+        }
+        return max;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> LIS(nums.size(), 1);  // LIS[i] indicates that LIS that end at index 'i' from last
+                                          // for each index at least ele at curr index will be get included so initialised with '1'
+        
+        for (int i = nums.size() - 1; i >= 0; i--) {
+            // for 'i'th index we have to merge this ele with any of the ans(LIS) after it. so we will check for all ele after this.
+            for (int j = i + 1; j < nums.size(); j++) {
+                if (nums[j] > nums[i]) { // checking whether this ele at 'j' can get added to LIS at 'i'.
+                    LIS[i] = max(LIS[i], 1 + LIS[j]);  // Have to take max of all LIS ahead of it.
+                }
+            }
+        }
+
+        // at last return the maximum in LIS
+        return *max_element(LIS.begin(), LIS.end());
+    }
+};
+"""
+
+# Method 6: 
 """
 if you traverse from starting left to right
 write this logic in notes with printing the LIS, counting the number of LIS in detail
@@ -366,87 +421,47 @@ class Solution:
                 if nums[j] < nums[i]: # include the element. # checking whether this ele at 'j' can get added to LIS at 'i'.
                     LIS[i]= max(LIS[i], 1+ LIS[j])   # if follows the rule then incr the LIS by one 
         return max(LIS)
-
-
-
 # Java Code 
 """
 class Solution {
     public int lengthOfLIS(int[] nums) {
-        int[] LIS = new int[nums.length];  // LIS[i] indicates that LIS that ends at index 'i' from last
+        int[] LIS = new int[nums.length];  // LIS[i] indicates that LIS that end at index 'i' from start.
                                            // for each index at least ele at curr index will be get included so initialised with '1'
-        java.util.Arrays.fill(LIS, 1);
-
-        for (int i = nums.length - 1; i >= 0; i--) {
-            // for 'i'th index we have to merge this ele with any of the ans(LIS) after it. so we will check for all ele after this.
-            for (int j = i + 1; j < nums.length; j++) {
-                if (nums[j] > nums[i])  // checking whether this ele at 'j' can get added to LIS at 'i'.
-                    LIS[i] = Math.max(LIS[i], 1 + LIS[j]);  // Have to take max of all LIS ahead of it.
-            }
-        }
-        // at last return the maximum in LIS
-        int max = 0;
-        for (int val : LIS) max = Math.max(max, val);
-        return max;
-    }
-}
-/*
-if you traverse from starting left to right
-write this logic in notes with printing the LIS, counting the number of LIS in detail
-for every ele, we have two choices either include that into 'subse' or not include to the pre_answers.
-*/
-class Solution {
-    public int lengthOfLIS(int[] nums) {
-        int[] LIS = new int[nums.length];  // LIS[i] indicates that LIS that ends at index 'i' from start.
-        java.util.Arrays.fill(LIS, 1);
+        Arrays.fill(LIS, 1);
 
         for (int i = 0; i < nums.length; i++) {  // calculating for each index one by one
-            for (int j = 0; j < i; j++) {  // take the values from all the pre index till now
-                if (nums[j] < nums[i])  // include the element. checking whether this ele at 'j' can get added to LIS at 'i'.
+            for (int j = 0; j < i; j++) {        // take the values from all the pre index till now
+                if (nums[j] < nums[i]) {         // include the element. # checking whether this ele at 'j' can get added to LIS at 'i'.
                     LIS[i] = Math.max(LIS[i], 1 + LIS[j]);  // if follows the rule then incr the LIS by one
+                }
             }
         }
 
         int max = 0;
-        for (int val : LIS) max = Math.max(max, val);
+        for (int len : LIS) {
+            max = Math.max(max, len);
+        }
         return max;
     }
 }
 """
 # C++ Code 
 """
+#include <vector>
+#include <algorithm>
+using namespace std;
+
 class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
-        vector<int> LIS(nums.size(), 1);  // LIS[i] indicates that LIS that ends at index 'i' from last
+        vector<int> LIS(nums.size(), 1);  // LIS[i] indicates that LIS that end at index 'i' from start.
                                           // for each index at least ele at curr index will be get included so initialised with '1'
 
-        for (int i = nums.size() - 1; i >= 0; --i) {
-            // for 'i'th index we have to merge this ele with any of the ans(LIS) after it. so we will check for all ele after this.
-            for (int j = i + 1; j < nums.size(); ++j) {
-                if (nums[j] > nums[i])  // checking whether this ele at 'j' can get added to LIS at 'i'.
-                    LIS[i] = max(LIS[i], 1 + LIS[j]);  // Have to take max of all LIS ahead of it.
-            }
-        }
-
-        // at last return the maximum in LIS
-        return *max_element(LIS.begin(), LIS.end());
-    }
-};
-/*
-if you traverse from starting left to right
-write this logic in notes with printing the LIS, counting the number of LIS in detail
-for every ele, we have two choices either include that into 'subse' or not include to the pre_answers.
-*/
-class Solution {
-public:
-    int lengthOfLIS(vector<int>& nums) {
-        vector<int> LIS(nums.size(), 1);  // LIS[i] indicates that LIS that ends at index 'i' from start.
-
-        for (int i = 0; i < nums.size(); ++i) {  // calculating for each index one by one
-            for (int j = 0; j < i; ++j) {  // take the values from all the pre index till now
-                if (nums[j] < nums[i])  // include the element. checking whether this ele at 'j' can get added to LIS at 'i'.
+        for (int i = 0; i < nums.size(); i++) {  // calculating for each index one by one
+            for (int j = 0; j < i; j++) {        // take the values from all the pre index till now
+                if (nums[j] < nums[i]) {         // include the element. # checking whether this ele at 'j' can get added to LIS at 'i'.
                     LIS[i] = max(LIS[i], 1 + LIS[j]);  // if follows the rule then incr the LIS by one
+                }
             }
         }
 
@@ -454,6 +469,8 @@ public:
     }
 };
 """
+
+# method 7:
 
 """
 best one: using binary search to find the proper position of curr index in case not follows the pattern 

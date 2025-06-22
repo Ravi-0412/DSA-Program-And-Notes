@@ -1,3 +1,5 @@
+# method 1: 
+
 # We also have to count duplicate subsequences
 
 # Logic: 
@@ -141,6 +143,7 @@ private:
 };
 """
 
+# Method 2:
 # Tabulation
 class Solution:
     def countPS(self,s):
@@ -222,7 +225,3 @@ public:
     }
 };
 """
-
-# extension
-# 1) 730. Count Different Palindromic Subsequences
-# count distinct palindromic subsequences

@@ -1,11 +1,10 @@
+# Method 1: 
+
 # Logic: 
 # The idea is to compare the key with middle 3 elements, if present then return the index.
 # If not present, then compare the key with middle element to decide whether to go in left half or right half. 
 # Comparing with middle element is enough as all the elements after mid+2 must be greater than element mid and
 # all elements before mid-2 must be smaller than mid element.
-
-# Python 3 program to find an element
-# in an almost sorted array
 
 # A recursive binary search based function.
 # It returns index of x in given array arr[l..r]
@@ -50,7 +49,6 @@ if (result == -1):
 else:
 	print("Element is present at index", result)
 
-# This code is contributed by Smitha Dinesh Semwal.
 
 
 # Java Code 

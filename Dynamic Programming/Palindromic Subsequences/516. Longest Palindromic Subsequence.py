@@ -1,3 +1,5 @@
+# Method 1:
+
 # logic: just reverse the string and find lcs of actual and reversed string
 # lcs will be our final ans as for palindrome reading from both sides will be same
 # so the subsequence in one must be there in other also
@@ -75,7 +77,8 @@ private:
     }
 };
 """
-# Method 2: Travsersing in same string 's'
+# Method 2:
+# Travsersing in same string 's'
 # Recursion + memoisation 
 
 # Logic: 
@@ -168,6 +171,7 @@ private:
     }
 };
 """
+# Method 3: 
 # Tabulation
 class Solution:
     def longestPalindromeSubseq(self, s: str) -> int:

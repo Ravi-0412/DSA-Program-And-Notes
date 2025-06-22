@@ -1,4 +1,6 @@
-# 1st method: Recursive
+# 1st method: 
+
+# Recursive
 # logic in notes: 123,124
 
 # lOgic: # we can cur at any of the given position in cuts so there must be something on leftmost and rightmost side 
@@ -92,7 +94,8 @@ public:
 };
 """
 
-# method 2: memoization
+# method 2:
+# memoization
 class Solution:
     def minCost(self, n: int, cuts: List[int]) -> int:
         cuts.append(0)
@@ -187,6 +190,7 @@ public:
 };
 """
 
+# Method 3: 
 # Tabulation
 class Solution:
     def minCost(self, n: int, cuts: List[int]) -> int:

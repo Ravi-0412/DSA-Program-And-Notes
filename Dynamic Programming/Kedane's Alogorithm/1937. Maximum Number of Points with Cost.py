@@ -49,7 +49,7 @@ class Solution:
 
         return max(pre)
 
-<<<<<<< HEAD:Dynamic Programming/Kedane's Alogorithm/1937. Maximum Number of Points with Cost
+
 # Java Code 
 """
 class Solution {
@@ -144,4 +144,4 @@ public:
         return *max_element(pre.begin(), pre.end());
     }
 };
-
+"""

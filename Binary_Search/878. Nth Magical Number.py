@@ -1,3 +1,5 @@
+# Method 1: 
+
 # logic: just totally same as "1201 ugly number 3". Easier version of "ugly number 3".
 # use set theory.
 # find the no of number that is divisible by 'a' or 'b' till n= (num//a + num//b  - num//math.lcm(a, b)).
@@ -6,6 +8,8 @@
 
 
 # time: O(log(A)), A= min(a, b) * n 
+
+
 class Solution:
     def nthMagicalNumber(self, n: int, a: int, b: int) -> int:
 
@@ -34,7 +38,8 @@ class Solution:
                 start= mid + 1
         return (start) % (10**9 + 7) 
 
-# using inbuilt lcm function.
+
+# Method 2: 
 import math
 class Solution:
     def nthMagicalNumber(self, n: int, a: int, b: int) -> int:

@@ -1,3 +1,6 @@
+# Method 1: 
+# Recursion + Memsoisation
+
 # Logic: Indirectly we have to find: The number of subsets with given diff. Here diff= 'Target'.
 # How?
 # We only have two operations allowed '+' and '-' and we want their result = target 
@@ -12,7 +15,7 @@ class Solution:
         total, n= sum(nums), len(nums)
         if (total+ target) & 1:  # if odd then no such subsets possible 
             return 0
-        s1= (total+ target)//2  # by solving mathematically(see the notes)
+        s1 = (total+ target)//2  # by solving mathematically(see the notes)
         dp= [[-1 for i in range(s1 +1)] for i in range(n)]  # no need to go till 'N+1' as we are starting from  'N-1' 
         return self.helper(n-1, nums, s1, dp)
     

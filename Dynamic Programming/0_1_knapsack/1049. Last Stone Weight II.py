@@ -1,3 +1,5 @@
+# Basic: 
+
 # Logic: 
 """
 Say you have four stones a,b,c,d.
@@ -30,8 +32,11 @@ Clearly this subproblem is analogous to the knapsack problem.
 # So question reduces to find closest sum (sum of numbers) to (SUM/2).
 # for finding closest sum to sum(arr)/2. we can do like.
 
-# Using method of 'Minimum sum partition"
+
 # Method 1: 
+# Recursion  + memoisation
+# Using method of 'Minimum sum partition"
+
 class Solution:
     def lastStoneWeightII(self, stones: List[int]) -> int:
         total_sum = sum(stones)  # Calculate the total sum of all stones
@@ -52,89 +57,13 @@ class Solution:
         for i in range(half_sum + 1):
             if dp[i]:
                 max_subset_sum = i
-        
         # Calculate the minimum difference
         min_diff = total_sum - 2 * max_subset_sum
-        
         return min_diff
 
-# Java Code 
-"""
-public class Solution {
-    public int lastStoneWeightII(int[] stones) {
-        int total_sum = 0;  // Calculate the total sum of all stones
-        for (int stone : stones)
-            total_sum += stone;
-
-        int half_sum = total_sum / 2;  // Target half of the total sum
-
-        // Initialize the DP array
-        boolean[] dp = new boolean[half_sum + 1];
-        dp[0] = true;  // Subset sum of 0 is always possible (empty set)
-
-        // Fill the DP array
-        for (int stone : stones) {
-            // Traverse backwards to avoid overwriting values that we need to check in the same iteration
-            for (int j = half_sum; j >= stone; j--) {
-                dp[j] = dp[j] || dp[j - stone];
-            }
-        }
-
-        // Find the maximum subset sum that is possible and <= half_sum
-        int max_subset_sum = 0;
-        for (int i = 0; i <= half_sum; i++) {
-            if (dp[i])
-                max_subset_sum = i;
-        }
-
-        // Calculate the minimum difference
-        int min_diff = total_sum - 2 * max_subset_sum;
-
-        return min_diff;
-    }
-}
-"""
-
-# C++ Code 
-"""
-class Solution {
-public:
-    int lastStoneWeightII(std::vector<int>& stones) {
-        int total_sum = 0;  // Calculate the total sum of all stones
-        for (int stone : stones)
-            total_sum += stone;
-
-        int half_sum = total_sum / 2;  // Target half of the total sum
-
-        // Initialize the DP array
-        std::vector<bool> dp(half_sum + 1, false);
-        dp[0] = true;  // Subset sum of 0 is always possible (empty set)
-
-        // Fill the DP array
-        for (int stone : stones) {
-            // Traverse backwards to avoid overwriting values that we need to check in the same iteration
-            for (int j = half_sum; j >= stone; --j) {
-                dp[j] = dp[j] || dp[j - stone];
-            }
-        }
-
-        // Find the maximum subset sum that is possible and <= half_sum
-        int max_subset_sum = 0;
-        for (int i = 0; i <= half_sum; ++i) {
-            if (dp[i])
-                max_subset_sum = i;
-        }
-
-        // Calculate the minimum difference
-        int min_diff = total_sum - 2 * max_subset_sum;
-
-        return min_diff;
-    }
-};
-"""
 
 # Method 2: 
-
+# Tabulation 
 class Solution:
     def lastStoneWeightII(self, stones: List[int]) -> int:
         total, n= sum(stones), len(stones)

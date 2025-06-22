@@ -1,5 +1,7 @@
+# Method 1: 
+
 # Recursive approach 
-# correct only but giving TLE
+# correct only but give TLE
 
 class Solution:
     def matrixMultiplication(self, N, arr):
@@ -21,6 +23,7 @@ class Solution:
             mn= min(mn,tempAns)   # take minimum of all ans.
         return mn
 
+<<<<<<< HEAD
 # Java Code 
 """
 class Solution {
@@ -87,6 +90,12 @@ public:
 
 
 # method 2: memoization
+=======
+
+
+# method 2: 
+# memoization
+>>>>>>> a40de18 (verified Binary Search and DP)
 # time: O(n^3)
 class Solution:
     def matrixMultiplication(self, N, arr):
@@ -107,6 +116,7 @@ class Solution:
         dp[start][end]= mn
         return dp[start][end]
 
+<<<<<<< HEAD
 # Java Code 
 """
 class Solution {
@@ -173,7 +183,10 @@ public:
     }
 };
 """
+=======
+>>>>>>> a40de18 (verified Binary Search and DP)
 
+# Method 3: 
 # Tabulation:
 # Note: In MCM type Q, go from first valid input to first invalid input (both inclusive) or vice versa.
 # both looping variable should go till first function call after initialisng the base case.
@@ -192,6 +205,7 @@ class Solution:
         return dp[1][N-1]   # we have called the recursive function for this variable value. so simply return that
 
 
+<<<<<<< HEAD
 # Java Code 
 """
 class Solution {
@@ -245,3 +259,5 @@ public:
     }
 };
 """
+=======
+>>>>>>> a40de18 (verified Binary Search and DP)

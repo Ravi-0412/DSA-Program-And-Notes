@@ -1,4 +1,7 @@
-# Q: Given an array of integers, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+# method 1: 
+
+# Q: Given an array of integers, 
+# find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
 
 # Time: O(n)
 # space: O(1)

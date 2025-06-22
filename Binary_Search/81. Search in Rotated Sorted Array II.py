@@ -1,3 +1,5 @@
+# Basic: 
+
 # Exact solution of q : "33. Search in Rotated Sorted Array" won't work.
 # Where it will fail?
 # Ans: will fail in test cases like =>
@@ -17,6 +19,9 @@
 # That's why getting wrong ans.
 
 # There is no way to get ans in logn for such cases. will go in O(n)
+
+
+# method 1: 
 
 # How to solve?
 # Just skip duplicates before finding the 'mid' and after that apply the exact solution of '"33. Search in Rotated Sorted Array"'.

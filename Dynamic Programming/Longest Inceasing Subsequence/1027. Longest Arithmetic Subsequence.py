@@ -1,3 +1,5 @@
+# method 1: 
+
 """
 This problem is similar to Longest Increasing Subsequence problem.
 The difference is that we need to consider the arithmetic difference in this problem.
@@ -98,6 +100,8 @@ public:
     }
 };
 """
+
+# Extension:
 
 # Note vvi: for  Q: "1218. Longest Arithmetic Subsequence of Given Difference" i.e 
 # return the length of the longest subsequence in arr which is an arithmetic sequence 

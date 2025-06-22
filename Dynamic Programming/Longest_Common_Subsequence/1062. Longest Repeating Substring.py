@@ -27,6 +27,7 @@ class Solution:
 
         return max_len
 
+<<<<<<< HEAD
 # Java Code 
 """
 class Solution {
@@ -80,6 +81,11 @@ public:
 """
 
 # Method 2: Using DP
+=======
+
+# Method 2: 
+# Using DP
+>>>>>>> a40de18 (verified Binary Search and DP)
 # Logic:
 """
 1) Let dp[i][j] represent the length of the longest common substring between the suffixes starting
@@ -110,6 +116,7 @@ class Solution:
         
         return max_len
 
+<<<<<<< HEAD
 # Java Code 
 """
 class Solution {
@@ -160,6 +167,11 @@ public:
 };
 """
 # Method 3: Optimised solution in O(n*logn) 
+=======
+
+# Method 3: 
+# Optimised solution in O(n*logn) 
+>>>>>>> a40de18 (verified Binary Search and DP)
 # Same method one :  question " 1044. Longest Duplicate Substring"
 
 class Solution:

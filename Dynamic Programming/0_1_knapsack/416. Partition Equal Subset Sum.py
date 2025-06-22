@@ -1,9 +1,13 @@
+# Method 1: 
+# Recursion + Memoisation
+
 # Problem reduces to: is there any subset possible which has sum equal to sum(array)//2
 
 # find the sum of the array, if sum is odd then no partition possible
 # if sum is even then may be possible
 # and for finding this, apply eaxctly the subset method on sum/2
 # time: space= O(n*(sum/2))
+
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
         list_sum= sum(nums)

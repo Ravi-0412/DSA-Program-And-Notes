@@ -42,51 +42,6 @@ def Reward(day,last,points):
             maxPoints= max(maxPoints,points[day][task]+Reward(day+1,task,points))
     return maxPoints
 
-# Java Code 
-"""
-public class Solution {
-    public int ninjaTraining(int n, int[][] points) {
-        return reward(0, 3, points);
-    }
-
-    private int reward(int day, int last, int[][] points) {
-        if (day == points.length)
-            return 0;
-
-        int maxPoints = 0;
-        for (int task = 0; task < 3; task++) {
-            if (task != last) {
-                maxPoints = Math.max(maxPoints, points[day][task] + reward(day + 1, task, points));
-            }
-        }
-        return maxPoints;
-    }
-}
-"""
-
-# C++ Code 
-"""
-class Solution {
-public:
-    int ninjaTraining(int n, std::vector<std::vector<int>>& points) {
-        return reward(0, 3, points);
-    }
-
-private:
-    int reward(int day, int last, std::vector<std::vector<int>>& points) {
-        if (day == points.size())
-            return 0;
-
-        int maxPoints = 0;
-        for (int task = 0; task < 3; ++task) {
-            if (task != last) {
-                maxPoints = std::max(maxPoints, points[day][task] + reward(day + 1, task, points));
-            }
-        }
-        return maxPoints;
-    }
-};
-"""
 
 # Method 2: 
 # memoization
@@ -108,64 +63,6 @@ def Reward(day,last,points, dp):
     dp[day][last]= maxPoints
     return dp[day][last]
 
-# Java Code 
-"""
-public class Solution {
-    public int ninjaTraining(int n, int[][] points) {
-        int[][] dp = new int[n + 1][4]; // dp[day][last]
-        for (int i = 0; i <= n; i++)
-            java.util.Arrays.fill(dp[i], -1);
-
-        return reward(0, 3, points, dp);
-    }
-
-    private int reward(int day, int last, int[][] points, int[][] dp) {
-        if (day == points.length)
-            return 0;
-
-        if (dp[day][last] != -1)
-            return dp[day][last];
-
-        int maxPoints = 0;
-        for (int task = 0; task < 3; task++) {
-            if (task != last) {
-                maxPoints = Math.max(maxPoints, points[day][task] + reward(day + 1, task, points, dp));
-            }
-        }
-
-        return dp[day][last] = maxPoints;
-    }
-}
-"""
-# C++ Code 
-"""
-class Solution {
-public:
-    int ninjaTraining(int n, std::vector<std::vector<int>>& points) {
-        std::vector<std::vector<int>> dp(n + 1, std::vector<int>(4, -1));
-        return reward(0, 3, points, dp);
-    }
-
-private:
-    int reward(int day, int last, const std::vector<std::vector<int>>& points,
-               std::vector<std::vector<int>>& dp) {
-        if (day == points.size())
-            return 0;
-
-        if (dp[day][last] != -1)
-            return dp[day][last];
-
-        int maxPoints = 0;
-        for (int task = 0; task < 3; ++task) {
-            if (task != last) {
-                maxPoints = std::max(maxPoints, points[day][task] + reward(day + 1, task, points, dp));
-            }
-        }
-
-        return dp[day][last] = maxPoints;
-    }
-};
-"""
 
 # Method 3: 
 # Tabulation

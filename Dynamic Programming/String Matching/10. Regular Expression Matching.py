@@ -1,3 +1,5 @@
+# Basic: 
+
 # only difference from "44. Wildcard Matching" is the meaning of "*".
 # in "44. Wildcard Matching", "*" can match to any sequence of char , doesn't depend on the pre char before "* but in this Q
 # "*" can 1) either match to zero char or 2) one or more char when characters in string is same char as char before "*" in pattern. 
@@ -9,7 +11,8 @@
 
 # for understanding better draw tree of pattern comparing with sring.
 
-# Method 1: Better one
+
+# Method 1: 
 
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
@@ -39,6 +42,7 @@ class Solution:
                     return True
         return False
 
+<<<<<<< HEAD
 # Java Code 
 """
 class Solution {
@@ -120,11 +124,10 @@ private:
 """
 # Memoised this later 
 
+=======
+>>>>>>> a40de18 (verified Binary Search and DP)
 
 # Method 2: 
-
-
-# neetcode video
 # base case when i>= len(s) and j is not out of bond will get handled by the case when we don't use the "*" and return false simply.
 # take this and check.1) s= a, p= a*b*c(or .*) and let i out of bound by matching with "*" and j still at '0' 
 # we will get true by taking the path "don't use '*' "
@@ -133,6 +136,8 @@ private:
 
 # simle thing keep in mind: if "*" comes then we have two choice 1) either skip it simply(incr 'j' by 2) or
 # 2) use "*" again and again if there is match. if not match then simply return False
+
+
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
         return self.dfs(0, 0, s, p)
@@ -151,6 +156,7 @@ class Solution:
         # in all other cases return False
         return False
 
+<<<<<<< HEAD
 # Brute force of above one but got submitted.
 # here handled the base case of "i>= len(s)" clearly 
 class Solution:
@@ -299,6 +305,9 @@ private:
     }
 };
 """
+=======
+# Method 3: 
+>>>>>>> a40de18 (verified Binary Search and DP)
 # memoised one
 # time: O(m*n)
 class Solution:
@@ -408,7 +417,59 @@ private:
 };
 """
 
-# Tabulation
-# will do later
+
+# Method 4:
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        n, m = len(s), len(p)
+        # dp[i][j] will be True if s[i:] matches p[j:]
+        dp = [[False] * (m + 1) for _ in range(n + 1)]
+
+        # Base case: both strings are empty
+        dp[n][m] = True
+
+        # Fill the table in reverse order
+        for i in range(n, -1, -1):
+            for j in range(m - 1, -1, -1):
+                # check if char is matching and store them in variable instead of using 'if' condition again and again
+                match = i < n and (s[i] == p[j] or p[j] == '.')
+
+                # check if p[j+1] == "*"
+                if (j + 1) < m and p[j + 1] == "*":
+                    dp[i][j] = dp[i][j + 2] or (match and dp[i + 1][j])  # don't use '*' OR use '*'
+                elif match:  # same as wildcard
+                    dp[i][j] = dp[i + 1][j + 1]
+                # in all other cases dp[i][j] is already False
+
+        return dp[0][0]
+
+
+# Method 5: 
+# Brute force of method 2 but got submitted.
+# here handled the base case of "i>= len(s)" clearly 
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        return self.dfs(0, 0, s, p)
+    
+    def dfs(self, i, j, s, p):
+        if j>= len(p):  # then 'i' must be also out of bound
+            return i>= len(s)
+        # if i>= len(s) then only chance if we can get True if there is alternate '*' and
+        # we have to skip the "*" and for that 'j+1' < len(s).
+        if i>= len(s):  
+            return j+1 < len(p) and p[j+1]== "*" and self.dfs(i, j+2, s, p)
+        # check if char is matching and store them in variable instead of using 'if' condition again and again
+        match= i< len(s) and (s[i]== p[j] or p[j]=='.')   # in this there will be match 
+        # check if p[j+1]== "*"
+        if (j+1) < len(p) and p[j+1]== "*":
+            return (self.dfs(i, j+2, s, p) or                 # don't use '*'
+                   (match and self.dfs(i+1, j, s, p)))   # if match then use "*" further again and again
+        if match:  # same as wildcard
+            return self.dfs(i+1, j+1, s, p)
+        # in all other cases return False
+        return False
+
+
+
 
 

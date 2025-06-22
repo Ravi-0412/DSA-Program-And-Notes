@@ -1,7 +1,26 @@
+# method 1: 
 # Note: thought to do by same method as 'printing lcs' but was becoming very tough and not getting how to do.
-
-# method 1: Try all substring
+# Try all substring
 # Time: O(n^3)
+
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        n = len(s)
+        max_len = 0
+        result = ""
+
+        # Try all substrings
+        for i in range(n):
+            for j in range(i, n):
+                sub = s[i:j+1]
+                if self.isPalindrome(sub):
+                    if (j - i + 1) > max_len:
+                        max_len = j - i + 1
+                        result = sub
+        return result
+
+    def isPalindrome(self, sub: str) -> bool:
+        return sub == sub[::-1]
 
 # Method 2: 
 """
@@ -44,8 +63,8 @@ class Solution:
                 r+= 1
         return ans
 
+# Method 3:
 # Better to write above code
-"""
 class Solution:
     def longestPalindrome(self, s: str) -> str:
 
@@ -69,6 +88,7 @@ class Solution:
                 ans = even_pal
 
         return ans
+<<<<<<< HEAD
 """
 
 # Java Code 
@@ -104,6 +124,8 @@ class Solution {
     }
 }
 """
+=======
+>>>>>>> a40de18 (verified Binary Search and DP)
 
 # C++ Code 
 """
@@ -144,7 +166,8 @@ private:
 };
 """
 
-# Method 2: Using DP
+# Method 4: 
+# Using DP
 # logic: 
 """
 Observation: how we can avoid unnecessary re-computation while validating palindromes.
@@ -171,6 +194,7 @@ class Solution:
                         Max_Str = s[j:i+1]
         return Max_Str
 
+<<<<<<< HEAD
 # Java Code
 """
 class Solution {
@@ -237,6 +261,9 @@ public:
 };
 """
 # later try in O(n). SOlution in sheet.
+=======
+
+>>>>>>> a40de18 (verified Binary Search and DP)
 
 """
 Related question:

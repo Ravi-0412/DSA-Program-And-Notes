@@ -1,8 +1,13 @@
+# Basic: 
+
 # same as Q no '62'. only difference if it reaches the last row or last col 
 # then whether to return '0' or '1' will depend on the pre cell of row and col respectively if obstacle is not present at that cell
 # according to this we have to initialise in tabulation
 
-# method 1: recursive way
+
+
+# method 1: 
+# Recursive way
 # giving TLE but correct only
 # better and concise one
 class Solution:
@@ -21,28 +26,9 @@ class Solution:
         return self.helper(r+1,c,grid) + self.helper(r,c+1,grid)
 
 
-# another way of writing the above code
-class Solution:
-    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
-        return self.Paths("", obstacleGrid, 0, 0)  # starting from 0,0 to reach the bottom most cell
-    def Paths(self,ans, maze, row, col):
-        count=0
-        if row== len(maze)-1 and col== len(maze[0])-1:  # corner most will be only the base condition in this case
-            if maze[row][col]== 1:  # means obstacles so simply return
-                return 0
-            else:
-                print(ans)
-                return 1
-        if maze[row][col]== 1:  # means obstacles so simply return
-            return 0
-        if row< len(maze)-1:  # then only you can go down
-            count+= Solution().Paths(ans+ 'D', maze, row+1, col)
-        if col< len(maze[0])-1:  # then only you can go right
-            count+= Solution().Paths(ans+ 'R', maze, row, col+1)
-        return count
 
-
-# method 2: memoization(method 1 )
+# method 2: 
+# memoization
 class Solution:
     def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
         if obstacleGrid[len(obstacleGrid)-1][len(obstacleGrid[0])-1]== 1:   # if there is obstacle at destination
@@ -63,6 +49,8 @@ class Solution:
         dp[r][c]= self.helper(r+1,c,grid,dp) + self.helper(r,c+1,grid,dp)
         return dp[r][c]
 
+
+# method 3: 
 # tabulation 
 class Solution:
     def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:

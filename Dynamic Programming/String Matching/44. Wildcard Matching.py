@@ -1,4 +1,5 @@
-# by Recursion
+# Method 1: 
+# By Recursion
 
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
@@ -109,7 +110,8 @@ private:
 };
 """
 
-# method 2: memoization
+# method 2: 
+# memoisation
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
         m,n= len(s), len(p)
@@ -136,6 +138,7 @@ class Solution:
             dp[m][n]= False
         return dp[m][n] 
 
+<<<<<<< HEAD
 # Java Code 
 """
 class Solution {
@@ -221,6 +224,10 @@ private:
 };
 """
 # method 3: Tabulation
+=======
+# method 3: 
+# Tabulation
+>>>>>>> a40de18 (verified Binary Search and DP)
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
         m,n= len(s), len(p)
@@ -247,6 +254,7 @@ class Solution:
         return dp[m][n]
 
 
+<<<<<<< HEAD
 # Java Code 
 """
 class Solution {
@@ -335,6 +343,10 @@ public:
 };
 """
 # method 4: space optimised to O(n)
+=======
+# method 4: 
+# space optimised to O(n)
+>>>>>>> a40de18 (verified Binary Search and DP)
 # for base case 0th row means previous and other than zero means curr
 # so initialise based on the actual means of row and col 
 # we have to initialise 'curr' for every row 

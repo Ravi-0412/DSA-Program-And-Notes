@@ -1,3 +1,6 @@
+# method 1: 
+# Recursion + memoisation
+
 # logic: 
 # Note vvi: if you find arr1[i] > arr1[i+1] then you can't move simply ahead, you have to consider the swapping one also.
 # Because you have to fidn the minimum swap.
@@ -21,22 +24,41 @@
 class Solution:
     def makeArrayIncreasing(self, arr1: List[int], arr2: List[int]) -> int:
         arr2 = sorted(set(arr2))
+        n = len(arr1)
 
-        @lru_cache(None)
-        def dfs(ind, pre):  # pre will just store the last ele of arr2.
-            if ind >= len(arr1):
-                # we have traversed whole array
-                return 0
-            # 1) if curr index 'ind' has value greater than last ele i.e pre then no need of swap.
-            no_swap = dfs(ind + 1 , arr1[ind]) if arr1[ind] > pre else float('inf')  # inf will tell 'not possible'
-            # 2) find the rightmost position of 'pre' in arr2  
-            j = bisect.bisect_right(arr2, pre)
-            # make pre = arr2[j] , just swapping pre i.e instead of arr1[ind] -> arr2[j]
-            swap = 1 + dfs(ind + 1 , arr2[j]) if j < len(arr2) else float('inf')
-            return min(swap , no_swap)
+        def binary_search(x):
+            # Find smallest element > x in arr2 using normal binary search
+            left, right = 0, len(arr2) - 1
+            pos = len(arr2)  # default to len(arr2) if none found
+            while left <= right:
+                mid = (left + right) // 2
+                if arr2[mid] > x:
+                    pos = mid
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            return pos
         
-        ans = dfs(0, float('-inf'))
-        return ans if ans != float('inf') else -1
+        dp = {float('-inf'): 0}
+
+        for i in range(n):
+            new_dp = {}
+            for pre, cost in dp.items():
+                # 1) no swap
+                if arr1[i] > pre:
+                    if arr1[i] not in new_dp or new_dp[arr1[i]] > cost:
+                        new_dp[arr1[i]] = cost
+                
+                # 2) swap
+                j = binary_search(pre)
+                if j < len(arr2):
+                    if arr2[j] not in new_dp or new_dp[arr2[j]] > cost + 1:
+                        new_dp[arr2[j]] = cost + 1
+            dp = new_dp
+        
+        if not dp:
+            return -1
+        return min(dp.values())
 
 # Java Code 
 """
@@ -123,5 +145,49 @@ private:
 """
 
 
-# Bisect function in python
-# https://www.geeksforgeeks.org/bisect-algorithm-functions-in-python/
+# Method 2:
+# Tabulation 
+class Solution:
+    def makeArrayIncreasing(self, arr1: List[int], arr2: List[int]) -> int:
+        arr2 = sorted(set(arr2))
+        n = len(arr1)
+
+        def binary_search(x):
+            # Find smallest element > x in arr2 using normal binary search
+            left, right = 0, len(arr2) - 1
+            pos = len(arr2)  # default to len(arr2) if none found
+            while left <= right:
+                mid = (left + right) // 2
+                if arr2[mid] > x:
+                    pos = mid
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            return pos
+        
+        # dp[i][j] will store the minimum cost to make array increasing up to index i
+        # with last element equal to some value represented by j (index in arr2 or arr1)
+        # However, since arr1 elements can vary widely, we will keep track of pairs (last_val, cost)
+        # This is similar to memo but now stored per i.
+        
+        # To simulate this, we keep a dictionary at each step i: dp[i] = {last_val: cost}
+        dp = [{} for _ in range(n+1)]
+        dp[0][float('-inf')] = 0  # Base case: before start, last element = -inf, cost = 0
+        
+        for i in range(n):
+            for pre, cost in dp[i].items():
+                # 1) no swap
+                if arr1[i] > pre:
+                    if arr1[i] not in dp[i+1] or dp[i+1][arr1[i]] > cost:
+                        dp[i+1][arr1[i]] = cost
+                
+                # 2) swap
+                j = binary_search(pre)
+                if j < len(arr2):
+                    if arr2[j] not in dp[i+1] or dp[i+1][arr2[j]] > cost + 1:
+                        dp[i+1][arr2[j]] = cost + 1
+        
+        if not dp[n]:
+            return -1
+        return min(dp[n].values())
+

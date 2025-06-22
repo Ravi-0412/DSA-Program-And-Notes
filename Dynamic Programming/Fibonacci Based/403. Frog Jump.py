@@ -1,3 +1,5 @@
+# Basic: 
+
 # logic: from cur stone move to next stone we can reach by taking the possible jump.
 
 # note: we can reach the same stone by taking the same number of jump many times.
@@ -13,7 +15,9 @@ If we can reach the final stone, we return true
 """
 
 
-# method 1: Recursive
+# method 1: 
+# Recursive
+
 class Solution(object):
     def canCross(self, stones):
         self.target = stones[-1]
@@ -336,90 +340,3 @@ class Solution:
                     visited.add((s, j))
         return False
 
-
-# Java Code 
-"""
-import java.util.*;
-
-public class Solution {
-    public boolean canCross(int[] stones) {
-        // first jump must be of one unit only.
-        if (stones[1] - stones[0] > 1)
-            return false;
-
-        Set<Integer> stonesSet = new HashSet<>();
-        for (int stone : stones)
-            stonesSet.add(stone);
-
-        Set<String> visited = new HashSet<>();  // to avoid repition when we will reach any stone with same jump.
-        Deque<int[]> stack = new ArrayDeque<>();  // [(stone, lastJump)]
-        stack.push(new int[]{0, 0});
-        visited.add("0,0");
-
-        while (!stack.isEmpty()) {
-            int[] current = stack.pop();
-            int stone = current[0], jump = current[1];
-
-            // possible jumps we can take from this stone
-            for (int j = jump - 1; j <= jump + 1; j++) {
-                // stone(s) to which we will reach after taking the jump 'j'
-                int s = stone + j;
-                // can only go forward and s must be in set and (s, j) must not be in visited
-                String key = s + "," + j;
-                if (j > 0 && stonesSet.contains(s) && !visited.contains(key)) {
-                    if (s == stones[stones.length - 1])
-                        return true;
-                    stack.push(new int[]{s, j});
-                    visited.add(key);
-                }
-            }
-        }
-
-        return false;
-    }
-}
-"""
-
-# C++ Code 
-"""
-#include <vector>
-#include <unordered_set>
-#include <stack>
-#include <string>
-
-class Solution {
-public:
-    bool canCross(std::vector<int>& stones) {
-        // first jump must be of one unit only.
-        if (stones[1] - stones[0] > 1)
-            return false;
-
-        std::unordered_set<int> stonesSet(stones.begin(), stones.end());
-        std::unordered_set<std::string> visited;  // to avoid repition when we will reach any stone with same jump.
-        std::stack<std::pair<int, int>> stack;  // [(stone, lastJump)]
-        stack.push({0, 0});
-        visited.insert("0,0");
-
-        while (!stack.empty()) {
-            auto [stone, jump] = stack.top();
-            stack.pop();
-
-            // possible jumps we can take from this stone
-            for (int j = jump - 1; j <= jump + 1; ++j) {
-                // stone(s) to which we will reach after taking the jump 'j'
-                int s = stone + j;
-                // can only go forward and s must be in set and (s, j) must not be in visited
-                std::string key = std::to_string(s) + "," + std::to_string(j);
-                if (j > 0 && stonesSet.count(s) && !visited.count(key)) {
-                    if (s == stones.back())
-                        return true;
-                    stack.push({s, j});
-                    visited.insert(key);
-                }
-            }
-        }
-
-        return false;
-    }
-};
-"""

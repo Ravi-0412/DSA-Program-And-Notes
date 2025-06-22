@@ -1,10 +1,13 @@
+# Basic:
+
 # this will not give correct ans in all cases when val of array element < 1
 # will give less number of count than the actual one
 
-# this totaly same as subset sum just replaced False ->0 and True ->1
-# but this will not work in case val of ele= 0  
+# this totaly same as subset sum just replaced False -> 0 and True ->1
+# but this will not work in case val of ele = 0  
 class Solution:
-    def NoOfSubsets(self, N, arr, sum):
+    def perfectSum(self, arr, sum):
+        N = len(arr)
         return self.helper(N, arr, sum)
     def helper(self, n, arr, sum):  # no need of this helper function
         if sum== 0:
@@ -16,67 +19,6 @@ class Solution:
         else:
             return self.helper(n-1,arr,sum- arr[n-1]) + self.helper(n-1,arr,sum)
 
-# Java Code 
-"""
-public class Solution {
-    public int NoOfSubsets(int N, int[] arr, int sum) {
-        return helper(N, arr, sum);
-    }
-
-    // no need of this helper function
-    private int helper(int n, int[] arr, int sum) {
-        if (sum == 0)
-            return 1;
-        if (n == 0)  // means n== 0 and sum != 0
-            return 0;
-        if (arr[n - 1] > sum)
-            return helper(n - 1, arr, sum);
-        else
-            return helper(n - 1, arr, sum - arr[n - 1]) + helper(n - 1, arr, sum);
-    }
-}
-"""
-# C++ Code 
-"""
-class Solution {
-public:
-    int NoOfSubsets(int N, std::vector<int>& arr, int sum) {
-        return helper(N, arr, sum);
-    }
-
-private:
-    // no need of this helper function
-    int helper(int n, const std::vector<int>& arr, int sum) {
-        if (sum == 0)
-            return 1;
-        if (n == 0)  // means n== 0 and sum != 0
-            return 0;
-        if (arr[n - 1] > sum)
-            return helper(n - 1, arr, sum);
-        else
-            return helper(n - 1, arr, sum - arr[n - 1]) + helper(n - 1, arr, sum);
-    }
-};
-"""
-
-# memoized the above method
-class Solution:
-    def NoOfSubsets(self, N, arr, sum): 
-        dp= [[-1 for i in range(sum+1)] for i in range(N)]  # no need to go till 'N+1' as we are starting from  'N-1' 
-        return self.helper(N-1, arr, sum, dp)
-    
-    def helper(self, ind, arr, sum, dp):
-        if sum== 0:
-            return True
-        if ind== 0:
-            return arr[0]== sum
-        if dp[ind][sum] != -1: 
-            return dp[ind][sum]
-        if arr[ind]> sum:
-            dp[ind][sum]= self.helper(ind -1, arr, sum, dp)
-        else:   # arr[ind] <= sum
-            dp[ind][sum]= self.helper(ind -1, arr, sum- arr[ind], dp) or self.helper(ind -1, arr, sum, dp)
-        return dp[ind][sum]
 
 # arr= [1,2,3,3]
 # arr= [1,1,1,1]
@@ -84,160 +26,94 @@ class Solution:
 # print(NoOfSubsets(4,arr,6))   
 # print(NoOfSubsets(4,arr,4)) 
 
-# Java Code 
-"""
-public class Solution {
-    public boolean NoOfSubsets(int N, int[] arr, int sum) {
-        // no need to go till 'N+1' as we are starting from 'N-1'
-        int[][] dp = new int[N][sum + 1];
-        for (int i = 0; i < N; i++)
-            java.util.Arrays.fill(dp[i], -1);
-        return helper(N - 1, arr, sum, dp);
-    }
 
-    private boolean helper(int ind, int[] arr, int sum, int[][] dp) {
-        if (sum == 0)
-            return true;
-        if (ind == 0)
-            return arr[0] == sum;
-        if (dp[ind][sum] != -1)
-            return dp[ind][sum] == 1;
+# Method 1: 
+# Recursion
+# correct one that will work in all cases
 
-        if (arr[ind] > sum)
-            dp[ind][sum] = helper(ind - 1, arr, sum, dp) ? 1 : 0;
-        else  // arr[ind] <= sum
-            dp[ind][sum] = (helper(ind - 1, arr, sum - arr[ind], dp) ||
-                            helper(ind - 1, arr, sum, dp)) ? 1 : 0;
-
-        return dp[ind][sum] == 1;
-    }
-}
-"""
-# C++ Code 
-"""
-class Solution {
-public:
-    bool NoOfSubsets(int N, std::vector<int>& arr, int sum) {
-        // no need to go till 'N+1' as we are starting from 'N-1'
-        std::vector<std::vector<int>> dp(N, std::vector<int>(sum + 1, -1));
-        return helper(N - 1, arr, sum, dp);
-    }
-
-private:
-    bool helper(int ind, const std::vector<int>& arr, int sum, std::vector<std::vector<int>>& dp) {
-        if (sum == 0)
-            return true;
-        if (ind == 0)
-            return arr[0] == sum;
-        if (dp[ind][sum] != -1)
-            return dp[ind][sum] == 1;
-
-        if (arr[ind] > sum)
-            dp[ind][sum] = helper(ind - 1, arr, sum, dp) ? 1 : 0;
-        else  // arr[ind] <= sum
-            dp[ind][sum] = (helper(ind - 1, arr, sum - arr[ind], dp) ||
-                            helper(ind - 1, arr, sum, dp)) ? 1 : 0;
-
-        return dp[ind][sum] == 1;
-    }
-};
-"""
-# Method 3 vvi: correct one that will work in all cases
-
-# Note vvi:  to find all the ans just write the base case when you reach the last ele instead when sum==0.
-
-# can also do by bottom up approach by initialising the dp matrix with these base condition
+# Note vvi:  to find all the ans just write the base case when you reach the last ele instead when sum == 0.
 
 class Solution:
-    def NoOfSubsets2(self, N, arr, sum):
-        dp= [[-1 for i in range(sum+1)] for i in range(N +1)]   
-        ans=  self.helper(N, arr, sum, dp)
-        return ans
-    
-    def helper(self, n, arr, sum, dp):
-        if n== 1:
-            if sum== 0 and arr[0]== 0:  # either take the 1st ele or not both will be our ans
-                return 2
-            if sum==0 or sum== arr[0]: # in actual sum== 0 and arr[0] != 0 or sum== arr[0]
+    def perfectSum(self, arr, target):
+        return self.helper(len(arr), arr, target)
+
+    def helper(self, n, arr, target):
+        if n == 1:
+            if target == 0 and arr[0] == 0:
+                return 2  # include or exclude 0
+            if target == 0 or target == arr[0]:
                 return 1
-            else:
-                return 0
-        if dp[n][sum]!= -1:
-            return dp[n][sum]
-        if arr[n-1]> sum:
-            dp[n][sum]= self.helper(n-1,arr,sum, dp)
-        else:
-            dp[n][sum]= self.helper(n-1,arr,sum- arr[n-1], dp) + self.helper(n-1,arr,sum, dp)
-        return dp[n][sum]
+            return 0
 
-arr= [0, 0, 0, 1]
-# arr= [0,0,1]
-ob= Solution()
-# print(ob.NoOfSubsets2(4,arr,1))
-# print(ob.NoOfSubsets2(3,arr,1))
+        take = 0
+        if arr[n - 1] <= target:
+            take = self.helper(n - 1, arr, target - arr[n - 1])
+        notTake = self.helper(n - 1, arr, target)
+
+        return take + notTake
 
 
+# Method 2:
+# Memoisation
+    
+class Solution:
+    def perfectSum(self, arr, target):
+        N = len(arr)
+        dp = [[-1 for _ in range(target + 1)] for _ in range(N + 1)]
+        return self.helper(N, arr, target, dp)
+    
+    def helper(self, n, arr, target, dp):
+        if n == 1:
+            if target == 0 and arr[0] == 0:   # either take the 1st ele or not both will be our ans
+                return 2  # include or exclude 0
+            if target == 0 or target == arr[0]:  # in actual sum== 0 and arr[0] != 0 or sum== arr[0]
+                return 1
+            return 0
+        
+        if dp[n][target] != -1:
+            return dp[n][target]
 
-# Java Code 
-"""
-public class Solution {
-    public int NoOfSubsets2(int N, int[] arr, int sum) {
-        int[][] dp = new int[N + 1][sum + 1];
-        for (int i = 0; i <= N; i++)
-            java.util.Arrays.fill(dp[i], -1);
-        return helper(N, arr, sum, dp);
-    }
+        take = 0
+        if arr[n - 1] <= target:
+            take = self.helper(n - 1, arr, target - arr[n - 1], dp)
+        notTake = self.helper(n - 1, arr, target, dp)
 
-    private int helper(int n, int[] arr, int sum, int[][] dp) {
-        if (n == 1) {
-            if (sum == 0 && arr[0] == 0)  // either take the 1st ele or not both will be our ans
-                return 2;
-            if (sum == 0 || sum == arr[0])  // in actual sum== 0 and arr[0] != 0 or sum== arr[0]
-                return 1;
-            else
-                return 0;
-        }
-        if (dp[n][sum] != -1)
-            return dp[n][sum];
+        dp[n][target] = take + notTake
+        return dp[n][target]
 
-        if (arr[n - 1] > sum)
-            dp[n][sum] = helper(n - 1, arr, sum, dp);
-        else
-            dp[n][sum] = helper(n - 1, arr, sum - arr[n - 1], dp) + helper(n - 1, arr, sum, dp);
 
-        return dp[n][sum];
-    }
-}
-"""
-# C++ Code 
-"""
-class Solution {
-public:
-    int NoOfSubsets2(int N, std::vector<int>& arr, int sum) {
-        std::vector<std::vector<int>> dp(N + 1, std::vector<int>(sum + 1, -1));
-        return helper(N, arr, sum, dp);
-    }
+# Method 3:
+# Tabulation
 
-private:
-    int helper(int n, const std::vector<int>& arr, int sum, std::vector<std::vector<int>>& dp) {
-        if (n == 1) {
-            if (sum == 0 && arr[0] == 0)  // either take the 1st ele or not both will be our ans
-                return 2;
-            if (sum == 0 || sum == arr[0])  // in actual sum== 0 and arr[0] != 0 or sum== arr[0]
-                return 1;
-            else
-                return 0;
-        }
+class Solution:
+    def perfectSum(self, arr, target):
+        n = len(arr)
+        dp = [[0] * (target + 1) for _ in range(n + 1)]
+        
+        # Base case initialization
+        # For any i, sum = 0 → count = 1 (empty subset)
+        for i in range(n + 1):
+            dp[i][0] = 1
+        
+        # Handle first element separately
+        if arr[0] == 0:
+            dp[1][0] = 2  # empty subset + subset with zero
+        elif arr[0] <= target:
+            dp[1][arr[0]] = 1
+        
+        # Fill the dp table
+        for i in range(2, n + 1):
+            for t in range(target + 1):
+                take = 0
+                if arr[i - 1] <= t:
+                    take = dp[i - 1][t - arr[i - 1]]
+                notTake = dp[i - 1][t]
+                dp[i][t] = take + notTake
+        
+        return dp[n][target]
 
-        if (dp[n][sum] != -1)
-            return dp[n][sum];
 
-        if (arr[n - 1] > sum)
-            dp[n][sum] = helper(n - 1, arr, sum, dp);
-        else
-            dp[n][sum] = helper(n - 1, arr, sum - arr[n - 1], dp) + helper(n - 1, arr, sum, dp);
 
-        return dp[n][sum];
-    }
-};
-"""
+
+
+

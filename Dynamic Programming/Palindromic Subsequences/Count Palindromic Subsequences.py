@@ -1,3 +1,5 @@
+# method 1: 
+
 # We also have to count duplicate subsequences
 
 # Logic: 
@@ -59,6 +61,7 @@ class Solution:
             dp[i][j] =  (self.solve(s, i + 1, j, dp) + self.solve(s, i, j - 1, dp) - self.solve(s, i + 1, j - 1, dp)) % self.mod
         return dp[i][j] % self.mod
 
+<<<<<<< HEAD
 # Java Code 
 """
 class Solution {
@@ -141,6 +144,10 @@ private:
 };
 """
 
+=======
+
+# Method 2: 
+>>>>>>> a40de18 (verified Binary Search and DP)
 # Tabulation
 class Solution:
     def countPS(self,s):
@@ -160,6 +167,7 @@ class Solution:
                     
         return dp[0][n-1] % self.mod
 
+<<<<<<< HEAD
 # Java Code
 """
 class Solution {
@@ -226,3 +234,5 @@ public:
 # extension
 # 1) 730. Count Different Palindromic Subsequences
 # count distinct palindromic subsequences
+=======
+>>>>>>> a40de18 (verified Binary Search and DP)

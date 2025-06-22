@@ -1,4 +1,30 @@
-# method 1: Recursive way
+# method 1: 
+# Recursive way
+"""
+LCS(m, n) = length of LCS between text1[0..m-1] and text2[0..n-1]
+
+1) Base Case:
+
+-- If either string is empty (m == 0 or n == 0), the LCS is 0.
+
+2) Matching Characters:
+If the last characters match:
+text1[m - 1] == text2[n - 1]
+→ We can include this character in the LCS:
+→ LCS(m, n) = 1 + LCS(m - 1, n - 1)
+
+3) Non-Matching Characters:
+
+If they don't match:
+→ We have two choices — skip one character from either string:
+→ LCS(m, n) = max(LCS(m - 1, n), LCS(m, n - 1))
+
+LCS(m, n) =
+    0                          if m == 0 or n == 0
+    1 + LCS(m-1, n-1)          if text1[m-1] == text2[n-1]
+    max(LCS(m-1, n), LCS(m, n-1)) otherwise
+
+"""
 class Solution:
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
         m, n= len(text1), len(text2)
@@ -11,6 +37,7 @@ class Solution:
         # else: # s1[m -1] != s2[n -1]
         return max (self.LCS(m, n-1, s1, s2), self.LCS(m-1, n, s1, s2))
 
+<<<<<<< HEAD
 # Java Code 
 """
 class Solution {
@@ -55,6 +82,11 @@ private:
 """
 
 # method 2: memoization
+=======
+# method 2: 
+# memoization
+# Time = O(m*n)
+>>>>>>> a40de18 (verified Binary Search and DP)
 class Solution:
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
         m, n= len(text1), len(text2)
@@ -123,7 +155,8 @@ private:
 };
 """
 
-# method 3: Bottom up approach
+# method 3: 
+# Bottom up approach
 class Solution:
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
         x, y= len(text1), len(text2)
@@ -139,6 +172,7 @@ class Solution:
         return dp[x][y]
 
 
+<<<<<<< HEAD
 # Java Code 
 """
 class Solution {
@@ -187,9 +221,12 @@ private:
     }
 };
 """
+=======
+>>>>>>> a40de18 (verified Binary Search and DP)
 
 # method 4: optimise the space
 
+# Related Question
 """
 1) Printing Longest Common Subsequence
 2) Longest Common Substring

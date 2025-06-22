@@ -1,4 +1,6 @@
-# 1st method: Recursive
+# 1st method: 
+
+# Recursive
 # logic in notes: 123,124
 
 # lOgic: # we can cur at any of the given position in cuts so there must be something on leftmost and rightmost side 
@@ -28,6 +30,7 @@ class Solution:
             mn = min(mn, tempAns)
         return mn
 
+<<<<<<< HEAD
 # Java Code 
 """
 import java.util.*;
@@ -93,6 +96,10 @@ public:
 """
 
 # method 2: memoization
+=======
+# method 2: 
+# memoization
+>>>>>>> a40de18 (verified Binary Search and DP)
 class Solution:
     def minCost(self, n: int, cuts: List[int]) -> int:
         cuts.append(0)
@@ -113,6 +120,7 @@ class Solution:
             mn= min(mn, tempAns)
         dp[i][j]= mn
         return dp[i][j]
+<<<<<<< HEAD
 
 # Java Code 
 """
@@ -187,6 +195,11 @@ public:
 };
 """
 
+=======
+
+
+# Method 3: 
+>>>>>>> a40de18 (verified Binary Search and DP)
 # Tabulation
 class Solution:
     def minCost(self, n: int, cuts: List[int]) -> int:
@@ -204,6 +217,7 @@ class Solution:
                 dp[i][j]= mn
         return dp[1][l-1]
 
+<<<<<<< HEAD
 
 # Java Code 
 """
@@ -268,3 +282,6 @@ public:
     }
 };
 """
+=======
+
+>>>>>>> a40de18 (verified Binary Search and DP)

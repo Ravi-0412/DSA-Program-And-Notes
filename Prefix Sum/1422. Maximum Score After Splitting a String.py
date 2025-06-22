@@ -23,7 +23,8 @@ class Solution:
         return ans
 
             
-# Method 2: Space optimised and in single pass
+# Method 2: 
+# Space optimised and in single pass
 # time = O(n)
 # Space = O(1)
 
@@ -48,6 +49,7 @@ class Solution:
                 max_score = max(zeros - ones, max_score)
         
         return max_score + ones
+
 
 # Java Code 
 """

@@ -1,5 +1,3 @@
-
-
 # method 1: Recursion(String matching)
 """
 logic: if matched then nothing to do , just move forward in both the words
@@ -36,6 +34,7 @@ class Solution:
         """
         return  1+ min(self.helper(m, n-1, s, t), self.helper(m-1, n, s, t), self.helper(m-1, n-1, s, t))
 
+<<<<<<< HEAD
 # Java Code
 """
 class Solution {
@@ -112,6 +111,10 @@ private:
 """
 
 # method 2: memoization
+=======
+# method 2: 
+# memoisation
+>>>>>>> a40de18 (verified Binary Search and DP)
 # Time Complexity: O(m*n) 
 # Auxiliary Space: O(m*n)
 class Solution:
@@ -138,6 +141,7 @@ class Solution:
             dp[m][n]= 1+ min(self.helper(m, n-1, s, t), self.helper(m-1, n, s, t), self.helper(m-1, n-1, s, t)) 
         return dp[m][n]
 
+<<<<<<< HEAD
 
 # Java Code
 """
@@ -215,7 +219,10 @@ private:
     }
 };
 """
+=======
+>>>>>>> a40de18 (verified Binary Search and DP)
 
+# Method 3: 
 # Tabulation
 class Solution:
     def minDistance(self, word1: str, word2: str) -> int:
@@ -236,6 +243,7 @@ class Solution:
                     dp[i][j]= 1+ min(dp[i][j-1], dp[i-1][j], dp[i-1][j-1]) 
         return dp[m][n]
 
+<<<<<<< HEAD
 
 # Java Code
 """
@@ -304,6 +312,8 @@ public:
     }
 };
 """
+=======
+>>>>>>> a40de18 (verified Binary Search and DP)
 
 # method 4: 
 # optimised space complexity to O(n)
@@ -325,6 +335,7 @@ class Solution:
             pre= curr.copy()
         return pre[n]
 
+<<<<<<< HEAD
 # Java Code
 """
 class Solution {
@@ -392,4 +403,6 @@ public:
     }
 };
 """
+=======
+>>>>>>> a40de18 (verified Binary Search and DP)
 

@@ -1,9 +1,11 @@
-# logic: totally same as Q no: "518. Coin Change II", except return value in base case
-# method 1: By recursion(TLE)
+# Method 1 : 
+
+# totally same as Q no: "518. Coin Change II", except return value in base case.
 
 # logic: when we take any coin then we will add '+1' .
 # For ans we will take minimum of possible cases.
 
+<<<<<<< HEAD
 
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
@@ -172,6 +174,8 @@ public:
 };
 """
 # Other way
+=======
+>>>>>>> a40de18 (verified Binary Search and DP)
 # Logic: For every coin we have two choice either take or not take.
 # And we can only take any coin 'if coins[n-1] <= amount'.
 # Ans will be minimum(take, notTake) => return this at last
@@ -179,7 +183,6 @@ public:
 # Note: Wh returning directly is working in above method?
 # Reason: because if case of when we can take current coin 'if coins[n-1] <= amount' we are 
 # taking both the case i.e when we take it or when we don't take it, covering both cases.
-
 # otherwise not take this coin.
 
 class Solution:
@@ -201,6 +204,7 @@ class Solution:
         notTake = min(notTake, self.MinCoins(coins, amount, n-1))
         return min(take, notTake)
 
+<<<<<<< HEAD
 
 # Java Code 
 """
@@ -263,6 +267,10 @@ public:
 };
 """
 
+=======
+
+# Method 2: 
+>>>>>>> a40de18 (verified Binary Search and DP)
 # Memoisation
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
@@ -289,6 +297,7 @@ class Solution:
 
 
 
+<<<<<<< HEAD
 # Java Code 
 """
 public class Solution {
@@ -359,3 +368,29 @@ public:
     }
 };
 """
+=======
+# method 3:
+# Tabulation
+
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        n = len(coins)
+        dp = [[float('inf') for j in range(amount + 1)] for i in range(n + 1)]
+
+        # base case
+        for i in range(n + 1):
+            dp[i][0] = 0  # if amount== 0
+
+        for i in range(1, n + 1):
+            for j in range(1, amount + 1):
+                take, notTake = float('inf'), float('inf')
+                if coins[i - 1] <= j:
+                    take = min(take, 1 + dp[i][j - coins[i - 1]])
+                notTake = min(notTake, dp[i - 1][j])
+                dp[i][j] = min(take, notTake)
+
+        minimum = dp[n][amount]
+        if minimum == float('inf'):  # it means that amount is not possible so return -1.
+            return -1
+        return minimum
+>>>>>>> a40de18 (verified Binary Search and DP)

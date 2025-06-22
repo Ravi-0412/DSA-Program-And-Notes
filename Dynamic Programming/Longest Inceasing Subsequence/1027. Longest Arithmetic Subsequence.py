@@ -35,6 +35,69 @@ class Solution:
                 dp[(i, diff)] = dp.get((j, diff), 1) + 1
         return max(dp.values())
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int longestArithSeqLength(int[] nums) {
+        int n = nums.length;
+        Map<String, Integer> dp = new HashMap<>();
+        int max = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                int diff = nums[i] - nums[j];
+
+                // Agar is diff ka koi sequence index 'j' pe h tb uska length me add kar do '+1'
+                // Nhi to ye dono dono ko mila ke ek nya sequence bna lo at index 'i' having length = 2
+                String key = i + "," + diff;
+                String prevKey = j + "," + diff;
+
+                int len = dp.getOrDefault(prevKey, 1) + 1;
+                dp.put(key, len);
+                max = Math.max(max, len);
+            }
+        }
+
+        return max;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    int longestArithSeqLength(vector<int>& nums) {
+        int n = nums.size();
+        unordered_map<string, int> dp;
+        int maxLen = 0;
+
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < i; ++j) {
+                int diff = nums[i] - nums[j];
+
+                // Agar is diff ka koi sequence index 'j' pe h tb uska length me add kar do '+1'
+                // Nhi to ye dono dono ko mila ke ek nya sequence bna lo at index 'i' having length = 2
+                string key = to_string(i) + "," + to_string(diff);
+                string prevKey = to_string(j) + "," + to_string(diff);
+
+                int len = dp.count(prevKey) ? dp[prevKey] + 1 : 2;
+                dp[key] = len;
+                maxLen = max(maxLen, len);
+            }
+        }
+
+        return maxLen;
+    }
+};
+"""
 
 # Note vvi: for  Q: "1218. Longest Arithmetic Subsequence of Given Difference" i.e 
 # return the length of the longest subsequence in arr which is an arithmetic sequence 
@@ -62,3 +125,87 @@ class Solution:
                 ans = max(ans, value)
         return ans
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int longestSubsequence(int[] arr, int difference) {
+        int n = arr.length;
+        Map<String, Integer> dp = new HashMap<>();
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                int diff = arr[i] - arr[j];
+
+                if (diff != difference)
+                    continue;
+
+                // Agar is diff ka koi sequence index 'j' pe h tb uska length me add kar do '+1'
+                // Nhi to ye dono dono ko mila ke ek nya sequence bna lo at index 'i' having length = 2
+                String key = i + "," + diff;
+                String prevKey = j + "," + diff;
+
+                dp.put(key, dp.getOrDefault(prevKey, 1) + 1);
+            }
+        }
+
+        // Ab given difference ka Ap ka max length return kar do.
+        int ans = 1;
+        for (Map.Entry<String, Integer> entry : dp.entrySet()) {
+            String key = entry.getKey();
+            int val = entry.getValue();
+
+            if (Integer.parseInt(key.split(",")[1]) == difference) {
+                ans = Math.max(ans, val);
+            }
+        }
+
+        return ans;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int longestSubsequence(vector<int>& arr, int difference) {
+        int n = arr.size();
+        unordered_map<string, int> dp;
+
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < i; ++j) {
+                int diff = arr[i] - arr[j];
+
+                if (diff != difference)
+                    continue;
+
+                // Agar is diff ka koi sequence index 'j' pe h tb uska length me add kar do '+1'
+                // Nhi to ye dono dono ko mila ke ek nya sequence bna lo at index 'i' having length = 2
+                string key = to_string(i) + "," + to_string(diff);
+                string prevKey = to_string(j) + "," + to_string(diff);
+
+                dp[key] = dp.count(prevKey) ? dp[prevKey] + 1 : 2;
+            }
+        }
+
+        // Ab given difference ka Ap ka max length return kar do.
+        int ans = 1;
+        for (auto& [key, val] : dp) {
+            size_t comma = key.find(',');
+            int diff = stoi(key.substr(comma + 1));
+            if (diff == difference) {
+                ans = max(ans, val);
+            }
+        }
+
+        return ans;
+    }
+};
+"""

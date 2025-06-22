@@ -30,6 +30,65 @@ class Solution:
                 res = max(res, l)
         return res if res > 2 else 0
 
+# Java Code 
+"""
+import java.util.*;
+
+public class Solution {
+    public int lenLongestFibSubseq(int[] A) {
+        int n = A.length;
+        Set<Integer> s = new HashSet<>();
+        for (int num : A)
+            s.add(num);
+
+        int res = 2;
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                int a = A[i], b = A[j], len = 2;
+                while (s.contains(a + b)) {
+                    int temp = a + b;
+                    a = b;
+                    b = temp;
+                    len++;
+                }
+                res = Math.max(res, len);
+            }
+        }
+
+        return res > 2 ? res : 0;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_set>
+#include <algorithm>
+
+class Solution {
+public:
+    int lenLongestFibSubseq(std::vector<int>& A) {
+        int n = A.size();
+        std::unordered_set<int> s(A.begin(), A.end());
+
+        int res = 2;
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                int a = A[i], b = A[j], len = 2;
+                while (s.count(a + b)) {
+                    int temp = a + b;
+                    a = b;
+                    b = temp;
+                    ++len;
+                }
+                res = std::max(res, len);
+            }
+        }
+
+        return res > 2 ? res : 0;
+    }
+};
+"""
 
 # Method 2: 
 # DP + 2 sum
@@ -62,3 +121,66 @@ class Solution:
                     r -= 1
                     l += 1
         return ans
+
+# Java Code 
+"""
+import java.util.*;
+
+public class Solution {
+    public int lenLongestFibSubseq(int[] nums) {
+        int n = nums.length;
+        int[][] dp = new int[n][n];  // default length will be two only between every pair.
+        for (int[] row : dp)
+            Arrays.fill(row, 2);
+
+        int ans = 0;
+        for (int i = 2; i < n; i++) {
+            int l = 0, r = i - 1;
+            while (l < r) {
+                if (nums[l] + nums[r] > nums[i]) {
+                    r -= 1;
+                } else if (nums[l] + nums[r] < nums[i]) {
+                    l += 1;
+                } else {
+                    dp[r][i] = dp[l][r] + 1;
+                    ans = Math.max(ans, dp[r][i]);
+                    r -= 1;
+                    l += 1;
+                }
+            }
+        }
+        return ans;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+
+class Solution {
+public:
+    int lenLongestFibSubseq(std::vector<int>& nums) {
+        int n = nums.size();
+        std::vector<std::vector<int>> dp(n, std::vector<int>(n, 2));  // default length will be two only between every pair.
+        int ans = 0;
+
+        for (int i = 2; i < n; ++i) {
+            int l = 0, r = i - 1;
+            while (l < r) {
+                if (nums[l] + nums[r] > nums[i]) {
+                    --r;
+                } else if (nums[l] + nums[r] < nums[i]) {
+                    ++l;
+                } else {
+                    dp[r][i] = dp[l][r] + 1;
+                    ans = std::max(ans, dp[r][i]);
+                    --r;
+                    ++l;
+                }
+            }
+        }
+        return ans;
+    }
+};
+"""

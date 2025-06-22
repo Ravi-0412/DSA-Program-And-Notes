@@ -22,7 +22,62 @@ class Solution:
             return min(1+ self.MinCoins(coins,amount-coins[n-1],n) ,self.MinCoins(coins,amount,n-1))
         return self.MinCoins(coins,amount,n-1)   # if coins[n-1] > amount
 
+# Java Code 
+"""
+public class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int n = coins.length;
+        int minimum = minCoins(coins, amount, n);
+        if (minimum == Integer.MAX_VALUE)   // it means that amount is not possible so return -1.
+            return -1;
+        return minimum;
+    }
 
+    public int minCoins(int[] coins, int amount, int n) {
+        if (amount == 0)
+            return 0;
+        if (n == 0)  // return a very large val which will indicate sum amount is not possible
+            return Integer.MAX_VALUE;
+        if (coins[n - 1] <= amount) {
+            int take = minCoins(coins, amount - coins[n - 1], n);
+            if (take != Integer.MAX_VALUE)
+                take = 1 + take;
+            int notTake = minCoins(coins, amount, n - 1);
+            return Math.min(take, notTake);
+        }
+        return minCoins(coins, amount, n - 1);  // if coins[n-1] > amount
+    }
+}
+"""
+
+# C++ Code 
+"""
+class Solution {
+public:
+    int coinChange(std::vector<int>& coins, int amount) {
+        int n = coins.size();
+        int minimum = minCoins(coins, amount, n);
+        if (minimum == INT_MAX)  // it means that amount is not possible so return -1.
+            return -1;
+        return minimum;
+    }
+
+    int minCoins(const std::vector<int>& coins, int amount, int n) {
+        if (amount == 0)
+            return 0;
+        if (n == 0)  // return a very large val which will indicate sum amount is not possible
+            return INT_MAX;
+        if (coins[n - 1] <= amount) {
+            int take = minCoins(coins, amount - coins[n - 1], n);
+            if (take != INT_MAX)
+                take = 1 + take;
+            int notTake = minCoins(coins, amount, n - 1);
+            return std::min(take, notTake);
+        }
+        return minCoins(coins, amount, n - 1);  // if coins[n-1] > amount
+    }
+};
+"""
 # method 2: memoization
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
@@ -47,6 +102,75 @@ class Solution:
         return dp[n][amount]
 
 
+# Java Code 
+"""
+public class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int n = coins.length;
+        int[][] dp = new int[n + 1][amount + 1];
+        for (int i = 0; i <= n; i++)
+            Arrays.fill(dp[i], -1);
+
+        int minimum = minCoins(coins, amount, n, dp);
+        if (minimum == Integer.MAX_VALUE)  // it means that amount is not possible so return -1.
+            return -1;
+        return minimum;
+    }
+
+    public int minCoins(int[] coins, int amount, int n, int[][] dp) {
+        if (amount == 0)
+            return 0;
+        if (n == 0)  // return a very large val which will indicate sum amount is not possible
+            return Integer.MAX_VALUE;
+        if (dp[n][amount] != -1)
+            return dp[n][amount];
+        else if (coins[n - 1] <= amount) {
+            int include = minCoins(coins, amount - coins[n - 1], n, dp);
+            if (include != Integer.MAX_VALUE)
+                include = 1 + include;
+            int exclude = minCoins(coins, amount, n - 1, dp);
+            dp[n][amount] = Math.min(include, exclude);
+        } else {
+            dp[n][amount] = minCoins(coins, amount, n - 1, dp);
+        }
+        return dp[n][amount];
+    }
+}
+"""
+
+# C++ Code 
+"""
+class Solution {
+public:
+    int coinChange(std::vector<int>& coins, int amount) {
+        int n = coins.size();
+        std::vector<std::vector<int>> dp(n + 1, std::vector<int>(amount + 1, -1));
+        int minimum = minCoins(coins, amount, n, dp);
+        if (minimum == INT_MAX)  // it means that amount is not possible so return -1.
+            return -1;
+        return minimum;
+    }
+
+    int minCoins(const std::vector<int>& coins, int amount, int n, std::vector<std::vector<int>>& dp) {
+        if (amount == 0)
+            return 0;
+        if (n == 0)  // return a very large val which will indicate sum amount is not possible
+            return INT_MAX;
+        if (dp[n][amount] != -1)
+            return dp[n][amount];
+        else if (coins[n - 1] <= amount) {
+            int include = minCoins(coins, amount - coins[n - 1], n, dp);
+            if (include != INT_MAX)
+                include = 1 + include;
+            int exclude = minCoins(coins, amount, n - 1, dp);
+            dp[n][amount] = std::min(include, exclude);
+        } else {
+            dp[n][amount] = minCoins(coins, amount, n - 1, dp);
+        }
+        return dp[n][amount];
+    }
+};
+"""
 # Other way
 # Logic: For every coin we have two choice either take or not take.
 # And we can only take any coin 'if coins[n-1] <= amount'.
@@ -77,37 +201,66 @@ class Solution:
         notTake = min(notTake, self.MinCoins(coins, amount, n-1))
         return min(take, notTake)
 
-#java
+
+# Java Code 
 """
 public class Solution {
     public int coinChange(int[] coins, int amount) {
         int n = coins.length;
         int minimum = minCoins(coins, amount, n);
-        return minimum == Integer.MAX_VALUE ? -1 : minimum;
+        if (minimum == Integer.MAX_VALUE)  // it means that amount is not possible so return -1.
+            return -1;
+        return minimum;
     }
 
-    private int minCoins(int[] coins, int amount, int n) {
-        if (amount == 0) {
+    public int minCoins(int[] coins, int amount, int n) {
+        if (amount == 0)
             return 0;
-        }
-        if (n == 0) {
+        if (n == 0)   // return a very large val which will indicate sum amount is not possible
             return Integer.MAX_VALUE;
-        }
 
-        int take = Integer.MAX_VALUE;
-        int notTake = Integer.MAX_VALUE;
-
+        int take = Integer.MAX_VALUE, notTake = Integer.MAX_VALUE;
         if (coins[n - 1] <= amount) {
             int res = minCoins(coins, amount - coins[n - 1], n);
-            if (res != Integer.MAX_VALUE) {
-                take = 1 + res;
-            }
+            if (res != Integer.MAX_VALUE)
+                take = Math.min(take, 1 + res);  // not taking minimum will give wrong ans.
         }
+        notTake = Math.min(notTake, minCoins(coins, amount, n - 1));
 
-        notTake = minCoins(coins, amount, n - 1);
         return Math.min(take, notTake);
     }
 }
+"""
+
+# C++ Code 
+"""
+class Solution {
+public:
+    int coinChange(std::vector<int>& coins, int amount) {
+        int n = coins.size();
+        int minimum = minCoins(coins, amount, n);
+        if (minimum == INT_MAX)  // it means that amount is not possible so return -1.
+            return -1;
+        return minimum;
+    }
+
+    int minCoins(const std::vector<int>& coins, int amount, int n) {
+        if (amount == 0)
+            return 0;
+        if (n == 0)   // return a very large val which will indicate sum amount is not possible
+            return INT_MAX;
+
+        int take = INT_MAX, notTake = INT_MAX;
+        if (coins[n - 1] <= amount) {
+            int res = minCoins(coins, amount - coins[n - 1], n);
+            if (res != INT_MAX)
+                take = std::min(take, 1 + res);  // not taking minimum will give wrong ans.
+        }
+        notTake = std::min(notTake, minCoins(coins, amount, n - 1));
+
+        return std::min(take, notTake);
+    }
+};
 """
 
 # Memoisation
@@ -135,45 +288,74 @@ class Solution:
         return dp[n][amount]
 
 
-# Java
+
+# Java Code 
 """
 public class Solution {
     public int coinChange(int[] coins, int amount) {
         int n = coins.length;
         int[][] dp = new int[n + 1][amount + 1];
-
-        for (int i = 0; i <= n; i++) {
-            for (int j = 0; j <= amount; j++) {
-                dp[i][j] = -1;
-            }
-        }
+        for (int i = 0; i <= n; i++)
+            java.util.Arrays.fill(dp[i], -1);
 
         int minimum = minCoins(coins, amount, n, dp);
-        return minimum == Integer.MAX_VALUE ? -1 : minimum;
+        if (minimum == Integer.MAX_VALUE)    // it means that amount is not possible so return -1.
+            return -1;
+        return minimum;
     }
 
-    private int minCoins(int[] coins, int amount, int n, int[][] dp) {
-        if (amount == 0) {
+    public int minCoins(int[] coins, int amount, int n, int[][] dp) {
+        if (amount == 0)
             return 0;
-        }
-        if (n == 0) {
+        if (n == 0)   // return a very large val which will indicate sum amount is not possible
             return Integer.MAX_VALUE;
-        }
-        if (dp[n][amount] != -1) {
+        if (dp[n][amount] != -1)
             return dp[n][amount];
-        }
 
-        int take = Integer.MAX_VALUE;
+        int take = Integer.MAX_VALUE, notTake = Integer.MAX_VALUE;
         if (coins[n - 1] <= amount) {
             int res = minCoins(coins, amount - coins[n - 1], n, dp);
-            if (res != Integer.MAX_VALUE) {
-                take = 1 + res;
-            }
+            if (res != Integer.MAX_VALUE)
+                take = Math.min(take, 1 + res);
         }
+        notTake = Math.min(notTake, minCoins(coins, amount, n - 1, dp));
 
-        int notTake = minCoins(coins, amount, n - 1, dp);
         dp[n][amount] = Math.min(take, notTake);
         return dp[n][amount];
     }
 }
+"""
+
+# C++ Code 
+"""
+class Solution {
+public:
+    int coinChange(std::vector<int>& coins, int amount) {
+        int n = coins.size();
+        std::vector<std::vector<int>> dp(n + 1, std::vector<int>(amount + 1, -1));
+        int minimum = minCoins(coins, amount, n, dp);
+        if (minimum == INT_MAX)    // it means that amount is not possible so return -1.
+            return -1;
+        return minimum;
+    }
+
+    int minCoins(const std::vector<int>& coins, int amount, int n, std::vector<std::vector<int>>& dp) {
+        if (amount == 0)
+            return 0;
+        if (n == 0)   // return a very large val which will indicate sum amount is not possible
+            return INT_MAX;
+        if (dp[n][amount] != -1)
+            return dp[n][amount];
+
+        int take = INT_MAX, notTake = INT_MAX;
+        if (coins[n - 1] <= amount) {
+            int res = minCoins(coins, amount - coins[n - 1], n, dp);
+            if (res != INT_MAX)
+                take = std::min(take, 1 + res);
+        }
+        notTake = std::min(notTake, minCoins(coins, amount, n - 1, dp));
+
+        return dp[n][amount] = std::min(take, notTake);
+    }
+};
 """

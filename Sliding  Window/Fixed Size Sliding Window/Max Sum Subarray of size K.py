@@ -14,6 +14,46 @@ def maximumSumSubarray(K, Arr, N):
 
     return max_sum
 
+# Java Code 
+"""
+class Solution {
+    public int maximumSumSubarray(int K, int[] Arr, int N) {
+        int max_sum = 0;
+
+        // Loop over each possible window of size k
+        for (int i = 0; i <= N - K; i++) {
+            int current_sum = 0;
+            for (int j = i; j < i + K; j++) {
+                current_sum += Arr[j];
+            }
+            max_sum = Math.max(max_sum, current_sum);
+        }
+
+        return max_sum;
+    }
+}
+"""
+
+# C++ Code 
+"""
+class Solution {
+public:
+    int maximumSumSubarray(int K, vector<int>& Arr, int N) {
+        int max_sum = 0;
+
+        // Loop over each possible window of size k
+        for (int i = 0; i <= N - K; i++) {
+            int current_sum = 0;
+            for (int j = i; j < i + K; j++) {
+                current_sum += Arr[j];
+            }
+            max_sum = max(max_sum, current_sum);
+        }
+
+        return max_sum;
+    }
+};
+"""
 
 # 2nd method: 
 # By Sliding Window
@@ -37,6 +77,54 @@ def maximumSumSubarray (self,K,Arr,N):
             j+= 1
         return max_sum
 
+# Java Code 
+"""
+class Solution {
+    public int maximumSumSubarray(int K, int[] Arr, int N) {
+        int i = 0, j = 0, sum1 = 0, max_sum = Integer.MIN_VALUE;
+
+        while (j < N) {
+            sum1 += Arr[j];
+
+            if (j + 1 >= K) {  // or j - i + 1 >= K
+                // Now we have reached the size 'k' so we can start updating our ans.
+                max_sum = Math.max(sum1, max_sum);
+                sum1 -= Arr[i];
+                i++;
+            }
+
+            j++;
+        }
+
+        return max_sum;
+    }
+}
+"""
+
+# C++ Code 
+"""
+class Solution {
+public:
+    int maximumSumSubarray(int K, vector<int>& Arr, int N) {
+        int i = 0, j = 0, sum1 = 0, max_sum = INT_MIN;
+
+        while (j < N) {
+            sum1 += Arr[j];
+
+            if (j + 1 >= K) {  // or j - i + 1 >= K
+                // Now we have reached the size 'k' so we can start updating our ans.
+                max_sum = max(sum1, max_sum);
+                sum1 -= Arr[i];
+                i++;
+            }
+
+            j++;
+        }
+
+        return max_sum;
+    }
+};
+"""
 
 # Extension: 
 
@@ -69,3 +157,85 @@ arr = [-2, -3, 4, -1, -2, 1, 5, -3]
 # arr= [-2,-3,-4, -1]
 printSubarraySum(arr)
 
+# Java Code 
+"""
+public class Solution {
+    public static void printSubarraySum(int[] arr) {
+        int ansStart = 0, ansEnd = 0;  // store the start and endIndex of final ans subArray
+        int curSum = 0;
+        int start = 0;
+        int maxSum = Integer.MIN_VALUE;
+
+        for (int i = 0; i < arr.length; i++) {
+            if (curSum < 0) {
+                start = i;
+                curSum = arr[i];
+            } else {
+                curSum += arr[i];
+            }
+
+            // update our ans index and maxSum
+            if (curSum > maxSum) {
+                ansStart = start;
+                ansEnd = i;
+                maxSum = curSum;
+            }
+        }
+
+        System.out.print("SubArray with maximum sum: [");
+        for (int i = ansStart; i <= ansEnd; i++) {
+            System.out.print(arr[i]);
+            if (i < ansEnd) System.out.print(", ");
+        }
+        System.out.println("] with sum: " + maxSum);
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {-2, -3, 4, -1, -2, 1, 5, -3};
+        printSubarraySum(arr);
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void printSubarraySum(const vector<int>& arr) {
+    int ansStart = 0, ansEnd = 0;  // store the start and endIndex of final ans subArray
+    int curSum = 0;
+    int start = 0;
+    int maxSum = INT_MIN;
+
+    for (int i = 0; i < arr.size(); i++) {
+        if (curSum < 0) {
+            start = i;
+            curSum = arr[i];
+        } else {
+            curSum += arr[i];
+        }
+
+        // update our ans index and maxSum
+        if (curSum > maxSum) {
+            ansStart = start;
+            ansEnd = i;
+            maxSum = curSum;
+        }
+    }
+
+    cout << "SubArray with maximum sum: [";
+    for (int i = ansStart; i <= ansEnd; i++) {
+        cout << arr[i];
+        if (i < ansEnd) cout << ", ";
+    }
+    cout << "] with sum: " << maxSum << endl;
+}
+
+int main() {
+    vector<int> arr = {-2, -3, 4, -1, -2, 1, 5, -3};
+    printSubarraySum(arr);
+    return 0;
+}
+"""

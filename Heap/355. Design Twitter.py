@@ -82,3 +82,125 @@ class Twitter:
         if followeeId in self.followMap[followerId]:
             self.followMap[followerId].remove(followeeId)
 
+# Java Code 
+"""
+import java.util.*;
+
+class Twitter {
+    private int time = 0;  // to keep track of timing of previous tweet
+    private Map<Integer, List<int[]>> tweetMap = new HashMap<>();  // contain the [time, tweetId] for each user
+    private Map<Integer, Set<Integer>> followMap = new HashMap<>();  // contain the list of person a user is following
+
+    public void postTweet(int userId, int tweetId) {
+        tweetMap.putIfAbsent(userId, new ArrayList<>());
+        tweetMap.get(userId).add(new int[]{time, tweetId});
+        time--;  // less time means most recent tweet, decr by '1' since we simulate maxHeap with min value
+    }
+
+    public List<Integer> getNewsFeed(int userId) {
+        List<Integer> res = new ArrayList<>();
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> Integer.compare(a[0], b[0]));  // time-based minHeap
+
+        followMap.putIfAbsent(userId, new HashSet<>());
+        followMap.get(userId).add(userId);  // as we have to show tweets made by himself also
+
+        // get the last tweet done by each person user is following
+        for (int followeeId : followMap.get(userId)) {
+            if (tweetMap.containsKey(followeeId)) {
+                List<int[]> tweets = tweetMap.get(followeeId);
+                int index = tweets.size() - 1;  // latest tweet will be at the end
+                int[] tweet = tweets.get(index);  // getting the latest tweet
+                minHeap.add(new int[]{tweet[0], tweet[1], followeeId, index - 1});
+                // why 4 parameters: time, tweetId, followeeId, index-1 for next tweet
+            }
+        }
+
+        // same operation as 'merge k sorted array'
+        while (!minHeap.isEmpty() && res.size() < 10) {
+            int[] top = minHeap.poll();
+            int time = top[0], tweetId = top[1], followeeId = top[2], index = top[3];
+            res.add(tweetId);  // most recent tweet will get added first
+            if (index >= 0) {  // means the followeeId has at least one more tweet left
+                int[] tweet = tweetMap.get(followeeId).get(index);
+                minHeap.add(new int[]{tweet[0], tweet[1], followeeId, index - 1});
+            }
+        }
+
+        return res;
+    }
+
+    public void follow(int followerId, int followeeId) {
+        followMap.putIfAbsent(followerId, new HashSet<>());
+        followMap.get(followerId).add(followeeId);
+    }
+
+    public void unfollow(int followerId, int followeeId) {
+        if (followMap.containsKey(followerId)) {
+            followMap.get(followerId).remove(followeeId);
+        }
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
+#include <queue>
+#include <tuple>
+
+class Twitter {
+private:
+    int time = 0;  // to keep track of timing of previous tweet
+    std::unordered_map<int, std::vector<std::pair<int, int>>> tweetMap;  // contain the [time, tweetId] for each user
+    std::unordered_map<int, std::unordered_set<int>> followMap;  // contain the list of person a user is following. {user: person user follows}
+
+public:
+    void postTweet(int userId, int tweetId) {
+        tweetMap[userId].emplace_back(time--, tweetId);  // less time means most recent tweet, decr by '1' since we simulate maxHeap
+    }
+
+    std::vector<int> getNewsFeed(int userId) {
+        std::vector<int> res;
+        using TweetInfo = std::tuple<int, int, int, int>;  // (time, tweetId, followeeId, index)
+        std::priority_queue<TweetInfo, std::vector<TweetInfo>, std::greater<>> minHeap;
+        followMap[userId].insert(userId);  // as we have to show tweets made by himself also
+
+        // get the last tweet done by each person user is following
+        for (int followeeId : followMap[userId]) {
+            if (tweetMap.count(followeeId)) {  // if the person following has made at least one tweet
+                auto& tweets = tweetMap[followeeId];
+                int index = tweets.size() - 1;  // this will contain latest tweet with time
+                auto [t, id] = tweets[index];   // getting the latest tweet
+                minHeap.emplace(t, id, followeeId, index - 1);
+                // why 4 parameter. time: this will work as key to get the latest tweet.
+                // just same as 'merge k sorted array' i.e all variables needed to get next most recent tweet.
+                // tweetId: we have to add in the ans, followeeId: to get the next tweet done by this person
+                // next tweet done by this person(followeeId) will be at 'index-1'
+            }
+        }
+
+        // just same operation as 'merge k sorted array'
+        while (!minHeap.empty() && res.size() < 10) {
+            auto [t, id, followeeId, idx] = minHeap.top();
+            minHeap.pop();
+            res.push_back(id);  // most recent tweet will get added first
+            if (idx >= 0) {  // means the followeeId has at least one more tweet left
+                auto [nextTime, nextId] = tweetMap[followeeId][idx];
+                minHeap.emplace(nextTime, nextId, followeeId, idx - 1);
+            }
+        }
+
+        return res;
+    }
+
+    void follow(int followerId, int followeeId) {
+        followMap[followerId].insert(followeeId);
+    }
+
+    void unfollow(int followerId, int followeeId) {
+        followMap[followerId].erase(followeeId);
+    }
+};
+"""

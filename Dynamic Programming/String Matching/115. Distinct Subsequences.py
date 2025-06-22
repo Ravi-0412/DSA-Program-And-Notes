@@ -48,6 +48,59 @@ class Solution:
         # search for same char of 't' in 's' at different index
         return self.helper(m-1, n, s, t)
 
+# Java Code 
+"""
+class Solution {
+    public int numDistinct(String s, String t) {
+        int m = s.length(), n = t.length();
+        return helper(m, n, s, t);
+    }
+
+    private int helper(int m, int n, String s, String t) {
+        if (n == 0)
+            return 1;
+        if (m == 0)
+            return 0;
+
+        if (s.charAt(m - 1) == t.charAt(n - 1))
+            return helper(m - 1, n - 1, s, t) + helper(m - 1, n, s, t); 
+            // if you don't want to include the current matched one in ans.
+            // so finding another occur of same char at different index in given string 's'
+
+        // search for same char of 't' in 's' at different index
+        return helper(m - 1, n, s, t);
+    }
+}
+"""
+# C++ Code 
+"""
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    int numDistinct(string s, string t) {
+        int m = s.size(), n = t.size();
+        return helper(m, n, s, t);
+    }
+
+private:
+    int helper(int m, int n, const string& s, const string& t) {
+        if (n == 0)
+            return 1;
+        if (m == 0)
+            return 0;
+
+        if (s[m - 1] == t[n - 1])
+            return helper(m - 1, n - 1, s, t) + helper(m - 1, n, s, t); 
+            // if you don't want to include the current matched one in ans.
+            // so finding another occur of same char at different index in given string 's'
+
+        // search for same char of 't' in 's' at different index
+        return helper(m - 1, n, s, t);
+    }
+};
+"""
 
 # memoization
 class Solution:
@@ -70,6 +123,70 @@ class Solution:
         return dp[m][n]
 
 
+# Java Code 
+"""
+class Solution {
+    public int numDistinct(String s, String t) {
+        int m = s.length(), n = t.length();
+        int[][] dp = new int[m + 1][n + 1];
+
+        for (int i = 0; i <= m; i++) {
+            java.util.Arrays.fill(dp[i], -1);
+        }
+
+        return helper(m, n, s, t, dp);
+    }
+
+    private int helper(int m, int n, String s, String t, int[][] dp) {
+        if (n == 0)
+            return 1;
+        if (m == 0)
+            return 0;
+        if (dp[m][n] != -1)
+            return dp[m][n];
+
+        if (s.charAt(m - 1) == t.charAt(n - 1))
+            dp[m][n] = helper(m - 1, n - 1, s, t, dp) + helper(m - 1, n, s, t, dp); // include and exclude
+        else
+            dp[m][n] = helper(m - 1, n, s, t, dp);
+
+        return dp[m][n];
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    int numDistinct(string s, string t) {
+        int m = s.length(), n = t.length();
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1, -1));
+        return helper(m, n, s, t, dp);
+    }
+
+private:
+    int helper(int m, int n, const string& s, const string& t, vector<vector<int>>& dp) {
+        if (n == 0)
+            return 1;
+        if (m == 0)
+            return 0;
+        if (dp[m][n] != -1)
+            return dp[m][n];
+
+        if (s[m - 1] == t[n - 1])
+            dp[m][n] = helper(m - 1, n - 1, s, t, dp) + helper(m - 1, n, s, t, dp); // include and exclude
+        else
+            dp[m][n] = helper(m - 1, n, s, t, dp); 
+
+        return dp[m][n];
+    }
+};
+"""
+
 # Tabulation
 class Solution:
     def numDistinct(self, s: str, t: str) -> int:
@@ -85,6 +202,61 @@ class Solution:
                     dp[i][j]= dp[i-1][j] 
         return dp[m][n]
 
+# Java Code 
+"""
+class Solution {
+    public int numDistinct(String s, String t) {
+        int m = s.length(), n = t.length();
+        int[][] dp = new int[m + 1][n + 1];
+
+        // i was doing from 1 to 'm+1'. null to null is also a match
+        for (int i = 0; i <= m; i++) {
+            dp[i][0] = 1;
+        }
+
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (s.charAt(i - 1) == t.charAt(j - 1))
+                    dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
+                else
+                    dp[i][j] = dp[i - 1][j];
+            }
+        }
+
+        return dp[m][n];
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    int numDistinct(string s, string t) {
+        int m = s.size(), n = t.size();
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+
+        // i was doing from 1 to 'm+1'. null to null is also a match
+        for (int i = 0; i <= m; ++i) {
+            dp[i][0] = 1;
+        }
+
+        for (int i = 1; i <= m; ++i) {
+            for (int j = 1; j <= n; ++j) {
+                if (s[i - 1] == t[j - 1])
+                    dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
+                else
+                    dp[i][j] = dp[i - 1][j];
+            }
+        }
+
+        return dp[m][n];
+    }
+};
+"""
 # method 4: optimise space to O(n)
 
 

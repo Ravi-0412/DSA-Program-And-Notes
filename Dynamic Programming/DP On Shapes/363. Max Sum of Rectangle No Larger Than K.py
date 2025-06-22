@@ -63,6 +63,93 @@ class Solution:
         else:
             return None
 
+# Java Code
+"""
+import java.util.*;
+
+class Solution {
+    public int maxSumSubmatrix(int[][] matrix, int k) {
+        int row = matrix.length, col = matrix[0].length;
+        int maxSum = Integer.MIN_VALUE;
+
+        for (int start = 0; start < col; start++) {
+            int[] sum = new int[row];
+            for (int end = start; end < col; end++) {
+                for (int r = 0; r < row; r++) {
+                    sum[r] += matrix[r][end];
+                }
+                int currSum = maxSubArrayNoMoreThanK(sum, k);  // now find the maximum sum for current joined rows rectangle like Kadane Algo
+                maxSum = Math.max(maxSum, currSum);
+            }
+        }
+
+        return maxSum;
+    }
+
+    private int maxSubArrayNoMoreThanK(int[] arr, int k) {
+        TreeSet<Integer> seen = new TreeSet<>();
+        seen.add(0);  // will store the curr sum in sorted order
+        int right = 0, ans = Integer.MIN_VALUE;
+
+        for (int val : arr) {
+            right += val;  // will store the currsum for all index like 0,1,2...
+            Integer left = seen.ceiling(right - k);  // ceiling value of right - k
+            if (left != null) {
+                ans = Math.max(ans, right - left);  // ans = right - left
+            }
+            seen.add(right);
+        }
+
+        return ans;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <set>
+#include <climits>
+using namespace std;
+
+class Solution {
+public:
+    int maxSumSubmatrix(vector<vector<int>>& matrix, int k) {
+        int row = matrix.size(), col = matrix[0].size();
+        int maxSum = INT_MIN;
+
+        for (int start = 0; start < col; ++start) {
+            vector<int> sum(row, 0);
+            for (int end = start; end < col; ++end) {
+                for (int r = 0; r < row; ++r) {
+                    sum[r] += matrix[r][end];
+                }
+                int currSum = maxSubArrayNoMoreThanK(sum, k);  // now find the maximum sum for current joined rows rectangle like Kadane Algo
+                maxSum = max(maxSum, currSum);
+            }
+        }
+
+        return maxSum;
+    }
+
+private:
+    int maxSubArrayNoMoreThanK(vector<int>& arr, int k) {
+        set<int> seen = {0};  // will store the curr sum in sorted order
+        int right = 0, ans = INT_MIN;
+
+        for (int val : arr) {
+            right += val;  // will store the currsum for all index like 0,1,2...
+            auto it = seen.lower_bound(right - k);  // ceiling value of right - k
+            if (it != seen.end()) {
+                ans = max(ans, right - *it);  // ans = right - left
+            }
+            seen.insert(right);
+        }
+
+        return ans;
+    }
+};
+"""
+
 # used python library
 # https://www.geeksforgeeks.org/python-sorted-containers-an-introduction/
 # https://www.geeksforgeeks.org/bisect-algorithm-functions-in-python/

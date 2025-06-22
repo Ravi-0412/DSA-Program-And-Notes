@@ -46,4 +46,85 @@ class Solution:
                 ans = (ans + dfs(i, j)) % mod
         return ans
 
+# Java Code 
+"""
+public class Solution {
+    int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};  // up, down,left, right
+    int mod = 1_000_000_007;
+    int[][] grid;
+    int[][] dp;
 
+    public int countPaths(int[][] grid) {
+        this.grid = grid;
+        int m = grid.length, n = grid[0].length;
+        dp = new int[m][n];
+
+        for (int[] row : dp)
+            java.util.Arrays.fill(row, -1);
+
+        int ans = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                ans = (ans + dfs(i, j)) % mod;
+            }
+        }
+        return ans;
+    }
+
+    private int dfs(int i, int j) {
+        if (dp[i][j] != -1)
+            return dp[i][j];
+
+        long sum = 0;
+        for (int[] dir : directions) {
+            int ni = i + dir[0], nj = j + dir[1];
+            if (ni >= 0 && ni < grid.length && nj >= 0 && nj < grid[0].length && grid[ni][nj] > grid[i][j]) {
+                sum = (sum + dfs(ni, nj)) % mod;
+            }
+        }
+
+        return dp[i][j] = (int)((1 + sum) % mod);
+    }
+}
+"""
+
+# C++ Code 
+"""
+class Solution {
+    const int mod = 1e9 + 7;
+    std::vector<std::vector<int>> grid;
+    std::vector<std::vector<int>> dp;
+    std::vector<std::pair<int, int>> directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};  // up, down, left, right
+
+public:
+    int countPaths(std::vector<std::vector<int>>& inputGrid) {
+        grid = inputGrid;
+        int m = grid.size(), n = grid[0].size();
+        dp = std::vector<std::vector<int>>(m, std::vector<int>(n, -1));
+
+        int ans = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                ans = (ans + dfs(i, j)) % mod;
+            }
+        }
+        return ans;
+    }
+
+private:
+    int dfs(int i, int j) {
+        if (dp[i][j] != -1)
+            return dp[i][j];
+
+        long sum = 0;
+        for (auto [dr, dc] : directions) {
+            int ni = i + dr, nj = j + dc;
+            if (ni >= 0 && ni < grid.size() && nj >= 0 && nj < grid[0].size() && grid[ni][nj] > grid[i][j]) {
+                sum = (sum + dfs(ni, nj)) % mod;
+            }
+        }
+
+        return dp[i][j] = (1 + sum) % mod;
+    }
+};
+"""

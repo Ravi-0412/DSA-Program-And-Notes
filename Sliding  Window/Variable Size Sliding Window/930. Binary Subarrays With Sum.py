@@ -19,6 +19,61 @@ class Solution:
         
         return count
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int numSubarraysWithSum(int[] nums, int goal) {
+        Map<Integer, Integer> prefix_sum = new HashMap<>();
+        prefix_sum.put(0, 1);
+
+        int curr_sum = 0;
+        int count = 0;
+
+        for (int num : nums) {
+            curr_sum += num;
+
+            int diff = curr_sum - goal;
+            count += prefix_sum.getOrDefault(diff, 0);
+
+            prefix_sum.put(curr_sum, prefix_sum.getOrDefault(curr_sum, 0) + 1);
+        }
+
+        return count;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution {
+public:
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        unordered_map<int, int> prefix_sum;
+        prefix_sum[0] = 1;
+
+        int curr_sum = 0;
+        int count = 0;
+
+        for (int num : nums) {
+            curr_sum += num;
+
+            int diff = curr_sum - goal;
+            count += prefix_sum.count(diff) ? prefix_sum[diff] : 0;
+
+            prefix_sum[curr_sum]++;
+        }
+
+        return count;
+    }
+};
+"""
 
 # method 2: 
 # Since given value is only '0' and '1'.
@@ -65,6 +120,54 @@ class Solution:
 
         return atMostSubarray(nums, goal) - atMostSubarray(nums, goal - 1)
     
+# Java Code 
+"""
+class Solution {
+    private int atMostSubarray(int[] nums, int goal) {
+        if (goal < 0) return 0;
+        int curSum = 0, ans = 0, i = 0, j = 0;
+        while (j < nums.length) {
+            curSum += nums[j];
+            while (curSum > goal) {
+                curSum -= nums[i];
+                i++;
+            }
+            ans += j - i + 1;
+            j++;
+        }
+        return ans;
+    }
+
+    public int numSubarraysWithSum(int[] nums, int goal) {
+        return atMostSubarray(nums, goal) - atMostSubarray(nums, goal - 1);
+    }
+}
+"""
+
+# C++ Code 
+"""
+class Solution {
+public:
+    int atMostSubarray(const vector<int>& nums, int goal) {
+        if (goal < 0) return 0;
+        int curSum = 0, ans = 0, i = 0, j = 0;
+        while (j < nums.size()) {
+            curSum += nums[j];
+            while (curSum > goal) {
+                curSum -= nums[i];
+                i++;
+            }
+            ans += j - i + 1;
+            j++;
+        }
+        return ans;
+    }
+
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        return atMostSubarray(nums, goal) - atMostSubarray(nums, goal - 1);
+    }
+};
+"""
 
 # Extension: 
 

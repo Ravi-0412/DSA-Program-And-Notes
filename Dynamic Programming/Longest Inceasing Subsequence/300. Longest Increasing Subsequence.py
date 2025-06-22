@@ -26,6 +26,70 @@ class Solution:
                     dp[i][j]= max(dp[i-1][j], dp[i][j-1])
         return dp[x][y]
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    // Function to find length of longest increasing subsequence
+    public int longestSubsequence(int[] a, int n) {
+        Set<Integer> set = new TreeSet<>();
+        for (int val : a) set.add(val);
+        int[] a1 = new int[set.size()];
+        int idx = 0;
+        for (int val : set) a1[idx++] = val;
+
+        return lcs(a, a1, n, a1.length);
+    }
+
+    private int lcs(int[] s1, int[] s2, int x, int y) {
+        int[][] dp = new int[x + 1][y + 1];
+        for (int i = 1; i <= x; i++) {
+            for (int j = 1; j <= y; j++) {
+                if (s1[i - 1] == s2[j - 1]) {
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+        return dp[x][y];
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <set>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    // Function to find length of longest increasing subsequence
+    int longestSubsequence(int a[], int n) {
+        set<int> s(a, a + n);
+        vector<int> a1(s.begin(), s.end());
+
+        return lcs(a, a1, n, a1.size());
+    }
+
+private:
+    int lcs(int s1[], const vector<int>& s2, int x, int y) {
+        vector<vector<int>> dp(x + 1, vector<int>(y + 1, 0));
+        for (int i = 1; i <= x; ++i) {
+            for (int j = 1; j <= y; ++j) {
+                if (s1[i - 1] == s2[j - 1]) {
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+        return dp[x][y];
+    }
+};
+"""
 
 # method 2: Better one
 """
@@ -57,6 +121,56 @@ class Solution:
         return max(take, notTake)
 
 
+# Java Code 
+"""
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        return helper(0, -1, nums);
+    }
+
+    private int helper(int ind, int preInd, int[] arr) {
+        if (ind == arr.length)
+            return 0;
+
+        int take = 0;
+        int notTake = helper(ind + 1, preInd, arr);  // if we not include
+
+        // when we include but we can only include in following condition only
+        if (preInd == -1 || arr[ind] > arr[preInd])  // can only include if strictly increasing
+            take = 1 + helper(ind + 1, ind, arr);
+
+        return Math.max(take, notTake);
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        return helper(0, -1, nums);
+    }
+
+private:
+    int helper(int ind, int preInd, const vector<int>& arr) {
+        if (ind == arr.size())
+            return 0;
+
+        int take = 0;
+        int notTake = helper(ind + 1, preInd, arr);  // if we not include
+
+        // when we include but we can only include in following condition only
+        if (preInd == -1 || arr[ind] > arr[preInd])  // can only include if strictly increasing
+            take = 1 + helper(ind + 1, ind, arr);
+
+        return max(take, notTake);
+    }
+};
+"""
+
 # memoizing the above method
 # for matrix: we can't store -1 as pre_ind so we will do co-ordinate shift by +1 for pre_ind i.e for -1 we will write 0 and so on
 # so in this range of pre_ind will be from [0, n] instead of '-1' to   and range of 'ind' from '0' to 'n-1'
@@ -79,54 +193,67 @@ class Solution:
         dp[ind][pre_ind+1]= max(take, notTake)
         return dp[ind][pre_ind+1]
 
-# java
+# Java Code 
 """
 class Solution {
-    // Function to find length of the longest increasing subsequence.
+    // Function to find length of longest increasing subsequence
     public int longestSubsequence(int n, int[] a) {
-        // dp[i][j] denotes max LIS starting from index i when 'j' is the index of the previous picked element.
-        int[][] dp = new int[n + 1][n + 1];
-        
-        // Initialize dp array with -1 (similar to Python's `dp = [[-1 for j in range(n+1)] for i in range(n +1)]`)
+        int[][] dp = new int[n + 1][n + 1]; // dp[i][j] denotes max LIS starting from i when 'j-1' is the index of previous picked element
         for (int i = 0; i <= n; i++) {
-            for (int j = 0; j <= n; j++) {
-                dp[i][j] = -1;
-            }
+            java.util.Arrays.fill(dp[i], -1);
         }
-        
-        // Start the helper function with ind = 0 and pre_ind = -1
-        return helper(0, -1, a, dp, n);
+        return helper(0, -1, a, dp);
     }
-    
-    private int helper(int ind, int pre_ind, int[] arr, int[][] dp, int n) {
-        // Base case: If we've processed all elements, return 0
-        if (ind == n) {
-            return 0;
-        }
-        
-        // If the result for this state has already been computed, return it
-        if (dp[ind][pre_ind + 1] != -1) {
-            return dp[ind][pre_ind + 1];
-        }
-        
-        // Not picking the current element
-        int notTake = helper(ind + 1, pre_ind, arr, dp, n);
-        
-        // Picking the current element (if valid)
+
+    private int helper(int ind, int preInd, int[] arr, int[][] dp) {
+        if (ind == arr.length) return 0;
+
+        if (dp[ind][preInd + 1] != -1) return dp[ind][preInd + 1];
+
+        int notTake = helper(ind + 1, preInd, arr, dp);
         int take = 0;
-        if (pre_ind == -1 || arr[ind] > arr[pre_ind]) {
-            take = 1 + helper(ind + 1, ind, arr, dp, n);
+
+        if (preInd == -1 || arr[ind] > arr[preInd]) {
+            take = 1 + helper(ind + 1, ind, arr, dp);
         }
-        
-        // Store the result in dp array
-        dp[ind][pre_ind + 1] = Math.max(take, notTake);
-        
-        // Return the computed value for the current state
-        return dp[ind][pre_ind + 1];
+
+        dp[ind][preInd + 1] = Math.max(take, notTake);
+        return dp[ind][preInd + 1];
     }
 }
-
 """
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    // Function to find length of longest increasing subsequence
+    int longestSubsequence(int n, int a[]) {
+        vector<vector<int>> dp(n + 1, vector<int>(n + 1, -1)); // dp[i][j] denotes max LIS starting from i when 'j-1' is the index of previous picked element
+        return helper(0, -1, a, n, dp);
+    }
+
+private:
+    int helper(int ind, int preInd, int a[], int n, vector<vector<int>>& dp) {
+        if (ind == n) return 0;
+
+        if (dp[ind][preInd + 1] != -1) return dp[ind][preInd + 1];
+
+        int notTake = helper(ind + 1, preInd, a, n, dp);
+        int take = 0;
+
+        if (preInd == -1 || a[ind] > a[preInd]) {
+            take = 1 + helper(ind + 1, ind, a, n, dp);
+        }
+
+        return dp[ind][preInd + 1] = max(take, notTake);
+    }
+};
+"""
+
 
 """
 converting to Tabulation VVI: Top down 
@@ -150,33 +277,59 @@ class Solution:
                 dp[ind][pre_ind +1]= max(take, notTake)
         return dp[0][0]   # return the dp for which you had called the recursive function. 
     
-# java
+
+# Java Code 
 """
 class Solution {
     public int lengthOfLIS(int[] nums) {
         int n = nums.length;
-        // dp[i][j] stores the length of the longest increasing subsequence starting from index i when j is the index of the previous picked element.
-        int[][] dp = new int[n + 1][n + 1];
-        
-        // Bottom-up calculation
+        int[][] dp = new int[n + 1][n + 1]; 
+
         for (int ind = n - 1; ind >= 0; ind--) {
-            for (int pre_ind = ind - 1; pre_ind >= -1; pre_ind--) {
+            for (int preInd = ind - 1; preInd >= -1; preInd--) {
                 int take = 0;
-                int notTake = dp[ind + 1][pre_ind + 1];
-                
-                if (pre_ind == -1 || nums[ind] > nums[pre_ind]) {
+                int notTake = dp[ind + 1][preInd + 1];
+
+                if (preInd == -1 || nums[ind] > nums[preInd]) {
                     take = 1 + dp[ind + 1][ind + 1];
                 }
-                
-                dp[ind][pre_ind + 1] = Math.max(take, notTake);
+
+                dp[ind][preInd + 1] = Math.max(take, notTake);
             }
         }
-        
-        // The result is stored in dp[0][0], which corresponds to the case where we start from index 0 with no previous element.
-        return dp[0][0];
+
+        return dp[0][0];  // return the dp for which you had called the recursive function
     }
 }
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
 
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
+
+        for (int ind = n - 1; ind >= 0; --ind) {
+            for (int preInd = ind - 1; preInd >= -1; --preInd) {
+                int take = 0;
+                int notTake = dp[ind + 1][preInd + 1];
+
+                if (preInd == -1 || nums[ind] > nums[preInd]) {
+                    take = 1 + dp[ind + 1][ind + 1];
+                }
+
+                dp[ind][preInd + 1] = max(take, notTake);
+            }
+        }
+
+        return dp[0][0];  // return the dp for which you had called the recursive function
+    }
+};
 """
 
 
@@ -215,37 +368,91 @@ class Solution:
         return max(LIS)
 
 
-# in java
+
+# Java Code 
 """
 class Solution {
     public int lengthOfLIS(int[] nums) {
-        int n = nums.length;
-        int[] LIS = new int[n];  // LIS[i] indicates the length of the LIS that ends at index 'i'.
-        
-        // Initialize the LIS array with 1, as the smallest LIS ending at any index is 1 (the element itself).
-        for (int i = 0; i < n; i++) {
-            LIS[i] = 1;
-        }
-        
-        // Calculate LIS for each index
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < i; j++) {  // Check all previous indices
-                if (nums[j] < nums[i]) {   // If nums[j] can be included in the LIS ending at i
-                    LIS[i] = Math.max(LIS[i], LIS[j] + 1);  // Update LIS[i] if including nums[j] gives a longer subsequence
-                }
+        int[] LIS = new int[nums.length];  // LIS[i] indicates that LIS that ends at index 'i' from last
+                                           // for each index at least ele at curr index will be get included so initialised with '1'
+        java.util.Arrays.fill(LIS, 1);
+
+        for (int i = nums.length - 1; i >= 0; i--) {
+            // for 'i'th index we have to merge this ele with any of the ans(LIS) after it. so we will check for all ele after this.
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[j] > nums[i])  // checking whether this ele at 'j' can get added to LIS at 'i'.
+                    LIS[i] = Math.max(LIS[i], 1 + LIS[j]);  // Have to take max of all LIS ahead of it.
             }
         }
-        
-        // Find the maximum value in the LIS array, which represents the length of the longest increasing subsequence
-        int maxLIS = 0;
-        for (int i = 0; i < n; i++) {
-            maxLIS = Math.max(maxLIS, LIS[i]);
-        }
-        
-        return maxLIS;
+        // at last return the maximum in LIS
+        int max = 0;
+        for (int val : LIS) max = Math.max(max, val);
+        return max;
     }
 }
+/*
+if you traverse from starting left to right
+write this logic in notes with printing the LIS, counting the number of LIS in detail
+for every ele, we have two choices either include that into 'subse' or not include to the pre_answers.
+*/
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int[] LIS = new int[nums.length];  // LIS[i] indicates that LIS that ends at index 'i' from start.
+        java.util.Arrays.fill(LIS, 1);
 
+        for (int i = 0; i < nums.length; i++) {  // calculating for each index one by one
+            for (int j = 0; j < i; j++) {  // take the values from all the pre index till now
+                if (nums[j] < nums[i])  // include the element. checking whether this ele at 'j' can get added to LIS at 'i'.
+                    LIS[i] = Math.max(LIS[i], 1 + LIS[j]);  // if follows the rule then incr the LIS by one
+            }
+        }
+
+        int max = 0;
+        for (int val : LIS) max = Math.max(max, val);
+        return max;
+    }
+}
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> LIS(nums.size(), 1);  // LIS[i] indicates that LIS that ends at index 'i' from last
+                                          // for each index at least ele at curr index will be get included so initialised with '1'
+
+        for (int i = nums.size() - 1; i >= 0; --i) {
+            // for 'i'th index we have to merge this ele with any of the ans(LIS) after it. so we will check for all ele after this.
+            for (int j = i + 1; j < nums.size(); ++j) {
+                if (nums[j] > nums[i])  // checking whether this ele at 'j' can get added to LIS at 'i'.
+                    LIS[i] = max(LIS[i], 1 + LIS[j]);  // Have to take max of all LIS ahead of it.
+            }
+        }
+
+        // at last return the maximum in LIS
+        return *max_element(LIS.begin(), LIS.end());
+    }
+};
+/*
+if you traverse from starting left to right
+write this logic in notes with printing the LIS, counting the number of LIS in detail
+for every ele, we have two choices either include that into 'subse' or not include to the pre_answers.
+*/
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> LIS(nums.size(), 1);  // LIS[i] indicates that LIS that ends at index 'i' from start.
+
+        for (int i = 0; i < nums.size(); ++i) {  // calculating for each index one by one
+            for (int j = 0; j < i; ++j) {  // take the values from all the pre index till now
+                if (nums[j] < nums[i])  // include the element. checking whether this ele at 'j' can get added to LIS at 'i'.
+                    LIS[i] = max(LIS[i], 1 + LIS[j]);  // if follows the rule then incr the LIS by one
+            }
+        }
+
+        return *max_element(LIS.begin(), LIS.end());
+    }
+};
 """
 
 """
@@ -290,47 +497,56 @@ class Solution:
                 sub[idx]= num  # no need to check if idx >= len(sub) because if like this then must be greatest of all and this case is already covered above.
         return len(sub)
     
-# java
+
+# Java Code 
 """
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 class Solution {
     public int lengthOfLIS(int[] nums) {
-        List<Integer> sub = new ArrayList<>();  // This will store the elements in a strictly increasing order
-        
+        List<Integer> sub = new ArrayList<>();  // will store the ele in strictly increasing order only
+
         for (int num : nums) {
             if (sub.isEmpty() || sub.get(sub.size() - 1) < num) {
-                // If sub is empty or the current number is greater than the last element in sub
+                // if following the pattern
                 sub.add(num);
             } else {
-                // Find the position where the current number should be placed in sub
-                int idx = binarySearch(sub, num);
-                sub.set(idx, num);  // Replace the element at the found index with the current number
+                // find the position of num in sub and replace that ind with num
+                int idx = Collections.binarySearch(sub, num);
+                if (idx < 0) idx = -idx - 1;  // equivalent to bisect_left
+                sub.set(idx, num);  // no need to check if idx >= len(sub) because that case is already covered above
             }
         }
-        
-        return sub.size();  // The length of sub is the length of the longest increasing subsequence
-    }
-    
-    // Custom binary search function to find the index where num should be placed.
-    // just we find the 1st index .
-    private int binarySearch(List<Integer> sub, int num) {
-        int left = 0, right = sub.size() - 1;
-        
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            if (sub.get(mid) >= num) {
-                right = mid - 1;
-            } else {
-                left = mid + 1;
-            }
-        }
-        
-        return left;
+
+        return sub.size();
     }
 }
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
 
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> sub;  // will store the ele in strictly increasing order only
+
+        for (int num : nums) {
+            if (sub.empty() || sub.back() < num) {
+                // if following the pattern
+                sub.push_back(num);
+            } else {
+                // find the position of num in sub and replace that ind with num
+                auto it = lower_bound(sub.begin(), sub.end(), num);  // equivalent to bisect_left
+                *it = num;  // no need to check if it == sub.end() because that case is already covered above
+            }
+        }
+
+        return sub.size();
+    }
+};
 """
 
 
@@ -354,6 +570,58 @@ class Solution:
             return max(solve(i + 1), 1 + solve(j))
         
         return solve(0)
+
+
+# Java Code 
+"""
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        return solve(0, nums);
+    }
+
+    private int solve(int i, int[] nums) {
+        if (i >= nums.length)
+            return 0;
+
+        int j = i + 1;
+        while (j < nums.length) {
+            if (nums[j] > nums[i])
+                break;
+            j++;
+        }
+
+        return Math.max(solve(i + 1, nums), 1 + solve(j, nums));
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        return solve(0, nums);
+    }
+
+private:
+    int solve(int i, const vector<int>& nums) {
+        if (i >= nums.size())
+            return 0;
+
+        int j = i + 1;
+        while (j < nums.size()) {
+            if (nums[j] > nums[i])
+                break;
+            j++;
+        }
+
+        return max(solve(i + 1, nums), 1 + solve(j, nums));
+    }
+};
+"""
 
 # Related QUestions:
 """

@@ -2,7 +2,32 @@
 # sorting approach
 def findKthLargest(self, nums: List[int], k: int) -> int:
         return sorted(nums)[-k]
-    
+
+# Java Code 
+"""
+import java.util.Arrays;
+
+public class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        Arrays.sort(nums);
+        return nums[nums.length - k];
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <algorithm>
+#include <vector>
+
+class Solution {
+public:
+    int findKthLargest(std::vector<int>& nums, int k) {
+        std::sort(nums.begin(), nums.end());
+        return nums[nums.size() - k];
+    }
+};
+"""
 
 # 2nd method: 
 # make a max heap and delete the k-1 element
@@ -24,6 +49,53 @@ class Solution:
         # Top element is the kth largest (remember to negate it back)
         return -max_heap[0]
 
+# Java Code 
+"""
+import java.util.*;
+
+public class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        // Convert to max heap by negating all elements
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>();
+        for (int num : nums) {
+            maxHeap.add(-num);
+        }
+
+        // Delete k - 1 largest elements
+        for (int i = 0; i < k - 1; i++) {
+            maxHeap.poll();
+        }
+
+        // Top element is the kth largest (remember to negate it back)
+        return -maxHeap.peek();
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <queue>
+#include <vector>
+
+class Solution {
+public:
+    int findKthLargest(std::vector<int>& nums, int k) {
+        // Convert to max heap by negating all elements
+        std::priority_queue<int> maxHeap;
+        for (int num : nums) {
+            maxHeap.push(-num);
+        }
+
+        // Delete k - 1 largest elements
+        for (int i = 0; i < k - 1; i++) {
+            maxHeap.pop();
+        }
+
+        // Top element is the kth largest (remember to negate it back)
+        return -maxHeap.top();
+    }
+};
+"""
 
 # methid 3: 
 # Better one: using min Heap
@@ -51,6 +123,53 @@ class Solution:
             
         return heap[0]
 
+# Java Code 
+"""
+import java.util.*;
+
+public class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> heap = new PriorityQueue<>();   // creating max heap
+        for (int num : nums) {
+            heap.add(num);     // since we are creating min heap so after pussing any ele
+                               // the smallest ele till now will be at the 1st index
+            if (heap.size() > k) {             // we are only inserting k ele in the heap  
+                heap.poll();      // will delete the 1st index ele means the smallest ele till now
+                                  // in this way all the smallest ele except the k largest ele will get deleted
+            }
+        }
+        // after this loop will end 'heap' will contain all the k largest ele and  
+        // Since this is min Heap so top ele will be smallest among 'k' ele i.e
+        // Will be kth largest element only.
+        return heap.peek();
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <queue>
+#include <vector>
+
+class Solution {
+public:
+    int findKthLargest(std::vector<int>& nums, int k) {
+        std::priority_queue<int, std::vector<int>, std::greater<int>> heap;   // creating max heap
+        for (int num : nums) {
+            heap.push(num);     // since we are creating min heap so after pussing any ele
+                                // the smallest ele till now will be at the 1st index
+            if (heap.size() > k) {             // we are only inserting k ele in the heap  
+                heap.pop();      // will delete the 1st index ele means the smallest ele till now
+                                 // in this way all the smallest ele except the k largest ele will get deleted
+            }
+        }
+        // after this loop will end 'heap' will contain all the k largest ele and  
+        // Since this is min Heap so top ele will be smallest among 'k' ele i.e
+        // Will be kth largest element only.
+        return heap.top();
+    }
+};
+"""
 
 # Method 4: 
 
@@ -92,3 +211,89 @@ class Solution:
         arr[j], arr[low]= arr[low], arr[j]
         return j
 
+# Java Code 
+"""
+public class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        int n = nums.length;
+        k = n - k;  // if array is alreay sorted then you will get the ans at this index only
+        return quickSelect(nums, 0, n - 1, k);
+    }
+
+    private int quickSelect(int[] arr, int low, int high, int k) {
+        if (low <= high) {  // if arr contain at least one element
+            int q = partition(arr, low, high);
+            if (q == k) // pivot index element is equal to 'k' from start
+                return arr[q];
+            if (q > k)  // element lies on left side of pivot index
+                return quickSelect(arr, low, q - 1, k);
+            else    // element lies on right side of pivot index
+                return quickSelect(arr, q + 1, high, k);
+        }
+        return -1; // unreachable if input is valid
+    }
+
+    private int partition(int[] arr, int low, int high) {
+        int pivot = arr[low];
+        int i = low, j = high;
+        while (i < j) {
+            while (arr[j] > pivot)
+                j--;
+            while (i < j && arr[i] <= pivot)
+                i++;
+            if (i < j) {
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+        int temp = arr[j];
+        arr[j] = arr[low];
+        arr[low] = temp;
+        return j;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+
+class Solution {
+public:
+    int findKthLargest(std::vector<int>& nums, int k) {
+        int n = nums.size();
+        k = n - k;  // if array is alreay sorted then you will get the ans at this index only
+        return quickSelect(nums, 0, n - 1, k);
+    }
+
+private:
+    int quickSelect(std::vector<int>& arr, int low, int high, int k) {
+        if (low <= high) {  // if arr contain at least one element
+            int q = partition(arr, low, high);
+            if (q == k) // pivot index element is equal to 'k' from start
+                return arr[q];
+            if (q > k)  // element lies on left side of pivot index
+                return quickSelect(arr, low, q - 1, k);
+            else    // element lies on right side of pivot index
+                return quickSelect(arr, q + 1, high, k);
+        }
+        return -1; // unreachable if input is valid
+    }
+
+    int partition(std::vector<int>& arr, int low, int high) {
+        int pivot = arr[low];
+        int i = low, j = high;
+        while (i < j) {
+            while (arr[j] > pivot)
+                j--;
+            while (i < j && arr[i] <= pivot)
+                i++;
+            if (i < j)
+                std::swap(arr[i], arr[j]);
+        }
+        std::swap(arr[j], arr[low]);
+        return j;
+    }
+};
+"""

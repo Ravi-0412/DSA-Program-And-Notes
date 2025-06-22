@@ -28,6 +28,72 @@ class Solution:
             j+= 1
         return ans
 
-    
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int longestKSubstr(String s, int k) {
+        Map<Character, Integer> freq = new HashMap<>();
+        int i = 0, j = 0;
+        int ans = -1;
+        String longest = "";  // will give any such string
+
+        while (j < s.length()) {
+            freq.put(s.charAt(j), freq.getOrDefault(s.charAt(j), 0) + 1);
+            while (freq.size() > k) {
+                char ch = s.charAt(i);
+                freq.put(ch, freq.get(ch) - 1);
+                if (freq.get(ch) == 0) {
+                    freq.remove(ch);
+                }
+                i++;
+            }
+            if (freq.size() == k && (j - i + 1) > ans) {
+                longest = s.substring(i, j + 1);
+                ans = Math.max(ans, j - i + 1);
+            }
+            j++;
+        }
+
+        return ans;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <unordered_map>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    int longestKSubstr(string s, int k) {
+        unordered_map<char, int> freq;
+        int i = 0, j = 0;
+        int ans = -1;
+        string longest = "";  // will give any such string
+
+        while (j < s.size()) {
+            freq[s[j]]++;
+            while (freq.size() > k) {
+                freq[s[i]]--;
+                if (freq[s[i]] == 0) {
+                    freq.erase(s[i]);
+                }
+                i++;
+            }
+            if (freq.size() == k && (j - i + 1) > ans) {
+                longest = s.substr(i, j - i + 1);
+                ans = max(ans, j - i + 1);
+            }
+            j++;
+        }
+
+        return ans;
+    }
+};
+"""
 
 

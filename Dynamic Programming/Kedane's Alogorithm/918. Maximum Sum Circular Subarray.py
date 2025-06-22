@@ -57,6 +57,65 @@ class Solution:
             return max(maxSum, total- minSum)
         return maxSum  # all ele is negative
 
+# Java Code 
+"""
+class Solution {
+    public int maxSubarraySumCircular(int[] nums) {
+        int total = 0;
+        int curMin = nums[0], minSum = nums[0];
+        int curMax = nums[0], maxSum = nums[0];
+
+        for (int i = 0; i < nums.length; i++) {
+            total += nums[i];
+
+            if (i > 0) {
+                curMin = Math.min(curMin + nums[i], nums[i]);
+                minSum = Math.min(minSum, curMin);
+
+                curMax = Math.max(curMax + nums[i], nums[i]);
+                maxSum = Math.max(maxSum, curMax);
+            }
+        }
+
+        if (maxSum > 0)  // means all ele is not 'negative' or at least one ele is 'positive'.
+            return Math.max(maxSum, total - minSum);
+
+        return maxSum;  // all ele is negative
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int maxSubarraySumCircular(vector<int>& nums) {
+        int total = 0;
+        int curMin = nums[0], minSum = nums[0];
+        int curMax = nums[0], maxSum = nums[0];
+
+        for (int i = 0; i < nums.size(); ++i) {
+            total += nums[i];
+
+            if (i > 0) {
+                curMin = min(curMin + nums[i], nums[i]);
+                minSum = min(minSum, curMin);
+
+                curMax = max(curMax + nums[i], nums[i]);
+                maxSum = max(maxSum, curMax);
+            }
+        }
+
+        if (maxSum > 0)  // means all ele is not 'negative' or at least one ele is 'positive'.
+            return max(maxSum, total - minSum);
+
+        return maxSum;  // all ele is negative
+    }
+};
+"""
 
 # method 2: same logic only but different way of finding 'max sum in circular Subarray'.
 # Steps:Invert the sign of all the numbers in original subarray, 

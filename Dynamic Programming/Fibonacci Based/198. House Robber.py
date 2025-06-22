@@ -180,62 +180,54 @@ class Solution {
 # Replace:  dp[i-2]= non_adj, dp[i-1]= adj
 # non_adj= 0  # will tell the max_profit till pre non-adj house. Same meaniing as dp[i-2]
 # adj= nums[0]  # will tell the profit till pre adj_house. Same meaning as dp[i-1].
-class Solution {
-    public int rob(int[] nums) {
-        int n = nums.length;
-        int[] dp = new int[n + 1];
-        dp[1] = nums[0];  // if we start from '1' then we will need dp[-1] which will give error.
+class Solution:
+    def rob(self, nums):
+        non_adj = 0       # will tell the max_profit till pre non-adj house. Same meaning as dp[i-2]
+        adj = nums[0]     # will tell the profit till pre adj_house. Same meaning as dp[i-1]
 
-        for (int i = 2; i <= n; i++) {
-            dp[i] = Math.max(nums[i - 1] + dp[i - 2], dp[i - 1]);  // when you rob the current house or when you rob the next house
-        }
+        for i in range(1, len(nums)):
+            curr = max(nums[i] + non_adj, adj)  # rob current + non_adj OR skip current and take adj
+            non_adj = adj
+            adj = curr
 
-        return dp[n];
-    }
-}
+        return adj
+
 
 
 # Java
 """
 class Solution {
     public int rob(int[] nums) {
-        int n = nums.length;
-        int nonAdj = 0;     // initially it will be zero.
-        int adj = nums[0];  // initially it will be nums[0].
-        int ans = nums[0];  // in case only one ele is present and also this will be the minimum profit
+        int non_adj = 0;       // will tell the max_profit till pre non-adj house. Same meaning as dp[i-2]
+        int adj = nums[0];     // will tell the profit till pre adj_house. Same meaning as dp[i-1]
 
-        for (int i = 2; i <= n; i++) {
-            ans = Math.max(ans, nums[i - 1] + nonAdj);  // when you rob the current house
-            ans = Math.max(ans, adj);  // or when you rob the next house
-            int temp = adj;
-            adj = ans;
-            nonAdj = temp;  // update adj and non_adj.
+        for (int i = 1; i < nums.length; i++) {
+            int curr = Math.max(nums[i] + non_adj, adj);  // rob current + non_adj OR skip current and take adj
+            non_adj = adj;
+            adj = curr;
         }
 
-        return ans;
+        return adj;
     }
 }
+
 """
 
 # C++
 """
 class Solution {
 public:
-    int rob(vector<int>& nums) {
-        int n = nums.size();
-        int nonAdj = 0;     // initially it will be zero.
-        int adj = nums[0];  // initially it will be nums[0].
-        int ans = nums[0];  // in case only one ele is present and also this will be the minimum profit
+    int rob(std::vector<int>& nums) {
+        int non_adj = 0;       // will tell the max_profit till pre non-adj house. Same meaning as dp[i-2]
+        int adj = nums[0];     // will tell the profit till pre adj_house. Same meaning as dp[i-1]
 
-        for (int i = 2; i <= n; i++) {
-            ans = max(ans, nums[i - 1] + nonAdj);  // when you rob the current house
-            ans = max(ans, adj);  // or when you rob the next house
-            int temp = adj;
-            adj = ans;
-            nonAdj = temp;  // update adj and non_adj.
+        for (int i = 1; i < nums.size(); ++i) {
+            int curr = std::max(nums[i] + non_adj, adj);  // rob current + non_adj OR skip current and take adj
+            non_adj = adj;
+            adj = curr;
         }
 
-        return ans;
+        return adj;
     }
 };
 """

@@ -30,6 +30,77 @@ class Solution:
             # else: # it will join the fleet infront of it
         return len(stack)
             
+# Java Code 
+"""
+import java.util.*;
+
+public class Solution {
+    public int carFleet(int target, int[] position, int[] speed) {
+        int n = position.length;
+        double[][] cars = new double[n][2];
+        
+        for (int i = 0; i < n; i++) {
+            cars[i][0] = position[i];
+            cars[i][1] = speed[i];
+        }
+
+        // Sort cars by starting position in descending order
+        Arrays.sort(cars, (a, b) -> Double.compare(b[0], a[0]));
+
+        Stack<Double> stack = new Stack<>();
+        for (int i = 0; i < n; i++) {
+            double pos = cars[i][0], vel = cars[i][1];
+            double t = (target - pos) / vel;  // time taken by current car to reach target
+            if (stack.isEmpty() || t > stack.peek()) {
+                // if stack is empty or time taken is more then it won't be able to catch fleet 
+                // running ahead of it. it will form new fleet
+                stack.push(t);
+            }
+            // else: it will join the fleet in front of it
+        }
+
+        return stack.size();
+    }
+}
+
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <stack>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int carFleet(int target, vector<int>& position, vector<int>& speed) {
+        int n = position.size();
+        vector<pair<int, int>> cars(n);
+        for (int i = 0; i < n; ++i) {
+            cars[i] = {position[i], speed[i]};
+        }
+
+        // Sort cars by starting position in descending order
+        sort(cars.rbegin(), cars.rend());
+
+        stack<double> st;
+        for (int i = 0; i < n; ++i) {
+            double pos = cars[i].first, vel = cars[i].second;
+            double t = (target - pos) / vel;  // time taken by current car to reach target
+            if (st.empty() || t > st.top()) {
+                // if stack is empty or time taken is more then it won't be able to catch fleet 
+                // running ahead of it. it will form new fleet
+                st.push(t);
+            }
+            // else: it will join the fleet in front of it
+        }
+
+        return st.size();
+    }
+};
+
+"""
 
 # Method 2:
 # Optimising to O(1) space
@@ -52,3 +123,77 @@ class Solution:
                     # will join the fleet ahead of it
         return ans
 
+# Java Code 
+"""
+import java.util.*;
+
+public class Solution {
+    public int carFleet(int target, int[] position, int[] speed) {
+        int n = position.length;
+        int ans = 0;
+        Double pre_t = null;
+
+        double[][] cars = new double[n][2];
+        for (int i = 0; i < n; i++) {
+            cars[i][0] = position[i];
+            cars[i][1] = speed[i];
+        }
+
+        // Sort by position descending
+        Arrays.sort(cars, (a, b) -> Double.compare(b[0], a[0]));
+
+        for (int i = 0; i < n; i++) {
+            double pos = cars[i][0], vel = cars[i][1];
+            double t = (target - pos) / vel;
+            if (pre_t == null || t > pre_t) {
+                ans++;
+                pre_t = t;
+            }
+            // else:
+            //     will join the fleet ahead of it
+        }
+
+        return ans;
+    }
+}
+
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int carFleet(int target, vector<int>& position, vector<int>& speed) {
+        int n = position.size();
+        int ans = 0;
+        double pre_t = -1.0;
+
+        // Pair of (position, speed)
+        vector<pair<int, int>> cars(n);
+        for (int i = 0; i < n; ++i) {
+            cars[i] = {position[i], speed[i]};
+        }
+
+        // Sort by position descending
+        sort(cars.rbegin(), cars.rend());
+
+        for (int i = 0; i < n; ++i) {
+            double pos = cars[i].first, vel = cars[i].second;
+            double t = (target - pos) / vel;
+            if (pre_t < 0 || t > pre_t) {
+                ans++;
+                pre_t = t;
+            }
+            // else:
+            //     will join the fleet ahead of it
+        }
+
+        return ans;
+    }
+};
+
+"""

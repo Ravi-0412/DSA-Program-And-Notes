@@ -59,6 +59,88 @@ class Solution:
             dp[i][j] =  (self.solve(s, i + 1, j, dp) + self.solve(s, i, j - 1, dp) - self.solve(s, i + 1, j - 1, dp)) % self.mod
         return dp[i][j] % self.mod
 
+# Java Code 
+"""
+class Solution {
+    private final int MOD = 1000000007;
+
+    public int countPS(String str) {
+        int n = str.length();
+        int[][] dp = new int[n][n];
+        for (int[] row : dp) {
+            java.util.Arrays.fill(row, -1);
+        }
+        return solve(str, 0, n - 1, dp);
+    }
+
+    private int solve(String s, int i, int j, int[][] dp) {
+        if (i == j) {
+            // Base case: when the indices are the same, there is one palindrome
+            return 1;
+        }
+        if (i > j) {
+            // Base case: when the first index is greater than the second, there are no palindromes
+            return 0;
+        }
+
+        if (dp[i][j] != -1) return dp[i][j];
+
+        if (s.charAt(i) == s.charAt(j)) {
+            // If the characters at indices i and j are the same, include or exclude both characters
+            dp[i][j] = (1 + solve(s, i + 1, j, dp) + solve(s, i, j - 1, dp)) % MOD;
+        } else {
+            // If the characters are different, exclude one at a time and subtract overlap
+            dp[i][j] = ((solve(s, i + 1, j, dp) + solve(s, i, j - 1, dp)) - solve(s, i + 1, j - 1, dp)) % MOD;
+            if (dp[i][j] < 0) dp[i][j] += MOD; // Ensure non-negative result
+        }
+        return dp[i][j];
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <string>
+using namespace std;
+
+class Solution {
+    const int MOD = 1000000007;
+
+public:
+    int countPS(string s) {
+        int n = s.length();
+        vector<vector<int>> dp(n, vector<int>(n, -1));
+        return solve(s, 0, n - 1, dp);
+    }
+
+private:
+    int solve(const string& s, int i, int j, vector<vector<int>>& dp) {
+        if (i == j) {
+            // Base case: single character is a palindrome
+            return 1;
+        }
+        if (i > j) {
+            // Base case: invalid interval
+            return 0;
+        }
+
+        if (dp[i][j] != -1) return dp[i][j];
+
+        if (s[i] == s[j]) {
+            // Include both ends and explore in-between
+            dp[i][j] = (1 + solve(s, i + 1, j, dp) + solve(s, i, j - 1, dp)) % MOD;
+        } else {
+            // Exclude one end and subtract overlap
+            dp[i][j] = ((solve(s, i + 1, j, dp) + solve(s, i, j - 1, dp)) - solve(s, i + 1, j - 1, dp)) % MOD;
+            if (dp[i][j] < 0) dp[i][j] += MOD; // Normalize negative values
+        }
+
+        return dp[i][j];
+    }
+};
+"""
+
 # Tabulation
 class Solution:
     def countPS(self,s):
@@ -78,37 +160,67 @@ class Solution:
                     
         return dp[0][n-1] % self.mod
 
-# java
+# Java Code
 """
 class Solution {
+    private final int MOD = 1000000007;
+
     public int countPS(String s) {
         int n = s.length();
-        int mod = 1000000007;
-        
-        // Create a 2D DP array to store results of subproblems
         int[][] dp = new int[n][n];
-        
-        // Single characters are palindromic subsequences
+
         for (int i = 0; i < n; i++) {
             dp[i][i] = 1;
         }
-        
-        // Fill the DP table
+
         for (int i = n - 1; i >= 0; i--) {
             for (int j = i + 1; j < n; j++) {
                 if (s.charAt(i) == s.charAt(j)) {
-                    dp[i][j] = (1 + dp[i + 1][j] + dp[i][j - 1]) % mod;
+                    dp[i][j] = (1 + dp[i + 1][j] + dp[i][j - 1]) % MOD;
                 } else {
-                    dp[i][j] = (dp[i + 1][j] + dp[i][j - 1] - dp[i + 1][j - 1] + mod) % mod;
+                    dp[i][j] = (dp[i + 1][j] + dp[i][j - 1] - dp[i + 1][j - 1]) % MOD;
+                    if (dp[i][j] < 0) dp[i][j] += MOD; // Adjust negative results
                 }
             }
         }
-        
-        // Return the result for the entire string
+
         return dp[0][n - 1];
     }
 }
+"""
 
+# C++ Code 
+"""
+#include <vector>
+#include <string>
+using namespace std;
+
+class Solution {
+    const int MOD = 1000000007;
+
+public:
+    int countPS(string s) {
+        int n = s.size();
+        vector<vector<int>> dp(n, vector<int>(n, 0));
+
+        for (int i = 0; i < n; ++i) {
+            dp[i][i] = 1;
+        }
+
+        for (int i = n - 1; i >= 0; --i) {
+            for (int j = i + 1; j < n; ++j) {
+                if (s[i] == s[j]) {
+                    dp[i][j] = (1 + dp[i + 1][j] + dp[i][j - 1]) % MOD;
+                } else {
+                    dp[i][j] = (dp[i + 1][j] + dp[i][j - 1] - dp[i + 1][j - 1]) % MOD;
+                    if (dp[i][j] < 0) dp[i][j] += MOD; // Handle negative modulo
+                }
+            }
+        }
+
+        return dp[0][n - 1];
+    }
+};
 """
 
 # extension

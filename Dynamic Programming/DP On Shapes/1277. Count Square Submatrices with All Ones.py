@@ -33,6 +33,75 @@ class Solution:
             return 0
         return 1 + min(self.dfs(matrix, r+1, c), self.dfs(matrix, r, c+1), self.dfs(matrix, r+1, c+1))  
 
+# Java Code 
+"""
+class Solution {
+    public int countSquares(int[][] matrix) {
+        int row = matrix.length, col = matrix[0].length;
+        int ans = 0;
+
+        for (int r = 0; r < row; r++) {
+            for (int c = 0; c < col; c++) {
+                if (matrix[r][c] == 1) {
+                    ans += dfs(matrix, r, c);  // Add the side length i.e. count of each cell
+                }
+            }
+        }
+
+        return ans;
+    }
+
+    // Will give side length if we include current cell
+    private int dfs(int[][] matrix, int r, int c) {
+        if (r < 0 || r >= matrix.length || c < 0 || c >= matrix[0].length || matrix[r][c] != 1) {
+            return 0;
+        }
+
+        return 1 + Math.min(
+            dfs(matrix, r + 1, c),
+            Math.min(dfs(matrix, r, c + 1), dfs(matrix, r + 1, c + 1))
+        );
+    }
+}
+"""
+# C++ Code
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int countSquares(vector<vector<int>>& matrix) {
+        int row = matrix.size(), col = matrix[0].size();
+        int ans = 0;
+
+        for (int r = 0; r < row; ++r) {
+            for (int c = 0; c < col; ++c) {
+                if (matrix[r][c] == 1) {
+                    ans += dfs(matrix, r, c);  // Add the side length i.e. count of each cell
+                }
+            }
+        }
+
+        return ans;
+    }
+
+private:
+    int dfs(vector<vector<int>>& matrix, int r, int c) {
+        if (r < 0 || r >= matrix.size() || c < 0 || c >= matrix[0].size() || matrix[r][c] != 1)
+            return 0;
+
+        return 1 + min({
+            dfs(matrix, r + 1, c),
+            dfs(matrix, r, c + 1),
+            dfs(matrix, r + 1, c + 1)
+        });
+    }
+};
+"""
+
+
 # method 2: memoization
 # Time : O(m*n)
 
@@ -55,20 +124,16 @@ class Solution:
         dp[r][c]= 1 + min(self.dfs(matrix, r+1, c, dp), self.dfs(matrix, r, c+1, dp), self.dfs(matrix, r+1, c+1, dp))  # down, right, lower diagonal
         return dp[r][c]
 
-# Java
+# Java Code 
 """
 class Solution {
     public int countSquares(int[][] matrix) {
-        int row = matrix.length;
-        int col = matrix[0].length;
+        int row = matrix.length, col = matrix[0].length;
         int[][] dp = new int[row + 1][col + 1];
-        
-        // Initialize dp array with -1 (similar to Python's -1 initialization)
-        for (int i = 0; i <= row; i++) {
-            for (int j = 0; j <= col; j++) {
+
+        for (int i = 0; i <= row; i++)
+            for (int j = 0; j <= col; j++)
                 dp[i][j] = -1;
-            }
-        }
 
         int ans = 0;
         for (int r = 0; r < row; r++) {
@@ -78,27 +143,65 @@ class Solution {
                 }
             }
         }
-
         return ans;
     }
-    
+
     private int dfs(int[][] matrix, int r, int c, int[][] dp) {
-        // Check for out of bounds or if cell is not 1
-        if (r < 0 || r >= matrix.length || c < 0 || c >= matrix[0].length || matrix[r][c] != 1) {
+        if (r < 0 || r >= matrix.length || c < 0 || c >= matrix[0].length || matrix[r][c] != 1)
             return 0;
-        }
-        
-        // If the value is already computed, return it
-        if (dp[r][c] != -1) {
+
+        if (dp[r][c] != -1)
             return dp[r][c];
-        }
-        
-        // Recursively calculate the value using down, right, and diagonal right-down moves
-        dp[r][c] = 1 + Math.min(Math.min(dfs(matrix, r + 1, c, dp), dfs(matrix, r, c + 1, dp)), dfs(matrix, r + 1, c + 1, dp));
-        
+
+        dp[r][c] = 1 + Math.min(
+            dfs(matrix, r + 1, c, dp),
+            Math.min(dfs(matrix, r, c + 1, dp), dfs(matrix, r + 1, c + 1, dp))
+        );
+
         return dp[r][c];
     }
 }
+"""
+# C++ Code
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int countSquares(vector<vector<int>>& matrix) {
+        int row = matrix.size(), col = matrix[0].size();
+        vector<vector<int>> dp(row + 1, vector<int>(col + 1, -1));
+        int ans = 0;
+
+        for (int r = 0; r < row; ++r) {
+            for (int c = 0; c < col; ++c) {
+                if (matrix[r][c] == 1) {
+                    ans += dfs(matrix, r, c, dp);
+                }
+            }
+        }
+        return ans;
+    }
+
+private:
+    int dfs(vector<vector<int>>& matrix, int r, int c, vector<vector<int>>& dp) {
+        if (r < 0 || r >= matrix.size() || c < 0 || c >= matrix[0].size() || matrix[r][c] != 1)
+            return 0;
+
+        if (dp[r][c] != -1)
+            return dp[r][c];
+
+        dp[r][c] = 1 + min({
+            dfs(matrix, r + 1, c, dp),
+            dfs(matrix, r, c + 1, dp),
+            dfs(matrix, r + 1, c + 1, dp)
+        });
+
+        return dp[r][c];
+    }
+};
 """
 
 # method 3: Tabulation (Bottom Up)
@@ -116,28 +219,52 @@ class Solution:
                     ans+= dp[r][c]
         return ans
 
-# Java
+# Java Code 
 """
 class Solution {
     public int countSquares(int[][] matrix) {
-        int row = matrix.length;
-        int col = matrix[0].length;
-        int[][] dp = new int[row + 1][col + 1];  // Initialized with 0 by default in Java
-        
+        int row = matrix.length, col = matrix[0].length;
+        int[][] dp = new int[row + 1][col + 1];  // got initialised with base case.
         int ans = 0;
-        // Iterate from bottom-right to top-left of the matrix
+
         for (int r = row - 1; r >= 0; r--) {
             for (int c = col - 1; c >= 0; c--) {
                 if (matrix[r][c] == 1) {
-                    dp[r][c] = 1 + Math.min(Math.min(dp[r + 1][c], dp[r][c + 1]), dp[r + 1][c + 1]);
+                    dp[r][c] = 1 + Math.min(dp[r + 1][c], Math.min(dp[r][c + 1], dp[r + 1][c + 1]));
                     ans += dp[r][c];
                 }
             }
         }
-        
+
         return ans;
     }
 }
+"""
+# C++ Code
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int countSquares(vector<vector<int>>& matrix) {
+        int row = matrix.size(), col = matrix[0].size();
+        vector<vector<int>> dp(row + 1, vector<int>(col + 1, 0));  // got initialised with base case.
+        int ans = 0;
+
+        for (int r = row - 1; r >= 0; --r) {
+            for (int c = col - 1; c >= 0; --c) {
+                if (matrix[r][c] == 1) {
+                    dp[r][c] = 1 + min({dp[r + 1][c], dp[r][c + 1], dp[r + 1][c + 1]});
+                    ans += dp[r][c];
+                }
+            }
+        }
+
+        return ans;
+    }
+};
 """
 
 # method 4: Tabulation (top Down)
@@ -191,27 +318,115 @@ class Solution:
                     ans += dp[r][c]  # new formed square using current cell = side_length only
         return ans
 
-# Java
+# Java Code 
 """
 class Solution {
     public int countSquares(int[][] matrix) {
-        int row = matrix.length;
-        int col = matrix[0].length;
-        int[][] dp = new int[row + 1][col + 1];  // Initialized with 0 by default in Java
-        
+        int row = matrix.length, col = matrix[0].length;
+        int[][] dp = new int[row][col];
         int ans = 0;
-        // Iterate from top-left to bottom-right
-        for (int r = 1; r <= row; r++) {
-            for (int c = 1; c <= col; c++) {
-                // Adjust matrix indices since dp is 1-based
-                if (matrix[r - 1][c - 1] == 1) {
-                    dp[r][c] = 1 + Math.min(Math.min(dp[r - 1][c], dp[r][c - 1]), dp[r - 1][c - 1]);
+
+        // initialising with base case
+        for (int r = 0; r < row; r++) {  // filing 1st col
+            dp[r][0] = matrix[r][0];
+            ans += dp[r][0];
+        }
+        for (int c = 0; c < col; c++) {  // filing 1st row
+            dp[0][c] = matrix[0][c];
+            if (c != 0)  // for (0,0) we already added above
+                ans += dp[0][c];
+        }
+
+        for (int r = 1; r < row; r++) {
+            for (int c = 1; c < col; c++) {
+                if (matrix[r][c] == 1) {
+                    dp[r][c] = 1 + Math.min(dp[r - 1][c], Math.min(dp[r][c - 1], dp[r - 1][c - 1]));  // up, left, upper-left diagonal
                     ans += dp[r][c];
                 }
             }
         }
-        
+
         return ans;
     }
 }
+// Other way of writing above code
+class Solution {
+    public int countSquares(int[][] matrix) {
+        int row = matrix.length, col = matrix[0].length;
+        int[][] dp = new int[row + 1][col + 1];
+        int ans = 0;
+
+        for (int r = 1; r <= row; r++) {
+            for (int c = 1; c <= col; c++) {
+                if (matrix[r - 1][c - 1] == 1) {
+                    dp[r][c] = 1 + Math.min(dp[r - 1][c], Math.min(dp[r][c - 1], dp[r - 1][c - 1]));  // side length = min(up, left, upper-left diagonal)
+                    ans += dp[r][c];  // new formed square using current cell = side_length only
+                }
+            }
+        }
+
+        return ans;
+    }
+}
+"""
+# C++ Code
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int countSquares(vector<vector<int>>& matrix) {
+        int row = matrix.size(), col = matrix[0].size();
+        vector<vector<int>> dp(row, vector<int>(col, 0));
+        int ans = 0;
+
+        // initialising with base case
+        for (int r = 0; r < row; ++r) {  // filing 1st col
+            dp[r][0] = matrix[r][0];
+            ans += dp[r][0];
+        }
+        for (int c = 0; c < col; ++c) {  // filing 1st row
+            dp[0][c] = matrix[0][c];
+            if (c != 0)  // for (0,0) we already added above
+                ans += dp[0][c];
+        }
+
+        for (int r = 1; r < row; ++r) {
+            for (int c = 1; c < col; ++c) {
+                if (matrix[r][c] == 1) {
+                    dp[r][c] = 1 + min({dp[r - 1][c], dp[r][c - 1], dp[r - 1][c - 1]});  // up, left, upper-left diagonal
+                    ans += dp[r][c];
+                }
+            }
+        }
+
+        return ans;
+    }
+};
+// Other way of writing above code
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int countSquares(vector<vector<int>>& matrix) {
+        int row = matrix.size(), col = matrix[0].size();
+        vector<vector<int>> dp(row + 1, vector<int>(col + 1, 0));
+        int ans = 0;
+
+        for (int r = 1; r <= row; ++r) {
+            for (int c = 1; c <= col; ++c) {
+                if (matrix[r - 1][c - 1] == 1) {
+                    dp[r][c] = 1 + min({dp[r - 1][c], dp[r][c - 1], dp[r - 1][c - 1]});  // side length = min(up, left, upper-left diagonal)
+                    ans += dp[r][c];  // new formed square using current cell = side_length only
+                }
+            }
+        }
+
+        return ans;
+    }
+};
 """

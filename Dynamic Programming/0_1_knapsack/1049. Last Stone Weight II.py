@@ -58,6 +58,81 @@ class Solution:
         
         return min_diff
 
+# Java Code 
+"""
+public class Solution {
+    public int lastStoneWeightII(int[] stones) {
+        int total_sum = 0;  // Calculate the total sum of all stones
+        for (int stone : stones)
+            total_sum += stone;
+
+        int half_sum = total_sum / 2;  // Target half of the total sum
+
+        // Initialize the DP array
+        boolean[] dp = new boolean[half_sum + 1];
+        dp[0] = true;  // Subset sum of 0 is always possible (empty set)
+
+        // Fill the DP array
+        for (int stone : stones) {
+            // Traverse backwards to avoid overwriting values that we need to check in the same iteration
+            for (int j = half_sum; j >= stone; j--) {
+                dp[j] = dp[j] || dp[j - stone];
+            }
+        }
+
+        // Find the maximum subset sum that is possible and <= half_sum
+        int max_subset_sum = 0;
+        for (int i = 0; i <= half_sum; i++) {
+            if (dp[i])
+                max_subset_sum = i;
+        }
+
+        // Calculate the minimum difference
+        int min_diff = total_sum - 2 * max_subset_sum;
+
+        return min_diff;
+    }
+}
+"""
+
+# C++ Code 
+"""
+class Solution {
+public:
+    int lastStoneWeightII(std::vector<int>& stones) {
+        int total_sum = 0;  // Calculate the total sum of all stones
+        for (int stone : stones)
+            total_sum += stone;
+
+        int half_sum = total_sum / 2;  // Target half of the total sum
+
+        // Initialize the DP array
+        std::vector<bool> dp(half_sum + 1, false);
+        dp[0] = true;  // Subset sum of 0 is always possible (empty set)
+
+        // Fill the DP array
+        for (int stone : stones) {
+            // Traverse backwards to avoid overwriting values that we need to check in the same iteration
+            for (int j = half_sum; j >= stone; --j) {
+                dp[j] = dp[j] || dp[j - stone];
+            }
+        }
+
+        // Find the maximum subset sum that is possible and <= half_sum
+        int max_subset_sum = 0;
+        for (int i = 0; i <= half_sum; ++i) {
+            if (dp[i])
+                max_subset_sum = i;
+        }
+
+        // Calculate the minimum difference
+        int min_diff = total_sum - 2 * max_subset_sum;
+
+        return min_diff;
+    }
+};
+"""
+
 # Method 2: 
 
 class Solution:
@@ -73,3 +148,53 @@ class Solution:
                     dp[i][j]= max(dp[i-1][j], dp[i-1][j- stones[i-1]] + stones[i-1])   # we have to find the closest sum so taking max.
         return abs(total- 2*dp[n][mid])    # ans will be equal to this one.  
 
+# Java Code 
+"""
+public class Solution {
+    public int lastStoneWeightII(int[] stones) {
+        int total = 0, n = stones.length;
+        for (int stone : stones)
+            total += stone;
+
+        int mid = total / 2;  // we have to find the closest sum possible for 'mid'
+        int[][] dp = new int[n + 1][mid + 1];
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= mid; j++) {
+                if (stones[i - 1] > j)  // when we have no choice to include the curr ele
+                    dp[i][j] = dp[i - 1][j];
+                else  // when we have choice to include the curr ele or not
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - stones[i - 1]] + stones[i - 1]);  // we have to find the closest sum so taking max
+            }
+        }
+
+        return Math.abs(total - 2 * dp[n][mid]);  // ans will be equal to this one
+    }
+}
+"""
+
+# C++ Code 
+"""
+class Solution {
+public:
+    int lastStoneWeightII(std::vector<int>& stones) {
+        int total = 0, n = stones.size();
+        for (int stone : stones)
+            total += stone;
+
+        int mid = total / 2;  // we have to find the closest sum possible for 'mid'
+        std::vector<std::vector<int>> dp(n + 1, std::vector<int>(mid + 1, 0));
+
+        for (int i = 1; i <= n; ++i) {
+            for (int j = 1; j <= mid; ++j) {
+                if (stones[i - 1] > j)  // when we have no choice to include the curr ele
+                    dp[i][j] = dp[i - 1][j];
+                else  // when we have choice to include the curr ele or not
+                    dp[i][j] = std::max(dp[i - 1][j], dp[i - 1][j - stones[i - 1]] + stones[i - 1]);  // we have to find the closest sum so taking max
+            }
+        }
+
+        return std::abs(total - 2 * dp[n][mid]);  // ans will be equal to this one
+    }
+};
+"""

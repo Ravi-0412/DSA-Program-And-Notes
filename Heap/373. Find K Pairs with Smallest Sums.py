@@ -43,28 +43,27 @@ class Solution:
 """
 import java.util.*;
 
-class Solution {
+public class Solution {
     public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
-        PriorityQueue<int[]> minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
         Set<String> visited = new HashSet<>();
-        List<List<Integer>> ans = new ArrayList<>();
-
-        minHeap.offer(new int[]{nums1[0] + nums2[0], 0, 0});
         visited.add("0,0");
+        List<List<Integer>> ans = new ArrayList<>();
+        PriorityQueue<int[]> heap = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
 
-        while (ans.size() < k && !minHeap.isEmpty()) {
-            int[] top = minHeap.poll();
+        heap.add(new int[]{nums1[0] + nums2[0], 0, 0});   // (sum, i, j)  // i, j index of nums1 and nums2.
+
+        while (ans.size() < k && !heap.isEmpty()) {
+            int[] top = heap.poll();
             int i = top[1], j = top[2];
             ans.add(Arrays.asList(nums1[i], nums2[j]));
 
             if (j + 1 < nums2.length && !visited.contains(i + "," + (j + 1))) {
                 visited.add(i + "," + (j + 1));
-                minHeap.offer(new int[]{nums1[i] + nums2[j + 1], i, j + 1});
+                heap.add(new int[]{nums1[i] + nums2[j + 1], i, j + 1});
             }
-
             if (i + 1 < nums1.length && !visited.contains((i + 1) + "," + j)) {
                 visited.add((i + 1) + "," + j);
-                minHeap.offer(new int[]{nums1[i + 1] + nums2[j], i + 1, j});
+                heap.add(new int[]{nums1[i + 1] + nums2[j], i + 1, j});
             }
         }
 
@@ -75,36 +74,31 @@ class Solution {
 
 # C++ Code
 """
-#include <iostream>
 #include <vector>
 #include <queue>
 #include <set>
-
-using namespace std;
+#include <utility>
 
 class Solution {
 public:
-    vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {
-        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<tuple<int, int, int>>> minHeap;
-        set<pair<int, int>> visited;
-        vector<vector<int>> ans;
+    std::vector<std::vector<int>> kSmallestPairs(std::vector<int>& nums1, std::vector<int>& nums2, int k) {
+        using T = std::tuple<int, int, int>;  // (sum, i, j)
+        std::priority_queue<T, std::vector<T>, std::greater<T>> heap;
+        std::set<std::pair<int, int>> visited;
+        std::vector<std::vector<int>> ans;
 
         visited.insert({0, 0});
-        minHeap.push({nums1[0] + nums2[0], 0, 0}); // (sum, i, j)
+        heap.push({nums1[0] + nums2[0], 0, 0});   // (sum, i, j)  // i, j index of nums1 and nums2.
 
-        while (ans.size() < k && !minHeap.empty()) {
-            auto [sum, i, j] = minHeap.top();
-            minHeap.pop();
+        while (ans.size() < k && !heap.empty()) {
+            auto [sum, i, j] = heap.top(); heap.pop();
             ans.push_back({nums1[i], nums2[j]});
 
-            if (j + 1 < nums2.size() && visited.find({i, j + 1}) == visited.end()) {
-                visited.insert({i, j + 1});
-                minHeap.push({nums1[i] + nums2[j + 1], i, j + 1});
+            if (j + 1 < nums2.size() && visited.insert({i, j + 1}).second) {
+                heap.push({nums1[i] + nums2[j + 1], i, j + 1});
             }
-
-            if (i + 1 < nums1.size() && visited.find({i + 1, j}) == visited.end()) {
-                visited.insert({i + 1, j});
-                minHeap.push({nums1[i + 1] + nums2[j], i + 1, j});
+            if (i + 1 < nums1.size() && visited.insert({i + 1, j}).second) {
+                heap.push({nums1[i + 1] + nums2[j], i + 1, j});
             }
         }
 

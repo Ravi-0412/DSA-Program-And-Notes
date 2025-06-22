@@ -18,6 +18,62 @@ class MedianFinder:
         else:
             return (self.nums[mid] + self.nums[mid-1])/2
 
+# Java Code 
+"""
+import java.util.*;
+
+class MedianFinder {
+    private List<Integer> nums;
+
+    public MedianFinder() {
+        nums = new ArrayList<>();
+    }
+
+    public void addNum(int num) {
+        nums.add(num);
+    }
+
+    public double findMedian() {
+        Collections.sort(nums);
+        int mid = nums.size() / 2;
+        if (nums.size() % 2 != 0) {
+            return nums.get(mid);
+        } else {
+            return (nums.get(mid) + nums.get(mid - 1)) / 2.0;
+        }
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+
+class MedianFinder {
+private:
+    std::vector<int> nums;
+
+public:
+    MedianFinder() {
+        // initialize empty vector
+    }
+
+    void addNum(int num) {
+        nums.push_back(num);
+    }
+
+    double findMedian() {
+        std::sort(nums.begin(), nums.end());
+        int mid = nums.size() / 2;
+        if (nums.size() % 2 != 0) {
+            return nums[mid];
+        } else {
+            return (nums[mid] + nums[mid - 1]) / 2.0;
+        }
+    }
+};
+""" 
+
 # other way for python user
 
 # If we can find any data structure which :
@@ -141,6 +197,141 @@ class MedianFinder:
 
 
 
+# Java Code 
+"""
+import java.util.PriorityQueue;
+import java.util.Collections;
+
+class MedianFinder {
+    PriorityQueue<Integer> maxHeap; // maxHeap to store the smaller half
+    PriorityQueue<Integer> minHeap; // minHeap to store the larger half
+
+    public MedianFinder() {
+        maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        minHeap = new PriorityQueue<>();
+    }
+
+    public void addNum(int num) {
+        minHeap.offer(num);
+        if (minHeap.size() > maxHeap.size() + 1) {
+            maxHeap.offer(minHeap.poll() * -1); // move top of minHeap to maxHeap (invert sign)
+        }
+    }
+
+    public double findMedian() {
+        if (minHeap.size() != maxHeap.size()) { // median is in minHeap at the top
+            return minHeap.peek();
+        }
+        // if length is equal then return the average
+        return (minHeap.peek() - (-1 * maxHeap.peek())) / 2.0;
+    }
+}
+
+//Corrected code 
+import java.util.PriorityQueue;
+import java.util.Collections;
+
+class MedianFinder {
+    PriorityQueue<Integer> maxHeap; // maxHeap to store the smaller half
+    PriorityQueue<Integer> minHeap; // minHeap to store the larger half
+
+    public MedianFinder() {
+        maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        minHeap = new PriorityQueue<>();
+    }
+
+    public void addNum(int num) {
+        if (minHeap.size() == maxHeap.size()) {
+            // First push 'num' into maxHeap then pop one ele from maxHeap and at last add that to minHEap.
+            maxHeap.offer(num);
+            minHeap.offer(maxHeap.poll());
+        } else {
+            // First push 'num' into minHeap then pop one ele from minHeap and at last add that to maxHEap.
+            minHeap.offer(num);
+            maxHeap.offer(minHeap.poll());
+        }
+    }
+
+    public double findMedian() {
+        if (minHeap.size() != maxHeap.size()) { // median is in minHeap at the top
+            return minHeap.peek();
+        }
+        // if length is equal then return the average
+        return (minHeap.peek() - maxHeap.peek()) / 2.0; // return (minHeap.peek() + -1*maxHeap.peek())/2
+    }
+}
+
+
+"""
+# C++ Code 
+"""
+#include <queue>
+#include <vector>
+using namespace std;
+
+class MedianFinder {
+    priority_queue<int> maxHeap; // maxHeap to store the smaller half
+    priority_queue<int, vector<int>, greater<int>> minHeap; // minHeap to store the larger half
+
+public:
+    MedianFinder() {
+        // Constructor
+    }
+
+    void addNum(int num) {
+        minHeap.push(num);
+        if (minHeap.size() > maxHeap.size() + 1) {
+            maxHeap.push(-1 * minHeap.top()); // move top of minHeap to maxHeap (invert sign)
+            minHeap.pop();
+        }
+    }
+
+    double findMedian() {
+        if (minHeap.size() != maxHeap.size()) { // median is in minHeap at the top
+            return minHeap.top();
+        }
+        // if length is equal then return the average
+        return (minHeap.top() - (-1 * maxHeap.top())) / 2.0;
+    }
+};
+//corrected code 
+#include <queue>
+#include <vector>
+using namespace std;
+
+class MedianFinder {
+    priority_queue<int> maxHeap; // maxHeap to store the smaller half
+    priority_queue<int, vector<int>, greater<int>> minHeap; // minHeap to store the larger half
+
+public:
+    MedianFinder() {
+        // Constructor
+    }
+
+    void addNum(int num) {
+        if (minHeap.size() == maxHeap.size()) {
+            // First push 'num' into maxHeap then pop one ele from maxHeap and at last add that to minHEap.
+            maxHeap.push(num);
+            minHeap.push(maxHeap.top());
+            maxHeap.pop();
+        } else {
+            // First push 'num' into minHeap then pop one ele from minHeap and at last add that to maxHEap.
+            minHeap.push(num);
+            maxHeap.push(minHeap.top());
+            minHeap.pop();
+        }
+    }
+
+    double findMedian() {
+        if (minHeap.size() != maxHeap.size()) { // median is in minHeap at the top
+            return minHeap.top();
+        }
+        // if length is equal then return the average
+        return (minHeap.top() - maxHeap.top()) / 2.0; // return (minHeap.top() + -1*maxHeap.top())/2
+    }
+};
+
+""" 
 
 # Extesnion: 
 # Note: In this type of Q or similar question like :

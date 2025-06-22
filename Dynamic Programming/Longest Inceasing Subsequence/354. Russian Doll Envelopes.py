@@ -123,47 +123,63 @@ class Solution:
         
 # Java correct solution
 """
-import java.util.Arrays;
+import java.util.*;
 
 class Solution {
     public int maxEnvelopes(int[][] envelopes) {
-        // Step 1: Sort the envelopes by width (ascending). If the widths are equal, sort by height (descending).
-        Arrays.sort(envelopes, (a, b) -> {
-            if (a[0] == b[0]) {
-                return b[1] - a[1]; // Sort by height in descending order if widths are the same
-            } else {
-                return a[0] - b[0]; // Sort by width in ascending order
-            }
-        });
-        
-        // Step 2: Extract the heights array (since widths are sorted, now we only care about heights for LIS)
+        // agar width same hua to phle usko aage rakhna h jiska height jyada ho (isliye, -x[1])
+        Arrays.sort(envelopes, (a, b) -> 
+            a[0] != b[0] ? a[0] - b[0] : b[1] - a[1]);
+
+        // storing only the height since we have to check only the height. Now totally same as LIS.
         int[] heights = new int[envelopes.length];
         for (int i = 0; i < envelopes.length; i++) {
             heights[i] = envelopes[i][1];
         }
-        
-        // Step 3: Find the length of the longest increasing subsequence in heights
-        return lengthOfLIS(heights);
-    }
-    
-    // Helper method to find the length of the longest increasing subsequence (LIS)
-    private int lengthOfLIS(int[] nums) {
-        int[] lis = new int[nums.length];
-        int size = 0;
-        
-        for (int num : nums) {
-            int idx = Arrays.binarySearch(lis, 0, size, num);
-            if (idx < 0) {
-                idx = -(idx + 1);  // binarySearch returns negative insertion point if not found
-            }
-            lis[idx] = num;  // Place the number in its correct position in the lis array
-            if (idx == size) {
-                size++;  // Increase the size if a new element is added at the end of the lis array
+
+        // LIS using binary search
+        List<Integer> sub = new ArrayList<>();
+        for (int h : heights) {
+            if (sub.isEmpty() || sub.get(sub.size() - 1) < h) {
+                sub.add(h);
+            } else {
+                int idx = Collections.binarySearch(sub, h);
+                if (idx < 0) idx = -idx - 1;  // bisect_left
+                sub.set(idx, h);
             }
         }
-        
-        return size;  // The size of the lis array will be the length of the LIS
+
+        return sub.size();
     }
 }
+"""
+# C++ correct solution
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
 
+class Solution {
+public:
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
+        // agar width same hua to phle usko aage rakhna h jiska height jyada ho (isliye, -x[1])
+        sort(envelopes.begin(), envelopes.end(), [](const vector<int>& a, const vector<int>& b) {
+            return (a[0] != b[0]) ? a[0] < b[0] : a[1] > b[1];
+        });
+
+        // storing only the height since we have to check only the height. Now totally same as LIS.
+        vector<int> sub;
+        for (const auto& env : envelopes) {
+            int h = env[1];
+            auto it = lower_bound(sub.begin(), sub.end(), h);  // bisect_left
+            if (it == sub.end()) {
+                sub.push_back(h);
+            } else {
+                *it = h;
+            }
+        }
+
+        return sub.size();
+    }
+};
 """

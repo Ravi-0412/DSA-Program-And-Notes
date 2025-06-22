@@ -47,82 +47,81 @@ class Solution:
 """
 import java.util.*;
 
-class Solution {
+public class Solution {
     public int[] asteroidCollision(int[] asteroids) {
         Stack<Integer> stack = new Stack<>();
-
         for (int num : asteroids) {
             if (num > 0) {
                 stack.push(num);
             } else {
-                // Keep popping as the current asteroid will cancel the stack top
+                // keep on popping as the curr one will cancel the stack top.
                 while (!stack.isEmpty() && stack.peek() > 0 && stack.peek() < Math.abs(num)) {
                     stack.pop();
                 }
-                // Stack can be empty or have become empty after popping (current -ve asteroid cancels all)
-                // or stack top is of the same sign (negative only), so append to stack
+                // stack can be empty only or have become empty after popping(curr -ve have cancel all ball due to high magnitude) or
+                // stack top is of same sign i.e -ve only, so append in stack
                 if (stack.isEmpty() || stack.peek() < 0) {
                     stack.push(num);
                 }
-                // If magnitude of both asteroids is equal, both get canceled, so pop from stack
+                // if magnitude of both equal then both will get cancelled, so pop from stack.
                 else if (stack.peek() == Math.abs(num)) {
                     stack.pop();
                 }
             }
         }
 
+        // Convert stack to array
         int[] result = new int[stack.size()];
         for (int i = stack.size() - 1; i >= 0; i--) {
             result[i] = stack.pop();
         }
-
         return result;
     }
 }
+
 """
 
 # C++ Code 
 """
-#include <iostream>
 #include <vector>
 #include <stack>
-
+#include <cmath>
 using namespace std;
 
 class Solution {
 public:
     vector<int> asteroidCollision(vector<int>& asteroids) {
         stack<int> st;
-
         for (int num : asteroids) {
             if (num > 0) {
                 st.push(num);
             } else {
-                // Keep popping as the current asteroid will cancel the stack top
+                // keep on popping as the curr one will cancel the stack top.
                 while (!st.empty() && st.top() > 0 && st.top() < abs(num)) {
                     st.pop();
                 }
-                // Stack can be empty or have become empty after popping (current -ve asteroid cancels all)
-                // or stack top is of the same sign (negative only), so append to stack
+                // stack can be empty only or have become empty after popping(curr -ve have cancel all ball due to high magnitude) or
+                // stack top is of same sign i.e -ve only, so append in stack
                 if (st.empty() || st.top() < 0) {
                     st.push(num);
                 }
-                // If magnitude of both asteroids is equal, both get canceled, so pop from stack
+                // if magnitude of both equal then both will get cancelled, so pop from stack.
                 else if (st.top() == abs(num)) {
                     st.pop();
                 }
             }
         }
 
-        vector<int> result;
-        while (!st.empty()) {
-            result.insert(result.begin(), st.top());
+        // Convert stack to vector in correct order
+        vector<int> result(st.size());
+        for (int i = st.size() - 1; i >= 0; --i) {
+            result[i] = st.top();
             st.pop();
         }
-
         return result;
     }
 };
+
 """
 
 

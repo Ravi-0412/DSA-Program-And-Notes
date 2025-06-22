@@ -55,6 +55,100 @@ class Solution:
             j+= 1
         return ans if ans <=n else -1
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int shortestSubarray(int[] nums, int k) {
+        int n = nums.length;
+        long[] prefixSum = new long[n + 1];  // prefix[i] = sum till index 'i-1'
+        for (int i = 0; i < n; i++) {
+            prefixSum[i + 1] = prefixSum[i] + nums[i];
+        }
+
+        Deque<Integer> q = new ArrayDeque<>();  // will store all the 'i' index of sliding window (Think like this).
+        int ans = n + 1;
+        int j = 0;  // starting from '1' will give wrong ans.
+
+        // our last prefixSum is at index 'n' so we will go till 'n'
+        while (j < n + 1) {
+            // for handling "+ve num" if found ans then try to shrink just like we used to do.
+            // prefixSum[j] - prefixSum[q.peekFirst()] : will denote the curSum like other Q i.e here prefix[j] - prefix[i].
+            while (!q.isEmpty() && prefixSum[j] - prefixSum[q.peekFirst()] >= k) {
+                ans = Math.min(ans, j - q.pollFirst());
+            }
+
+            // to handle the "-ve" number.
+            // it means the sum from index 'q[-1]' before curr index 'j' is '<= 0'
+            // i.e prefixSum[j] - prefixSum[q[-1]] <= 0.
+
+            // so if we start our ans subarray from index 'q[-1]' then it will be longer only because to reach the
+            // sum >= target from index 'q[-1]', we have to include the ele beyond curr index 'j' also.
+            // so why to start from that so better remove those indexes.
+            // That's why pop all those index.
+            while (!q.isEmpty() && prefixSum[j] <= prefixSum[q.peekLast()]) {
+                q.pollLast();
+            }
+
+            q.offerLast(j);  // every index can be possible starting index for ans subarray.
+            j++;
+        }
+
+        return ans <= n ? ans : -1;
+    }
+}
+
+"""
+
+# C++ Code 
+"""
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int shortestSubarray(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<long long> prefixSum(n + 1, 0); // prefix[i] = sum till index 'i-1'
+        for (int i = 0; i < n; ++i) {
+            prefixSum[i + 1] = prefixSum[i] + nums[i];
+        }
+
+        deque<int> q; // will store all the 'i' index of sliding window (Think like this).
+        int ans = n + 1;
+        int j = 0; // starting from '1' will give wrong ans.
+
+        // our last prefixSum is at index 'n' so we will go till 'n'
+        while (j < n + 1) {
+            // for handling "+ve num" if found ans then try to shrink just like we used to do.
+            // prefixSum[j] - prefixSum[q.front()] : will denote the curSum like other Q i.e here prefix[j] - prefix[i].
+            while (!q.empty() && prefixSum[j] - prefixSum[q.front()] >= k) {
+                ans = min(ans, j - q.front());
+                q.pop_front();
+            }
+
+            // to handle the "-ve" number.
+            // it means the sum from index 'q[-1]' before curr index 'j' is '<= 0'
+            // i.e prefixSum[j] - prefixSum[q.back()] <= 0.
+
+            // so if we start our ans subarray from index 'q[-1]' then it will be longer only because to reach the
+            // sum >= target from index 'q[-1]', we have to include the ele beyond curr index 'j' also.
+            // so why to start from that so better remove those indexes.
+            // That's why pop all those index.
+            while (!q.empty() && prefixSum[j] <= prefixSum[q.back()]) {
+                q.pop_back();
+            }
+
+            q.push_back(j); // every index can be possible starting index for ans subarray.
+            j++;
+        }
+
+        return ans <= n ? ans : -1;
+    }
+};
+
+"""
 
 # Extesnion: 
 
@@ -80,6 +174,82 @@ class Solution:
             j+= 1
         return ans if ans <=n else 0
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int minSubArrayLen(int target, int[] nums) {
+        int n = nums.length;
+        int[] prefixSum = new int[n + 1];  // prefixSum[i] = sum till index 'i-1'
+
+        for (int i = 0; i < n; i++) {
+            prefixSum[i + 1] = prefixSum[i] + nums[i];
+        }
+
+        Deque<Integer> q = new ArrayDeque<>();
+        int ans = n + 1;
+        int j = 0;
+
+        while (j < n + 1) {
+            // if found ans then try to shrink just like we used to do for "+ve" values
+            while (!q.isEmpty() && prefixSum[j] - prefixSum[q.peekFirst()] >= target) {
+                ans = Math.min(ans, j - q.pollFirst());
+            }
+
+            // while (!q.isEmpty() && prefixSum[j] <= prefixSum[q.peekLast()]) {
+            //     q.pollLast();
+            // }
+
+            q.offerLast(j);
+            j++;
+        }
+
+        return ans <= n ? ans : 0;
+    }
+}
+
+"""
+
+# C++ Code 
+"""
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        int n = nums.size();
+        vector<int> prefixSum(n + 1, 0); // prefixSum[i] = sum till index 'i-1'
+
+        for (int i = 0; i < n; ++i) {
+            prefixSum[i + 1] = prefixSum[i] + nums[i];
+        }
+
+        deque<int> q;
+        int ans = n + 1;
+        int j = 0;
+
+        while (j < n + 1) {
+            // if found ans then try to shrink just like we used to do for "+ve" values
+            while (!q.empty() && prefixSum[j] - prefixSum[q.front()] >= target) {
+                ans = min(ans, j - q.front());
+                q.pop_front();
+            }
+
+            // while (!q.empty() && prefixSum[j] <= prefixSum[q.back()]) {
+            //     q.pop_back();
+            // }
+
+            q.push_back(j);
+            j++;
+        }
+
+        return ans <= n ? ans : 0;
+    }
+};
+
+"""
 
 # Related Q:
 # 1) "209. Minimum Size Subarray Sum"

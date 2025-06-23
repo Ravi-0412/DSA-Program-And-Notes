@@ -30,7 +30,71 @@ class Solution:
             mn = min(mn, tempAns)
         return mn
 
-# method 2: 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int minCost(int n, int[] cuts) {
+        List<Integer> list = new ArrayList<>();
+        for (int cut : cuts) list.add(cut);
+        list.add(0);
+        list.add(n);
+        Collections.sort(list);
+        int l = list.size();
+        return helper(list, 1, l - 1);  // first valied -> 1 and first invalid -> l - 1
+                                        // first_invalid - (1st_valid - 1)  will give length after each cut.
+    }
+
+    public int helper(List<Integer> cuts, int i, int j) {
+        if (i == j)
+            return 0;
+        int mn = Integer.MAX_VALUE;
+        for (int k = i; k < j; k++) {
+            int tempAns = helper(cuts, i, k) + helper(cuts, k + 1, j) + cuts.get(j) - cuts.get(i - 1);
+            // int tempAns = helper(cuts, i, k - 1) + helper(cuts, k + 1, j) + cuts[j] - cuts[i - 1];
+            // i was writing this. last range should be invalid only and writing 'k-1' will make valid
+            mn = Math.min(mn, tempAns);
+        }
+        return mn;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+#include <climits>
+using namespace std;
+
+class Solution {
+public:
+    int minCost(int n, vector<int>& cuts) {
+        cuts.push_back(0);
+        cuts.push_back(n);
+        sort(cuts.begin(), cuts.end());
+        int l = cuts.size();
+        return helper(cuts, 1, l - 1);  // first valied -> 1 and first invalid -> l - 1
+                                       // first_invalid - (1st_valid - 1)  will give length after each cut.
+    }
+
+    int helper(vector<int>& cuts, int i, int j) {
+        if (i == j)
+            return 0;
+        int mn = INT_MAX;
+        for (int k = i; k < j; ++k) {
+            int tempAns = helper(cuts, i, k) + helper(cuts, k + 1, j) + cuts[j] - cuts[i - 1];
+            // int tempAns = helper(cuts, i, k - 1) + helper(cuts, k + 1, j) + cuts[j] - cuts[i - 1];
+            // i was writing this. last range should be invalid only and writing 'k-1' will make valid
+            mn = min(mn, tempAns);
+        }
+        return mn;
+    }
+};
+"""
+
+# method 2:
 # memoization
 class Solution:
     def minCost(self, n: int, cuts: List[int]) -> int:
@@ -53,6 +117,78 @@ class Solution:
         dp[i][j]= mn
         return dp[i][j]
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int minCost(int n, int[] cutArray) {
+        List<Integer> cuts = new ArrayList<>();
+        for (int c : cutArray) cuts.add(c);
+        cuts.add(0);
+        cuts.add(n);
+        Collections.sort(cuts);
+        int l = cuts.size();
+
+        int[][] dp = new int[l][l];
+        for (int[] row : dp) Arrays.fill(row, -1);
+
+        return helper(cuts, 1, l - 1, dp);
+    }
+
+    public int helper(List<Integer> cuts, int i, int j, int[][] dp) {
+        if (i == j)
+            return 0;
+        if (dp[i][j] != -1)
+            return dp[i][j];
+
+        int mn = Integer.MAX_VALUE;
+        for (int k = i; k < j; k++) {
+            int tempAns = helper(cuts, i, k, dp) + helper(cuts, k + 1, j, dp) + cuts.get(j) - cuts.get(i - 1);
+            mn = Math.min(mn, tempAns);
+        }
+
+        dp[i][j] = mn;
+        return dp[i][j];
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+#include <climits>
+using namespace std;
+
+class Solution {
+public:
+    int minCost(int n, vector<int>& cuts) {
+        cuts.push_back(0);
+        cuts.push_back(n);
+        sort(cuts.begin(), cuts.end());
+        int l = cuts.size();
+        vector<vector<int>> dp(l, vector<int>(l, -1));
+        return helper(cuts, 1, l - 1, dp);
+    }
+
+    int helper(vector<int>& cuts, int i, int j, vector<vector<int>>& dp) {
+        if (i == j)
+            return 0;
+        if (dp[i][j] != -1)
+            return dp[i][j];
+
+        int mn = INT_MAX;
+        for (int k = i; k < j; ++k) {
+            int tempAns = helper(cuts, i, k, dp) + helper(cuts, k + 1, j, dp) + cuts[j] - cuts[i - 1];
+            mn = min(mn, tempAns);
+        }
+
+        dp[i][j] = mn;
+        return dp[i][j];
+    }
+};
+"""
 
 # Method 3: 
 # Tabulation
@@ -73,3 +209,66 @@ class Solution:
         return dp[1][l-1]
 
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int minCost(int n, int[] cutArray) {
+        List<Integer> cuts = new ArrayList<>();
+        for (int c : cutArray) cuts.add(c);
+        cuts.add(0);
+        cuts.add(n);
+        Collections.sort(cuts);
+
+        int l = cuts.size();
+        int[][] dp = new int[l][l];  // already get initialised with base case
+
+        for (int i = l - 2; i > 0; --i) {  // from last valid one to first valid one
+            for (int j = i + 1; j < l; ++j) {  // for valid one 'j' must be greater than 'i' i.e 'j' should go till 'l-1'
+                int mn = Integer.MAX_VALUE;
+                for (int k = i; k < j; ++k) {
+                    int tempAns = dp[i][k] + dp[k + 1][j] + cuts.get(j) - cuts.get(i - 1);
+                    mn = Math.min(mn, tempAns);
+                }
+                dp[i][j] = mn;
+            }
+        }
+
+        return dp[1][l - 1];
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+#include <climits>
+using namespace std;
+
+class Solution {
+public:
+    int minCost(int n, vector<int>& cuts) {
+        cuts.push_back(0);
+        cuts.push_back(n);
+        sort(cuts.begin(), cuts.end());
+
+        int l = cuts.size();
+        vector<vector<int>> dp(l, vector<int>(l, 0));  // already get initialised with base case
+
+        for (int i = l - 2; i > 0; --i) {  // from last valid one to first valid one
+            for (int j = i + 1; j < l; ++j) {  // for valid one 'j' must be greater than 'i' i.e 'j' should go till 'l-1'
+                int mn = INT_MAX;
+                for (int k = i; k < j; ++k) {
+                    int tempAns = dp[i][k] + dp[k + 1][j] + cuts[j] - cuts[i - 1];
+                    mn = min(mn, tempAns);
+                }
+                dp[i][j] = mn;
+            }
+        }
+
+        return dp[1][l - 1];
+    }
+};
+"""

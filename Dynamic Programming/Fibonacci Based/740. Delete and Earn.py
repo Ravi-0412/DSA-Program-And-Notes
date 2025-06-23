@@ -40,6 +40,82 @@ class Solution:
 
         return solve(0)
 
+# Java Code 
+"""
+import java.util.*;
+
+public class Solution {
+    public int deleteAndEarn(int[] nums) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        for (int num : nums)
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
+
+        Set<Integer> uniqueSet = new HashSet<>();
+        for (int num : nums)
+            uniqueSet.add(num);
+
+        List<Integer> sortedNums = new ArrayList<>(uniqueSet);
+        Collections.sort(sortedNums);
+
+        return solve(0, sortedNums, freq);
+    }
+
+    private int solve(int i, List<Integer> nums, Map<Integer, Integer> freq) {
+        int n = nums.size();
+        if (i >= n)
+            return 0;
+
+        int notTake = solve(i + 1, nums, freq);
+        int take = freq.get(nums.get(i)) * nums.get(i);
+        if (i + 1 < n && nums.get(i + 1) != nums.get(i) + 1)
+            take += solve(i + 1, nums, freq);
+        else
+            take += solve(i + 2, nums, freq);
+
+        return Math.max(take, notTake);
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+#include <set>
+#include <algorithm>
+
+class Solution {
+public:
+    int deleteAndEarn(std::vector<int>& nums) {
+        std::unordered_map<int, int> freq;
+        for (int num : nums)
+            freq[num]++;
+
+        std::set<int> uniqueSet(nums.begin(), nums.end());
+        std::vector<int> sortedNums(uniqueSet.begin(), uniqueSet.end());
+
+        return solve(0, sortedNums, freq);
+    }
+
+private:
+    int solve(int i, const std::vector<int>& nums, std::unordered_map<int, int>& freq) {
+        int n = nums.size();
+        if (i >= n)
+            return 0;
+
+        int notTake = solve(i + 1, nums, freq);
+        int take = freq[nums[i]] * nums[i];
+
+        if (i + 1 < n && nums[i + 1] != nums[i] + 1)
+            take += solve(i + 1, nums, freq);
+        else
+            take += solve(i + 2, nums, freq);
+
+        return std::max(take, notTake);
+    }
+};
+"""
+
 # Method 2: 
 #Memoisation
 #time: O(n) (logn for soritng), space : O(n)
@@ -69,6 +145,91 @@ class Solution:
 
         return solve(0)
 
+# Java Code 
+"""
+import java.util.*;
+
+public class Solution {
+    public int deleteAndEarn(int[] nums) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        for (int num : nums)
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
+
+        Set<Integer> uniqueSet = new HashSet<>();
+        for (int num : nums)
+            uniqueSet.add(num);
+
+        List<Integer> sortedNums = new ArrayList<>(uniqueSet);
+        Collections.sort(sortedNums);
+        int n = sortedNums.size();
+
+        int[] dp = new int[n];  // memoization array
+        Arrays.fill(dp, -1);
+
+        return solve(0, sortedNums, freq, dp);
+    }
+
+    private int solve(int i, List<Integer> nums, Map<Integer, Integer> freq, int[] dp) {
+        if (i >= nums.size())
+            return 0;
+        if (dp[i] != -1)
+            return dp[i];
+
+        int notTake = solve(i + 1, nums, freq, dp);
+        int take = freq.get(nums.get(i)) * nums.get(i);
+        if (i + 1 < nums.size() && nums.get(i + 1) != nums.get(i) + 1)
+            take += solve(i + 1, nums, freq, dp);
+        else
+            take += solve(i + 2, nums, freq, dp);
+
+        dp[i] = Math.max(take, notTake);
+        return dp[i];
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+#include <set>
+#include <algorithm>
+
+class Solution {
+public:
+    int deleteAndEarn(std::vector<int>& nums) {
+        std::unordered_map<int, int> freq;
+        for (int num : nums)
+            freq[num]++;
+
+        std::set<int> uniqueSet(nums.begin(), nums.end());
+        std::vector<int> sortedNums(uniqueSet.begin(), uniqueSet.end());
+        int n = sortedNums.size();
+
+        std::vector<int> dp(n, -1);  // memoization array
+        return solve(0, sortedNums, freq, dp);
+    }
+
+private:
+    int solve(int i, const std::vector<int>& nums,
+              std::unordered_map<int, int>& freq, std::vector<int>& dp) {
+        if (i >= nums.size())
+            return 0;
+        if (dp[i] != -1)
+            return dp[i];
+
+        int notTake = solve(i + 1, nums, freq, dp);
+        int take = freq[nums[i]] * nums[i];
+        if (i + 1 < nums.size() && nums[i + 1] != nums[i] + 1)
+            take += solve(i + 1, nums, freq, dp);
+        else
+            take += solve(i + 2, nums, freq, dp);
+
+        dp[i] = std::max(take, notTake);
+        return dp[i];
+    }
+};
+"""
 
 # Method 3: 
 # Tabulation
@@ -92,3 +253,77 @@ class Solution:
             dp[i] = max(take, notTake)
 
         return dp[0]
+
+# Java Code 
+"""
+import java.util.*;
+
+public class Solution {
+    public int deleteAndEarn(int[] nums) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        for (int num : nums)
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
+
+        Set<Integer> uniqueSet = new HashSet<>();
+        for (int num : nums)
+            uniqueSet.add(num);
+
+        List<Integer> sortedNums = new ArrayList<>(uniqueSet);
+        Collections.sort(sortedNums);
+        int n = sortedNums.size();
+
+        int[] dp = new int[n + 2];  // Extra space for bounds
+
+        for (int i = n - 1; i >= 0; i--) {
+            int notTake = dp[i + 1];
+            int take = freq.get(sortedNums.get(i)) * sortedNums.get(i);
+
+            if (i + 1 < n && sortedNums.get(i + 1) != sortedNums.get(i) + 1)
+                take += dp[i + 1];
+            else
+                take += dp[i + 2];
+
+            dp[i] = Math.max(take, notTake);
+        }
+
+        return dp[0];
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+#include <set>
+#include <algorithm>
+
+class Solution {
+public:
+    int deleteAndEarn(std::vector<int>& nums) {
+        std::unordered_map<int, int> freq;
+        for (int num : nums)
+            freq[num]++;
+
+        std::set<int> uniqueSet(nums.begin(), nums.end());
+        std::vector<int> sortedNums(uniqueSet.begin(), uniqueSet.end());
+        int n = sortedNums.size();
+
+        std::vector<int> dp(n + 2, 0);  // Extra space for bounds
+
+        for (int i = n - 1; i >= 0; --i) {
+            int notTake = dp[i + 1];
+            int take = freq[sortedNums[i]] * sortedNums[i];
+
+            if (i + 1 < n && sortedNums[i + 1] != sortedNums[i] + 1)
+                take += dp[i + 1];
+            else
+                take += dp[i + 2];
+
+            dp[i] = std::max(take, notTake);
+        }
+
+        return dp[0];
+    }
+};
+"""

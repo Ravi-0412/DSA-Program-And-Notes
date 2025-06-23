@@ -84,3 +84,157 @@ class Solution:
         arr.insert(left, val)
 
 
+# Java Code
+"""
+import java.util.*;
+
+class Solution {
+    public int maxSumSubmatrix(int[][] matrix, int k) {
+        int row = matrix.length, col = matrix[0].length;
+        int maxSum = Integer.MIN_VALUE;
+
+        for (int start = 0; start < col; start++) {
+            int[] sum = new int[row];
+            for (int end = start; end < col; end++) {
+                for (int r = 0; r < row; r++) {
+                    sum[r] += matrix[r][end];
+                }
+                // now find the maximum sum for current joined rows rectangle like Kadane Algo
+                int currSum = MaximumSumSubArray(sum, k);
+                maxSum = Math.max(currSum, maxSum);
+            }
+        }
+        return maxSum;
+    }
+
+    public int MaximumSumSubArray(int[] arr, int k) {
+        int right = 0;  // will store the currsum for all index like 0,1,2...
+        List<Integer> seen = new ArrayList<>();
+        seen.add(0);  // will store the curr sum i.e 'right' in sorted order
+        int ans = Integer.MIN_VALUE;
+
+        for (int i = 0; i < arr.length; i++) {
+            right += arr[i];
+            // After each curSum (right), find the smallest value of sum of left side say 'left' such that 'left >= right - k'.
+            // Indirectly telling us to find the ceiling value of 'right - k'.
+            Integer left = Ceiling(seen, right - k);
+            if (left != null) {
+                ans = Math.max(ans, right - left);  // ans will be equal to 'right - left'
+            }
+            // Insert 'right' into 'seen' in sorted order (like TreeSet or SortedList)
+            insertSorted(seen, right);
+        }
+
+        return ans;
+    }
+
+    // We have to find the smallest value >= than 'key'
+    public Integer Ceiling(List<Integer> arr, int key) {
+        int left = 0, right = arr.size() - 1;
+        Integer res = null;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (arr.get(mid) >= key) {
+                res = arr.get(mid);
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return res;
+    }
+
+    // Insert value in sorted list using binary search
+    public void insertSorted(List<Integer> arr, int val) {
+        int left = 0, right = arr.size();
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (arr.get(mid) < val)
+                left = mid + 1;
+            else
+                right = mid;
+        }
+        arr.add(left, val);
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <climits>
+using namespace std;
+
+class Solution {
+public:
+    int maxSumSubmatrix(vector<vector<int>>& matrix, int k) {
+        int row = matrix.size(), col = matrix[0].size();
+        int maxSum = INT_MIN;
+
+        for (int start = 0; start < col; ++start) {
+            vector<int> sum(row, 0);
+            for (int end = start; end < col; ++end) {
+                for (int r = 0; r < row; ++r) {
+                    sum[r] += matrix[r][end];
+                }
+                // now find the maximum sum for current joined rows rectangle like Kadane Algo
+                int currSum = MaximumSumSubArray(sum, k);
+                maxSum = max(maxSum, currSum);
+            }
+        }
+        return maxSum;
+    }
+
+    int MaximumSumSubArray(vector<int>& arr, int k) {
+        int right = 0;  // will store the currsum for all index like 0,1,2...
+        vector<int> seen = {0};  // will store the curr sum i.e 'right' in sorted order
+        int ans = INT_MIN;
+
+        for (int i = 0; i < arr.size(); ++i) {
+            right += arr[i];
+            // After each curSum (right), find the smallest value of sum of left side say 'left' such that 'left >= right - k'.
+            // Indirectly telling us to find the ceiling value of 'right - k'.
+            auto it = Ceiling(seen, right - k);
+            if (it != seen.end()) {  // means if we have seen this difference then update the ans
+                ans = max(ans, right - *it);  // ans will be equal to 'right - left'
+            }
+            // Insert 'right' into 'seen' in sorted order (like TreeSet or SortedList)
+            insertSorted(seen, right);
+        }
+
+        return ans;
+    }
+
+    // We have to find the smallest value >= than 'key'
+    vector<int>::iterator Ceiling(vector<int>& arr, int key) {
+        int left = 0, right = arr.size() - 1;
+        int idx = arr.size();
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (arr[mid] >= key) {
+                idx = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return arr.begin() + idx;
+    }
+
+    // Insert value in sorted list using binary search
+    void insertSorted(vector<int>& arr, int val) {
+        int left = 0, right = arr.size();
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (arr[mid] < val)
+                left = mid + 1;
+            else
+                right = mid;
+        }
+        arr.insert(arr.begin() + left, val);
+    }
+};
+"""
+
+# used python library
+# https://www.geeksforgeeks.org/python-sorted-containers-an-introduction/
+# https://www.geeksforgeeks.org/bisect-algorithm-functions-in-python/

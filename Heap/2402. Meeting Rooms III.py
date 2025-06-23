@@ -58,3 +58,114 @@ class Solution:
                 heapq.heappush(occupied_rooms, [newEnd, room])
 
         return meetingCount.index(max(meetingCount))
+
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int mostBooked(int n, int[][] meetings) {
+        Arrays.sort(meetings, Comparator.comparingInt(a -> a[0])); // sort the meeting acc to start time
+
+        PriorityQueue<Integer> availableRooms = new PriorityQueue<>(); // to get the lowest room among all available rooms (MinHeap)
+        for (int i = 0; i < n; i++) availableRooms.offer(i); // initially all rooms will be available
+
+        PriorityQueue<long[]> occupiedRooms = new PriorityQueue<>(Comparator.comparingLong(a -> a[0]));
+        // [end_time, room_index]. MinHeap to get the meeting with lowest ending time
+
+        int[] meetingCount = new int[n]; // will store the no of meetings scheduled in any room
+
+        // For every meeting check all available rooms
+        for (int[] meeting : meetings) {
+            int start = meeting[0], end = meeting[1];
+
+            // check all occupied rooms where we can execute this meeting
+            // if ending time of occupied_time is <= start. (= because of half interval i.e [start, end) )
+            while (!occupiedRooms.isEmpty() && occupiedRooms.peek()[0] <= start) {
+                long[] roomInfo = occupiedRooms.poll();
+                availableRooms.offer((int) roomInfo[1]); // Remove that room and add this room no into available one
+            }
+
+            // Execute the current meeting into :
+            // 1) if any room is available. First will try to execute into available room
+            if (!availableRooms.isEmpty()) {
+                int room = availableRooms.poll(); // execute this in lowest possible room number
+                meetingCount[room]++;
+                occupiedRooms.offer(new long[]{end, room}); // this room will be occupied till 'end'
+            } else {
+                long[] roomInfo = occupiedRooms.poll(); // room which will get available first
+                long curEnd = roomInfo[0];
+                int room = (int) roomInfo[1];
+                meetingCount[room]++;
+                long newEnd = curEnd + (end - start); // current room will be occupied till curEnd + meeting duration
+                occupiedRooms.offer(new long[]{newEnd, room}); // add the room again into occupied one
+            }
+        }
+
+        int maxMeetings = 0, resultRoom = 0;
+        for (int i = 0; i < n; i++) {
+            if (meetingCount[i] > maxMeetings) {
+                maxMeetings = meetingCount[i];
+                resultRoom = i;
+            }
+        }
+        return resultRoom;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int mostBooked(int n, vector<vector<int>>& meetings) {
+        sort(meetings.begin(), meetings.end()); // sort the meeting acc to start time
+
+        priority_queue<int, vector<int>, greater<>> availableRooms; // minHeap to get the lowest room
+        for (int i = 0; i < n; ++i) availableRooms.push(i); // initially all rooms available
+
+        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> occupiedRooms;
+        // [end_time, room_index]. MinHeap to get the meeting with lowest ending time
+
+        vector<int> meetingCount(n, 0); // no. of meetings in each room
+
+        for (auto& meeting : meetings) {
+            int start = meeting[0], end = meeting[1];
+
+            // free up rooms whose end_time <= current meeting start time
+            while (!occupiedRooms.empty() && occupiedRooms.top().first <= start) {
+                int room = occupiedRooms.top().second;
+                occupiedRooms.pop();
+                availableRooms.push(room);
+            }
+
+            if (!availableRooms.empty()) {
+                int room = availableRooms.top(); availableRooms.pop(); // lowest available room
+                meetingCount[room]++;
+                occupiedRooms.push({end, room});
+            } else {
+                auto [curEnd, room] = occupiedRooms.top(); occupiedRooms.pop();
+                meetingCount[room]++;
+                long long newEnd = curEnd + (end - start);
+                occupiedRooms.push({newEnd, room});
+            }
+        }
+
+        int maxCount = 0, resultRoom = 0;
+        for (int i = 0; i < n; ++i) {
+            if (meetingCount[i] > maxCount) {
+                maxCount = meetingCount[i];
+                resultRoom = i;
+            }
+        }
+
+        return resultRoom;
+    }
+};
+"""

@@ -28,7 +28,82 @@ class Solution:
                 ans += prices[i] - purchased
             purchased = prices[i]
         return ans
-    
+
+# Java Code 
+"""
+class Solution {
+    public int maxProfit(int[] prices) {
+        int ans = 0;
+        int purchased = prices[0];
+        for (int i = 0; i < prices.length; i++) {
+            if (prices[i] > purchased) {
+                // Sell
+                ans += prices[i] - purchased;
+                purchased = prices[i];  // and again buy on same day
+            } else {
+                purchased = prices[i];  // Purchase at lower price
+            }
+        }
+        return ans;
+    }
+}
+// combining if & else
+class Solution {
+    public int maxProfit(int[] prices) {
+        int ans = 0;
+        int purchased = prices[0];
+        for (int i = 0; i < prices.length; i++) {
+            if (prices[i] > purchased) {
+                ans += prices[i] - purchased;
+            }
+            purchased = prices[i];  // always update purchase price
+        }
+        return ans;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int ans = 0;
+        int purchased = prices[0];
+        for (int i = 0; i < prices.size(); ++i) {
+            if (prices[i] > purchased) {
+                // Sell
+                ans += prices[i] - purchased;
+                purchased = prices[i];  // and again buy on same day
+            } else {
+                purchased = prices[i];  // Purchase at lower price
+            }
+        }
+        return ans;
+    }
+};
+// combining if & else
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int ans = 0;
+        int purchased = prices[0];
+        for (int i = 0; i < prices.size(); ++i) {
+            if (prices[i] > purchased) {
+                ans += prices[i] - purchased;
+            }
+            purchased = prices[i];  // always update purchase price
+        }
+        return ans;
+    }
+};
+"""
+
 # Method 2: 
 # When we will see what exactly we are doing above is : finding the sum of diff between 'i' and 'i-1' element.
 
@@ -51,6 +126,63 @@ def maxProfit(self, prices: List[int]) -> int:
             profit+= max((prices[i]- prices[i-1]), 0)
         return profit
 
+# Java Code 
+"""
+class Solution {
+    public int maxProfit(int[] prices) {
+        int profit = 0;
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] > prices[i - 1]) {  // prices has increased so sell the last day purchased stock today
+                profit += prices[i] - prices[i - 1];
+            }
+        }
+        return profit;
+    }
+}
+// shorter way of writing above code
+class Solution {
+    public int maxProfit(int[] prices) {
+        int profit = 0;
+        for (int i = 1; i < prices.length; i++) {
+            profit += Math.max(prices[i] - prices[i - 1], 0);  // accumulate only upward profits
+        }
+        return profit;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int profit = 0;
+        for (int i = 1; i < prices.size(); ++i) {
+            if (prices[i] > prices[i - 1]) {  // prices has increased so sell the last day purchased stock today
+                profit += prices[i] - prices[i - 1];
+            }
+        }
+        return profit;
+    }
+};
+// shorter way of writing above code
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int profit = 0;
+        for (int i = 1; i < prices.size(); ++i) {
+            profit += max(prices[i] - prices[i - 1], 0);  // accumulate only upward profits
+        }
+        return profit;
+    }
+};
+"""
 
 # Method 3: DP
 
@@ -105,6 +237,70 @@ class Solution:
             return max(-prices[ind] + self.helper(prices, ind+1, False), 0+ self.helper(prices, ind+1, True))
         return max(prices[ind] + self.helper(prices, ind+1, True), 0+ self.helper(prices, ind+1, False))
 
+# Java Code 
+"""
+class Solution {
+    public int maxProfit(int[] prices) {
+        return helper(prices, 0, true);  // 2nd parameter is index, 3rd tells if buying is allowed
+        // Without index, we can also do by slicing one element each time and for base case check if prices is empty
+    }
+
+    public int helper(int[] prices, int ind, boolean buy) {
+        if (ind == prices.length)
+            return 0;
+
+        // If buying is allowed then we have two choices: 1) buy 2) don't buy
+        // While buying, you are investing, so subtract and make buy = false
+        if (buy) {
+            return Math.max(
+                -prices[ind] + helper(prices, ind + 1, false),
+                 0 + helper(prices, ind + 1, true)
+            );
+        } else {
+            // If buying is not allowed (only sell is allowed) then we have two choices: 1) sell today 2) don't sell
+            return Math.max(
+                prices[ind] + helper(prices, ind + 1, true),
+                0 + helper(prices, ind + 1, false)
+            );
+        }
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        return helper(prices, 0, true);  // 2nd parameter is index, 3rd tells if buying is allowed
+        // Without index, we can also do by slicing one element each time and for base case check if prices is empty
+    }
+
+    int helper(vector<int>& prices, int ind, bool buy) {
+        if (ind == prices.size())
+            return 0;
+
+        // If buying is allowed then we have two choices: 1) buy 2) don't buy
+        // While buying, you are investing, so subtract and make buy = false
+        if (buy) {
+            return max(
+                -prices[ind] + helper(prices, ind + 1, false),
+                 0 + helper(prices, ind + 1, true)
+            );
+        } else {
+            // If buying is not allowed (only sell is allowed) then we have two choices: 1) sell today 2) don't sell
+            return max(
+                prices[ind] + helper(prices, ind + 1, true),
+                0 + helper(prices, ind + 1, false)
+            );
+        }
+    }
+};
+"""
+
 # By memoization. time: O(n*2)= space
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
@@ -128,6 +324,87 @@ class Solution:
         dp[ind][buy]= profit
         return dp[ind][buy]
 
+# Java Code 
+"""
+class Solution {
+    public int maxProfit(int[] prices) {
+        int n = prices.length;
+        int[][] dp = new int[n][2];  // dp[ind][buy] where buy = 1 (can buy) or 0 (can't buy)
+        for (int i = 0; i < n; i++) {
+            dp[i][0] = -1;
+            dp[i][1] = -1;
+        }
+        return helper(prices, 0, 1, dp);  // 2nd param is index, 3rd indicates if buying is allowed
+    }
+
+    public int helper(int[] prices, int ind, int buy, int[][] dp) {
+        if (ind == prices.length)
+            return 0;
+
+        if (dp[ind][buy] != -1)
+            return dp[ind][buy];
+
+        int profit = 0;
+        if (buy == 1) {
+            // buying is allowed → choices: buy or skip
+            profit = Math.max(
+                -prices[ind] + helper(prices, ind + 1, 0, dp),
+                 0 + helper(prices, ind + 1, 1, dp)
+            );
+        } else {
+            // buying not allowed (must sell or skip)
+            profit = Math.max(
+                prices[ind] + helper(prices, ind + 1, 1, dp),
+                 0 + helper(prices, ind + 1, 0, dp)
+            );
+        }
+
+        dp[ind][buy] = profit;
+        return profit;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        vector<vector<int>> dp(n, vector<int>(2, -1));  // dp[ind][buy]
+        return helper(prices, 0, 1, dp);  // 2nd param is index, 3rd indicates if buying is allowed
+    }
+
+    int helper(vector<int>& prices, int ind, int buy, vector<vector<int>>& dp) {
+        if (ind == prices.size())
+            return 0;
+
+        if (dp[ind][buy] != -1)
+            return dp[ind][buy];
+
+        int profit = 0;
+        if (buy == 1) {
+            // buying is allowed → choices: buy or skip
+            profit = max(
+                -prices[ind] + helper(prices, ind + 1, 0, dp),
+                 0 + helper(prices, ind + 1, 1, dp)
+            );
+        } else {
+            // buying not allowed → choices: sell or skip
+            profit = max(
+                prices[ind] + helper(prices, ind + 1, 1, dp),
+                 0 + helper(prices, ind + 1, 0, dp)
+            );
+        }
+
+        dp[ind][buy] = profit;
+        return profit;
+    }
+};
+"""
 # other way that will work always and easy nothing to think
 # range of variable changing including base case is: for ind, from '0' to 'n' and for buy-> 2 values.
 # so make 2d array with size acc ro this only and update the ans when you get. this will cover also the base case
@@ -154,6 +431,92 @@ class Solution:
         return dp[ind][buy]
 
 
+# Java Code 
+"""
+class Solution {
+    public int maxProfit(int[] prices) {
+        int n = prices.length;
+        int[][] dp = new int[n + 1][2];  // dp[ind][buy]
+        for (int i = 0; i <= n; i++) {
+            dp[i][0] = -1;
+            dp[i][1] = -1;
+        }
+        return helper(prices, 0, 1, dp);  // 2nd parameter is ind, 3rd tells buying is allowed or not
+        // Without index, we can also do by slicing one element each time and for base case check if prices is empty
+    }
+
+    public int helper(int[] prices, int ind, int buy, int[][] dp) {
+        if (ind == prices.length)
+            return 0;
+
+        int profit = 0;
+        if (dp[ind][buy] != -1)
+            return dp[ind][buy];
+
+        // if buying is allowed then we have two choices. 1) buy 2) don't buy
+        // while buying, you are investing so subtract and make buy = 0
+        if (buy == 1) {
+            profit = Math.max(
+                -prices[ind] + helper(prices, ind + 1, 0, dp),
+                 0 + helper(prices, ind + 1, 1, dp)
+            );
+        } else {
+            // if buying is not allowed then we have two choices. 1) sell today 2) don't sell today
+            profit = Math.max(
+                prices[ind] + helper(prices, ind + 1, 1, dp),
+                 0 + helper(prices, ind + 1, 0, dp)
+            );
+        }
+
+        dp[ind][buy] = profit;
+        return dp[ind][buy];
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        vector<vector<int>> dp(n + 1, vector<int>(2, -1));  // dp[ind][buy]
+        return helper(prices, 0, 1, dp);  // 2nd parameter is ind, 3rd tells buying is allowed or not
+        // Without index, we can also do by slicing one element each time and for base case check if prices is empty
+    }
+
+    int helper(vector<int>& prices, int ind, int buy, vector<vector<int>>& dp) {
+        if (ind == prices.size())
+            return 0;
+
+        int profit = 0;
+        if (dp[ind][buy] != -1)
+            return dp[ind][buy];
+
+        // if buying is allowed then we have two choices. 1) buy 2) don't buy
+        // while buying, you are investing so subtract and make buy = 0
+        if (buy == 1) {
+            profit = max(
+                -prices[ind] + helper(prices, ind + 1, 0, dp),
+                 0 + helper(prices, ind + 1, 1, dp)
+            );
+        } else {
+            // if buying is not allowed then we have two choices. 1) sell today 2) don't sell today
+            profit = max(
+                prices[ind] + helper(prices, ind + 1, 1, dp),
+                 0 + helper(prices, ind + 1, 0, dp)
+            );
+        }
+
+        dp[ind][buy] = profit;
+        return dp[ind][buy];
+    }
+};
+"""
+
 # Top Down
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
@@ -170,6 +533,64 @@ class Solution:
                     profit= max(prices[ind] + dp[ind+1][1], 0+ dp[ind+1][0])
                 dp[ind][buy]= profit
         return dp[0][1]  # you have called the function for (0,1) so at last return that
+
+# Java Code 
+"""
+class Solution {
+    public int maxProfit(int[] prices) {
+        int n = prices.length;
+        int[][] dp = new int[n + 1][2];
+
+        // for easier just write the variable name in loop same as variable changing in recursive call
+        for (int ind = n - 1; ind >= 0; ind--) {
+            for (int buy = 0; buy <= 1; buy++) {
+                // now just copy-paste the recursive code and replace recursive call by dp,
+                // seeing the variable value inside the recursive call
+                int profit = 0;
+                if (buy == 1) {
+                    profit = Math.max(-prices[ind] + dp[ind + 1][0], 0 + dp[ind + 1][1]);
+                } else {
+                    profit = Math.max(prices[ind] + dp[ind + 1][1], 0 + dp[ind + 1][0]);
+                }
+                dp[ind][buy] = profit;
+            }
+        }
+
+        return dp[0][1];  // you have called the function for (0, 1) so at last return that
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        vector<vector<int>> dp(n + 1, vector<int>(2, 0));
+
+        // for easier just write the variable name in loop same as variable changing in recursive call
+        for (int ind = n - 1; ind >= 0; --ind) {
+            for (int buy = 0; buy <= 1; ++buy) {
+                // now just copy-paste the recursive code and replace recursive call by dp,
+                // seeing the variable value inside the recursive call
+                int profit = 0;
+                if (buy == 1) {
+                    profit = max(-prices[ind] + dp[ind + 1][0], 0 + dp[ind + 1][1]);
+                } else {
+                    profit = max(prices[ind] + dp[ind + 1][1], 0 + dp[ind + 1][0]);
+                }
+                dp[ind][buy] = profit;
+            }
+        }
+
+        return dp[0][1];  // you have called the function for (0, 1) so at last return that
+    }
+};
+"""
 
 # optimising space: 
 # for calculating the value in curr row we are dependent only on pre row values and each row there is only two ele.
@@ -191,45 +612,60 @@ class Solution:
         return pre[1]  
 
 
-# java
-# memoisation
+# Java Code 
 """
 class Solution {
     public int maxProfit(int[] prices) {
         int n = prices.length;
-        int[][] dp = new int[n][2];
-        
-        // Initialize dp array with -1 (equivalent to -1 in the Python solution)
-        for (int i = 0; i < n; i++) {
-            dp[i][0] = -1;
-            dp[i][1] = -1;
-        }
-        
-        return helper(prices, 0, 1, dp);
-    }
+        int[] pre = new int[2];  
 
-    private int helper(int[] prices, int ind, int buy, int[][] dp) {
-        if (ind == prices.length) {
-            return 0;
-        }
-
-        if (dp[ind][buy] != -1) {
-            return dp[ind][buy];
+        for (int ind = n - 1; ind >= 0; ind--) {
+            int[] curr = new int[2];  // current row
+            for (int buy = 0; buy <= 1; buy++) {
+                int profit = 0;
+                if (buy == 1) {
+                    profit = Math.max(-prices[ind] + pre[0], 0 + pre[1]);
+                } else {
+                    profit = Math.max(prices[ind] + pre[1], 0 + pre[0]);
+                }
+                curr[buy] = profit;
+            }
+            pre = curr.clone();  
         }
 
-        int profit = 0;
-        if (buy == 1) {
-            profit = Math.max(-prices[ind] + helper(prices, ind + 1, 0, dp), 
-                              helper(prices, ind + 1, 1, dp));
-        } else {
-            profit = Math.max(prices[ind] + helper(prices, ind + 1, 1, dp), 
-                              helper(prices, ind + 1, 0, dp));
-        }
-
-        dp[ind][buy] = profit;
-        return profit;
+        return pre[1]; 
     }
 }
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        vector<int> pre(2, 0); 
+
+        for (int ind = n - 1; ind >= 0; --ind) {
+            vector<int> curr(2, 0);  // current row
+            for (int buy = 0; buy <= 1; ++buy) {
+                int profit = 0;
+                if (buy == 1) {
+                    profit = max(-prices[ind] + pre[0], 0 + pre[1]);
+                } else {
+                    profit = max(prices[ind] + pre[1], 0 + pre[0]);
+                }
+                curr[buy] = profit;
+            }
+            pre = curr;  
+        }
+
+        return pre[1];
+    }
+};
 """
 
 # further optimise space to four variable since we only need four variable to calculate the ans

@@ -24,8 +24,61 @@ class Solution:
             mx= max(mx, tempAns)
         return mx
 
+# Java Code 
+"""
+class Solution {
+    public int maxCoins(int[] nums) {
+        List<Integer> list = new ArrayList<>();
+        list.add(1);  // to get the left of first balloons
+        for (int num : nums) list.add(num);
+        list.add(1);  // to get the right of last balloons
+        int n = list.size();
+        int i = 1, j = n - 1;
+        return helper(list, i, j);
+    }
 
-# Correct way 
+    private int helper(List<Integer> nums, int i, int j) {
+        if (i == j)
+            return 0;
+        int mn = Integer.MIN_VALUE;
+        for (int k = i; k < j; k++) {
+            int tempAns = helper(nums, i, k) + helper(nums, k + 1, j) + nums.get(i - 1) * nums.get(k) * nums.get(j);
+            mn = Math.max(mn, tempAns);
+        }
+        return mn;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int maxCoins(vector<int>& nums) {
+        nums.insert(nums.begin(), 1);  // to get the left of first balloons
+        nums.push_back(1);            // to get the right of last balloons
+        int n = nums.size();
+        int i = 1, j = n - 1;
+        return helper(nums, i, j);
+    }
+
+    int helper(vector<int>& nums, int i, int j) {
+        if (i == j)
+            return 0;
+        int mn = INT_MIN;
+        for (int k = i; k < j; ++k) {
+            int tempAns = helper(nums, i, k) + helper(nums, k + 1, j) + nums[i - 1] * nums[k] * nums[j];
+            mn = max(mn, tempAns);
+        }
+        return mn;
+    }
+};
+"""
+
+# Correct way
 # logic: we have to divide the subproblem in such a way that both are independent to each other.
 # by dividing like above, subproblem becomes dependent on each other to find the next left and right balloons which has not been burst yet.
 # so to aolve that we will do by Bottom Up Approach. 
@@ -54,6 +107,64 @@ class Solution:
             mx= max(mx, tempAns)
         return mx
 
+# Java Code 
+"""
+class Solution {
+    public int maxCoins(int[] arr) {
+        List<Integer> nums = new ArrayList<>();
+        nums.add(1);  // to get the left of first balloons
+        for (int val : arr) nums.add(val);
+        nums.add(1);  // to get the right of last balloons
+
+        int n = nums.size();
+        int i = 1, j = n - 2;  // j is passed as last valid so if i==j then still we have to call the rec fn. now both the end is valid
+        return helper(nums, i, j);
+    }
+
+    public int helper(List<Integer> nums, int i, int j) {
+        if (i > j)  // since 'j' was last valid instead of first invalid so base case will change like this(go one step further)
+            return 0;
+        int mx = Integer.MIN_VALUE;
+        for (int k = i; k <= j; ++k) {  // 'j' is inclusive now (last valid)
+            int tempAns = helper(nums, i, k - 1) + helper(nums, k + 1, j) + nums.get(i - 1) * nums.get(k) * nums.get(j + 1);
+            mx = Math.max(mx, tempAns);
+        }
+        return mx;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int maxCoins(vector<int>& arr) {
+        vector<int> nums;
+        nums.push_back(1);  // to get the left of first balloons
+        nums.insert(nums.end(), arr.begin(), arr.end());
+        nums.push_back(1);  // to get the right of last balloons
+
+        int n = nums.size();
+        int i = 1, j = n - 2;  // j is passed as last valid so if i==j then still we have to call the rec fn. now both the end is valid
+        return helper(nums, i, j);
+    }
+
+    int helper(vector<int>& nums, int i, int j) {
+        if (i > j)  // since 'j' was last valid instead of first invalid so base case will change like this(go one step further)
+            return 0;
+
+        int mx = INT_MIN;
+        for (int k = i; k <= j; ++k) {  // 'j' is inclusive now (last valid)
+            int tempAns = helper(nums, i, k - 1) + helper(nums, k + 1, j) + nums[i - 1] * nums[k] * nums[j + 1];
+            mx = max(mx, tempAns);
+        }
+        return mx;
+    }
+};
+"""
 
 # Method 2: 
 # memoization:
@@ -89,7 +200,78 @@ class Solution:
             dp[i][j]= mx
         return dp[i][j]
 
+# Java Code 
+"""
+class Solution {
+    public int maxCoins(int[] arr) {
+        int n = arr.length + 2;
+        int[] nums = new int[n];
+        nums[0] = 1;  // to get the left of first balloons
+        nums[n - 1] = 1;  // to get the right of last balloons
+        for (int i = 0; i < arr.length; i++) {
+            nums[i + 1] = arr[i];
+        }
 
+        int[][] dp = new int[n - 1][n - 1];
+        for (int i = 0; i < n - 1; i++)
+            for (int j = 0; j < n - 1; j++)
+                dp[i][j] = -1;
+
+        return helper(nums, 1, n - 2, dp);  // j is passed as last valid so if i==j then still we have to call the rec fn. now both the end is valid
+    }
+
+    private int helper(int[] nums, int i, int j, int[][] dp) {
+        if (i > j)  // since 'j' was last valid instead of first invalid so base case will change like this(go one step further)
+            return 0;
+        if (dp[i][j] != -1)
+            return dp[i][j];
+        int mx = Integer.MIN_VALUE;
+        for (int k = i; k <= j; k++) {  // 'j' is inclusive now(last valid)
+            int temp = helper(nums, i, k - 1, dp) + helper(nums, k + 1, j, dp) + nums[i - 1] * nums[k] * nums[j + 1];
+            mx = Math.max(mx, temp);
+            dp[i][j] = mx;
+        }
+        return dp[i][j];
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <climits>
+using namespace std;
+
+class Solution {
+public:
+    int maxCoins(vector<int>& arr) {
+        int n = arr.size() + 2;
+        vector<int> nums(n);
+        nums[0] = 1;  // to get the left of first balloons
+        nums[n - 1] = 1;  // to get the right of last balloons
+        for (int i = 0; i < arr.size(); ++i) {
+            nums[i + 1] = arr[i];
+        }
+
+        vector<vector<int>> dp(n - 1, vector<int>(n - 1, -1));
+        return helper(nums, 1, n - 2, dp);  // j is passed as last valid so if i==j then still we have to call the rec fn. now both the end is valid
+    }
+
+private:
+    int helper(vector<int>& nums, int i, int j, vector<vector<int>>& dp) {
+        if (i > j)  // since 'j' was last valid instead of first invalid so base case will change like this(go one step further)
+            return 0;
+        if (dp[i][j] != -1)
+            return dp[i][j];
+        int mx = INT_MIN;
+        for (int k = i; k <= j; ++k) {  // 'j' is inclusive now(last valid)
+            int temp = helper(nums, i, k - 1, dp) + helper(nums, k + 1, j, dp) + nums[i - 1] * nums[k] * nums[j + 1];
+            mx = max(mx, temp);
+            dp[i][j] = mx;
+        }
+        return dp[i][j];
+    }
+};
+"""
 
 # Method 3:
 # Tabulation
@@ -112,4 +294,58 @@ class Solution:
         i, j = 1, n - 2  # 'i' is first valid, 'j' is last valid
         return dp[i][j]
 
+# Java Code 
+"""
+class Solution {
+    public int maxCoins(int[] nums) {
+        int[] newNums = new int[nums.length + 2];
+        newNums[0] = 1;
+        newNums[newNums.length - 1] = 1;
+        System.arraycopy(nums, 0, newNums, 1, nums.length);
 
+        int n = newNums.length;
+        int[][] dp = new int[n][n];  // n x n table, because we use i-1 and j+1
+
+        for (int i = n - 2; i >= 1; i--) {  // i starts from second last valid to 1
+            for (int j = i; j <= n - 2; j++) {  // j is passed as last valid so j >= i
+                int mx = Integer.MIN_VALUE;
+                for (int k = i; k <= j; k++) {  // 'j' is inclusive now (last valid)
+                    int tempAns = dp[i][k - 1] + dp[k + 1][j] + newNums[i - 1] * newNums[k] * newNums[j + 1];
+                    mx = Math.max(mx, tempAns);
+                }
+                dp[i][j] = mx;
+            }
+        }
+
+        int i = 1, j = n - 2;  // 'i' is first valid, 'j' is last valid
+        return dp[i][j];
+    }
+}
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    int maxCoins(vector<int>& nums) {
+        nums.insert(nums.begin(), 1);  // to get the left of first balloons
+        nums.push_back(1);             // to get the right of last balloons
+        int n = nums.size();
+
+        vector<vector<int>> dp(n, vector<int>(n, 0));  // n x n table, because we use i-1 and j+1
+
+        for (int i = n - 2; i >= 1; --i) {  // i starts from second last valid to 1
+            for (int j = i; j <= n - 2; ++j) {  // j is passed as last valid so j >= i
+                int mx = INT_MIN;
+                for (int k = i; k <= j; ++k) {  // 'j' is inclusive now (last valid)
+                    int tempAns = dp[i][k - 1] + dp[k + 1][j] + nums[i - 1] * nums[k] * nums[j + 1];
+                    mx = max(mx, tempAns);
+                }
+                dp[i][j] = mx;
+            }
+        }
+
+        int i = 1, j = n - 2;  // 'i' is first valid, 'j' is last valid
+        return dp[i][j];
+    }
+};
+"""

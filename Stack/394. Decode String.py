@@ -34,6 +34,107 @@ class Solution:
                 stack.append(temp)
         return "".join(stack)
 
+# Java Code 
+"""
+import java.util.Stack;
+
+class Solution {
+    public String decodeString(String s) {
+        Stack<String> stack = new Stack<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) != ']') {
+                // push everything into stack until you see ']'.
+                stack.push(String.valueOf(s.charAt(i)));
+            } else {
+                // means we have seen ']'.
+                // first find the string. So start popping till we find '['.
+                String temp = "";
+                while (!stack.peek().equals("[")) {
+                    temp = stack.pop() + temp;
+                }
+                stack.pop(); // Removing '[' bracket
+
+                // before every '[', there will be a number but this can be of more than one digit.
+                // find the number.
+                String num = "";
+                while (!stack.isEmpty() && Character.isDigit(stack.peek().charAt(0))) {
+                    num = stack.pop() + num;
+                }
+
+                // now multiply 'temp' with 'num' to get the string till one of '[' and put into stack. num will be a string.
+                int repeat = Integer.parseInt(num);
+                StringBuilder repeated = new StringBuilder();
+                for (int j = 0; j < repeat; j++) {
+                    repeated.append(temp);
+                }
+                stack.push(repeated.toString());
+            }
+        }
+
+        // Join everything in the stack to return final string
+        StringBuilder result = new StringBuilder();
+        for (String str : stack) {
+            result.append(str);
+        }
+        return result.toString();
+    }
+}
+"""
+
+# C++ Code
+"""
+#include <string>
+#include <stack>
+using namespace std;
+
+class Solution {
+public:
+    string decodeString(string s) {
+        stack<string> stack;
+
+        for (int i = 0; i < s.length(); ++i) {
+            if (s[i] != ']') {
+                // push everything into stack until you see ']'.
+                stack.push(string(1, s[i]));
+            } else {
+                // means we have seen ']'.
+                // first find the string. So start popping till we find '['.
+                string temp = "";
+                while (!stack.empty() && stack.top() != "[") {
+                    temp = stack.top() + temp;
+                    stack.pop();
+                }
+                stack.pop(); // Removing '[' bracket
+
+                // before every '[', there will be a number but this can be of more than one digit.
+                // find the number.
+                string num = "";
+                while (!stack.empty() && isdigit(stack.top()[0])) {
+                    num = stack.top() + num;
+                    stack.pop();
+                }
+
+                // now multiply 'temp' with 'num' to get the string till one of '[' and put into stack. num will be a string.
+                int repeat = stoi(num);
+                string expanded = "";
+                for (int j = 0; j < repeat; ++j) {
+                    expanded += temp;
+                }
+                stack.push(expanded);
+            }
+        }
+
+        // Join everything in the stack to return final string
+        string result = "";
+        while (!stack.empty()) {
+            result = stack.top() + result;
+            stack.pop();
+        }
+        return result;
+    }
+};
+"""
 # Method 2:
 # Better one. Just similar logic as "772. Basic Calculator III".
 
@@ -70,3 +171,81 @@ class Solution(object):
         
         return current_string
 
+# Java Code 
+"""
+class Solution {
+    public String decodeString(String s) {
+        Stack<String> strStack = new Stack<>();
+        Stack<Integer> numStack = new Stack<>();
+        String current_string = "";
+        int k = 0;
+
+        for (char ch : s.toCharArray()) {
+            if (ch == '[') {
+                // Just finished parsing this k, save current string and k for when we pop
+                strStack.push(current_string);
+                numStack.push(k);
+                // Reset current_string and k for this new frame
+                current_string = "";
+                k = 0;
+            } else if (ch == ']') {
+                // We have completed this frame, get the last current_string and k from when the frame 
+                // opened, which is the k we need to duplicate the current current_string by
+                String last_string = strStack.pop();
+                int last_k = numStack.pop();
+                current_string = last_string + current_string.repeat(last_k);
+                // No need to put current_string into stack.
+            } else if (Character.isDigit(ch)) {
+                k = k * 10 + (ch - '0');
+            } else {
+                current_string += ch;
+            }
+        }
+
+        return current_string;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <string>
+#include <stack>
+using namespace std;
+
+class Solution {
+public:
+    string decodeString(string s) {
+        stack<string> strStack;
+        stack<int> numStack;
+        string current_string = "";
+        int k = 0;
+
+        for (char ch : s) {
+            if (ch == '[') {
+                // Just finished parsing this k, save current string and k for when we pop
+                strStack.push(current_string);
+                numStack.push(k);
+                // Reset current_string and k for this new frame
+                current_string = "";
+                k = 0;
+            } else if (ch == ']') {
+                // We have completed this frame, get the last current_string and k from when the frame 
+                // opened, which is the k we need to duplicate the current current_string by
+                string last_string = strStack.top(); strStack.pop();
+                int last_k = numStack.top(); numStack.pop();
+                string expanded = "";
+                for (int i = 0; i < last_k; ++i) expanded += current_string;
+                current_string = last_string + expanded;
+                // No need to put current_string into stack.
+            } else if (isdigit(ch)) {
+                k = k * 10 + (ch - '0');
+            } else {
+                current_string += ch;
+            }
+        }
+
+        return current_string;
+    }
+};
+"""

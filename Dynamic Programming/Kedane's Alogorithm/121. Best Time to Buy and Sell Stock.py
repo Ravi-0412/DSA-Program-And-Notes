@@ -19,7 +19,55 @@ class Solution:
                 # update the ans.
                 ans= max(ans, num - prices[buyDay])
         return ans
+# Java Code 
+"""
+class Solution {
+    public int maxProfit(int[] prices) {
+        int buyDay = 0;
+        int ans = 0;
 
+        for (int i = 0; i < prices.length; i++) {
+            int num = prices[i];
+            if (num < prices[buyDay]) {
+                // update the buyDay
+                buyDay = i;
+            } else {
+                // update the ans
+                ans = Math.max(ans, num - prices[buyDay]);
+            }
+        }
+
+        return ans;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int buyDay = 0;
+        int ans = 0;
+
+        for (int i = 0; i < prices.size(); ++i) {
+            int num = prices[i];
+            if (num < prices[buyDay]) {
+                // update the buyDay
+                buyDay = i;
+            } else {
+                // update the ans
+                ans = max(ans, num - prices[buyDay]);
+            }
+        }
+
+        return ans;
+    }
+};
+"""
 
 # 3rd method:
 # Above logic only.
@@ -37,44 +85,40 @@ class Solution:
             max_profit= max(max_profit, num- least_so_far)   # keep updating the ans
         return max_profit
 
-
-# java
+# Java Code 
 """
-# Method 2:
-class Solution {
-    public int maxProfit(int[] prices) {
-        int buyDay = 0;
-        int ans = 0;
-        
-        for (int i = 0; i < prices.length; i++) {
-            if (prices[i] < prices[buyDay]) {
-                // update the buyDay
-                buyDay = i;
-            } else {
-                // update the ans
-                ans = Math.max(ans, prices[i] - prices[buyDay]);
-            }
-        }
-        
-        return ans;
-    }
-}
-
-
-# Method 3:
 class Solution {
     public int maxProfit(int[] prices) {
         int maxProfit = 0;
-        int leastSoFar = prices[0];
-        
-        // Iterate through the array
+        int leastSoFar = prices[0];  // least_so_far will always store the minimum price among all till now
+
         for (int num : prices) {
-            // Update leastSoFar to be the minimum price encountered so far
             leastSoFar = Math.min(leastSoFar, num);
-            // Calculate the potential profit and update maxProfit
-            maxProfit = Math.max(maxProfit, num - leastSoFar);
+            maxProfit = Math.max(maxProfit, num - leastSoFar);  // keep updating the ans
         }
+
         return maxProfit;
     }
 }
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int maxProfit = 0;
+        int leastSoFar = prices[0];  // least_so_far will always store the minimum price among all till now
+
+        for (int num : prices) {
+            leastSoFar = min(leastSoFar, num);
+            maxProfit = max(maxProfit, num - leastSoFar);  // keep updating the ans
+        }
+
+        return maxProfit;
+    }
+};
 """

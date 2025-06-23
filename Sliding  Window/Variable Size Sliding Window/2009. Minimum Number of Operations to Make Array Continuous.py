@@ -35,6 +35,55 @@ class Solution:
             ans = min(ans , n - uniqueEle)  
         return ans
 
+# Java Code 
+"""
+class Solution {
+    public int minOperations(int[] nums) {
+        int n = nums.length;  // initial length
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) set.add(num);
+        List<Integer> list = new ArrayList<>(set);
+        Collections.sort(list);
+        int m = list.size();  // length after sorting unique values
+        int j = 0;
+        int ans = n;  // any big not possible ans
+        for (int i = 0; i < m; i++) {
+            int start = list.get(i), end = start + (n - 1);
+            while (j < m && list.get(j) <= end) {
+                j++;
+            }
+            int uniqueEle = j - i;
+            ans = Math.min(ans, n - uniqueEle);
+        }
+        return ans;
+    }
+}
+"""
+
+# C++ Code 
+"""
+class Solution {
+public:
+    int minOperations(vector<int>& nums) {
+        int n = nums.size();  // initial length
+        unordered_set<int> s(nums.begin(), nums.end());
+        vector<int> v(s.begin(), s.end());
+        sort(v.begin(), v.end());
+        int m = v.size();  // length after sorting unique values
+        int j = 0;
+        int ans = n;  // any big not possible ans
+        for (int i = 0; i < m; i++) {
+            int start = v[i], end = start + (n - 1);
+            while (j < m && v[j] <= end) {
+                j++;
+            }
+            int uniqueEle = j - i;
+            ans = min(ans, n - uniqueEle);
+        }
+        return ans;
+    }
+};
+"""
 
 # Method 2: 
 # Using Binary search
@@ -56,3 +105,64 @@ class Solution:
             uniqueEle = j- i
             ans = min(ans , n - uniqueEle)  
         return ans
+
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int minOperations(int[] nums) {
+        int n = nums.length;  // initial length
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) set.add(num);
+        List<Integer> sorted = new ArrayList<>(set);
+        Collections.sort(sorted);
+        int m = sorted.size();  // length after sorting unique values
+        int ans = n;  // any big not possible ans
+        for (int i = 0; i < m; i++) {
+            int start = sorted.get(i), end = start + (n - 1);
+            int j = upperBound(sorted, end);   
+            int uniqueEle = j - i;
+            ans = Math.min(ans, n - uniqueEle);
+        }
+        return ans;
+    }
+
+    private int upperBound(List<Integer> list, int target) {
+        int left = 0, right = list.size();
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (list.get(mid) <= target) left = mid + 1;
+            else right = mid;
+        }
+        return left;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_set>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int minOperations(vector<int>& nums) {
+        int n = nums.size();  // initial length
+        unordered_set<int> s(nums.begin(), nums.end());
+        vector<int> sorted(s.begin(), s.end());
+        sort(sorted.begin(), sorted.end());
+        int m = sorted.size();  // length after sorting unique values
+        int ans = n;  // any big not possible ans
+        for (int i = 0; i < m; i++) {
+            int start = sorted[i], end = start + (n - 1);
+            int j = upper_bound(sorted.begin(), sorted.end(), end) - sorted.begin();
+            int uniqueEle = j - i;
+            ans = min(ans, n - uniqueEle);
+        }
+        return ans;
+    }
+};
+"""

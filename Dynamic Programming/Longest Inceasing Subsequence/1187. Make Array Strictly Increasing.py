@@ -60,6 +60,90 @@ class Solution:
             return -1
         return min(dp.values())
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    int[] arr1, arr2;
+    Map<String, Integer> memo;
+
+    public int makeArrayIncreasing(int[] arr1, int[] arr2) {
+        this.arr1 = arr1;
+        this.arr2 = Arrays.stream(arr2).distinct().sorted().toArray();
+        this.memo = new HashMap<>();
+        int ans = dfs(0, Integer.MIN_VALUE);  // starting index 0 and pre = -infinity
+        return ans == Integer.MAX_VALUE ? -1 : ans;
+    }
+
+    private int dfs(int ind, int pre) {
+        if (ind >= arr1.length)
+            return 0;  // we have traversed whole array
+
+        String key = ind + "#" + pre;
+        if (memo.containsKey(key)) return memo.get(key);
+
+        // 1) if curr index 'ind' has value greater than last ele i.e pre then no need of swap
+        int noSwap = arr1[ind] > pre ? dfs(ind + 1, arr1[ind]) : Integer.MAX_VALUE;
+
+        // 2) find the rightmost position of 'pre' in arr2
+        int j = Arrays.binarySearch(arr2, pre + 1);
+        if (j < 0) j = -j - 1;
+
+        // make pre = arr2[j], just swapping pre i.e. instead of arr1[ind] -> arr2[j]
+        int swap = j < arr2.length ? 1 + dfs(ind + 1, arr2[j]) : Integer.MAX_VALUE;
+
+        int result = Math.min(swap, noSwap);
+        memo.put(key, result);
+        return result;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    int makeArrayIncreasing(vector<int>& arr1, vector<int>& arr2) {
+        sort(arr2.begin(), arr2.end());
+        arr2.erase(unique(arr2.begin(), arr2.end()), arr2.end());  // removing duplicates
+        this->arr1 = &arr1;
+        this->arr2 = &arr2;
+        return dfs(0, INT_MIN);
+    }
+
+private:
+    vector<int>* arr1;
+    vector<int>* arr2;
+    unordered_map<string, int> memo;
+
+    int dfs(int ind, int pre) {
+        if (ind >= arr1->size())
+            return 0;  // we have traversed whole array
+
+        string key = to_string(ind) + "#" + to_string(pre);
+        if (memo.count(key)) return memo[key];
+
+        // 1) if curr index 'ind' has value greater than last ele i.e pre then no need of swap
+        int noSwap = (*arr1)[ind] > pre ? dfs(ind + 1, (*arr1)[ind]) : INT_MAX;
+
+        // 2) find the rightmost position of 'pre' in arr2
+        auto it = upper_bound(arr2->begin(), arr2->end(), pre);
+        int swap = it != arr2->end() ? 1 + dfs(ind + 1, *it) : INT_MAX;
+
+        int res = min(noSwap, swap);
+        memo[key] = res;
+        return res == INT_MAX ? -1 : res;
+    }
+};
+"""
+
 
 # Method 2:
 # Tabulation 

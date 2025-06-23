@@ -44,4 +44,62 @@ class Solution:
 
         return solve(target)
 
+# Java Code 
+"""
+import java.util.*;
+
+public class Solution {
+    public int combinationSum4(int[] nums, int target) {
+        Map<Integer, Integer> memo = new HashMap<>();
+        return solve(target, nums, memo);
+    }
+
+    private int solve(int target, int[] nums, Map<Integer, Integer> memo) {
+        if (target == 0)
+            return 1;
+
+        if (memo.containsKey(target))
+            return memo.get(target);
+
+        int ans = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] <= target) {
+                ans += solve(target - nums[i], nums, memo);  // sb possibility ko add karna h.
+            }
+        }
+
+        memo.put(target, ans);
+        return ans;
+    }
+}
+"""
+
+# C++ Code 
+"""
+class Solution {
+public:
+    int combinationSum4(std::vector<int>& nums, int target) {
+        std::unordered_map<int, int> memo;
+        return solve(target, nums, memo);
+    }
+
+private:
+    int solve(int target, const std::vector<int>& nums, std::unordered_map<int, int>& memo) {
+        if (target == 0)
+            return 1;
+
+        if (memo.count(target))
+            return memo[target];
+
+        int ans = 0;
+        for (int i = 0; i < nums.size(); ++i) {
+            if (nums[i] <= target) {
+                ans += solve(target - nums[i], nums, memo);  // sb possibility ko add karna h.
+            }
+        }
+
+        return memo[target] = ans;
+    }
+};
+"""
 

@@ -43,3 +43,51 @@ class Solution:
                 curMaxPoint = values[j]
                 curMaxPointIndex = j
         return ans
+
+# Java Code 
+"""
+class Solution {
+    public int maxScoreSightseeingPair(int[] values) {
+        int n = values.length;
+        int curMaxPoint = values[0];
+        int curMaxPointIndex = 0;
+        int ans = 0;
+
+        for (int j = 1; j < n; j++) {
+            ans = Math.max(ans, curMaxPoint + values[j] - (j - curMaxPointIndex));
+            if (values[j] > curMaxPoint - (j - curMaxPointIndex)) {
+                curMaxPoint = values[j];
+                curMaxPointIndex = j;
+            }
+        }
+
+        return ans;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int maxScoreSightseeingPair(vector<int>& values) {
+        int n = values.size();
+        int curMaxPoint = values[0];
+        int curMaxPointIndex = 0;
+        int ans = 0;
+
+        for (int j = 1; j < n; ++j) {
+            ans = max(ans, curMaxPoint + values[j] - (j - curMaxPointIndex));
+            if (values[j] > curMaxPoint - (j - curMaxPointIndex)) {
+                curMaxPoint = values[j];
+                curMaxPointIndex = j;
+            }
+        }
+
+        return ans;
+    }
+};
+"""

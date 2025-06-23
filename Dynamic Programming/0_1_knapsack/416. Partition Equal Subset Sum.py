@@ -34,8 +34,88 @@ class Solution:
                     dp[i][j]= dp[i-1][j-arr[i-1]] or dp[i-1][j]
         return dp[N][sum]
 
+# Java Code 
+"""
+public class Solution {
+    public boolean canPartition(int[] nums) {
+        int list_sum = 0;
+        for (int num : nums) list_sum += num;
 
-# Method 2: 
+        if (list_sum % 2 != 0)
+            return false;
+
+        int sum_to_check = list_sum / 2;
+        return isSubsetSum(nums.length, nums, sum_to_check);
+    }
+
+    public boolean isSubsetSum(int N, int[] arr, int sum) {
+        // 1st initialse the matrix properly
+        boolean[][] dp = new boolean[N + 1][sum + 1];
+        for (int i = 0; i <= N; i++) {
+            for (int j = 0; j <= sum; j++) {
+                if (j == 0)  // sum==0 
+                    dp[i][j] = true;
+                else if (i == 0)  // sum!= 0 and number of ele= 0.
+                    dp[i][j] = false;
+            }
+        }
+
+        // now just same as 0/1 Knapsack           
+        for (int i = 1; i <= N; i++) {
+            for (int j = 1; j <= sum; j++) {
+                if (arr[i - 1] > j)
+                    dp[i][j] = dp[i - 1][j];
+                else
+                    dp[i][j] = dp[i - 1][j - arr[i - 1]] || dp[i - 1][j];
+            }
+        }
+
+        return dp[N][sum];
+    }
+}
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    bool canPartition(std::vector<int>& nums) {
+        int list_sum = 0;
+        for (int num : nums) list_sum += num;
+
+        if (list_sum % 2 != 0)
+            return false;
+
+        int sum_to_check = list_sum / 2;
+        return isSubsetSum(nums.size(), nums, sum_to_check);
+    }
+
+    bool isSubsetSum(int N, std::vector<int>& arr, int sum) {
+        // 1st initialse the matrix properly
+        std::vector<std::vector<bool>> dp(N + 1, std::vector<bool>(sum + 1, false));
+        for (int i = 0; i <= N; ++i) {
+            for (int j = 0; j <= sum; ++j) {
+                if (j == 0)  // sum==0 
+                    dp[i][j] = true;
+                else if (i == 0)  // sum!= 0 and number of ele= 0.
+                    dp[i][j] = false;
+            }
+        }
+
+        // now just same as 0/1 Knapsack           
+        for (int i = 1; i <= N; ++i) {
+            for (int j = 1; j <= sum; ++j) {
+                if (arr[i - 1] > j)
+                    dp[i][j] = dp[i - 1][j];
+                else
+                    dp[i][j] = dp[i - 1][j - arr[i - 1]] || dp[i - 1][j];
+            }
+        }
+
+        return dp[N][sum];
+    }
+};
+"""
+# Method 2:
 # Reducing space complexity to O(n).
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
@@ -61,6 +141,83 @@ class Solution:
             pre= cur.copy()
         return cur[sum]
 
+# Java Code 
+"""
+public class Solution {
+    public boolean canPartition(int[] nums) {
+        int list_sum = 0;
+        for (int num : nums)
+            list_sum += num;
+
+        if (list_sum % 2 != 0)
+            return false;
+
+        int sum_to_check = list_sum / 2;
+        return isSubsetSum(nums.length, nums, sum_to_check);
+    }
+
+    public boolean isSubsetSum(int N, int[] arr, int sum) {
+        // 1st initialse the matrix properly
+        boolean[] pre = new boolean[sum + 1];
+
+        // filling the 1st row i.e for n== 0(when we are not considering any ele)
+        pre[0] = true;  // sum==0 if possible with '0' ele and all other will be False.
+
+        for (int i = 1; i <= N; i++) {
+            boolean[] cur = new boolean[sum + 1];
+            for (int j = 1; j <= sum; j++) {
+                if (arr[i - 1] > j) {
+                    cur[j] = pre[j];
+                } else {
+                    cur[j] = pre[j - arr[i - 1]] || pre[j];
+                }
+            }
+            pre = cur.clone();
+        }
+
+        return pre[sum];
+    }
+}
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    bool canPartition(std::vector<int>& nums) {
+        int list_sum = 0;
+        for (int num : nums)
+            list_sum += num;
+
+        if (list_sum % 2 != 0)
+            return false;
+
+        int sum_to_check = list_sum / 2;
+        return isSubsetSum(nums.size(), nums, sum_to_check);
+    }
+
+    bool isSubsetSum(int N, std::vector<int>& arr, int sum) {
+        // 1st initialse the matrix properly
+        std::vector<bool> pre(sum + 1, false);
+
+        // filling the 1st row i.e for n== 0(when we are not considering any ele)
+        pre[0] = true;  // sum==0 if possible with '0' ele and all other will be False.
+
+        for (int i = 1; i <= N; ++i) {
+            std::vector<bool> cur(sum + 1, false);
+            for (int j = 1; j <= sum; ++j) {
+                if (arr[i - 1] > j) {
+                    cur[j] = pre[j];
+                } else {
+                    cur[j] = pre[j - arr[i - 1]] || pre[j];
+                }
+            }
+            pre = cur;
+        }
+
+        return pre[sum];
+    }
+};
+"""
 
 # Method 3:
 # Tabulation

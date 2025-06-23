@@ -54,40 +54,39 @@ class Solution {
     public List<Integer> findAnagrams(String s, String p) {
         int i = 0, j = 0;
         Map<Character, Integer> hashmap = new HashMap<>();
-        List<Integer> ans = new ArrayList<>();
-
-        // Count frequency of characters in 'p'
         for (char c : p.toCharArray()) {
             hashmap.put(c, hashmap.getOrDefault(c, 0) + 1);
         }
 
-        int count = hashmap.size();  // count initialized to len(hashmap), meaning we need to find these distinct characters.
+        int count = hashmap.size();  // itna diff char hmko khojna h and agar kisi char ka count zero ho gya matlab ek char mil gya
+        List<Integer> ans = new ArrayList<>();
 
         while (j < s.length()) {
-            if (hashmap.containsKey(s.charAt(j))) {
-                hashmap.put(s.charAt(j), hashmap.get(s.charAt(j)) - 1);  // This may go negative, meaning we have seen extra s[j] than required.
-                if (hashmap.get(s.charAt(j)) == 0) {  
-                    count--;  // Found one required character in correct quantity.
+            char end = s.charAt(j);
+            if (hashmap.containsKey(end)) {
+                hashmap.put(end, hashmap.get(end) - 1);  // this may go negative also means we have seen extra `end` than required
+                if (hashmap.get(end) == 0) {  // koi char gar jitn abar chahiye mil gya ho
+                    count--;
                 }
             }
 
             if (j + 1 >= p.length()) {  // or j - i + 1 == len(p)
-                if (count == 0) {  // All required characters found in valid quantity.
+                if (count == 0) {  // matlab hmko sb char jitna bar chahiye tha utna bar mil gya h
                     ans.add(i);
                 }
 
-                // Slide the window by removing the character at index 'i'
-                if (hashmap.containsKey(s.charAt(i))) {
-                    hashmap.put(s.charAt(i), hashmap.get(s.charAt(i)) + 1);  // Increase count since this character is removed from window.
-                    if (hashmap.get(s.charAt(i)) == 1) {  
-                        count++;  // Need to find this character again.
+                char start = s.charAt(i);
+                if (hashmap.containsKey(start)) {  // if condition satisfying char is present at 'i'
+                    hashmap.put(start, hashmap.get(start) + 1);  // ab wo window me nhi h, isliye wapas khojna hoga
+                    if (hashmap.get(start) == 1) {  // ek ans wala char bahar hua h isliye count badha do
+                        count++;
                     }
                 }
                 i++;
             }
-
             j++;
         }
+
         return ans;
     }
 }
@@ -96,9 +95,9 @@ class Solution {
 # C++ Code
 """
 #include <iostream>
-#include <vector>
 #include <unordered_map>
-
+#include <vector>
+#include <string>
 using namespace std;
 
 class Solution {
@@ -106,40 +105,40 @@ public:
     vector<int> findAnagrams(string s, string p) {
         int i = 0, j = 0;
         unordered_map<char, int> hashmap;
-        vector<int> ans;
 
-        // Count frequency of characters in 'p'
         for (char c : p) {
-            hashmap[c]++;
+            hashmap[c] += 1;
         }
 
-        int count = hashmap.size();  // count initialized to len(hashmap), meaning we need to find these distinct characters.
+        int count = hashmap.size();  // itna diff char hmko khojna h and agar kisi char ka count zero ho gya matlab ek char mil gya
+        vector<int> ans;
 
-        while (j < s.length()) {
-            if (hashmap.find(s[j]) != hashmap.end()) {
-                hashmap[s[j]]--;  // This may go negative, meaning we have seen extra s[j] than required.
-                if (hashmap[s[j]] == 0) {  
-                    count--;  // Found one required character in correct quantity.
+        while (j < s.size()) {
+            char end = s[j];
+            if (hashmap.find(end) != hashmap.end()) {
+                hashmap[end]--;  // this may go negative also means we have seen extra `end` than required
+                if (hashmap[end] == 0) {  // koi char gar jitn abar chahiye mil gya ho
+                    count--;
                 }
             }
 
-            if (j + 1 >= p.length()) {  // or j - i + 1 == len(p)
-                if (count == 0) {  // All required characters found in valid quantity.
+            if (j + 1 >= p.size()) {  // or j - i + 1 == len(p)
+                if (count == 0) {  // matlab hmko sb char jitna bar chahiye tha utna bar mil gya h
                     ans.push_back(i);
                 }
 
-                // Slide the window by removing the character at index 'i'
-                if (hashmap.find(s[i]) != hashmap.end()) {
-                    hashmap[s[i]]++;  // Increase count since this character is removed from window.
-                    if (hashmap[s[i]] == 1) {  
-                        count++;  // Need to find this character again.
+                char start = s[i];
+                if (hashmap.find(start) != hashmap.end()) {  // if condition satisfying char is present at 'i'
+                    hashmap[start]++;  // ab wo window me nhi h, isliye wapas khojna hoga
+                    if (hashmap[start] == 1) {  // ek ans wala char bahar hua h isliye count badha do
+                        count++;
                     }
                 }
                 i++;
             }
-
             j++;
         }
+
         return ans;
     }
 };

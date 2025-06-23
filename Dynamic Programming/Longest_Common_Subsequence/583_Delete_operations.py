@@ -49,6 +49,81 @@ class Solution:
                     dp[i][j]= max(dp[i-1][j], dp[i][j-1])
         return dp[x][y]
 
+# Java Code 
+"""
+class Solution {
+    public int minDistance(String word1, String word2) {
+        int x = word1.length(), y = word2.length();
+        int lcs_length = lcs(x, y, word1, word2);
+
+        // 1st make the 1st string equal to lcs itself
+        // for this we have to delete extra character except lcs
+        int no_deletion1 = x - lcs_length;
+
+        // 1st make the 1st string equal to lcs itself
+        // for this we have to delete extra character except lcs
+        int no_deletion2 = y - lcs_length;
+
+        // after this length of both string will become equal and will be left with LCS only
+        // so finally both string will become equal
+        return no_deletion1 + no_deletion2;
+    }
+
+    private int lcs(int x, int y, String s1, String s2) {
+        int[][] dp = new int[x + 1][y + 1];
+        for (int i = 1; i <= x; i++) {
+            for (int j = 1; j <= y; j++) {
+                if (s1.charAt(i - 1) == s2.charAt(j - 1))
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                else
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+        return dp[x][y];
+    }
+}
+"""
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    int minDistance(string word1, string word2) {
+        int x = word1.size(), y = word2.size();
+        int lcs_length = lcs(x, y, word1, word2);
+
+        // 1st make the 1st string equal to lcs itself
+        // for this we have to delete extra character except lcs
+        int no_deletion1 = x - lcs_length;
+
+        // 1st make the 1st string equal to lcs itself
+        // for this we have to delete extra character except lcs
+        int no_deletion2 = y - lcs_length;
+
+        // after this length of both string will become equal and will be left with LCS only
+        // so finally both string will become equal
+        return no_deletion1 + no_deletion2;
+    }
+
+private:
+    int lcs(int x, int y, const string& s1, const string& s2) {
+        vector<vector<int>> dp(x + 1, vector<int>(y + 1, 0));
+        for (int i = 1; i <= x; i++) {
+            for (int j = 1; j <= y; j++) {
+                if (s1[i - 1] == s2[j - 1])
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                else
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+        return dp[x][y];
+    }
+};
+"""
 
 # Method 2:
 """
@@ -104,6 +179,69 @@ class Solution:
 
         return solve(0, 0)
 
+# Java Code 
+"""
+class Solution {
+    public int minDistance(String word1, String word2) {
+        int[][] dp = new int[word1.length()][word2.length()];
+        for (int[] row : dp) {
+            java.util.Arrays.fill(row, -1);
+        }
+        return helper(0, 0, word1, word2, dp);
+    }
+
+    private int helper(int i, int j, String word1, String word2, int[][] dp) {
+        if (i == word1.length()) return word2.length() - j;
+        if (j == word2.length()) return word1.length() - i;
+
+        if (dp[i][j] != -1) return dp[i][j];
+
+        int ans;
+        if (word1.charAt(i) == word2.charAt(j)) {
+            ans = helper(i + 1, j + 1, word1, word2, dp);
+        } else {
+            ans = 1 + Math.min(helper(i + 1, j, word1, word2, dp),
+                               helper(i, j + 1, word1, word2, dp));
+        }
+        dp[i][j] = ans;
+        return ans;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    int minDistance(string word1, string word2) {
+        int m = word1.length(), n = word2.length();
+        vector<vector<int>> dp(m, vector<int>(n, -1));
+        return helper(0, 0, word1, word2, dp);
+    }
+
+private:
+    int helper(int i, int j, const string& word1, const string& word2, vector<vector<int>>& dp) {
+        if (i == word1.length()) return word2.length() - j;
+        if (j == word2.length()) return word1.length() - i;
+
+        if (dp[i][j] != -1) return dp[i][j];
+
+        int ans;
+        if (word1[i] == word2[j]) {
+            ans = helper(i + 1, j + 1, word1, word2, dp);
+        } else {
+            ans = 1 + min(helper(i + 1, j, word1, word2, dp),
+                          helper(i, j + 1, word1, word2, dp));
+        }
+        dp[i][j] = ans;
+        return ans;
+    }
+};
+"""
 
 # Extension: 
 

@@ -52,4 +52,80 @@ K = 2
 # N= len(A)
 printFirstNegativeInteger(A, N, K)
 
+# Java Code 
+"""
+import java.util.*;
 
+public class Solution {
+    public static void printFirstNegativeInteger(int[] A, int N, int K) {
+        Deque<Integer> win = new ArrayDeque<>();
+        int i = 0, j = 0;
+
+        while (j < N) {
+            if (A[j] < 0)  // appj in 'win'
+                win.addLast(A[j]);
+
+            if (j + 1 >= K) { // means you have reached the req win size
+                if (win.isEmpty())  // if win empty
+                    System.out.print(0 + " ");
+                else {  // if win not empty
+                    System.out.print(win.peekFirst() + " ");
+                    if (A[i] < 0)  // then remove ele of 'i' index from win i.e first ele from win
+                        win.pollFirst(); // tabhi remove kar sakte h jb 'i'th index ele negative ho like jb property ko follow kar rha hoga tabhi remove karenge n
+                                         // Kyonki remove karte samay property check karke dale the.
+                }
+                i++;
+            }
+            j++;
+        }
+    }
+
+    public static void main(String[] args) {
+        int N = 5;
+        int[] A = {-8, 2, 3, -6, 10};
+        int K = 2;
+
+        printFirstNegativeInteger(A, N, K);
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <deque>
+#include <vector>
+using namespace std;
+
+void printFirstNegativeInteger(vector<int>& A, int N, int K) {
+    deque<int> win;
+    int i = 0, j = 0;
+
+    while (j < N) {
+        if (A[j] < 0)  // appj in 'win'
+            win.push_back(A[j]);
+
+        if (j + 1 >= K) { // means you have reached the req win size
+            if (win.empty())  // if win empty
+                cout << 0 << " ";
+            else {  // if win not empty
+                cout << win.front() << " ";
+                if (A[i] < 0)  // then remove ele of 'i' index from win i.e first ele from win
+                    win.pop_front(); // tabhi remove kar sakte h jb 'i'th index ele negative ho like jb property ko follow kar rha hoga tabhi remove karenge n
+                                     // Kyonki remove karte samay property check karke dale the.
+            }
+            i++;
+        }
+        j++;
+    }
+}
+
+int main() {
+    int N = 5;
+    vector<int> A = {-8, 2, 3, -6, 10};
+    int K = 2;
+
+    printFirstNegativeInteger(A, N, K);
+    return 0;
+}
+"""

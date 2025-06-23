@@ -57,8 +57,69 @@ class Solution:
                 ans+= 1
                 pre= (envelopes[i][0], envelopes[i][1])
         return ans
+        
+# Java correct solution
+"""
+import java.util.*;
 
+class Solution {
+    public int maxEnvelopes(int[][] envelopes) {
+        // agar width same hua to phle usko aage rakhna h jiska height jyada ho (isliye, -x[1])
+        Arrays.sort(envelopes, (a, b) -> 
+            a[0] != b[0] ? a[0] - b[0] : b[1] - a[1]);
 
+        // storing only the height since we have to check only the height. Now totally same as LIS.
+        int[] heights = new int[envelopes.length];
+        for (int i = 0; i < envelopes.length; i++) {
+            heights[i] = envelopes[i][1];
+        }
+
+        // LIS using binary search
+        List<Integer> sub = new ArrayList<>();
+        for (int h : heights) {
+            if (sub.isEmpty() || sub.get(sub.size() - 1) < h) {
+                sub.add(h);
+            } else {
+                int idx = Collections.binarySearch(sub, h);
+                if (idx < 0) idx = -idx - 1;  // bisect_left
+                sub.set(idx, h);
+            }
+        }
+
+        return sub.size();
+    }
+}
+"""
+# C++ correct solution
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
+        // agar width same hua to phle usko aage rakhna h jiska height jyada ho (isliye, -x[1])
+        sort(envelopes.begin(), envelopes.end(), [](const vector<int>& a, const vector<int>& b) {
+            return (a[0] != b[0]) ? a[0] < b[0] : a[1] > b[1];
+        });
+
+        // storing only the height since we have to check only the height. Now totally same as LIS.
+        vector<int> sub;
+        for (const auto& env : envelopes) {
+            int h = env[1];
+            auto it = lower_bound(sub.begin(), sub.end(), h);  // bisect_left
+            if (it == sub.end()) {
+                sub.push_back(h);
+            } else {
+                *it = h;
+            }
+        }
+
+        return sub.size();
+    }
+};
+"""
 # Correct method 
 
 # Method 1: 
@@ -103,6 +164,85 @@ class Solution:
             take= 1+ self.helper(ind +1, ind, arr)
         return max(take, notTake)
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int maxEnvelopes(int[][] envelopes) {
+        Arrays.sort(envelopes, (a, b) -> {
+            // agar width same hua to phle usko aage rakhna h jiska height jyada ho(isliye, -x[1])
+            // sort to phla ele ke anusar hi hoga but in case of equal kaise sort karna h isliye other parameter pass kar rhe.
+            // negative no show nhi karega 'nums' me actual hi show karega.
+            return a[0] == b[0] ? b[1] - a[1] : a[0] - b[0];
+        });
+
+        int[] nums = new int[envelopes.length];  // storing only the height since we have to check only the height. Now totally same as LIS.
+        for (int i = 0; i < envelopes.length; i++) {
+            nums[i] = envelopes[i][1];
+        }
+
+        return helper(0, -1, nums);
+    }
+
+    private int helper(int ind, int pre_ind, int[] arr) {
+        if (ind == arr.length) {
+            return 0;
+        }
+
+        int notTake = helper(ind + 1, pre_ind, arr);  // if we not include
+        int take = 0;
+
+        // when we include but we can only include in following condition only.
+        if (pre_ind == -1 || arr[ind] > arr[pre_ind]) {  // when can only include if strictly increasing
+            take = 1 + helper(ind + 1, ind, arr);
+        }
+
+        return Math.max(take, notTake);
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
+        sort(envelopes.begin(), envelopes.end(), [](const vector<int>& a, const vector<int>& b) {
+            // agar width same hua to phle usko aage rakhna h jiska height jyada ho(isliye, -x[1])
+            // sort to phla ele ke anusar hi hoga but in case of equal kaise sort karna h isliye other parameter pass kar rhe.
+            // negative no show nhi karega 'nums' me actual hi show karega.
+            return (a[0] == b[0]) ? b[1] < a[1] : a[0] < b[0];
+        });
+
+        vector<int> nums;
+        for (auto& env : envelopes) {
+            nums.push_back(env[1]);  // storing only the height since we have to check only the height. Now totally same as LIS.
+        }
+
+        return helper(0, -1, nums);
+    }
+
+    int helper(int ind, int pre_ind, vector<int>& arr) {
+        if (ind == arr.size()) {
+            return 0;
+        }
+
+        int notTake = helper(ind + 1, pre_ind, arr);  // if we not include
+        int take = 0;
+
+        // when we include but we can only include in following condition only.
+        if (pre_ind == -1 || arr[ind] > arr[pre_ind]) {  // when can only include if strictly increasing
+            take = 1 + helper(ind + 1, ind, arr);
+        }
+
+        return max(take, notTake);
+    }
+};
+"""
 
 # Method 2: 
 # even after memoisation, will give TLE since after memoisation time= O(n^2).
@@ -125,4 +265,77 @@ class Solution:
                 idx= bisect.bisect_left(sub, num)  # simply bisect_left(sub,num). 
                 sub[idx]= num  # no neeed to check if 'idx'>= len(sub) because this case is already handled in above 'if' condition.
         return len(sub)
+# Java Code 
+"""
+import java.util.*;
 
+class Solution {
+    public int maxEnvelopes(int[][] envelopes) {
+        Arrays.sort(envelopes, (a, b) -> {
+            // agar width same hua to phle usko aage rakhna h jiska height jyada ho(isliye, -x[1])
+            // sort to phla ele ke anusar hi hoga but in case of equal kaise sort karna h isliye other parameter pass kar rhe.
+            // negative no show nhi karega 'nums' me actual hi show karega.
+            return a[0] == b[0] ? b[1] - a[1] : a[0] - b[0];
+        });
+
+        // storing only the height since we have to check only the height. Now totally same as LIS.
+        int[] nums = new int[envelopes.length];
+        for (int i = 0; i < envelopes.length; i++) {
+            nums[i] = envelopes[i][1];
+        }
+
+        // will store the ele in strictly increasing order only.
+        List<Integer> sub = new ArrayList<>();
+        for (int num : nums) {
+            if (sub.isEmpty() || sub.get(sub.size() - 1) < num) {
+                sub.add(num);
+            } else {
+                // find the position of num in sub and replace that ind with num
+                int idx = Collections.binarySearch(sub, num);
+                if (idx < 0) idx = -idx - 1;  // simply bisect_left(sub, num)
+                sub.set(idx, num);  // no need to check if 'idx' >= len(sub) because this case is already handled in above 'if' condition
+            }
+        }
+
+        return sub.size();
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
+        sort(envelopes.begin(), envelopes.end(), [](vector<int>& a, vector<int>& b) {
+            // agar width same hua to phle usko aage rakhna h jiska height jyada ho(isliye, -x[1])
+            // sort to phla ele ke anusar hi hoga but in case of equal kaise sort karna h isliye other parameter pass kar rhe.
+            // negative no show nhi karega 'nums' me actual hi show karega.
+            return (a[0] == b[0]) ? b[1] > a[1] : a[0] < b[0];
+        });
+
+        // storing only the height since we have to check only the height. Now totally same as LIS.
+        vector<int> nums;
+        for (auto& e : envelopes) {
+            nums.push_back(e[1]);
+        }
+
+        // will store the ele in strictly increasing order only.
+        vector<int> sub;
+        for (int num : nums) {
+            if (sub.empty() || sub.back() < num) {
+                sub.push_back(num);
+            } else {
+                // find the position of num in sub and replace that ind with num
+                auto it = lower_bound(sub.begin(), sub.end(), num);  // simply bisect_left(sub, num)
+                *it = num;  // no need to check if 'it' is sub.end() because that case is already handled in above 'if' condition
+            }
+        }
+
+        return sub.size();
+    }
+};
+"""

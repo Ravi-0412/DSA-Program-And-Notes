@@ -30,6 +30,83 @@ class Solution:
             j+= 1
         return ans
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public double[] medianSlidingWindow(int[] nums, int k) {
+        List<Double> ans = new ArrayList<>();
+        TreeMap<Integer, Integer> window = new TreeMap<>();
+        int i = 0, j = 0;
+
+        while (j < nums.length) {
+            window.put(nums[j], window.getOrDefault(nums[j], 0) + 1);
+
+            if (j - i + 1 >= k) {
+                int count = 0;
+                double median = 0.0;
+                int mid1 = (k - 1) / 2, mid2 = k / 2;
+                int total = 0;
+                for (Map.Entry<Integer, Integer> entry : window.entrySet()) {
+                    total += entry.getValue();
+                    if (count <= mid1 && mid1 < total) median += entry.getKey();
+                    if (count <= mid2 && mid2 < total) median += entry.getKey();
+                    count = total;
+                }
+                ans.add(median / 2.0);
+
+                int outNum = nums[i];
+                window.put(outNum, window.get(outNum) - 1);
+                if (window.get(outNum) == 0) window.remove(outNum);
+                i++;
+            }
+            j++;
+        }
+
+        double[] result = new double[ans.size()];
+        for (int x = 0; x < ans.size(); x++) result[x] = ans.get(x);
+        return result;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <set>
+
+class Solution {
+public:
+    std::vector<double> medianSlidingWindow(std::vector<int>& nums, int k) {
+        std::vector<double> ans;
+        std::multiset<int> window;
+        auto mid = window.begin();
+
+        for (int i = 0; i < nums.size(); ++i) {
+            window.insert(nums[i]);
+            if (i >= k) {
+                window.erase(window.find(nums[i - k]));
+            }
+
+            if (i >= k - 1) {
+                auto it = window.begin();
+                std::advance(it, k / 2);
+                if (k % 2 == 0) {
+                    auto it2 = it;
+                    std::advance(it2, -1);
+                    double median = (*it + *it2) / 2.0;
+                    ans.push_back(median);
+                } else {
+                    ans.push_back(*it);
+                }
+            }
+        }
+        return ans;
+    }
+};
+"""
+
 # method 2: 
 # using heaps
 # Understand properly the intuition behind 'if nums[i] <= large[0][0]:'
@@ -107,3 +184,124 @@ class Solution:
             # But we will get the correct median.
             ans.append(get_med(small, large, k))
         return ans
+
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public List<Double> medianSlidingWindow(int[] nums, int k) {
+        PriorityQueue<long[]> small = new PriorityQueue<>((a, b) -> Long.compare(b[0], a[0])); // maxHeap
+        PriorityQueue<long[]> large = new PriorityQueue<>(Comparator.comparingLong(a -> a[0])); // minHeap
+
+        List<Double> ans = new ArrayList<>();
+
+        for (int i = 0; i < k; i++) {
+            small.offer(new long[]{-nums[i], i});
+        }
+
+        // Now move half of the ele from small to large to balance heaps.
+        // doing like this to keep extra ele in 'large' in case 'k' is odd.
+        // for i in range(k//2): won't put extra ele in 'large' in case 'k' is odd.
+        for (int i = 0; i < k - k / 2; i++) {
+            long[] top = small.poll();
+            large.offer(new long[]{-top[0], top[1]});
+        }
+
+        ans.add(getMed(small, large, k));
+
+        for (int i = 0; i < nums.length - k; i++) {
+            int x = nums[i + k];
+
+            if (x >= large.peek()[0]) {
+                large.offer(new long[]{x, i + k});
+                if (nums[i] <= large.peek()[0]) {
+                    long[] top = large.poll();
+                    small.offer(new long[]{-top[0], top[1]});
+                }
+            } else {
+                small.offer(new long[]{-x, i + k});
+                if (nums[i] >= large.peek()[0]) {
+                    long[] top = small.poll();
+                    large.offer(new long[]{-top[0], top[1]});
+                }
+            }
+
+            while (!small.isEmpty() && small.peek()[1] <= i) small.poll();
+            while (!large.isEmpty() && large.peek()[1] <= i) large.poll();
+
+            ans.add(getMed(small, large, k));
+        }
+
+        return ans;
+    }
+
+    private double getMed(PriorityQueue<long[]> h1, PriorityQueue<long[]> h2, int k) {
+        return (k & 1) == 1 ? h2.peek()[0] : ((double) h2.peek()[0] - h1.peek()[0]) / 2;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <queue>
+#include <utility>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<double> medianSlidingWindow(vector<int>& nums, int k) {
+        priority_queue<pair<int, int>> small; // maxHeap
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> large; // minHeap
+        vector<double> ans;
+
+        for (int i = 0; i < k; i++) {
+            small.emplace(nums[i], i);
+        }
+
+        // Now move half of the ele from small to large to balance heaps.
+        // doing like this to keep extra ele in 'large' in case 'k' is odd.
+        // for i in range(k//2): won't put extra ele in 'large' in case 'k' is odd.
+        for (int i = 0; i < k - k / 2; i++) {
+            auto top = small.top(); small.pop();
+            large.emplace(top.first, top.second);
+        }
+
+        ans.push_back(getMed(small, large, k));
+
+        for (int i = 0; i < nums.size() - k; i++) {
+            int x = nums[i + k];
+
+            if (x >= large.top().first) {
+                large.emplace(x, i + k);
+                if (nums[i] <= large.top().first) {
+                    auto top = large.top(); large.pop();
+                    small.emplace(top);
+                }
+            } else {
+                small.emplace(x, i + k);
+                if (nums[i] >= large.top().first) {
+                    auto top = small.top(); small.pop();
+                    large.emplace(top);
+                }
+            }
+
+            while (!small.empty() && small.top().second <= i) small.pop();
+            while (!large.empty() && large.top().second <= i) large.pop();
+
+            ans.push_back(getMed(small, large, k));
+        }
+
+        return ans;
+    }
+
+private:
+    double getMed(priority_queue<pair<int, int>>& h1,
+                  priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>>& h2,
+                  int k) {
+        return (k & 1) ? h2.top().first : ((double)h2.top().first + h1.top().first) / 2;
+    }
+};
+"""

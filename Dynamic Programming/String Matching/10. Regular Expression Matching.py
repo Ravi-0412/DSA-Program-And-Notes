@@ -42,6 +42,85 @@ class Solution:
                     return True
         return False
 
+# Java Code 
+"""
+class Solution {
+    public boolean isMatch(String s, String p) {
+        int m = s.length(), n = p.length();
+        return helper(m, n, s, p);
+    }
+
+    private boolean helper(int m, int n, String s, String p) {
+        if (n == 0)
+            return m == 0;
+
+        if (m == 0) {  // n != 0
+            // then remaining char of 'p' must be either : 1) s[0]*. Since matches '0' or more prev char  or 2) .*
+            // Other than these two all combinations will be invalid.
+            for (int i = n - 1; i >= 0; i--) {
+                if (i == n - 1 && p.charAt(i) != '*')
+                    return false;  // Last char must be '*'
+                if (i % 2 == 1) continue;  // pattern characters at odd indices
+                if (i == 0 || (p.charAt(i) != s.charAt(0) && p.charAt(i) != '.'))
+                    return false;
+            }
+            return true;
+        }
+
+        if (s.charAt(m - 1) == p.charAt(n - 1) || p.charAt(n - 1) == '.') {
+            return helper(m - 1, n - 1, s, p);
+        } else if (p.charAt(n - 1) == '*') {
+            if (n - 2 >= 0 && (s.charAt(m - 1) == p.charAt(n - 2) || p.charAt(n - 2) == '.')) {
+                return helper(m, n - 1, s, p) || helper(m - 1, n, s, p);
+            }
+        }
+
+        return false;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    bool isMatch(string s, string p) {
+        int m = s.length(), n = p.length();
+        return helper(m, n, s, p);
+    }
+
+private:
+    bool helper(int m, int n, const string& s, const string& p) {
+        if (n == 0)
+            return m == 0;
+
+        if (m == 0) {  // n != 0
+            // then remaining char of 'p' must be either : 1) s[0]*. Since matches '0' or more prev char  or 2) .*
+            // Other than these two all combinations will be invalid.
+            for (int i = n - 1; i >= 0; --i) {
+                if (i == n - 1 && p[i] != '*')
+                    return false;  // Last char must be '*'
+                if (i % 2 == 1) continue;
+                if (i == 0 || (p[i] != s[0] && p[i] != '.'))
+                    return false;
+            }
+            return true;
+        }
+
+        if (s[m - 1] == p[n - 1] || p[n - 1] == '.') {
+            return helper(m - 1, n - 1, s, p);
+        } else if (p[n - 1] == '*') {
+            if (n - 2 >= 0 && (s[m - 1] == p[n - 2] || p[n - 2] == '.')) {
+                return helper(m, n - 1, s, p) || helper(m - 1, n, s, p);
+            }
+        }
+
+        return false;
+    }
+};
+"""
 
 # Method 2: 
 # base case when i>= len(s) and j is not out of bond will get handled by the case when we don't use the "*" and return false simply.
@@ -72,6 +151,65 @@ class Solution:
         # in all other cases return False
         return False
 
+# Java Code 
+"""
+class Solution {
+    public boolean isMatch(String s, String p) {
+        return dfs(0, 0, s, p);
+    }
+
+    private boolean dfs(int i, int j, String s, String p) {
+        if (j >= p.length())  // then 'i' must also be out of bound
+            return i >= s.length();
+
+        // check if char is matching and store in variable instead of using 'if' again and again
+        boolean match = i < s.length() && (s.charAt(i) == p.charAt(j) || p.charAt(j) == '.');
+
+        // check if p[j+1] == "*"
+        if ((j + 1) < p.length() && p.charAt(j + 1) == '*') {
+            return dfs(i, j + 2, s, p) ||  // don't use '*'
+                   (match && dfs(i + 1, j, s, p));  // if match then use '*' further again and again
+        }
+
+        if (match)  // same as wildcard
+            return dfs(i + 1, j + 1, s, p);
+
+        // in all other cases return False
+        return false;
+    }
+}
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    bool isMatch(string s, string p) {
+        return dfs(0, 0, s, p);
+    }
+
+private:
+    bool dfs(int i, int j, const string& s, const string& p) {
+        if (j >= p.size())  // then 'i' must also be out of bound
+            return i >= s.size();
+
+        // check if char is matching and store in variable instead of using 'if' again and again
+        bool match = i < s.size() && (s[i] == p[j] || p[j] == '.');
+
+        // check if p[j+1] == "*"
+        if ((j + 1) < p.size() && p[j + 1] == '*') {
+            return dfs(i, j + 2, s, p) ||  // don't use '*'
+                   (match && dfs(i + 1, j, s, p));  // if match then use '*' further again and again
+        }
+
+        if (match)  // same as wildcard
+            return dfs(i + 1, j + 1, s, p);
+
+        // in all other cases return False
+        return false;
+    }
+};
+
+"""
 # Method 3: 
 # memoised one
 # time: O(m*n)
@@ -101,6 +239,86 @@ class Solution:
             return dp[i][j]
         dp[i][j]= False
         return dp[i][j]
+# Java Code 
+"""
+class Solution {
+    public boolean isMatch(String s, String p) {
+        int m = s.length(), n = p.length();
+        Boolean[][] dp = new Boolean[m + 1][n + 1];
+        return dfs(0, 0, s, p, dp);
+    }
+
+    private boolean dfs(int i, int j, String s, String p, Boolean[][] dp) {
+        if (j >= p.length())  // then 'i' must be also out of bound
+            return i >= s.length();
+
+        // if i >= len(s) then only chance we can get True if there is alternate '*' and
+        // we have to skip the '*' and for that j+1 < len(p)
+        if (i >= s.length()) {
+            return (j + 1 < p.length()) && p.charAt(j + 1) == '*' && dfs(i, j + 2, s, p, dp);
+        }
+
+        if (dp[i][j] != null) return dp[i][j];
+
+        // check if char is matching and store it instead of using 'if' again and again
+        boolean match = s.charAt(i) == p.charAt(j) || p.charAt(j) == '.';
+
+        // check if p[j+1] == '*'
+        if ((j + 1) < p.length() && p.charAt(j + 1) == '*') {
+            return dp[i][j] = dfs(i, j + 2, s, p, dp) || (match && dfs(i + 1, j, s, p, dp));
+        }
+
+        if (match) {
+            return dp[i][j] = dfs(i + 1, j + 1, s, p, dp);
+        }
+
+        return dp[i][j] = false;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <string>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    bool isMatch(string s, string p) {
+        int m = s.size(), n = p.size();
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1, -1));
+        return dfs(0, 0, s, p, dp);
+    }
+
+private:
+    bool dfs(int i, int j, const string& s, const string& p, vector<vector<int>>& dp) {
+        if (j >= p.size())  // then 'i' must be also out of bound
+            return i >= s.size();
+
+        // if i >= len(s) then only chance we can get True if there is alternate '*'
+        // and we have to skip the '*' and for that j+1 < len(p)
+        if (i >= s.size()) {
+            return (j + 1 < p.size()) && p[j + 1] == '*' && dfs(i, j + 2, s, p, dp);
+        }
+
+        if (dp[i][j] != -1) return dp[i][j];
+
+        // check if char is matching and store in variable
+        bool match = s[i] == p[j] || p[j] == '.';
+
+        // check if p[j+1] == '*'
+        if ((j + 1) < p.size() && p[j + 1] == '*') {
+            return dp[i][j] = dfs(i, j + 2, s, p, dp) || (match && dfs(i + 1, j, s, p, dp));
+        }
+
+        if (match) {
+            return dp[i][j] = dfs(i + 1, j + 1, s, p, dp);
+        }
+
+        return dp[i][j] = false;
+    }
+};
+"""
 
 
 # Method 4:
@@ -128,6 +346,69 @@ class Solution:
 
         return dp[0][0]
 
+# Java Code 
+"""
+class Solution {
+    public boolean isMatch(String s, String p) {
+        int n = s.length(), m = p.length();
+        // dp[i][j] will be true if s[i:] matches p[j:]
+        boolean[][] dp = new boolean[n + 1][m + 1];
+
+        // Base case: both strings are empty
+        dp[n][m] = true;
+
+        // Fill the table in reverse order
+        for (int i = n; i >= 0; i--) {
+            for (int j = m - 1; j >= 0; j--) {
+                // check if char is matching and store them in variable instead of using 'if' condition again and again
+                boolean match = i < n && (s.charAt(i) == p.charAt(j) || p.charAt(j) == '.');
+
+                // check if p[j+1] == "*"
+                if ((j + 1) < m && p.charAt(j + 1) == '*') {
+                    dp[i][j] = dp[i][j + 2] || (match && dp[i + 1][j]);  // don't use '*' OR use '*'
+                } else if (match) {  // same as wildcard
+                    dp[i][j] = dp[i + 1][j + 1];
+                }
+                // in all other cases dp[i][j] is already false
+            }
+        }
+
+        return dp[0][0];
+    }
+}
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    bool isMatch(string s, string p) {
+        int n = s.length(), m = p.length();
+        // dp[i][j] will be true if s[i:] matches p[j:]
+        vector<vector<bool>> dp(n + 1, vector<bool>(m + 1, false));
+
+        // Base case: both strings are empty
+        dp[n][m] = true;
+
+        // Fill the table in reverse order
+        for (int i = n; i >= 0; --i) {
+            for (int j = m - 1; j >= 0; --j) {
+                // check if char is matching and store them in variable instead of using 'if' condition again and again
+                bool match = i < n && (s[i] == p[j] || p[j] == '.');
+
+                // check if p[j+1] == "*"
+                if ((j + 1) < m && p[j + 1] == '*') {
+                    dp[i][j] = dp[i][j + 2] || (match && dp[i + 1][j]);  // don't use '*' OR use '*'
+                } else if (match) {  // same as wildcard
+                    dp[i][j] = dp[i + 1][j + 1];
+                }
+                // in all other cases dp[i][j] is already false
+            }
+        }
+
+        return dp[0][0];
+    }
+};
+"""
 
 # Method 5: 
 # Brute force of method 2 but got submitted.
@@ -154,7 +435,68 @@ class Solution:
         # in all other cases return False
         return False
 
+# Java Code 
+"""
+class Solution {
+    public boolean isMatch(String s, String p) {
+        return dfs(0, 0, s, p);
+    }
 
+    public boolean dfs(int i, int j, String s, String p) {
+        if (j >= p.length())  // then 'i' must be also out of bound
+            return i >= s.length();
 
+        // if i >= len(s) then only chance if we can get True if there is alternate '*' and
+        // we have to skip the "*" and for that 'j+1' < len(p)
+        if (i >= s.length())
+            return (j + 1) < p.length() && p.charAt(j + 1) == '*' && dfs(i, j + 2, s, p);
 
+        // check if char is matching and store them in variable instead of using 'if' condition again and again
+        boolean match = i < s.length() && (s.charAt(i) == p.charAt(j) || p.charAt(j) == '.');  // in this there will be match
 
+        // check if p[j+1] == "*"
+        if ((j + 1) < p.length() && p.charAt(j + 1) == '*') {
+            return dfs(i, j + 2, s, p) || (match && dfs(i + 1, j, s, p));  // don't use '*' OR use '*' further
+        }
+
+        if (match)  // same as wildcard
+            return dfs(i + 1, j + 1, s, p);
+
+        // in all other cases return False
+        return false;
+    }
+}
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    bool isMatch(string s, string p) {
+        return dfs(0, 0, s, p);
+    }
+
+    bool dfs(int i, int j, const string& s, const string& p) {
+        if (j >= p.size())  // then 'i' must be also out of bound
+            return i >= s.size();
+
+        // if i >= len(s) then only chance if we can get True if there is alternate '*' and
+        // we have to skip the "*" and for that 'j+1' < len(p)
+        if (i >= s.size())
+            return (j + 1) < p.size() && p[j + 1] == '*' && dfs(i, j + 2, s, p);
+
+        // check if char is matching and store them in variable instead of using 'if' condition again and again
+        bool match = i < s.size() && (s[i] == p[j] || p[j] == '.');  // in this there will be match
+
+        // check if p[j+1] == "*"
+        if ((j + 1) < p.size() && p[j + 1] == '*') {
+            return dfs(i, j + 2, s, p) || (match && dfs(i + 1, j, s, p));  // don't use '*' OR use '*' further
+        }
+
+        if (match)  // same as wildcard
+            return dfs(i + 1, j + 1, s, p);
+
+        // in all other cases return False
+        return false;
+    }
+};
+"""

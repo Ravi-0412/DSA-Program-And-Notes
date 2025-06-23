@@ -50,6 +50,98 @@ class Solution:
                 heapq.heappush(maxHeap, q.popleft()[0])
         return time
     
+# Java Code 
+"""
+import java.util.*;
+
+public class Solution {
+    public int leastInterval(char[] tasks, int n) {
+        Map<Character, Integer> freq = new HashMap<>();
+        for (char task : tasks) {
+            freq.put(task, freq.getOrDefault(task, 0) + 1);
+        }
+
+        // make a maxHeap with the freq of each char, only we have to take freq of each letter
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        for (int count : freq.values()) {
+            maxHeap.add(count * -1);    // have to make max heap. Only here freq will matter.
+                                         // For checking same type of task, we are using queue to keep track of time.
+        }
+
+        Queue<int[]> q = new LinkedList<>();
+        int time = 0;
+
+        // if maxHeap is empty and Q is not empty it means there is no ele whose next_process time is matching with curr_time 
+        // then it will be counted as idle
+        while (!maxHeap.isEmpty() || !q.isEmpty()) {
+            time++;
+            if (!maxHeap.isEmpty()) {
+                // Process the most freq task available at this time 
+                int cnt = -1 * maxHeap.poll() - 1;  // basically decr the freq of current task
+                if (cnt != 0) {  // means same task has more time to process so add in 'Q' with [count,next_process_time]
+                    q.add(new int[]{cnt, time + n});   // this task can be processed next time at 'time+n'
+                }
+            }
+
+            // each time check if there is any task that can be processed at curr time
+            if (!q.isEmpty() && q.peek()[1] == time) {
+                maxHeap.add(-1 * q.poll()[0]);  // then push into the maxHeap, only the count of task
+            }
+        }
+
+        return time;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+#include <queue>
+
+class Solution {
+public:
+    int leastInterval(std::vector<char>& tasks, int n) {
+        std::unordered_map<char, int> freq;
+        for (char task : tasks) {
+            freq[task]++;
+        }
+
+        // make a maxHeap with the freq of each char, only we have to take freq of each letter
+        std::priority_queue<int> maxHeap;
+        for (auto& [_, count] : freq) {
+            maxHeap.push(count);    // have to make max heap. Only here freq will matter.
+                                     // For checking same type of task, we are using queue to keep track of time.
+        }
+
+        std::queue<std::pair<int, int>> q;
+        int time = 0;
+
+        // if maxHeap is empty and Q is not empty it means there is no ele whose next_process time is matching with curr_time 
+        // then it will be counted as idle
+        while (!maxHeap.empty() || !q.empty()) {
+            time++;
+            if (!maxHeap.empty()) {
+                // Process the most freq task available at this time 
+                int cnt = maxHeap.top() - 1;
+                maxHeap.pop();
+                if (cnt > 0) {
+                    // means same task has more time to process so add in 'Q' with [count,next_process_time]
+                    q.push({cnt, time + n});  // this task can be processed next time at 'time+n'
+                }
+            }
+
+            // each time check if there is any task that can be processed at curr time
+            if (!q.empty() && q.front().second == time) {
+                maxHeap.push(q.front().first);  // then push into the maxHeap, only the count of task 
+                q.pop();
+            }
+        }
+
+        return time;
+    }
+};
+"""
 
 # Method 2: 
 # Better one
@@ -109,3 +201,123 @@ class Solution:
         
         return cnt
 
+# Java Code 
+"""
+import java.util.*;
+
+public class Solution {
+    public int leastInterval(char[] tasks, int n) {
+        if (tasks.length == 0) {
+            return -1;
+        }
+
+        // Step 1: Build a frequency map for tasks
+        Map<Character, Integer> freq = new HashMap<>();
+        for (char task : tasks) {
+            freq.put(task, freq.getOrDefault(task, 0) + 1);
+        }
+
+        // Step 2: Use max heap to schedule tasks by their frequencies
+        PriorityQueue<int[]> maxHeap = new PriorityQueue<>((a, b) -> b[0] - a[0]);
+        for (Map.Entry<Character, Integer> entry : freq.entrySet()) {
+            maxHeap.add(new int[]{entry.getValue(), entry.getKey()});
+        }
+
+        int cnt = 0;
+        while (!maxHeap.isEmpty()) {
+            int interval = n + 1;  // Interval for cooldown
+            List<int[]> temp = new ArrayList<>();  // Temporary list to store tasks to be updated
+
+            // Process tasks within the interval
+            while (interval > 0 && !maxHeap.isEmpty()) {
+                int[] current = maxHeap.poll();
+                int freqCount = current[0];
+                char task = (char) current[1];
+                freqCount -= 1;  // Decrease frequency since task is executed
+                temp.add(new int[]{freqCount, task});
+                interval--;
+                cnt++;
+            }
+
+            // Update tasks back to heap if they have remaining counts
+            for (int[] task : temp) {
+                if (task[0] > 0) {
+                    maxHeap.add(task);
+                }
+            }
+
+            // If heap is empty, all tasks are processed
+            if (maxHeap.isEmpty()) {
+                break;
+            }
+
+            // If interval > 0, CPU is idle
+            cnt += interval;
+        }
+
+        return cnt;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <queue>
+#include <unordered_map>
+
+class Solution {
+public:
+    int leastInterval(std::vector<char>& tasks, int n) {
+        if (tasks.empty()) {
+            return -1;
+        }
+
+        // Step 1: Build a frequency map for tasks
+        std::unordered_map<char, int> freq;
+        for (char task : tasks) {
+            freq[task]++;
+        }
+
+        // Step 2: Use max heap to schedule tasks by their frequencies
+        using Task = std::pair<int, char>; // (frequency, task)
+        auto cmp = [](Task a, Task b) { return a.first < b.first; };
+        std::priority_queue<Task, std::vector<Task>, decltype(cmp)> maxHeap(cmp);
+
+        for (auto& [ch, count] : freq) {
+            maxHeap.push({count, ch});
+        }
+
+        int cnt = 0;
+        while (!maxHeap.empty()) {
+            int interval = n + 1;  // Interval for cooldown
+            std::vector<Task> temp;  // Temporary list to store tasks to be updated
+
+            // Process tasks within the interval
+            while (interval > 0 && !maxHeap.empty()) {
+                auto [freqCount, task] = maxHeap.top(); maxHeap.pop();
+                freqCount -= 1;  // Decrease frequency since task is executed
+                temp.push_back({freqCount, task});
+                interval--;
+                cnt++;
+            }
+
+            // Update tasks back to heap if they have remaining counts
+            for (auto& [count, task] : temp) {
+                if (count > 0) {
+                    maxHeap.push({count, task});
+                }
+            }
+
+            // If heap is empty, all tasks are processed
+            if (maxHeap.empty()) {
+                break;
+            }
+
+            // If interval > 0, CPU is idle
+            cnt += interval;
+        }
+
+        return cnt;
+    }
+};
+"""

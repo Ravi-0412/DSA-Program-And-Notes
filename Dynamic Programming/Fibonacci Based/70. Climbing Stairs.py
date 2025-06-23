@@ -43,9 +43,10 @@ class Solution:
 class Solution {
 public:
     int climbStairs(int n) {
-        if (n <= 1) {
-            return 1;
-        }
+        // after reaching here only we can say that steps that we had taken will lead to destination. so it is one of the ways
+        if (n <= 1)
+            return 1;  // only difference from fibonacci.. if n== 0 also then it means you have taken one step then only you have reached '0'. so return 1 instead of 'n'
+
         return climbStairs(n - 1) + climbStairs(n - 2);
     }
 };
@@ -53,11 +54,12 @@ public:
 
 #JAVA
 """
-class Solution {
+public class Solution {
     public int climbStairs(int n) {
-        if (n <= 1) {
-            return 1;
-        }
+        // after reaching here only we can say that steps that we had taken will lead to destination. so it is one of the ways
+        if (n <= 1)
+            return 1;  // only difference from fibonacci.. if n== 0 also then it means you have taken one step then only you have reached '0'. so return 1 instead of 'n'
+
         return climbStairs(n - 1) + climbStairs(n - 2);
     }
 }
@@ -86,18 +88,16 @@ class Solution:
 class Solution {
 public:
     int climbStairs(int n) {
-        vector<int> dp(n + 1, -1);
+        std::vector<int> dp(n + 1, -1);
         return helper(n, dp);
     }
 
 private:
-    int helper(int n, vector<int>& dp) {
-        if (n <= 1) {
+    int helper(int n, std::vector<int>& dp) {
+        if (n <= 1)
             return 1;
-        }
-        if (dp[n] != -1) {
+        if (dp[n] != -1)
             return dp[n];
-        }
         dp[n] = helper(n - 1, dp) + helper(n - 2, dp);
         return dp[n];
     }
@@ -107,20 +107,18 @@ private:
 
 #JAVA
 """
-class Solution {
+public class Solution {
     public int climbStairs(int n) {
         int[] dp = new int[n + 1];
-        Arrays.fill(dp, -1);
+        for (int i = 0; i <= n; i++) dp[i] = -1;
         return helper(n, dp);
     }
 
     private int helper(int n, int[] dp) {
-        if (n <= 1) {
+        if (n <= 1)
             return 1;
-        }
-        if (dp[n] != -1) {
+        if (dp[n] != -1)
             return dp[n];
-        }
         dp[n] = helper(n - 1, dp) + helper(n - 2, dp);
         return dp[n];
     }

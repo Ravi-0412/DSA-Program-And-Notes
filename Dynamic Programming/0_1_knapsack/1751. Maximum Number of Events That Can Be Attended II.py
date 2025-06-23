@@ -27,7 +27,6 @@ class Solution:
         events.sort()   # will sort acc to start time and if start timme equal then acc to end time
         return solve(0, k)
 
-
 # Correct Method
 # Method 1: 
 # Recursion + Memoisation
@@ -75,6 +74,98 @@ class Solution:
 
         return solve(0, k)
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int maxValue(int[][] events, int k) {
+        Arrays.sort(events, (a, b) -> Integer.compare(a[0], b[0]));  // will sort acc to start time and if start time equal then acc to end time
+                                                                     // To decide easily which event we can pick next.
+        int n = events.length;
+
+        // Create memo array with -1 (means uncalculated)
+        int[][] dp = new int[n][k + 1];
+        for (int[] row : dp) Arrays.fill(row, -1);
+
+        return solve(0, k, events, dp);
+    }
+
+    public int solve(int cur, int k, int[][] events, int[][] dp) {
+        // either we have traversed all the events or we have chosen the maximum no of events allowed.
+        if (cur >= events.length || k == 0)
+            return 0;
+
+        if (dp[cur][k] != -1)
+            return dp[cur][k];
+
+        // we have two choices:
+        // 1)  either don't take the cur event
+        // 2) if we take it then we need to find the next event we can take after this
+        // next event we can only take if their start time is greater than the end time of this event.
+        int next = cur + 1;
+        while (next < events.length) {
+            if (events[next][0] > events[cur][1]) {
+                break;
+            }
+            next++;
+        }
+
+        dp[cur][k] = Math.max(
+            solve(cur + 1, k, events, dp),
+            events[cur][2] + solve(next, k - 1, events, dp)
+        );
+        return dp[cur][k];
+    }
+}
+"""
+# C++ Code
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int maxValue(vector<vector<int>>& events, int k) {
+        sort(events.begin(), events.end());   // will sort acc to start time and if start time equal then acc to end time
+                                              // To decide easily which event we can pick next.
+        int n = events.size();
+
+        // Create memo array with -1 (means uncalculated)
+        vector<vector<int>> dp(n, vector<int>(k + 1, -1));
+
+        return solve(0, k, events, dp);
+    }
+
+    int solve(int cur, int k, vector<vector<int>>& events, vector<vector<int>>& dp) {
+        // either we have traversed all the events or we have chosen the maximum no of events allowed.
+        if (cur >= events.size() || k == 0)
+            return 0;
+
+        if (dp[cur][k] != -1)
+            return dp[cur][k];
+
+        // we have two choices:
+        // 1)  either don't take the cur event
+        // 2) if we take it then we need to find the next event we can take after this
+        // next event we can only take if their start time is greater than the end time of this event.
+        int next = cur + 1;
+        while (next < events.size()) {
+            if (events[next][0] > events[cur][1]) {
+                break;
+            }
+            next++;
+        }
+
+        dp[cur][k] = max(
+            solve(cur + 1, k, events, dp),
+            events[cur][2] + solve(next, k - 1, events, dp)
+        );
+        return dp[cur][k];
+    }
+};
+"""
 
 # Method 2:
 # Take one more parameter 'pre' in function call.
@@ -98,6 +189,75 @@ class Solution:
         # only one choice we can't include this ele
         return self.helper(curr + 1, pre, jobs)
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int jobScheduling(int[] startTime, int[] endTime, int[] profit, int k) {
+        List<int[]> jobs = new ArrayList<>();
+        for (int i = 0; i < startTime.length; i++) {
+            jobs.add(new int[] { startTime[i], endTime[i], profit[i] });
+        }
+
+        jobs.sort(Comparator.comparingInt(a -> a[0]));  // sort by start time
+
+        return helper(0, -1, k, jobs);  // '-1' last included index, '0': current index
+    }
+
+    public int helper(int curr, int pre, int k, List<int[]> jobs) {
+        if (curr == jobs.size() || k == 0)
+            return 0;
+
+        if (pre < 0 || jobs.get(curr)[0] >= jobs.get(pre)[1]) {
+            // we can include this element. but we have two choices either include or not
+            return Math.max(
+                jobs.get(curr)[2] + helper(curr + 1, curr, k - 1, jobs),
+                helper(curr + 1, pre, k, jobs)
+            );
+        }
+
+        // only one choice, we can't include this element
+        return helper(curr + 1, pre, k, jobs);
+    }
+}
+"""
+# C++ Code
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int jobScheduling(vector<int>& startTime, vector<int>& endTime, vector<int>& profit, int k) {
+        vector<vector<int>> jobs;
+        for (int i = 0; i < startTime.size(); ++i) {
+            jobs.push_back({startTime[i], endTime[i], profit[i]});
+        }
+
+        sort(jobs.begin(), jobs.end());  // sort by start time
+
+        return helper(0, -1, k, jobs);  // '-1' last included index, '0': current index
+    }
+
+    int helper(int curr, int pre, int k, vector<vector<int>>& jobs) {
+        if (curr == jobs.size() || k == 0)
+            return 0;
+
+        if (pre < 0 || jobs[curr][0] >= jobs[pre][1]) {
+            // we can include this element. but we have two choices either include or not
+            return max(
+                jobs[curr][2] + helper(curr + 1, curr, k - 1, jobs),
+                helper(curr + 1, pre, k, jobs)
+            );
+        }
+
+        // only one choice, we can't include this element
+        return helper(curr + 1, pre, k, jobs);
+    }
+};
+"""
 
 # Method 3: 
 
@@ -163,7 +323,112 @@ class Solution:
 
         return solve(0, k)
 
+# Java Code 
+"""
+import java.util.*;
 
+class Solution {
+    public int maxValue(int[][] events, int k) {
+        // Sort events according to start time and then by end time
+        Arrays.sort(events, (a, b) -> a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]);
 
+        // Create a list of start times for binary search
+        int[] startDate = new int[events.length];
+        for (int i = 0; i < events.length; i++) {
+            startDate[i] = events[i][0];
+        }
 
+        // Initialize the memoization table
+        int[][] dp = new int[events.length + 1][k + 1];
+        for (int[] row : dp) Arrays.fill(row, -1);
 
+        return solve(0, k, events, startDate, dp);
+    }
+
+    // Custom binary search function to find the next event index
+    public int findNextEventIndex(int time, int[] startDate) {
+        int left = 0, right = startDate.length - 1;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (startDate[mid] > time) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;  // 'right' will point to last index having startTime = time. So 'right + 1' will give the next one
+    }
+
+    public int solve(int cur, int k, int[][] events, int[] startDate, int[][] dp) {
+        // Base case
+        if (cur >= events.length || k == 0)
+            return 0;
+
+        if (dp[cur][k] != -1)
+            return dp[cur][k];
+
+        // Option 1: Don't take the current event
+        int option1 = solve(cur + 1, k, events, startDate, dp);
+
+        // Option 2: Take the current event and find the next available event
+        int nextEventIndex = findNextEventIndex(events[cur][1], startDate);
+        int option2 = events[cur][2] + solve(nextEventIndex, k - 1, events, startDate, dp);
+
+        dp[cur][k] = Math.max(option1, option2);
+        return dp[cur][k];
+    }
+}
+"""
+# C++ Code
+"""
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int maxValue(vector<vector<int>>& events, int k) {
+        // Sort events according to start time and then by end time
+        sort(events.begin(), events.end());
+
+        // Create start time array for binary search
+        vector<int> startDate;
+        for (const auto& e : events) {
+            startDate.push_back(e[0]);
+        }
+
+        // Initialize the memoization table
+        int n = events.size();
+        vector<vector<int>> dp(n + 1, vector<int>(k + 1, -1));
+
+        return solve(0, k, events, startDate, dp);
+    }
+
+    // Custom binary search function to find the next event index
+    int findNextEventIndex(int time, const vector<int>& startDate) {
+        int left = 0, right = startDate.size() - 1;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (startDate[mid] > time) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;  // 'right' will point to last index having startTime = time. So 'right + 1' will give the next one
+    }
+
+    int solve(int cur, int k, const vector<vector<int>>& events, const vector<int>& startDate, vector<vector<int>>& dp) {
+        // Base case
+        if (cur >= events.size() || k == 0)
+            return 0;
+
+        if (dp[cur][k] != -1)
+            return dp[cur][k];
+
+        // Option 1: Don't take the current event
+        int option1 = solve(cur + 1, k, events, startDate, dp);
+
+        // Option 2: Take the current event and find the next available one
+        int nextEventIndex = find
+"""

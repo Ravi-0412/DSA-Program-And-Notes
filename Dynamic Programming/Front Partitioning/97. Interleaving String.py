@@ -42,6 +42,64 @@ class Solution:
             return True
         return False
 
+# Java Code 
+"""
+class Solution {
+    public boolean isInterleave(String s1, String s2, String s3) {
+        if (s1.length() + s2.length() != s3.length())
+            return false;
+        return helper(0, 0, s1, s2, s3);
+    }
+
+    // this function will tell considering the char from 'i'th index of s1 and char from 'j'th index in s2,
+    // is s3[i+j: ] is a interleaving substring?
+    private boolean helper(int i, int j, String s1, String s2, String s3) {
+        if (i == s1.length() && j == s2.length())
+            return true;
+
+        // checking char at curr index in 's3' is same as either curr index in s1 or s2
+        // index of s3 will be always equal to 'i + j' since we are forming s3 from s1 and s2
+        if (i < s1.length() && s1.charAt(i) == s3.charAt(i + j) && helper(i + 1, j, s1, s2, s3))
+            return true;
+
+        if (j < s2.length() && s2.charAt(j) == s3.charAt(i + j) && helper(i, j + 1, s1, s2, s3))
+            return true;
+
+        return false;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    bool isInterleave(string s1, string s2, string s3) {
+        if (s1.length() + s2.length() != s3.length())
+            return false;
+        return helper(0, 0, s1, s2, s3);
+    }
+
+    // this function will tell considering the char from 'i'th index of s1 and char from 'j'th index in s2,
+    // is s3[i+j: ] is a interleaving substring?
+    bool helper(int i, int j, const string& s1, const string& s2, const string& s3) {
+        if (i == s1.length() && j == s2.length())
+            return true;
+
+        // checking char at curr index in 's3' is same as either curr index in s1 or s2
+        // index of s3 will be always equal to 'i + j' since we are forming s3 from s1 and s2
+        if (i < s1.length() && s1[i] == s3[i + j] && helper(i + 1, j, s1, s2, s3))
+            return true;
+
+        if (j < s2.length() && s2[j] == s3[i + j] && helper(i, j + 1, s1, s2, s3))
+            return true;
+
+        return false;
+    }
+};
+"""
 
 # Method 2: 
 # memoization
@@ -68,7 +126,80 @@ class Solution:
             return True
         dp[i][j]= False
         return False
+   
+# Java Code 
+"""
+class Solution {
+    public boolean isInterleave(String s1, String s2, String s3) {
+        if (s1.length() + s2.length() != s3.length())
+            return false;
 
+        int[][] dp = new int[s1.length() + 1][s2.length() + 1];
+        for (int i = 0; i <= s1.length(); i++)
+            for (int j = 0; j <= s2.length(); j++)
+                dp[i][j] = -1;
+
+        return helper(0, 0, s1, s2, s3, dp);
+    }
+
+    private boolean helper(int i, int j, String s1, String s2, String s3, int[][] dp) {
+        if (i == s1.length() && j == s2.length())
+            return true;
+        if (dp[i][j] != -1)
+            return dp[i][j] == 1;
+        // checking char at curr index in 's3' is same as either curr index in s1 or s2
+        // index of s3 will be always equal to 'i+j' since we are forming s3 from s1 and s2 
+        if (i < s1.length() && s1.charAt(i) == s3.charAt(i + j) && helper(i + 1, j, s1, s2, s3, dp)) {
+            dp[i][j] = 1;
+            return true;
+        }
+        if (j < s2.length() && s2.charAt(j) == s3.charAt(i + j) && helper(i, j + 1, s1, s2, s3, dp)) {
+            dp[i][j] = 1;
+            return true;
+        }
+        dp[i][j] = 0;
+        return false;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <string>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    bool isInterleave(string s1, string s2, string s3) {
+        if (s1.length() + s2.length() != s3.length())
+            return false;
+
+        vector<vector<int>> dp(s1.length() + 1, vector<int>(s2.length() + 1, -1));
+        return helper(0, 0, s1, s2, s3, dp);
+    }
+
+    bool helper(int i, int j, const string& s1, const string& s2, const string& s3, vector<vector<int>>& dp) {
+        if (i == s1.length() && j == s2.length())
+            return true;
+        if (dp[i][j] != -1)
+            return dp[i][j];
+
+        // checking char at curr index in 's3' is same as either curr index in s1 or s2
+        // index of s3 will be always equal to 'i+j' since we are forming s3 from s1 and s2 
+        if (i < s1.length() && s1[i] == s3[i + j] && helper(i + 1, j, s1, s2, s3, dp)) {
+            dp[i][j] = 1;
+            return true;
+        }
+        if (j < s2.length() && s2[j] == s3[i + j] && helper(i, j + 1, s1, s2, s3, dp)) {
+            dp[i][j] = 1;
+            return true;
+        }
+
+        dp[i][j] = 0;
+        return false;
+    }
+};
+""" 
 
 # Method 3: 
 # Tabulation
@@ -89,6 +220,59 @@ class Solution:
         
         return dp[0][0]
 
+# Java Code 
+"""
+class Solution {
+    public boolean isInterleave(String s1, String s2, String s3) {
+        if (s1.length() + s2.length() != s3.length())
+            return false;
+
+        boolean[][] dp = new boolean[s1.length() + 1][s2.length() + 1];
+        dp[s1.length()][s2.length()] = true; // base case
+
+        for (int i = s1.length(); i >= 0; i--) {
+            for (int j = s2.length(); j >= 0; j--) {
+                if (i < s1.length() && s1.charAt(i) == s3.charAt(i + j) && dp[i + 1][j]) {
+                    dp[i][j] = true;  // Match current character in s1
+                } else if (j < s2.length() && s2.charAt(j) == s3.charAt(i + j) && dp[i][j + 1]) {
+                    dp[i][j] = true;  // Match current character in s2
+                }
+            }
+        }
+
+        return dp[0][0];
+    }
+}
+"""
+# C++ Code 
+"""
+#include <string>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    bool isInterleave(string s1, string s2, string s3) {
+        if (s1.length() + s2.length() != s3.length())
+            return false;
+
+        vector<vector<bool>> dp(s1.length() + 1, vector<bool>(s2.length() + 1, false));
+        dp[s1.length()][s2.length()] = true; // base case
+
+        for (int i = s1.length(); i >= 0; --i) {
+            for (int j = s2.length(); j >= 0; --j) {
+                if (i < s1.length() && s1[i] == s3[i + j] && dp[i + 1][j]) {
+                    dp[i][j] = true;  // Match current character in s1
+                } else if (j < s2.length() && s2[j] == s3[i + j] && dp[i][j + 1]) {
+                    dp[i][j] = true;  // Match current character in s2
+                }
+            }
+        }
+
+        return dp[0][0];
+    }
+};
+"""
 
 
 

@@ -47,6 +47,72 @@ class Solution:
         dp[k][n]= ans
         return dp[k][n]
 
+# Java Code 
+"""
+class Solution {
+    public int superEggDrop(int k, int n) {
+        int[][] dp = new int[k + 1][n + 1];
+        for (int i = 0; i <= k; i++)
+            for (int j = 0; j <= n; j++)
+                dp[i][j] = -1;
+        return f(k, n, dp);  // it denotes the min no of moves, given no of eggs 'k' and remaining floors to check is 'n'
+    }
+
+    private int f(int k, int n, int[][] dp) {
+        // 1) if k == 1, go on checking floor from 1 to 'n' (worst case)
+        // 2) if number of floors <= 1, then ans = floors
+        if (k == 1 || n <= 1)
+            return n;
+
+        if (dp[k][n] != -1)
+            return dp[k][n];
+
+        int ans = Integer.MAX_VALUE;
+        for (int i = 1; i <= n; i++) {
+            int temp = 1 + Math.max(f(k - 1, i - 1, dp), f(k, n - i, dp));  // max of egg break and egg doesn't break
+            ans = Math.min(ans, temp);  // get overall minimum moves
+        }
+
+        dp[k][n] = ans;
+        return dp[k][n];
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <climits>
+using namespace std;
+
+class Solution {
+public:
+    int superEggDrop(int k, int n) {
+        vector<vector<int>> dp(k + 1, vector<int>(n + 1, -1));
+        return f(k, n, dp);  // it denotes the min no of moves, given no of eggs 'k' and remaining floors to check is 'n'
+    }
+
+    int f(int k, int n, vector<vector<int>>& dp) {
+        // 1) if k == 1, go on checking floor from 1 to 'n' (worst case)
+        // 2) if number of floors <= 1, then ans = floors
+        if (k == 1 || n <= 1)
+            return n;
+
+        if (dp[k][n] != -1)
+            return dp[k][n];
+
+        int ans = INT_MAX;
+        for (int i = 1; i <= n; ++i) {
+            int temp = 1 + max(f(k - 1, i - 1, dp), f(k, n - i, dp));  // max of egg break and egg doesn't break
+            ans = min(ans, temp);  // get overall minimum moves
+        }
+
+        dp[k][n] = ans;
+        return dp[k][n];
+    }
+};
+"""
+
+
 
 # Method 2: 
 # memoization: 
@@ -72,10 +138,69 @@ class Solution:
             ans= min(ans, tempAns) 
         dp[k][n]= ans
         return dp[k][n]
+# Java Code 
+"""
+class Solution {
+    public int superEggDrop(int k, int n) {
+        int[][] dp = new int[k + 1][n + 1];
+        for (int i = 0; i <= k; i++)
+            for (int j = 0; j <= n; j++)
+                dp[i][j] = -1;
+        return f(k, n, dp);  // it denotes the given no of eggs 'k' and remaining floors to check is 'n'
+    }
 
+    private int f(int k, int n, int[][] dp) {
+        // 1) if k == 1 go on checking floor from 1 to 'n'(in worst case)
+        // 2) if no of floor <= 1 then ans = remaining floor
+        if (k == 1 || n <= 1)
+            return n;
+        if (dp[k][n] != -1)
+            return dp[k][n];
 
+        int ans = Integer.MAX_VALUE;
+        for (int i = 1; i <= n; i++) {
+            int tempAns = 1 + Math.max(f(k - 1, i - 1, dp), f(k, n - i, dp));
+            ans = Math.min(ans, tempAns);
+        }
+
+        dp[k][n] = ans;
+        return dp[k][n];
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <climits>
+using namespace std;
+
+class Solution {
+public:
+    int superEggDrop(int k, int n) {
+        vector<vector<int>> dp(k + 1, vector<int>(n + 1, -1));
+        return f(k, n, dp);  // it denotes the given no of eggs 'k' and remaining floors to check is 'n'
+    }
+
+    int f(int k, int n, vector<vector<int>>& dp) {
+        // 1) if k == 1 go on checking floor from 1 to 'n'(in worst case)
+        // 2) if no of floor <= 1 then ans = remaining floor
+        if (k == 1 || n <= 1)
+            return n;
+        if (dp[k][n] != -1)
+            return dp[k][n];
+
+        int ans = INT_MAX;
+        for (int i = 1; i <= n; ++i) {
+            int tempAns = 1 + max(f(k - 1, i - 1, dp), f(k, n - i, dp));
+            ans = min(ans, tempAns);
+        }
+
+        dp[k][n] = ans;
+        return dp[k][n];
+    }
+};
+"""
 # Method 3: 
-
 # optimising memoization using bottom up and binary search.
 # Instead of dropping from each possible floor, we can find the floor using binary search.
 # Time Complexity: O((n * k) * logn )
@@ -114,6 +239,85 @@ class Solution:
         dp[k][n]= ans
         return dp[k][n]
 
+# Java Code 
+"""
+class Solution {
+    public int superEggDrop(int k, int n) {
+        int[][] dp = new int[k + 1][n + 1];
+        for (int i = 0; i <= k; ++i)
+            for (int j = 0; j <= n; ++j)
+                dp[i][j] = -1;
+        return f(k, n, dp);  // it denotes the given no of eggs 'k' and remaining floor we have to check is 'n'
+    }
 
+    private int f(int k, int n, int[][] dp) {
+        // 1) if k == 1 go on checking floor from 1 to 'n'(in worst case)
+        // 2) if no of floor <= 1 then ans = remaining floor
+        if (k == 1 || n <= 1) return n;
+        if (dp[k][n] != -1) return dp[k][n];
 
+        int ans = Integer.MAX_VALUE;
+        int l = 1, h = n, tempAns = 0;
 
+        // use binary search instead of linear search
+        while (l <= h) {
+            int mid = (l + h) / 2;
+            int left = f(k - 1, mid - 1, dp);      // egg breaks
+            int right = f(k, n - mid, dp);         // egg doesn't break
+            tempAns = 1 + Math.max(left, right);   // store max of both
+
+            if (right > left)
+                l = mid + 1;    // move upwards
+            else
+                h = mid - 1;    // move downwards
+
+            ans = Math.min(ans, tempAns);  // store minimum attempts
+        }
+
+        dp[k][n] = ans;
+        return dp[k][n];
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <climits>
+using namespace std;
+
+class Solution {
+public:
+    int superEggDrop(int k, int n) {
+        vector<vector<int>> dp(k + 1, vector<int>(n + 1, -1));
+        return f(k, n, dp);  // it denotes the given no of eggs 'k' and remaining floor we have to check is 'n'
+    }
+
+    int f(int k, int n, vector<vector<int>>& dp) {
+        // 1) if k == 1 go on checking floor from 1 to 'n'(in worst case)
+        // 2) if no of floor <= 1 then ans = remaining floor
+        if (k == 1 || n <= 1) return n;
+        if (dp[k][n] != -1) return dp[k][n];
+
+        int ans = INT_MAX;
+        int l = 1, h = n, tempAns = 0;
+
+        // use binary search instead of linear search
+        while (l <= h) {
+            int mid = (l + h) / 2;
+            int left = f(k - 1, mid - 1, dp);      // egg breaks
+            int right = f(k, n - mid, dp);         // egg doesn't break
+            tempAns = 1 + max(left, right);        // store max of both
+
+            if (right > left)
+                l = mid + 1;   // move upwards
+            else
+                h = mid - 1;   // move downwards
+
+            ans = min(ans, tempAns);  // store minimum attempts
+        }
+
+        dp[k][n] = ans;
+        return dp[k][n];
+    }
+};
+"""

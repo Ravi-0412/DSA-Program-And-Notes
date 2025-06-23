@@ -82,7 +82,92 @@ class Solution:
                 ans= max(ans, n1sum * n2)
         return ans
 
+# Java Code
+"""
+import java.util.*;
 
+public class Solution {
+    public long maxScore(int[] nums1, int[] nums2, int k) {
+        // for mapping the ele from num1 to nums2
+        int n = nums1.length;
+        int[][] pairs = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            pairs[i][0] = nums1[i];
+            pairs[i][1] = nums2[i];
+        }
+
+        // sort the above array 'pair' according to values of nums2 in descending order
+        Arrays.sort(pairs, (a, b) -> Integer.compare(b[1], a[1]));
+
+        // now consider each ele in nums2 as minimum and find the maximum score we can get.
+        long ans = 0;
+        long n1sum = 0;  // will store the sum of ele from nums1 that we have included till now.
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+
+        for (int[] pair : pairs) {
+            int n1 = pair[0], n2 = pair[1];
+            n1sum += n1;
+            minHeap.add(n1);  // we have to remove the min from num1 if len(heap)=>subsequence become greater than 'k'
+                              // removing min because we have to maximise ans.
+            if (minHeap.size() > k) {
+                // then it is better to not include top of heap for cur num 'n2'.
+                n1sum -= minHeap.poll();
+            }
+            if (minHeap.size() == k) {
+                // 'n2' is minimum till now from 'nums2' and maximum sum we can get when 'n2' will be minimum = n1sum * n2.
+                ans = Math.max(ans, n1sum * n2);
+            }
+        }
+        return ans;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+class Solution {
+public:
+    long long maxScore(std::vector<int>& nums1, std::vector<int>& nums2, int k) {
+        // for mapping the ele from num1 to nums2
+        int n = nums1.size();
+        std::vector<std::pair<int, int>> pairs;
+        for (int i = 0; i < n; ++i) {
+            pairs.push_back({nums1[i], nums2[i]});
+        }
+
+        // sort the above array 'pair' according to values of nums2 in descending order
+        std::sort(pairs.begin(), pairs.end(), [](const auto& a, const auto& b) {
+            return a.second > b.second;
+        });
+
+        // now consider each ele in nums2 as minimum and find the maximum score we can get.
+        long long ans = 0;
+        long long n1sum = 0;  // will store the sum of ele from nums1 that we have included till now.
+        std::priority_queue<int, std::vector<int>, std::greater<int>> minHeap;
+
+        for (auto& [n1, n2] : pairs) {
+            n1sum += n1;
+            minHeap.push(n1);  // we have to remove the min from num1 if len(heap)=>subsequence become greater than 'k'
+                               // removing min because we have to maximise ans.
+            if (minHeap.size() > k) {
+                // then it is better to not include top of heap for cur num 'n2'.
+                n1sum -= minHeap.top();
+                minHeap.pop();
+            }
+            if (minHeap.size() == k) {
+                // 'n2' is minimum till now from 'nums2' and maximum sum we can get when 'n2' will be minimum = n1sum * n2.
+                ans = std::max(ans, n1sum * static_cast<long long>(n2));
+            }
+        }
+
+        return ans;
+    }
+};
+"""
 
 # Related Q:
 # 1383. Maximum Performance of a Team    => Exactly same question

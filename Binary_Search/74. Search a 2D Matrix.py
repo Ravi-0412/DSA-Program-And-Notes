@@ -36,6 +36,63 @@ class Solution:
                 low= mid+1
         return True if arr[low]== key else False
 
+# Java Code 
+"""
+public class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int row = matrix.length, col = matrix[0].length;
+        for (int i = 0; i < row; i++) {  // O(m)
+            if (matrix[i][0] <= target && target <= matrix[i][col - 1]) {
+                return binarySearch(matrix[i], target);
+            }
+        }
+        return false;
+    }
+
+    public boolean binarySearch(int[] arr, int key) {
+        int n = arr.length;
+        int low = 0, up = n - 1;
+        while (low < up) {
+            int mid = low + (up - low) / 2;
+            if (arr[mid] >= key) {
+                up = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return arr[low] == key;
+    }
+}
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int row = matrix.size(), col = matrix[0].size();
+        for (int i = 0; i < row; i++) {  // O(m)
+            if (matrix[i][0] <= target && target <= matrix[i][col - 1]) {
+                return binarySearch(matrix[i], target);
+            }
+        }
+        return false;
+    }
+
+    bool binarySearch(const vector<int>& arr, int key) {
+        int n = arr.size();
+        int low = 0, up = n - 1;
+        while (low < up) {
+            int mid = low + (up - low) / 2;
+            if (arr[mid] >= key) {
+                up = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return arr[low] == key;
+    }
+};
+"""
 
 # method 2: 
 # little more optimised
@@ -69,7 +126,80 @@ class Solution:
             else:
                 low= mid+1
         return True if arr[low]== key else False
-    
+
+# Java Code 
+"""
+public class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int row = matrix.length, col = matrix[0].length;
+        int start = 0, end = row - 1;
+
+        // finding the row in which our target belong using binary search.
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (matrix[mid][0] <= target && target <= matrix[mid][col - 1]) {
+                return binarySearch(matrix[mid], target);
+            } else if (matrix[mid][0] > target) {  // if target is smaller than first ele also then search in the pre row.
+                end = mid - 1;
+            } else if (matrix[mid][col - 1] < target) {  // if target is greater than last ele also then search in the next row.
+                start = mid + 1;
+            }
+        }
+        return false;
+    }
+
+    public boolean binarySearch(int[] arr, int key) {
+        int n = arr.length;
+        int low = 0, up = n - 1;
+        while (low < up) {
+            int mid = low + (up - low) / 2;
+            if (arr[mid] >= key) {
+                up = mid;         // agar hmko target ele hi find karna h kisi smaller index pe then do this
+            } else {
+                low = mid + 1;
+            }
+        }
+        return arr[low] == key;
+    }
+}
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    bool searchMatrix(const std::vector<std::vector<int>>& matrix, int target) {
+        int row = matrix.size(), col = matrix[0].size();
+        int start = 0, end = row - 1;
+
+        // finding the row in which our target belong using binary search.
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (matrix[mid][0] <= target && target <= matrix[mid][col - 1]) {
+                return binarySearch(matrix[mid], target);
+            } else if (matrix[mid][0] > target) {  // if target is smaller than first ele also then search in the pre row.
+                end = mid - 1;
+            } else if (matrix[mid][col - 1] < target) {  // if target is greater than last ele also then search in the next row.
+                start = mid + 1;
+            }
+        }
+        return false;
+    }
+
+    bool binarySearch(const std::vector<int>& arr, int key) {
+        int n = arr.size();
+        int low = 0, up = n - 1;
+        while (low < up) {
+            int mid = low + (up - low) / 2;
+            if (arr[mid] >= key) {
+                up = mid;         // agar hmko target ele hi find karna h kisi smaller index pe then do this
+            } else {
+                low = mid + 1;
+            }
+        }
+        return arr[low] == key;
+    }
+};
+"""   
 
 # Method 3: 
 # Using the observation row wise and column wise will be sorted also.
@@ -123,6 +253,58 @@ class Solution:
         return False
 
 
+# Java Code 
+"""
+public class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int row = matrix.length, col = matrix[0].length;
+        int down = 0, left = col - 1;   // starting row and col i.e (0, col -1)
+        while (down < row && left >= 0) {  // 'i' will always go down(max till row-1) and 'j' will always go left max till '0'
+            // if found then return True
+            if (matrix[down][left] == target) {
+                return true;
+            }
+            if (matrix[down][left] > target) {  // it means target will be present on the previous col
+                                                // as all col is also sorted and we need to search the ele 
+                                                // lesser than current one
+                left -= 1;
+            } else if (matrix[down][left] < target) {  // it means target will be present on the next rows
+                                                       // as all row  is also sorted and we need to search the 
+                                                       // ele greater than current one
+                down += 1;
+            }
+        }
+        return false;
+    }
+}
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    bool searchMatrix(const vector<vector<int>>& matrix, int target) {
+        int row = matrix.size(), col = matrix[0].size();
+        int down = 0, left = col - 1;   // starting row and col i.e (0, col -1)
+        while (down < row && left >= 0) {  // 'i' will always go down(max till row-1) and 'j' will always go left max till '0'
+            // if found then return True
+            if (matrix[down][left] == target) {
+                return true;
+            }
+            if (matrix[down][left] > target) {  // it means target will be present on the previous col
+                                                // as all col is also sorted and we need to search the ele 
+                                                // lesser than current one
+                left -= 1;
+            } else if (matrix[down][left] < target) {  // it means target will be present on the next rows
+                                                       // as all row  is also sorted and we need to search the 
+                                                       // ele greater than current one
+                down += 1;
+            }
+        }
+        return false;
+    }
+};
+"""
+
 # Method 4: 
 # Using binary search directly
 # How we can we think of this ?
@@ -152,6 +334,55 @@ class Solution:
                 start = mid + 1 
         return False
 
+# Java Code 
+"""
+public class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int row = matrix.length, col = matrix[0].length;
+        int start = 0, end = row * col - 1;
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            // getting coordinates of mid
+            int r = mid / col;
+            int c = mid % col;
+            if (matrix[r][c] == target) {  // mid == target
+                return true;
+            }
+            if (matrix[r][c] > target) {   // mid > target
+                end = mid - 1;
+            } else {                       // mid < target
+                start = mid + 1;
+            }
+        }
+        return false;
+    }
+}
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    bool searchMatrix(const std::vector<std::vector<int>>& matrix, int target) {
+        int row = matrix.size(), col = matrix[0].size();
+        int start = 0, end = row * col - 1;
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            // getting coordinates of mid
+            int r = mid / col;
+            int c = mid % col;
+            if (matrix[r][c] == target) {  // mid == target
+                return true;
+            }
+            if (matrix[r][c] > target) {   // mid > target
+                end = mid - 1;
+            } else {                       // mid < target
+                start = mid + 1;
+            }
+        }
+        return false;
+    }
+};
+"""
 
 
 

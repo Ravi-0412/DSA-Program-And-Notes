@@ -60,6 +60,92 @@ class Solution:
         # if < M means allocation is possible otherwise not possible
         return False if student > M else True
 
+# Java Code 
+"""
+public class Solution {
+    public int findPages(int[] A, int N, int M) {
+        if (M > N) return -1;
+
+        int start = Integer.MIN_VALUE, end = 0;
+        for (int i = 0; i < N; i++) {
+            start = Math.max(start, A[i]);
+            end += A[i];
+        }
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (isValid(A, N, M, mid)) {  // search for even more smaller but mid can be the ans also.
+                end = mid;
+            } else {
+                start = mid + 1;
+            }
+        }
+        return start;
+    }
+
+    // this will tell whether allocation is possible for the decided max_page(mid) or not.
+    // we will start with one student and start allocating books to them as much as possible 
+    // and will count the no of pages in sum for that particular student.
+    private boolean isValid(int[] A, int N, int M, int maxPage) {
+        int student = 1, sum = 0;
+        // try allocating the books
+        for (int i = 0; i < N; i++) {
+            sum += A[i];
+            if (sum > maxPage) {
+                // now we can't allocate further pages to the current selected student. 
+                // in this case we will increase the no of student and start allocating the books to the new student.
+                student++;
+                sum = A[i];
+            }
+        }
+        // and at last we we will compare the no of students with M(# student given in the Q)
+        // if < M means allocation is possible otherwise not possible
+        return student <= M;
+    }
+}
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    int findPages(vector<int>& A, int N, int M) {
+        if (M > N) return -1;
+
+        int start = *max_element(A.begin(), A.end());
+        int end = accumulate(A.begin(), A.end(), 0);
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (isValid(A, N, M, mid)) {  // search for even more smaller but mid can be the ans also.
+                end = mid;
+            } else {
+                start = mid + 1;
+            }
+        }
+        return start;
+    }
+
+    // this will tell whether allocation is possible for the decided max_page(mid) or not.
+    // we will start with one student and start allocating books to them as much as possible 
+    // and will count the no of pages in sum for that particular student.
+    bool isValid(const vector<int>& A, int N, int M, int maxPage) {
+        int student = 1, sum = 0;
+        // try allocating the books
+        for (int i = 0; i < N; i++) {
+            sum += A[i];
+            if (sum > maxPage) {
+                // now we can't allocate further pages to the current selected student. 
+                // in this case we will increase the no of student and start allocating the books to the new student.
+                student++;
+                sum = A[i];
+            }
+        }
+        // and at last we we will compare the no of students with M(# student given in the Q)
+        // if < M means allocation is possible otherwise not possible
+        return student <= M;
+    }
+};
+"""
 
 # Extension: 
 

@@ -36,3 +36,70 @@ class Solution:
         
         return max(dfs(root))   # return max([withRoot, withoutRoot])
 
+# Java Code 
+"""
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int x) { val = x; }
+}
+
+class Solution {
+    public int rob(TreeNode root) {
+        int[] result = dfs(root);
+        return Math.max(result[0], result[1]);  // return max([withRoot, withoutRoot])
+    }
+
+    // return pair: [withRoot, withoutRoot]
+    private int[] dfs(TreeNode root) {
+        if (root == null) {
+            return new int[]{0, 0};  // [withRoot, withoutRoot]
+        }
+
+        int[] leftPair = dfs(root.left);
+        int[] rightPair = dfs(root.right);
+
+        // when we include the current node
+        int withRoot = root.val + leftPair[1] + rightPair[1];
+        // when we don't include the current node
+        int withoutRoot = Math.max(leftPair[0], leftPair[1]) + Math.max(rightPair[0], rightPair[1]);
+
+        return new int[]{withRoot, withoutRoot};
+    }
+}
+"""
+# C++ Code 
+"""
+#include <algorithm>
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
+
+class Solution {
+public:
+    int rob(TreeNode* root) {
+        auto result = dfs(root);
+        return max(result.first, result.second);  // return max([withRoot, withoutRoot])
+    }
+
+    // return pair: [withRoot, withoutRoot]
+    pair<int, int> dfs(TreeNode* root) {
+        if (!root) return {0, 0};  // [withRoot, withoutRoot]
+
+        auto leftPair = dfs(root->left);
+        auto rightPair = dfs(root->right);
+
+        // when we include the current node
+        int withRoot = root->val + leftPair.second + rightPair.second;
+        // when we don't include the current node
+        int withoutRoot = max(leftPair.first, leftPair.second) + max(rightPair.first, rightPair.second);
+
+        return {withRoot, withoutRoot};
+    }
+};
+"""

@@ -19,6 +19,53 @@ def countDistinctSubstrings(s):
 
     return len(substrings)
 
+# Java Code 
+"""
+import java.util.*;
+
+public class Solution {
+    public static int countDistinctSubstrings(String s) {
+        Set<String> substrings = new HashSet<>();
+        substrings.add("");  // Include the empty substring
+
+        int n = s.length();
+        for (int i = 0; i < n; i++) {
+            String curr = "";
+            for (int j = i; j < n; j++) {
+                curr += s.charAt(j);  // O(n) time to build substring
+                if (!substrings.contains(curr)) {
+                    substrings.add(curr);
+                }
+            }
+        }
+        return substrings.size();
+    }
+}
+"""
+# C++ Code 
+"""
+#include <iostream>
+#include <unordered_set>
+#include <string>
+using namespace std;
+
+int countDistinctSubstrings(const string& s) {
+    unordered_set<string> substrings;
+    substrings.insert("");  // Include the empty substring
+
+    int n = s.length();
+    for (int i = 0; i < n; ++i) {
+        string curr = "";
+        for (int j = i; j < n; ++j) {
+            curr += s[j];  // O(n) time to build substring
+            if (substrings.find(curr) == substrings.end()) {
+                substrings.insert(curr);
+            }
+        }
+    }
+    return substrings.size();
+}
+"""
 
 # method 2: 
 # using Trie
@@ -49,6 +96,71 @@ def countDistinctSubstrings(s):
             cur= cur.children[s[j]]
     return count
 
+# Java Code 
+"""
+import java.util.*;
+
+class TrieNode {
+    Map<Character, TrieNode> children = new HashMap<>();  // will point to children. and can be max of 26('a' to 'z').
+}
+
+public class Solution {
+    public static int countDistinctSubstrings(String s) {
+        TrieNode root = new TrieNode();
+        int count = 1;  // we have to include empty string also
+
+        // just insert the substring starting from each index and if that is not present then incr the count else just incr the pointer.
+        for (int i = 0; i < s.length(); i++) {
+            TrieNode cur = root;
+            for (int j = i; j < s.length(); j++) {
+                char c = s.charAt(j);
+                if (!cur.children.containsKey(c)) {  // only need to insert s[j] since we are doing by Trie.
+                    // means found new different substring
+                    cur.children.put(c, new TrieNode());
+                    count++;
+                }
+                cur = cur.children.get(c);
+            }
+        }
+
+        return count;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <iostream>
+#include <unordered_map>
+#include <string>
+using namespace std;
+
+class TrieNode {
+public:
+    unordered_map<char, TrieNode*> children;  // will point to children. and can be max of 26('a' to 'z').
+};
+
+int countDistinctSubstrings(const string& s) {
+    TrieNode* root = new TrieNode();
+    int count = 1;  // we have to include empty string also
+
+    // just insert the substring starting from each index and if that is not present then incr the count else just incr the pointer.
+    for (int i = 0; i < s.length(); ++i) {
+        TrieNode* cur = root;
+        for (int j = i; j < s.length(); ++j) {
+            char c = s[j];
+            if (cur->children.find(c) == cur->children.end()) {  // only need to insert s[j] since we are doing by Trie.
+                // means found new different substring
+                cur->children[c] = new TrieNode();
+                count++;
+            }
+            cur = cur->children[c];
+        }
+    }
+
+    return count;
+}
+"""
+
 # Extension: 
 
 # Also printing all the distinct substring
@@ -69,6 +181,82 @@ def countDistinctSubstrings(s):
             cur= cur.children[s[j]]
     print(ans)
     return count
+
+# Java Code 
+"""
+import java.util.*;
+
+class TrieNode {
+    Map<Character, TrieNode> children = new HashMap<>();  // will point to children. and can be max of 26('a' to 'z').
+}
+
+public class Solution {
+    public static int countDistinctSubstrings(String s) {
+        TrieNode root = new TrieNode();
+        int count = 1;  // we have to include empty string also
+        List<String> ans = new ArrayList<>();  // will print all distinct substrings except empty string
+
+        for (int i = 0; i < s.length(); i++) {
+            StringBuilder curAns = new StringBuilder();
+            TrieNode cur = root;
+            for (int j = i; j < s.length(); j++) {
+                char c = s.charAt(j);
+                curAns.append(c);
+                if (!cur.children.containsKey(c)) {
+                    cur.children.put(c, new TrieNode());  // means found new different substring
+                    count++;
+                    ans.add(curAns.toString());
+                }
+                cur = cur.children.get(c);
+            }
+        }
+
+        System.out.println(ans);
+        return count;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+#include <string>
+using namespace std;
+
+class TrieNode {
+public:
+    unordered_map<char, TrieNode*> children;  // will point to children. and can be max of 26('a' to 'z').
+};
+
+int countDistinctSubstrings(const string& s) {
+    TrieNode* root = new TrieNode();
+    int count = 1;  // we have to include empty string also
+    vector<string> ans;  // will print all distinct substrings except empty string
+
+    for (int i = 0; i < s.length(); ++i) {
+        string curAns = "";
+        TrieNode* cur = root;
+        for (int j = i; j < s.length(); ++j) {
+            char c = s[j];
+            curAns += c;
+            if (cur->children.find(c) == cur->children.end()) {
+                cur->children[c] = new TrieNode();  // means found new different substring
+                count++;
+                ans.push_back(curAns);
+            }
+            cur = cur->children[c];
+        }
+    }
+
+    for (const auto& substr : ans) {
+        cout << substr << " ";
+    }
+    cout << endl;
+
+    return count;
+}
+"""
 
 # Note: 
 # Q) why not directly applying the mathematical logical i.e  for a string of len 'n' no of total substring possible = (n*(n+1)) //2.

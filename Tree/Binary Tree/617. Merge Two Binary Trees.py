@@ -15,3 +15,48 @@ class Solution:
         node.left=  self.mergeTrees(root1.left, root2.left)
         node.right= self.mergeTrees(root1.right, root2.right)
         return node
+
+# Java Code 
+"""
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int x) { val = x; }
+}
+
+class Solution {
+    public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
+        if (root1 == null || root2 == null) {
+            return root1 != null ? root1 : root2;
+        }
+        // means both are not None.
+        TreeNode node = new TreeNode(root1.val + root2.val);
+        node.left = mergeTrees(root1.left, root2.left);
+        node.right = mergeTrees(root1.right, root2.right);
+        return node;
+    }
+}
+"""
+# C++ Code 
+"""
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
+
+class Solution {
+public:
+    TreeNode* mergeTrees(TreeNode* root1, TreeNode* root2) {
+        if (root1 == nullptr || root2 == nullptr) {
+            return root1 ? root1 : root2;
+        }
+        // means both are not None.
+        TreeNode* node = new TreeNode(root1->val + root2->val);
+        node->left = mergeTrees(root1->left, root2->left);
+        node->right = mergeTrees(root1->right, root2->right);
+        return node;
+    }
+};
+"""

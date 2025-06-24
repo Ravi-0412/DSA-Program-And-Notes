@@ -16,3 +16,50 @@ class Solution:
         if root.left== None and root.right== None and root.val== 0:
             return None
         return root
+
+# Java Code 
+"""
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int x) { val = x; }
+}
+
+class Solution {
+    public TreeNode pruneTree(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        root.left = pruneTree(root.left);
+        root.right = pruneTree(root.right);
+        if (root.left == null && root.right == null && root.val == 0) {
+            return null;
+        }
+        return root;
+    }
+}
+"""
+# C++ Code 
+"""
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
+
+class Solution {
+public:
+    TreeNode* pruneTree(TreeNode* root) {
+        if (root == nullptr) {
+            return nullptr;
+        }
+        root->left = pruneTree(root->left);
+        root->right = pruneTree(root->right);
+        if (root->left == nullptr && root->right == nullptr && root->val == 0) {
+            return nullptr;
+        }
+        return root;
+    }
+};
+"""

@@ -54,4 +54,89 @@ class Solution:
             else:  # search for greater one.
                 start= mid + 1
         return start
-    
+
+# Java Code 
+"""
+public class Solution {
+    public int minCapability(int[] nums, int k) {
+        // 2nd Template only
+        int start = Integer.MAX_VALUE, end = Integer.MIN_VALUE; // our value will lie in this range only.
+        for (int num : nums) {
+            start = Math.min(start, num);
+            end = Math.max(end, num);
+        }
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            // if no of ele we can pick non-adjacent having value <= mid is >= k, then search for even more smaller value.
+            if (noLessThan(nums, mid) >= k) {
+                end = mid;
+            } else { // search for greater one.
+                start = mid + 1;
+            }
+        }
+        return start;
+    }
+
+    // Will the number of ele we can pick that have value <= mid such that no two of them are adjacent.
+    private int noLessThan(int[] nums, int mid) {
+        boolean lastTaken = false;
+        int count = 0;
+        for (int num : nums) {
+            // if pre ele is taken then we can't take this ele so simply skip.
+            if (lastTaken) {
+                lastTaken = false;
+                continue;
+            }
+            // if smaller than 'mid', then increase the count.
+            if (num <= mid) {
+                count++;
+                lastTaken = true;
+            }
+        }
+        return count;
+    }
+}
+"""
+
+# C++ Code 
+"""
+class Solution {
+public:
+    int minCapability(vector<int>& nums, int k) {
+        // 2nd Template only
+        int start = *min_element(nums.begin(), nums.end());
+        int end = *max_element(nums.begin(), nums.end()); // our value will lie in this range only.
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            // if no of ele we can pick non-adjacent having value <= mid is >= k, then search for even more smaller value.
+            if (noLessThan(nums, mid) >= k) {
+                end = mid;
+            } else { // search for greater one.
+                start = mid + 1;
+            }
+        }
+        return start;
+    }
+
+    // Will the number of ele we can pick that have value <= mid such that no two of them are adjacent.
+    int noLessThan(const vector<int>& nums, int mid) {
+        bool lastTaken = false;
+        int count = 0;
+        for (int num : nums) {
+            // if pre ele is taken then we can't take this ele so simply skip.
+            if (lastTaken) {
+                lastTaken = false;
+                continue;
+            }
+            // if smaller than 'mid', then increase the count.
+            if (num <= mid) {
+                count++;
+                lastTaken = true;
+            }
+        }
+        return count;
+    }
+};
+"""

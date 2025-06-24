@@ -22,6 +22,76 @@ class Solution:
 
         return True
 
+# Java Code 
+"""
+import java.util.*;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int x) { val = x; }
+}
+
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        List<Integer> inorderVals = new ArrayList<>();
+
+        inorder(root, inorderVals);
+
+        // Check if the inorder list is strictly increasing
+        for (int i = 1; i < inorderVals.size(); i++) {
+            if (inorderVals.get(i) <= inorderVals.get(i - 1)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    void inorder(TreeNode node, List<Integer> inorderVals) {
+        if (node == null) return;
+        inorder(node.left, inorderVals);
+        inorderVals.add(node.val);
+        inorder(node.right, inorderVals);
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode* left, *right;
+    TreeNode(int x): val(x), left(nullptr), right(nullptr) {}
+};
+
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        vector<int> inorderVals;
+
+        inorder(root, inorderVals);
+
+        // Check if the inorder list is strictly increasing
+        for (int i = 1; i < inorderVals.size(); ++i) {
+            if (inorderVals[i] <= inorderVals[i - 1]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    void inorder(TreeNode* node, vector<int>& inorderVals) {
+        if (!node) return;
+        inorder(node->left, inorderVals);
+        inorderVals.push_back(node->val);
+        inorder(node->right, inorderVals);
+    }
+};
+"""
 
 # Method 2: 
 # Optimised logic of above logic.
@@ -47,6 +117,86 @@ class Solution:
             root= curr.right
         # it means all element are in sorted order in case of inorder traversal
         return True  
+
+# Java Code 
+"""
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int x) { val = x; }
+}
+
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        if (root == null) return true;
+
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode pre = null;
+        TreeNode curr = root;
+
+        while (!stack.isEmpty() || curr != null) {
+            while (curr != null) {
+                stack.push(curr);
+                curr = curr.left;
+            }
+
+            // if None, it means no left child then print the stack top and append the 'poped.right'
+            // it means we have reached the leftmost node
+            curr = stack.pop();
+            if (pre != null && curr.val <= pre.val) {  // means ele are not in ascending order in inorder traversal so return False
+                return false;
+            }
+            pre = curr;
+            curr = curr.right;
+        }
+
+        // it means all element are in sorted order in case of inorder traversal
+        return true;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <stack>
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x): val(x), left(nullptr), right(nullptr) {}
+};
+
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        if (!root) return true;
+
+        stack<TreeNode*> stk;
+        TreeNode* pre = nullptr;
+        TreeNode* curr = root;
+
+        while (!stk.empty() || curr) {
+            while (curr) {
+                stk.push(curr);
+                curr = curr->left;
+            }
+
+            // if None, it means no left child then print the stack top and append the 'poped.right'
+            // it means we have reached the leftmost node
+            curr = stk.top(); stk.pop();
+            if (pre && curr->val <= pre->val) {  // means ele are not in ascending order in inorder traversal so return False
+                return false;
+            }
+            pre = curr;
+            curr = curr->right;
+        }
+
+        // it means all element are in sorted order in case of inorder traversal
+        return true;
+    }
+};
+"""
 
 # Method 3: 
 
@@ -107,6 +257,56 @@ class Solution:
 
         return check(root, float('-inf'), float('inf'))    # (root, minimum_for_that_path, maximum_for_that_path)
 
+# Java Code 
+"""
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int x) { val = x; }
+}
+
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        return check(root, Long.MIN_VALUE, Long.MAX_VALUE);  // (root, minimum_for_that_path, maximum_for_that_path)
+    }
+
+    boolean check(TreeNode root, long min, long max) {
+        if (root == null) return true;
+        if (root.val <= min || root.val >= max) return false;
+
+        // for left: Now max will be root.val and min will be same
+        // for right: min will be root.val and max will be same
+        return check(root.left, min, root.val) && check(root.right, root.val, max);
+    }
+}
+"""
+# C++ Code 
+"""
+#include <climits>
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode* left, *right;
+    TreeNode(int x): val(x), left(nullptr), right(nullptr) {}
+};
+
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        return check(root, LONG_MIN, LONG_MAX);  // (root, minimum_for_that_path, maximum_for_that_path)
+    }
+
+    bool check(TreeNode* root, long min, long max) {
+        if (!root) return true;
+        if (root->val <= min || root->val >= max) return false;
+
+        // for left: Now max will be root->val and min will be same
+        // for right: min will be root->val and max will be same
+        return check(root->left, min, root->val) && check(root->right, root->val, max);
+    }
+};
+"""
 
 # Method 4: 
 # Bottom -up
@@ -130,6 +330,75 @@ class Solution:
         check(root)
         return self.ans
     
+# Java Code 
+"""
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int x) { val = x; }
+}
+
+class Solution {
+    boolean ans = true;
+
+    public boolean isValidBST(TreeNode root) {
+        check(root);
+        return ans;
+    }
+
+    int[] check(TreeNode root) {
+        if (root == null) {
+            return new int[]{Integer.MAX_VALUE, Integer.MIN_VALUE};  // [minimum, maximum]. For base case return such value which will be valid always
+        }
+
+        int[] left = check(root.left);
+        int[] right = check(root.right);
+
+        if (root.val <= left[1] || root.val >= right[0]) {
+            ans = false;
+        }
+
+        return new int[]{Math.min(left[0], root.val), Math.max(root.val, right[1])};
+    }
+}
+"""
+# C++ Code 
+"""
+#include <climits>
+#include <algorithm>
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode *left, *right;
+    TreeNode(int x): val(x), left(nullptr), right(nullptr) {}
+};
+
+class Solution {
+public:
+    bool ans = true;
+
+    bool isValidBST(TreeNode* root) {
+        check(root);
+        return ans;
+    }
+
+    pair<int, int> check(TreeNode* root) {
+        if (!root) {
+            return {INT_MAX, INT_MIN};  // [minimum, maximum]. For base case return such value which will be valid always
+        }
+
+        pair<int, int> left = check(root->left);
+        pair<int, int> right = check(root->right);
+
+        if (root->val <= left.second || root->val >= right.first) {
+            ans = false;
+        }
+
+        return {min(left.first, root->val), max(root->val, right.second)};
+    }
+};
+"""
 # Related Q:
 # 1) 1373. Maximum Sum BST in Binary Tree
 # It is based exactly on 'method 3' of this question.

@@ -50,6 +50,81 @@ class Solution:
                 start= mid + 1
         return start
 
+# Java Code 
+"""
+public class Solution {
+    public int nthUglyNumber(int n, int a, int b, int c) {
+
+        int start = 1;
+        int end = n * Math.max(a, Math.max(b, c));  // max can't go after this.
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            // if count(mid) >= n, search for even more smaller number.
+            if (count(mid, a, b, c) >= n) {
+                end = mid;
+            } else {
+                start = mid + 1;
+            }
+        }
+        return start;
+    }
+
+    // giev the count of numbers from '1' to 'num' that is divisible by either a or b or c.
+    private int count(int num, int a, int b, int c) {
+        return num / a + num / b + num / c
+             - num / lcm(a, b) - num / lcm(b, c) - num / lcm(a, c)
+             + num / lcm(a, lcm(b, c));
+    }
+
+    private int gcd(int num1, int num2) {
+        if (num1 == 0) return num2;
+        return gcd(num2 % num1, num1);
+    }
+
+    private int lcm(int num1, int num2) {
+        return (num1 * num2) / gcd(num1, num2);
+    }
+}
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    int nthUglyNumber(int n, int a, int b, int c) {
+        int start = 1;
+        int end = n * max({a, b, c});  // max can't go after this.
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            // if count(mid) >= n, search for even more smaller number.
+            if (count(mid, a, b, c) >= n) {
+                end = mid;
+            } else {
+                start = mid + 1;
+            }
+        }
+        return start;
+    }
+
+private:
+    // giev the count of numbers from '1' to 'num' that is divisible by either a or b or c.
+    long long count(long long num, int a, int b, int c) {
+        return num / a + num / b + num / c
+             - num / lcm(a, b) - num / lcm(b, c) - num / lcm(a, c)
+             + num / lcm(a, lcm(b, c));
+    }
+
+    int gcd(int num1, int num2) {
+        if (num1 == 0) return num2;
+        return gcd(num2 % num1, num1);
+    }
+
+    long long lcm(int num1, int num2) {
+        return 1LL * num1 * num2 / gcd(num1, num2);
+    }
+};
+"""
 
 # Method 2: 
 # to avoid calculating lcm again and again for same thing, we can store those lcm value into variabales.
@@ -79,7 +154,92 @@ class Solution:
             else:
                 start= mid + 1
         return start
-        
+
+# Java Code 
+"""
+public class Solution {
+    public int nthUglyNumber(int n, int a, int b, int c) {
+        // min from here our ans will start
+        int start = Math.min(a, Math.min(b, c));
+        // max till here we need to check
+        int end = start * n;
+
+        // storing the lcm values into variables
+        long ab = lcm(a, b);
+        long bc = lcm(b, c);
+        long ca = lcm(c, a);
+        long abc = lcm(a, (int)lcm(b, c));
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (count(mid, a, b, c, ab, bc, ca, abc) >= n) {
+                end = mid;
+            } else {
+                start = mid + 1;
+            }
+        }
+        return start;
+    }
+
+    private long count(long num, int a, int b, int c, long ab, long bc, long ca, long abc) {
+        return num / a + num / b + num / c
+             - num / ab - num / bc - num / ca
+             + num / abc;
+    }
+
+    private long lcm(int x, int y) {
+        return (long)x * y / gcd(x, y);
+    }
+
+    private int gcd(int x, int y) {
+        return y == 0 ? x : gcd(y, x % y);
+    }
+}
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    int nthUglyNumber(int n, int a, int b, int c) {
+        // min from here our ans will start
+        int start = min({a, b, c});
+        // max till here we need to check
+        int end = start * n;
+
+        // storing the lcm values into variables
+        long long ab = lcm(a, b);
+        long long bc = lcm(b, c);
+        long long ca = lcm(c, a);
+        long long abc = lcm(a, lcm(b, c));
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (count(mid, a, b, c, ab, bc, ca, abc) >= n) {
+                end = mid;
+            } else {
+                start = mid + 1;
+            }
+        }
+        return start;
+    }
+
+private:
+    long long count(long long num, int a, int b, int c,
+                    long long ab, long long bc, long long ca, long long abc) {
+        return num / a + num / b + num / c
+             - num / ab - num / bc - num / ca
+             + num / abc;
+    }
+
+    long long gcd(long long a, long long b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+
+    long long lcm(long long a, long long b) {
+        return a * b / gcd(a, b);
+    }
+};
+"""        
 # method 3: 
 
 # if given 'a', b, c are prime numbers then we can do directly like this.
@@ -100,3 +260,55 @@ class Solution:
                 start= mid + 1
         return start
 
+# Java Code 
+"""
+public class Solution {
+    public int nthUglyNumber(int n, int a, int b, int c) {
+        int start = Math.min(a, Math.min(b, c));   // min from here our ans will start
+        int end = start * n;                       // max till here we need to check
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (count(mid, a, b, c) >= n) {
+                end = mid;
+            } else {
+                start = mid + 1;
+            }
+        }
+        return start;
+    }
+
+    private int count(int num, int a, int b, int c) {
+        return num / a + num / b + num / c
+             - num / (a * b) - num / (b * c) - num / (c * a)
+             + num / (a * b * c);
+    }
+}
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    int nthUglyNumber(int n, int a, int b, int c) {
+        int start = min({a, b, c});        // min from here our ans will start
+        int end = start * n;               // max till here we need to check
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (count(mid, a, b, c) >= n) {
+                end = mid;
+            } else {
+                start = mid + 1;
+            }
+        }
+        return start;
+    }
+
+private:
+    int count(int num, int a, int b, int c) {
+        return num / a + num / b + num / c
+             - num / (a * b) - num / (b * c) - num / (c * a)
+             + num / (a * b * c);
+    }
+};
+"""

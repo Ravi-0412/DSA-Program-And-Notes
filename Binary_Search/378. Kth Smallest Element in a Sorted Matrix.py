@@ -13,7 +13,48 @@ class Solution:
                 if len(heap) > k:
                     heapq.heappop(heap)
         return -1*heap[0]
-    
+
+# Java Code 
+"""
+import java.util.*;
+
+public class Solution {
+    public int kthSmallest(int[][] matrix, int k) {
+        PriorityQueue<Integer> heap = new PriorityQueue<>(Collections.reverseOrder());
+        for (int r = 0; r < matrix.length; r++) {
+            for (int c = 0; c < matrix[0].length; c++) {
+                heap.offer(matrix[r][c] * -1); 
+                if (heap.size() > k) {
+                    heap.poll(); 
+                }
+            }
+        }
+        return -1 * heap.peek();
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <queue>
+using namespace std;
+
+class Solution {
+public:
+    int kthSmallest(vector<vector<int>>& matrix, int k) {
+        priority_queue<int> heap;
+        for (int r = 0; r < matrix.size(); r++) {
+            for (int c = 0; c < matrix[0].size(); c++) {
+                heap.push(-1 * matrix[r][c]);  /
+                if (heap.size() > k) {
+                    heap.pop();  
+                }
+            }
+        }
+        return -1 * heap.top(); 
+    }
+};
+"""
 # methopd 2: 
 # VVI (very good approach)
 # modifying heap and using the sorted rows and columns benefit.
@@ -45,6 +86,66 @@ class Solution(object):
         return minHeap[0][0]  # now kth smallest will be on the top of heap.
 
 
+# Java Code 
+"""
+import java.util.*;
+
+public class Solution {
+    public int kthSmallest(int[][] matrix, int k) {
+        int m = matrix.length, n = matrix[0].length;
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
+
+        // insert first 'k' values of all rows i.e values of 1st col as smallest ele will be from these 'k' elements.
+        for (int r = 0; r < Math.min(k, m); r++) {  // max this much row we will have to visit to get the ans.
+            minHeap.offer(new int[] { matrix[r][0], r, 0 });   // every smaller ele will be connected to these ele only.
+        }
+
+        // now start poping and add the next smaller ele w.r.t poped ele and that will be in the next col of same row.
+        while (k > 1) {  // pop the first 'k-1' smallest ele 
+            int[] curr = minHeap.poll();
+            int num = curr[0], r = curr[1], c = curr[2];
+            k -= 1;
+            if (c + 1 < n) {
+                minHeap.offer(new int[] { matrix[r][c + 1], r, c + 1 });  // next smaller ele will next to this poped ele or will be already in the heap.
+            }
+        }
+        return minHeap.peek()[0];  // now kth smallest will be on the top of heap
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <queue>
+using namespace std;
+
+class Solution {
+public:
+    int kthSmallest(vector<vector<int>>& matrix, int k) {
+        int m = matrix.size(), n = matrix[0].size();
+        auto cmp = [](const tuple<int, int, int>& a, const tuple<int, int, int>& b) {
+            return get<0>(a) > get<0>(b);
+        };
+        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, decltype(cmp)> minHeap(cmp);
+
+        // insert first 'k' values of all rows i.e values of 1st col as smallest ele will be from these 'k' elements.
+        for (int r = 0; r < min(k, m); r++) {  // max this much row we will have to visit to get the ans.
+            minHeap.emplace(matrix[r][0], r, 0);  // every smaller ele will be connected to these ele only.
+        }
+
+        // now start poping and add the next smaller ele w.r.t poped ele and that will be in the next col of same row.
+        while (k > 1) {  // pop the first 'k-1' smallest ele 
+            auto [num, r, c] = minHeap.top();
+            minHeap.pop();
+            k -= 1;
+            if (c + 1 < n) {
+                minHeap.emplace(matrix[r][c + 1], r, c + 1);  // next smaller ele will next to this poped ele or will be already in the heap.
+            }
+        }
+        return get<0>(minHeap.top());  // now kth smallest will be on the top of heap
+    }
+};
+"""
 
 # method 3: 
 # using binary search (more optimised)
@@ -99,6 +200,80 @@ def count(m):
             r += 1
     return cnt
 
+
+# Java Code 
+"""
+public class Solution {
+    public int kthSmallest(int[][] matrix, int k) {
+        // here 'start' and 'end' is the key not the index
+        int left = matrix[0][0], right = matrix[matrix.length - 1][matrix[0].length - 1];  // min will be at (0,0) and max will be at (n-1,n-1)
+                                                                                           // i.e last ele. our ans can be in this range only.
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (count(matrix, mid) >= k) {  //
+                right = mid;  // try to looking for a smaller value in the left side but 'mid' can also be the ans.
+            } else {  // we have to increase the count so we have to search beyond mid i.e 'mid +1'.
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+
+    public int count(int[][] matrix, int m) {
+        // will give the number of elements which are smaller than or equal to 'mid'.
+        // check in each row the no of elements greater than m. start from top right corner
+        // in next row, you just have to check from latest col only as matrix is row wise and col wise sorted
+        int row = matrix.length, col = matrix[0].length;
+        int r = 0, c = col - 1, cnt = 0;
+        while (r < row && c >= 0) {
+            if (matrix[r][c] > m) {
+                c--;
+            } else {
+                cnt += c + 1;  // this much will be the no of ele <= 'm' in 'i'th row
+                r++;
+            }
+        }
+        return cnt;
+    }
+}
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    int kthSmallest(vector<vector<int>>& matrix, int k) {
+        // here 'start' and 'end' is the key not the index
+        int left = matrix[0][0], right = matrix.back().back();  // min will be at (0,0) and max will be at (n-1,n-1)
+                                                                // i.e last ele. our ans can be in this range only.
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (count(matrix, mid) >= k) {  //
+                right = mid;  // try to looking for a smaller value in the left side but 'mid' can also be the ans.
+            } else {  // we have to increase the count so we have to search beyond mid i.e 'mid +1'.
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+
+    int count(const vector<vector<int>>& matrix, int m) {
+        // will give the number of elements which are smaller than or equal to 'mid'.
+        // check in each row the no of elements greater than m. start from top right corner
+        // in next row, you just have to check from latest col only as matrix is row wise and col wise sorted
+        int row = matrix.size(), col = matrix[0].size();
+        int r = 0, c = col - 1, cnt = 0;
+        while (r < row && c >= 0) {
+            if (matrix[r][c] > m) {
+                c--;
+            } else {
+                cnt += c + 1;  // this much will be the no of ele <= 'm' in 'i'th row
+                r++;
+            }
+        }
+        return cnt;
+    }
+};
+"""
 
 # Similar Q:
 # i) Find median in row wise sorted matrix

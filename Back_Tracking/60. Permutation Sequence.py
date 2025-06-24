@@ -24,6 +24,70 @@ class Solution:
             remaining_char= arr[:i] + arr[i+1:]
             self.permutations(remaining_char,ans,per + added_char)
 
+# Java Code 
+"""
+import java.util.*;
+
+public class Solution {
+    public String getPermutation(int n, int k) {
+        List<String> ans = new ArrayList<>();
+        StringBuilder per = new StringBuilder();
+        List<String> numArr = new ArrayList<>();
+        for (int i = 1; i <= n; i++) numArr.add(String.valueOf(i));
+        permutations(numArr, ans, per.toString());
+        Collections.sort(ans);
+        return ans.get(k - 1);
+    }
+
+    public void permutations(List<String> arr, List<String> ans, String per) {
+        if (arr.isEmpty()) {
+            ans.add(per);
+            return;
+        }
+        for (int i = 0; i < arr.size(); i++) {
+            String addedChar = arr.get(i);
+            List<String> remaining = new ArrayList<>(arr);
+            remaining.remove(i);
+            permutations(remaining, ans, per + addedChar);
+        }
+    }
+}
+"""
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    string getPermutation(int n, int k) {
+        vector<string> numArr;
+        for (int i = 1; i <= n; ++i)
+            numArr.push_back(to_string(i));
+        vector<string> ans;
+        permutations(numArr, "", ans);
+        sort(ans.begin(), ans.end());
+        return ans[k - 1];
+    }
+
+    void permutations(vector<string> arr, string per, vector<string>& ans) {
+        if (arr.empty()) {
+            ans.push_back(per);
+            return;
+        }
+        for (int i = 0; i < arr.size(); ++i) {
+            string addedChar = arr[i];
+            vector<string> remaining = arr;
+            remaining.erase(remaining.begin() + i);
+            permutations(remaining, per + addedChar, ans);
+        }
+    }
+};
+"""
+
 # Methdd 2: 
 # optimised one: VVI
 # write the thinking process and logic in detail
@@ -61,6 +125,92 @@ class Solution:
         self.permutations(arr,ans, remaining_k)
 
 
+# Java Code 
+"""
+import java.util.*;
+
+public class Solution {
+    public String getPermutation(int n, int k) {
+        List<String> numArr = new ArrayList<>();
+        for (int i = 1; i <= n; i++)  // we have to return ans in string. num is from '1 to n'.
+            numArr.add(String.valueOf(i));
+
+        List<String> ans = new ArrayList<>();  // using list for mutability
+        permutations(numArr, ans, k - 1);  // using zero indexing so will find the 'k-1'th char
+        return String.join("", ans);  // converting into list
+    }
+
+    private int fact(int n) {
+        if (n == 1)
+            return 1;
+        return n * fact(n - 1);
+    }
+
+    private void permutations(List<String> arr, List<String> ans, int remainingK) {
+        if (remainingK == 0) {
+            ans.addAll(arr);
+            return;
+        }
+
+        int noGenByEachChar = fact(arr.size() - 1);  // just fix one char and find no of permutation for remaining
+        int indexGenChar = remainingK / noGenByEachChar;  // next possible index we have to fix to get the ans
+        String charToChoose = arr.get(indexGenChar);  // next possible char we have to fix to get the ans
+
+        ans.add(charToChoose);  // choosing the char one by one that will form the ans
+        arr.remove(indexGenChar);  // remove the ele that we included
+        remainingK -= noGenByEachChar * indexGenChar;
+
+        permutations(arr, ans, remainingK);
+    }
+}
+"""
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    string getPermutation(int n, int k) {
+        vector<string> numArr;
+        for (int i = 1; i <= n; ++i)  // we have to return ans in string. num is from '1 to n'.
+            numArr.push_back(to_string(i));
+
+        vector<string> ans;
+        permutations(numArr, ans, k - 1);  // using zero indexing so will find the 'k-1'th char
+
+        string result;
+        for (const auto& ch : ans) result += ch;
+        return result;
+    }
+
+private:
+    int fact(int n) {
+        return (n == 1) ? 1 : n * fact(n - 1);
+    }
+
+    void permutations(vector<string>& arr, vector<string>& ans, int remainingK) {
+        if (remainingK == 0) {
+            ans.insert(ans.end(), arr.begin(), arr.end());
+            return;
+        }
+
+        int noGenByEachChar = fact(arr.size() - 1);  // fix one char and find permutations for remaining
+        int indexGenChar = remainingK / noGenByEachChar;  // index to fix
+        string charToChoose = arr[indexGenChar];  // actual char to fix
+
+        ans.push_back(charToChoose);  // pick and form the final answer
+        arr.erase(arr.begin() + indexGenChar);  // remove used char
+        remainingK -= noGenByEachChar * indexGenChar;
+
+        permutations(arr, ans, remainingK);
+    }
+};
+
+"""
+
 # Method 3: 
 # converting into iterative form, very good one and easy one.
 
@@ -95,3 +245,76 @@ class Solution:
         return n*self.fact(n-1)
     
 
+# Java Code 
+"""
+import java.util.*;
+
+public class Solution {
+    public String getPermutation(int n, int k) {
+        List<String> numArr = new ArrayList<>();
+        for (int i = 1; i <= n; i++) // we have to return ans in string. num is from '1 to n'.
+            numArr.add(String.valueOf(i));
+
+        List<String> ans = new ArrayList<>();
+        k = k - 1;  // using indexing zero in arr
+
+        while (k != 0) {
+            int noGenByEachChar = fact(numArr.size() - 1);
+            int indexOfGenChar = k / noGenByEachChar;
+            String charToChoose = numArr.get(indexOfGenChar);
+            ans.add(charToChoose);
+            k -= indexOfGenChar * noGenByEachChar;
+            numArr.remove(indexOfGenChar);
+        }
+
+        // now it means only we have to add all char in arr to ans, to get the actual ans.
+        ans.addAll(numArr);
+        return String.join("", ans);
+    }
+
+    public int fact(int n) {
+        if (n == 1) return 1;
+        return n * fact(n - 1);
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    string getPermutation(int n, int k) {
+        vector<string> numArr;
+        for (int i = 1; i <= n; ++i) // we have to return ans in string. num is from '1 to n'.
+            numArr.push_back(to_string(i));
+
+        vector<string> ans;
+        k = k - 1;  // using indexing zero in arr
+
+        while (k != 0) {
+            int noGenByEachChar = fact(numArr.size() - 1);
+            int indexOfGenChar = k / noGenByEachChar;
+            string charToChoose = numArr[indexOfGenChar];
+            ans.push_back(charToChoose);
+            k -= indexOfGenChar * noGenByEachChar;
+            numArr.erase(numArr.begin() + indexOfGenChar);
+        }
+
+        // now it means only we have to add all char in arr to ans, to get the actual ans.
+        ans.insert(ans.end(), numArr.begin(), numArr.end());
+
+        string result;
+        for (const string& ch : ans) result += ch;
+        return result;
+    }
+
+private:
+    int fact(int n) {
+        if (n == 1) return 1;
+        return n * fact(n - 1);
+    }
+};
+"""

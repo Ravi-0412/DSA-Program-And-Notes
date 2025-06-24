@@ -48,36 +48,88 @@ class Solution:
 
         return self.cameras
 
-# Java
+# Java Code 
 """
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int x) { val = x; }
+}
+
 class Solution {
-    private int cameras = 0;
+    int cameras = 0;  // Counter to track the number of cameras placed
 
     public int minCameraCover(TreeNode root) {
-        // 0: needs camera, 1: has camera, 2: covered
         if (dfs(root) == 0) {
-            cameras++;
+            cameras++;  // If root is still not covered, we need to place a camera at the root
         }
         return cameras;
     }
 
     private int dfs(TreeNode node) {
-        if (node == null) return 2;
+        if (node == null) {
+            return 2;  // Null nodes are considered covered
+        }
 
         int left = dfs(node.left);
         int right = dfs(node.right);
 
+        // If any child needs a camera, place a camera at this node
         if (left == 0 || right == 0) {
             cameras++;
-            return 1; // place camera here
+            return 1;  // Node has a camera
         }
 
+        // If any child has a camera, this node is covered
         if (left == 1 || right == 1) {
-            return 2; // this node is covered
+            return 2;  // Node is covered
         }
 
-        return 0; // this node needs a camera
+        // If both children are covered but do not have cameras, this node needs a camera
+        return 0;  // Node needs a camera
     }
 }
+"""
+# C++ Code 
+"""
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x): val(x), left(nullptr), right(nullptr) {}
+};
+
+class Solution {
+public:
+    int cameras = 0;  // Counter to track the number of cameras placed
+
+    int minCameraCover(TreeNode* root) {
+        if (dfs(root) == 0) {
+            cameras++;  // If root is still not covered, we need to place a camera at the root
+        }
+        return cameras;
+    }
+
+    int dfs(TreeNode* node) {
+        if (!node) return 2;  // Null nodes are considered covered
+
+        int left = dfs(node->left);
+        int right = dfs(node->right);
+
+        // If any child needs a camera, place a camera at this node
+        if (left == 0 || right == 0) {
+            cameras++;
+            return 1;  // Node has a camera
+        }
+
+        // If any child has a camera, this node is covered
+        if (left == 1 || right == 1) {
+            return 2;  // Node is covered
+        }
+
+        // If both children are covered but do not have cameras, this node needs a camera
+        return 0;  // Node needs a camera
+    }
+};
 """
 

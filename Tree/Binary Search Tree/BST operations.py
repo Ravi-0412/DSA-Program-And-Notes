@@ -119,7 +119,233 @@ print()
 # print("no of leaf nodes: ", b.LeafNode(root))
 print("depth of the tree is: ",b.Depth(root))
 
+# Java Code 
+"""
+class Node {
+    int data;
+    Node left, right;
+    Node(int data) {
+        this.data = data;
+        this.left = this.right = null;
+    }
+}
 
+class BST {
+
+    // Build BST Recursively
+    public Node BuildBSTRecursive(Node root, int ele) {
+        if (root == null) {
+            return new Node(ele);
+        } else if (ele < root.data) {
+            root.left = BuildBSTRecursive(root.left, ele);
+        } else {
+            root.right = BuildBSTRecursive(root.right, ele);
+        }
+        return root;  // return the root always as we have to start checking from root
+    }
+
+    public Integer SearchMin(Node root) {
+        if (root == null) return null;
+        if (root.left == null) return root.data;
+        return SearchMin(root.left);
+    }
+
+    public Integer SearchMax(Node root) {
+        if (root == null) return null;
+        if (root.right == null) return root.data;
+        return SearchMax(root.right);
+    }
+
+    public Node SearchKey(Node root, int key) {
+        if (root == null) {
+            System.out.println(key + " is not present or tree is empty");
+            return null;
+        }
+        if (root.data == key) {
+            return root;
+        } else if (key < root.data) {
+            return SearchKey(root.left, key);
+        } else {
+            return SearchKey(root.right, key);
+        }
+    }
+
+    public Node deleteNode(Node root, int key) {
+        if (root == null) return root;
+
+        if (key < root.data) {
+            root.left = deleteNode(root.left, key);
+        } else if (key > root.data) {
+            root.right = deleteNode(root.right, key);
+        } else {
+            if (root.left == null && root.right == null) {
+                root = null;
+            } else if (root.left != null && root.right == null) {
+                root = root.left;
+            } else if (root.right != null && root.left == null) {
+                root = root.right;
+            } else {
+                Node temp = SearchMin1(root.right);
+                root.data = temp.data;
+                root.right = deleteNode(root.right, root.data);
+            }
+        }
+        return root;
+    }
+
+    public Node SearchMin1(Node root) {
+        if (root.left == null) return root;
+        return SearchMin1(root.left);
+    }
+
+    public int TotalNodes(Node root) {
+        // concise way of writing
+        if (root == null) return 0;
+        return 1 + TotalNodes(root.left) + TotalNodes(root.right);
+        // Later try by iterative way
+    }
+
+    public int LeafNode(Node root) {
+        // concise way
+        if (root == null) return 0;
+        if (root.left == null && root.right == null) return 1;
+        return LeafNode(root.left) + LeafNode(root.right);
+        // Later try by iterative way
+    }
+
+    public int Depth(Node root) {
+        if (root == null) return 0;
+        return 1 + Math.max(Depth(root.left), Depth(root.right));
+        // try later by iterative way
+    }
+
+    public void InorderIterative(Node root) {
+        java.util.Stack<Node> stack = new java.util.Stack<>();
+        Node current = root;
+        while (current != null || !stack.isEmpty()) {
+            while (current != null) {
+                stack.push(current);
+                current = current.left;
+            }
+            current = stack.pop();
+            System.out.print(current.data + " ");
+            current = current.right;
+        }
+    }
+}
+"""
+# C++ Code 
+"""
+#include <iostream>
+#include <stack>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node *left, *right;
+    Node(int data) : data(data), left(nullptr), right(nullptr) {}
+};
+
+class BST {
+public:
+    Node* BuildBSTRecursive(Node* root, int ele) {
+        if (root == nullptr) {
+            return new Node(ele);
+        } else if (ele < root->data) {
+            root->left = BuildBSTRecursive(root->left, ele);
+        } else {
+            root->right = BuildBSTRecursive(root->right, ele);
+        }
+        return root;  // return the root always as we have to start checking from root
+    }
+
+    int SearchMin(Node* root) {
+        if (!root) return -1;
+        if (!root->left) return root->data;
+        return SearchMin(root->left);
+    }
+
+    int SearchMax(Node* root) {
+        if (!root) return -1;
+        if (!root->right) return root->data;
+        return SearchMax(root->right);
+    }
+
+    Node* SearchKey(Node* root, int key) {
+        if (!root) {
+            cout << key << " is not present or tree is empty" << endl;
+            return nullptr;
+        }
+        if (root->data == key) return root;
+        if (key < root->data) return SearchKey(root->left, key);
+        else return SearchKey(root->right, key);
+    }
+
+    Node* deleteNode(Node* root, int key) {
+        if (!root) return root;
+        if (key < root->data) {
+            root->left = deleteNode(root->left, key);
+        } else if (key > root->data) {
+            root->right = deleteNode(root->right, key);
+        } else {
+            if (!root->left && !root->right) {
+                root = nullptr;
+            } else if (root->left && !root->right) {
+                root = root->left;
+            } else if (!root->left && root->right) {
+                root = root->right;
+            } else {
+                Node* temp = SearchMin1(root->right);
+                root->data = temp->data;
+                root->right = deleteNode(root->right, root->data);
+            }
+        }
+        return root;
+    }
+
+    Node* SearchMin1(Node* root) {
+        if (!root->left) return root;
+        return SearchMin1(root->left);
+    }
+
+    int TotalNodes(Node* root) {
+        // concise way of writing
+        if (!root) return 0;
+        return 1 + TotalNodes(root->left) + TotalNodes(root->right);
+        // Later try by iterative way
+    }
+
+    int LeafNode(Node* root) {
+        // concise way
+        if (!root) return 0;
+        if (!root->left && !root->right) return 1;
+        return LeafNode(root->left) + LeafNode(root->right);
+        // Later try by iterative way
+    }
+
+    int Depth(Node* root) {
+        if (!root) return 0;
+        return 1 + max(Depth(root->left), Depth(root->right));
+        // try later by iterative way
+    }
+
+    void InorderIterative(Node* root) {
+        stack<Node*> stk;
+        Node* current = root;
+        while (current || !stk.empty()) {
+            while (current) {
+                stk.push(current);
+                current = current->left;
+            }
+            current = stk.top();
+            stk.pop();
+            cout << current->data << " ";
+            current = current->right;
+        }
+    }
+};
+"""
 
 # Extension: 
 
@@ -139,3 +365,50 @@ def InorderIterative(self,root):
         ans.append(curr.val)
         root= curr.right  # move the pointer to check the right child.
     return ans
+
+# Java Code 
+"""
+public List<Integer> InorderIterative(Node root) {
+    if (root == null) return new ArrayList<>();
+
+    Stack<Node> stack = new Stack<>();
+    List<Integer> ans = new ArrayList<>();
+
+    while (!stack.isEmpty() || root != null) {
+        while (root != null) {  // keep going left 
+            stack.push(root);
+            root = root.left;
+        }
+        // if None, it means no left child then print the stack top (just pop).
+        // it means we have reached the leftmost node.
+        Node curr = stack.pop();
+        ans.add(curr.data);
+        root = curr.right;  // move the pointer to check the right child.
+    }
+
+    return ans;
+}
+"""
+# C++ Code 
+"""
+vector<int> InorderIterative(Node* root) {
+    if (!root) return {};
+
+    stack<Node*> stack;
+    vector<int> ans;
+
+    while (!stack.empty() || root) {
+        while (root) {  // keep going left 
+            stack.push(root);
+            root = root->left;
+        }
+        // if None, it means no left child then print the stack top (just pop).
+        // it means we have reached the leftmost node.
+        Node* curr = stack.top(); stack.pop();
+        ans.push_back(curr->data);
+        root = curr->right;  // move the pointer to check the right child.
+    }
+
+    return ans;
+}
+"""

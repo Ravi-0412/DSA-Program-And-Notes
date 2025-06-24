@@ -24,3 +24,78 @@ class Solution:
         self.count = k
         findKthLargest(root)
         return self.ans
+
+# Java Code 
+"""
+class Node {
+    int data;
+    Node left, right;
+    Node(int x) { data = x; }
+}
+
+class Solution {
+    int count;
+    int ans = -1;
+
+    public int kthLargest(Node root, int k) {
+        count = k;
+        findKthLargest(root);
+        return ans;
+    }
+
+    void findKthLargest(Node root) {
+        if (root.right != null) {
+            findKthLargest(root.right);
+        }
+
+        count--;
+        if (count == 0) {
+            ans = root.data;
+            return;
+        }
+
+        // next greater we will get from left side of root
+        if (root.left != null) {
+            findKthLargest(root.left);
+        }
+    }
+}
+"""
+# C++ Code 
+"""
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+    Node(int x): data(x), left(nullptr), right(nullptr) {}
+};
+
+class Solution {
+public:
+    int count;
+    int ans = -1;
+
+    int kthLargest(Node* root, int k) {
+        count = k;
+        findKthLargest(root);
+        return ans;
+    }
+
+    void findKthLargest(Node* root) {
+        if (root->right) {
+            findKthLargest(root->right);
+        }
+
+        count--;
+        if (count == 0) {
+            ans = root->data;
+            return;
+        }
+
+        // next greater we will get from left side of root
+        if (root->left) {
+            findKthLargest(root->left);
+        }
+    }
+};
+"""

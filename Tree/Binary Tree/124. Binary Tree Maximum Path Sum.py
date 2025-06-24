@@ -35,3 +35,70 @@ class Solution:
         self.ans= float('-inf')
         dfs(root)
         return self.ans
+
+# Java Code 
+"""
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int x) { val = x; }
+}
+
+class Solution {
+    int ans = Integer.MIN_VALUE;
+
+    public int maxPathSum(TreeNode root) {
+        dfs(root);
+        return ans;
+    }
+
+    private int dfs(TreeNode root) {
+        // return the lowest possible value in base case so that it doesn't affect the ans. 
+        // returning '0' will affect if node values will be "-ve" because then max will be '0' and we will get the wrong ans.
+        if (root == null) return Integer.MIN_VALUE;
+
+        int l = dfs(root.left);
+        int r = dfs(root.right);
+
+        ans = Math.max(ans, Math.max(Math.max(l + root.val, r + root.val),
+                                     Math.max(l + r + root.val, root.val)));
+
+        return Math.max(Math.max(l + root.val, r + root.val), root.val);
+    }
+}
+"""
+# C++ Code 
+"""
+#include <climits>
+#include <algorithm>
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
+
+class Solution {
+public:
+    int ans = INT_MIN;
+
+    int maxPathSum(TreeNode* root) {
+        dfs(root);
+        return ans;
+    }
+
+    int dfs(TreeNode* root) {
+        // return the lowest possible value in base case so that it doesn't affect the ans. 
+        // returning '0' will affect if node values will be "-ve" because then max will be '0' and we will get the wrong ans.
+        if (!root) return INT_MIN;
+
+        int l = dfs(root->left);
+        int r = dfs(root->right);
+
+        ans = max({ans, l + root->val, r + root->val, l + r + root->val, root->val});
+        return max({l + root->val, r + root->val, root->val});
+    }
+};
+"""

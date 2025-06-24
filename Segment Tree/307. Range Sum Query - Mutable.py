@@ -22,6 +22,66 @@ class NumArray:
     def sumRange(self, left: int, right: int) -> int:
         return self.prefixSum[right + 1] - self.prefixSum[left]
 
+# Java Code 
+"""
+class NumArray {
+    private int[] nums;
+    private int[] prefixSum;
+
+    public NumArray(int[] nums) {
+        this.nums = nums;
+        int n = nums.length;
+        prefixSum = new int[n + 1];  // using 1-based indexing for prefix sum
+        for (int i = 1; i <= n; i++) {
+            prefixSum[i] = nums[i - 1] + prefixSum[i - 1];
+        }
+    }
+
+    public void update(int index, int val) {
+        int diff = val - nums[index];
+        nums[index] = val;
+        for (int i = index + 1; i <= nums.length; i++) {
+            prefixSum[i] = prefixSum[i] + diff;
+        }
+    }
+
+    public int sumRange(int left, int right) {
+        return prefixSum[right + 1] - prefixSum[left];
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+using namespace std;
+
+class NumArray {
+    vector<int> nums;
+    vector<int> prefixSum;
+
+public:
+    NumArray(vector<int>& nums) {
+        this->nums = nums;
+        int n = nums.size();
+        prefixSum.resize(n + 1, 0);  // using 1-based indexing for prefix sum
+        for (int i = 1; i <= n; ++i) {
+            prefixSum[i] = nums[i - 1] + prefixSum[i - 1];
+        }
+    }
+
+    void update(int index, int val) {
+        int diff = val - nums[index];
+        nums[index] = val;
+        for (int i = index + 1; i < prefixSum.size(); ++i) {
+            prefixSum[i] += diff;
+        }
+    }
+
+    int sumRange(int left, int right) {
+        return prefixSum[right + 1] - prefixSum[left];
+    }
+};
+"""
 
 # Method 2: 
 # segement Tree 
@@ -157,6 +217,173 @@ class NumArray(object):
 
         return RangeSum(self.root, left, right)
 
+# Java Code 
+"""
+class Node {
+    int total; // RangeSum of given interval
+    int start, end; // start and end interval of that node
+    Node left, right;
+
+    public Node(int startInterval, int endInterval) {
+        this.start = startInterval;
+        this.end = endInterval;
+        this.total = 0;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+class NumArray {
+    int[] nums;
+    Node root;
+
+    public NumArray(int[] nums) {
+        this.nums = nums;
+        this.root = createSegmentTree(nums, 0, nums.length - 1);
+    }
+
+    private Node createSegmentTree(int[] nums, int l, int r) {
+        // base case. All ele will be at leaf
+        if (l == r) {
+            // when there is single ele, return to parent and update RangeSum
+            Node node = new Node(l, r);
+            node.total = nums[l];
+            return node;
+        }
+
+        // make one node for current query
+        Node node = new Node(l, r); // RangeSum for now will be '0', will assign later
+
+        // Go bottom up and make tree Recursively
+        int mid = (l + r) / 2;
+        node.left = createSegmentTree(nums, l, mid); // left half
+        node.right = createSegmentTree(nums, mid + 1, r); // right half
+
+        // assign RangeSum to cur Node = sum of its children
+        node.total = node.left.total + node.right.total;
+
+        return node;
+    }
+
+    public void update(int index, int val) {
+        nums[index] = val;
+        updateValue(root, index, val);
+    }
+
+    private int updateValue(Node node, int index, int val) {
+        // 1) index is outside node interval, so skip it
+        if (index < node.start || index > node.end) return node.total;
+
+        // 2) index lies in node interval, so recurse deeper
+        if (node.start == index && node.end == index) {
+            node.total = val;
+            return val;
+        }
+
+        // Update current node's RangeSum from children
+        node.total = updateValue(node.left, index, val) + updateValue(node.right, index, val);
+        return node.total;
+    }
+
+    public int sumRange(int left, int right) {
+        return rangeSum(root, left, right);
+    }
+
+    private int rangeSum(Node node, int l, int r) {
+        // 1) node interval is completely inside the query interval
+        if (node.start >= l && node.end <= r) return node.total;
+
+        // 2) node interval is completely outside the query interval
+        if (node.start > r || node.end < l) return 0;
+
+        // 3) node and query interval overlap
+        return rangeSum(node.left, l, r) + rangeSum(node.right, l, r);
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+using namespace std;
+
+class Node {
+public:
+    int start, end, total; // RangeSum, start and end of interval
+    Node* left;
+    Node* right;
+
+    Node(int startInterval, int endInterval) {
+        start = startInterval;
+        end = endInterval;
+        total = 0;
+        left = right = nullptr;
+    }
+};
+
+class NumArray {
+    vector<int> nums;
+    Node* root;
+
+public:
+    NumArray(vector<int>& nums) {
+        this->nums = nums;
+        root = createSegmentTree(nums, 0, nums.size() - 1);
+    }
+
+    Node* createSegmentTree(vector<int>& nums, int l, int r) {
+        // base case. All ele will be at leaf
+        if (l == r) {
+            Node* node = new Node(l, r);
+            node->total = nums[l];
+            return node;
+        }
+
+        Node* node = new Node(l, r); // RangeSum for now will be '0', will assign later
+        int mid = (l + r) / 2;
+
+        node->left = createSegmentTree(nums, l, mid); // left half
+        node->right = createSegmentTree(nums, mid + 1, r); // right half
+
+        node->total = node->left->total + node->right->total;
+
+        return node;
+    }
+
+    void update(int index, int val) {
+        nums[index] = val;
+        updateValue(root, index, val);
+    }
+
+    int updateValue(Node* node, int index, int val) {
+        // 1) index is outside node interval, so skip it
+        if (index < node->start || index > node->end) return node->total;
+
+        // 2) index lies in node interval, so recurse deeper
+        if (node->start == index && node->end == index) {
+            node->total = val;
+            return val;
+        }
+
+        node->total = updateValue(node->left, index, val) + updateValue(node->right, index, val);
+        return node->total;
+    }
+
+    int sumRange(int left, int right) {
+        return rangeSum(root, left, right);
+    }
+
+    int rangeSum(Node* node, int l, int r) {
+        // 1) node interval is completely inside query interval
+        if (node->start >= l && node->end <= r) return node->total;
+
+        // 2) node interval is completely outside query interval
+        if (node->start > r || node->end < l) return 0;
+
+        // 3) node and query interval overlap
+        return rangeSum(node->left, l, r) + rangeSum(node->right, l, r);
+    }
+};
+"""
 
 # Method 3: 
 """
@@ -262,6 +489,121 @@ class NumArray:
         return self.getSum(right) - self.getSum(left - 1)
                             # for understanding 'right + 1' - 'left' because we are storing value one index ahead.
 
+# Java Code 
+"""
+class NumArray {
+    int[] nums;
+    int[] BIT;
+    int n;
+
+    public NumArray(int[] nums) {
+        this.nums = nums;
+        this.n = nums.length;
+        BIT = new int[n + 1];
+
+        // create BIT
+        for (int i = 0; i < n; i++) {
+            createBIT(i, nums[i]);
+        }
+    }
+
+    private void createBIT(int i, int val) {
+        i += 1;  // because BIT is following 1 based indexing not '0' based
+
+        // Keep adding the values starting from current index 'i' in BIT 
+        // to other index by finding next until it goes out of range
+        // Going top to bottom (given node to leaf)
+        while (i <= n) {
+            BIT[i] += val;
+            i += (i & -i);  // next index where we need to update
+        }
+    }
+
+    public void update(int index, int val) {
+        // find the diff between values we will get after updating
+        // After that we will add this 'diff' to all places where it can make impact i.e. next
+        int diff = val - nums[index];
+        nums[index] = val;
+        createBIT(index, diff);
+    }
+
+    private int getSum(int i) {
+        int sum = 0;
+        i += 1;
+        while (i > 0) {  // going bottom up so index value will decrease
+            sum += BIT[i];
+            i &= i - 1;  // move to parent
+        }
+        return sum;
+    }
+
+    public int sumRange(int left, int right) {
+        // We will get ans in BIT method by getSum(right) - getSum(left - 1), just like prefixSum way
+        return getSum(right) - getSum(left - 1);
+        // for understanding: 'right + 1' - 'left' because we are storing value one index ahead
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+using namespace std;
+
+class NumArray {
+    vector<int> nums;
+    vector<int> BIT;
+    int n;
+
+public:
+    NumArray(vector<int>& nums) {
+        this->nums = nums;
+        n = nums.size();
+        BIT.assign(n + 1, 0);
+
+        // create BIT
+        for (int i = 0; i < n; ++i) {
+            createBIT(i, nums[i]);
+        }
+    }
+
+    void createBIT(int i, int val) {
+        i += 1;  // because BIT is following 1 based indexing not '0' based
+
+        // Keep adding the values starting from current index 'i' in BIT 
+        // to other index by finding next until it goes out of range
+        // Going top to bottom (given node to leaf)
+        while (i <= n) {
+            BIT[i] += val;
+            i += (i & -i);  // next index where we need to update
+        }
+    }
+
+    void update(int index, int val) {
+        // find the diff between values we will get after updating
+        // After that we will add this 'diff' to all places where it can make impact i.e. next
+        int diff = val - nums[index];
+        nums[index] = val;
+        createBIT(index, diff);
+    }
+
+    int getSum(int i) {
+        int sum = 0;
+        i += 1;
+        while (i > 0) {  // going bottom up so index value will decrease
+            sum += BIT[i];
+            i &= i - 1;  // move to parent
+        }
+        return sum;
+    }
+
+    int sumRange(int left, int right) {
+        // We will get ans in BIT method by getSum(right) - getSum(left - 1), just like prefixSum way
+        return getSum(right) - getSum(left - 1);
+        // for understanding: 'right + 1' - 'left' because we are storing value one index ahead
+    }
+};
+"""
 
 # Extension: 
 # Template to use in other Q
@@ -299,5 +641,102 @@ class segmentTree:
     def sumRange(self, left: int, right: int) -> int:
         return self.getSum(right) - self.getSum(left - 1)
 
+# Java Code 
+"""
+class SegmentTree {
+    int[] nums;
+    int[] BIT;
+    int n;
 
+    public SegmentTree(int[] nums) {
+        this.nums = nums;
+        this.n = nums.length;
+        this.BIT = new int[n + 1];
 
+        // create BIT
+        for (int i = 0; i < n; i++) {
+            createBIT(i, nums[i]);
+        }
+    }
+
+    private void createBIT(int i, int val) {
+        i += 1;  // because BIT is following 1 based indexing not '0' based
+        while (i <= n) {
+            BIT[i] += val;
+            i += (i & -i);  // next index where we need to update
+        }
+    }
+
+    public void update(int index, int val) {
+        int diff = val - nums[index];
+        nums[index] = val;
+        createBIT(index, diff);
+    }
+
+    private int getSum(int i) {
+        int sum = 0;
+        i += 1;
+        while (i > 0) {  // going bottom up so index value will decrease
+            sum += BIT[i];
+            i &= i - 1;  // unset last set bit
+        }
+        return sum;
+    }
+
+    public int sumRange(int left, int right) {
+        return getSum(right) - getSum(left - 1);
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+using namespace std;
+
+class SegmentTree {
+    vector<int> nums;
+    vector<int> BIT;
+    int n;
+
+public:
+    SegmentTree(vector<int>& nums) {
+        this->nums = nums;
+        n = nums.size();
+        BIT.assign(n + 1, 0);
+
+        // create BIT
+        for (int i = 0; i < n; ++i) {
+            createBIT(i, nums[i]);
+        }
+    }
+
+    void createBIT(int i, int val) {
+        i += 1;  // because BIT is following 1 based indexing not '0' based
+        while (i <= n) {
+            BIT[i] += val;
+            i += (i & -i);  // next index where we need to update
+        }
+    }
+
+    void update(int index, int val) {
+        int diff = val - nums[index];
+        nums[index] = val;
+        createBIT(index, diff);
+    }
+
+    int getSum(int i) {
+        int sum = 0;
+        i += 1;
+        while (i > 0) {  // going bottom up so index value will decrease
+            sum += BIT[i];
+            i &= i - 1;  // unset last set bit
+        }
+        return sum;
+    }
+
+    int sumRange(int left, int right) {
+        return getSum(right) - getSum(left - 1);
+    }
+};
+"""

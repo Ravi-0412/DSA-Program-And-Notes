@@ -19,6 +19,64 @@ class Solution:
         dfs(0, [])  
         return res
 
+# Java Code 
+"""
+import java.util.*;
+
+public class Solution {
+
+    // just backtracking
+    public void dfs(int i, int[] nums, List<Integer> subset, List<List<Integer>> res) {
+        if (i == nums.length) {
+            res.add(new ArrayList<>(subset));
+            return;
+        }
+        // when you include the curr index ele.
+        subset.add(nums[i]);
+        dfs(i + 1, nums, subset, res);
+        subset.remove(subset.size() - 1); // backtrack
+
+        // when you don't include the curr index ele.
+        dfs(i + 1, nums, subset, res);
+    }
+
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        dfs(0, nums, new ArrayList<>(), res);
+        return res;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// just backtracking
+void dfs(int i, const vector<int>& nums, vector<int>& subset, vector<vector<int>>& res) {
+    if (i == nums.size()) {
+        res.push_back(subset);
+        return;
+    }
+
+    // when you include the curr index ele.
+    subset.push_back(nums[i]);
+    dfs(i + 1, nums, subset, res);
+    subset.pop_back(); // backtrack
+
+    // when you don't include the curr index ele.
+    dfs(i + 1, nums, subset, res);
+}
+
+vector<vector<int>> subsets(const vector<int>& nums) {
+    vector<vector<int>> res;
+    vector<int> subset;
+    dfs(0, nums, subset, res);
+    return res;
+}
+"""
+
 # Method 2 : Using Bit Masking
 
 # n : len(nums)
@@ -46,6 +104,56 @@ class Solution:
             ans.append(temp)
         return ans
 
+# Java Code 
+"""
+import java.util.*;
+
+public class Solution {
+
+    public List<List<Integer>> subsets(int[] nums) {
+        int n = nums.length;
+        List<List<Integer>> ans = new ArrayList<>();
+
+        for (int num = 0; num < (1 << n); num++) {
+            List<Integer> temp = new ArrayList<>();
+            // add the number whose 'index' bit is set in num
+            for (int i = 0; i < n; i++) {
+                // if 'i'th bit is set in 'num then nums[i] is part of this subset.
+                if ((num >> i & 1) == 1) {
+                    temp.add(nums[i]);
+                }
+            }
+            ans.add(temp);
+        }
+        return ans;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<vector<int>> subsets(const vector<int>& nums) {
+    int n = nums.size();
+    vector<vector<int>> ans;
+
+    for (int num = 0; num < (1 << n); ++num) {
+        vector<int> temp;
+        // add the number whose 'index' bit is set in num
+        for (int i = 0; i < n; ++i) {
+            // if 'i'th bit is set in 'num then nums[i] is part of this subset.
+            if ((num >> i) & 1) {
+                temp.push_back(nums[i]);
+            }
+        }
+        ans.push_back(temp);
+    }
+
+    return ans;
+}
+"""
 # method 3:
 # iterative way:
 
@@ -96,168 +204,43 @@ class Solution:
 
 # Java Code 
 """
-// method 1:
 import java.util.*;
 
-class Solution {
-    List<List<Integer>> res = new ArrayList<>();
-
-    private void dfs(int i, int[] nums, List<Integer> subset) {  
-        // Just backtracking
-        if (i == nums.length) {
-            res.add(new ArrayList<>(subset));
-            return;
-        }
-        // When you include the current index element.
-        subset.add(nums[i]);
-        dfs(i + 1, nums, subset);
-        subset.remove(subset.size() - 1);
-
-        // When you don't include the current index element.
-        dfs(i + 1, nums, subset);
-    }
-
-    public List<List<Integer>> subsets(int[] nums) {
-        res.clear();
-        dfs(0, nums, new ArrayList<>());
-        return res;
-    }
-}
-
-// method 2:
-import java.util.*;
-
-class Solution {
-    public List<List<Integer>> subsets(int[] nums) {
-        int n = nums.length;
-        List<List<Integer>> ans = new ArrayList<>();
-
-        // Every subset is represented by a binary number of 'n' bits.
-        // Each bit represents whether the number at that index exists in the subset or not.
-        // No of subsets = 2^n. Using these 2^n numbers [0, 2^n-1], we will try to find the number in that subset.
-        for (int num = 0; num < (1 << n); num++) {  
-            List<Integer> temp = new ArrayList<>();
-            for (int i = 0; i < n; i++) {
-                // If 'i'th bit is set in 'num' then nums[i] is part of this subset.
-                if ((num >> i) & 1) {
-                    temp.add(nums[i]);
-                }
-            }
-            ans.add(temp);
-        }
-        return ans;
-    }
-}
-
-// method 3:
-import java.util.*;
-
-class Solution {
+public class Solution {
     public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> outer = new ArrayList<>();
-        outer.add(new ArrayList<>()); // Initial empty subset
+        outer.add(new ArrayList<>());   // our final ans will contain list of list
 
-        // Accept and reject is happening with 'ans so far'
-        for (int num : nums) {  
-            int n = outer.size();  
-            for (int i = 0; i < n; i++) {  
-                List<Integer> internal = new ArrayList<>(outer.get(i));  // Copy the internal list of outer list one by one
-                internal.add(num);       // Append the number to all the existing lists
-                outer.add(internal);    // Append the internal created list to the outer list
+        for (int num : nums) {   // for each number in the array
+            int n = outer.size();
+            for (int i = 0; i < n; i++) {
+                List<Integer> internal = new ArrayList<>(outer.get(i));  // copy the internal list of outer list one by one
+                internal.add(num);       // and append the number to all the existing list
+                outer.add(internal);     // and at last append the internal created list to the outer list
             }
         }
         return outer;
     }
 }
-
 """
-
 # C++ Code 
 """
-//Method 1
 #include <iostream>
 #include <vector>
-
 using namespace std;
 
-class Solution {
-public:
-    vector<vector<int>> res;
+vector<vector<int>> subsets(const vector<int>& nums) {
+    vector<vector<int>> outer;
+    outer.push_back({});   // our final ans will contain list of list
 
-    void dfs(int i, vector<int>& nums, vector<int> subset) {  
-        // Just backtracking
-        if (i == nums.size()) {
-            res.push_back(subset);
-            return;
+    for (int num : nums) {   // for each number in the array
+        int n = outer.size();
+        for (int i = 0; i < n; ++i) {
+            vector<int> internal = outer[i];  // copy the internal list of outer list one by one
+            internal.push_back(num);          // and append the number to all the existing list
+            outer.push_back(internal);        // and at last append the internal created list to the outer list
         }
-        // When you include the current index element.
-        subset.push_back(nums[i]);
-        dfs(i + 1, nums, subset);
-        subset.pop_back();
-
-        // When you don't include the current index element.
-        dfs(i + 1, nums, subset);
     }
-
-    vector<vector<int>> subsets(vector<int>& nums) {
-        res.clear();
-        vector<int> subset;
-        dfs(0, nums, subset);
-        return res;
-    }
-};
-
-//Method 2
-#include <iostream>
-#include <vector>
-
-using namespace std;
-
-class Solution {
-public:
-    vector<vector<int>> subsets(vector<int>& nums) {
-        int n = nums.size();
-        vector<vector<int>> ans;
-
-        // Every subset is represented by a binary number of 'n' bits.
-        // Each bit represents whether the number at that index exists in the subset or not.
-        // No of subsets = 2^n. Using these 2^n numbers [0, 2^n-1], we will try to find the number in that subset.
-        for (int num = 0; num < (1 << n); num++) {  
-            vector<int> temp;
-            for (int i = 0; i < n; i++) {
-                // If 'i'th bit is set in 'num' then nums[i] is part of this subset.
-                if ((num >> i) & 1) {
-                    temp.push_back(nums[i]);
-                }
-            }
-            ans.push_back(temp);
-        }
-        return ans;
-    }
-};
-
-//Method 3
-#include <iostream>
-#include <vector>
-
-using namespace std;
-
-class Solution {
-public:
-    vector<vector<int>> subsets(vector<int>& nums) {
-        vector<vector<int>> outer = {{}};
-        
-        // Accept and reject is happening with 'ans so far'
-        for (int num : nums) {  
-            int n = outer.size();  
-            for (int i = 0; i < n; i++) {  
-                vector<int> internal = outer[i];  // Copy the internal list of outer list one by one
-                internal.push_back(num);       // Append the number to all the existing lists
-                outer.push_back(internal);    // Append the internal created list to the outer list
-            }
-        }
-        return outer;
-    }
-};
-
+    return outer;
+}
 """

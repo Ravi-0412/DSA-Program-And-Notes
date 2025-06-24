@@ -36,6 +36,62 @@ class Solution:
         Height(root)
         return self.ans
 
+# Java Code 
+"""
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int x) { val = x; }
+}
+
+class Solution {
+    int ans = 0;
+
+    public int diameterOfBinaryTree(TreeNode root) {
+        Height(root);  // read from here
+        return ans;
+    }
+
+    private int Height(TreeNode root) {   // just exactly logic of height only
+        if (root == null) {
+            return 0;
+        }
+        int left = Height(root.left);
+        int right = Height(root.right);
+        ans = Math.max(ans, left + right);   // ans when 'root' is lcs
+        return 1 + Math.max(left, right);    // root will contribute either to left or right so take max(left, right)
+    }
+}
+"""
+# C++ Code 
+"""
+#include <algorithm>
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode *left, *right;
+    TreeNode(int x): val(x), left(nullptr), right(nullptr) {}
+};
+
+class Solution {
+public:
+    int ans = 0;
+
+    int diameterOfBinaryTree(TreeNode* root) {
+        Height(root);  // read from here
+        return ans;
+    }
+
+    int Height(TreeNode* root) {   // just exactly logic of height only
+        if (!root) return 0;
+        int left = Height(root->left);
+        int right = Height(root->right);
+        ans = max(ans, left + right);   // ans when 'root' is lcs
+        return 1 + max(left, right);    // root will contribute either to left or right so take max(left, right)
+    }
+};
+"""
 
 # Extension: 
 """

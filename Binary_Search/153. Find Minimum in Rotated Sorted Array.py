@@ -14,6 +14,45 @@ class Solution:
             if nums[i]>nums[(i+1)%n]:
                 return nums[(i+1)%n]
 
+# Java Code 
+"""
+import java.util.List;
+
+public class Solution {
+    public int findMin(List<Integer> nums) {
+        int n = nums.size();
+        if (n == 1)
+            return nums.get(0);
+        for (int i = 0; i < n; i++) {
+            if (nums.get(i) > nums.get((i + 1) % n)) {
+                return nums.get((i + 1) % n);
+            }
+        }
+        return nums.get(0);
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int findMin(const vector<int>& nums) {
+        int n = nums.size();
+        if (n == 1)
+            return nums[0];
+        for (int i = 0; i < n; i++) {
+            if (nums[i] > nums[(i + 1) % n]) {
+                return nums[(i + 1) % n];
+            }
+        }
+        return nums[0];
+    }
+};
+"""
 
 # method 2: 
 # very basic but not a good one
@@ -47,6 +86,89 @@ def findMin(self, arr):
         else:
             return arr[0]
 
+# Java Code 
+"""
+public class Solution {
+    public int findMin(int[] arr) {
+        int start = 0, end = arr.length - 1, n = arr.length;
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (arr[mid] > arr[(mid + 1) % n]) {  // this condition will only happen once in the whole array 
+                                                  // and (mid+1)% 1 will give the index of minimum element 
+                                                  // and mid will give the max ele
+                return arr[(mid + 1) % n];
+            }
+            // if above condition not found then update the start and end in the unsorted part
+            // and there are two chances of unsorted part
+
+            // case 1: 'start' ele is greater than 'mid' ele
+            //  means ele will be present till mid and mid can also be the minimum
+            // so update end in this case
+            else if (arr[mid] < arr[start]) {
+                end = mid;
+            }
+
+            // case 2: 'mid' ele is greater than 'end' ele
+            // means ele will be present after mid till end      
+            // so update 'start' in this case     
+            else if (arr[mid] > arr[end]) {
+                start = mid + 1;
+            }
+
+            // if no such condition found then array is sorted in ascending order
+            // so in this case simply return nums[0]
+            else {
+                return arr[0];
+            }
+        }
+        return -1;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int findMin(const vector<int>& arr) {
+        int start = 0, end = arr.size() - 1, n = arr.size();
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (arr[mid] > arr[(mid + 1) % n]) {  // this condition will only happen once in the whole array 
+                                                  // and (mid+1)% 1 will give the index of minimum element 
+                                                  // and mid will give the max ele
+                return arr[(mid + 1) % n];
+            }
+            // if above condition not found then update the start and end in the unsorted part
+            // and there are two chances of unsorted part
+
+            // case 1: 'start' ele is greater than 'mid' ele
+            //  means ele will be present till mid and mid can also be the minimum
+            // so update end in this case
+            else if (arr[mid] < arr[start]) {
+                end = mid;
+            }
+
+            // case 2: 'mid' ele is greater than 'end' ele
+            // means ele will be present after mid till end      
+            // so update 'start' in this case     
+            else if (arr[mid] > arr[end]) {
+                start = mid + 1;
+            }
+
+            // if no such condition found then array is sorted in ascending order
+            // so in this case simply return nums[0]
+            else {
+                return arr[0];
+            }
+        }
+        return -1;
+    }
+};
+"""
 
 # 3rd method : 
 # Note vvi: minimum and maximum element will always in unsorted part
@@ -100,7 +222,110 @@ class Solution:
         # the same ele and that will be the minimum ele
         # because both are merging towards the index of min ele in each iteration
         return nums[left]
+        
+# Java Code 
+"""
+// Wrong logic or partially working solution
+public class Solution {
+    public int findMin(int[] nums) {
+        int start = 0, end = nums.length - 1;
+        while (start < end) {
+            int mid = start + (end - start) / 2;
 
+            // if nums[start...mid] is unsorted means min ele will lie within this             
+            if (nums[start] > nums[mid]) {
+                end = mid;        // as end can also be the minimum
+            }
+
+            // here means nums[start...mid] is not unsorted 
+            // then min will lie beyond mid  as min or max will always lie in unsorted part    // * my mistake(again and again) :
+            // Note:  as array can be already sorted then it will not work
+            // or if array become sorted from start to mid after changing start
+
+            // means this condition doesnt fully guarantte that array beyond mid will be unsorted
+
+            else {
+                start = mid + 1;
+            }
+        }
+        return nums[start];
+    }
+}
+
+// Correct solution
+public class SolutionCorrect {
+    public int findMin(int[] nums) {
+        int left = 0, right = nums.length - 1;
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (nums[mid] > nums[right]) {   // means array from 'mid' to 'right' is unsorted
+                left = mid + 1;              // so minimum will lie in this part only i.e beyond mid
+            } else {      
+                // here it will guarantee that array from 
+                // mid to right is sorted and start to mid is unsorted and mid can also be minimum
+                right = mid;
+            }
+        }
+        // after loop will fail , start and end will point to 
+        // the same ele and that will be the minimum ele
+        // because both are merging towards the index of min ele in each iteration
+        return nums[left];
+    }
+}
+"""
+
+# C++ Code 
+"""
+// Wrong logic or partially working solution
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int start = 0, end = nums.size() - 1;
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+
+            // if nums[start...mid] is unsorted means min ele will lie within this             
+            if (nums[start] > nums[mid]) {
+                end = mid;        // as end can also be the minimum
+            }
+
+            // here means nums[start...mid] is not unsorted 
+            // then min will lie beyond mid  as min or max will always lie in unsorted part    // * my mistake(again and again) :
+            // Note:  as array can be already sorted then it will not work
+            // or if array become sorted from start to mid after changing start
+
+            // means this condition doesnt fully guarantte that array beyond mid will be unsorted
+
+            else {
+                start = mid + 1;
+            }
+        }
+        return nums[start];
+    }
+};
+
+// Correct solution
+class SolutionCorrect {
+public:
+    int findMin(vector<int>& nums) {
+        int left = 0, right = nums.size() - 1;
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (nums[mid] > nums[right]) {   // means array from 'mid' to 'right' is unsorted
+                left = mid + 1;              // so minimum will lie in this part only i.e beyond mid
+            } else {      
+                // here it will guarantee that array from 
+                // mid to right is sorted and start to mid is unsorted and mid can also be minimum
+                right = mid;
+            }
+        }
+        // after loop will fail , start and end will point to 
+        // the same ele and that will be the minimum ele
+        // because both are merging towards the index of min ele in each iteration
+        return nums[left];
+    }
+};
+"""
 
 # Extension: 
 

@@ -34,13 +34,6 @@ class Solution:
         dfs(0, [])  
         return res
 
-
-# Extension: 
-# Note: Apply same logic in all questions where duplicates are allowed and asking for unique subsets/combinations.
-# i.e a) sorting 2) move to distinct number in case of not-take.
-# e.g: 1) 40. Combination Sum II
-
-
 # Java Code
 """
 import java.util.*;
@@ -118,3 +111,10 @@ public:
     }
 };
 """
+
+# Extension: 
+# Note: Apply same logic in all questions where duplicates are allowed and asking for unique subsets/combinations.
+# i.e a) sorting 2) move to distinct number in case of not-take.
+# e.g: 1) 40. Combination Sum II
+
+

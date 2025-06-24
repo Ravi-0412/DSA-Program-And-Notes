@@ -22,6 +22,68 @@ class Solution:
         check(root)
         return self.ans
 
+# Java Code 
+"""
+class Node {
+    int data;
+    Node left, right;
+    Node(int x) { data = x; }
+}
+
+class Solution {
+    int ans = 1;
+
+    public int isSumTree(Node root) {
+        check(root);
+        return ans;
+    }
+
+    private int check(Node root) {
+        if (root == null) {
+            return 0;
+        }
+        if (root.left == null && root.right == null) {
+            return root.data;
+        }
+        int l = check(root.left);
+        int r = check(root.right);
+        if (root.data != l + r) {
+            ans = 0;
+        }
+        return l + r + root.data;
+    }
+}
+"""
+# C++ Code 
+"""
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+    Node(int x) : data(x), left(nullptr), right(nullptr) {}
+};
+
+class Solution {
+public:
+    int ans = 1;
+
+    int isSumTree(Node* root) {
+        check(root);
+        return ans;
+    }
+
+    int check(Node* root) {
+        if (!root) return 0;
+        if (!root->left && !root->right) return root->data;
+        int l = check(root->left);
+        int r = check(root->right);
+        if (root->data != l + r) {
+            ans = 0;
+        }
+        return l + r + root->data;
+    }
+};
+"""
 
 # Method 2:
 # Instead of taking 'ans' as global variable ,
@@ -42,3 +104,64 @@ class Solution:
             return l + r + root.data
         
         return 1 if check(root) != -1 else 0
+
+# Java Code 
+"""
+class Node {
+    int data;
+    Node left, right;
+    Node(int x) { data = x; }
+}
+
+class Solution {
+    public int isSumTree(Node root) {
+        return check(root) != -1 ? 1 : 0;
+    }
+
+    private int check(Node root) {
+        if (root == null) {
+            return 0;
+        }
+        if (root.left == null && root.right == null) {
+            return root.data;
+        }
+
+        int l = check(root.left);
+        int r = check(root.right);
+
+        if (l == -1 || r == -1 || root.data != l + r) {
+            return -1;
+        }
+
+        return l + r + root.data;
+    }
+}
+"""
+# C++ Code 
+"""
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+    Node(int x): data(x), left(nullptr), right(nullptr) {}
+};
+
+class Solution {
+public:
+    int isSumTree(Node* root) {
+        return check(root) != -1 ? 1 : 0;
+    }
+
+    int check(Node* root) {
+        if (!root) return 0;
+        if (!root->left && !root->right) return root->data;
+
+        int l = check(root->left);
+        int r = check(root->right);
+
+        if (l == -1 || r == -1 || root->data != l + r) return -1;
+
+        return l + r + root->data;
+    }
+};
+"""

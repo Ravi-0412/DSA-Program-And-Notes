@@ -44,3 +44,95 @@ class Solution:
             else:
                 end = mid -1
         return end
+
+# Java Code 
+"""
+public class Solution {
+    public int maxValue(int n, int index, int maxSum) {
+        int l = index;         // no of ele on left side of 'index'
+        int r = n - index - 1; // no of ele on right side of 'index'
+        int start = 1, end = maxSum - (n - 1);  // Possible value at index
+
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            // check if we can make total sum <= maxSum when nums[index] = mid
+            if (isPossible(mid, l, r, maxSum)) {
+                // means we can try for greater number
+                start = mid + 1;
+            } else {
+                end = mid - 1;
+            }
+        }
+        return end;
+    }
+
+    // check if it is possible to build the array with peak = mid and total sum <= maxSum
+    private boolean isPossible(int mid, int l, int r, int maxSum) {
+        int m = mid - 1;  // from this num we will start placing on both sides to maintain diff of '1'
+        long leftSum = 0, rightSum = 0;
+
+        // Calculating for right part
+        if (r <= m) {
+            // if no of ele on right is <= 'm'.
+            rightSum = (long) m * (m + 1) / 2 - (long) (m - r) * (m - r + 1) / 2;
+        } else {
+            // fill the remaining with '1'
+            rightSum = (long) m * (m + 1) / 2 + (r - m);
+        }
+
+        // Calculating for left part in same way
+        if (l <= m) {
+            leftSum = (long) m * (m + 1) / 2 - (long) (m - l) * (m - l + 1) / 2;
+        } else {
+            leftSum = (long) m * (m + 1) / 2 + (l - m);
+        }
+
+        return leftSum + mid + rightSum <= maxSum;
+    }
+}
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    int maxValue(int n, int index, int maxSum) {
+        int l = index;         // no of ele on left side of 'index'
+        int r = n - index - 1; // no of ele on right side of 'index'
+        int start = 1, end = maxSum - (n - 1);  // Possible value at index
+
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            // check if we can make total sum <= maxSum when nums[index] = mid
+            if (isPossible(mid, l, r, maxSum)) {
+                start = mid + 1;  // try greater number
+            } else {
+                end = mid - 1;
+            }
+        }
+        return end;
+    }
+
+private:
+    // check if it is possible to build the array with peak = mid and total sum <= maxSum
+    bool isPossible(int mid, int l, int r, int maxSum) {
+        int m = mid - 1;  // from this num we will start placing on both sides to maintain diff of '1'
+        long long leftSum = 0, rightSum = 0;
+
+        // Calculating for right part
+        if (r <= m) {
+            rightSum = 1LL * m * (m + 1) / 2 - 1LL * (m - r) * (m - r + 1) / 2;
+        } else {
+            rightSum = 1LL * m * (m + 1) / 2 + (r - m);
+        }
+
+        // Calculating for left part in same way
+        if (l <= m) {
+            leftSum = 1LL * m * (m + 1) / 2 - 1LL * (m - l) * (m - l + 1) / 2;
+        } else {
+            leftSum = 1LL * m * (m + 1) / 2 + (l - m);
+        }
+
+        return leftSum + mid + rightSum <= maxSum;
+    }
+};
+"""

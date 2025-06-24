@@ -48,37 +48,52 @@ class Solution:
 
 # Java 
 """
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int x) { val = x; }
+}
 
 class Solution {
     public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
         List<List<Integer>> ans = new ArrayList<>();
         List<Integer> path = new ArrayList<>();
-        allPath(root, targetSum, path, ans);
+        AllPath(root, targetSum, path, ans);
         return ans;
     }
-    
-    private void allPath(TreeNode root, int target, List<Integer> path, List<List<Integer>> ans) {
-        if (root == null) {
+
+    public void AllPath(TreeNode root, int target, List<Integer> path, List<List<Integer>> ans) {
+        if (root == null) {  // this should be the 1st base case.
             return;
         }
-        
-        // Create a new list with the current path and add current node's value
-        List<Integer> newPath = new ArrayList<>(path);
-        newPath.add(root.val);
-        
-        if (target == root.val && root.left == null && root.right == null) {
+        if (target == root.val && root.left == null && root.right == null) {  // value is equal to remaining target and root is a leaf.
+            List<Integer> newPath = new ArrayList<>(path);
+            newPath.add(root.val);
             ans.add(newPath);
             return;
         }
-        
-        allPath(root.left, target - root.val, newPath, ans);
-        allPath(root.right, target - root.val, newPath, ans);
+        List<Integer> newPath = new ArrayList<>(path);
+        newPath.add(root.val);
+        AllPath(root.left, target - root.val, newPath, ans);
+        AllPath(root.right, target - root.val, newPath, ans);
     }
 }
 """
 # C++ Code
 """
+#include <vector>
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
+
 class Solution {
 public:
     vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
@@ -87,12 +102,12 @@ public:
         AllPath(root, targetSum, path, ans);
         return ans;
     }
-    
+
     void AllPath(TreeNode* root, int target, vector<int> path, vector<vector<int>>& ans) {
         if (root == nullptr) {  // this should be the 1st base case.
             return;
         }
-        if (target == root->val && root->left == nullptr && root->right == nullptr) { // value is equal to remaining target and root is a leaf.
+        if (target == root->val && root->left == nullptr && root->right == nullptr) {  // value is equal to remaining target and root is a leaf.
             path.push_back(root->val);
             ans.push_back(path);
             return;
@@ -102,9 +117,7 @@ public:
         AllPath(root->right, target - root->val, path, ans);
     }
 };
-
 """
-
 
 # Related Q:
 # 1) 129. Sum Root to Leaf Numbers

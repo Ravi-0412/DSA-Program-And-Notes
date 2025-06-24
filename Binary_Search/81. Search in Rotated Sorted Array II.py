@@ -56,3 +56,81 @@ class Solution:
                     right= mid
 
         return nums[left] == target
+
+# Java Code 
+"""
+public class Solution {
+    public boolean search(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
+        while (left < right) {
+
+            // shifting to remove duplicate elements. we have to break this loop before condition of outer while loop only.
+            // Otherwise we will get wrong ans. so left is going till -> 'right -1' instead of 'right'.
+            while (left < right - 1 && nums[left] == nums[left + 1]) {
+                left += 1;
+            }
+            while (left < right - 1 && nums[right] == nums[right - 1]) {
+                right -= 1;
+            }
+
+            // from here exactly same as "33. Search in Rotated Sorted Array"  
+            int mid = (left + right) / 2;
+
+            if (nums[mid] >= nums[left]) {
+                if (nums[left] <= target && target <= nums[mid]) {
+                    right = mid;
+                } else {
+                    left = mid + 1;
+                }
+            } else {
+                if (nums[mid + 1] <= target && target <= nums[right]) {
+                    left = mid + 1;
+                } else {
+                    right = mid;
+                }
+            }
+        }
+        return nums[left] == target;
+    }
+}
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    bool search(const std::vector<int>& nums, int target) {
+        int left = 0;
+        int right = nums.size() - 1;
+        while (left < right) {
+
+            // shifting to remove duplicate elements. we have to break this loop before condition of outer while loop only.
+            // Otherwise we will get wrong ans. so left is going till -> 'right -1' instead of 'right'.
+            while (left < right - 1 && nums[left] == nums[left + 1]) {
+                left += 1;
+            }
+            while (left < right - 1 && nums[right] == nums[right - 1]) {
+                right -= 1;
+            }
+
+            // from here exactly same as "33. Search in Rotated Sorted Array"  
+            int mid = (left + right) / 2;
+
+            if (nums[mid] >= nums[left]) {
+                if (nums[left] <= target && target <= nums[mid]) {
+                    right = mid;
+                } else {
+                    left = mid + 1;
+                }
+            } else {
+                if (nums[mid + 1] <= target && target <= nums[right]) {
+                    left = mid + 1;
+                } else {
+                    right = mid;
+                }
+            }
+        }
+        return nums[left] == target;
+    }
+};
+"""

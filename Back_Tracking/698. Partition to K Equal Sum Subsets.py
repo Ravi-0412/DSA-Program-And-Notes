@@ -81,6 +81,118 @@ class Solution(object):
         # Start by trying to place nums[0]
         return canPartition(0)
 
+# Java Code 
+"""
+public class Solution {
+    public boolean canPartitionKSubsets(int[] nums, int k) {
+        int total = 0;
+        for (int num : nums) total += num;
+        if (total % k != 0) return false;
+
+        int subsetSum = total / k;
+        int[] sums = new int[k];  // will store the partition of each sum.
+        Arrays.sort(nums);
+        int n = nums.length;
+
+        // reverse to match reverse sorting in Python
+        for (int i = 0; i < n / 2; i++) {
+            int temp = nums[i];
+            nums[i] = nums[n - 1 - i];
+            nums[n - 1 - i] = temp;
+        }
+
+        return canPartition(0, nums, sums, k, subsetSum);
+    }
+
+    // function determines which bucket to put the 'current element' (nums[i]) into
+    private boolean canPartition(int i, int[] nums, int[] sums, int k, int subsetSum) {
+        // If we've placed all of the items, we're done;
+        // check if we correctly made k equal subsets of size total / k
+        if (i == nums.length) {
+            for (int j = 1; j < k; j++) {
+                if (sums[j] != sums[0]) return false;
+            }
+            return true;
+        }
+
+        // cur ele can go to any of the subset
+        for (int j = 0; j < k; j++) {
+            sums[j] += nums[i];  // Try adding the current element to it
+            // If it's a valid placement and we correctly placed the next element, we're done
+            if (sums[j] <= subsetSum && canPartition(i + 1, nums, sums, k, subsetSum))
+                return true;
+            sums[j] -= nums[i];
+
+            /*
+              Optimization that is not strictly necessary:
+              If sums[j] == 0, it means:
+                - We put nums[i] into an empty bucket
+                - We tried placing every other element after and failed.
+                - We took nums[i] out of the bucket, making it empty again.
+              So trying to put nums[i] into a _different_ empty bucket will not produce a correct solution;
+              we will just waste time.
+            */
+            if (sums[j] == 0) return false;
+        }
+
+        // We couldn't place the current element anywhere, so we backtrack
+        return false;
+    }
+}
+"""
+
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        int total = 0;
+        for (int num : nums) total += num;
+        if (total % k != 0) return false;
+
+        int subsetSum = total / k;
+        vector<int> sums(k, 0);  // will store the partition of each sum
+        sort(nums.rbegin(), nums.rend());  // reverse sort to optimize
+        return canPartition(0, nums, sums, k, subsetSum);
+    }
+
+    // function determines which bucket to put the 'current element' (nums[i]) into
+    bool canPartition(int i, vector<int>& nums, vector<int>& sums, int k, int subsetSum) {
+        // If we've placed all of the items, we're done;
+        // check if we correctly made k equal subsets
+        if (i == nums.size()) {
+            for (int j = 1; j < k; ++j) {
+                if (sums[j] != sums[0]) return false;
+            }
+            return true;
+        }
+
+        // cur ele can go to any of the subset
+        for (int j = 0; j < k; ++j) {
+            sums[j] += nums[i];  // Try adding the current element to it
+            // If it's a valid placement and we correctly placed the next element, we're done
+            if (sums[j] <= subsetSum && canPartition(i + 1, nums, sums, k, subsetSum))
+                return true;
+            sums[j] -= nums[i];
+
+            /*
+              Optimization: no need to try other empty buckets
+              If sums[j] == 0, trying to place in other empty buckets is redundant
+            */
+            if (sums[j] == 0) return false;
+        }
+
+        // Couldn't place the current element anywhere
+        return false;
+    }
+};
+"""
+
 # Note vvi: whenever you are asked to operate on the sum on a set of objects, just make a list sum and store sum of a set at an index.
 # Note: if number is negative also then do by this logic
 # https://leetcode.com/problems/partition-to-k-equal-sum-subsets/solutions/108730/java-c-straightforward-dfs-solution/

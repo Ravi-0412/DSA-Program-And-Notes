@@ -32,6 +32,79 @@ class Solution:
             visited.clear()
         return res
 
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    public int longestPath(int[] parent, String s) {
+        Map<Integer, List<Integer>> adj = new HashMap<>();
+        for (int i = 1; i < parent.length; i++) {
+            adj.computeIfAbsent(parent[i], k -> new ArrayList<>()).add(i);
+            adj.computeIfAbsent(i, k -> new ArrayList<>()).add(parent[i]);
+        }
+
+        Set<Integer> visited = new HashSet<>();
+        int res = 0;
+        for (int i = 0; i < parent.length; i++) {
+            res = Math.max(res, dfs(i, adj, s, visited));
+            visited.clear();
+        }
+        return res;
+    }
+
+    private int dfs(int node, Map<Integer, List<Integer>> adj, String s, Set<Integer> visited) {
+        visited.add(node);
+        // Take max of all its adjacent node and add '1'.
+        int ans = 1;
+        for (int nei : adj.getOrDefault(node, new ArrayList<>())) {
+            if (!visited.contains(nei) && s.charAt(node) != s.charAt(nei)) {
+                ans = Math.max(ans, 1 + dfs(nei, adj, s, visited));
+            }
+        }
+        return ans;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int longestPath(vector<int>& parent, string s) {
+        unordered_map<int, vector<int>> adj;
+        for (int i = 1; i < parent.size(); ++i) {
+            adj[parent[i]].push_back(i);
+            adj[i].push_back(parent[i]);
+        }
+
+        unordered_set<int> visited;
+        int res = 0;
+        for (int i = 0; i < parent.size(); ++i) {
+            res = max(res, dfs(i, adj, s, visited));
+            visited.clear();
+        }
+        return res;
+    }
+
+    int dfs(int node, unordered_map<int, vector<int>>& adj, const string& s, unordered_set<int>& visited) {
+        visited.insert(node);
+        // Take max of all its adjacent node and add '1'.
+        int ans = 1;
+        for (int nei : adj[node]) {
+            if (!visited.count(nei) && s[node] != s[nei]) {
+                ans = max(ans, 1 + dfs(nei, adj, s, visited));
+            }
+        }
+        return ans;
+    }
+};
+"""
 
 # Optimising to O(n)
 
@@ -90,4 +163,103 @@ class Solution:
 
         dfs(0)
         return self.ans
-        
+
+# Java Code 
+"""
+import java.util.*;
+
+class Solution {
+    int ans = 1;
+
+    public int longestPath(int[] parent, String s) {
+        Map<Integer, List<Integer>> adj = new HashMap<>();
+        for (int i = 1; i < parent.length; i++) {
+            adj.computeIfAbsent(parent[i], k -> new ArrayList<>()).add(i);
+            // adj.computeIfAbsent(i, k -> new ArrayList<>()).add(parent[i]);
+        }
+
+        dfs(0, adj, s);
+        return ans;
+    }
+
+    // dfs will return the longest valid path starting from this node in the sub-tree rooted at this node.
+    private int dfs(int node, Map<Integer, List<Integer>> adj, String s) {
+        // We want to keep track of the 2 longest paths starting from this node,
+        // So that we can compute the longest path going through this node
+        // in the sub-tree rooted at this node.
+        int best = 0, secondBest = 0;
+
+        for (int nei : adj.getOrDefault(node, new ArrayList<>())) {
+            int length = dfs(nei, adj, s);
+            if (s.charAt(node) != s.charAt(nei)) {
+                // update best and secondBest
+                if (length > best) {
+                    secondBest = best;
+                    best = length;
+                } else if (length > secondBest) {
+                    secondBest = length;
+                }
+            }
+        }
+
+        // Update ans
+        // best + secondBest + 1 means the length of the longest valid path
+        // going through this node in the sub-tree rooted at this node.
+        ans = Math.max(ans, best + secondBest + 1);
+        // Parent can only take one of the path so take best one
+        return best + 1;
+    }
+}
+"""
+# C++ Code 
+"""
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    int ans = 1;
+
+    int longestPath(vector<int>& parent, string s) {
+        unordered_map<int, vector<int>> adj;
+        for (int i = 1; i < parent.size(); ++i) {
+            adj[parent[i]].push_back(i);
+            // adj[i].push_back(parent[i]);
+        }
+
+        dfs(0, adj, s);
+        return ans;
+    }
+
+    // dfs will return the longest valid path starting from this node in the sub-tree rooted at this node.
+    int dfs(int node, unordered_map<int, vector<int>>& adj, const string& s) {
+        // We want to keep track of the 2 longest paths starting from this node,
+        // So that we can compute the longest path going through this node
+        // in the sub-tree rooted at this node.
+        int best = 0, secondBest = 0;
+
+        for (int nei : adj[node]) {
+            int length = dfs(nei, adj, s);
+            if (s[node] != s[nei]) {
+                // update best and secondBest
+                if (length > best) {
+                    secondBest = best;
+                    best = length;
+                } else if (length > secondBest) {
+                    secondBest = length;
+                }
+            }
+        }
+
+        // Update ans
+        // best + secondBest + 1 means the length of the longest valid path
+        // going through this node in the sub-tree rooted at this node.
+        ans = max(ans, best + secondBest + 1);
+        // Parent can only take one of the path so take best one
+        return best + 1;
+    }
+};
+"""

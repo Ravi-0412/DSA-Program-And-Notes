@@ -40,3 +40,82 @@ class Solution:
         dfs2(root, 0, 0)  # intially sibling val will be zero.
 
         return root
+
+# Java Code 
+"""
+import java.util.*;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int x) { val = x; }
+}
+
+class Solution {
+    Map<Integer, Integer> levelSum = new HashMap<>();
+
+    public TreeNode replaceValueInTree(TreeNode root) {
+        // One dfs to calculate sum at each level(depth)
+        dfs1(root, 0);
+
+        // now run another dfs to replace nodes
+        dfs2(root, 0, 0);
+
+        return root;
+    }
+
+    void dfs1(TreeNode node, int depth) {
+        if (node == null) return;
+        levelSum.put(depth, levelSum.getOrDefault(depth, 0) + node.val);
+        dfs1(node.left, depth + 1);
+        dfs1(node.right, depth + 1);
+    }
+
+    void dfs2(TreeNode node, int siblingVal, int depth) {
+        if (node == null) return;
+        node.val = levelSum.get(depth) - node.val - siblingVal;
+        int leftVal = node.left != null ? node.left.val : 0;
+        int rightVal = node.right != null ? node.right.val : 0;
+        dfs2(node.left, rightVal, depth + 1);
+        dfs2(node.right, leftVal, depth + 1);
+    }
+}
+"""
+# C++ Code 
+"""
+#include <unordered_map>
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode *left, *right;
+    TreeNode(int x): val(x), left(nullptr), right(nullptr) {}
+};
+
+class Solution {
+public:
+    unordered_map<int, int> levelSum;
+
+    TreeNode* replaceValueInTree(TreeNode* root) {
+        dfs1(root, 0);  // for getting the sum of node value at each depth(level)
+        dfs2(root, 0, 0);  // initially sibling val will be zero.
+        return root;
+    }
+
+    void dfs1(TreeNode* node, int depth) {
+        if (!node) return;
+        levelSum[depth] += node->val;
+        dfs1(node->left, depth + 1);
+        dfs1(node->right, depth + 1);
+    }
+
+    void dfs2(TreeNode* node, int siblingVal, int depth) {
+        if (!node) return;
+        node->val = levelSum[depth] - node->val - siblingVal;
+        int leftVal = node->left ? node->left->val : 0;
+        int rightVal = node->right ? node->right->val : 0;
+        dfs2(node->left, rightVal, depth + 1);
+        dfs2(node->right, leftVal, depth + 1);
+    }
+};
+"""

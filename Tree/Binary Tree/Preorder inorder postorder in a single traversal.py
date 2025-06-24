@@ -45,3 +45,137 @@ class Solution:
         
         print(pre,inorder,post)
 
+# Java Code 
+"""
+import java.util.*;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int x) { val = x; }
+}
+
+class Pair {
+    TreeNode node;
+    int num;
+    Pair(TreeNode node, int num) {
+        this.node = node;
+        this.num = num;
+    }
+}
+
+class Solution {
+    public void postorderTraversal(TreeNode root) {
+        List<Integer> pre = new ArrayList<>();
+        List<Integer> inorder = new ArrayList<>();
+        List<Integer> post = new ArrayList<>();
+        Stack<Pair> stack = new Stack<>();
+
+        if (root != null) {
+            stack.push(new Pair(root, 1));
+        }
+
+        while (!stack.isEmpty()) {
+            Pair p = stack.pop();  // every time pop first and check the value of num
+            TreeNode curr = p.node;
+            int num = p.num;
+
+            // preorder i.e num == 1 means this node is printed for the 1st time. 
+            if (num == 1) {  // add in preorder and make num= 2(to make this node get included in inorder) 
+                             // and then again append curr in stack with updated num
+                pre.add(curr.val);
+                num = 2;
+                stack.push(new Pair(curr, num));
+                // if left child exixt then append that with num= 1
+                if (curr.left != null) {
+                    num = 1;
+                    stack.push(new Pair(curr.left, num));
+                }
+            }
+
+            // Inorder case 
+            else if (num == 2) {  // add in inorder and make num= 3 and then again append curr in stack with updated num
+                inorder.add(curr.val);
+                num = 3;
+                stack.push(new Pair(curr, num));
+                // if right child exixt then append that with num= 1
+                if (curr.right != null) {
+                    num = 1;
+                    stack.push(new Pair(curr.right, num));
+                }
+            }
+
+            // postorder
+            else if (num == 3) {
+                post.add(curr.val);
+            }
+        }
+
+        System.out.println(pre + " " + inorder + " " + post);
+    }
+}
+"""
+# C++ Code 
+"""
+#include <iostream>
+#include <vector>
+#include <stack>
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
+
+class Solution {
+public:
+    void postorderTraversal(TreeNode* root) {
+        vector<int> pre, inorder, post;
+        stack<pair<TreeNode*, int>> stack;
+
+        if (root != nullptr) {
+            stack.push({root, 1});
+        }
+
+        while (!stack.empty()) {
+            auto [curr, num] = stack.top(); stack.pop();  // every time pop first and check the value of num
+
+            // preorder i.e num == 1 means this node is printed for the 1st time. 
+            if (num == 1) {  // add in preorder and make num= 2(to make this node get included in inorder) 
+                             // and then again append curr in stack with updated num
+                pre.push_back(curr->val);
+                num = 2;
+                stack.push({curr, num});
+                // if left child exixt then append that with num= 1
+                if (curr->left) {
+                    num = 1;
+                    stack.push({curr->left, num});
+                }
+            }
+
+            // Inorder case 
+            else if (num == 2) {  // add in inorder and make num= 3 and then again append curr in stack with updated num
+                inorder.push_back(curr->val);
+                num = 3;
+                stack.push({curr, num});
+                // if right child exixt then append that with num= 1
+                if (curr->right) {
+                    num = 1;
+                    stack.push({curr->right, num});
+                }
+            }
+
+            // postorder
+            else if (num == 3) {
+                post.push_back(curr->val);
+            }
+        }
+
+        for (int v : pre) cout << v << " "; cout << endl;
+        for (int v : inorder) cout << v << " "; cout << endl;
+        for (int v : post) cout << v << " "; cout << endl;
+    }
+};
+"""

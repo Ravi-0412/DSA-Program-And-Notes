@@ -24,6 +24,58 @@ class Solution:
         # means one lie left and other lie in right or (one tree is LCA of other) so return root itself
         return root
 
+# Java Code 
+"""
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int x) { val = x; }
+}
+
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        // if root== None:     // No need of this as it won't reach till 'root= None', it will get returned before only
+        //     return root
+        // check if both lie in the left subtree of this node
+        if (root.val > p.val && root.val > q.val) {  
+            return lowestCommonAncestor(root.left, p, q);
+        }
+        // check if both lie in the right subtree of this node
+        if (root.val < p.val && root.val < q.val) {   
+            return lowestCommonAncestor(root.right, p, q);
+        }
+        // means one lie left and other lie in right or (one tree is LCA of other) so return root itself
+        return root;
+    }
+}
+"""
+# C++ Code 
+"""
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
+
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        // if root== None:     // No need of this as it won't reach till 'root= None', it will get returned before only
+        //     return root
+        // check if both lie in the left subtree of this node
+        if (root->val > p->val && root->val > q->val) {  
+            return lowestCommonAncestor(root->left, p, q);
+        }
+        // check if both lie in the right subtree of this node
+        if (root->val < p->val && root->val < q->val) {   
+            return lowestCommonAncestor(root->right, p, q);
+        }
+        // means one lie left and other lie in right or (one tree is LCA of other) so return root itself
+        return root;
+    }
+};
+"""
 # Method 2:
 # iterative way of Method 1
 class Solution:
@@ -36,3 +88,52 @@ class Solution:
             else: # means one lie left and other lie in right or (one tree is LCA of other) so return root itself
                 return root
 
+
+# Java Code 
+"""
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode(int x) { val = x; }
+}
+
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        while (root != null) {
+            if (root.val > p.val && root.val > q.val) {  // both lie in the left subtree of that node
+                root = root.left;
+            } else if (root.val < p.val && root.val < q.val) {   // both lie in the right subtree of that node
+                root = root.right;
+            } else { // means one lie left and other lie in right or (one tree is LCA of other) so return root itself
+                return root;
+            }
+        }
+        return null;
+    }
+}
+"""
+# C++ Code 
+"""
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
+
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        while (root != nullptr) {
+            if (root->val > p->val && root->val > q->val) {  // both lie in the left subtree of that node
+                root = root->left;
+            } else if (root->val < p->val && root->val < q->val) {   // both lie in the right subtree of that node
+                root = root->right;
+            } else { // means one lie left and other lie in right or (one tree is LCA of other) so return root itself
+                return root;
+            }
+        }
+        return nullptr;
+    }
+};
+"""

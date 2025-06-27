@@ -1,3 +1,4 @@
+# method 1: 
 # Note: Input is passed as a Integer only
 
 class Solution:

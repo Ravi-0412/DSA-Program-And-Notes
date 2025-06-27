@@ -1,15 +1,11 @@
-"""
-class Solution {
-    public boolean containsDuplicate(int[] nums) {
-        Set<Integer> s = new HashSet<>();
-        for(int num: nums){
-            if(s.contains(num))
-                return true;
-            s.add(num) ;
-        }
-        return false;
-        
-    }
-}
+# Method 1:
+# Time = sapce = O(n)
 
-"""
+class Solution:
+    def containsDuplicate(self, nums):
+        s = set()
+        for num in nums:
+            if num in s:
+                return True
+            s.add(num)
+        return False

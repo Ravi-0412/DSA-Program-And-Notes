@@ -6,7 +6,7 @@ class Solution:
         
 
 
-# 2nd method : using XOR operation
+# Method 2 : using XOR operation
 # time: O(n)
 class Solution:
     def missingNumber(self, nums: List[int]) -> int:
@@ -25,7 +25,7 @@ class Solution:
         num=x1^x2   # for ans take the cumulative xor not one by one
         return num
 
-
+# Method 3:
 # Other way of writing above code:
 class Solution:
     def missingNumber(self, nums: List[int]) -> int:
@@ -37,9 +37,6 @@ class Solution:
             x1= x1^nums[i]
         return x1
 
-# METHOD 3: Sort the number in store in another aray now compare the sorted array with original array
-# index at which there will be mismatch return that number from the original array 
-# and if no mismatch means last number is missing so simply return 'n'
 
     
 

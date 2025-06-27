@@ -1,3 +1,5 @@
+# method 1:
+
 # first thing is how we will come to think that stack will be used here
 # logic: since we have to take one ele from start and one from end 
 # and this can only be done if we take a data structure on which we can operate from start and end in O(1)
@@ -28,7 +30,8 @@ class Solution:
         return head
 
 
-# another method: better one, have to do only by this
+# Method 2:
+# better one, have to do only by this
 # steps: 1) reverse the ele after middle to end 
 # 2) now merge the two list 
 # time:O(n), space:O(1)
@@ -64,8 +67,8 @@ class Solution:
         return head
 
 
-# another way of doing the same logic.
-# Just change in merging logic.
+# Method 3: 
+# Just change in merging logic of method 2
 class Solution:
     def reorderList(self, head: Optional[ListNode]) -> None:
         if head.next== None or head.next.next== None:
@@ -95,41 +98,3 @@ class Solution:
             curr1.next= curr2
             curr1, curr2= curr2, temp   # swap the pointer
         return head
-
-
-# java
-"""
-class Solution {
-    public void reorderList(ListNode head) {
-        if (head == null) return;
-
-        // Step 1: Find the middle of the list
-        ListNode slow = head, fast = head;
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
-        }
-
-        // Step 2: Reverse the second half of the list
-        ListNode second = slow.next;
-        slow.next = null;
-        ListNode pre = null;
-        while (second != null) {
-            ListNode nextNode = second.next;
-            second.next = pre;
-            pre = second;
-            second = nextNode;
-        }
-
-        // Step 3: Merge the two halves
-        ListNode curr1 = head, curr2 = pre;
-        while (curr1 != null && curr2 != null) {
-            ListNode temp1 = curr1.next, temp2 = curr2.next;
-            curr1.next = curr2;
-            curr2.next = temp1;
-            curr1 = temp1;
-            curr2 = temp2;
-        }
-    }
-}
-"""

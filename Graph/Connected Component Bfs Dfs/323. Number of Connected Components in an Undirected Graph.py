@@ -47,6 +47,8 @@ DFS (Depth-First Search)
 i) Build an adjacency list for the graph.
 ii) Use DFS recursively to visit all nodes in a connected component.
 iii)Each DFS initiation from an unvisited node counts as one component.
+
+Time & space: Same as BFS
 """
 
 from collections import defaultdict

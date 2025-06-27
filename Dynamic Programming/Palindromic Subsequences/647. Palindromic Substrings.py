@@ -1,3 +1,5 @@
+# Method 1: 
+
 # just totally the same logic as 'Q: 5 longest palindromic substring".
 # take each char as middle
 # just incr the count after we found any palindrome.
@@ -22,7 +24,7 @@ class Solution:
                 r+= 1
         return count
 
-
+# Method 2: 
 # make a separate function to count palindrome for each char(taking as mid) instead of two while loop.
 class Solution:
     def countSubstrings(self, s: str) -> int:

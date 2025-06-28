@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Logic :
 # vvvi: Since each day, the new cell becomes flooded with water, so if on ith day,
 # if we can't walk from the top to bottom then all days after ith we also can't walk.

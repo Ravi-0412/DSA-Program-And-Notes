@@ -1,3 +1,5 @@
+# Method 1: 
+
 # Very good problem. Not much hard. Medium level
 # Just need to think a little.
 

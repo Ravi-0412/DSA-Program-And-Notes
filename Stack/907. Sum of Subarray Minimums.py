@@ -1,3 +1,5 @@
+# Method 1: 
+
 # logic: result[i] the sum of min values of those subarrays having ending at index 'i'.
 
 # No of new subarrays that will form after adding ele at 'i'th index= (i+1).
@@ -17,6 +19,13 @@
 
 # time= space= O(n)
 
+"""
+Note vvvi: Key words
+
+Subarray + sum -> prefix sum
+Subarray + minimum / maximum-> mono stack
+"""
+
 class Solution:
     def sumSubarrayMins(self, arr: List[int]) -> int:
         n= len(arr)
@@ -34,8 +43,3 @@ class Solution:
                 res[i]= (i+1)* arr[i]
             stack.append(i)
         return sum(res) % (10**9 + 7) 
-
-# Note vvvi: Key words
-
-# Subarray + sum -> prefix sum
-# Subarray + minimum / maximum-> mono stack

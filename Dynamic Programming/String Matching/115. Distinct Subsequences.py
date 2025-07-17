@@ -326,6 +326,45 @@ class Solution:
         
         return dp[len(t)]
 
+# Java Code 
+"""
+class Solution {
+    public int numDistinct(String s, String t) {
+        int[] dp = new int[t.length() + 1];
+        dp[0] = 1;  // Empty t can always be formed
+
+        for (char c : s.toCharArray()) {
+            for (int j = t.length(); j > 0; j--) {  // Reverse to avoid overwriting
+                if (c == t.charAt(j - 1)) {
+                    dp[j] += dp[j - 1];
+                }
+            }
+        }
+
+        return dp[t.length()];
+    }
+}
+"""
+# C++ Code 
+"""
+class Solution {
+public:
+    int numDistinct(string s, string t) {
+        vector<int> dp(t.size() + 1, 0);
+        dp[0] = 1;  // Empty t can always be formed
+
+        for (char c : s) {
+            for (int j = t.size(); j > 0; --j) {  // Reverse to avoid overwriting
+                if (c == t[j - 1]) {
+                    dp[j] += dp[j - 1];
+                }
+            }
+        }
+
+        return dp[t.size()];
+    }
+};
+"""
 
 # Related Q:
 # 1) 2222. Number of Ways to Select Buildings.

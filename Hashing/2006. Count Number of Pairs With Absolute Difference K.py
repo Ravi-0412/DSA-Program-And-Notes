@@ -1,3 +1,5 @@
+# Method 1: 
+
 # logic: open the modulus with positive and negative sign. just we used to do in maths.
 # say: we are currently at index 'j', |nums[i] - nums[j]|= k (i <j), we must have seen nums[i] before to make pair with nums[j]
 
@@ -19,7 +21,8 @@ class Solution:
         return ans
 
 
-# method 2: Counting sort
+# method 2: 
+# Counting sort
 # Can utilise the lesser constraint of 'nums[i]'.
 
 # Note: Here storing the frequency first then finding the ans.

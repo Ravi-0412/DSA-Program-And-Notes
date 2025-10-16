@@ -38,7 +38,7 @@ def BellmanFord(src,edges,n):
     
     # now to check the negative cycle
     for s,d,w in edges:
-        if distance[s]!= 999999 and distance[d] > distance[s] + w:  # first check if we have reached the source
+        if distance[s]!= 999999 and distance[d] > distance[s] + w:  # first check if we have reached the source & getting more better ans
             print("negative weight cycle is there")
             return
     print(distance)

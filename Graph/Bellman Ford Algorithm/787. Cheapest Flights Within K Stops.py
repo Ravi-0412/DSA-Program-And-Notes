@@ -191,6 +191,15 @@ We can keep on adding the same node if we come through less stop than before.
 Visualisation: Here we may add same node again even that nod eis already visited, 
 if we visit that node with fewer stops.
 """
+"""
+Time :
+At most, each city can be visited with stops from 0 → k, so:
+Maximum states = n × (k + 1)
+For each state, you explore all neighbors → average degree ≈ m / n (worst-case n)
+Overall Time = O( (n × k) × log(n × k) + m × log(n × k) ) = O(m × log(n × k))
+
+Space = O(m + n × k) , PQ
+"""
 
 from collections import defaultdict
 import heapq

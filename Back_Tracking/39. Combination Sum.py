@@ -111,3 +111,131 @@ public:
     }
 };
 """
+
+
+# Method 2:
+"""
+i) Does not pass res as a parameter
+ii) Does not use a global or class variable
+iii) Only uses return values from functions to build the result
+
+How ans is getting added in python ?
+ans = []                      # empty 1D list
+part = [[2,2,3], [7]]         # this is a 2D list from recursion
+
+ans += part                   # same as ans.extend(part)
+
+What happens now ?
+ans starts as []
+part is [[2,2,3], [7]]
++= takes each element of part and adds it into ans
+ans == [[2,2,3], [7]]
+
+Why It Works (in one line)
+
+ans += part does not add part as a single element, it unpacks it and adds each inner list → so ans changes from 1D to 2D naturally.
+
+Contrast:
+Operation	                        Result
+ans.append(part)	                [[[2,2,3], [7]]] (3D style)
+ans += part or ans.extend(part)	    [[2,2,3], [7]] (2D)
+"""
+
+class Solution:
+    def combinationSum(self, candidates, target):
+        return self.SubsequenceSum(candidates, target, [])
+
+    def SubsequenceSum(self, arr, k, path):
+        # If target is met → return a list containing this valid path
+        if k == 0:
+            return [path]
+
+        # If array is empty → return no solution
+        if not arr:
+            return []
+
+        ans = []
+
+        # Include current element if it's <= remaining sum
+        if arr[0] <= k:
+            ans += self.SubsequenceSum(arr, k - arr[0], path + [arr[0]])
+
+        # Exclude current element and move forward
+        ans += self.SubsequenceSum(arr[1:], k, path)
+
+        return ans
+
+# Java
+"""
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        return helper(candidates, target, 0, new ArrayList<>());
+    }
+
+    private List<List<Integer>> helper(int[] arr, int target, int index, List<Integer> path) {
+        if (target == 0) {
+            List<List<Integer>> base = new ArrayList<>();
+            base.add(new ArrayList<>(path));
+            return base;
+        }
+        if (index == arr.length || target < 0) {
+            return new ArrayList<>();
+        }
+
+        List<List<Integer>> ans = new ArrayList<>();
+
+        // Include arr[index] if <= target
+        if (arr[index] <= target) {
+            path.add(arr[index]);
+            ans.addAll(helper(arr, target - arr[index], index, path));
+            path.remove(path.size() - 1); // backtrack
+        }
+
+        // Exclude current element → move to next
+        ans.addAll(helper(arr, target, index + 1, path));
+
+        return ans;
+    }
+}
+"""
+
+# C++
+"""
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        return solve(candidates, target, 0, {});
+    }
+
+    vector<vector<int>> solve(vector<int>& arr, int target, int index, vector<int> path) {
+        if (target == 0) {
+            return { path };  // return a 2D list with one valid path
+        }
+        if (index == arr.size() || target < 0) {
+            return {};  // return empty 2D list
+        }
+
+        vector<vector<int>> result;
+
+        // Include element
+        if (arr[index] <= target) {
+            vector<int> withCurr = path;
+            withCurr.push_back(arr[index]);
+            vector<vector<int>> include = solve(arr, target - arr[index], index, withCurr);
+            result.insert(result.end(), include.begin(), include.end());
+        }
+
+        // Exclude element → move forward
+        vector<vector<int>> exclude = solve(arr, target, index + 1, path);
+        result.insert(result.end(), exclude.begin(), exclude.end());
+
+        return result;
+    }
+};
+"""
+

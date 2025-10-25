@@ -213,36 +213,38 @@ public class Solution {
 """
 # C++ Code 
 """
-import java.util.*;
+#include <vector>
+#include <unordered_set>
+using namespace std;
 
-public class Solution {
+class Solution {
+public:
+    vector<vector<int>> ans;
+    unordered_set<int> included;  // to track used numbers
 
-    List<List<Integer>> ans = new ArrayList<>();
-    Set<Integer> included = new HashSet<>();
-    int[] nums;
-
-    public List<List<Integer>> permute(int[] nums) {
-        this.nums = nums;
-        permutation(new ArrayList<>());
-        return ans;
-    }
-
-    public void permutation(List<Integer> per) {
-        if (per.size() == nums.length) {
-            ans.add(per);  // safe here since per is new in each call
+    void permutation(vector<int>& nums, vector<int> per) {
+        if (per.size() == nums.size()) {
+            ans.push_back(per);
             return;
         }
-        for (int i = 0; i < nums.length; i++) {
-            if (!included.contains(nums[i])) {
-                included.add(nums[i]);
-                List<Integer> newPer = new ArrayList<>(per);
-                newPer.add(nums[i]);
-                permutation(newPer);
-                included.remove(nums[i]);
+
+        for (int i = 0; i < nums.size(); i++) {
+            if (included.find(nums[i]) == included.end()) { // if not used yet
+                included.insert(nums[i]);
+                per.push_back(nums[i]);
+                permutation(nums, per);
+                per.pop_back();       // backtrack
+                included.erase(nums[i]);
             }
         }
     }
-}
+
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<int> per;
+        permutation(nums, per);
+        return ans;
+    }
+};
 """
 
 # method 3:

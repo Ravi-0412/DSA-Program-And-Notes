@@ -5,7 +5,14 @@
 
 # Note: All will be unique combination only because we are taking in increasing order only.
 
-# time : O(n, k)  => 'n' choose 'k'.
+"""
+Time Complexity: 
+Total number of combinations =  O(C(n, k))
+For each valid combination, we spend O(k) time to copy the list before adding it to the result.
+So the total time complexity is: O(C(n, k) * k)
+
+Sapce: O(C(n, k)) , Storing each combination
+"""
 
 class Solution:
     def combine(self, n: int, k: int) -> List[List[int]]:
@@ -93,6 +100,91 @@ public:
             combination(num, k - 1, {num}, n, k);
         }
         return ans;
+    }
+};
+"""
+
+# Method 2:
+"""
+Without using outer for loop & calling recursion once.
+Idea is excatly simple as 1st method, just take number in increasing order to avoid repitition.
+"""
+"""
+Time Complexity: 
+Total number of combinations =  O(C(n, k))
+For each valid combination, we spend O(k) time to copy the list before adding it to the result.
+So the total time complexity is: O(C(n, k) * k)
+
+Sapce: O(C(n, k)) , Storing each combination
+"""
+
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        ans = []
+
+        def backtrack(start, remaining, comb):
+            if remaining == 0:
+                ans.append(comb)
+                return
+
+            for i in range(start, n + 1):
+                backtrack(i + 1, remaining - 1, comb + [i])
+
+        backtrack(1, k, [])
+        return ans
+
+# Java
+"""
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> ans = new ArrayList<>();
+
+        backtrack(1, k, n, new ArrayList<>(), ans);
+        return ans;
+    }
+
+    private void backtrack(int start, int remaining, int n, List<Integer> comb, List<List<Integer>> ans) {
+        if (remaining == 0) {
+            ans.add(new ArrayList<>(comb));  // add a copy of current combination
+            return;
+        }
+
+        for (int i = start; i <= n; i++) {
+            comb.add(i);
+            backtrack(i + 1, remaining - 1, n, comb, ans);
+            comb.remove(comb.size() - 1);  // backtrack step
+        }
+    }
+}
+"""
+
+# C++
+"""
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> ans;
+        vector<int> comb;
+        backtrack(1, k, n, comb, ans);
+        return ans;
+    }
+
+    void backtrack(int start, int remaining, int n, vector<int>& comb, vector<vector<int>>& ans) {
+        if (remaining == 0) {
+            ans.push_back(comb);  // store the current combination
+            return;
+        }
+
+        for (int i = start; i <= n; i++) {
+            comb.push_back(i);
+            backtrack(i + 1, remaining - 1, n, comb, ans);
+            comb.pop_back();  // backtrack
+        }
     }
 };
 """

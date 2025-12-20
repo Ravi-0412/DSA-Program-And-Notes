@@ -1,3 +1,5 @@
+# Basic
+
 # First part solution where len(word) <= 26 and all characters are different.
 
 # Logic : we have '8' keys (2- 9) and on these '8' keys, we can place 26 characters i.e 
@@ -49,6 +51,8 @@ class Solution:
         
 
 # Actual question
+
+# Method 1:
     
 """
 Just same way as above with just one modification.

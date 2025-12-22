@@ -93,3 +93,101 @@ private:
     }
 };
 """
+
+# Method 3:
+# logic : Just same approach as method 1, jst doing in single function call using Tabulation with space optimised to O(1)
+
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        n = len(nums)
+        if n == 1:
+            return nums[0]
+
+        # Case A: exclude last house
+        prevA = currA = 0
+        
+        # Case B: exclude first house
+        prevB = currB = 0
+
+        for i in range(n):
+            # Update Case A only if last house is excluded
+            if i < n - 1:
+                prevA, currA = currA, max(currA, prevA + nums[i])
+
+            # Update Case B only if first house is excluded
+            if i > 0:
+                prevB, currB = currB, max(currB, prevB + nums[i])
+
+        return max(currA, currB)
+
+# Java 
+"""
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        if (n == 1) return nums[0];
+
+        // Case A: exclude last house
+        int prevA = 0, currA = 0;
+
+        // Case B: exclude first house
+        int prevB = 0, currB = 0;
+
+        for (int i = 0; i < n; i++) {
+
+            // Case A: consider houses [0 ... n-2]
+            if (i < n - 1) {
+                int temp = currA;
+                currA = Math.max(currA, prevA + nums[i]);
+                prevA = temp;
+            }
+
+            // Case B: consider houses [1 ... n-1]
+            if (i > 0) {
+                int temp = currB;
+                currB = Math.max(currB, prevB + nums[i]);
+                prevB = temp;
+            }
+        }
+
+        return Math.max(currA, currB);
+    }
+}
+"""
+
+
+# C++
+"""
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        if (n == 1) return nums[0];
+
+        // Case A: exclude last house
+        int prevA = 0, currA = 0;
+
+        // Case B: exclude first house
+        int prevB = 0, currB = 0;
+
+        for (int i = 0; i < n; i++) {
+
+            // Case A: houses [0 ... n-2]
+            if (i < n - 1) {
+                int temp = currA;
+                currA = max(currA, prevA + nums[i]);
+                prevA = temp;
+            }
+
+            // Case B: houses [1 ... n-1]
+            if (i > 0) {
+                int temp = currB;
+                currB = max(currB, prevB + nums[i]);
+                prevB = temp;
+            }
+        }
+
+        return max(currA, currB);
+    }
+};
+"""

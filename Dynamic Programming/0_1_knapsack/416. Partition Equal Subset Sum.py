@@ -141,7 +141,7 @@ public:
 };
 """
 
-# Method 3:
+# Method 2:
 # Tabulation
 from typing import List
 

@@ -1,13 +1,14 @@
 # Method 1:
 
-# logic: just reverse the string and find lcs of actual and reversed string
-# lcs will be our final ans as for palindrome reading from both sides will be same
-# so the subsequence in one must be there in other also
-# and largest subsequence will be our ans
+"""
+logic: just reverse the string and find lcs of actual and reversed string.
+Lcs will be our final ans as for palindrome reading from both sides will be same
+so the subsequence in one must be there in other also
+and largest subsequence will be our ans.
+"""
 class Solution:
     def longestPalinSubseq(self, S):
         S1= S[::-1]
-        # print(S)
         x,y= len(S), len(S)
         return self.Lcs(x,y,S,S1)
     def Lcs(self,x,y,s1,s2):
@@ -78,16 +79,17 @@ private:
 };
 """
 # Method 2:
-# Travsersing in same string 's'
-# Recursion + memoisation 
+# logic: 
+"""
+Recursion + memoisation 
+Travsersing in same string 's'
 
-# Logic: 
-    # Let dp(l, r) denote the length of the longest palindromic subsequence of s[l..r].
-    # There are 2 options:
-    #     If s[l] == s[r] then dp[l][r] = dp[l+1][r-1] + 2
-    #     Elif s[l] != s[r] then dp[l][r] = max(dp[l+1][r], dp[l][r-1]).
-    # Then dp(0, n-1) is our result.
-
+Let dp(l, r) denote the length of the longest palindromic subsequence of s[l..r].
+There are 2 options:
+    If s[l] == s[r] then dp[l][r] = dp[l+1][r-1] + 2
+    Elif s[l] != s[r] then dp[l][r] = max(dp[l+1][r], dp[l][r-1]).
+    Then dp(0, n-1) is our result.
+"""
 
 class Solution:
     def longestPalindromeSubseq(self, s: str) -> int:
@@ -171,6 +173,7 @@ private:
     }
 };
 """
+
 # Method 3: 
 # Tabulation
 class Solution:

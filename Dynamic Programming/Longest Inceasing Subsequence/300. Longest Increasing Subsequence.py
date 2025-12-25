@@ -94,7 +94,7 @@ private:
 # method 2: 
 # Better one
 """
-Note vvvi: This is better one template in case of 'take' and 'notTake'  which there is 'notTake' option always there.
+Note vvvi: This is better one template in case of 'take' and 'notTake' where'notTake' option is always there.
 So just find the condition for 'take' and return the max(take, notTake)
 
 How?
@@ -117,8 +117,8 @@ class Solution:
         take= 0
         notTake= self.helper(ind +1, pre_ind, arr)  # if we not include
         # when we include but we can only include in following condition only.
-        if pre_ind== -1 or arr[ind] > arr[pre_ind]:  # when can only include if strictly increasing
-            take= 1+ self.helper(ind +1, ind, arr)
+        if pre_ind == -1 or arr[ind] > arr[pre_ind]:  # when can only include if strictly increasing
+            take = 1+ self.helper(ind +1, ind, arr)
         return max(take, notTake)
 
 
@@ -273,7 +273,7 @@ class Solution:
             for pre_ind in range(ind -1, -2, -1):
                 take= 0
                 notTake= dp[ind +1][pre_ind +1]
-                if pre_ind== -1 or nums[ind] > nums[pre_ind]:
+                if pre_ind == -1 or nums[ind] > nums[pre_ind]:
                     take= 1+ dp[ind+ 1][ind +1]
                 dp[ind][pre_ind +1]= max(take, notTake)
         return dp[0][0]   # return the dp for which you had called the recursive function. 
@@ -348,7 +348,7 @@ class Solution:
                                 #  for each index at least ele at curr index will be get included so initialised with '1'
         for i in range(len(nums)-1, -1, -1):
             # for 'i'th index we have to merge this ele with any of the ans(LIS) after it. so we will check for all ele after this.
-            for j in range(i+1, len(nums)):
+            for j in range(i+1, len(nums)):  
                 if nums[j] > nums[i]: # checking whether this ele at 'j' can get added to LIS at 'i'.
                     LIS[i]= max(LIS[i], 1+ LIS[j])  # Have to take max of all LIS ahead of it.
         # at last return the maximum in LIS

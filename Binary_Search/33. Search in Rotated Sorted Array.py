@@ -269,3 +269,32 @@ public:
     }
 };
 """
+
+
+# method 2
+# Not working , need to see it very properly later & understand like why it's not working
+# Just tried to use the logic of question : 153. Find Minimum in Rotated Sorted Array
+
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        start, end= 0, len(nums) -1 
+        while start < end :
+            mid= start + (end-start)//2
+            # means array is sorted from start to mid
+            if nums[mid] > nums[end]: 
+            # so we can check if target exist bw start and mid
+                if nums[start] <=target<=nums[mid]:
+                    end= mid
+                else: # if not present then check in other part
+                    start= mid + 1
+
+            # if above part is not sorted then other part from mid+1 to end must be sorted        
+            else: 
+                # check if target lies in this range. 
+                # note: comparing with 'mid' will give the wrong ans.
+                if nums[mid] <= target<= nums[end]:  # if lies call binary search
+                    start= mid
+                # if not lies from 'mid+1' to end then it must be before it
+                else:
+                    end= mid
+        return start if nums[start]== target else -1

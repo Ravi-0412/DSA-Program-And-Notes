@@ -59,8 +59,8 @@ class Solution:
             if c== '(':
                 depth+= 1
             else:
-                # depth-= 1   
-                if pre== '(':   # means we have not calculated for this depth. if pre= ')'' then ,
+                depth -= 1   # to balance according to answer i.e '()' ans should be '1' only.
+                if pre == '(':   # means we have not calculated for this depth. if pre= ')'' then ,
                                 # we have alrady calculated the ans for this since in this we are calculating at once.
                     ans+= 2**depth
             pre= c
@@ -107,10 +107,10 @@ class Solution {
             if (c == '(') {
                 depth++;
             } else {
+                depth--; // to balance according to answer i.e '()' ans should be '1' only.
                 if (pre == '(') { // Only calculate when needed (not for consecutive ')')
                     ans += 1 << depth; // Equivalent to 2^depth
                 }
-                depth--; // Decrement depth after ')'
             }
             pre = c;
         }
@@ -174,10 +174,10 @@ public:
             if (c == '(') {
                 depth++;
             } else {
+                depth--;  // to balance according to answer i.e '()' ans should be '1' only.
                 if (pre == '(') { // Only calculate when needed (not for consecutive ')')
                     ans += 1 << depth; // Equivalent to 2^depth
                 }
-                depth--; // Decrement depth after ')'
             }
             pre = c;
         }

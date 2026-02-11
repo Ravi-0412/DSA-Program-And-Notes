@@ -78,6 +78,63 @@ public:
 };
 """
 
+# Method 2: 
+# Using Two Pointer
+class Solution:
+    def removeDuplicates(self, s: str) -> str:
+        arr = list(s)   # convert to list to allow in-place updates
+        i = 0           # acts like stack pointer (top)
+
+        for c in arr:
+            if i > 0 and arr[i - 1] == c:
+                i -= 1          # pop
+            else:
+                arr[i] = c      # push
+                i += 1
+
+        return "".join(arr[:i])
+
+# Java
+"""
+class Solution {
+    public String removeDuplicates(String s) {
+        char[] arr = s.toCharArray();
+        int i = 0;  // acts like stack top
+
+        for (char c : arr) {
+            if (i > 0 && arr[i - 1] == c) {
+                i--;        // pop (remove duplicate pair)
+            } else {
+                arr[i] = c; // push
+                i++;
+            }
+        }
+
+        return new String(arr, 0, i);
+    }
+}
+"""
+
+# C++
+"""
+class Solution {
+public:
+    string removeDuplicates(string s) {
+        int i = 0;  // stack pointer
+
+        for (char c : s) {
+            if (i > 0 && s[i - 1] == c) {
+                i--;        // pop
+            } else {
+                s[i] = c;   // push
+                i++;
+            }
+        }
+
+        return s.substr(0, i);
+    }
+};
+"""
 
 # Extesnion 
 """

@@ -1,4 +1,4 @@
-# Method 1: 
+n# Method 1: 
 
 # when you see this type of problem involving nested brackets call with this type of logic then use stack.
 
@@ -136,16 +136,28 @@ public:
 };
 """
 # Method 2:
-# Better one. Just similar logic as "772. Basic Calculator III".
+# Similar idea to "772. Basic Calculator III"
 
-# We need to keep track of number and string before '['.
-# So when you see '[' then append string and num before '[' into stack.
-# And start from scratch .
+# We need to keep track of two things before every '[' :
+# 1) The number k (how many times to repeat)
+# 2) The string built so far
 
-# When we hit an open bracket, we know we have parsed k for the contents of the bracket, so 
-# push (current_string, k) to the stack, so we can pop them on closing bracket to duplicate
-# the enclosed string k times.
-    
+# When we see a '[' :
+# - It means we have just finished reading a number k.
+# - So we push (current_string, k) onto the stack.
+# - Then we reset current_string and k to start fresh for the substring inside the brackets.
+
+# When we see a ']' :
+# - We pop the last saved (previous_string, repeat_count) from the stack.
+# - The current_string now contains the decoded substring inside the brackets.
+# - We repeat this substring repeat_count times.
+# - Then append it to previous_string.
+
+# This way, the stack helps us handle nested brackets by remembering
+# the string and repeat count from outer levels.
+
+# time = sapce = O(n)
+
 class Solution(object):
     def decodeString(self, s):
         stack = []

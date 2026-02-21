@@ -67,13 +67,33 @@ Logic link : https://1drv.ms/o/c/2e0ac565ff6aeb82/IgC20s4qd35MTaU9V9Tzi1u0AYecoT
 #        :rtype void
 #        """
 
+"""
+Time : O(N + W) , where $N$ is the total number of cells and $W$ is the number of walls. 
+The robot visits every empty cell exactly once. For each cell, it checks 4 directions.
+
+Space : O(N - W) , The visited set stores the coordinates of every empty cell.
+The recursion stack depth can go up to the total number of empty cells in a snake-like room.
+"""
+
 class Solution:
     def cleanRoom(self, robot):
+        self.robot = robot
         # face direction: 0(up) , 1(right),  2(down) , 3(left)
         directions = [[-1, 0], [0, 1], [1, 0], [0, -1]]
         visited = set()
         # Start from cell (0,0) with the robot initially facing Up (direction index 0)
-        self.cleanRoomRecursive(robot, visited, directions, 0, 0, 0)
+        self.cleanRoomRecursive(self.robot, visited, directions, 0, 0, 0)
+        
+    def go_back(self):
+        # backtracking: return to (i, j) and face the same direction
+        # 1. Turn 180 degrees to face back towards (r, c)
+        self.robot.turnRight()
+        self.robot.turnRight()
+        # 2. Move back to (r, c)
+        self.robot.move()
+        # 3. Turn 180 degrees again to restore the original orientation
+        self.robot.turnRight()
+        self.robot.turnRight()
 
     def cleanRoomRecursive(self, robot, visited, directions, i, j, faceDirection):
         # mark the current cell as visited
@@ -99,17 +119,8 @@ class Solution:
             # next cell has not been visited and is accessible
             if (iNext, jNext) not in visited and robot.move():
                 self.cleanRoomRecursive(robot, visited, directions, iNext, jNext, nextFaceDirection)
-                
-                # backtracking: return to (i, j) and face the same direction
-
-                # 1. Turn 180 degrees to face back towards (r, c)
-                robot.turnRight()
-                robot.turnRight()
-                # 2. Move back to (r, c)
-                robot.move()
-                # 3. Turn 180 degrees again to restore the original orientation
-                robot.turnRight()
-                robot.turnRight()
+                """Physically moves the robot back to the previous cell and restores orientation."""
+                self.go_back()     
             
             # move to the next potential direction
             # the current direction has been explored

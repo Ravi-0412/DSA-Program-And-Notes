@@ -194,4 +194,213 @@ public:
 
 """
 
-# Later do by dfs
+"""
+Follow ups: What if you have 10 million queries and only 1,000 equations? How would you optimize?
+BFS will be too slow.
+
+for better understanding:
+"""
+Imagine three people with different heights: Alice (A), Bob (B), and Chris (C).
+
+Equation 1: 
+A/B =2.0 (Alice is twice Bob’s height)
+
+Equation 2: 
+B/C=3.0 (Bob is three times Chris’s height)
+
+The Union-Find structure forms a chain: 
+𝐴→𝐵→𝐶
+parent[A] = B, weights[A] = 2.0  
+parent[B] = C, weights[B] = 3.0  
+parent[C] = C, weights[C] = 1.0   # C is the root
+
+When find(A) is called, the goal is to compress the path so Alice points directly to Chris and we know 
+A/C immediately.
+
+Step 1: Recursion
+find(A) calls find(B) because A’s parent is B.
+
+Step 2: Resolve B
+find(B) sees that C is the root and returns (C, 3.0), meaning 
+B/C=3.0.
+
+Step 3: Update Alice’s weight
+Now for Alice:
+
+existing 
+A/B=2.0
+
+received factor 
+B/C=3.0
+
+Update:
+A/C=(A/B)×(B/C)=2.0×3.0=6.0
+
+So weights[A] becomes 6.0.
+
+Step 4: Path compression
+Set parent[A] = C. Now Alice points directly to the root, and we instantly know 
+A/C=6.0.
+"""
+
+1. Core Data Structures
+
+self.parent: Tracks the parent of each node. Initially, every node is its own parent (each node is its own root).
+
+self.weights: Stores the ratio between a node and its parent.
+Specifically, weights[A] represents the value of : 𝐴 / parent[𝐴]​
+
+If parent[A] = B and weights[A] = 2.0, it means:
+
+𝐴 = 2.0 × 𝐵
+
+2. find(i) — Path Compression
+
+This function does two things:
+
+finds the ultimate root
+
+flattens the tree for faster future queries
+
+Example chain: 
+A→B→C
+A/B=2.0⇒weights[A]=2.0
+B/C=3.0⇒weights[B]=3.0
+
+When you call find(A):
+
+It recursively calls find(B).
+
+find(B) discovers that 
+C is the root and returns (C,3.0).
+
+Back in find(A), we compress the path so A points directly to C.
+
+Weight update math
+A=2.0×B,B=3.0×C
+A=(2.0×3.0)×C=6.0×C
+
+So we set:
+
+parent[A] = C
+weights[A] = 6.0
+
+3. union(i, j, value) — Merging Sets
+This adds a new equation A/B=value.
+If A and B belong to different roots, we connect:
+root 𝐴 →root 𝐵
+We know:
+𝐴 = weight 𝐴 × root 𝐴
+B = weight B × root B​
+𝐴 =value × 𝐵
+A=value×B
+
+Substitute:
+weight A * root A = value * (weight B * root B)
+
+Solve for the ratio between roots: root 𝐴 / root B
+root 𝐴 / root B = (value * weight B) / weight A
+That’s exactly what the code does: self.weights[root_i] = value * weight_j / weight_i.​
+parent[root_A] = root_B
+
+4. calcEquation Query
+
+To compute 𝐶 / 𝐷 :
+Find root and weight of C
+𝐶 = 𝑊eight C * root C
+Find root and weight of D
+D = 𝑊eight D * root D​​
+
+If roots differ: → not connected → return −1.0
+
+If roots are the same:
+C/ D = (weight C * root) / (weight D * root) = weight C / weight D​
+
+This gives the final answer.
+
+Complexity Analysis:
+Time Complexity: O((N + M) * alpha(V))
+Preprocessing: O(N *alpha(V)), where alpha is the Inverse Ackermann function (effectively constant).
+Query: O(M * alpha(V)). For M queries, this is significantly faster than BFS (M * V).
+
+Space Complexity: O(V) to store the parent and weight mappings.
+"""
+
+class UnionFind:
+    def __init__(self, variables: set[str]):
+        # Every node is its own parent initially (a forest of single-node trees)
+        self.parent = {v: v for v in variables}
+        # weights[i] stores the ratio: i / parent[i]
+        # Since parent[i] is i, i/i is always 1.0
+        self.weights = {v: 1.0 for v in variables}
+
+    def find(self, i: str) -> tuple[str, float]:
+        """
+        Finds the root of node 'i' and applies path compression.
+        Returns: (root_name, ratio_of_i_to_root)
+        """
+        if self.parent[i] == i:
+            return i, 1.0
+        
+        # Path compression: recursively find the ultimate root
+        root, parent_to_root_ratio = self.find(self.parent[i])
+        
+        # Update current node's parent to the ultimate root (flattening the tree)
+        self.parent[i] = root
+        
+        # Update weight: (i / old_parent) * (old_parent / root) = i / root
+        self.weights[i] *= parent_to_root_ratio
+        
+        return self.parent[i], self.weights[i]
+
+    def union(self, dividend: str, divisor: str, ratio: float):
+        """
+        Connects two variables based on the equation: dividend / divisor = ratio
+        """
+        root_dividend, ratio_div_to_root = self.find(dividend)
+        root_divisor, ratio_dis_to_root = self.find(divisor)
+        
+        if root_dividend != root_divisor:
+            # We connect the root of the dividend to the root of the divisor
+            # Math: root_div / root_dis = (dividend / ratio_div_to_root) / (divisor / ratio_dis_to_root)
+            # Since dividend / divisor = ratio, then:
+            # root_div / root_dis = ratio * ratio_dis_to_root / ratio_div_to_root
+            self.parent[root_dividend] = root_divisor
+            self.weights[root_dividend] = ratio * ratio_dis_to_root / ratio_div_to_root
+
+class Solution:
+    def calcEquation(self, equations: list[list[str]], values: list[float], queries: list[list[str]]) -> list[float]:
+        # 1. Collect all unique variables to initialize Union-Find upfront
+        variables = set()
+        for dividend, divisor in equations:
+            variables.add(dividend)
+            variables.add(divisor)
+            
+        uf = UnionFind(variables)
+        
+        # 2. Build the relationship graph (Union operations)
+        for i in range(len(equations)):
+            dividend, divisor = equations[i]
+            ratio_value = values[i]
+            uf.union(dividend, divisor, ratio_value)
+            
+        # 3. Process queries
+        results = []
+        for query_dividend, query_divisor in queries:
+            # Case 1: Variable never seen before
+            if query_dividend not in variables or query_divisor not in variables:
+                results.append(-1.0)
+                continue
+            
+            root_a, ratio_a_to_root = uf.find(query_dividend)
+            root_b, ratio_b_to_root = uf.find(query_divisor)
+            
+            # Case 2: Variables are not connected (different roots)
+            if root_a != root_b:
+                results.append(-1.0)
+            else:
+                # Case 3: Calculate ratio via common root
+                # (a / root) / (b / root) = a / b
+                results.append(ratio_a_to_root / ratio_b_to_root)
+                
+        return results

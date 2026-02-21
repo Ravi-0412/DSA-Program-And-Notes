@@ -295,3 +295,120 @@ public:
 };
 
 """
+
+# Follow ups:
+"""
+1) Find 'Lexicographically Smallest Order' in case of multiple
+If you want the "smallest" sequence (e.g., if courses 1 and 5 are both ready, 
+you must take 1 first), we replace the Queue with a Min-Heap.
+
+Why? A Queue picks based on who arrived first. A Min-Heap picks the smallest value regardless of when it was added.
+
+Time : O(V * log V + E)
+Space : O(V + E)
+"""
+
+import heapq
+
+def findSmallestOrder(numCourses, prerequisites):
+    AdjList = defaultdict(list)
+    indegree = [0] * numCourses
+    for dest, src in prerequisites:
+        AdjList[src].append(dest)
+        indegree[dest] += 1
+
+    # Use a Min-Heap instead of a Deque
+    min_heap = [i for i in range(numCourses) if indegree[i] == 0]
+    heapq.heapify(min_heap)
+    
+    ans = []
+    while min_heap:
+        u = heapq.heappop(min_heap) # Always picks the smallest course ID available
+        ans.append(u)
+        for v in AdjList[u]:
+            indegree[v] -= 1
+            if indegree[v] == 0:
+                heapq.heappush(min_heap, v)
+    
+    return ans if len(ans) == numCourses else []
+
+"""
+2. Finding ALL Possible Orders
+To find every single valid way to finish the courses, we use Backtracking. 
+This is much slower : O(V!) in the worst case) because we are exploring every possible permutation.
+
+The Logic:
+Find all nodes currently at indegree == 0.
+For every node in that set:
+"Pick" it (add to current path).
+Decrease neighbors' indegrees.
+Recurse to find the next node.
+Backtrack: Increase neighbors' indegrees back and remove the node from the path to try the next "ready" node.
+
+meaning of line : results.append(list(current_path)) ?
+Because Python lists are references, appending current_path directly only saves a "link" to it. 
+Since backtracking eventually pop()s everything out to clean up, your results would just be empty lists. 
+list() freezes the current values in a new object.
+
+The Example
+Imagine current_path is a Whiteboard.
+Backtrack Step: You write [0, 1, 2] on the board.
+The Save: * Bad: results.append(current_path) — You save the location of the board.
+Good: results.append(list(current_path)) — You take a photo of the board.
+The Cleanup: You erase the board (pop) to try a new path.
+
+Final Result:
+With list() (Photos): [[0, 1, 2]]
+Without (Looking at the board): [[]] (because you erased it!)
+
+"""
+
+from collections import defaultdict
+
+def findAllOrders(numCourses, prerequisites):
+    # Setup the graph and the indegree array
+    adj = defaultdict(list)
+    indegree = [0] * numCourses
+    for dest, src in prerequisites:
+        adj[src].append(dest)
+        indegree[dest] += 1
+
+    results = []
+    
+    # Pre-calculate nodes that are initially ready (indegree of 0)
+    initial_ready_nodes = [i for i in range(numCourses) if indegree[i] == 0]
+
+    def backtrack(current_path, ready_nodes):
+        # Base Case: All courses are in the path
+        if len(current_path) == numCourses:
+            results.append(list(current_path))
+            return
+
+        # Iterate only through nodes that are currently eligible (indegree 0)
+        for i in range(len(ready_nodes)):
+            u = ready_nodes[i]
+            
+            # 1. Action: Add node to path
+            current_path.append(u)
+            
+            # Remove 'u' from the ready list for the next level
+            next_ready = ready_nodes[:i] + ready_nodes[i+1:]
+            
+            # Decrease indegree of neighbors and find newly ready nodes
+            newly_ready = []
+            for neighbor in adj[u]:
+                indegree[neighbor] -= 1
+                if indegree[neighbor] == 0:
+                    newly_ready.append(neighbor)
+            
+            # 2. Recurse: Explore further with the updated ready nodes
+            backtrack(current_path, next_ready + newly_ready)
+
+            # 3. Backtrack: Undo all changes to explore the next branch
+            for neighbor in adj[u]:
+                indegree[neighbor] += 1
+            current_path.pop()
+
+    # Kick off the recursion
+    backtrack([], initial_ready_nodes)
+    return results

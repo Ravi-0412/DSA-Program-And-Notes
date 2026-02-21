@@ -1,12 +1,13 @@
 # just apply the formula if tree is fully complete otherwise go on finding the fully complete tree further. 
 # my mistke: was coming into mind to something like this but didn't came fully, should have thought litle more.
-# time complexity= O(logn* logn). in worst case we have to traverse logn times
-# (as other side if found full complete binary tree then no need to check further) 
-# and each time we have to find the height and this will take logn times so time: O(logn*logn).
-
 # for checking a Full Binary Tree:
 # calculate the height on both the left and right side by only going only left and right respectively.
-# if both left and right height equal then means that subtree is a full binary Tree else not
+# if both left and right height equal then means that subtree is a full binary Tree else not.
+
+# time complexity= O(logn* logn). in worst case we have to traverse logn times
+# (as other side if found full complete binary tree then no need to check further) 
+# and each time we have to find the height and this will take logn times so time: O(logn*logn) = O(log^2 n)
+# space : O(Height) = O(logn)
 class Solution:
     def countNodes(self, root: Optional[TreeNode]) -> int:
         if root== None:

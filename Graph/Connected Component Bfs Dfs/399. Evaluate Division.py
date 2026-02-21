@@ -360,12 +360,16 @@ class UnionFind:
         root_j, weight_j = self.find(j)
         
         if root_i != root_j:
-            # Connect root_i to root_j
-            # i / root_i = weight_i  => root_i = i / weight_i
-            # j / root_j = weight_j  => root_j = j / weight_j
-            # We want: i / j = value
-            # (root_i * weight_i) / (root_j * weight_j) = value
-            # root_i / root_j = value * weight_j / weight_i
+            """
+            Connect root_i to root_j
+            i / root_i = weight_i  => root_i = i / weight_i --  (i)
+            j / root_j = weight_j  => root_j = j / weight_j --- (ii)
+            given: i / j = value ----- (iii)
+            we want : root_i / root_j  = ?  why : because we are making root_j parent of root_i & according to definition of weight we need to get root_i / root_j
+            putting (i), (ii) in (iii), we get : 
+            (root_i * weight_i) / (root_j * weight_j) = value
+            root_i / root_j = value * weight_j / weight_i
+            """
             self.parent[root_i] = root_j
             self.weights[root_i] = value * weight_j / weight_i
 class Solution:

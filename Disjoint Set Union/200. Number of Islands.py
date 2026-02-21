@@ -4,8 +4,9 @@
 """
 m= rows, n= cols
 What differences from 'No of provinces'?
-Ans: Here there can be more than 'm'(rows) island, infact there can be max nearly (m*n)//2 island.(nearly half of all cell).
-so here we will make parent and size array of size (m*n) itself. But there was only 'n' city.
+Ans: Here can be more than 'm'(rows) island, infact there can be max nearly (m*n)//2 island.(nearly half of all cell).
+so here we will make parent and size array of size (m*n) itself. 
+ But there was only 'n' city.
 Also in that Q. we have to combine cities (i,j) into one so was passing (i, j) in union function.
 But here we have to combine all cell so we have to the pass the cell index in terms of 'i' and 'j'. 
 But we can't do because for finding parent we have to pass as a integer only. So converted all cell into an integer.
@@ -19,6 +20,10 @@ then it will give the incorrect ans.
 As where there will be "0" in grid that will be the parent of itself and that also be get counted in the ans.
 
 only that will be part of ans who is parent of himself and value at that grid cell== "1".
+
+Time : O((m * n) * alpha(m*n)),
+The alpha factor: The technical time per operation is $O(\alpha(V))$, where $\alpha$ is the Inverse Ackermann function. 
+It grows so slowly that for all practical purposes (even if $V$ is the number of atoms in the universe), it is less than 5.
 """
 
 class DSU:

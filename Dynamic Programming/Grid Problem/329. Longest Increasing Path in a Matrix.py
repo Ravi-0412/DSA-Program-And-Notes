@@ -98,8 +98,14 @@ private:
     }
 };
 """
+
+"""
+Method 2: 
 # memoisation
-# time complexity = O(m * n)  (average)
+Time complexity = O(m * n) = space
+
+
+"""
 class Solution:
     def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
         ans= 1  # each grid will contibute so automatically it will be '1'.
@@ -203,4 +209,56 @@ private:
     }
 };
 """
-    
+
+# Method 3:
+"""
+using Topological sort , but how ?
+Since we need to find the longest increasing path , it means that pathwon't contain cycle and it will a directed path only.
+
+How to proceed?
+Define Edges: A directed edge exists from Cell A to Cell B if B is an adjacent neighbor and B > A.
+Calculate Out-Degrees: For every cell, count how many neighbors are strictly greater than it.
+Find the Peaks: Any cell with an out-degree of 0 is a "peak" (it has no higher ground to move to). 
+Add all these peaks to a queue.
+Layered BFS (The "Peel"): * Remove all current peaks from the queue (Level 1).For each peak, look at its smaller neighbors. 
+Since the peak is now "removed," these neighbors have one fewer "greater neighbor" to worry about. 
+Decrement their out-degree.If a neighbor's out-degree hits 0, it becomes a "peak" for the next level.
+Count Levels: The total number of BFS levels processed before the queue is empty equals the length of the Longest Increasing Path.
+
+Time = space = O(M*N
+"""
+
+from collections import deque
+
+class Solution:
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+        if not matrix or not matrix[0]: return 0
+        M, N = len(matrix), len(matrix[0])
+        out_degree = [[0] * N for _ in range(M)] # gives number of adjacent cell greater than from cell (i, j)
+        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        
+        # 1. Calculate out-degrees
+        # A cell points to a neighbor if neighbor > cell
+        for r in range(M):
+            for c in range(N):
+                for dr, dc in directions:
+                    nr, nc = r + dr, c + dc
+                    if 0 <= nr < M and 0 <= nc < N and matrix[nr][nc] > matrix[r][c]:
+                        out_degree[r][c] += 1
+        
+        # 2. Find all cells that have no neighbors larger than them
+        queue = deque([(r, c) for r in range(M) for c in range(N) if out_degree[r][c] == 0])
+        
+        # BFS, going from bigger value to smaller value
+        height = 0
+        while queue:
+            height += 1
+            for _ in range(len(queue)):
+                r, c = queue.popleft()
+                for dr, dc in directions:
+                    nr, nc = r + dr, c + dc
+                    if 0 <= nr < M and 0 <= nc < N and matrix[nr][nc] < matrix[r][c]:
+                        out_degree[nr][nc] -= 1
+                        if out_degree[nr][nc] == 0:
+                            queue.append((nr, nc))
+        return height

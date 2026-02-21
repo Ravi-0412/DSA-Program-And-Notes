@@ -1,3 +1,4 @@
+# Method 2:
 """
 logic: just simple bfs to find the cost from src to destination.
 Difficult part to think how we can do by graph.

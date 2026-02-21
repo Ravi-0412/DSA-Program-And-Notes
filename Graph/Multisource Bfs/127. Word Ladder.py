@@ -29,13 +29,13 @@ class Solution(object):
         words.append(beginWord)
         n = len(words)
         adj = collections.defaultdict(list)   # [word: adjacent_words]
-        for i in range(n):
+        for i in range(n):   # O(N)
             word1 = words[i]
-            for j in range(i + 1, n):
+            for j in range(i + 1, n): # O(N)
                 word2 = words[j]
                 k = 0
                 cnt = 0
-                while k < len(word1):
+                while k < len(word1):    # O(M)
                     if word1[k] != word2[k]:
                         cnt += 1
                     k += 1
@@ -180,11 +180,11 @@ class Solution(object):
         # append the 'beginword' into the 'wordlist'
         wordList.append(beginWord)
         # now store the word w.r.t to the pattern they can make by changing one one charater into the dictionary
-        for word in wordList:
-            for i in range(len(beginWord)):
+        for word in wordList:    # O(N)
+            for i in range(len(beginWord)):    # O(M)
                 # if we change the char at 'i'th index in 'word' then what all words it can form.
                 # so skip the character at 'ith' index from 'word' with any special character.
-                pattern= word[:i] + "*" + word[i+1:]
+                pattern= word[:i] + "*" + word[i+1:]    # O(M)
                 dic[pattern].append(word)  # all words from which we can find this pattern will be at one distance only.
                 
         # now do bfs from beginWord and store all the words that can be formed by changing one character in the 'beginWord'
@@ -328,6 +328,23 @@ logic: Try to replace each char of each word from 'a' to 'z'.
 and check if the new_word formed by replacing exist in wordlist or not.
 
 Did using normal bfs , can do by mutisource bfs also.
+
+Time Complexity :- BigO(M^2 * N *26), where M is size of dequeued word & N is size of our word list
+Space Complexity :- BigO(M * N), visited and wordSet . because of space it's more better than method 2 even though exact time is more.
+
+Benefits of this method: 
+1) Memory EfficiencyThe Pattern Dictionary approach requires storing every possible pattern for every word. 
+For a word list of 5,000 words of length 10, 
+you aren't just storing 5,000 strings; you are storing 5,000* 10 = 50,000 patterns.
+2) Performance in Large Datasets (N > 26)
+If your wordList (N) is massive (e.g., 100,000 words), but the words are short ($M=5$), the alphabet approach is extremely fast.
+Total operations approx : N *M * 26.
+If N is much larger than 26, the cost of iterating a  to z is negligible compared to the cost of pre-processing and storing a massive dictionary.
+3) Avoiding "Hidden" Dictionary Overhead : computing hash, hash collision etc. 
+
+Which one should you use?
+1) Use the Pattern Dictionary if the alphabet is huge (e.g., Unicode characters instead of just a to z) or if M(word length) is very small.
+2) Use the Alphabet Approach if memory is a concern or if the word list N is very large.
 """
 
 class Solution(object):
@@ -344,13 +361,13 @@ class Solution(object):
         visited.add(beginWord)
         shortest_path = 1
         while Q:
-            for i in range(len(Q)):
+            for i in range(len(Q)):    # O(N)
                 word = Q.popleft()
                 # now find all worss that we can get by changing single char of this word which is present in 'wordList'.
-                for j in range(len(word)):
-                    for k in range(97, 123):  # replacing each char from 'a' to 'z' and checking if it exist in the words set
+                for j in range(len(word)):    # O(M)
+                    for k in range(97, 123):  # # O(26), replacing each char from 'a' to 'z' and checking if it exist in the words set
                         # word= word[: i] + chr(j) + word[i+1: ]   # my mistake(letter chenged will reflect permanently)
-                        nextWord= word[: j] + chr(k) + word[j+1: ]
+                        nextWord= word[: j] + chr(k) + word[j+1: ]    # O(M)
                         if nextWord in wordSet and nextWord not in visited:
                             if nextWord == endWord:
                                 return shortest_path + 1
@@ -443,3 +460,107 @@ public:
     }
 };
 """
+
+# Method 4:
+"""
+Logic : Bi-directional BFS
+
+Bi-directional BFS approach is highly efficient because it reduces the search space by growing two "frontiers"
+simultaneously—one from the start word and one from the end word.
+
+When to use Bi-directional BFS?
+You should reach for this approach when you see these three conditions:
+
+1) Fixed Start and End: You know exactly where you are starting and exactly where you want to go 
+(unlike a search where you are looking for "any" exit).
+2) State Space is Large: If the "branching factor" (number of neighbors per word) is high, a standard BFS will explode in size. 
+Bi-directional BFS keeps the "search circles" small.
+3) Shortest Path: You need the minimum number of steps.
+
+Q) When to use dictionary version and this set version(multisource bfs)? 
+The version you wrote using the * patterns (like h*t) is better when you have a huge alphabet or very long words.
+Your Dictionary Version: (M^2 * N) time and (M^2 * N) space.This Bi-directional Version: (M^2 * N * 26) time and (M * N) space.
+The Bi-directional version is usually the "Gold Standard" for this specific problem because it 
+solves the "Time Limit Exceeded" (TLE) issues that occur when the graph becomes too deep.
+
+Real-World Use Cases : 
+
+i) Social Network Analysis: Finding the "Six Degrees of Separation." 
+If you want to find the shortest connection between two specific users on LinkedIn, 
+searching from both users simultaneously is significantly faster than searching from just one.
+ii) Word Games & Solvers: Dictionary-based games where you transform one word to another (like your Word Ladder).
+Pathfinding in Games: When an AI character needs to move from Point A to Point B on a grid, bi-directional search can reduce the CPU load.
+iii) Rubik's Cube Solvers: The state space for a Rubik's cube is massive. Most computer solvers use a variation of bi-directional search to 
+find the minimum moves to solve the cube.
+
+other probelms to solve using this method : 
+1. Word Ladder (127) & Word Ladder II (126)
+2. Minimum Genetic Mutation (433) (Word Ladder Lite) 
+3. Open the Lock (752)
+4. Jump Game IV (1346)
+5. Shortest Path in a Grid with Obstacles Elimination (1293)
+
+"""
+
+import collections
+
+class Solution:
+    def ladderLength(self, beginWord, endWord, wordList):
+        # 1. Initialization
+        # Convert list to set for O(1) average lookup time.
+        wordSet = set(wordList) 
+        
+        # Corner Case: If the target word isn't in the dictionary, no path exists.
+        if endWord not in wordSet:
+            return 0
+        
+        # 2. Set up Bi-directional frontiers
+        # We use sets instead of deques because checking if a word exists 
+        # in the 'opposite' frontier is O(1) with a set.
+        beginSet = {beginWord}
+        endSet = {endWord}
+        level = 1 # Start counting steps from the first word
+        
+        # 3. Main BFS Loop
+        # Continue as long as both ends have words to explore.
+        # If one becomes empty, the start and end are disconnected.
+        while beginSet and endSet:
+            
+            # BI-DIRECTIONAL OPTIMIZATION (The "Switch"):
+            # Always expand the smaller set. This drastically minimizes 
+            # the number of character-replacement operations we perform.
+            if len(beginSet) > len(endSet):
+                beginSet, endSet = endSet, beginSet
+            
+            # This will store the words for the next level of the current frontier.
+            nextSet = set()
+            
+            # 4. Explore the Current Frontier
+            for word in beginSet:
+                # For every character position in the current word...
+                for i in range(len(word)):
+                    # Try replacing it with every letter from a to z.
+                    for char in 'abcdefghijklmnopqrstuvwxyz':
+                        # Create the new word variant.
+                        # Note: String slicing in Python is O(M).
+                        nextWord = word[:i] + char + word[i+1:] 
+                        
+                        # SUCCESS: If the new word is in the OTHER frontier, 
+                        # the two searches have met! Return total steps.
+                        if nextWord in endSet:
+                            return level + 1
+                        
+                        # VALID MOVE: If the word is in the dictionary (not yet visited)...
+                        if nextWord in wordSet:
+                            nextSet.add(nextWord)
+                            # MARK AS VISITED: Removing it from wordSet prevents 
+                            # the other frontier or future steps from reusing it.
+                            wordSet.remove(nextWord) 
+            
+            # 5. Move to the next level
+            beginSet = nextSet
+            level += 1
+            
+        # If the loop finishes without meeting, no transformation sequence exists.
+        return 0
+

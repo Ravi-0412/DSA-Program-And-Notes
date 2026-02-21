@@ -1,24 +1,42 @@
-# similar Q as word ladder.
-# Differences from word ladder:
-# 1) here we have to find the all the shortest path possible. so taking path also in Q.
-# 2)VVI:  Here we will mark word as visited level by level i.e all nodes at same level at once.
-# Not like one by one after visiting.
-# Reason:if we mark visited at 1st tiem then we will not get all the answers.
+# Method 1:
+"""
+similar Q as word ladder.
+Differences from word ladder:
+1) here we have to find the all the shortest path possible. so taking path also in Q.
+2)VVI:  Here we will mark word as visited level by level i.e all nodes at same level at once.
+Not like one by one after visiting.
+Reason:if we mark visited at 1st tiem then we will not get all the answers.
 
-# Take an example => in queue currently ["dog", "log"] is present and at 
-# next level there is one word say "cog" .
-# Now we will pop 1st word from 'queue' i.e 'dog' and now will visit its neighbour i.e 'cog'
-# you mark 'cog' as visited . 
-# Now you pop next word from 'queue' i.e 'log' and neighbour of 'log' is 'cog' but yiu have marked
-# 'cog' visited in above step only. so you won't be able to add that but that will also path for one of our possible ans.
+Take an example => in queue currently ["dog", "log"] is present and at 
+next level there is one word say "cog" .
+Now we will pop 1st word from 'queue' i.e 'dog' and now will visit its neighbour i.e 'cog'
+you mark 'cog' as visited . 
+Now you pop next word from 'queue' i.e 'log' and neighbour of 'log' is 'cog' but you have marked
+'cog' visited in above step only. so you won't be able to add that but that will also path for one of our possible ans.
 
-# That's why mark nodes visited level by level.
+That's why mark nodes visited level by level.
 
-# Note vvi: In question "127.Word Ladder" they were asking only to find the shortest path so there was no need to add
-# same node again and again to previous level nodes. But here we need to find all possible paths sowe have to add to all
-# nodes to previous level.
+Note vvi: In question "127.Word Ladder" they were asking only to find the shortest path so there was no need to add
+same node again and again to previous level nodes. But here we need to find all possible paths sowe have to add to all
+nodes to previous level.
 
-# TLE
+1. Time Complexity: O(N * M^2 * 26 + K * N)
+where N is the number of words, M is the word length, and K is the number of shortest paths found.
+The Multi-Path Factor (K): Unlike Word Ladder I, if multiple words in one level point to the 
+same word in the next level (e.g., both "dot" and "lot" point to "dog"), your queue stores multiple paths.
+In the worst case (a highly connected graph), the number of paths K can be exponential relative to N, 
+though the visited set per level helps keep it manageable.
+
+
+2. Space Complexity: (K  * N *M)
+This is where this problem usually hits a Memory Limit Exceeded.
+Queue Storage: Your queue doesn't just store the word; it stores (word, path).
+Path Growth: If there are K shortest paths, and each path has a length up to N, and each word in that path has length M, 
+the memory required to store all these lists in the queue simultaneously is O(K * N * M)
+wordSet and visited: These take O(N * M)
+
+
+"""
 
 class Solution:
     def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
@@ -26,7 +44,7 @@ class Solution:
             return []
         wordSet= set(wordList) 
         visited = set()  # have to use this since one word can be added many times in the 'Q' 
-        Q= collections.deque()
+        Q = collections.deque()
         Q.append((beginWord, [beginWord])) 
         visited.add(beginWord)
         ans = []
@@ -46,22 +64,31 @@ class Solution:
             visited = visited.union(level_visited) 
         return ans
 
+# Method 2:
+"""
+Optimisation: BFS + DFS
+Think what repititive work we are doing in above one.
+repititive work: We are checking from whole wordList for each newWord.
+But we don't need to check words that we have seen till cur_level.
+So we have to removed words from wordList that we have seen at start of each level.
+For this best data structure is set for removing and adding in O(len(word)).
+So store words at each level in set and at each level remove the words that is in cur_level to avoid checking.
+But in set you can't take 'path' also because it won't maintain the order.
+For order add parents of all word in a list and then traverse back from 'endWord' to 'beginWord' to get all ans.
+Here no need to mark visited, if newWord in wordSet then it means they have not been visited till now.
 
-# Optimisation
-# Think what repititive work we are doing in above one.
+1.  Time Complexity: O(N * M^2 * 26 + K  * L)
+BFS Phase : O(N * M^2 *26)
+DFS Phase : O(K * L)
+K is the total number of shortest paths.
+L is the length of the shortest path (number of words in the sequence).
 
-# repititive work: We are checking from whole wordList for each newWord.
-# But we don't need to check words that we have seen till cur_level.
+2. Space Complexity: O(N * M + K * L)
+parents Dictionary : O(N * M) , Even if a word has multiple parents.
+wordSet and cur_level  : O(N * M)
+ans list : O(K * L * M)
 
-# So we have to removed words from wordList that we have seen at start of each level.
-# For this best data structure is set for removing and adding in O(len(word)).
-
-# So store words at each level in set and at each level remove the words that is in cur_level to avoid checking.
-
-# But in set you can't take 'path' also because it won't maintain the order.
-# For order add parents of all word in a list and then traverse back from 'endWord' to 'beginWord' to get all ans.
-
-# Here no need to mark visited, if newWord in wordSet then it means they have not been visited till now.
+"""
 
 
 class Solution:

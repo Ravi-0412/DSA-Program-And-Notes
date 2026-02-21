@@ -1,6 +1,16 @@
 # just print the order of topological sort
 # method 1: By  Bfs
 
+"""
+Time Complexity: O(V + E)
+Where V is numCourses and E is the number of prerequisites.
+
+Space Complexity: O(V + E)
+Adjacency List: Stores all V nodes and E edges: O(V + E)
+Indegree array : O(V)
+Queue & anwer = O(V)
+"""
+
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
         n = numCourses

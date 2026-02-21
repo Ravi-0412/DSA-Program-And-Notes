@@ -2,6 +2,13 @@
 just you have to find the no of distinct connected components containing consecutive one's
 Same code will give ans for Q: 695. maxArea of island
 Note: Make 'directions' array as global in all questions to avoiding creating again and again every time.
+
+Time Complexity: O(M * N), iterate through every cell once.
+Where M is the number of rows and N is the number of columns
+
+Space : O(M * N) , for marking visited
+
+can use anhy other to mark visited like 'DFS' one to reduce the space complexity.
 """
 # 1st Method: Using Bfs
 
@@ -43,6 +50,13 @@ class Solution:
 for saving the space which is going in O(n*m), just make the changes just after visiting any grid like we had done in 'IsGraphBipartite'
 no need of extra visited set
 Note: always remember for counting q, in base case there will one condition of returning '0' and one in general.
+
+Time Complexity: O(M * N), iterate through every cell once.
+Where M is the number of rows and N is the number of columns.
+
+Space Complexity: O(M * N)
+Why ? : In the worst-case scenario (for example, a grid filled entirely with "1"s), 
+the recursion stack could go as deep as the total number of cells. 
 """
 
 class Solution:

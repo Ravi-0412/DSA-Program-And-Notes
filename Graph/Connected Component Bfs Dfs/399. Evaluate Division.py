@@ -293,14 +293,14 @@ We know:
 𝐴 = weight 𝐴 × root 𝐴
 B = weight B × root B​
 𝐴 =value × 𝐵
-A=value×B
 
 Substitute:
 weight A * root A = value * (weight B * root B)
 
 Solve for the ratio between roots: root 𝐴 / root B
 root 𝐴 / root B = (value * weight B) / weight A
-That’s exactly what the code does: self.weights[root_i] = value * weight_j / weight_i.​
+That’s exactly what the code sets: 
+weights[root_A] = value * weight_B / weight_A
 parent[root_A] = root_B
 
 4. calcEquation Query
@@ -353,21 +353,20 @@ class UnionFind:
         
         return self.parent[i], self.weights[i]
 
-    def union(self, dividend: str, divisor: str, ratio: float):
-        """
-        Connects two variables based on the equation: dividend / divisor = ratio
-        """
-        root_dividend, ratio_div_to_root = self.find(dividend)
-        root_divisor, ratio_dis_to_root = self.find(divisor)
+    def union(self, i: str, j: str, value: float):
+        """Connects i and j such that i / j = value."""
+        root_i, weight_i = self.find(i)
+        root_j, weight_j = self.find(j)
         
-        if root_dividend != root_divisor:
-            # We connect the root of the dividend to the root of the divisor
-            # Math: root_div / root_dis = (dividend / ratio_div_to_root) / (divisor / ratio_dis_to_root)
-            # Since dividend / divisor = ratio, then:
-            # root_div / root_dis = ratio * ratio_dis_to_root / ratio_div_to_root
-            self.parent[root_dividend] = root_divisor
-            self.weights[root_dividend] = ratio * ratio_dis_to_root / ratio_div_to_root
-
+        if root_i != root_j:
+            # Connect root_i to root_j
+            # i / root_i = weight_i  => root_i = i / weight_i
+            # j / root_j = weight_j  => root_j = j / weight_j
+            # We want: i / j = value
+            # (root_i * weight_i) / (root_j * weight_j) = value
+            # root_i / root_j = value * weight_j / weight_i
+            self.parent[root_i] = root_j
+            self.weights[root_i] = value * weight_j / weight_i
 class Solution:
     def calcEquation(self, equations: list[list[str]], values: list[float], queries: list[list[str]]) -> list[float]:
         # 1. Collect all unique variables to initialize Union-Find upfront

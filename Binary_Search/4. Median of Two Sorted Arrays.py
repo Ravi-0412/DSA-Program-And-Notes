@@ -151,6 +151,13 @@ Even though we are solving a problem involving m+n elements, we never "search" t
 We simply calculate the index j for the larger array in O(1) time using the result of our search in the smaller array.
 
 Space Complexity: O(1). We only use a few pointer variables.
+
+To see the case of '+infinity' or '-infinity', try example:
+A = [10, 11] and B = [1, 2, 3, 4, 5] or 
+A = [1, 2] and B = [10, 11, 12, 13, 14]
+
+for these case: you need an example where the two arrays are "disjoint" in terms of their values—meaning one array 
+is entirely smaller or larger than the other. This forces the partition to the absolute edges.
 """
 
 class Solution:
@@ -284,6 +291,12 @@ public:
                 l = i + 1;  // we have to move right in 'A', to decrease the index 'j'(to deacrease the no of ele from B in left partition)
             }
         }
+
+# Follow ups:
+"""
+https://www.geeksforgeeks.org/problems/kth-smallest-element5635/1
+
+"""
     }
 };
 """

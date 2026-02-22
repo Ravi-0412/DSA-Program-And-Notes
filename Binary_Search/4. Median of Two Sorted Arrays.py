@@ -129,14 +129,29 @@ public:
 """
 
 # method 2: 
-# Using Binary Search
-# most optimised . Q is asking this Algorithm only.
-# time: O(log(m+ n))
+"""
+Using Binary Search
+most optimised . Q is asking this Algorithm only.
 
-# just we are making left and right partition virtually for both the arrays.
-# And if partition is correct then we can get the 'median'.
+just we are making left and right partition virtually for both the arrays.
+And if partition is correct then we can get the 'median'.
 
-# Just trying to make the correct partition.
+i.e , The Core Intuition: Virtual Partitioning
+1. We aren't merging arrays; we are looking for a cutting point in both arrays such that:
+The total number of elements on the left side of the cuts equals the total number of elements on the right (or +1 for odd).
+2. Every element on the left side is <= every element on the right side.
+Just trying to make the correct partition.
+
+Q) Why Binary Search on the Smaller Array?
+We swapped A and B to ensure A is smaller. 
+1. Efficiency: It ensures the time complexity is O(log(min(m, n))).
+
+Time Complexity:  O(log(min(m, n))) , We perform a binary search only on the smaller array.
+Even though we are solving a problem involving m+n elements, we never "search" the larger array. 
+We simply calculate the index j for the larger array in O(1) time using the result of our search in the smaller array.
+
+Space Complexity: O(1). We only use a few pointer variables.
+"""
 
 class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:

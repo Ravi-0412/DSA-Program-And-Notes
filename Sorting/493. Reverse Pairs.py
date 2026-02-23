@@ -1,28 +1,37 @@
 # Method 1: 
+"""
+Similar to 'inversion count in an array".
 
-# Similar to 'inversion count in an array".
-
-# Note: Here logic of reverse pair and merge is different.
-# So we need to write code of reverse pair 1st then write code for merging array inside merge function.
+Note: Here logic of reverse pair and merge is different.
+So we need to write code of reverse pair 1st then write code for merging array inside merge function.
 
 
-# Two way to count the reverse pair:
-# Method 1) Just same as 'Inversion_count'
-# vvi: Here for each element on right find the no of reverse pair.
-# so keep right_side same and move on left i.e 
-#  Find the 1st element from left which is > 2 * cur_element_on_right.
-# After that all remaining ele on left will be > 2 * cur_element_on_right.
+Two way to count the reverse pair:
+Method 1) Just same as 'Inversion_count'
+vvi: Here for each element on right find the no of reverse pair.
+so keep right_side same and move on left i.e 
+ Find the 1st element from left which is > 2 * cur_element_on_right.
+After that all remaining ele on left will be > 2 * cur_element_on_right.
 
-# Method 2) Here for each element on left find the no of reverse pair.
-# so keep left_side same and move on right i.e 
-#  Find the 1st element from right which is <= 2 * cur_element_on_left.
-# After that all element on right that we passed will be count as ans for currrent_ele on left.
+Method 2) Here for each element on left find the no of reverse pair.
+so keep left_side same and move on right i.e 
+ Find the 1st element from right which is <= 2 * cur_element_on_left.
+After that all element on right that we passed will be count as ans for currrent_ele on left.
 
-# if cur_ele on left is > that much no of element on right then remaining no on left will be obvious > these elements on right.
+if cur_ele on left is > that much no of element on right then remaining no on left will be obvious > these elements on right.
 
-# Note vvi: In these type of question , if you will first merge and then find the ans 
-# i.e 'inversion count' or 'no of smaller ele' etc based on Q.
-# Then you will get wrong ans. Because we will get ans while merging only.
+Note vvi: In these type of question , if you will first merge and then find the ans 
+i.e 'inversion count' or 'no of smaller ele' etc based on Q.
+Then you will get wrong ans. Because we will get ans while merging only.
+
+Q) Why are we not finding the answer while merging only, why only before merging?
+In standard inversion count, the condition is the same as the merge condition. But here, the condition involves a multiplier ($2 \cdot$). 
+If you merged first, you'd lose the relative order needed to check the 2 *.. property.
+
+Time: O(N * log N). The merge sort tree has log N levels. At each level, 
+the two-pointer count is $O(N)$ and the merge is O(N).Space: O(N) for the temporary array used in merging.
+
+"""
 
 class Solution:
     def reversePairs(self, nums: List[int]) -> int:
@@ -38,6 +47,8 @@ class Solution:
             inv_count+= self.merge(arr, low, mid, up)
         return inv_count
 
+    # Since each pointer traverses its respective half of the array exactly once, 
+    # the total number of operations is proportional to the number of elements in those two halves.
     def reverse_pair_count1(self, arr, low, mid, up):
         low1,up1,low2,up2= low,mid,mid+1,up
         count = 0
@@ -82,12 +93,13 @@ class Solution:
         while(low2<=up2):
             b.append(arr[low2])
             low2+=1
-        j= low
-        k= 0
-        while(j<=up):
-            arr[j]= b[k]
-            j+= 1
-            k+= 1
+        # j= low
+        # k= 0
+        # while(j<=up):
+        #     arr[j]= b[k]
+        #     j+= 1
+        #     k+= 1
+        arr[low:up+1] = b  # shortcut to modify 'a' again with 'b'
         return count
 
 # Java Code 

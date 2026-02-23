@@ -210,6 +210,7 @@ private:
 """
 
 # Method 2:
+# best one 
 
 class Solution:
     def countSmaller(self, nums: List[int]) -> List[int]:
@@ -232,7 +233,7 @@ class Solution:
             while low1<= up1 and low2<= up2:
                 if arr[low1][0] <= arr[low2][0]:
                     ind = arr[low1][1]
-                    ans[ind] += numElemsRightArrayLessThanLeftArray
+                    ans[ind] += numElemsRightArrayLessThanLeftArray  # is 'ind' ke liye itna hi element answer me ho sakta h max. 
                     b.append(arr[low1])
                     low1 +=1
                 else:  # all ele from low1 to up1 will be greater so count= up1- low + 1

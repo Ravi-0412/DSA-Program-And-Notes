@@ -116,3 +116,10 @@ public:
 };
 
 """
+
+# Follow ups:
+"""
+What if the intervals are already sorted by end time?
+Answer: You would still need to sort by start time or process them in reverse (right-to-left). 
+Sorting by start time is the standard "sweep-line" approach.
+"""

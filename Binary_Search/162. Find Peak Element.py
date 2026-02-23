@@ -104,6 +104,7 @@ public:
         return -1;
     }
 };
+
 """
 # Method 2: Better one
 # same logic with Template 2
@@ -111,7 +112,7 @@ public:
 
 """
 # Note: This same logic can  be used to find one of the peak ele(ele greater than neighbours) in any type of array.
-# this doesn't mean you can find the max in any array using this approach. 
+# This doesn't mean you can find the max in any array using this approach. 
 # only mean you can find any one of those ele following the property or array following this type of property.
     
 # e.g:1)  '852. Peak Index in a Mountain Array'

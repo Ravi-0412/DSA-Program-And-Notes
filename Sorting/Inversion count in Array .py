@@ -50,12 +50,13 @@ class Solution:
         while(low2<=up2):
             b.append(arr[low2])
             low2+=1
-        j= low
-        k= 0
-        while(j<=up):
-            arr[j]= b[k]
-            j+= 1
-            k+= 1
+        # j= low
+        # k= 0
+        # while(j<=up):
+        #     arr[j]= b[k]
+        #     j+= 1
+        #     k+= 1
+        arr[low:up+1] = b  # shortcut to modify 'a' again with 'b'
         return inv_count
 
 # Java Code 

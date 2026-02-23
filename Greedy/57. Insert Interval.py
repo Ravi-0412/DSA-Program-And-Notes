@@ -679,9 +679,9 @@ public:
 # Method 4:
 
 """
-To merge newInterval into intervals, we need to find two specific indices:
-idx1: The first interval that could overlap (where interval.end >= newInterval.start).
-idx2: The last interval that could overlap (where interval.start <= newInterval.end).
+left_idx: First interval where interval.end >= newInterval.start (marks the start of the "splash zone").
+right_idx: First interval where interval.start > newInterval.end (marks the first interval strictly after the merge).
+Merge Boundaries: new_start = min(new_start, intervals[left_idx].start) and new_end = max(new_end, intervals[right_idx - 1].end) (only if left_idx < right_idx).
 
 Time : O(logn + 
 """

@@ -674,6 +674,75 @@ public:
         return result;
     }
 };
+"""
 
+# Method 4:
 
 """
+To merge newInterval into intervals, we need to find two specific indices:
+idx1: The first interval that could overlap (where interval.end >= newInterval.start).
+idx2: The last interval that could overlap (where interval.start <= newInterval.end).
+
+Time : O(logn + 
+"""
+import bisect
+
+class Solution:
+    def insert(self, intervals: list[list[int]], newInterval: list[int]) -> list[list[int]]:
+        # 1. Find the index where newInterval.start would be placed based on END times
+        # This is the first interval that could possibly overlap.
+        left_idx = bisect.bisect_left(intervals, newInterval[0], key=lambda x: x[1])
+        
+        # 2. Find the index where newInterval.end would be placed based on START times
+        # This is the last interval that could possibly overlap.
+        right_idx = bisect.bisect_right(intervals, newInterval[1], key=lambda x: x[0])
+        
+        # 3. Calculate the merged boundaries
+        # If left_idx == right_idx, there's no overlap, we just insert.
+        # Otherwise, merge newInterval with the start of the first and end of the last overlap.
+        if left_idx < right_idx:
+            newInterval[0] = min(newInterval[0], intervals[left_idx][0])
+            newInterval[1] = max(newInterval[1], intervals[right_idx - 1][1])
+            
+        # 4. Slice replacement (O(n) shift, but done in optimized C)
+        intervals[left_idx:right_idx] = [newInterval]
+        return intervals
+
+# Without invuilt function
+
+class Solution:
+    def insert(self, intervals: list[list[int]], newInterval: list[int]) -> list[list[int]]:
+        n = len(intervals)
+        
+        # Binary Search for the first interval that ends >= newInterval.start
+        left_idx = n
+        l, r = 0, n - 1
+        while l <= r:
+            mid = (l + r) // 2
+            if intervals[mid][1] >= newInterval[0]:
+                left_idx = mid
+                r = mid - 1
+            else:
+                l = mid + 1
+                
+        # Binary Search for the first interval that starts > newInterval.end
+        right_idx = n
+        l, r = 0, n - 1
+        while l <= r:
+            mid = (l + r) // 2
+            if intervals[mid][0] > newInterval[1]:
+                right_idx = mid
+                r = mid - 1
+            else:
+                l = mid + 1
+        
+        # Merge boundaries if overlap exists
+        if left_idx < right_idx:
+            new_s = min(newInterval[0], intervals[left_idx][0])
+            new_e = max(newInterval[1], intervals[right_idx - 1][1])
+            new_int = [new_s, new_e]
+        else:
+            new_int = newInterval
+            
+        # Standard Python slice replacement
+        return intervals[:left_idx] + [new_int] + intervals[right_idx:]

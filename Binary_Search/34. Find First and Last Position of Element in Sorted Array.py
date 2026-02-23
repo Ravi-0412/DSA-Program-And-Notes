@@ -66,6 +66,7 @@ class Solution:
                 start= mid+1
             else:
                 # potential ans has been found
+                # If finding start, squeeze left; otherwise, squeeze right
                 ans= mid
                 if(findStartIndex==1):
                     end= mid-1

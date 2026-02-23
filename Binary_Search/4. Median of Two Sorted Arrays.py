@@ -294,9 +294,48 @@ public:
 
 # Follow ups:
 """
-https://www.geeksforgeeks.org/problems/kth-smallest-element5635/1
+https://www.geeksforgeeks.org/problems/k-th-element-of-two-sorted-array1317/1
+Code link : 
+"""
 
-"""
-    }
-};
-"""
+
+class Solution:
+    def kthElement(self, a, b, k):
+        # 1. Ensure 'a' is the smaller array
+        if len(a) > len(b):
+            return self.kthElement(b, a, k)
+        
+        n, m = len(a), len(b)
+        
+        # 2. Define the Search Space
+        # How many elements can we take from array 'a'?
+        # At most 'k' (if a is large) or 'n' (all of a).
+        # At least 0 (if b is large enough) or 'k - m' (if b is too small).
+        low = max(0, k - m)
+        high = min(k, n)
+        
+        while low <= high:
+            # cut1 = number of elements taken from 'a'
+            cut1 = low + (high - low) // 2
+            # cut2 = number of elements taken from 'b'
+            cut2 = k - cut1
+            
+            # Boundary values (i-1 is the last element in left, i is the first in right)
+            l1 = a[cut1 - 1] if cut1 > 0 else float('-inf')
+            r1 = a[cut1] if cut1 < n else float('inf')
+            
+            l2 = b[cut2 - 1] if cut2 > 0 else float('-inf')
+            r2 = b[cut2] if cut2 < m else float('inf')
+            
+            # 3. Partition Check
+            if l1 <= r2 and l2 <= r1:
+                return max(l1, l2)
+            
+            elif l1 > r2:
+                # Too many elements from 'a'
+                high = cut1 - 1
+            else:
+                # Too many elements from 'b' (i.e., l2 > r1)
+                low = cut1 + 1
+        
+        return 0 # Should not be reached given constraints

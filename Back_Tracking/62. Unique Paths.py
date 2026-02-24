@@ -69,6 +69,34 @@ class Solution:
         return dp[0][0]
 
 # Method 6:
+"""
+Optimising space
+
+Time : O(2 *N)
+
+Q) But we are creating array for each row so it should not be N*N ?
+ans: No. While it looks like we are creating a new array N times, 
+at any single point in time, only two arrays exist in the computer's memory: pre and cur.
+When the loop finishes one row, the "old" pre is no longer needed.Python’s Garbage Collector 
+sees that nothing is pointing to the old array and frees up that memory.
+Therefore, the peak memory usage (the most memory the program uses at once) is just 2*N
+"""
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        pre = [1] * (n + 1)
+        cur = [1] * (n + 1) # Only create these TWO once.
+        
+        for r in range(2, m + 1):
+            for c in range(2, n + 1):
+                cur[c] = cur[c - 1] + pre[c]
+            
+            # Instead of cur.copy() or creating a new list, 
+            # we SWAP the references. Now 'pre' becomes the row we just finished.
+            pre, cur = cur, pre 
+            
+        return pre[n]
+
+# Method 7:
 # Space optimisation with only single array
 
 class Solution:
@@ -85,22 +113,6 @@ class Solution:
                 dp[c] = dp[c] + dp[c - 1]
                 
         return dp[n]
-
-# Method 7:
-class Solution:
-    def uniquePaths(self, m: int, n: int) -> int:
-        pre = [1] * (n + 1)
-        cur = [1] * (n + 1) # Only create these TWO once.
-        
-        for r in range(2, m + 1):
-            for c in range(2, n + 1):
-                cur[c] = cur[c - 1] + pre[c]
-            
-            # Instead of cur.copy() or creating a new list, 
-            # we SWAP the references. Now 'pre' becomes the row we just finished.
-            pre, cur = cur, pre 
-            
-        return pre[n]
 
 # method 8:
 """

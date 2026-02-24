@@ -287,3 +287,20 @@ public:
     }
 };
 """
+
+# Method 4:
+# space Optimised
+
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        # Fill with a large value (amount + 1 is enough, or float('inf'))
+        dp = [float('inf')] * (amount + 1)
+        dp[0] = 0 # Base case: 0 coins to make amount 0
+        
+        for coin in coins:
+            for j in range(coin, amount + 1):
+                # dp[j] is the 'notTake' (value from previous coin)
+                # 1 + dp[j - coin] is the 'take'
+                dp[j] = min(dp[j], 1 + dp[j - coin])
+        
+        return dp[amount] if dp[amount] != float('inf') else -1

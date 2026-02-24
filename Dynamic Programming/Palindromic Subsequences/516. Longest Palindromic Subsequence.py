@@ -247,6 +247,44 @@ public:
 };
 """
 
+# Method 4: 
+# optimising space to : O(n)
+class Solution:
+    def longestPalindromeSubseq(self, s: str) -> int:
+        n = len(s)
+        # We only need one row to store the results of the subproblems
+        dp = [0] * n
+        
+        # Base case: every single character is a palindrome of length 1
+        # In the 2D version, this was dp[i][i] = 1
+        for i in range(n):
+            dp[i] = 1
+            
+        # Outer loop goes backwards (representing 'l')
+        for l in range(n - 1, -1, -1):
+            # prev_diagonal tracks the value of dp[l+1][r-1]
+            prev_diagonal = 0 
+            
+            # Inner loop goes forwards (representing 'r')
+            for r in range(l + 1, n):
+                # We need to save the current dp[r] before it gets updated
+                # because for the next 'r', this will be the 'prev_diagonal' (dp[l+1][r-1])
+                temp = dp[r]
+                
+                if s[l] == s[r]:
+                    # Corresponds to: dp[l][r] = 2 + dp[l+1][r-1]
+                    dp[r] = 2 + prev_diagonal
+                else:
+                    # Corresponds to: dp[l][r] = max(dp[l+1][r], dp[l][r-1])
+                    # dp[r] currently holds dp[l+1][r]
+                    # dp[r-1] currently holds dp[l][r-1]
+                    dp[r] = max(dp[r], dp[r - 1])
+                
+                # Update prev_diagonal for the next iteration of 'r'
+                prev_diagonal = temp
+                
+        return dp[n - 1]
+
 """
 Related Questions:
 1) Minimum number of deletions to make a string palindrome

@@ -248,7 +248,35 @@ public:
 """
 
 # Method 4: 
-# optimising space to : O(n)
+# optimising space to : O(n) 
+class Solution:
+    def longestPalindromeSubseq(self, s: str) -> int:
+        n = len(s)
+        # 'pre' is row l+1, 'cur' is row l
+        pre = [0] * n
+        
+        # Base case: diagonal dp[i][i] = 1
+        # In our two-row logic, we handle this inside the loop or pre-fill
+        for l in range(n - 1, -1, -1):
+            cur = [0] * n
+            cur[l] = 1  # Every single char is a palindrome of length 1
+            for r in range(l + 1, n):
+                if s[l] == s[r]:
+                    # Match! 2 + diagonal value from the PREVIOUS row
+                    cur[r] = 2 + pre[r - 1]
+                else:
+                    # No match! max(value below, value left)
+                    # pre[r] is value from row below
+                    # cur[r-1] is value from current row, left neighbor
+                    cur[r] = max(pre[r], cur[r - 1])
+            # Move current row to 'pre' for the next iteration of 'l'
+            pre = cur
+            
+        return pre[n - 1]
+
+
+# Method 5: 
+# optimising space to : O(n) with only single array
 class Solution:
     def longestPalindromeSubseq(self, s: str) -> int:
         n = len(s)

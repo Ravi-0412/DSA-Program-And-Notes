@@ -271,3 +271,22 @@ public:
     }
 };
 """
+
+# method 4:
+# Space optimised : O(amount)
+
+class Solution:
+    def change(self, amount: int, coins: List[int]) -> int:
+        # dp[j] will store the number of ways to make amount j
+        dp = [0] * (amount + 1)
+        
+        # Base case: There is 1 way to make amount 0 (using no coins)
+        dp[0] = 1
+        
+        for coin in coins:
+            for j in range(coin, amount + 1):
+                # dp[j] is currently 'not_take' (from previous coin)
+                # dp[j - coin] is the 'take' (updated value for current coin)
+                dp[j] = dp[j] + dp[j - coin]
+                
+        return dp[amount]

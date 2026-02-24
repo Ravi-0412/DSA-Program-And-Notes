@@ -226,6 +226,63 @@ public:
 };
 """
 
+# Method 5:
+"""
+Just for learning purpose even time complexity is high.
+
+The Logic: The Three Possibilities
+When we split an array into two halves, the Maximum Subarray must be in one of three places:
+i) Entirely in the Left half.
+ii) Entirely in the Right half.
+iii) Crossing the midpoint (starting in the left and ending in the right).
+
+Q) If an interviewer asks, "Why would we use this if Kadane's is faster?", the answer is Parallelization.
+Because the left and right halves are independent, you could compute left_sum and right_sum on different machines/processors simultaneously.
+
+Time ; O(n*logn), Merge Sort
+Space Complexity: O(log n) due to the recursive call stack.
+"""
+
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        return self.divide_and_conquer(nums, 0, len(nums) - 1)
+
+    def divide_and_conquer(self, nums, left, right):
+        # Base Case: Only one element
+        if left == right:
+            return nums[left]
+        
+        mid = (left + right) // 2
+        
+        # 1. Get max from left half
+        left_sum = self.divide_and_conquer(nums, left, mid)
+        # 2. Get max from right half
+        right_sum = self.divide_and_conquer(nums, mid + 1, right)
+        # 3. Get max that crosses the midpoint
+        cross_sum = self.max_crossing_sum(nums, left, mid, right)
+        
+        # Return the best of the three
+        return max(left_sum, right_sum, cross_sum)
+
+    def max_crossing_sum(self, nums, left, mid, right):
+        # Find max sum starting from mid and moving left
+        sum_left = 0
+        left_max = float('-inf')
+        for i in range(mid, left - 1, -1):
+            sum_left += nums[i]
+            left_max = max(left_max, sum_left)
+            
+        # Find max sum starting from mid+1 and moving right
+        sum_right = 0
+        right_max = float('-inf')
+        for i in range(mid + 1, right + 1):
+            sum_right += nums[i]
+            right_max = max(right_max, sum_right)
+            
+        # The cross sum is the best of the left side + best of the right side
+        return left_max + right_max
+        
+
 # Note: If we want to fidn the "Smallest sum contiguous subarray". (GFG Q)
 # https://practice.geeksforgeeks.org/problems/smallest-sum-contiguous-subarray/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article
 
@@ -330,7 +387,7 @@ public:
 };
 """
 
-# Try by divide & conquer later
+
 
 # Follow ups:
 # 1) Print the Maximum Subarray Sum

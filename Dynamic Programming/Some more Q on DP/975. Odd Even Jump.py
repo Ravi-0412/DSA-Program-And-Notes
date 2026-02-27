@@ -1,3 +1,58 @@
+# Method 1:
+# Brute force
+
+""
+Time Complexity: O(N^3) in the worst case.
+O(N) to try every starting index.
+O(N) for the number of jumps to potentially reach the end.
+O(N) for each jump to scan the rest of the array for the "best" value.
+
+Space: O(1)
+"""
+
+class Solution:
+    def oddEvenJumps(self, arr: List[int]) -> int:
+        n = len(arr)
+        good_starts = 0
+
+        for i in range(n):
+            curr_idx = i
+            jump_count = 1 # 1st jump is odd, 2nd is even...
+            
+            # Simulate until we reach the end or can't jump anymore
+            while curr_idx < n - 1:
+                next_idx = -1
+                
+                if jump_count % 2 != 0:
+                    # ODD JUMP logic: Find smallest arr[j] >= arr[curr_idx]
+                    best_val = float('inf')
+                    for j in range(curr_idx + 1, n):
+                        if arr[j] >= arr[curr_idx]:
+                            if arr[j] < best_val:
+                                best_val = arr[j]
+                                next_idx = j
+                else:
+                    # EVEN JUMP logic: Find largest arr[j] <= arr[curr_idx]
+                    best_val = float('-inf')
+                    for j in range(curr_idx + 1, n):
+                        if arr[j] <= arr[curr_idx]:
+                            if arr[j] > best_val:
+                                best_val = arr[j]
+                                next_idx = j
+                
+                if next_idx == -1:
+                    break # Illegal jump, this start index is bad
+                
+                curr_idx = next_idx
+                jump_count += 1
+            
+            if curr_idx == n - 1:
+                good_starts += 1
+                
+        return good_starts
+
+# Method 2: 
+
 """
 Problem description: A jump starts with an odd jump and alternates with an even jump until you get to the end of the line or you can no longer take a step.
 

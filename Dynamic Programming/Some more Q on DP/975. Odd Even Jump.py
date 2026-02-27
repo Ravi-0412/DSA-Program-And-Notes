@@ -1,55 +1,57 @@
-# Problem description: A jump starts with an odd jump and alternates with an even jump until you get to the end of the line or you can no longer take a step.
+"""
+Problem description: A jump starts with an odd jump and alternates with an even jump until you get to the end of the line or you can no longer take a step.
 
-# Logic: In the Problem the next jump position is decided on the basis of the parity of jump(Odd/Even):
+Logic: In the Problem the next jump position is decided on the basis of the parity of jump(Odd/Even):
 
-# Odd Number Jump: Next Greater Smallest position.(ceiling value)
-# Even Number Jump: Next Smaller Greatest position.(floor value)
+Odd Number Jump: Next Greater Smallest position.(ceiling value)
+Even Number Jump: Next Smaller Greatest position.(floor value)
 
-# we can find 'Next Greater Smallest position' and 'nextSmalllerGreatest' and can store in separate arrays.
-# See its code at bottom and logic.
+we can find 'Next Greater Smallest position' and 'nextSmalllerGreatest' and can store in separate arrays.
+See its code at bottom and logic.
 
-# Note for finding the 'nextGreaterSmallest' and 'nextSmallerGreatest' on right.
-# you will have to first sort the indices according to their values.
-# Like for 'nextGreaterSmallest' , we will sort in ascending order because we want the greater ele to come right side first&&
-# for 'nextSmallerGreatest' , we will sort in descending order order because we want the smaller ele to come right side first.
+Note for finding the 'nextGreaterSmallest' and 'nextSmallerGreatest' on right.
+you will have to first sort the indices according to their values.
+Like for 'nextGreaterSmallest' , we will sort in ascending order because we want the greater ele to come right side first&&
+for 'nextSmallerGreatest' , we will sort in descending order order because we want the smaller ele to come right side first.
 
-# After this we can use stack .
+After this we can use stack .
 
 
-# Explanation for:  'nextGreaterSmallest':
-# arr = [10,13,12,14,15]
-# 1) sorting indices by values and storing in a list
-# sorted_indices= sorted(range(n), key=lambda x: arr[x]) =  [0, 2, 1, 3, 4]
-# 2) finding next_greater_smallest using stack:
-# we will get ans = [2,3,3,4,-1]  # index on right for 'nextGreaterSmallest'.
-# Now convert into array elements(actual value)
-# final ans_value = [12, 14, 14, 15, -1]
+Explanation for:  'nextGreaterSmallest':
+arr = [10,13,12,14,15]
+1) sorting indices by values and storing in a list
+sorted_indices= sorted(range(n), key=lambda x: arr[x]) =  [0, 2, 1, 3, 4]
+2) finding next_greater_smallest using stack:
+we will get ans = [2,3,3,4,-1]  # index on right for 'nextGreaterSmallest'.
+Now convert into array elements(actual value)
+final ans_value = [12, 14, 14, 15, -1]
 
-# def nextElement(indices):
-#     ans = [None] * n
-#     stack = []
-#     # directly targeting the value of arr 'indices' as it has index as value
-#     for i in indices:
-#         while stack and i > stack[-1]:
-#             # means 'i' is right side of index 'stack[-1]' and since already sorted will get 
-#             # nextGreaterSmallest' or nextSmalllestGreater  based on what 'indices is sorted'   
-#             ans[stack.pop()] = i 
-#             stack.append(i)  # the current index value can be ans for next coming
-#         return ans
+def nextElement(indices):
+    ans = [None] * n
+    stack = []
+    # directly targeting the value of arr 'indices' as it has index as value
+    for i in indices:
+        while stack and i > stack[-1]:
+            # means 'i' is right side of index 'stack[-1]' and since already sorted will get 
+            # nextGreaterSmallest' or nextSmalllestGreater  based on what 'indices is sorted'   
+            ans[stack.pop()] = i 
+            stack.append(i)  # the current index value can be ans for next coming
+        return ans
 
-# Note: if we sort the indices based on decreasing order of values then same function we can use for finding ''nextSmallerGreatest'.
+Note: if we sort the indices based on decreasing order of values then same function we can use for finding ''nextSmallerGreatest'.
 
-# Note vvi: Finally, When we have possible jump position for each index compute if we can reach to the end index by taking odd or even jump starting from any position.
+Note vvi: Finally, When we have possible jump position for each index compute if we can reach to the end index by taking odd or even jump starting from any position.
 
-# Therefore, the Recurrence Relation for odd and even jump position computation are as follows:
+Therefore, the Recurrence Relation for odd and even jump position computation are as follows:
 
-# dp[i].odd = dp[odd_jump_index[i]].even
-# dp[i].even = dp[even_jump_index[i]].odd
+dp[i].odd = dp[odd_jump_index[i]].even
+dp[i].even = dp[even_jump_index[i]].odd
 
-# For each state, we are storing if it is possible to reach the end index of the array or not.
-# Also, odd_jump_index refers Next Greater Smallest Element Index and even_jump_index refers Next Smaller Greatest Element index
+For each state, we are storing if it is possible to reach the end index of the array or not.
+Also, odd_jump_index refers Next Greater Smallest Element Index and even_jump_index refers Next Smaller Greatest Element index
 
-# Time: O(n*logn), space= O(n)
+Time: O(n*logn), space= O(n)
+"""
 
 class Solution:
     def oddEvenJumps(self, arr: List[int]) -> int:

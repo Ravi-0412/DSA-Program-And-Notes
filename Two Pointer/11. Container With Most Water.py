@@ -51,19 +51,26 @@ class Solution {
 '''
 
 # Method 2: 
-# using two pointer
+"""
+using two pointer
 
-# Idea: 
-# 1) The widest container (using first and last line) is a good candidate, because of its width.
-# Its water level is the height of the smaller one of first and last line.
-# 2) All other containers are less wide and thus would need a higher water level in order to hold more water.
-# 3) The smaller one of first and last line doesn't support a higher water level and can thus be safely removed from further consideration.
+Idea: 
+1) The widest container (using first and last line) is a good candidate, because of its width.
+Its water level is the height of the smaller one of first and last line.
+2) All other containers are less wide and thus would need a higher water level in order to hold more water.
+3) The smaller one of first and last line doesn't support a higher water level and can thus be safely removed from further consideration.
 
-# So we can start from two end points and move the pointer for which height is less.
-# From here we get idea of two pointer.
+So we can start from two end points and move the pointer for which height is less.
+From here we get idea of two pointer.
 
-# time: O(n)
-# Space :O(1)
+Q) why not : (r-l +1) , since we are includinh both ends ?
+Ans : Because we are calculating Width (Distance) on the x-axis, not the Count of lines.
+No of lines : (r - l + 1)
+Width of container = r - l
+
+time: O(n)
+Space :O(1)
+"""
 
 class Solution:
     def maxArea(self, height: List[int]) -> int:

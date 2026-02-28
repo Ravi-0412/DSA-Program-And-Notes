@@ -240,6 +240,30 @@ public:
 };
 """
 
+# If no duplicates and if all elements are distinct then, no need to sort
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        ans = []
+        n = len(nums)
+        
+        # We use a loop for the first element
+        for i in range(n):
+            target = -nums[i]
+            # Use a set to find the 'Two Sum' complement for the remaining target
+            seen = set()
+            
+            # Look at all elements after index i
+            for j in range(i + 1, n):
+                complement = target - nums[j]
+                
+                if complement in seen:
+                    # Found a triplet! No need to check for duplicates
+                    ans.append([nums[i], nums[j], complement])
+                
+                seen.add(nums[j])
+                
+        return ans
+
 
 # Similar Q: 
 # 1) 18. 4Sum

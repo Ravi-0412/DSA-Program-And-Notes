@@ -86,3 +86,35 @@ public:
     }
 };
 """
+
+# Method 2:
+"""
+you might be asked if you can skip the inner while loop entirely. 
+Instead of storing the count of characters, you can store the last seen index of each character. 
+When you encounter a duplicate, you can "jump" the left pointer i directly to last_seen_index.
+
+Time = space = O(n)
+"""
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        # map to store the last seen index of each character
+        last_seen = {}
+        max_length = 0
+        i = 0
+        
+        for j in range(len(s)):
+            char = s[j]
+            
+            # If we've seen this character before AND it's inside our current window
+            if char in last_seen and last_seen[char] >= i:
+                # Jump the left pointer to the right of the previous occurrence
+                i = last_seen[char] + 1
+            
+            # Record/Update the current character's position
+            last_seen[char] = j
+            
+            # Calculate length and update maximum
+            max_length = max(max_length, j - i + 1)
+            
+        return max_length

@@ -29,8 +29,12 @@ class Solution:
             # Update the maximum number of fruits collected so far
             # The length of the window is j - i + 1
             ans = max(ans, j - i + 1)
+        return ans
 
 # Other way
+# Think a bit and understand with example : [1,5,5,4,5,1,2], ans = 4
+# Tip: If you use this, always mention: "I'm using a non-shrinking sliding window to maintain the maximum size discovered so far in O(N) time."
+
 class Solution:
     def totalFruit(self, fruits: list[int]) -> int:
         freq = {}

@@ -1,4 +1,5 @@
 # Method 1:
+# exactly same as : 340-longest-substring-with-at-most-k-distinct-characters1
 # Time = O(n), space : O(1)
 
 class Solution:

@@ -29,6 +29,28 @@ class Solution:
             # Update the maximum number of fruits collected so far
             # The length of the window is j - i + 1
             ans = max(ans, j - i + 1)
+
+# Other way
+class Solution:
+    def totalFruit(self, fruits: list[int]) -> int:
+        freq = {}
+        i = 0
+        
+        for j in range(len(fruits)):
+            freq[fruits[j]] = freq.get(fruits[j], 0) + 1
             
-        return ans
+            # Optimization: Use 'if' instead of 'while'.
+            # We let the window grow, but we never let it shrink below 
+            # the maximum size we've already discovered.
+            if len(freq) > 2:
+                freq[fruits[i]] -= 1
+                if freq[fruits[i]] == 0:
+                    del freq[fruits[i]]
+                i += 1
+        
+        # The maximum window size is preserved until the end
+        return j - i + 1
+
+
+
 

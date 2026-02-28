@@ -31,9 +31,18 @@ class Solution:
             ans = max(ans, j - i + 1)
         return ans
 
-# Other way
-# Think a bit and understand with example : [1,5,5,4,5,1,2], ans = 4
-# Tip: If you use this, always mention: "I'm using a non-shrinking sliding window to maintain the maximum size discovered so far in O(N) time."
+# Method 2:
+"""
+Think a bit and understand with example : [1,5,5,4,5,1,2], ans = 4
+Tip: If you use this, always mention: "I'm using a non-shrinking sliding window to maintain the maximum size discovered so far in O(N) time.
+
+Note : in this logic, we can't say that number of distinct element in map will be '2'.
+Why the Map size doesn't matter at the end:
+    When len(freq) > 2, we move i forward once.
+    This keeps the distance between i and j exactly the same as the largest valid window we found earlier. 
+    The freq map might still have 3 or 4 types in it because we only removed one fruit from the left, which might not have been enough to drop the count of that type to zero.
+"""
+
 
 class Solution:
     def totalFruit(self, fruits: list[int]) -> int:

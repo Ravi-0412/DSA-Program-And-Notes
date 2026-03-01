@@ -114,7 +114,7 @@ class Solution:
     def permutations(self, arr, ans, remaining_k):
         if remaining_k== 0:  
             ans+= arr
-            return ans
+            return
         no_gen_by_each_char= self.fact(len(arr) -1)   # just fix one char and find no of permutation for remaining
                         # we are fixing each char(-1) and finding the no of permutation we can get by fixing this curr char.
         index_gen_char= remaining_k//no_gen_by_each_char  # next possible index we have to fix to get the ans.

@@ -33,32 +33,55 @@ class Solution:
         return k
 
 # method 3: using Binary Search.
-# conversion of method 2 only but have to think in very deep.
-# logic: we are mainating another array say 'B' where
-# B[i]= arr[i] - i- 1   # which denotes how many missing positives so far at index i that is smaller than K. (i=> mid)
-# So the question becomes: finding the largest index of array B so that B[j] is smaller than K.
-# It is the same as finding first/last occurrence
+"""
+1. Virtual Gap Array: Imagine an array B where each entry tells you how many numbers are missing before that index.
+    Formula: missing_count = arr[mid] - (mid + 1)
+    Example: If arr[3] = 7, it should have been 4 (1, 2, 3, 4). Since it's 7, we know $7 - 4 = 3 numbers are missing.
+2. Binary Search Goal: We search for the largest index where the number of missing elements is still less than k.
+3. Math: 
+    When the loop while start <= end finishes, end is at the last index where missing count < k.
+    Our target number is somewhere after arr[end].
+    How many more do we need? k - missing_at_end.
+    Final Answer = arr[end] + (k - (arr[end] - (end + 1))).
+    Simplified: arr[end] + k - arr[end] + end + 1 -> k + end + 1.
+    Since the loop ends with start = end + 1, the answer is simply k + start.
 
-# vvi(analyse this properly) here index can lie from '0' to 'n' (n when last ele is smaller than k).
+Note : Similar way we find the lat index in an array. Here, We search for the largest index where the number of missing elements is still less than k.
 
-# Reason: After while loop is stopped, l - 1 is our target index because, 
-# B[l - 1] represents how many positive is missing at index l - 1 that is smaller than K, so result is A[l -1]
-# (the largest number in A that is less than result) + K - B[l - 1](offset, how far from result) = (A[l - 1]) + (k - (A[l - 1] - l)) = l + k.
+Time : O(logn)
+"""
 
-# https://leetcode.com/problems/kth-missing-positive-number/solutions/779999/java-c-python-o-logn/
-# read comment by 'ryz' in above link for more clarity.
-# analyse this very properly and try to bring in the format i solve the Q.
-# time: O(logn)
 class Solution:
     def findKthPositive(self, arr: List[int], k: int) -> int:
-        n= len(arr)
-        start, end= 0, n    # here is the doubt i used to take 'n-1' always(i.e last possible ans) but here when i took 'n-1' then gave incorrect ans.
-        while start < end:
-            mid= start + (end- start)//2
-            if arr[mid] - mid -1 < k:    # checking in virtual array 'B'
-                start= mid + 1
+        n = len(arr)
+        
+        # start: The index where we expect the missing count to potentially reach k
+        start = 0
+        # end: The last valid index in the current array
+        end = n - 1
+        
+        while start <= end:
+            mid = start + (end - start) // 2
+            
+            # Logic: Calculate how many positive integers are missing up to arr[mid]
+            # If the value were exactly (mid + 1), 0 would be missing.
+            missing_count = arr[mid] - (mid + 1)
+            
+            if missing_count < k:
+                # We haven't reached k missing numbers yet, so the kth missing 
+                # must be further to the right.
+                start = mid + 1
             else:
-                end= mid
+                # We found k or more missing numbers, so the kth missing 
+                # must be to the left of this or at this index.
+                end = mid - 1
+        
+        # MEANING OF POINTERS AFTER LOOP:
+        # end: Points to the highest index where the number of missing elements is < k.
+        # start: Points to the first index where the number of missing elements is >= k.
+        
+        # The kth missing number is: arr[end] + (k - missing_at_end)
+        # Simplified math: (k + end + 1) OR (k + start)
         return start + k
 
 # Java Code 
@@ -99,23 +122,7 @@ class Solution {
     }
 }
 
-//Method 3
-class Solution {
-    public int findKthPositive(int[] arr, int k) {
-        int n = arr.length;
-        int start = 0, end = n;
 
-        while (start < end) {
-            int mid = start + (end - start) / 2;
-            if (arr[mid] - mid - 1 < k) { // Checking in virtual array 'B'
-                start = mid + 1;
-            } else {
-                end = mid;
-            }
-        }
-        return start + k;
-    }
-}
 """
 
 # C++ Code 
@@ -156,25 +163,6 @@ public:
             }
         }
         return k;
-    }
-};
-
-//Method 3
-class Solution {
-public:
-    int findKthPositive(vector<int>& arr, int k) {
-        int n = arr.size();
-        int start = 0, end = n;
-
-        while (start < end) {
-            int mid = start + (end - start) / 2;
-            if (arr[mid] - mid - 1 < k) { // Checking in virtual array 'B'
-                start = mid + 1;
-            } else {
-                end = mid;
-            }
-        }
-        return start + k;
     }
 };
 """

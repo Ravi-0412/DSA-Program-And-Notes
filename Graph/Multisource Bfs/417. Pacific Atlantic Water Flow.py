@@ -42,7 +42,58 @@ class Solution:
 
 
 # method 2: By Bfs using same logic as we did in case of "No of island"
+import collections
 
+class Solution:
+    def pacificAtlantic(self, heights):
+        if not heights or not heights[0]:
+            return []
+            
+        ROWS, COLS = len(heights), len(heights[0])
+        pacific_reachable = set()
+        atlantic_reachable = set()
+        
+        # Queues for Multi-Source BFS
+        pacific_queue = collections.deque()
+        atlantic_queue = collections.deque()
+        
+        # Step 1: Initialize starting points (Ocean Borders)
+        for r in range(ROWS):
+            for c in range(COLS):
+                # Pacific: Top row OR Left column
+                if r == 0 or c == 0:
+                    pacific_queue.append((r, c))
+                    pacific_reachable.add((r, c))
+                
+                # Atlantic: Bottom row OR Right column
+                if r == ROWS - 1 or c == COLS - 1:
+                    atlantic_queue.append((r, c))
+                    atlantic_reachable.add((r, c))
+        
+        # Step 2: Run BFS for both oceans
+        self._bfs(pacific_queue, pacific_reachable, heights, ROWS, COLS)
+        self._bfs(atlantic_queue, atlantic_reachable, heights, ROWS, COLS)
+        
+        # Step 3: Find intersection where water flows to both
+        # Set intersection (&) is very efficient in Python
+        result = list(pacific_reachable & atlantic_reachable)
+        return [list(coords) for coords in result]
+
+    def _bfs(self, queue, visited, heights, ROWS, COLS):
+        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        
+        while queue:
+            curr_r, curr_c = queue.popleft()
+            
+            for dr, dc in directions:
+                nr, nc = curr_r + dr, curr_c + dc
+                
+                # Check bounds
+                if 0 <= nr < ROWS and 0 <= nc < COLS:
+                    # Check if already visited and if it's "uphill"
+                    if (nr, nc) not in visited and heights[nr][nc] >= heights[curr_r][curr_c]:
+                        visited.add((nr, nc))
+                        queue.append((nr, nc))
 
 # Java
 """

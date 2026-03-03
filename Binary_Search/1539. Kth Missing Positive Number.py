@@ -36,8 +36,9 @@ class Solution:
 """
 1. Virtual Gap Array: Imagine an array B where each entry tells you how many numbers are missing before that index.
     Formula: missing_count = arr[mid] - (mid + 1)
-    Example: If arr[3] = 7, it should have been 4 (1, 2, 3, 4). Since it's 7, we know $7 - 4 = 3 numbers are missing.
+    Example: If arr[3] = 7, it should have been 4 (1, 2, 3, 4). Since it's 7, we know 7 - 4 = 3 numbers are missing.
 2. Binary Search Goal: We search for the largest index where the number of missing elements is still less than k.
+After that , answerr = Value at that element + Remaining missing count needed
 3. Math: 
     When the loop while start <= end finishes, end is at the last index where missing count < k.
     Our target number is somewhere after arr[end].

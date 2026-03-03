@@ -90,6 +90,10 @@ def read4(buf4):
 """
 
 """
+Clarity about Question; 
+You are given a low-level API (read4) that reads in fixed chunks of 4, and you must build a higher-level API (read) that can handle any arbitrary number n.
+
+Logic: 
 Bridge the Gap: read4 gives 4 chars, but the user might want any amount n.
 Internal Storage: Use a temporary buf4 to catch whatever read4 spits out.
 Transfer Logic: Copy from buf4 to the user's buf, but only up to the limit n.

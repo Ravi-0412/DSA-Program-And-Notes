@@ -118,3 +118,56 @@ class Solution:
                 count[g] -= 1
                 
         return f"{bulls}A{cows}B"
+
+# Follow ups
+"""
+Q ) Interviewer: "If I give you a list of 1,000 guesses for the same secret, how would you optimize the process?"
+
+The Problem: Re-calculating the secret frequency map 1,000 times is wasteful.
+The Optimal Shift: 
+1. Pre-calculate the frequency of all digits in the secret once.
+2. For each guess, calculate Bulls first.
+3. Subtract the Bull digits from your pre-calculated frequency map to find the available characters for Cows.
+
+Google Logic: Tests Pre-processing and Caching.
+"""
+from collections import Counter
+
+class BullsAndCowsSystem:
+    def __init__(self, secret: str):
+        self.secret = secret
+        # Pre-calculate and cache the frequency of the secret
+        # This happens once, regardless of how many guesses follow.
+        self.secret_cache = Counter(secret)
+
+    def calculate_hint(self, guess: str) -> str:
+        bulls = 0
+        cows = 0
+        
+        # We work on a copy of the cache so we don't ruin it for the next guess
+        current_secret_map = self.secret_cache.copy()
+        
+        # List of indices that are not bulls to process in phase 2
+        non_bull_indices = []
+
+        # Phase 1: Identify Bulls and remove them from available Cow candidates
+        for i in range(len(guess)):
+            if guess[i] == self.secret[i]:
+                bulls += 1
+                current_secret_map[guess[i]] -= 1
+            else:
+                non_bull_indices.append(i)
+
+        # Phase 2: Identify Cows from the remaining digits
+        for i in non_bull_indices:
+            char = guess[i]
+            if current_secret_map[char] > 0:
+                cows += 1
+                current_secret_map[char] -= 1
+                
+        return f"{bulls}A{cows}B"
+
+# Example of how Google would expect the usage:
+# system = BullsAndCowsSystem("1123")
+# print(system.calculate_hint("0111")) # 1 Bull, 1 Cow
+# print(system.calculate_hint("1123")) # 4 Bulls, 0 Cows

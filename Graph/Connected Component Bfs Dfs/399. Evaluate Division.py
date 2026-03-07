@@ -408,3 +408,20 @@ class Solution:
                 results.append(ratio_a_to_root / ratio_b_to_root)
                 
         return results
+
+# Google asked Exact same Question
+"""
+Q) Question: You are writing the Google Search unit converter. You are given a list of unit conversion factors and a query. The conversion factor is the value needed to convert from unit A to unit B.
+Write a function that takes a list of conversion factors and 2 units (a and b) and outputs the conversion factor from a -> b.
+
+12 inches is 1 foot
+(meter, centimeter, 100)
+
+a and b are strings
+con_factors is a list of tuples, where each tuple is a (string, string, float)
+
+Follow ups:
+Q) Suppose conversion factors only change 1x a week, but users query the conversion factor function 10000x per second. How could you refactor to make this more efficient?
+
+
+"""

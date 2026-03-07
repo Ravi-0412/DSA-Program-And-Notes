@@ -1,3 +1,5 @@
+# Method 1: 
+
 """
 Think of 'X' as empty space and 'L'/'R' as people moving in a hallway.
   "XL" -> "LX": An 'L' can only move Left (if there is an 'X' to its left).
@@ -49,6 +51,7 @@ class Solution:
 
 # method 2
 """
+Time : O(1)
 In O(1), space complexity
 
 Logic: If start[i] (the current character in the original string) is not the same as result[j] (the current character in the target string), return False.

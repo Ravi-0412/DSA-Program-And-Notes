@@ -10,7 +10,7 @@ how can we check whether they overlap?
 
 If these two intervals overlap then, there should exist a value x such that:
 left1 <= x <= right1 && left2 <= x <= right2
-which implies 'max(left1, left2) <= x <= min(right1, right 2)'.
+which implies 'max(left1, left2) <= x <= min(right1, right 2)'  -(i)
 
 # since left1 <= right1 and left2 <= right2 is already given.
 # so we only need to check : left1 <= right2 && left2 <= right1
@@ -18,6 +18,8 @@ which implies 'max(left1, left2) <= x <= min(right1, right 2)'.
 These two are the sufficient and necessary conditions,
 for two interval overlaps.
 
+Note : This logic to check overlapping interval is for both sorted and unsorted intervals , i.e general case for any two segments, regardless of their order.
+If you sort based on start time then you only need to check : left2 <= right1 or left < right based on endpoint condition (derived from equation i only)
 """
 
 # Method 1:
@@ -364,3 +366,46 @@ public:
     }
 };
 """
+
+# Method 4:
+# Using Binary search , just method 2 only without bisect funtion.
+
+class MyCalendar:
+    def __init__(self):
+        # Store as a list of [start, end] pairs
+        self.booked = []
+
+    def book(self, startTime: int, endTime: int) -> bool:
+        # Step 1: Manual Binary Search to find the insertion index
+        # We want the first index 'i' where booked[i].start >= startTime
+        # just the same way we find the 1st index
+        low = 0
+        high = len(self.booked) -1 
+        
+        while low <= high:
+            mid = (low + high) // 2
+            if self.booked[mid][0] >= startTime:
+                high = mid - 1
+            else:
+                low = mid + 1  
+        
+        idx = low # This is our insertion point
+        
+        # Step 2: Check overlap with the PREVIOUS event
+        # The previous event must end before the new one starts
+        if idx > 0:
+            prev_start, prev_end = self.booked[idx - 1]
+            if prev_end > startTime:
+                return False
+        
+        # Step 3: Check overlap with the NEXT event
+        # The new event must end before the next one starts
+        if idx < len(self.booked):
+            next_start, next_end = self.booked[idx]
+            if next_start < endTime:
+                return False
+        
+        # Step 4: No overlap found, insert into list to maintain sorted order
+        # Note: insert() is O(N) because elements must be shifted
+        self.booked.insert(idx, (startTime, endTime))
+        return True

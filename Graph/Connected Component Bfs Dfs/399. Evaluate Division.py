@@ -409,6 +409,72 @@ class Solution:
                 
         return results
 
+# Better and easier one than 'Union -find' for follow ups
+
+from collections import defaultdict, deque
+class Solution:
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        # Step 1: Build the Graph (Adjacency List)
+        # We store both the forward and reciprocal relationships
+        graph = defaultdict(list)
+        variables = set()
+        
+        for i, (u, v) in enumerate(equations):
+            val = values[i]
+            graph[u].append((v, val))      # u / v = val
+            graph[v].append((u, 1.0 / val)) # v / u = 1 / val
+            variables.add(u)
+            variables.add(v)
+            
+        # Step 2: Pre-compute Roots and Ratios (Star Topology)
+        # norm_map stores: { variable: (root_variable, value_relative_to_root) }
+        norm_map = {}
+        visited = set()
+        
+        for var in variables:
+            if var not in visited:
+                # New component (island) found. Pick this 'var' as the Root.
+                root = var
+                # Queue stores (current_node, current_ratio_to_root)
+                # Initial ratio for root is 1.0 because root/root = 1.0
+                queue = deque([(root, 1.0)])
+                visited.add(root)
+                
+                while queue:
+                    curr, ratio = queue.popleft()
+                    norm_map[curr] = (root, ratio)
+                    
+                    for neighbor, weight in graph[curr]:
+                        if neighbor not in visited:
+                            visited.add(neighbor)
+                            # MATH LOGIC:
+                            # We want neighbor_ratio = neighbor / root
+                            # We know curr_ratio = curr / root
+                            # We know weight = curr / neighbor  =>  neighbor = curr / weight
+                            # Therefore: neighbor / root = (curr / weight) / root = (curr / root) / weight
+                            queue.append((neighbor, ratio / weight))
+                            
+        # Step 3: Answer Queries in O(1) each
+        # This part handles the 10 million queries efficiently
+        results = []
+        for c, d in queries:
+            # Case 1: One or both variables never appeared in equations
+            if c not in norm_map or d not in norm_map:
+                results.append(-1.0)
+            else:
+                root_c, ratio_c = norm_map[c]
+                root_d, ratio_d = norm_map[d]
+                
+                # Case 2: Variables are in different "islands" (not convertible)
+                if root_c != root_d:
+                    results.append(-1.0)
+                # Case 3: Variables share a root, return the relative ratio
+                else:
+                    # (c/root) / (d/root) = c/d
+                    results.append(ratio_c / ratio_d)
+                    
+        return results
+
 # Google asked Exact same Question
 """
 Q) Question: You are writing the Google Search unit converter. You are given a list of unit conversion factors and a query. The conversion factor is the value needed to convert from unit A to unit B.
@@ -420,8 +486,197 @@ Write a function that takes a list of conversion factors and 2 units (a and b) a
 a and b are strings
 con_factors is a list of tuples, where each tuple is a (string, string, float)
 
-Follow ups:
-Q) Suppose conversion factors only change 1x a week, but users query the conversion factor function 10000x per second. How could you refactor to make this more efficient?
-
-
 """
+
+from collections import defaultdict, deque
+
+class UnitConverter:
+    def convert(self, con_factors, start_unit, end_unit):
+        # Step 1: Build the Adjacency List (The Graph)
+        graph = defaultdict(list)
+        
+        for u1, u2, factor in con_factors:
+            # u1 to u2: multiply by factor
+            graph[u1].append((u2, factor))
+            # u2 back to u1: divide by factor (1/factor)
+            graph[u2].append((u1, 1 / factor))
+            
+        # If units don't exist in our records at all
+        if start_unit not in graph or end_unit not in graph:
+            return -1.0
+
+        # Step 2: BFS to find the path from start_unit to end_unit
+        # Queue stores (current_node, cumulative_multiplier)
+        queue = deque([(start_unit, 1.0)])
+        visited = {start_unit}
+        
+        while queue:
+            curr_node, curr_val = queue.popleft()
+            
+            # Destination reached
+            if curr_node == end_unit:
+                return curr_val
+            
+            for neighbor, weight in graph[curr_node]:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    # Accumulate the conversion by multiplying weights
+                    queue.append((neighbor, curr_val * weight))
+                    
+        return -1.0 # No path found
+
+# follow ups 1: Follow ups:
+"""
+Q) Suppose conversion factors only change 1x a week, but users query the conversion factor function 10000x per second. How could you refactor to make this more efficient?
+Pre-computation (The "All-Pairs" Strategy)
+Instead of running BFS for every query, you calculate the conversion factor between every possible pair of units within a "connected component"
+(e.g., all distance units) and store them in a Matrix or a Nested Hash Map.
+
+Logic: Use the Floyd-Warshall Algorithm or run BFS from every node once a week when the data updates.
+1. Weekly Update (rebuild_cache):
+        Phase 1: Map out all unique units.
+        Phase 2: Initialize a nested dictionary where cache[u1][u2] is the conversion factor.
+        Phase 3 (Floyd-Warshall): For every pair of units (i, j), check if there is an intermediate 
+        unit k that can connect them.The Formula: i -> j = (i -> k) * (k -> j). 
+2. Querying:Simply look up self.cache[a][b]. If it exists, return it. Otherwise, return -1.0.
+
+Complexity Analysis
+Query Time: O(1) average case (Hash map lookup).
+Pre-computation Time: O(V^3) where V is the number of units.
+Space Complexity: O(V^2) to store all possible pair-wise combinations.
+"""
+
+class UnitConverterSystem:
+    def __init__(self, con_factors):
+        # Nested dictionary: self.cache[unit_a][unit_b] = factor
+        self.cache = {}
+        self.rebuild_cache(con_factors)
+
+    def rebuild_cache(self, factors):
+        """
+        Runs once a week. 
+        Uses Floyd-Warshall logic to find all-pairs conversions.
+        """
+        new_cache = {}
+        
+        # Step 1: Identity and Direct Conversions
+        for u1, u2, val in factors:
+            if u1 not in new_cache: new_cache[u1] = {u1: 1.0}
+            if u2 not in new_cache: new_cache[u2] = {u2: 1.0}
+            
+            new_cache[u1][u2] = float(val)
+            new_cache[u2][u1] = 1.0 / float(val)
+
+        # Step 2: The Triple Loop (Transitive Closure)
+        # We try to use unit 'k' as a bridge between 'i' and 'j'
+        units = list(new_cache.keys())
+        for k in units:
+            for i in units:
+                for j in units:
+                    # If i can reach k AND k can reach j
+                    if k in new_cache[i] and j in new_cache[k]:
+                        # Then i can reach j via k
+                        # i -> j = (i -> k) * (k -> j)
+                        new_cache[i][j] = new_cache[i][k] * new_cache[k][j]
+        
+        self.cache = new_cache
+
+    def get_conversion(self, unit_a, unit_b):
+        """
+        Handles 10,000 queries per second.
+        O(1) Time Complexity.
+        """
+        if unit_a in self.cache and unit_b in self.cache[unit_a]:
+            return self.cache[unit_a][unit_b]
+        return -1.0
+
+# follow ups 2
+"""
+"What if the graph is extremely sparse (many units, but few possible conversions)? O(V^2) space might be too much."
+Ans : I would use the Base-Unit Normalization (Union-Find style). 
+Instead of connecting every unit to every other unit, we pick one Root unit for every category (e.g., "Meter" for length, "Second" for time). 
+Every other unit just remembers its relationship to that one root.
+Space becomes O(V), 
+and queries are still O(1) because you just divide two pre-calculated 'ratio-to-root' values."
+Note : In a system with 10,000 units, Floyd-Warshall creates a matrix of 100,000,000 entries. Normalization only stores 10,000 entries.
+
+To convert A to B:
+        Find A's value relative to Root (A_ratio).  => A = ratioA * Root   - (i)
+        Find B's value relative to Root (B_ratio).  => B = ratioB * Root   - (ii)
+        The Math: A / B = (A / Root) / (B / Root)   = ratioA / ratioB
+
+Build Time (Weekly): O(V + E) where V is units and E is factors. 
+This is much faster than Floyd-Warshall's O(V^3).
+Query Time: O(1).
+Space: O(V) to store the conversion_map.
+"""
+
+from collections import defaultdict, deque
+
+class EfficientConverter:
+    def __init__(self, con_factors):
+        # self.conversion_map stores: { unit: (root_name, ratio_to_root) }
+        # Example: { "cm": ("meter", 0.01), "km": ("meter", 1000) }
+        self.conversion_map = self.precompute_base_units(con_factors)
+
+    def precompute_base_units(self, factors):
+        # 1. Build a standard adjacency list first
+        graph = defaultdict(list)
+        all_units = set()  # Collect every single unique unit name from the input tuples
+        for u1, u2, val in factors:
+            graph[u1].append((u2, val))
+            graph[u2].append((u1, 1.0 / val))
+            all_units.update([u1, u2])   # add these two units if not present. set operations
+
+        results = {}
+        visited = set()
+
+        # 2. Traverse every connected component, master list
+        for unit in all_units:
+            # If we haven't seen this unit during a previous BFS, 
+            # it must be the start of a brand new category (like 'Time' or 'Mass')
+            if unit not in visited:
+                # We start a new BFS and pick this unit as the "Root" for its group
+                root = unit
+                # BFS to normalize everyone in this group to this root
+                queue = deque([(root, 1.0)]) # (current_node, ratio_to_root)
+                visited.add(root)
+                
+                while queue:
+                    curr, ratio = queue.popleft()
+                    results[curr] = (root, ratio) # Store which "category" this unit belongs to and its ratio to that category's root.
+                    
+                    for neighbor, weight in graph[curr]:
+                        if neighbor not in visited:
+                            visited.add(neighbor)
+                            # MATH LOGIC:
+                            # We want neighbor_ratio = neighbor / root
+                            # We know curr_ratio = curr / root
+                            # We know weight = curr / neighbor  =>  neighbor = curr / weight
+                            # Therefore: neighbor / root = (curr / weight) / root = (curr / root) / weight
+                            queue.append((neighbor, ratio /  weight))
+        return results
+
+    def query(self, a, b):
+        """
+        Calculates conversion in O(1) time.
+        """
+        # Step 1: Check if units even exist
+        if a not in self.conversion_map or b not in self.conversion_map:
+            return -1.0
+            
+        root_a, ratio_a = self.conversion_map[a]
+        root_b, ratio_b = self.conversion_map[b]
+        
+        # Step 2: Ensure they belong to the same category (e.g., both are 'Length')
+        if root_a != root_b:
+            return -1.0
+            
+        # Step 3: Return the relative ratio
+        # Example: (km/m) / (cm/m) = 1000 / 0.01 = 100,000
+        return ratio_a / ratio_b
+
+# Example Usage:
+# factors = [("meter", "centimeter", 100), ("kilometer", "meter", 1000)]
+# system = EfficientConverter(factors)
+# print(system.query("kilometer", "centimeter")) # Output: 100000.0

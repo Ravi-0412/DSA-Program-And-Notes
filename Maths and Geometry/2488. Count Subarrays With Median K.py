@@ -185,3 +185,11 @@ class Solution:
             total_valid += count_map[1 - balance]
             
         return total_valid
+
+# Follow ups:
+"""
+Q) What if duplicates are allowed and numbers are random?
+Solve by prefixSum logic and Segment Tree.
+
+Question link: https://www.geeksforgeeks.org/problems/median-of-the-subarrays--170647/1
+"""

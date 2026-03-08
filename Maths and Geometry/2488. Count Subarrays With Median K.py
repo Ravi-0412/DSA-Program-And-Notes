@@ -141,3 +141,47 @@ class Solution:
                 
         # Return total plus 1 (to account for the single-element subarray [k])
         return total_valid_subarrays + 1
+
+# method 3:
+"""
+Just little concise way to write Method 2
+"""
+class Solution:
+    def countSubarrays(self, nums: List[int], k: int) -> int:
+        # Step 1: Find the position of k (the pivot)
+        # The problem guarantees distinct integers, so index is unique.
+        pivot_idx = nums.index(k)
+        n = len(nums)
+        
+        # Step 2: Traverse Left from the pivot
+        # count_map stores: {balance: number_of_occurrences}
+        count_map = Counter()
+        balance = 0
+        count_map[0] = 1 # Base case: the subarray [k] itself has balance 0
+        
+        for i in range(pivot_idx - 1, -1, -1):
+            if nums[i] > k:
+                balance += 1
+            else:
+                balance -= 1
+            count_map[balance] += 1
+            
+        # Step 3: Traverse Right from the pivot and match with Left
+        total_valid = 0
+        balance = 0 # Reset balance for the right side
+        
+        for i in range(pivot_idx, n):     # if you start from pivot_ind + 1 then you will miss case where nums[i] = k
+            if nums[i] > k:
+                balance += 1
+            elif nums[i] < k:
+                balance -= 1
+            
+            # Condition 1: Odd length (G - S = 0)
+            # We need: balance + left_balance == 0  => left_balance = -balance
+            total_valid += count_map[-balance]
+            
+            # Condition 2: Even length (G - S = 1)
+            # We need: balance + left_balance == 1  => left_balance = 1 - balance
+            total_valid += count_map[1 - balance]
+            
+        return total_valid

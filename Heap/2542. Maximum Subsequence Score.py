@@ -181,7 +181,7 @@ public:
 """
 
 # Related Q:
-# 1383. Maximum Performance of a Team    => Exactly same question
+# 1383. Maximum Performance of a Team    => Exactly same question and same code will work
 
 # Intuition: Idea is simple: try every efficiency value from highest to lowest and at the same time
 #  maintain an as-large-as-possible speed group, keep adding speed to total speed, 

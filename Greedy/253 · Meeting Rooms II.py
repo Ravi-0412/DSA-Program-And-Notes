@@ -384,6 +384,39 @@ public:
 
 """
 
+# Method 3:
+"""
+Just another way of writing method 2
+
+Separate all start times and end times into two sorted arrays.
+Iterate through the start times. If a meeting starts before the earliest ending meeting finishes, we need a new room.
+If a meeting starts after the earliest ending meeting, we can "reuse" that room (increment our end-time pointer).
+"""
+class Solution:
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        if not intervals:
+            return 0
+
+        # Separate and sort start and end points
+        starts = sorted([i[0] for i in intervals])
+        ends = sorted([i[1] for i in intervals])
+
+        used_rooms = 0
+        end_ptr = 0
+
+        # Iterate through every meeting start time
+        for start_ptr in range(len(starts)):
+            # If there is a meeting that has ended by the time the current meeting starts
+            if starts[start_ptr] >= ends[end_ptr]:
+                # Free up a room: we don't increment used_rooms, 
+                # just move the end pointer to the next ending meeting.
+                end_ptr += 1
+            else:
+                # No room is free, increment the count
+                used_rooms += 1
+        
+        return used_rooms
+
 # Method 3: 
 """
 Using Sweep Line Algorithm 

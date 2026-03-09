@@ -1,146 +1,91 @@
 # Method 1: 
-
-# Logic : 
-# Similar to "1014. Best Sightseeing Pair"
 """
-for 'X+1'th row (points[X + 1]) to pick say 'curr'
-for the index i in curr, we have:
-curr[i] = max(prev[j] - abs(j - i) for j in range(n)) + points[X+1][i],
+Extension of: "1014. Best Sightseeing Pair" in 2-D
 
-compare every index in prev with every index i in points[X+1], which brings O(N ^ 2) time for a single row and O(N ^ 3) for the whole grids.
+Logic:
+For each cell (r, c), we want to find the best cell (r-1, prev_c) from the row above.
+The score for dp[r][c] would be:
+dp[r][c] = points[r][c] + max(dp[r-1][prev_c] - abs(c - prev_c) for prev_c in range(n))
+Time : O(M * N^2)
+"""
 
-Note: for a certain index i, the maximum value for i is a index that could either come from its left, or its right(inclusive).
 
-we can build two arrays, lft and rgt, and focus on the maximum value only coming from its left or right. 
-Finding the best fit for a single index i could just cost O(1) time from then on.
 
-for lft[0] is just prev[0], since there is no other values coming from its left.
+# Method 2:
+"""
+Optimised one
 
-lft[1], we need to make a choice, the value is the larger one between prev[1] or lft[0] - 1, 
-(considering the index shift so we need to substract 1 from lft[0]).
-For lft[2], the value is the larger one between prev[2] or lft[1] - 1, so on so forth.
+Logic: Breaking the Absolute Value
+The expression : dp[r-1][prev_c] - |c - prev_c| can be split into two cases to remove the absolute value:
+i)  If prev_c <= c (Left side): dp[r-1][prev_c] - (c - prev_c) =>  (dp[r-1][prev_c] + prev_c) - c
+ii) If prev_c > c (Right side): dp[r-1][prev_c] - (c - prev_c) =>  (dp[r-1][prev_c] - prev_c) + c
 
-Build right(rgt) using the same method.
-# Time: O(n^2)
+Instead of re-scanning the whole row for every c, we can pre-calculate the best values coming from the left and the right in just two passes.
+
+Time Complexity: O(M * N) - We visit each cell a constant number of times.
+Space Complexity: O(N) - We only store the previous and current row data.
 """
 
 class Solution:
-    def maxPoints(self, P: List[List[int]]) -> int:
-        m, n = len(P), len(P[0])
-        if m == 1: return max(P[0])
-        if n == 1: return sum(sum(x) for x in P)
+    def maxPoints(self, points: list[list[int]]) -> int:
+        m, n = len(points), len(points[0])
         
-        def left(arr):
-            lft = [arr[0]] + [0] * (n - 1)
-            for i in range(1, n): lft[i] = max(lft[i - 1] - 1, arr[i])
-            return lft
+        # prev_row stores the max points achievable up to the previous row
+        prev_row = points[0]
         
-        def right(arr):
-            rgt = [0] * (n - 1) + [arr[-1]]
-            for i in range(n - 2, -1, -1): rgt[i] = max(rgt[i + 1] - 1, arr[i])
-            return rgt
-        
-        pre = P[0]
-        for i in range(m - 1):
-            lft, rgt, cur = left(pre), right(pre), [0] * n
-            for j in range(n):
-                cur[j] = P[i + 1][j] + max(lft[j], rgt[j])
-            pre = cur[:]
+        for r in range(1, m):
+            # left_max[i] stores the max value of (prev_row[k] + k) for k <= i
+            left_max = [0] * n
+            # right_max[i] stores the max value of (prev_row[k] - k) for k >= i
+            right_max = [0] * n
+            
+            # Pass 1: Left to Right
+            # We carry over the "best" value from the left, subtracting 1 for each step
+            left_max[0] = prev_row[0]
+            for c in range(1, n):
+                left_max[c] = max(left_max[c-1] - 1, prev_row[c])
+            
+            # Pass 2: Right to Left
+            # We carry over the "best" value from the right, subtracting 1 for each step
+            right_max[n-1] = prev_row[n-1]
+            for c in range(n-2, -1, -1):
+                right_max[c] = max(right_max[c+1] - 1, prev_row[c])
+            
+            # Pass 3: Calculate current row
+            current_row = [0] * n
+            for c in range(n):
+                # The best value for current cell is its own points + max of left/right options
+                current_row[c] = points[r][c] + max(left_max[c], right_max[c])
+            
+            # Update prev_row for the next iteration
+            prev_row = current_row
+            
+        return max(prev_row)
 
-        return max(pre)
+# Little concise way to write
+class Solution:
+    def maxPoints(self, points: list[list[int]]) -> int:
+        m, n = len(points), len(points[0])
+        # dp stores the maximum points for the previous row processed
+        dp = points[0]
 
-# Java Code 
-"""
-class Solution {
-    public int maxPoints(int[][] P) {
-        int m = P.length, n = P[0].length;
-        if (m == 1) return maxInArray(P[0]);
-        if (n == 1) return totalSum(P);
+        for r in range(1, m):
+            # 1. Left-to-Right Pass: Calculate the best possible score coming from the left
+            # We use 'left_max' to track: max(dp[k] - (c - k)) -> max(dp[k] + k) - c
+            left_max = [0] * n
+            left_max[0] = dp[0]
+            for c in range(1, n):
+                # Either take the current cell directly or take the one from the left with a -1 penalty
+                left_max[c] = max(left_max[c-1] - 1, dp[c])
 
-        int[] pre = P[0];
+            # 2. Right-to-Left Pass: Calculate the best from the right AND update the row
+            # We track 'right_running_max' to represent the best score from columns >= c
+            right_running_max = dp[n-1]
+            for c in range(n-1, -1, -1):
+                # Update right_running_max with -1 penalty for each step left
+                right_running_max = max(right_running_max - 1, dp[c])
+                
+                # The new dp[c] is the cell's points + the better of the two directions
+                dp[c] = points[r][c] + max(left_max[c], right_running_max)
 
-        for (int i = 0; i < m - 1; i++) {
-            long[] left = new long[n];
-            long[] right = new long[n];
-            long[] cur = new long[n];
-
-            // left sweep
-            left[0] = pre[0];
-            for (int j = 1; j < n; j++) {
-                left[j] = Math.max(left[j - 1] - 1, pre[j]);
-            }
-
-            // right sweep
-            right[n - 1] = pre[n - 1];
-            for (int j = n - 2; j >= 0; j--) {
-                right[j] = Math.max(right[j + 1] - 1, pre[j]);
-            }
-
-            for (int j = 0; j < n; j++) {
-                cur[j] = P[i + 1][j] + Math.max(left[j], right[j]);
-            }
-
-            for (int j = 0; j < n; j++) pre[j] = (int) cur[j];
-        }
-
-        return maxInArray(pre);
-    }
-
-    private int maxInArray(int[] arr) {
-        int max = arr[0];
-        for (int a : arr) max = Math.max(max, a);
-        return max;
-    }
-
-    private int totalSum(int[][] matrix) {
-        int sum = 0;
-        for (int[] row : matrix) {
-            for (int v : row) sum += v;
-        }
-        return sum;
-    }
-}
-"""
-# C++ Code 
-"""
-#include <vector>
-#include <algorithm>
-using namespace std;
-
-class Solution {
-public:
-    int maxPoints(vector<vector<int>>& P) {
-        int m = P.size(), n = P[0].size();
-        if (m == 1) return *max_element(P[0].begin(), P[0].end());
-        if (n == 1) {
-            int total = 0;
-            for (auto& row : P)
-                for (int v : row) total += v;
-            return total;
-        }
-
-        vector<long long> pre(P[0].begin(), P[0].end());
-
-        for (int i = 0; i < m - 1; ++i) {
-            vector<long long> left(n), right(n), cur(n);
-
-            // left sweep
-            left[0] = pre[0];
-            for (int j = 1; j < n; ++j)
-                left[j] = max(left[j - 1] - 1, pre[j]);
-
-            // right sweep
-            right[n - 1] = pre[n - 1];
-            for (int j = n - 2; j >= 0; --j)
-                right[j] = max(right[j + 1] - 1, pre[j]);
-
-            for (int j = 0; j < n; ++j)
-                cur[j] = P[i + 1][j] + max(left[j], right[j]);
-
-            pre = cur;
-        }
-
-        return *max_element(pre.begin(), pre.end());
-    }
-};
-"""
+        return max(dp)

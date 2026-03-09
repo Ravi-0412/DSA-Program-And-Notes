@@ -31,7 +31,7 @@ class Solution:
             while j < n and result[j] == 'X': j += 1
             # If one pointer reaches the end, both must (checked by replace() above)
             if i == n or j == n:
-                break
+                return True
             # 3. Directional Constraint Check
             if start[i] == 'L' and i < j:
                 # 'L' in start is at index i, needs to move to j. 
@@ -103,4 +103,7 @@ class Solution:
             j += 1
             
         return True
-        
+
+# Similar Question
+# 1. 2337. Move Pieces to Obtain a String
+# Just replace '_' -> 'X'

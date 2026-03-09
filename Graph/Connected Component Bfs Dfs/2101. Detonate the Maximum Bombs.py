@@ -79,24 +79,17 @@ class Solution:
         def bfs(start_node):
             queue = collections.deque([start_node])
             visited = {start_node}
-            count = 0
             
             while queue:
                 node = queue.popleft()
-                count += 1
                 
                 for neighbor in adj[node]:
                     if neighbor not in visited:
                         visited.add(neighbor)
                         queue.append(neighbor)
-            return count
-
-        # Step 3: Try detonating every bomb as the first one
-        max_bombs = 0
-        for i in range(n):
-            max_bombs = max(max_bombs, bfs(i))
+            return len(visited)
             
-        return max_bombs
+        return max(bfs(i) for i in range(n))
 
 # my mistake
 # 1) I was taking 'visited' as global but it won't work.

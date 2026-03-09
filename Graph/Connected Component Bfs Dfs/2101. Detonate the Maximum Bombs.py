@@ -1,15 +1,24 @@
-# Just same as:"695. Max Area of Island". Just we have to think and reduce into this q.
+# Method 1: 
 
-# Intitution: Just we have to find the "max no of node in connected comopnents".
+"""
+Just same as:"695. Max Area of Island". Just we have to think and reduce into this q.
+Intitution: Just we have to find the "max no of node in connected comopnents".
 
-# Howe we will connect ?
-# if detonating bomb 'i' will detonate the bomb 'j' then we will add 'j' in adj list of 'i'.
+How we will connect ?
+if detonating bomb 'i' will detonate the bomb 'j' then we will add 'j' in adj list of 'i'.
+Note: it may happen that 'i' detonate 'j' but 'j' won't detonate 'i'.
 
-# Note: it may happen that 'i' detonate 'j' but 'j' won't detonate 'i'.
+VVi: How we will find the detonating bombs?
+say we have to find whether detonating 'i' will detonate 'j' or not?
+if distance between their location is <= radius of 'i' then 'i' will detonate 'j'.
 
-# VVi: How we will find the detonating bombs?
-# say we have to find whether detonating 'i' will detonate 'j' or not?
-# if distance between their location is <= radius of 'i' then 'i' will detonate 'j'.
+Time Complexity: O(N^3) 
+Phase 1 (Building graph) takes O(N^2). 
+Phase 2 runs a BFS (O(V+E)) for each of the N bombs. Since E can be up to N^2, we get N * (N + N^2) ~ O(N^3).
+Space Complexity : O(N^2), The adjacency list stores all possible detonation connections. In a worst-case scenario where every bomb triggers every other bomb, we store N^2 edges.
+"""
+
+
 
 
 class Solution:
@@ -44,6 +53,53 @@ class Solution:
             ans= max(ans, dfs(i, visited))
         return ans
 
+
+# Method 2:
+# Using BFS
+
+import collections
+from typing import List
+
+class Solution:
+    def maximumDetonation(self, bombs: List[List[int]]) -> int:
+        n = len(bombs)
+        adj = collections.defaultdict(list)
+        
+        # Step 1: Build the Adjacency List - O(N^2)
+        for i in range(n):
+            x1, y1, r1 = bombs[i]
+            for j in range(n):
+                if i == j: continue
+                x2, y2, r2 = bombs[j]
+                
+                # Euclidean distance squared: (x1-x2)^2 + (y1-y2)^2
+                # We compare it to r1^2 to avoid expensive square root operations
+                dist_sq = (x1 - x2)**2 + (y1 - y2)**2
+                if dist_sq <= r1**2:
+                    adj[i].append(j)
+        
+        # Step 2: BFS Helper Function
+        def bfs(start_node):
+            queue = collections.deque([start_node])
+            visited = {start_node}
+            count = 0
+            
+            while queue:
+                node = queue.popleft()
+                count += 1
+                
+                for neighbor in adj[node]:
+                    if neighbor not in visited:
+                        visited.add(neighbor)
+                        queue.append(neighbor)
+            return count
+
+        # Step 3: Try detonating every bomb as the first one
+        max_bombs = 0
+        for i in range(n):
+            max_bombs = max(max_bombs, bfs(i))
+            
+        return max_bombs
 
 # my mistake
 # 1) I was taking 'visited' as global but it won't work.

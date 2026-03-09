@@ -41,6 +41,14 @@ Kvag , best case : O(logP)
 worst case : O(P) => Occurs if all points have the same X-coordinate (a vertical line) or if the circles are large enough to cover the entire X-range.
 So in this case , time : O(P*logP + Q *P)
 
+i) bisect_left : It finds the first spot where the number could be placed without breaking the sorted order.
+If the number is already there, you stand to the left of the duplicates.
+ii) bisect_right : It finds the last spot where the number could be placed without breaking the sorted order.
+If the number is already there, you stand to the right of the duplicates.
+
+arr = [1, 3, 4, 7, 7, 7, 8, 10], target : 7
+bisect_left : 3 , bisect_right : 6
+
 Space : O(P)
 """
 
@@ -82,39 +90,44 @@ class Solution:
 
 class Solution:
     def countPoints(self, points: list[list[int]], queries: list[list[int]]) -> list[int]:
-        # 1. Sort points by X so we can find the range of interest
+        # 1. Sort points by X to enable horizontal pruning
         points.sort()
         points_x = [p[0] for p in points]
         n = len(points_x)
         res = []
 
         for qx, qy, r in queries:
-            # Determine the X-range [qx-r, qx+r]
             x_min, x_max = qx - r, qx + r
             
-            # 2. Binary Search for x_min (Custom bisect_left)
-            low, high = 0, n
-            while low < high:
+            # 2. Template: Find FIRST index >= x_min
+            # Logic: If mid is >= x_min, it could be the start, so we check left (high = mid - 1)
+            low, high = 0, n - 1
+            while low <= high:
                 mid = (low + high) // 2
-                if points_x[mid] >= x_min: high = mid
-                else: low = mid + 1
-            left_idx = low
+                if points_x[mid] >= x_min:
+                    high = mid - 1
+                else:
+                    low = mid + 1
+            left_idx = low # 'low' lands on the first valid index
 
-            # 3. Binary Search for x_max (Custom bisect_right)
-            low, high = 0, n
-            while low < high:
+            # 3. Template: Find LAST index <= x_max
+            # Logic: If mid is <= x_max, it could be the end, so we check right (low = mid + 1)
+            low, high = 0, n - 1
+            while low <= high:
                 mid = (low + high) // 2
-                if points_x[mid] > x_max: high = mid
-                else: low = mid + 1
-            right_idx = low
+                if points_x[mid] <= x_max:
+                    low = mid + 1
+                else:
+                    high = mid - 1
+            right_idx = high # 'high' lands on the last valid index
 
             # 4. Filter and Check
             count = 0
-            # Only loop through points that are horizontally within the circle's reach
-            for i in range(left_idx, right_idx):
+            # Note: We use right_idx + 1 because right_idx is inclusive
+            for i in range(left_idx, right_idx + 1):
                 px, py = points[i]
-                # Squared distance check (Euclidean distance)
-                if (px - qx)**2 + (py - qy)**2 <= r*r:
+                # Using squared distance to avoid math.sqrt() overhead
+                if (px - qx)**2 + (py - qy)**2 <= r * r:
                     count += 1
             res.append(count)
             

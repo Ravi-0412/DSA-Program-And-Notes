@@ -18,9 +18,6 @@ Phase 2 runs a BFS (O(V+E)) for each of the N bombs. Since E can be up to N^2, w
 Space Complexity : O(N^2), The adjacency list stores all possible detonation connections. In a worst-case scenario where every bomb triggers every other bomb, we store N^2 edges.
 """
 
-
-
-
 class Solution:
     def maximumDetonation(self, bombs: List[List[int]]) -> int:
         # make adjacency list i.e connect bomb which can detonate each other

@@ -1,23 +1,50 @@
 # Method 1:
+"""
+what to do?
+for each meeting find the lowest available room.
 
-# what to do?
-# for each room find the lowest available room.
+Whenever you have to perform same operation again and again on min/max , we use heap.
+so will use minHeap to get minimum available room currently from all available rooms.
 
-# Logic: We have to get the minimum available room each time and we can use same room later also.
-# (after completion of meeting of that room is lowest room no available).
+Also we need to keep track of rooms already occupied and which can be available for any meeting
+after finishing current meeting. Room where meeting will end sooner will have higher chance of being available.
+For this also we will need minHeap.
 
-# Whenever you have to perform same operation again and again on min/max , we use heap.
-# so will use minHeap to get minimum available room currently.
+So, We divide the n rooms into two categories using Min-Heaps:
+i) available_rooms (Min-Heap): Stores the indices of rooms that are currently empty (e.g., [0, 1, 2]). 
+We use a heap so we can always grab the lowest room number in O(log n). 
+ii) occupied_rooms (Min-Heap): Stores pairs of [end_time, room_index] for rooms currently holding a meeting. 
+We use a heap to quickly find the room that finishes its meeting earliest.
 
-# Also we need to keep track of rooms already occupied and which can be available for any meeting
-# after finishing current meeting. Room where meeting will end sooner will have higher chance of being available.
-# For this also we will need minHeap.
+Q) Why two heaps, why one heap is not sufficient?
+Ans :
+The Conflict of Interest
+Rule 1: Room Number (Lowest wins)                                   Rule 2: Time (Earliest finish wins)
+When to use: When multiple rooms are already empty.                 When to use: When all rooms are full and we must wait.
+Heap,  Sort Key: room_indexHeap                                     Sort Key: end_time
 
-# So we need two minHeaps.
+Example: 
+The "Wrong Room" Scenario (Why 1 Heap Fails)
+Imagine you have 2 rooms and a new meeting starts at Time 10:
+Room 1 finished at Time 5.
+Room 0 finished at Time 8.
 
+If you use 1 Heap (Sorted by End Time):
+The heap looks like this: [(5, Room 1), (8, Room 0)].
+When you pop the heap for the new meeting, it gives you Room 1 because 5 < 8.
 
-# Time:  O(nlogn)
-# Space:  O(n)
+Result: You pick Room 1. (INCORRECT). Both are free by Time 10, so you must pick the lowest index: Room 0.
+
+Example for two Heap: 
+If you use 2 Heaps (The Correct Logic):
+Step 1: Look at the Occupied heap. Since both 5 <= 10 and 8 <= 10, you move both rooms to the Available heap.
+Step 2: The Available heap now contains [0, 1] (sorted by index).
+Step 3: You pop from Available. It gives you Room 0.
+Result: You pick Room 0. (CORRECT).
+
+Time:  O(nlogn)
+Space:  O(n)
+"""
 
 import heapq
 class Solution:
@@ -52,6 +79,7 @@ class Solution:
                 curEnd, room = heapq.heappop(occupied_rooms)
                 meetingCount[room] += 1
                 # Now the current room will get occupied till: curEnd + total_meeting duration
+                # The duration must stay the same. So the new end time is:
                 newEnd = curEnd + (end - start)
                 # Add the cur room into occupied one again
                 # Poping 1st then again adding otherwise there will be duplicates entries for a room no

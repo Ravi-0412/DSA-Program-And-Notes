@@ -33,14 +33,16 @@ class DetectSquares:
         px, py= point
         # find if there any diagonal exist for this point.
         # diagonal will be only present if abs(px -x)== abs(py -y) i.e horizontal and vertical length should be equal.
-        for (x, y), cnt in self.ptsCount.items():
+        for (x, y), cnt_diag in self.ptsCount.items():
             if (abs(px -x)!= abs(py - y)) or px== x or py==y :  # 2nd case for +ve area. it can form square with its duplictes but area will be '0'.
                 continue
             # now we have found the diagonal, now search if other two points exists.
             # if exists then add the count of those in the result(after multiplying).
             # coordinates of other two points will be (x, py) and (px, y),
-            # if they will form square with the these two points(diagonal one) i.e (x, y) and (px, py)
-            res += cnt * self.ptsCount.get((x, py), 0) * self.ptsCount.get((px, y), 0)
+            # if they will form square with the these two points(diagonal one) i.e (x, y) and (px, py))
+            count_p2 = self.ptsCount.get((px, y), 0)
+            count_p3 = self.ptsCount.get((x, py), 0)
+            res += cnt_diag * count_p2 * count_p3
         return res
 
 # Java
@@ -139,22 +141,26 @@ public:
 """
 
 # Method 2: 
-# Given p1, try all points p2 (same x-axis) then compute the positions of 2 remain points p3, p4.
+"""
+Given p1, try all points p2 (same x-axis) then compute the positions of 2 remain points p3, p4.
 
-# To compute count(p1):
-# We try all the points p2 which has the same x-axis with p1, it means p2.x = p1.x
-# Since we have 2 points p1 and p2, we can form a square by computing the positions of 2 remain points p3, p4.
-# Calculate sideLen = abs(p1.y - p2.y)
-# Case 1: p3, p4 points are in the left side of line p1p2
-# p3 = (p1.x - sideLen, p2.y)
-# p4 = (p1.x - sideLen, p1.y)
-# Case 2: p3, p4 points are in the right side of line p1p2
-# p3 = (p1.x + sideLen, p2.y)
-# p4 = (p1.x + sideLen, p1.y)
+To compute count(p1):
+We try all the points p2 which has the same x-axis with p1, it means p2.x = p1.x
+Since we have 2 points p1 and p2, we can form a square by computing the positions of 2 remain points p3, p4.
+Calculate sideLen = abs(p1.y - p2.y)
+Case 1: p3, p4 points are in the left side of line p1p2
+p3 = (p1.x - sideLen, p2.y)
+p4 = (p1.x - sideLen, p1.y)
+Case 2: p3, p4 points are in the right side of line p1p2
+p3 = (p1.x + sideLen, p2.y)
+p4 = (p1.x + sideLen, p1.y)
 
-# Time: add: O(1)
-# count: O(T), where T <= 5000 is total number of points after calling add.
-# Space: O(T)
+Note: Keep a defaultdict(set) of points sharing the same X-coordinate to avoid redundant checks.
+
+Time: add: O(1)
+count: O(T), where T <= 5000 is total number of points after calling add.
+Space: O(T)
+"""
 
 class DetectSquares:
     def __init__(self):

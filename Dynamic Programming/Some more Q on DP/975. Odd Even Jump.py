@@ -76,7 +76,7 @@ Explanation for:  'nextGreaterSmallest':
 arr = [10,13,12,14,15]
 1) sorting indices by values and storing in a list
 sorted_indices= sorted(range(n), key=lambda x: arr[x]) =  [0, 2, 1, 3, 4]
-2) finding next_greater_smallest using stack:
+2) then use stack to find the 'next_greater_smallest' because now problem got reduced to 'Find the nextGreaterElement' on the right.  
 we will get ans = [2,3,3,4,-1]  # index on right for 'nextGreaterSmallest'.
 Now convert into array elements(actual value)
 final ans_value = [12, 14, 14, 15, -1]
@@ -90,12 +90,12 @@ def nextElement(indices):
             # means 'i' is right side of index 'stack[-1]' and since already sorted will get 
             # nextGreaterSmallest' or nextSmalllestGreater  based on what 'indices is sorted'   
             ans[stack.pop()] = i 
-            stack.append(i)  # the current index value can be ans for next coming
-        return ans
+        stack.append(i)  # the current index value can be ans for next coming
+    return ans
 
 Note: if we sort the indices based on decreasing order of values then same function we can use for finding ''nextSmallerGreatest'.
 
-Note vvi: Finally, When we have possible jump position for each index compute if we can reach to the end index by taking odd or even jump starting from any position.
+Note vvi: Finally, When we have possible jump position for each index , compute if we can reach to the end index by taking odd or even jump starting from any position.
 
 Therefore, the Recurrence Relation for odd and even jump position computation are as follows:
 

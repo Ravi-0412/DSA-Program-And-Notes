@@ -145,4 +145,59 @@ class Solution:
                     q.append(cur -1)
                     visited.add(cur- 1)
             steps+= 1
-    
+
+
+# method 2:
+"""
+Time complexity same as method 2 but it is more optimised.
+"""
+
+import collections
+
+class Solution:
+    def minJumps(self, arr: list[int]) -> int:
+        n = len(arr)
+        if n <= 1: return 0
+
+        # Step 1: Precompute portal jumps (same as standard BFS)
+        graph = collections.defaultdict(list)
+        for i, val in enumerate(arr):
+            graph[val].append(i)
+
+        # Two frontiers: one from start, one from end
+        head_set = {0}
+        tail_set = {n - 1}
+        visited = {0, n - 1}
+        steps = 0
+
+        while head_set:
+            # VVI Optimization: Always expand the smaller set to minimize work
+            if len(head_set) > len(tail_set):
+                head_set, tail_set = tail_set, head_set
+            
+            next_head_set = set()
+            
+            for curr in head_set:
+                # Collect all possible neighbors
+                # 1. Portal jumps, 2. Forward step, 3. Backward step
+                neighbors = graph[arr[curr]] + [curr - 1, curr + 1]
+                
+                # Clear the portal list for this value after first access
+                # to prevent O(N^2) in cases like [7, 7, 7, 7...]
+                graph[arr[curr]] = []
+                
+                for next_idx in neighbors:
+                    # Connection Found! 
+                    # If neighbor is in the other frontier, we're done.
+                    if next_idx in tail_set:
+                        return steps + 1
+                    
+                    # Standard BFS expansion
+                    if 0 <= next_idx < n and next_idx not in visited:
+                        visited.add(next_idx)
+                        next_head_set.add(next_idx)
+            
+            head_set = next_head_set
+            steps += 1
+            
+        return -1333

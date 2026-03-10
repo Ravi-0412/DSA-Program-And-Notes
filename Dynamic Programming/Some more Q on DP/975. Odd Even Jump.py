@@ -1,7 +1,7 @@
 # Method 1:
 # Brute force
 
-""
+"""
 Time Complexity: O(N^3) in the worst case.
 O(N) to try every starting index.
 O(N) for the number of jumps to potentially reach the end.

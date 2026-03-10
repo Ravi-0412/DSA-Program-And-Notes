@@ -270,3 +270,6 @@ public:
     }
 };
 """
+
+# Similar Questions:
+# 1. 939. Minimum Area Rectangle

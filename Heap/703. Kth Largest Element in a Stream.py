@@ -1,17 +1,33 @@
 # add will give ans in O(1) only
 
 import heapq
-class KthLargest:   
-    def __init__(self, k: int, nums: List[int]):
-        self.k= k
-        self.nums= nums
-        heapq.heapify(self.nums)
+
+class KthLargest:
+    def __init__(self, k: int, nums: list[int]):
+        """
+        We initialize the heap and ensure it only stores 
+        the 'k' largest elements right from the start.
+        """
+        self.k = k
+        self.heap = []
+        
+        # We process the initial list using our add logic
+        for val in nums:
+            self.add(val)
 
     def add(self, val: int) -> int:
-        heapq.heappush(self.nums, val)
-        while len(self.nums) > self.k:  # will run 'n-k' times only as there will be only one extra ele in heap always
-            heapq.heappop(self.nums)
-        return self.nums[0]
+        """
+        1. Push the new value into the min-heap.
+        2. If the size exceeds k, pop the smallest element.
+        3. The root (heap[0]) is now the kth largest.
+        """
+        # Always add the new value first
+        heapq.heappush(self.heap, val)   
+        # If we have more than k elements, remove the smallest
+        if len(self.heap) > self.k:
+            heapq.heappop(self.heap)
+        # The smallest of the 'k' largest elements is the kth largest
+        return self.heap[0]
 
 # java
 """

@@ -197,6 +197,113 @@ class MedianFinder:
 
 
 
+# 1st follow ups :
+"""
+1. If all integer numbers from the stream are in the range [0, 100], how would you optimize your solution?
+
+Logic & Thought Process
+1. The Problem: Heaps take O(logN) time. If N becomes millions, even logN adds up.
+2. The Solution: Use an array buckets of size 101.
+    buckets[i] stores the count of how many times number i has appeared.
+    Keep a total_count of all numbers.
+        
+3. Finding Median:
+    To find the kth element, iterate through the buckets and keep a running_sum.
+    The first index where running_sum >= k is our value.
+    Since the array is only 101 elements, this "search" is a constant time operation O(101), which we treat as O(1).
+"""
+class MedianFinderRange:
+    def __init__(self):
+        # Index 0 to 100
+        self.buckets = [0] * 101
+        self.total_count = 0
+
+    def addNum(self, num: int) -> None:
+        # Increment frequency of the number
+        self.buckets[num] += 1
+        self.total_count += 1
+
+    def _get_kth(self, k: int) -> int:
+        # Helper to find the k-th smallest element in the bucket array
+        count_so_far = 0
+        for i in range(101):
+            count_so_far += self.buckets[i]
+            if count_so_far >= k:
+                return i
+        return 0
+
+    def findMedian(self) -> float:
+        # If odd: return the middle element
+        if self.total_count % 2 == 1:
+            return float(self._get_kth(self.total_count // 2 + 1))
+        else:
+            # If even: return average of the two middle elements
+            left = self._get_kth(self.total_count // 2)
+            right = self._get_kth(self.total_count // 2 + 1)
+            return (left + right) / 2.0
+
+# 2nd Follow ups
+"""
+Q) If 99% of all integer numbers from the stream are in the range [0, 100], how would you optimize your solution?
+
+Logic & Thought Process
+1. The Problem: Most data is in [0, 100], but 1% are "outliers" (e.g., -500 or 10,000).
+2. The Solution: Use a Hybrid Approach.
+    Part A: less_than_zero (A counter or a Max-Heap for outliers below 0).
+    Part B: buckets (Size 101 array for the range [0, 100]).
+    Part C: greater_than_100 (A counter or a Min-Heap for outliers above 100).
+
+3. Optimization Note: If we only care about the median, and 99% of data is in the center, the median must fall inside the buckets. 
+We only need the count of outliers to know how many "steps" to skip before counting into the buckets.
+"""
+
+import heapq
+
+class MedianFinderOutlierAware:
+    def __init__(self):
+        self.buckets = [0] * 101
+        self.low_outliers = []   # Max-heap (smaller half outliers)
+        self.high_outliers = []  # Min-heap (larger half outliers)
+        self.total_count = 0
+
+    def addNum(self, num: int) -> None:
+        if 0 <= num <= 100:
+            self.buckets[num] += 1
+        elif num < 0:
+            # Python uses min-heaps, so we store negative to simulate max-heap
+            heapq.heappush(self.low_outliers, -num)
+        else:
+            heapq.heappush(self.high_outliers, num)
+        self.total_count += 1
+
+    def _get_kth(self, k: int) -> float:
+        # Step 1: Is it in the low outliers?
+        if k <= len(self.low_outliers):
+            # Sort only the 1% outliers to find the exact value
+            return float(sorted([-x for x in self.low_outliers])[k-1])
+        
+        # Step 2: Is it in the buckets (0-100)?
+        k -= len(self.low_outliers)
+        count_so_far = 0
+        for i in range(101):
+            count_so_far += self.buckets[i]
+            if count_so_far >= k:
+                return float(i)
+        
+        # Step 3: It MUST be in the high outliers (> 100)
+        k -= sum(self.buckets)
+        return float(sorted(self.high_outliers)[k-1])
+
+    def findMedian(self) -> float:
+        if self.total_count == 0: return 0.0
+        
+        if self.total_count % 2 == 1:
+            return self._get_kth(self.total_count // 2 + 1)
+        else:
+            m1 = self._get_kth(self.total_count // 2)
+            m2 = self._get_kth(self.total_count // 2 + 1)
+            return (m1 + m2) / 2.0
+
 # Java Code 
 """
 import java.util.PriorityQueue;

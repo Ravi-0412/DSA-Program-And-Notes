@@ -82,3 +82,98 @@ class URLShortener:
         # Triggered only if the loop completes (all chars were 'z')
         # Reset and increase length: e.g., 'z' -> 'aa', 'zz' -> 'aaa'
         self.current_chars = ['a'] * (n + 1)
+
+
+# follow ups:
+"""
+ Optimized _increment Strategy:
+If self._is_valid fails at a specific prefix, we should increment the character at the index that caused the failure and reset everything to its right to a.
+
+Ans : Instead of generating a string and then checking if it's valid, we check for validity as we build it. 
+If a prefix like aaa is already invalid (when T=2), there is no point in checking aaaa, aaab, etc. We skip all of them.
+
+The Logic: Pruning the Search Tree
+    Prefix Check: We iterate from left to right.
+    Detection: The moment we find a character that breaks the threshold, we know every string starting with this prefix is "dead."
+    The Skip: We increment the character at that failure position and reset everything to the right to a.
+    Efficiency: This turns an exponential search into a much more linear one.
+
+Q) Why this is "Drastically" faster
+Imagine T=2 and our current string is aaazzz.
+    Old Strategy: It would check aaazzz, then aabaaa, then aabaab... it would check every single combination of the last 4 characters (263 combinations) before finally changing the third a.
+    New Strategy:
+        _find_violation_index sees that the third a (index 2) is the problem.
+        It calls _increment_at_index(2).
+        Index 2 becomes b, and all zs to the right become a.
+        Next string checked: aabaaa.
+        Result: We skipped 17,576 invalid strings in a single step.
+
+Complexity Analysis
+    Time per getNext(): O(L), where L is the length of the string. We only scan the string a few times. Because we skip invalid sub-trees, we rarely "loop" many times in the while True.
+    Space: O(L) to store the character list.
+"""
+
+from collections import Counter
+
+class URLShortener:
+    def __init__(self, threshold: int):
+        """
+        Thought Process:
+        We use an 'incremental jump' strategy. If a prefix is invalid,
+        we skip all possible suffixes of that prefix.
+        """
+        self.threshold = threshold
+        self.current_chars = ['a']
+
+    def getNext(self) -> str:
+        while True:
+            # 1. Identify the first index that violates the threshold
+            violation_idx = self._find_violation_index()
+            
+            if violation_idx == -1:
+                # No violation found! The current string is valid.
+                res = "".join(self.current_chars)
+                # Prepare for the next call by doing a standard +1 increment
+                self._increment_at_index(len(self.current_chars) - 1)
+                return res
+            else:
+                # Violation found at violation_idx (e.g., 'aaa' when T=2)
+                # Skip all strings starting with this prefix by incrementing 
+                # at the violation index and resetting everything to the right.
+                self._increment_at_index(violation_idx)
+
+    def _find_violation_index(self) -> int:
+        """
+        Scans the current string from left to right.
+        Returns the first index where the character frequency exceeds threshold.
+        Example: If s='aaab' and T=2, it returns 2 (the index of the third 'a').
+        """
+        counts = {}
+        for i, char in enumerate(self.current_chars):
+            counts[char] = counts.get(char, 0) + 1
+            if counts[char] > self.threshold:
+                return i
+        return -1 # Valid string
+
+    def _increment_at_index(self, idx: int):
+        """
+        Logic:
+        1. Increment the character at 'idx'.
+        2. Reset everything to the right of 'idx' to 'a'.
+        3. If 'idx' itself was 'z', carry the increment to the left.
+        4. If the carry goes past index 0, increase the total length.
+        """
+        # Reset everything to the right of the target index
+        for j in range(idx + 1, len(self.current_chars)):
+            self.current_chars[j] = 'a'
+            
+        # Standard carry-over increment starting from 'idx'
+        for i in range(idx, -1, -1):
+            if self.current_chars[i] < 'z':
+                self.current_chars[i] = chr(ord(self.current_chars[i]) + 1)
+                return
+            else:
+                self.current_chars[i] = 'a'
+        
+        # If we reached here, we had 'zz...z', so increase length
+        self.current_chars = ['a'] * (len(self.current_chars) + 1)

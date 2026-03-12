@@ -7,6 +7,12 @@ To optimize for shorter strings, we use an approach similar to counting in base-
     If a character reaches z, it "carries over" to the left, similar to how 9→10 in decimal.
     If we can't increment any further (e.g., zz), we increase the length (e.g., aaa).
 3. Constraint Validation: Before returning a string, we check if any character count exceeds T. If it does, we skip that string and move to the next one.
+
+Complexity Analysis
+    Time Complexity (per call):
+        Average: O(L), where L is the length of the string.
+        Worst Case: If many strings are invalid, we might skip several candidates. However, with the "Skip Logic" mentioned above, we can guarantee finding the next valid string in nearly O(L) time.
+    Space Complexity: O(L) to store the current character array. This is extremely efficient as we don't store previously generated strings.
 """
 
 from collections import Counter

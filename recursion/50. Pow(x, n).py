@@ -51,16 +51,33 @@ Complexity: O(logn) time and O(1) space. This is the most optimized version.
 
 class Solution:
     def myPow(self, x: float, n: int) -> float:
+        """
+        Thought Process:
+        We use Iterative Binary Exponentiation. 
+        Instead of multiplying x, n times, we decompose n into powers of 2.
+        Example: x^10 = x^8 * x^2.
+        """
+        # Handle negative power: x^-n is equal to (1/x)^n
         if n < 0:
-            x= 1/x
-            n= -n
+            x = 1 / x
+            n = -n
+            
         ans = 1.0
-        while n:
-            if n % 2==1: 
-                # multiply only when power is odd
-                ans*= x
-            x*= x  # reducing the power by '2' so also need to square only 'x'.
-            n = n >> 1         # right shift means dividing by 2 only  
+        # Current_product keeps track of x^1, x^2, x^4, x^8, etc.
+        current_product = x
+        
+        while n > 0:
+            # If the least significant bit is 1, n is odd.
+            # We multiply the answer by the current power of x.
+            if n % 2 == 1:
+                ans *= current_product
+            
+            # Square the base for the next bit (e.g., x^2 becomes x^4)
+            current_product *= current_product
+            
+            # Bitwise right shift is equivalent to n // 2
+            n >>= 1
+            
         return ans
 
 # Java Code 

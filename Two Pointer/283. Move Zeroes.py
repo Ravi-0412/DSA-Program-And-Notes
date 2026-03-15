@@ -126,6 +126,9 @@ class Solution:
 # Best one & easiest , just easy way to write method 3
 """
 Trying to bring the non-zero value at start so checking non-zero value.
+Best one & easiest , just easy way to write method 3
+
+Always do using this approach where you have to find rearrange two types of element keeping order same.
 """
 
 class Solution:
@@ -199,6 +202,8 @@ If we assume P can be as long as S, each call is O(S).
 Total: N calls × O(S) per call = O(N⋅S).
 
 Space Complexity: O(1)
+
+Note : can be also solved using Method 4 
 """
 
 def rearrange_strings(arr, isValid):

@@ -2,7 +2,7 @@
 
 # easy solution only.
 # just write the logic into code.
-# The time complexity should be 9 ^ m (m represents the number of blanks to be filled in), since each blank can have 9 choices.
+# The time complexity should be O(81 *9 ^ m) (m represents the number of blanks to be filled in), since each blank can have 9 choices.
 # TLE after latest test case
 
 class Solution:
@@ -139,22 +139,38 @@ So checking every cell better check and try to fill the empty cells only.
 Optimisation:
 1. Reduced Search Space: Instead of 9×9=81 checks per call, we jump directly to the next (r, c) using cell_idx.
 2. Recursive Efficiency: We avoid the O(81) double-loop inside the solve function.
+
+Time : O(9^n), n is the number of empty cells.
 """
 
 class Solution:
     def solveSudoku(self, board: list[list[str]]) -> None:
-        # Bitmasks for rows, columns, and 3x3 boxes
+        # Bitmasks where the i-th bit represents if number (i+1) is present
         rows, cols, boxes = [0] * 9, [0] * 9, [0] * 9
         empty_cells = []
 
-        def get_box_idx(r, c): return (r // 3) * 3 + (c // 3)
+        def get_box_idx(r, c): 
+            return (r // 3) * 3 + (c // 3)
+
+        def is_safe(r, c, mask):
+            """
+            Returns True if the number (mask) is not already present 
+            in the current row, column, or 3x3 box.
+            """
+            # If any bitwise AND returns a non-zero value, it means the 
+            # number exists in that row, col, or box.
+            if (rows[r] & mask) or (cols[c] & mask) or (boxes[get_box_idx(r, c)] & mask):
+                return False
+            return True
 
         def flip_state(r, c, mask):
+            """Toggles the number's bit on/off in row, col, and box masks."""
+            box_idx = get_box_idx(r, c)
             rows[r] ^= mask
             cols[c] ^= mask
-            boxes[get_box_idx(r, c)] ^= mask
+            boxes[box_idx] ^= mask
 
-        # 1. Initial scan: Record masks and locate empty cells
+        # 1. Pre-process the board: fill masks and track empty cells
         for r in range(9):
             for c in range(9):
                 if board[r][c] == '.':
@@ -164,34 +180,34 @@ class Solution:
                     flip_state(r, c, 1 << (num - 1))
 
         def solve(cell_idx):
-            # Base Case: All empty cells have been processed
+            # Base Case: All empty cells have been filled successfully
             if cell_idx == len(empty_cells):
                 return True
             
-            # Optimization: You could sort empty_cells here to pick 
-            # the one with fewest options, but simply indexing 
-            # usually passes LeetCode's TLE.
             r, c = empty_cells[cell_idx]
             
+            # Try placing numbers 1-9
             for num in range(1, 10):
                 mask = 1 << (num - 1)
                 
-                # O(1) Safety Check
-                if not (rows[r] & mask or cols[c] & mask or boxes[get_box_idx(r, c)] & mask):
+                # Check safety using our O(1) bitwise function
+                if is_safe(r, c, mask):
+                    # Action: Place number and update bitmasks
                     board[r][c] = str(num)
                     flip_state(r, c, mask)
                     
-                    if solve(cell_idx + 1): # Move to the next pre-stored empty cell
+                    # Recurse: Move to the next pre-indexed empty cell
+                    if solve(cell_idx + 1):
                         return True
                     
-                    # Backtrack
+                    # Backtrack: Remove number and reset bitmasks
                     flip_state(r, c, mask)
                     board[r][c] = '.'
             
-            return False
+            return False # Trigger backtracking to previous cell
 
+        # Start solving from the first empty cell
         solve(0)
-
 # Java Code 
 """
 class Solution {

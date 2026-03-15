@@ -64,6 +64,47 @@ class Solution:
         
         return dfs(digits)
 
+# Method 3:
+"""
+Easiest , taking answer as global variable.
+"""
+
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        """
+        Thought Process:
+        1. Use a helper function (DFS) to build combinations digit by digit.
+        2. Keep a 'res' list in the outer scope to collect all valid combinations.
+        3. Backtrack by passing the updated string to the next recursive call.
+        """
+        if not digits:
+            return []
+            
+        keypad = {
+            "2": "abc", "3": "def", "4": "ghi", "5": "jkl", 
+            "6": "mno", "7": "pqrs", "8": "tuv", "9": "wxyz"
+        }
+        
+        res = [] # This acts as our 'global' variable within the scope
+        
+        def backtrack(index, path):
+            # Base Case: If the path length matches digits length, we found a combination
+            if index == len(digits):
+                res.append(path)
+                return
+            
+            # Get letters corresponding to the current digit
+            letters = keypad[digits[index]]
+            
+            # For each letter, move to the next digit
+            for char in letters:
+                # Recursively call with the next index and updated path
+                backtrack(index + 1, path + char)
+        
+        # Start recursion from the 0th index with an empty path
+        backtrack(0, "")
+        
+        return res
 
 # Java Code 
 """

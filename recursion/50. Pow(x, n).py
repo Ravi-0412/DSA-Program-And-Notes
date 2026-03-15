@@ -1,5 +1,6 @@
 # method 1: 
 # Will give recursion depth exceeded.
+# O(n) time and O(n) space.
 class Solution:
     def myPow(self, x: float, n: int) -> float:
         if n < 0: 
@@ -33,14 +34,18 @@ class Solution:
 # method 3
 # Using Bit
 
-# Basic Idea is to divide the work using binary representation of exponents
-# i.e. 1 ) keep multiplying pow with x, if the bit is odd, and 2 )  multiplying x with itself until we get bit =  0
+"""
+Logic: Any integer n can be written as a sum of powers of 2 (binary).
+    For example: x^13 = x^(1101) ​= x^8⋅x^4⋅x^1 (13 = 1101 in binary)
 
-# 'x' will only update in power of '2' i.e x, x^2, x^4....
-
-# We will update the ans in similar way we convert from 'binary' to 'decimal'.
-# i.e value changes when bit is '1' only.
-# Here we will also update the ans in same way only. It is same that we are adding the power when there is '1'.
+Mechanism:
+1. If the current bit of n is 1, it means that power of 2 is part of the sum, so we multiply our ans by the current x.
+2. We square x (x→x^2→x^4→x^8) at every step regardless of the bit.
+At start x = x^1. In the second, it's x^2. In the third, it's x^4. It must square itself every time so that it is ready for the next bit's "weight."
+If bit was 0. We didn't multiply ans by x^2.
+However, we still had to square x^2 to get x^4 because the next bit needs x^4.
+Complexity: O(logn) time and O(1) space. This is the most optimized version.
+"""
 
 # time: O(logn)
 

@@ -36,7 +36,7 @@ def NQueens(board,row):  # since we are checking from starting for each row, no 
 
 def isSafe(board,row,col):
     # checking the vertical line in the col where we want to place
-    for i in range(len(board)):
+    for i in range(col):
         if board[i][col]=='Q':  # if any position is 'Q' means you cant place Queen  there
             return False
     

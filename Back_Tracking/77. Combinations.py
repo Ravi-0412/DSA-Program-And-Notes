@@ -133,6 +133,42 @@ class Solution:
         backtrack(1, k, [])
         return ans
 
+# Method 3:
+"""
+Easiest. By 'Take' and 'notTake' approach.
+"""
+
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        """
+        Logic: 
+        For every number from 1 to n, we have two choices:
+        1. TAKE the number: Add to combination, move to next number, decrease 'k'.
+        2. NOT TAKE the number: Skip it, move to next number, 'k' remains same.
+        """
+        ans = []
+        
+        def backtrack(curr_num, k, comb):
+            # Base Case 1: If k is 0, we found a combination of required length.
+            if k == 0:
+                ans.append(list(comb))
+                return
+            
+            # Base Case 2: If curr_num exceeds n, we've run out of numbers to pick.
+            if curr_num > n:
+                return
+
+            # --- Choice 1: TAKE curr_num ---
+            # Move to next number and we need (k-1) more numbers
+            backtrack(curr_num + 1, k - 1, comb + [curr_num])
+            
+            # --- Choice 2: NOT TAKE curr_num ---
+            # Move to next number but we still need 'k' more numbers
+            backtrack(curr_num + 1, k, comb)
+
+        backtrack(1, k, [])
+        return ans
+
 # Java
 """
 import java.util.*;

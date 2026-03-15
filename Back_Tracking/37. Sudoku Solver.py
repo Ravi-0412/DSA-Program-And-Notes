@@ -37,7 +37,8 @@ class Solution:
         # checking in the 3*3 subgrid
         # first find the starting row and starting col of the sub-boxes for the given row and col
         start_row= row - row%3   # just remove the extra number. since it is in multiple of '3' so we can do like this
-        start_col= col- col%3
+                                # OR , start_row = (row // 3) * 3 (find find the box number then multily by 3)
+        start_col= col- col%3   # OR , column_row = (row // 3) * 3
         for r in range(start_row, start_row+3):  # size of subboxes is three
             for c in range(start_col, start_col+3):
                 if board[r][c]== num:

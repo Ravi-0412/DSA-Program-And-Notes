@@ -15,23 +15,65 @@
 
 class Solution:
     def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        """
+        Thought Process:
+        1. Sort to group duplicates.
+        2. In the recursion tree:
+           - Path A: Include the current element.
+           - Path B: Exclude the current element AND all its duplicates.
+        This prevents generating the same subset from different instances of the same value.
+        """
         nums.sort()
-        res= []
+        res = []
         
-        def dfs(i, subset):   # just backtracking
-            if i== len(nums):
-                res.append(subset)
+        def dfs(i, subset):
+            # Base Case: Reached the end of the array
+            if i == len(nums):
+                res.append(list(subset)) # Append a copy
                 return
-            # when you include the curr index ele.
-            dfs(i+1, subset + [nums[i]])
-            # when you don't include the curr index ele.
-            # you have to skip all the duplicates of curr ele to avoid duplicate in the ans.
-            # Now you can call the function at next distinct ele only.
-            while i+1 < len(nums) and nums[i+1]== nums[i]:
-                i+= 1
-            dfs(i+1, subset)
+            
+            # Decision 1: Include nums[i]
+            # Move to the immediate next index
+            dfs(i + 1, subset + [nums[i]])
+            
+            # Decision 2: Exclude nums[i]
+            # Skip all identical elements to avoid duplicate branches
+            while i + 1 < len(nums) and nums[i] == nums[i+1]:
+                i += 1
+            
+            # Move to the next distinct element
+            dfs(i + 1, subset)
 
-        dfs(0, [])  
+        dfs(0, [])
+        return res
+
+# Method 2: Using For loop
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        """
+        Thought Process:
+        1. Sort the input to ensure duplicates are adjacent.
+        2. Use a for-loop to explore all possible 'next' elements.
+        3. Skip duplicates ONLY if they are at the same depth (horizontal) 
+           in the recursion tree.
+        """
+        nums.sort()
+        res = []
+        
+        def backtrack(start, path):
+            # Every path reached is a valid subset
+            res.append(list(path))
+            
+            for i in range(start, len(nums)):
+                # If nums[i] is same as previous and not the first element 
+                # we are considering for this position, skip it.
+                if i > start and nums[i] == nums[i-1]:
+                    continue
+                
+                # Move to next index, adding current number to path
+                backtrack(i + 1, path + [nums[i]])
+
+        backtrack(0, [])
         return res
 
 # Java Code

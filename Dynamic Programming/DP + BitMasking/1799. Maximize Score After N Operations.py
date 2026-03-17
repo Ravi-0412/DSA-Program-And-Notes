@@ -1,3 +1,88 @@
+"""
+Q) Where we use DP + BitMasking concepts?
+The core requirement is all three of these together:
+1) Small set of items (n ≤ 20, typically n ≤ 15)
+A bitmask stores the subset state as a single integer. For n items, you need n bits, which means 2ⁿ possible states.
+Note : The moment you see n ≤ 20 on a subset/assignment problem, think bitmask DP first.
+2) You need to track which subset of items has been used/visited , not just how many.
+Note : This is the most important distinction to internalize.
+3) Decisions depend on the current subset state, not just a count. 
+-> This is what makes memoization actually work — i.e., what makes it DP and not just brute force with a cache.
+The key idea is overlapping subproblems. The same subset (same mask) can be reached via many different orderings, 
+but the optimal answer from that subset onward is always identical regardless of how you got there.
+
+Requirement 1: n is small
+    → 2ⁿ states fit in memory and time
+         ↓
+Requirement 2: track which items, not just count
+    → bitmask is the right data structure for the state
+         ↓
+Requirement 3: same subset = same subproblem
+    → memoization eliminates redundant recomputation
+         ↓
+         DP + Bitmask works efficiently
+
+If Req 1 fails (n = 10⁵) → 2ⁿ states explode, method is unusable.
+If Req 2 fails (only count matters) → a simple variable suffices, bitmask is overkill.
+If Req 3 fails (no overlapping subproblems) → cache never hits, it's just slow brute force.
+
+The Classic Patterns
+1. Permutation / Assignment Problems
+"Assign n items to n slots, maximize/minimize total cost"
+
+Each state = which items are already assigned
+At each step, pick one unassigned item for the next slot
+This problem (pair matching) falls here — pick pairs in order
+
+state  →  mask of used elements
+choice →  which unused element(s) to pick next
+Examples: Minimum cost assignment, this exact LeetCode problem
+
+2. Travelling Salesman Problem (TSP)
+"Visit all cities exactly once, return to start, minimize distance"
+
+State = (current_city, visited_mask)
+Classic O(n² · 2ⁿ) DP
+
+dp[mask][i] = min cost to have visited exactly the cities in
+              mask, ending at city i
+Examples: LC 847 — Shortest Path Visiting All Nodes
+
+3. Subset Matching / Covering
+"Can this set of items cover all requirements?"
+
+State = which requirements are already covered
+Each item covers a subset of requirements
+
+dp[mask] = True if mask of requirements is achievable
+example : LC 1125 — Smallest Sufficient Team
+
+Example 2: Partition into Subsets
+- State = which elements have been placed so far
+- Track current bucket fill level alongside mask
+
+- State = which elements have been placed so far
+- Track current bucket fill level alongside mask
+
+Example 3: Graph — Visiting All Nodes
+> *"Reach all nodes with minimum cost/steps"*
+- State = (current_node, visited_mask)
+- BFS or DP over the mask
+
+Examples: LC 847, LC 943 — Shortest Superstring
+
+Final :
+## The Recognition Checklist
+```
+□  n is small (≤ 20, ideally ≤ 15)
+□  You need to track a SET of used/visited items
+□  Order of previous choices matters to future score
+□  Brute force is factorial O(n!) → needs memoization
+□  Subproblems overlap (same subset reached multiple ways)
+
+"""
+
+
 # Method 1:
 """
 Brute Force : 

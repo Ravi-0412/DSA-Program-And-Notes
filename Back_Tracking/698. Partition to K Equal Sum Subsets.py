@@ -21,8 +21,6 @@ So we can effectively break from the for loop or directly return False.
 
 In the same level of DFS, if a bucket failed, then all other buckets of the same value should also fail.
 
-time: O(k^n). (will be less than this only for all similar Q like this)
-
 2. nums.sort(reverse=True)
 Always start from big numbers for this kind of problem, 
 just by doing it yourself for a few times you will find out that the big numbers are the easiest to place.
@@ -31,6 +29,8 @@ Note vvi: if we will do by sorting in ascending order then above method will giv
 Reason: when we sort in descending order then we will reach the base case inside the loop faster.
 Due to less no of function call.
 But in case if we sort in ascending order, we will reach the base case later because of more recursion call.
+
+Time: O(k^n). (will be less than this only for all similar Q like this)
 """
 
 class Solution(object):

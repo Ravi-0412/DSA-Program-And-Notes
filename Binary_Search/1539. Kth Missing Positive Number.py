@@ -38,7 +38,7 @@ class Solution:
     Formula: missing_count = arr[mid] - (mid + 1)
     Example: If arr[3] = 7, it should have been 4 (1, 2, 3, 4). Since it's 7, we know 7 - 4 = 3 numbers are missing.
 2. Binary Search Goal: We search for the largest index where the number of missing elements is still less than k.
-After that , answerr = Value at that element + Remaining missing count needed
+After that , answer = Value at that element + Remaining missing count needed
 3. Math: 
     When the loop while start <= end finishes, end is at the last index where missing count < k.
     Our target number is somewhere after arr[end].
@@ -68,14 +68,14 @@ class Solution:
             # If the value were exactly (mid + 1), 0 would be missing.
             missing_count = arr[mid] - (mid + 1)
             
-            if missing_count < k:
-                # We haven't reached k missing numbers yet, so the kth missing 
-                # must be further to the right.
-                start = mid + 1
-            else:
+            if missing_count >= k:
                 # We found k or more missing numbers, so the kth missing 
                 # must be to the left of this or at this index.
                 end = mid - 1
+            else:
+                # We haven't reached k missing numbers yet, so the kth missing 
+                # must be further to the right.
+                start = mid + 1
         
         # MEANING OF POINTERS AFTER LOOP:
         # end: Points to the highest index where the number of missing elements is < k.

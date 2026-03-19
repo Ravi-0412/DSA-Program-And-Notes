@@ -624,20 +624,51 @@ The sieve takes O(M *log log M).
 Factorization then becomes O(log M) for every number.
 
 Logic:
-1. The Sieve (Pre-calculation):
+A. The Sieve (Pre-calculation):
 We create an array spf where spf[i] stores the smallest prime that divides i.
-    Initialize spf[i] = i.
-    For every even number, set spf[i] = 2.
-    For every odd number i starting from 3, if it's still i (meaning it's prime), 
-    iterate through its multiples j = i * i, i*(i+2), ..... and set spf[j] = i (if not already set).
-2. Fast Factorization:
+1. Assume every number i is prime. Initialize spf[i] = i.
+2. Handle the Evens: spf[i] = 2
+For every even number, set spf[i] = 2.
+-> Every even number (greater than 2) is divisible by 2. Since 2 is the smallest prime, it will always be the Smallest Prime Factor for any even number.
+Instead of checking these later, we "pre-fill" them: spf[4]=2, spf[6]=2, spf[8]=2...
+This cuts our remaining work in half.
+3. The Odd Sieve: i = 3, 5, 7...
+For every odd number i starting from 3, if it's still i 
+If it is, it means no smaller prime (like 3 or 5) has visited this number yet => it must be prime.
+
+iterate through its multiples j = i * i, i*(i+2), ..... and set spf[j] = i (if not already set).
+Why ?
+Once we confirm i is prime, we mark all of its multiples.
+Why start at i * i? Any multiple smaller than i * i (like i * 2 or i * 3) would have already been marked by a smaller prime (2 or 3). 
+Starting at i^2 is a massive speed boost. 
+Why i * (i+2)? => We skip i * (i+1) because if i is odd, i+1 is even. An "odd times even" number is even, and we already handled all evens in Step 2. We only care about odd multiples.
+
+B. Fast Factorization:
 To find the square-free core of a number n:
     Look up p = spf[n].
     Count how many times p divides n.
     If the count is odd, multiply our core by p.
-    Repeat with n = n // (p^{count}) until n = 1.
+    Repeat with n = n // (p^count) until n = 1.
 
+VVI:  The "If not already set" Rule
+This is the most critical part of the SPF logic.
+Let's look at the number 15.
+When we sieve for 3, we hit 15 and set spf[15] = 3.
+When we sieve for 5, we hit 15 again. But we do not overwrite it.
+Because 3 is smaller than 5, we keep spf[15] = 3.
 
+Why this makes Factorization O(log n) ?
+-> Why this makes Factorization O(log n) 
+Because you have the "Smallest" factor, you can decompose a number like a ladder.
+Example: Factorizing 120
+Check spf[120]: It's 2. (120 / 2 = 60)
+Check spf[60]: It's 2. (60 / 2 = 30)
+Check spf[30]: It's 2. (30 / 2 = 15)
+Check spf[15]: It's 3. (15 / 3 = 5)
+Check spf[5]: It's 5. (5 / 5 = 1)
+Result: 2 * 2 * 2 * 3 * 5. 
+In the standard way, you would have to try dividing by 2, 3, 5, 7, 11... manually. 
+With the SPF sieve, you instantly know the next divisor, making it extremely fast for large datasets.
 """
 
 class DisjointSetUnion:
@@ -782,4 +813,7 @@ if __name__ == "__main__":
     test_spf_logic()
 
 
-
+# Follow up 6:
+"""
+3534. Path Existence Queries in a Graph II
+"""

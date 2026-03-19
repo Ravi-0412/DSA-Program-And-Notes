@@ -210,6 +210,7 @@ class Solution:
 """
 Follow ups 2:
 Q)  "What if maxDiff changes per query?" Each query has its own maxDiff.
+The Problem: Each query now looks like [u, v, limit]. You can only use an edge if |nums[i] - nums[j]| <= limit.
 
 Ans: Using 'Offline Queries Technique"
 -> Instead of solving queries one-by-one in input order (online), you process them in a smarter order to reduce time complexity.
@@ -350,3 +351,108 @@ def test_offline():
 if __name__ == "__main__":
     test_offline()
 
+
+# Follow ups 3:
+"""
+Q) "What if nodes are points in 2D space?"
+|x1 - x2| <= maxDiff and |y1 - y2| <= maxDiff 
+
+Ans : Using 'Fixed-Radius Near Neighbor' Algorithm.
+
+Thought Process & Logic
+The Challenge: In 1D, we only check neighbors. In 2D, a point could be "close" to many points in a square region.
+The Logic: This is a Fixed-Radius Near Neighbor problem.
+    Divide the 2D plane into a Grid where each cell has side length L. 
+    For any point in cell (r, c), its neighbors can only exist in the same cell or the 8 adjacent cells.
+    Iterate through points, find their cell, and only check the points in the 3 * 3 grid area.
+
+Q) Why 8 neighbors and 3*3 grid area?
+The Geometry of the "Search Box":
+When you are at a point P in a specific cell, and your connectivity limit is L, any point Q that can connect to you must be within a distance L in both the x and y directions. 
+This creates a Search Window of size 2L * 2L centered around P. 
+Because each of our grid cells is exactly L * L in size: 
+    The Current Cell: A point in the same cell as P could be anywhere from 0 to root(L) distance away. 
+    We must check these.
+        Direct Neighbors (Up, Down, Left, Right): These cells are immediately adjacent. A point just across the line is only a fraction of L away.
+        Diagonal Neighbors: Even at the diagonals, the "corner" of the neighbor cell is exactly root(L) away from the opposite corner of your cell. 
+        Since we are checking a square distance |x1-x2| <= L, parts of these diagonal cells fall within that 2L search window.
+
+"""
+
+from collections import defaultdict
+
+class DisjointSetUnion:
+    """Standard DSU with Path Compression and Union by Rank."""
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.rank = [0] * n
+
+    def find(self, i):
+        if self.parent[i] == i:
+            return i
+        self.parent[i] = self.find(self.parent[i])
+        return self.parent[i]
+
+    def union(self, i, j):
+        root_i, root_j = self.find(i), self.find(j)
+        if root_i != root_j:
+            if self.rank[root_i] > self.rank[root_j]:
+                self.parent[root_j] = root_i
+            elif self.rank[root_i] < self.rank[root_j]:
+                self.parent[root_i] = root_j
+            else:
+                self.parent[root_i] = root_j
+                self.rank[root_j] += 1
+
+def solve_2d_connectivity(n: int, points: list[tuple], L: int, queries: list[list[int]]) -> list[bool]:
+    """
+    Finds if a path exists between 2D points given a max Manhattan-style distance L.
+    Uses Grid Hashing to optimize neighbor lookups to O(N).
+    """
+    dsu = DisjointSetUnion(n)
+    grid = defaultdict(list)
+    
+    # 1. BUCKETING: Map each point to a grid cell.
+    # A point (x, y) belongs to cell (x // L, y // L).
+    for i in range(n):
+        x, y = points[i]
+        cell_coords = (x // L, y // L)
+        grid[cell_coords].append(i)
+    
+    # 2. PROXIMITY CHECK: Only check the 3x3 grid area around each non-empty cell.
+    for (r, c), nodes_in_cell in grid.items():
+        # Check current cell and the 8 surrounding neighbors
+        for dr in range(-1, 2):
+            for dc in range(-1, 2):
+                neighbor_cell = (r + dr, c + dc)
+                
+                if neighbor_cell in grid:
+                    for u in nodes_in_cell:
+                        for v in grid[neighbor_cell]:
+                            # Avoid self-comparison and double-checking pairs (u, v) and (v, u)
+                            if u >= v: 
+                                continue 
+                            
+                            # Check Manhattan-style distance constraint
+                            if abs(points[u][0] - points[v][0]) <= L and \
+                               abs(points[u][1] - points[v][1]) <= L:
+                                dsu.union(u, v)
+    
+    # 3. QUERY PROCESSING: O(Q)
+    return [dsu.find(u) == dsu.find(v) for u, v in queries]
+
+# --- TEST CASE ---
+def test_2d_logic():
+    print("Testing 2D Grid Connectivity...")
+    # Points: A(1,1), B(2,2), C(10,10). L = 5
+    # A and B are in the same/neighboring cells and |1-2| <= 5.
+    # C is very far away.
+    points = [(1, 1), (2, 2), (10, 10)]
+    L = 5
+    queries = [[0, 1], [0, 2]]
+    
+    result = solve_2d_connectivity(3, points, L, queries)
+    assert result == [True, False]
+    print("Test Passed!")
+
+test_2d_logic()

@@ -411,39 +411,66 @@ class DisjointSetUnion:
                 self.parent[root_i] = root_j
                 self.rank[root_j] += 1
 
-def solve_2d_connectivity(n: int, points: list[tuple], L: int, queries: list[list[int]]) -> list[bool]:
+from collections import defaultdict
+
+def solve_2d_connectivity_optimized(n: int, points: list[tuple], L: int, dsu):
     """
-    Finds if a path exists between 2D points given a max Manhattan-style distance L.
-    Uses Grid Hashing to optimize neighbor lookups to O(N).
+    Optimizes the O(N^2) exhaustive search into an O(N) spatial grouping search.
+    
+    Logic: We use 'Grid Hashing' to bucket points into cells of size L.
+    Any two points u, v with |u_x - v_x| <= L and |u_y - v_y| <= L
+    must either be in the same grid cell or in adjacent grid cells.
     """
-    dsu = DisjointSetUnion(n)
+    # grid: Dictionary mapping (cell_x, cell_y) -> List of indices of points in that cell
     grid = defaultdict(list)
     
-    # 1. BUCKETING: Map each point to a grid cell.
-    # A point (x, y) belongs to cell (x // L, y // L).
+    # --- STEP 1: BUCKETING (Grouping points into spatial cells) ---
     for i in range(n):
         x, y = points[i]
+        # Calculate the cell coordinate by dividing by the side length L.
+        # This acts as a 'spatial hash'.
         cell_coords = (x // L, y // L)
         grid[cell_coords].append(i)
     
-    # 2. PROXIMITY CHECK: Only check the 3x3 grid area around each non-empty cell.
+    # --- STEP 2: PROXIMITY CHECK (Scanning local neighborhoods) ---
+    # We iterate over every non-empty cell in our grid hash map.
     for (r, c), nodes_in_cell in grid.items():
-        # Check current cell and the 8 surrounding neighbors
+        
+        # Check the 3x3 grid area centered on the current cell (r, c).
+        # dr and dc range from -1 to 1, covering:
+        # (-1,-1)  (-1,0)  (-1,1)  <- Top neighbors
+        # ( 0,-1)  ( 0,0)  ( 0,1)  <- Middle (0,0 is current cell)
+        # ( 1,-1)  ( 1,0)  ( 1,1)  <- Bottom neighbors
         for dr in range(-1, 2):
             for dc in range(-1, 2):
                 neighbor_cell = (r + dr, c + dc)
                 
+                # We only process if the neighbor cell actually contains points.
+                # 'u' is a point in our primary cell (r, c).
+                 # 'v' is a point in one of the 9 neighboring cells.
                 if neighbor_cell in grid:
                     for u in nodes_in_cell:
                         for v in grid[neighbor_cell]:
-                            # Avoid self-comparison and double-checking pairs (u, v) and (v, u)
+                            
+                            # PERFORMANCE OPTIMIZATION: 
+                            # 1. 'u >= v' prevents checking the same pair twice 
+                            #    (e.g., avoid checking (u,v) then (v,u)).
+                            # 2. 'u == v' prevents comparing a point to itself.
                             if u >= v: 
                                 continue 
                             
-                            # Check Manhattan-style distance constraint
+                            # --- DISTANCE CONSTRAINT CHECK ---
+                            # Check if the absolute differences satisfy the 'maxDiff' L.
+                            # Points u and v have an edge if they are within the L-box.
                             if abs(points[u][0] - points[v][0]) <= L and \
                                abs(points[u][1] - points[v][1]) <= L:
+                                
+                                # If they satisfy the condition, they are part of the 
+                                # same connected component.
                                 dsu.union(u, v)
+
+    # Note: After this loop, we can answer any path query in O(alpha(N)) 
+    # using dsu.find(u) == dsu.find(v).
     
     # 3. QUERY PROCESSING: O(Q)
     return [dsu.find(u) == dsu.find(v) for u, v in queries]
@@ -463,3 +490,8 @@ def test_2d_logic():
     print("Test Passed!")
 
 test_2d_logic()
+
+# Follow up 4
+"""
+Q) What if the edges were not based on difference, but node i is connected to j if nums[i] * nums[j] is a perfect square?
+"""

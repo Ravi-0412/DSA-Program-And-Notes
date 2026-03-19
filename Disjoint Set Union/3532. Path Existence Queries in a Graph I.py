@@ -494,4 +494,292 @@ test_2d_logic()
 # Follow up 4
 """
 Q) What if the edges were not based on difference, but node i is connected to j if nums[i] * nums[j] is a perfect square?
+-> Thought Process & Logic
+The Math: A product a * b is a perfect square if and only if a and b have the same square-free part.
+Example: 12 = 2^2 * 3. Square-free part is 3.
+Example: 27 = 3^2 * 3. Square-free part is 3.
+12 * 27 = 324 = 18^2. 
+
+The Logic: 
+1. For every number in nums, simplify it by dividing out all perfect square factors (4, 9, 16...).
+2. All numbers that result in the same "core" (square-free part) are automatically connected.
+3. Group them using a Hash Map and Union them in DSU.
+
+Time : O(N * root(M) + Q* alpha(N)), where root(M) is the time to find the core for each number where M is the maximum value in nums. 
+Space : O(N)
 """
+
+class DisjointSetUnion:
+    """Standard DSU with Path Compression and Union by Rank."""
+    def __init__(self, n: int):
+        self.parent = list(range(n))
+        self.rank = [0] * n
+
+    def find(self, i: int) -> int:
+        if self.parent[i] == i:
+            return i
+        self.parent[i] = self.find(self.parent[i])
+        return self.parent[i]
+
+    def union(self, i: int, j: int):
+        root_i, root_j = self.find(i), self.find(j)
+        if root_i != root_j:
+            if self.rank[root_i] > self.rank[root_j]:
+                self.parent[root_j] = root_i
+            elif self.rank[root_i] < self.rank[root_j]:
+                self.parent[root_i] = root_j
+            else:
+                self.parent[root_i] = root_j
+                self.rank[root_j] += 1
+
+def get_square_free_core(n: int) -> int:
+    """
+    Reduces a number to its 'square-free' part by removing all factor pairs.
+    Example: 12 (2*2*3) -> 3
+             20 (2*2*5) -> 5
+             18 (2*3*3) -> 2
+    """
+    if n == 0: return 0
+    res = 1
+    d = 2
+    temp = n
+    
+    # Standard prime factorization up to sqrt(n)
+    while d * d <= temp:
+        count = 0
+        while temp % d == 0:
+            count += 1
+            temp //= d
+        
+        # If the prime 'd' appears an odd number of times, 
+        # it must be part of the square-free core.
+        if count % 2 == 1:
+            res *= d
+        d += 1
+        
+    # If temp > 1, the remaining temp is a prime with exponent 1
+    if temp > 1:
+        res *= temp
+        
+    return res
+
+def solve_square_product_queries(n: int, nums: list[int], queries: list[list[int]]) -> list[bool]:
+    """
+    Determines if two indices u and v are connected by a path where every edge (i, j) 
+    satisfies: nums[i] * nums[j] is a perfect square.
+    """
+    dsu = DisjointSetUnion(n)
+    
+    # core_map stores: {square_free_core: first_index_with_this_core}
+    core_map = {} 
+    
+    for i, val in enumerate(nums):
+        # 1. Simplify the number to its fundamental 'core'
+        core = get_square_free_core(val)
+        
+        # 2. If we've seen this core before, these two numbers 
+        # multiply to a perfect square. Connect them in DSU.
+        if core in core_map:
+            dsu.union(i, core_map[core])
+        else:
+            # First time seeing this core; mark this index as the representative
+            core_map[core] = i
+            
+    # 3. Answer queries by checking if u and v are in the same component
+    return [dsu.find(u) == dsu.find(v) for u, v in queries]
+
+# --- TEST SUITE ---
+def test_square_logic():
+    print("Testing Perfect Square Connectivity...")
+    
+    # Numbers: 12 (core 3), 27 (core 3), 5 (core 5), 20 (core 5), 7 (core 7)
+    # Groups: {0, 1}, {2, 3}, {4}
+    nums = [12, 27, 5, 20, 7]
+    n = len(nums)
+    
+    queries = [
+        [0, 1], # 12 * 27 = 324 (18^2) -> True
+        [2, 3], # 5 * 20 = 100 (10^2)   -> True
+        [0, 2], # 12 * 5 = 60 (Not sq)  -> False
+        [1, 4]  # 27 * 7 = 189 (Not sq) -> False
+    ]
+    
+    expected = [True, True, False, False]
+    actual = solve_square_product_queries(n, nums, queries)
+    
+    assert actual == expected, f"Expected {expected}, but got {actual}"
+    print("Result: Test Passed!")
+
+if __name__ == "__main__":
+    test_square_logic()
+
+# Follow up 5
+"""
+Q) for follow up 4,  "What if the numbers are up to 10^7?"
+-> The O(sqrtM) factorization becomes slow if you have 10^5 such numbers.
+Optimization: Use a Sieve of Eratosthenes (specifically a "Smallest Prime Factor" or SPF sieve) once at the start, 
+for every number up to the maximum value M.
+
+The sieve takes O(M *log log M).
+Factorization then becomes O(log M) for every number.
+
+Logic:
+1. The Sieve (Pre-calculation):
+We create an array spf where spf[i] stores the smallest prime that divides i.
+    Initialize spf[i] = i.
+    For every even number, set spf[i] = 2.
+    For every odd number i starting from 3, if it's still i (meaning it's prime), 
+    iterate through its multiples j = i * i, i*(i+2), ..... and set spf[j] = i (if not already set).
+2. Fast Factorization:
+To find the square-free core of a number n:
+    Look up p = spf[n].
+    Count how many times p divides n.
+    If the count is odd, multiply our core by p.
+    Repeat with n = n // (p^{count}) until n = 1.
+
+
+"""
+
+class DisjointSetUnion:
+    """
+    Manages connectivity components using Disjoint Set Union (DSU).
+    Optimized with:
+    1. Path Compression: Flattens the tree during find() for near O(1) lookups.
+    2. Union by Rank: Keeps the tree balanced by attaching smaller trees to larger ones.
+    """
+    def __init__(self, n: int):
+        self.parent = list(range(n))
+        self.rank = [0] * n
+
+    def find(self, i: int) -> int:
+        """Finds the root of the component containing i with path compression."""
+        if self.parent[i] == i:
+            return i
+        self.parent[i] = self.find(self.parent[i])
+        return self.parent[i]
+
+    def union(self, i: int, j: int):
+        """Merges two components if they are not already connected."""
+        root_i, root_j = self.find(i), self.find(j)
+        if root_i != root_j:
+            # Union by Rank: Attach shorter tree to taller tree
+            if self.rank[root_i] > self.rank[root_j]:
+                self.parent[root_j] = root_i
+            elif self.rank[root_i] < self.rank[root_j]:
+                self.parent[root_i] = root_j
+            else:
+                self.parent[root_i] = root_j
+                self.rank[root_j] += 1
+
+class SquareProductSolver:
+    """
+    Solves path existence queries where edges exist between nodes if their 
+    product is a perfect square.
+    
+    Mathematical Insight: 
+    A * B = Square IFF they share the same 'square-free core'.
+    The core is the product of prime factors that appear an odd number of times.
+    Example: 12 (2^2 * 3) -> Core 3 | 27 (3^3) -> Core 3.
+    """
+    def __init__(self, max_val: int):
+        # Pre-computing Smallest Prime Factor (SPF) allows O(log N) factorization.
+        # This is essential when many large numbers need to be factorized.
+        self.spf = self._precompute_spf(max_val)
+
+    def _precompute_spf(self, limit: int) -> list[int]:
+        """
+        Sieve of Eratosthenes variant to pre-calculate the Smallest Prime Factor.
+        Time: O(M log log M) | Space: O(M)
+        """
+        spf = list(range(limit + 1))
+        
+        # Optimization: Handle even numbers separately
+        for i in range(4, limit + 1, 2):
+            spf[i] = 2
+            
+        # Standard sieve loop up to sqrt(limit)
+        for i in range(3, int(limit**0.5) + 1, 2):
+            if spf[i] == i:  # i is prime
+                # Mark all odd multiples of i starting from i*i
+                for j in range(i * i, limit + 1, i * 2):
+                    if spf[j] == j:
+                        spf[j] = i
+        return spf
+
+    def get_square_free_core(self, n: int) -> int:
+        """
+        Calculates the product of prime factors with odd exponents.
+        Time: O(log N) due to SPF-based prime jumping.
+        """
+        if n == 0: return 0
+        core = 1
+        
+        while n > 1:
+            p = self.spf[n]
+            count = 0
+            # Extract current smallest prime factor entirely
+            while n % p == 0:
+                count += 1
+                n //= p
+            
+            # If the prime factor appears an odd number of times, it is 
+            # part of the square-free representative.
+            if count % 2 == 1:
+                core *= p
+        return core
+
+    def solve(self, nums: list[int], queries: list[list[int]]) -> list[bool]:
+        """
+        Groups indices by their square-free cores and answers connectivity queries.
+        Time: O(N log M + Q) | Space: O(M + N)
+        """
+        n = len(nums)
+        dsu = DisjointSetUnion(n)
+        
+        # Mapping: square_free_core -> first_index_seen_with_this_core
+        # All indices sharing a core belong to the same connected component.
+        core_map = {}
+
+        for i, val in enumerate(nums):
+            core = self.get_square_free_core(val)
+            if core in core_map:
+                # Union the current index with the representative of this core
+                dsu.union(i, core_map[core])
+            else:
+                core_map[core] = i
+
+        # A path exists if nodes share the same root in DSU
+        return [dsu.find(u) == dsu.find(v) for u, v in queries]
+
+# --- TEST SUITE ---
+def test_spf_logic():
+    """
+    Validates logic with various numeric properties:
+    - 12 and 27: (2^2 * 3) and (3^3) both simplify to Core 3.
+    - 8 and 18: (2^3) and (2 * 3^2) both simplify to Core 2.
+    - 5: Simplifies to Core 5.
+    """
+    print("Execution: Testing SPF Sieve + Perfect Square connectivity...")
+    
+    # Initialize solver with maximum possible value in nums
+    solver = SquareProductSolver(max_val=100)
+    
+    nums = [12, 27, 8, 18, 5]
+    queries = [
+        [0, 1], # 12 * 27 = 324 (18^2) -> Expected: True
+        [2, 3], # 8 * 18 = 144 (12^2)  -> Expected: True
+        [0, 2], # 12 * 8 = 96 (Not sq)  -> Expected: False
+        [4, 0]  # 5 * 12 = 60 (Not sq)  -> Expected: False
+    ]
+    
+    results = solver.solve(nums, queries)
+    expected = [True, True, False, False]
+    
+    assert results == expected, f"Assertion Failed: Expected {expected}, got {results}"
+    print("Result: All Test Cases Passed Successfully!")
+
+if __name__ == "__main__":
+    test_spf_logic()
+
+
+

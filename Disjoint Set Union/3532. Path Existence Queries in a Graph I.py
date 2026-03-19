@@ -376,7 +376,14 @@ Because each of our grid cells is exactly L * L in size:
         Direct Neighbors (Up, Down, Left, Right): These cells are immediately adjacent. A point just across the line is only a fraction of L away.
         Diagonal Neighbors: Even at the diagonals, the "corner" of the neighbor cell is exactly root(L) away from the opposite corner of your cell. 
         Since we are checking a square distance |x1-x2| <= L, parts of these diagonal cells fall within that 2L search window.
+Visualizing the 3 * 3 Iteration:
+In the code, we use two nested loops to generate the relative coordinates of these 8 neighbors plus the center
 
+Time Complexity: O(N * K + Q)
+N is the number of points. K is the average number of points in a 3 * 3 grid area. 
+In a sparse distribution, K is small (constant). In a very dense distribution where all points are in one spot, it could hit O(N^2).
+
+Space : O(N)
 """
 
 from collections import defaultdict

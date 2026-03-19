@@ -209,6 +209,144 @@ class Solution:
 
 """
 Follow ups 2:
-Q) 
+Q)  "What if maxDiff changes per query?" Each query has its own maxDiff.
+
+Ans: Using 'Offline Queries Technique"
+-> Instead of solving queries one-by-one in input order (online), you process them in a smarter order to reduce time complexity.
+-> Think of it like this:
+Online: Answer each question immediately (no flexibility)
+Offline: You collect all questions, rearrange them, and solve cleverly
+
+Q) Why Use Offline Queries?
+-> Because many problems become much faster when queries are processed together.
+Common benefit: Reduce complexity from O(N × Q) → O((N + Q) log N) or similar
+
+Thought Process & Logic
+The Challenge: If we rebuild the DSU for every query, we are back to O(Q * N).
+The Repetition: If query A has limit=5 and query B has limit=10, all edges used in A are also valid for B.  We shouldn't "redo" the work for A.
+The "Offline" Trick: We sort both the potential edges and the queries by their weight/limit.
+    Create all possible adjacent edges: (diff, i, i-1). Sort them by diff.
+    Sort queries by their limit.
+    Use a pointer to add edges to the DSU only when their diff <= query.limit
+    Since the limit only increases, we never have to remove an edge.
+
+Time Complexity: O(N *log N + Q *log Q)
+space : O(N + Q)
 """
+
+import math
+
+class DisjointSetUnion:
+    """
+    A production-grade Disjoint Set Union (DSU) implementation.
+    Uses Path Compression and Union by Rank to achieve near O(1) time complexity
+    for both 'find' and 'union' operations (Inverse Ackermann complexity).
+    """
+    def __init__(self, n: int):
+        # Every node starts as its own parent (n separate components)
+        self.parent = list(range(n))
+        # Rank stores the depth of each tree to ensure we attach smaller trees 
+        # under larger ones during union, keeping the structure balanced.
+        self.rank = [0] * n
+    
+    def find(self, i: int) -> int:
+        """Finds the representative (root) of the set containing element i."""
+        if self.parent[i] == i:
+            return i
+        # PATH COMPRESSION: Recursively points every node in the path to the root.
+        # This significantly flattens the tree for future lookups.
+        self.parent[i] = self.find(self.parent[i])
+        return self.parent[i]
+    
+    def union(self, i: int, j: int) -> bool:
+        """Merges the sets containing i and j. Returns True if a merge occurred."""
+        root_i, root_j = self.find(i), self.find(j)
+        
+        if root_i != root_j:
+            # UNION BY RANK: Always attach the shorter tree to the root of the taller tree.
+            if self.rank[root_i] > self.rank[root_j]:
+                self.parent[root_j] = root_i
+            elif self.rank[root_i] < self.rank[root_j]:
+                self.parent[root_i] = root_j
+            else:
+                # If ranks are equal, pick one as parent and increment its rank.
+                self.parent[root_i] = root_j
+                self.rank[root_j] += 1
+            return True
+        return False
+
+def solve_offline_queries(n: int, nums: list[int], queries: list[list[int]]) -> list[bool]:
+    """
+    Solves path existence queries where each query has a unique 'maxDiff' limit.
+    
+    The 'Offline' strategy:
+    Instead of rebuilding the graph for every query, we sort queries by their 
+    limit and add edges to the DSU incrementally.
+    """
+    
+    # 1. PRE-PROCESSING EDGES
+    # Since 'nums' is sorted, any path between u and v must pass through 
+    # adjacent neighbors. Thus, we only need to consider edges between (i, i-1).
+    edges = []
+    for i in range(1, n):
+        # Format: (difference_weight, node_u, node_v)
+        edges.append((nums[i] - nums[i-1], i, i-1))
+    
+    # Sort edges by weight so we can add them to DSU in increasing order.
+    edges.sort() 
+
+    # 2. PRE-PROCESSING QUERIES
+    # We must sort queries by their limit. We store the original index 
+    # so we can return the boolean results in the correct order.
+    # Format: (limit, start_node, end_node, original_index)
+    indexed_queries = []
+    for i, (u, v, limit) in enumerate(queries):
+        indexed_queries.append((limit, u, v, i))
+    
+    indexed_queries.sort()
+
+    # 3. CORE LOGIC: INCREMENTAL GRAPH BUILDING
+    dsu = DisjointSetUnion(n)
+    results = [False] * len(queries)
+    edge_ptr = 0 # Pointer to the next available edge in the sorted 'edges' list
+
+    for limit, u, v, original_idx in indexed_queries:
+        # Move the edge_ptr forward, adding all edges that satisfy the current limit.
+        # Because queries are sorted by limit, edges added for query 'k' 
+        # will remain valid for all queries 'k+1, k+2...'.
+        while edge_ptr < len(edges) and edges[edge_ptr][0] <= limit:
+            _, node_a, node_b = edges[edge_ptr]
+            dsu.union(node_a, node_b)
+            edge_ptr += 1
+        
+        # After adding all possible edges for this limit, check if u and v are connected.
+        results[original_idx] = (dsu.find(u) == dsu.find(v))
+    
+    return results
+
+# --- TEST SUITE ---
+def test_offline():
+    """
+    Functional test case based on Example 2 logic.
+    n=4, nums=[2, 5, 6, 8]
+    Possible edges with diffs: (5-2)=3, (6-5)=1, (8-6)=2
+    """
+    print("Execution: Testing Offline Queries...")
+    
+    n, nums = 4, [2, 5, 6, 8]
+    # Queries: [node_u, node_v, limit]
+    queries = [
+        [0, 1, 2], # Requires diff 3, but limit is 2 -> False
+        [1, 3, 2], # Path 1-2 (diff 1) and 2-3 (diff 2) are both <= 2 -> True
+        [1, 3, 1]  # Path 2-3 requires diff 2, but limit is 1 -> False
+    ] 
+    
+    expected = [False, True, False]
+    actual = solve_offline_queries(n, nums, queries)
+    
+    assert actual == expected, f"Expected {expected}, but got {actual}"
+    print("Result: Test Offline Passed!")
+
+if __name__ == "__main__":
+    test_offline()
 

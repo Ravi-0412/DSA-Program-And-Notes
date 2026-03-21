@@ -82,16 +82,29 @@ public:
 # Using Two Pointer
 class Solution:
     def removeDuplicates(self, s: str) -> str:
-        arr = list(s)   # convert to list to allow in-place updates
-        i = 0           # acts like stack pointer (top)
+        # Convert string to list because Python strings are immutable; 
+        # this allows us to overwrite characters in-place.
+        arr = list(s)   
+        
+        # 'i' serves as our write-pointer. 
+        # It represents the next available position in our "virtual stack."
+        i = 0           
 
         for c in arr:
+            # If the stack is not empty (i > 0) AND the current character 
+            # matches the last character we "pushed" (arr[i - 1]):
             if i > 0 and arr[i - 1] == c:
-                i -= 1          # pop
+                # We "pop" the previous character by moving the pointer back.
+                # The duplicate is effectively ignored.
+                i -= 1          
             else:
-                arr[i] = c      # push
+                # Otherwise, "push" the current character onto our stack.
+                # We write it at index 'i' and then increment the pointer.
+                arr[i] = c      
                 i += 1
 
+        # Join the characters from the start of the list up to the 
+        # write-pointer 'i', which represents the final cleaned string.
         return "".join(arr[:i])
 
 # Java

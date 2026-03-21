@@ -1,22 +1,32 @@
-# Time: O(n)
+# Method 1:
+"""
+By sorting the Roman numeral symbols from largest to smallest, 
+you ensure that you always use the largest possible symbol first, which is exactly how Roman numerals are constructed.
+
+Time: O(n)
+"""
 
 class Solution:
     def intToRoman(self, num: int) -> str:
-        # List of Roman numerals and their corresponding values in descending order
+        # We pair Roman symbols with their values, including "subtraction cases" (like IV or CM).
+        # These are ordered from largest (M) to smallest (I).
         roman = ["M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"]
         values = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1]
         
         ans = ""  
-        i = 0  # Start with the largest value in the values list
+        i = 0  # Pointer to track which symbol/value pair we are currently checking
 
+        # Continue until the number is fully converted to Roman symbols
         while num > 0:
-            # For each Roman numeral, subtract its value from num while possible
+            # If the current value fits into our number (e.g., if num is 2500, 1000 fits)
             while num >= values[i]:
-                ans += roman[i]  
-                num -= values[i]
-            i += 1  # Move to the next smaller Roman numeral
+                ans += roman[i]   # Append the symbol to our result string
+                num -= values[i]  # Subtract that value from our remaining total
+            
+            # Once we can't fit any more of the current symbol, move to the next smaller one
+            i += 1  
         
-        return ans  # Return the result string
+        return ans
 
 # Java
 """

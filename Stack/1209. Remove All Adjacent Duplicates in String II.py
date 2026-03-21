@@ -105,13 +105,19 @@ class Solution {
 
 
 # Follow up question:
-# Remove adjacent character having length >= k.
+"""
+Q) Remove adjacent character having length >= k.
+-> It is tricky because you cannot immediately pop the stack when the count hits k. 
+You have to wait until the character changes to see if the total consecutive length ended up being k or more.
+Link: https://leetcode.com/discuss/interview-question/625140/goldman-sachs-oa-2020-array-burst-problem-birthday-party
 
-# Link: https://leetcode.com/discuss/interview-question/625140/goldman-sachs-oa-2020-array-burst-problem-birthday-party
+Mine logic below and mistake:
+-> The main issue in mine current code is that you are only checking the "future" (i + 1). 
+If you pop a group, the new top of the stack might now match the next character in the string, 
+or it might match a group that was already there, potentially creating a new sequence of length >= K.
 
-# Note: Got this question in Goldman OA and i solved using this method.
-# 7 out of 8 test case was passing but don't know why this one is not working.
-# Correct c++ code below which is working fully. Have to understand that properly.
+See correct code below
+"""
 
 class Solution:
     def removeDuplicates(self, s: str, k: int) -> str:
@@ -145,45 +151,46 @@ s= "abcccdee"
 k = 3
 print("String after removal is: ", obj.removeDuplicates(s, k))
 
-# c++ code 
+
+# Correct code for follow ups:
 """
-vector<string> getShrunkArray(vector<string> &v, int k) {
+The Logic Thought Process:
+1. Delayed Deletion: We use a stack to store [character, count]. Instead of popping as soon as count == k, we wait until we encounter a different character.
+2. The "Check and Pop" Trigger: When s[i] is different from stack[-1], we check: "Was the group we just finished >= K?" If yes, pop it.
+3. Recursive Merging: This is the most important part. After popping a group, the "new" top of the stack might be the same as the current character s[i]. 
+We must merge them and check the count again.Final Cleanup: After the loop ends, the very last group in the stack needs a final check to see if it qualifies for removal.
+4. Final Cleanup: After the loop ends, the very last group in the stack needs a final check to see if it qualifies for removal.
 
-    vector<string> shrunkArray;
-    int n = v.size();
-    stack<pair<string,int> > s;
-    for(int i=0;i<n;i++) {
-        string curr = v[i];
-        if(!s.empty()) {
-            if(s.top().first == curr) {
-                s.top().second += 1;
-            } else {
-                if(s.top().second >= k) {
-                    s.pop();
-                    i--;
-                } else {
-                    s.push({curr, 1});
-                }
-            }
-        } else {
-            s.push({curr, 1});
-        }
-    }
-
-    if(!s.empty() && s.top().second >= k) {
-        s.pop();
-    }
-
-    while (!s.empty()) {
-        pair<string, int> p = s.top();
-        s.pop();
-        for(int i=0;i<p.second;i++) {
-            shrunkArray.push_back(p.first);
-        }
-    }
-
-    reverse(shrunkArray.begin(), shrunkArray.end());
-    return shrunkArray;
-}
-
+Time = space = O(N)
 """
+class Solution:
+    def removeDuplicates(self, s: str, k: int) -> str:
+        # stack stores [char, count]
+        stack = []
+        
+        for char in s:
+            # If stack is not empty and current char matches the top of the stack
+            if stack and stack[-1][0] == char:
+                stack[-1][1] += 1
+            else:
+                # Before adding a NEW character, check if the previous 
+                # group completed a sequence of length >= k
+                if stack and stack[-1][1] >= k:
+                    stack.pop()
+                    
+                    # CRITICAL: After popping, the current 'char' might match 
+                    # the NEW top of the stack. We must handle this "merge".
+                    if stack and stack[-1][0] == char:
+                        stack[-1][1] += 1
+                    else:
+                        stack.append([char, 1])
+                else:
+                    # Previous group was < k, so just add the new char
+                    stack.append([char, 1])
+        
+        # Final check: The last group processed in the loop might be >= k
+        if stack and stack[-1][1] >= k:
+            stack.pop()
+            
+        # Reconstruct the string
+        return "".join(char * count for char, count in stack)

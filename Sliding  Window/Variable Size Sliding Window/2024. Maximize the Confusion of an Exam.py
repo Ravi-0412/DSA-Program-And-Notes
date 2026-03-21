@@ -7,32 +7,33 @@
 
 class Solution:
     def maxConsecutiveAnswers(self, answerKey: str, k: int) -> int:
-        n= len(answerKey)
-        i, j= 0, 0
-        count = 0
-        ans = 0
-        while j < n:
-            if answerKey[j] == 'F':
-                count += 1
-            while i <= j and count > k:
-                if answerKey[i] == 'F':
-                    count -= 1
-                i += 1
-            ans = max(ans, j- i + 1)
-            j += 1
         
-        i, j= 0, 0
-        count = 0
-        while j < n:
-            if answerKey[j] == 'T':
-                count += 1
-            while i <= j and count > k:
-                if answerKey[i] == 'T':
-                    count -= 1
-                i += 1
-            ans = max(ans, j- i + 1)
-            j += 1
-        return ans
+        # Helper function to find the max length of a window containing 
+        # at most 'k' characters that are NOT the 'target' character.
+        def getMaxWindow(target: str) -> int:
+            left = 0
+            other_count = 0  # Counts how many characters we've "flipped"
+            max_len = 0
+            
+            for right in range(len(answerKey)):
+                # If current char is NOT our target, it costs us 1 flip
+                if answerKey[right] != target:
+                    other_count += 1
+                
+                # If we've exceeded k flips, shrink the window from the left
+                while other_count > k:
+                    if answerKey[left] != target:
+                        other_count -= 1
+                    left += 1
+                
+                # Update the maximum window size found so far
+                max_len = max(max_len, right - left + 1)
+                
+            return max_len
+
+        # The answer is the best we can do by either 
+        # trying to make a long string of 'T's or a long string of 'F's.
+        return max(getMaxWindow('T'), getMaxWindow('F'))
 
 
 # Method 2: In one pass

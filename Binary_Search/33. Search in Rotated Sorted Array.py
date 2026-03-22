@@ -173,7 +173,7 @@ public:
 """
 
 # method 2: 
-# By recursion(Template 2)
+# Template 2
 #logic: just finding the sorted part and checking whether ele lies in that or not ..
 # Reason: we can only applu binary search if array is sorted.
 
@@ -271,7 +271,7 @@ public:
 """
 
 
-# method 2
+# method 3
 # Not working , need to see it very properly later & understand like why it's not working
 # Just tried to use the logic of question : 153. Find Minimum in Rotated Sorted Array
 

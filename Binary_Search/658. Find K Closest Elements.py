@@ -1,32 +1,45 @@
 # method 1: 
 # use the unsorted approach i.e min heap
+# Time ; O(n * logK)
 
-# since array is sorted, all the closest element will lie i) either left
-# ii) either right iii) or some left and some right of given ele
-# since ele 'x' may not be in the list so we take the diff to handle this case.
+# Method 2: 
+"""
+Logic :
+We just checking , which one will be the better starting point i.e 'mid' or 'mid + 1'
+so if we start from 'mid + 1' then last element = arr[mid + k] 
+And arr[mid + k] - x >= x - arr[mid] then it means 'mid' is more better candidate than 'mid + 1' and our ans can't go beyond mid.
+else : arr[mid + k] - x < x - arr[mid] (strictly smaller) so obvious starting from 'mid + 1' will be better.
 
-# Implementation: We are finding the starting index of our ans.
-# 'if arr[mid + k]- x >= x - arr[mid]': # then we can't get the ans subarray starting beyond mid.
-# Reason: if beyond mid say from 'mid +1' is starting index of ans then , last ele will be at 'mid + k'.
-# so if diff between 'last_index - x ' (if start from mid + 1) >= 'x - first_index' (if start from mid)
-# Then, we will get closest element till mid only.
-
-# 2nd template only.
-
-# time: O(log(n-k) + k)
-
+Time : O(log(N - K) + K)
+"""
 class Solution:
-    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
-        # if x<= arr[0]:  return arr[0:k]
-        # if x>= arr[-1]: return arr[-k:]
-        left, right= 0, len(arr) - k   # maximum our starting window can start from 'n-k'.
+    def findClosestElements(self, arr: list[int], k: int, x: int) -> list[int]:
+        # 'left' is the lower bound of our possible starting index (0).
+        # 'right' is the upper bound of our possible starting index (n - k).
+        # We cannot start a window of size k later than index n - k.
+        left, right = 0, len(arr) - k
+        
         while left < right:
-            mid= left + (right - left)//2
-            if arr[mid + k]- x >= x - arr[mid] : # then we can't get the ans subarray starting beyond mid.
-                right= mid
-            else:  # here our starting subarray must start from beyond 'mid' i.e mid+1
-                left= mid + 1
-        return arr[left: left + k]
+            mid = left + (right - left) // 2
+            
+            # We compare the element at 'mid' with the element at 'mid + k'.
+            # 'mid + k' is the element that would enter the window if we 
+            # shifted our start from 'mid' to 'mid + 1'.
+            
+            # Logic: Is x closer to arr[mid] or arr[mid + k]?
+            # Standard distance: abs(x - arr[mid]) vs abs(arr[mid + k] - x)
+            # Since arr is sorted, we can simplify the absolute values:
+            if  c:
+                # If arr[mid] is closer or tied, the window should stay 
+                # towards the left. mid could be the start.
+                right = mid
+            else:
+                # If arr[mid + k] is strictly closer, the window MUST 
+                # shift right. mid cannot be the start.
+                left = mid + 1
+        
+        # After the loop, 'left' is the optimal starting index.
+        return arr[left : left + k]
 
 # Java Code 
 """

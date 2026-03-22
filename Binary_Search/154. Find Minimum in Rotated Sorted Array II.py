@@ -8,6 +8,8 @@ Logic:
 
 Time : O(N), in worst case
 Example : nums = [1, 1, 1, 1, 0, 1]
+
+Same reason as : 81. Search in Rotated Sorted Array II
 """
 
 class Solution:

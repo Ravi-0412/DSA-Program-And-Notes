@@ -59,6 +59,46 @@ class Solution:
 
         return nums[left] == target
 
+# Method 2:
+"""
+Just "squeeze" the boundaries by one step whenever you hit an ambiguous case.
+
+Ambiguous case :
+When nums[left] == nums[mid] == nums[right], you have Zero Information Gain.
+
+Time : O(n) in worst case
+"""
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        left=0
+        right=len(nums)-1 
+        while left < right:
+            mid = (left+right)//2
+
+            # THE AMBIGUITY TRAP:
+            # We can't tell which side is sorted because left, mid, and right are identical.
+            # Solution: Squeeze both ends by 1 and try again.
+            if nums[left] == nums[mid] == nums[right]:
+                left += 1
+                right -= 1
+                continue
+
+            # From here, it's the standard Rotated Search logic, part 1
+            # 1. Left side is sorted
+            if nums[mid] >= nums[left] :
+                if nums[left] <= target <= nums[mid] :
+                    right= mid
+                else:
+                    left= mid + 1
+           # 2. Right side is sorted
+            else:
+                if nums[mid + 1] <= target <= nums[right]:
+                    left= mid + 1
+                else:
+                    right= mid
+
+        return nums[left] == target
+
 # Java Code 
 """
 public class Solution {

@@ -47,7 +47,8 @@ After that , answer = Value at that element + Remaining missing count needed
     Simplified: arr[end] + k - arr[end] + end + 1 -> k + end + 1.
     Since the loop ends with start = end + 1, the answer is simply k + start.
 
-Note : Similar way we find the lat index in an array. Here, We search for the largest index where the number of missing elements is still less than k.
+Note : Similar way we find the last index in an array. Here, We search for the largest index where the number of missing elements is still less than k.
+Just in first if condition , we are not checking for equal case since we are checking for number strictly lesser than k.
 
 Time : O(logn)
 """
@@ -68,14 +69,14 @@ class Solution:
             # If the value were exactly (mid + 1), 0 would be missing.
             missing_count = arr[mid] - (mid + 1)
             
-            if missing_count >= k:
-                # We found k or more missing numbers, so the kth missing 
-                # must be to the left of this or at this index.
-                end = mid - 1
-            else:
+            if missing_count < k:
                 # We haven't reached k missing numbers yet, so the kth missing 
                 # must be further to the right.
                 start = mid + 1
+            else:
+                # We found k or more missing numbers, so the kth missing 
+                # must be to the left of this or at this index.
+                end = mid - 1
         
         # MEANING OF POINTERS AFTER LOOP:
         # end: Points to the highest index where the number of missing elements is < k.

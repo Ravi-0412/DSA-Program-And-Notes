@@ -1,15 +1,20 @@
 # Method 1: 
 
-# since we dont know the size so using binary search after finding length is not a good approach.
-# but if we can find that target ele exist bw any two index
-# then we can apply binary search bw those index.
-# so,now problem reduces to find the range in which the target ele exist
-# for finding the range we can move in chunk like first size of 2
-# then 4, then 8 ....
+"""
+since we dont know the size so using binary search after finding length is not a good approach.
+but if we can find that target ele exist bw any two index
+then we can apply binary search bw those index.
+so, now problem reduces to find the range in which the target ele exist
+for finding the range we can move in chunk like first size of 2
+then 4, then 8 ....
+
+Note : while loop may goes index out of bound but we are assuming that array is infinite.
+e.g : arr = [5] , target : 5 etc
+"""
 
 import math
 def FindRange(arr,target):
-    i= 0
+    i = 0
     while arr[2**(i+1)] < target: # means target not lie in this range
                              # so now incr the range in pow of tw
         i+= 1

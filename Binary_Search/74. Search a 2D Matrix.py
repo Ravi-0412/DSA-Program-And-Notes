@@ -202,37 +202,39 @@ public:
 """   
 
 # Method 3: 
-# Using the observation row wise and column wise will be sorted also.
-# Note: whenever you find row wise and column wise sorted apply this logic.
+"""
+Using the observation row wise and column wise will be sorted also.
+Note: whenever you find row wise and column wise sorted apply this logic.
 
-# it's is pretty nicee and easy method , it's approach is soo nicee.
-# logic: just start checking from top right corner and
-# if not found then update the value of iterating variable properly
-# where we can get the element just like binary search.
+it's is pretty nicee and easy method , it's approach is soo nicee.
+logic: just start checking from top right corner and
+if not found then update the value of iterating variable properly
+where we can get the element just like binary search.
 
-# why we are not checking from (0,0)?
-# Reason: in case matrix ele is smaller then we won't be able to move in untraversed matrix i.e 
-# either right or down because both 'left' and 'right' will have greater ele only.
-# i.e no choice for smaller case and two choice for greater case.
+why we are not checking from (0,0)?
+Reason: in case matrix ele is smaller then we won't be able to move in untraversed matrix i.e 
+either right or down because both 'left' and 'right' will have greater ele only.
+i.e no choice for smaller case and two choice for greater case.
 
-# But when we traverse from top right then in unequal case we will have only one choice for each smaller and greater case.
-# left will have smaller ele then cur one and down will have greater ele than cur one.
-# if target is smaller choices: left , if greater choices: down
+But when we traverse from top right then in unequal case we will have only one choice for each smaller and greater case.
+left will have smaller ele then cur one and down will have greater ele than cur one.
+if target is smaller choices: left , if greater choices: down
 
-# Time: O(m+n)
+Time: O(m+n)
 
-# Note Q: "240. Search a 2D Matrix II" is exactly same as this method only because :matrix is sorted row wise and column wise 
+Note Q: "240. Search a 2D Matrix II" is exactly same as this method only because :matrix is sorted row wise and column wise 
 
-# Note vvi: 1) When sorted in ascending order row wise and column wise then ,
-# Start traverse from top - right.
-# e.g : i ) 74. Search a 2D Matrix   ii) 240. Search a 2D Matrix II
-# iii) 378. Kth Smallest Element in a Sorted Matrix iv ) 668. Kth Smallest Number in Multiplication Table
+Note vvi: 1) When sorted in ascending order row wise and column wise then ,
+Start traverse from top - right.
+e.g : i ) 74. Search a 2D Matrix   ii) 240. Search a 2D Matrix II
+iii) 378. Kth Smallest Element in a Sorted Matrix iv ) 668. Kth Smallest Number in Multiplication Table
     
-# 2) When sorted in descending order row wise and column wise then ,
-# Start traverse from bottom - left.
-# e.g : i) 1351. Count Negative Numbers in a Sorted Matrix
+2) When sorted in descending order row wise and column wise then ,
+Start traverse from bottom - left.
+e.g : i) 1351. Count Negative Numbers in a Sorted Matrix
     
-# you can do other way also but this way will be easier.
+you can do other way also but this way will be easier.
+"""
 
 class Solution:
     def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
@@ -312,9 +314,6 @@ public:
 # so we can treat this maxtrix as just 1D sorted array when we will traverse row wise.
 # Other valid way to calulcate (r, c):
 # 1) r = mid //col  , c = mid - r*col
-
-# My mistake:
-# r = mid //row ,  c = mid % col
 
 # Time: O(log(m*n))
 class Solution:

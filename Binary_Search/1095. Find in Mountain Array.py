@@ -103,3 +103,12 @@ class Solution:
                 else: high = mid - 1
         return -1
 
+# follow ups"
+"""
+Q) What if we have multiple peak element?
+
+-> 
+1. If the goal is just to find any local peak (where arr[i-1] < arr[i] > arr[i+1]), your O(log n) logic still works perfectly! 
+This is actually LeetCode 162 (Find Peak Element).
+2.But if the goal is to find a target, you have to fall back to:Linear Search: $O(n)$Modified Binary Search: Only works if you have additional information (like the array is rotated).
+"""

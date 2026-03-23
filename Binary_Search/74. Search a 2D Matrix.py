@@ -234,6 +234,8 @@ Start traverse from bottom - left.
 e.g : i) 1351. Count Negative Numbers in a Sorted Matrix
     
 you can do other way also but this way will be easier.
+
+Note : O(log(m*n)) is better than O(m + n)
 """
 
 class Solution:

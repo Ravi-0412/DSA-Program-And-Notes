@@ -1,6 +1,6 @@
 """
 Just extension of : https://leetcode.com/problems/median-of-two-sorted-arrays/
-Target Partition Size: We want the combined left side of both arrays to contain exactly $k$ elements.
+Target Partition Size: We want the combined left side of both arrays to contain exactly k elements.
 The Formula: If we take i+1 elements from array A, we must take j+1 elements from array B such that (i+1) + (j+1) = k.
 This gives us: j = k - i - 2.
 The Result: The k-th smallest element will be the maximum of the two elements at the boundaries of the left partition (max(A_left, B_left)).
@@ -13,9 +13,11 @@ why not while True :
 
 like "median' approach
 
-Ans: 1. Why while True worked for your Median codeIn your Median approach, you used while True because the median always exists in two non-empty arrays. 
-You were guaranteed that the if A_left <= B_right and B_left <= A_right condition would eventually be met at some partition.2. Why while low <= high
-is safer for k-th SmallestThe k-th smallest problem has stricter constraints. If $k$ is out of bounds (e.g., $k=10$ but total elements are 5), a while True would loop forever.
+Ans: 1. Why while True worked for your Median code?
+-> In your Median approach, you used while True because the median always exists in two non-empty arrays. 
+You were guaranteed that the if A_left <= B_right and B_left <= A_right condition would eventually be met at some partition.
+2. Why while low <= high is safer for k-th Smallest.
+-> The k-th smallest problem has stricter constraints. If k is out of bounds (e.g., k=10 but total elements are 5), a while True would loop forever.
 
 In k-th Smallest: The search space is the number of elements we take from the smaller array.
 low = max(0, k - len(B))
@@ -25,7 +27,7 @@ high = min(k, len(A))
 # My mistake:
 """
 Giving out of bound
-for this method we are already init with deafukat values then wy index out of bound
+for this method we are already init with default values then why index out of bound
 
 Aleft  = A[i] if i >= 0 else float('-inf')
             Aright = A[i + 1] if (i + 1) < n else float('inf')
@@ -53,7 +55,8 @@ Because it is True, Python attempts to execute the first part: A[i].
 It looks for A[1].
 CRASH: The list only has index 0. The "default value" float('-inf') is never reached because that branch of the if statement was not chosen.
 
-Q) Why the "Count" Method avoids thisIn the Count/Cut method, we change the definition. 
+Q) Why the "Count" Method avoids this ?
+-> In the Count/Cut method, we change the definition. 
 We don't ask "What is the element at this index?" We ask "If I take X elements, what is the boundary?
 "If A = [10] and we take cut1 = 1 (the only element):
   L1 = A[cut1 - 1] -> A[1 - 1] -> A[0]. (Safe!)

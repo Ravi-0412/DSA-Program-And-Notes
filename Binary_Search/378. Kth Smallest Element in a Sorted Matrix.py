@@ -57,7 +57,7 @@ public:
 """
 # methopd 2: 
 # VVI (very good approach)
-# modifying heap and using the sorted rows and columns benefit.
+# modifying min-heap and using the sorted rows and columns benefit.
 # logic: Since each of the rows in matrix are already sorted, we can understand the problem as 
 # "finding the kth smallest element from amongst M sorted rows."
     
@@ -156,7 +156,7 @@ public:
 # and iteratively check if mid has atleast k numbers less than or equal to mid.
 
 # 1) If count(mid) < k, there are less than k numbers which are less than or equal to mid in the table. 
-# So mid or any integer left than it can't be our answer. We have to increase our mid and for this we will incr 'left' i.e left = mid+1.
+# So mid or any integer less than it can't be our answer. We have to increase our mid and for this we will incr 'left' i.e left = mid+1.
 # 2) If count(mid) >= k, there are atleast k numbers (maybe more) which are less than or equal to mid in the table. 
 # So, mid is a possible valid solution. But there can be a smaller number than mid as well which has count(.) >= k. 
 # So, we mark current mid as possible answer ans and check for lower range as well by doing right = mid

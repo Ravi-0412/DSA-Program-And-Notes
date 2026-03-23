@@ -1,6 +1,11 @@
-# find the index of peak ele
-# and apply binary search on left and right of the peak index.
-# TIme : o(logn)
+"""
+Find the index of peak ele
+and apply binary search on left and right of the peak index.
+
+Since there is only one peak element so this logic will be totally valid. 
+(Ascending from start to peak, descending from 'peak + 1' to end)
+TIme : o(logn)
+"""
 
 class Solution:
         def findInMountainArray(self, target: int, mountain_arr: 'MountainArray') -> int:

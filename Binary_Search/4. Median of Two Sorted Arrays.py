@@ -294,7 +294,7 @@ public:
 
 # Follow ups:
 """
-https://www.geeksforgeeks.org/problems/k-th-element-of-two-sorted-array1317/1
+K-th element of two Arrays
 Code link : https://github.com/Ravi-0412/DSA-Program-And-Notes/blob/main/Binary_Search/K-th%20Element%20of%20Two%20Sorted%20Arrays.py
 """
 

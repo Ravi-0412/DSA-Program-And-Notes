@@ -230,7 +230,7 @@ e.g : i ) 74. Search a 2D Matrix   ii) 240. Search a 2D Matrix II
 iii) 378. Kth Smallest Element in a Sorted Matrix iv ) 668. Kth Smallest Number in Multiplication Table
     
 2) When sorted in descending order row wise and column wise then ,
-Start traverse from bottom - left.
+Start traverse from bottom - left & change variable accordingly
 e.g : i) 1351. Count Negative Numbers in a Sorted Matrix
     
 you can do other way also but this way will be easier.

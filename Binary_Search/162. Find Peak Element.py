@@ -111,33 +111,49 @@ public:
 # ans will always lie in the decreasing part.
 
 """
-# Note: This same logic can  be used to find one of the peak ele(ele greater than neighbours) in any type of array.
-# This doesn't mean you can find the max in any array using this approach. 
-# only mean you can find any one of those ele following the property or array following this type of property.
+Using : "Signal-Following" or "Uphill" logic.
+
+Logic:
+1. The Slope Test: By comparing nums[mid] and nums[mid+1], you are determining the local direction of the array.
+2. Uphill Rule: If nums[mid] < nums[mid+1], you are currently on an ascending slope. 
+Since a peak must exist somewhere to your right (even if it's just the very last element), you move start = mid + 1.
+3. Downhill Rule: If nums[mid] > nums[mid+1], you are either at the peak itself or on a descending slope. 
+Therefore, a peak must exist at mid or somewhere to your left. You move end = mid.
+4. Template 2 Benefit: Using while start < end ensures that mid + 1 is always a valid index to check, preventing "Index Out of Bounds" errors.
+
+Note: This same logic can  be used to find one of the peak ele(ele greater than neighbours) in any type of array.
+This doesn't mean you can find the max in any array using this approach. 
+only mean you can find any one of those ele following the property or array following this type of property.
     
-# e.g:1)  '852. Peak Index in a Mountain Array'
-# in this there will be only one peak ele
-# other things are totally same as '162. find peak index'. 
+e.g:1)  '852. Peak Index in a Mountain Array' => in this there will be only one peak ele
+Other things are totally same as '162. find peak index'. 
 
-# 2) 1095. Find in Mountain Array
+2) 1095. Find in Mountain Array
 
+Time : O(logn)
 """
 
 class Solution:
     def findPeakElement(self, nums: List[int]) -> int:
-        start= 0
-        end= len(nums)-1
+        start, end = 0, len(nums) - 1
+        
         while start < end:
-            mid= start+ (end-start)//2
-            # in which direction  we should move 
-            # will depend on the value of arr[mid] and arr[mid+1]
-            if nums[mid] > nums[mid+1]: 
-            # means we are in decr part of array i.e from mid it's decreasing
-            # so our ans will lie on the left hand side of mid including 'mid'
-                end= mid
-            else:  #  peak(maximum ele) will be on right side of mid only excluding 'mid'
-                start= mid +1
+            mid = start + (end - start) // 2
+            
+            # If current element is greater than the next, 
+            # we are in a decreasing sequence. 
+            # The peak is to the left (including mid).
+            if nums[mid] > nums[mid + 1]:
+                end = mid
+            else:
+                # If current element is smaller than the next,
+                # we are in an increasing sequence.
+                # The peak is strictly to the right.
+                start = mid + 1
+        
+        # When start == end, they point to the peak element.
         return start
+        
 
 # Java Code 
 """

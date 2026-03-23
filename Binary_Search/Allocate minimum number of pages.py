@@ -27,6 +27,20 @@ at last we will return the res
 note: Actually we are checking 'after allocating maximum of no pages as 'mid' to a student , Are we able to divide among all students?'.
 If yes then we will decrease the 'mid' and if no then we will increase the mid.
 in this we are minmising the maximum pages allocated to a student.
+
+Q) How are we making sure that each student is asigned at least one book ?
+-> 1. say 'mid = 113', and given student  = 5
+If your IsValid function says you only need 3 students to keep every student under 113 pages, and you actually have 5 students available:
+    You can simply take the books assigned to one of those 3 students and split them. 
+    Splitting books never increases the maximum pages a student has. It only decreases or keeps it the same.
+    Therefore, if it's possible with fewer than k students, it is mathematically certain it is possible with exactly k students.
+
+2. Why the Binary Search "Finds" the k case
+Because we are looking for the Minimum possible Maximum:
+    If students_needed < k, the mid is "too loose" (too large).
+    The Binary Search will keep pushing the mid lower (end = mid).
+    As mid gets smaller, the number of students needed will naturally increase.
+    The algorithm eventually stops at the smallest mid where the number of students needed is as close to k as possible without going over.
 """
 # 2nd template only.
 

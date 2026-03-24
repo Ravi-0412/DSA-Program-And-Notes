@@ -7,7 +7,8 @@
 # But next minimum can come from same array.
 # So we need to put the array number with index as well so that we can insert next ele of this array in heap.
 
-# time: O(n*logk), n= total no of elements
+# time: O(N*logK), K be the number of arrays and N be the total number of elements across all arrays.
+# space : O(K)
 
 import heapq
 class Solution:

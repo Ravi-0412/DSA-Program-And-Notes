@@ -32,8 +32,10 @@ just compare the last tweet time of each person they follow
 and most efficient way to do this is add all the recent tweet done by all the person they follow into a minHeap.
 After that pop from minHeap to get the most recent one add that to the ans.
 
-for getNewsfeed ,time: O(10*logk)   # k : no of person a user is following, 10 times we have to heapify.
+for getNewsfeed ,time: O(K + 10*logK)   # k : no of person a user is following, 10 times we have to heapify. initial heapify : O(K)
 And for remaining operation time: O(1).
+
+Space Complexity: O(T + F), where T is total tweets and F is total follow relationships.
 """
 
 import heapq

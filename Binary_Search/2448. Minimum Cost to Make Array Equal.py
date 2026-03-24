@@ -108,7 +108,7 @@ class Solution:
 # To find a weighted median(target), we sort elements, "repeating" each element based on its weight.
 # For nums: [1,3,5,2], cost:  [2,3,1,4] case, the repeated array looks like this: [1,1,2,2,2,2,3,3,3,5].
 
-# Note: Now aggregate the current weight going from one side, and stop when current > total // 2.
+# Note: Now aggregate the current weight going from one side, and stop when current > total // 2.(Greater than median sum value)
 
 # After that calculate the cost of making all ele equal to this 'target'.
 

@@ -217,6 +217,9 @@ class Solution:
                 if len(ans)==k:
                     return ans
 
+# Follow ups :
+0. 451. Sort Characters By Frequency
+1. Top k numbers in a stream (https://www.geeksforgeeks.org/problems/top-k-numbers3425/1)
 
 # Java Code 
 """
@@ -302,5 +305,4 @@ public:
 };
 """
 
-# Follow ups :
-1. Top k numbers in a stream (https://www.geeksforgeeks.org/problems/top-k-numbers3425/1)
+

@@ -57,6 +57,8 @@ class Solution:
                 return i 
         return len(heights) - 1  # return last building
 
+# Related Question:
+# 1.  871. Minimum Number of Refueling Stops
 
 # Java Code 
 """

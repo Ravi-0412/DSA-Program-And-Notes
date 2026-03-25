@@ -16,32 +16,31 @@ Here it's not like I have choice either I can pick ladder or brick, I also need 
 # method 1: 
 # Using Heap
 """
-it's better to use ladder for larger difference and bricks for smaller difference you will waste too many bricks.
+it's better to use ladder for larger difference and bricks for smaller difference otherwise you will waste too many bricks.
 
 So here we know that we will use ladders for the highest climb and bricks for the remaining.
 
 first try to use ladder only but in case we don't have sufficient ladder then we will use bricks.
 But in that case difference should be smaller. For this we will maintain a MinHeap.
 
-Q) How will you manage this, like for the highest climb you are using ladders and for other you are using bricks.
-
-1) First of all as we climb one by one, we will use ladders till we are out of ladders.
-2) Now when we have consumed our all ladders, now it's our turn to use bricks. Now let's say previously we have use 
-ladders to climb [4, 10, 6] and now we have to climb 5, so now I know that for 5 I should use ladder, 
-and the previously I have used ladder for 4 I will use brick there.
-3) So now ladders will be used to climb [10, 6, 5] and bricks for [4].
-4) Now let's say I have to climb 2, then obviously I can't use ladders because they are already being used to climb high. 
-SO I will use bricks here. But let's say I have one 1 brick left then I won't be able to climb further.
-We got to know that if the climb is lower or equal to the climb made by ladders then we can use brick.
-but if we found high climb where previously we have used ladders for the lower climb, I will use ladders here and bricks there.
-
-We will add element in minHeap if difference(heights[i+ 1] - heights[i]) will be > 0.
-Note: len(heap) will the number of ladder we have utilised.
+Q) How will you manage this, like for the highest climb you are using ladders and for other you are using bricks ?
+-> We will add element in minHeap if difference(heights[i+ 1] - heights[i]) will be > 0.
+-> len(heap) will the number of ladder we have utilised. 
 In case len(heap) > ladders then it means we have utilised all ladders, so we will use bricks.
 So just pop from minHeap to get minimum diff and subtract bricks from that.
+
+Note : len(heap) will the number of ladder we have utilised. 
+But but to use bricks properly , we will use that for minHeight difference & this will make sure that ladders are getting used for maDiff automatically, 
+so you can say we are just accumulating and using both optimally.
+
+Take exaxmple : Input: heights = [4,2,7,6,9,14,12], bricks = 5, ladders = 1 , output 
+Dry run on pen & paper to understand properly.
+
+Time: O(N*logL) , N: Buidldings, L: ladders
+Space : O(L)
 """
 
-# Time: O(n*logn)
+# 
 
 class Solution:
     def furthestBuilding(self, heights: List[int], bricks: int, ladders: int) -> int:
@@ -56,7 +55,7 @@ class Solution:
             if bricks < 0:
                 # means we don't have sufficient bricks to go ahead
                 return i 
-        return len(heights) - 1
+        return len(heights) - 1  # return last building
 
 
 # Java Code 

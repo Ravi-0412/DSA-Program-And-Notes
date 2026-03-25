@@ -1,6 +1,9 @@
 # Method 1: 
 
 """
+just similar to Q: 1642. Furthest Building You Can Reach 
+First acuumulate all and use station with maximum fuel one by one.
+
 Note: 'Stations' is already sorted according to 'position'.
 from constraint: 1 <= positioni < positioni+1 < target => We can say this.
 
@@ -12,6 +15,26 @@ Time: O(n*logn)
 """
 
 # My logic & mistake
+
+"""
+Why wrong?
+-> Not using leftover fuel after stations are done.
+
+Correct Thought Process & Logic (The "Refining" Strategy);
+The strategy is: Drive until you run out of fuel. When you can't reach the next milestone (either the next station or the final target), 
+look back at all the stations you passed and pick the one with the most fuel.
+
+1. Current Reach: Keep track of the furthest position you can reach with your current fuel (reached).
+2. The "Virtual" Stop: You don't stop at every station. You pass them and put their fuel amounts into a Max-Heap.
+3. The Crisis: If the next station is further than your reached distance, or if you've run out of stations but haven't hit the target, 
+you start popping from the Max-Heap (the "best" stations you passed) and adding that fuel to your reached.
+4. The Termination: Repeat until reached >= target. If the heap is empty and you still haven't reached your next goal, it's impossible.
+
+Summary :
+The Heap Status: Represents "Fuel I could have taken but didn't."
+The "Used" One: We always pop the Largest value from the heap because it gives us the most distance for exactly 1 stop.
+The Stall Point: We only refuel when current_reach is less than the next required distance (either the next station's position or the final target).
+"""
 
 class Solution:
     def minRefuelStops(self, target: int, startFuel: int, stations: List[List[int]]) -> int:
@@ -71,6 +94,39 @@ class Solution:
         
         # Final check in case the loop ends after refueling past target
         return ans if reached >= target else -1
+
+# Other way: Better one
+
+import heapq
+class Solution:
+    def minRefuelStops(self, target: int, startFuel: int, stations: list[list[int]]) -> int:
+        # max_heap to store fuel amounts of stations we have passed
+        max_fuel_heap = []
+        
+        # Current distance we can reach
+        current_reach = startFuel
+        stops_count = 0
+        station_idx = 0
+        n = len(stations)
+        
+        # We continue as long as we haven't reached the target
+        while current_reach < target:
+            # 1. Add all stations we can currently reach into the heap
+            while station_idx < n and stations[station_idx][0] <= current_reach:
+                # Store as negative for Max-Heap behavior in Python
+                heapq.heappush(max_fuel_heap, -stations[station_idx][1])
+                station_idx += 1
+            
+            # 2. If we haven't reached the target and have no fuel options left
+            if not max_fuel_heap:
+                return -1
+            
+            # 3. "Refuel" at the best station we've passed (Greedy choice)
+            current_reach += -heapq.heappop(max_fuel_heap)
+            stops_count += 1
+            
+        return stops_count
+
 
 # Java Code 
 """

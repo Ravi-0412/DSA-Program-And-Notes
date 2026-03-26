@@ -2,31 +2,49 @@
 
 # just similar to "2402. Meeting Rooms III"
 
-# logic: we need to keep track of all projects we can complete using curr 'w'.
-# for this we will maintain a  minHeap.
-# We need to store (capital , profit) pair to get maxProfit among all possible project.
+"""
+logic: we need to keep track of all projects we can complete using curr capital 'w', for this: 
+1. Get all the projects which we can execute using current capital => Sort all projects based on capital required
+2 . Take the maximum profit project from all available one => maxHeap
 
-# And from the all possible projects we have to take the most profitable project, so we will maintain a maxHeap for this.
+Sorting  + maxHeap
 
-# time: O(k* 2*logn), space= O(n)
+Time : O(N * logN + K * logN)
+"""
+
+import heapq
+
 class Solution:
-    def findMaximizedCapital(self, k: int, w: int, profits: List[int], capital: List[int]) -> int:
-        maxProfit= []   # stores the profit of projects we can afford with current 'w'. creating maxHeap to get the maxProfit project 
-        minCapital= [(c, p) for c, p in zip(capital, profits)]   # creating minHeap for pair (c, p)
-        heapq.heapify(minCapital)
-        print(minCapital)
-
-        for i in range(k):
-            # add all the profits of projects that we can afford into maxProfit with current capital 'w'. 
-            while minCapital and minCapital[0][0] <= w:
-                c, p= heapq.heappop(minCapital)
-                heapq.heappush(maxProfit, -1* p)
-            # check if maxProfit is empty. if empty means we can't add any project so simply break  or return
-            if not maxProfit:
-                return w
-            # Add the maxProfit project that we can afford with 'w'.
-            w+= -1* heapq.heappop(maxProfit)
+    def findMaximizedCapital(self, k: int, w: int, profits: list[int], capital: list[int]) -> int:
+        # 1. Combine and sort projects by their required capital (ascending)
+        # Time: O(N log N)
+        projects = sorted(zip(capital, profits))
+        
+        # max_profit_heap will store profits of projects we can afford
+        # We use negative values for Max-Heap behavior in Python
+        max_profit_heap = []
+        
+        project_idx = 0
+        n = len(projects)
+        
+        # 2. Pick up to k projects
+        # Time: O(k log N)
+        for _ in range(k):
+            # Add all projects we can now afford into the Max-Heap
+            while project_idx < n and projects[project_idx][0] <= w:
+                # We only care about the profit now, the capital constraint is met
+                heapq.heappush(max_profit_heap, -projects[project_idx][1])
+                project_idx += 1
+            
+            # If no affordable projects are available, we can't do anything more
+            if not max_profit_heap:
+                break
+            
+            # Greedily pick the project with the highest profit
+            w += -heapq.heappop(max_profit_heap)
+            
         return w
+        
 
 
 # Java Code 

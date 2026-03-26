@@ -114,76 +114,79 @@ public:
 # Note: we are putting extra one ele in case 'k' is odd into large(minHeap).
 
 import heapq
+
 class Solution:
-    def medianSlidingWindow(self, nums: List[int], k: int) -> List[float]:
-
+    def medianSlidingWindow(self, nums: list[int], k: int) -> list[float]:
+        # small: Max-Heap 
+        # large: Min-Heap
+        self.small, self.large = [], []
         
-        def get_med(h1, h2, k):
-            return h2[0][0] if k & 1 else (h2[0][0]-h1[0][0]) / 2
-
-        small = []  # maxHeap
-        large = []  # minHeap
-        for i, x in enumerate(nums[:k]): 
-            heapq.heappush(small, (-x,i))
-        # Now move half of the ele from small to large to balance heaps.
-
-        # doing like this to keep extra ele in 'large' in case 'k' is odd.
-        # for i in range(k//2) : won't put extra ele in 'large' in case 'k' is odd.
-        for _ in range(k - k//2):   
-            x, ind = heapq.heappop(small)
-            heapq.heappush(large, (-x, ind))
-        # calculate the ans for 1st subarray i.e till index 'k-1'.
-        ans = [get_med(small, large, k)]
+        # 1. Initialize the first window
+        for i in range(k):
+            heapq.heappush(self.small, (-nums[i], i))
         
-        for i, x in enumerate(nums[k:]):
-            # print(i, nums[i], ans, "index")
-            # print(small, large, "Before")
+        # Balance: Move the largest from small to large until large has (k - k//2) elements
+        # so that in case of odd element , large heap(minHeap) contains one extra element.
+        for _ in range(k - k // 2):
+            val, idx = heapq.heappop(self.small)
+            heapq.heappush(self.large, (-val, idx))
             
-            if x >= large[0][0]:
-                # x belongs to 'large' heap. so put this in large heap.
-                heapq.heappush(large, (x, i+k))
-                # check if nums[i] belong to opposite heap as 'x' i.e small to rebalance
-                if nums[i] <= large[0][0]:
-                    # Nums[i] belongs to small heap. 
-                    # In this case move one element from 'large' to 'small' to
-                    # rebalance heap as after poping nums[i] from small
-                    # diff in length of 'large' and small will be > 1 .
-                    x, ind = heapq.heappop(large)
-                    heapq.heappush(small, (-x, ind))
-                # if nums[i] belongs to 'large' then in case any ele we pop heap will be balanced only.
-            else:
-                # x belongs to 'small' heap. so put this in small heap.
-                heapq.heappush(small, (-x, i+k))
-                # check if 'nums[i]' belongs to 'small' heap.
-                if nums[i] >= large[0][0]:
-                    # Nums[i] belongs to large heap. 
-                    # In this case move one element from 'small' to 'large' to
-                    # rebalance heap as after poping nums[i] from small
-                    # diff in length of 'small' and large will be > 1 .
-                    x, ind = heapq.heappop(small)
-                    heapq.heappush(large, (-x, ind))
-                # if nums[i] belongs to 'small' then in case any ele we pop heap will be balanced only.
-            # Now remove elements till index 'i' from both the heaps 
-            # if index at top is <= i.
-            # because only top ele will giev the median and element till index 'i'
-            # shouldn't contribute to median so remove from top.
-
-            # print(small, large, "heaps")
-            while small and small[0][1] <= i: 
-                heapq.heappop(small)
-            # print(small, "small after")
-            while large and large[0][1] <= i: 
-                heapq.heappop(large)
-            # print(small, large, "after")
-
-            # Note: may happen at no ele is removed from any of the heap
-            # if index of top of both the heap > 'i'.
-            # And may happen that a lot of element may get removed later for other index.
-            # if index of top of both the heap <= 'i'.
-
-            # But we will get the correct median.
-            ans.append(get_med(small, large, k))
+        ans = [self._get_median(k)]
+        
+        # 2. Slide the window
+        for i in range(len(nums) - k):
+            new_val_idx = i + k
+            old_val_idx = i
+            
+            # Use helper to handle insertion and logical rebalancing
+            self._handle_sliding_transition(nums[new_val_idx], new_val_idx, nums[old_val_idx])
+            
+            # Use helper to clean up "garbage" elements from the tops
+            self._prune_expired_elements(old_val_idx)
+            
+            ans.append(self._get_median(k))
+            
         return ans
+
+    def _handle_sliding_transition(self, x, x_idx, outgoing_val):
+        """
+        Logic: Adds new element x and ensures the heaps stay balanced 
+        relative to the outgoing_val.
+        """
+        # If new element belongs in the large (right) half
+        if x >= self.large[0][0]:
+            heapq.heappush(self.large, (x, x_idx))
+            # Rebalance: If the value leaving the window was in the small (left) half,
+            # then 'large' now has one extra net element. Move top of large to small.
+            # "=" sig"
+            if outgoing_val <= self.large[0][0]:
+                val, idx = heapq.heappop(self.large)
+                heapq.heappush(self.small, (-val, idx))
+        else:
+            # New element belongs in the small (left) half
+            heapq.heappush(self.small, (-x, x_idx))
+            # Rebalance: If the value leaving was in the large (right) half,
+            # then 'small' now has one extra net element. Move top of small to large.
+            if outgoing_val >= self.large[0][0]:
+                neg_val, idx = heapq.heappop(self.small)
+                heapq.heappush(self.large, (-neg_val, idx))
+
+    def _prune_expired_elements(self, expired_idx):
+        """
+        Logic: Only the top of the heap matters for median calculation.
+        We 'lazily' remove elements whose indices are no longer in the current window.
+        """
+        while self.small and self.small[0][1] <= expired_idx:
+            heapq.heappop(self.small)
+        while self.large and self.large[0][1] <= expired_idx:
+            heapq.heappop(self.large)
+
+    def _get_median(self, k):
+        """Logic: Calculates median based on heap tops."""
+        if k & 1: # Odd
+            return float(self.large[0][0])
+        else: # Even
+            return (self.large[0][0] - self.small[0][0]) / 2.0
 
 # Java Code 
 """

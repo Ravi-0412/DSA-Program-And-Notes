@@ -148,24 +148,16 @@ class Solution:
                 # Increment the write-position
                 pos += 1
 
-# --- Example Walkthrough ---
-# nums = [0, 1, 0, 3, 12]
-# i=0 (0): Skip.
-# i=1 (1): Swap nums[0] & nums[1] -> [1, 0, 0, 3, 12], pos=1
-# i=2 (0): Skip.
-# i=3 (3): Swap nums[1] & nums[3] -> [1, 3, 0, 0, 12], pos=2
-
-
 # Related Questions 
 """
 Asked in Google: 
-Q) Link : https://leetcode.com/discuss/post/7642193/google-interview-experience-l4-march-202-09bf/ 
+Q) Link : https://leetcode.com/discuss/post/7685567/google-interview-l4-by-anonymous_user-6s1j/
 You are given an array of strings:
 
 ["ad", "awe", "cat", "apple", "dog", ...]
 You are also provided with an API:
 
-bool isValid(string s)
+bool isValid(string s) : API
 This API internally contains a constant string P and returns true if P is a prefix of s. Example:
 
 P = "a"

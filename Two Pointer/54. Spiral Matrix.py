@@ -1,9 +1,19 @@
 # method 1: 
 
-# Logic: Just move in all the four directions sequentially that will give the ans.
-# first move into top row -> then last row -> then last col ->  then 1st col (in remaining one).
-# Time complexity = O(m * n)  
-# Space Complexity: O(1)
+"""
+Logic: Just move in all the four directions sequentially that will give the ans.
+1. Move Right: Across the current up row.
+2. Move Down: Along the current right column.
+3. Move Left: Across the current down row.
+4. Move Up: Along the current left column.
+
+Shrink: Increment up/left and decrement down/right to move to the inner "sub-matrix."
+
+Note : if you add element without checking 'if len(res) >= row * col: break" then, extra element will get added to the answer.
+
+Time complexity = O(m * n)  
+Space Complexity: O(1)
+"""
 
 class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:

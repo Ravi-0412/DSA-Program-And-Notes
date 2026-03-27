@@ -87,9 +87,7 @@ public:
 
 # 3rd method:
 """
-just count the no of 0,1,2 in an list of size '3' then store ans according to count.
-
-3rd method(using double pointer): time=O(N),Space: O(1).. Q is made on this approach only
+using double pointer: time=O(N),Space: O(1).. Q is made on this approach only
 
 it can't be done by two pointer so we have to take another pointer also for 
 handling the cases like after swapping if low(1st pointer) points to 1 and there is more '0' in the middle
@@ -97,13 +95,20 @@ this type of cases can't be handled by the two pointer e.g :[2,0,2,1,1,1,0,1,1]
 
 So we need one more pointer to put all '1' in middle automatically by swapping '0' and '2'.
 
-move the array 0 at front ,1 in the middle and 2 at the last
+Logic: move the array 0 at front ,1 in the middle and 2 at the last
 final goal is to make this 'low' and 'high' pointer points to 
 1st and last index of all consecutive 1's respectively.
+
 Before low all will be zero and low will point to the first one at last, 
 after high all will be 2, high will point to the last one at last.
 
 This is known as  " dutch partitioning algorithm".
+
+Finally , role of all three pointers:
+[0 ... low-1]: Guaranteed to be 0s.
+[low ... current-1]: Guaranteed to be 1s.
+[current ... high]: The Unknown territory, unexplored.
+[high+1 ... N-1]: Guaranteed to be 2s.
 
 # Note vvi: keep above logic in mind, may be helpful in other problems also
 

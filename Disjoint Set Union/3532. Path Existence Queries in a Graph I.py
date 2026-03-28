@@ -165,48 +165,8 @@ class Solution:
             # Constant time check for connectivity
             results.append(component_ids[u] == component_ids[v])
             
-        return resultsclass Solution:
-    def existenceQueries(self, n: int, nums: list[int], max_diff: int, queries: list[list[int]]) -> list[bool]:
-        # Step 1: Pair each value with its original index
-        # This is critical because sorting will shuffle the positions.
-        indexed_nums = []
-        for i in range(n):
-            indexed_nums.append((nums[i], i))
-            
-        # Step 2: Sort based on the values
-        # O(N log N)
-        indexed_nums.sort()
-        
-        # Step 3: Assign Component IDs using a Linear Scan
-        # O(N)
-        component_ids = [0] * n
-        current_id = 0
-        
-        # The first element in the sorted list starts the first component
-        first_val, first_idx = indexed_nums[0]
-        component_ids[first_idx] = current_id
-        
-        for i in range(1, n):
-            curr_val, curr_idx = indexed_nums[i]
-            prev_val, _ = indexed_nums[i-1]
-            
-            # If the gap between adjacent values in the sorted list is too large,
-            # it's impossible to bridge these two 'islands' of numbers.
-            if curr_val - prev_val > max_diff:
-                current_id += 1
-            
-            # Map the component ID back to the ORIGINAL index
-            component_ids[curr_idx] = current_id
-            
-        # Step 4: Process Queries
-        # O(Q)
-        results = []
-        for u, v in queries:
-            # Constant time check for connectivity
-            results.append(component_ids[u] == component_ids[v])
-            
         return results
-
+        
 """
 Follow ups 2:
 Q)  "What if maxDiff changes per query?" Each query has its own maxDiff.
@@ -411,7 +371,6 @@ class DisjointSetUnion:
                 self.parent[root_i] = root_j
                 self.rank[root_j] += 1
 
-from collections import defaultdict
 
 def solve_2d_connectivity_optimized(n: int, points: list[tuple], L: int, dsu):
     """

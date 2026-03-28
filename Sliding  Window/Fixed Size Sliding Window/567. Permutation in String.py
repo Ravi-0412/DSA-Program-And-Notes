@@ -4,35 +4,55 @@
 
 # Time = space: O(n)
 
-from collections import Counter
-
 class Solution:
     def checkInclusion(self, s1: str, s2: str) -> bool:
-        len1, len2 = len(s1), len(s2)
-        if len1 > len2:
+        # Edge case: If s1 is longer than s2, no permutation can exist
+        if len(s1) > len(s2):
             return False
-
-        count_s1 = Counter(s1)
-        window = Counter(s2[:len1])
-
-        if count_s1 == window:
-            return True
-
-        for i in range(len1, len2):
-            start_char = s2[i - len1]
-            end_char = s2[i]
-
-            # Slide the window: remove start_char, add end_char
-            window[end_char] += 1
-            window[start_char] -= 1
-
-            if window[start_char] == 0:
-                del window[start_char]
-
-            if window == count_s1:
-                return True
-
+            
+        # Step 1: Create frequency map for s1 (the target)
+        char_map = {}
+        for char in s1:
+            char_map[char] = char_map.get(char, 0) + 1
+            
+        # 'count' tracks unique characters in s1 that need to be matched
+        count = len(char_map)
+        
+        # Pointers for the sliding window
+        left, right = 0, 0
+        window_size = len(s1)
+        
+        # Step 2: Iterate through s2
+        while right < len(s2):
+            char_right = s2[right]
+            
+            # If the character is part of our target permutation
+            if char_right in char_map:
+                char_map[char_right] -= 1
+                # If we've satisfied the required frequency for this specific char
+                if char_map[char_right] == 0:
+                    count -= 1
+            
+            # Step 3: Check if the window has reached the required size
+            if right - left + 1 == window_size:
+                # If all unique character frequencies match (count is 0)
+                if count == 0:
+                    return True
+                
+                # Step 4: Shrink the window from the left to slide it forward
+                char_left = s2[left]
+                if char_left in char_map:
+                    # If this character was previously satisfied, increment count
+                    if char_map[char_left] == 0:
+                        count += 1
+                    char_map[char_left] += 1
+                
+                left += 1
+                
+            right += 1
+            
         return False
+        
 
 # Java Code 
 """

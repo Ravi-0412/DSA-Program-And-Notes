@@ -2,11 +2,20 @@
 
 
 # method 2: 
-# logic: whenever you see '0' decr the count, when you see '1' incr the count.
-# when at any index you see the same value of count before means 
-# you have found one of the subarray from last seen same count value to current index.
+"""
+Prefix Sum + Hash Map
 
-# time= space= O(n)
+Logic: whenever you see '0' decr the count, when you see '1' incr the count.
+when at any index you see the same value of count before means 
+you have found one of the subarray from last seen same count value to current index.
+
+1. By treating 0 as -1 and 1 as +1, a subarray with an equal number of zeros and ones will have a sum of exactly 0.
+2. If the prefix sum at index i is C, and the prefix sum at index j is also C, it means the sum of elements between i+1 and j must be 0.
+3. We store the first time we see a specific count. We do not update it if we see it again, 
+because we want the longest subarray, so we keep the earliest possible starting index.
+
+time= space= O(n)
+"""
 
 class Solution:
     def findMaxLength(self, nums: List[int]) -> int:

@@ -4,7 +4,15 @@
 logic: similar to "Two Sum".
 but here we can't find the other number directly like "Two Sum".
 
-for finding the other number :
+GCD(n, k): it extracts only the prime factors that n and k share.
+
+Logic: 
+1. Current Status: "I have a number n. Its shared strength with k is G = GCD(n, k).
+2. "The Need: "I want my product to be a multiple of k. I already provided G. 
+Therefore, I need my partner to provide at least the remaining factors: want = k // G.
+3. "The Search: "Has any number I passed earlier provided a factor of 'want'?"
+
+How to find the other number :
 1) we will store the 'gcd(n,k)' as key with 'frequency' as value.
 2) for any number , want=  k//gcd. 
 Note: any multiple of 'want' will contribute ans.

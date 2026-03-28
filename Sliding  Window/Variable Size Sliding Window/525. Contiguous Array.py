@@ -33,9 +33,10 @@ class Solution:
                 hashmap[count]= i
         return maxLen
 
-# Note: we can apply exactly same logic(even same code) in Q asking : 
+# Note: we can apply exactly same logic(even same code) in Q where you have to keep track of exactly two types of elements:
 # 1) "longest substring/subarray having equal no of count of both when each ele can be of two type only".
 # 2) "Find the max length of substring having equal no of lowercase and uppercase letter".
+# 3. "Find the max length of substring having equal no of vowels & consonants".
 
 # Java Code 
 """

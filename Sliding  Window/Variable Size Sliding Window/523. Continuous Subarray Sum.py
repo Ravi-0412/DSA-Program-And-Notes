@@ -39,7 +39,7 @@ class Solution:
 
 # Related Q: 
 # 1)  "974. Subarray Sums Divisible by K"
-# 2) vvi: "2948. Count Beautiful Substrings II".
+# 2) vvi: "2949. Count Beautiful Substrings II".
 
 
 # Java Code 

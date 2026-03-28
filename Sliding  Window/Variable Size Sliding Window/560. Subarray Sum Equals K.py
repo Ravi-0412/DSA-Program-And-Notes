@@ -46,10 +46,13 @@ k= 3
 print(Count_SubArray(arr,k))
 
 # Method 3: 
-# better one: just similar to "Two sum" method.
-# VVI: analyse this Q and previous Q similarity and differences properly
-# Draw it on number line then you get the proper visualisation.
-# time = space = O(n)
+"""
+Better one: just similar to "Two sum" method & Question : Longest Subarray with Sum K
+VVI: analyse this Q and "Longest Subarray with Sum K" similarity and differences properly
+
+Here you just have to keep track of {sum: count} instead of {sum : index} that's it.
+time = space = O(n)
+"""
 
 class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:

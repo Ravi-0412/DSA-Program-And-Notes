@@ -1,16 +1,36 @@
-# Q: Simply asking: "Make connections acyclic by removing the edges that are leading to cycle' and then 
-# connect required no of edges to make all nodes connected into a single component.
+"""
+Q: Simply asking: "Make connections acyclic by removing the edges that are leading to cycle' and then 
+connect required no of edges to make all nodes connected into a single component.
 
-# logic: we exactly need 'n-1' edges to connect 'n' nodes into one component with no cycle.
-# There can be extra cable than the required one 'n-1'.
-# so first calculate the extra_cable=> extra_cable= len(connections) - (n-1)
-# then calculate the no of cable we have to remove to make connections acyclic.
+logic: we exactly need 'n-1' edges to connect 'n' nodes into one component with no cycle.
+There can be extra cable than the required one 'n-1'.
+so first calculate the extra_cable=> extra_cable= len(connections) - (n-1)
+then calculate the no of cable we have to remove to make connections acyclic.
 
-# But here is the twist. we may not require all removed cable to connect the remaining node.
-# we only need 'n-1' cable in total i.e 'no of cables in connection after removing' + cables required to connect remaining.
+But here is the twist. we may not require all removed cable to connect the remaining node.
+we only need 'n-1' cable in total i.e 'no of cables in connection after removing' + cables required to connect remaining.
 
-# so to get the ans subtract 'extra_cable from removed_cables' and finally 
-# ans will be equal to: ans= removed_cables - extra cable.
+so to get the ans subtract 'extra_cable from removed_cables' and finally 
+ans will be equal to: ans= removed_cables - extra cable.
+
+Q) why answer can't be equal to : edges for which we can't do union i.e to_remove only?
+-> to_remove: count of redundant cables (extra cables that aren't needed to keep the current components connected).
+However, the question isn't asking "How many extra cables do I have?" It is asking "How many cables must I move to connect everything?"
+
+Consider this scenario:
+You have 10 nodes and only 1 cable.
+to_remove will be 0 (because that one cable isn't redundant).
+But your network is not connected. You actually need 8 more cables to connect the 9 isolated components.
+
+Time : O(E * aplha(N) + N) 
+Why 'why N is inside alpha , not E' ?
+-> The "universe" of nodes you are managing is N.
+
+The E vs N Roles:
+In the expression O(E * alpha(N)):
+    E represents how many times you perform an operation.
+    alpha(N) represents how much each operation costs.
+"""
 
 class DSU:
     def __init__(self, n):
@@ -58,10 +78,14 @@ class Solution:
         return to_add
 
 
-# Method 2: very simple , concise and good logic.
-# just find the no of components say 'k' then, to connect all these components together we need exactly 'k-1' edge.
-# 'k-1' will be our ans as we have to connect all these components together only.
-# so no need to worry about from how we will get these edges.
+# Method 2: 
+"""
+very simple , concise and good logic.
+just find the no of components say 'k' then, to connect all these components together we need exactly 'k-1' edge.
+'k-1' will be our ans as we have to connect all these components together only.
+so no need to worry about from how we will get these edges.
+"""
+
 class DSU:
     def __init__(self, n):
         self.v= n
@@ -76,7 +100,6 @@ class DSU:
                                                 #    This is called path compression.
         self.parent[n]= self.findUPar(self.parent[n])   # writing above in same link is giving error
         return self.parent[n]
-        # return self.findUPar(self.parent[n])   # This will only give the parent node, will not assign.
     
     def unionBySize(self, n1, n2):
         p1, p2= self.findUPar(n1), self.findUPar(n2)

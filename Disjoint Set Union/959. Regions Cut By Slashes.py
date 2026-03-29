@@ -12,7 +12,7 @@ Imagine a grid of size n * n. To draw this grid, you actually need (n+1) * (n+1)
     The Slashes as Edges: Every '/' or '\\' is essentially an edge connecting two dots. 
         A forward slash '/' in cell (i, j) connects the dot at (i, j+1) to the dot at (i+1, j).
         A backslash '\\' in cell (i, j) connects the dot at (i, j) to the dot at (i+1, j+1).
-        Note : only see square from right side from point (i, j)
+        Note : only see square to right side from point (i, j)
     Creating Regions: In a graph where the boundary is already connected, every time you connect two dots that are already part of the same component, you have closed a cycle.
     The Result: Every closed cycle creates exactly one new enclosed region.
 

@@ -35,24 +35,22 @@ space : O(n^2)
 
 class DSU:
     def __init__(self, n):
-        # parent[i] stores the parent of node i
+        # Every dot (vertex) is its own parent initially
         self.parent = [i for i in range(n)]
-        # size[i] used for Union by Size optimization
         self.size = [1 for i in range(n)]
-        # count starts at 1 because the outer boundary itself forms the first region
-        self.count = 1
+        self.count = 0
     
     def findParent(self, n):   
         if n == self.parent[n]:   
             return n
-        # Path Compression: making the tree flat for O(alpha(N)) lookups
+        # Path Compression: Connects node directly to the root for O(alpha) time
         self.parent[n] = self.findParent(self.parent[n])   
         return self.parent[n]
     
     def union(self, n1, n2):  
         p1, p2 = self.findParent(n1), self.findParent(n2)
         
-        # If both dots already share the same parent, a cycle is formed
+        # If both dots already share the same parent, a cycle is formed and we get a new component
         if p1 == p2:
             self.count += 1
             return 
@@ -82,6 +80,7 @@ class Solution:
                     current_dot_idx = i * dots_per_side + j
                     # We union all boundary dots with dot 0
                     dsu.union(0, current_dot_idx)
+        # After this count will become 1
         
         # Step 2: Manually reset count to 1 after boundary initialization
         # Because our union logic increments count for cycles, and the 

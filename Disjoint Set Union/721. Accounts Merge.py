@@ -1,75 +1,103 @@
 """
-How to think about DSU ?
-for simplicity replace the name->0,1,2... for each account.
-just traverse through mails for each account and keep mapping with its account_no if doesn't eaxist in map.
-if exist in map then connect those account into one component by calling the function union.
+You can visualize it as a graph where each Account Index is a node, and an Email is a bridge connecting two account indices.
 
-after creating map, find all the merged mail of each account into a list of list by traversing through the items in map.
-VVI: But add mail to the ultimate parent. 
-And at last add name before merged  mail.
+The Thought Process: Why DSU?
+1. The "Bridge" Intuition: If Account 0 has "john@m.com" and Account 1 also has "john@m.com", these two accounts are the same person. The email acts as a connection.
+2. Transitive Property: If Account 0 matches Account 1, and Account 1 matches Account 2, then all three must be merged. 
+This is exactly what Disjoint Set Union (DSU) handles—merging smaller sets into larger components.
+3. The Entities:
+    Nodes: The indices of the accounts list (0, 1, 2,...., n-1).
+    Connections: Any two indices that share a common email.
+
+The Logic: A Two-Pass Strategy
+Pass 1: Build the Connections (Union)
+We need a way to track which emails we've seen before. We use a hashmap mail_to_index.
+a) Iterate through each account.
+b) For each email:
+    If we haven't seen it: Map email -> current_account_index.
+    If we have seen it: It means the current_account_index and the previously_stored_index belong to the same person. Call dsu.union(current, previous).
+
+Pass 2: Grouping the Emails (Find)
+After all unions are done, every account index points to its "Ultimate Parent" (the representative of that person).
+a) Create a list of lists (or a dictionary) called mergedMail.
+b) Iterate through our mail_to_index map.
+c) For each email, find the ultimate_parent of the index it's mapped to.
+d) Append the email to mergedMail[ultimate_parent].
+
+Complexity
+Time: O(N * K * alpha(N) + M *log M), where N is accounts, K is emails per account, and M is the total number of unique emails (due to sorting).
+Space: O(N * K) to store the DSU parents and the email-to-index mapping.
+
 """
+
+import collections
 
 class DSU:
     def __init__(self, n):
-        self.v= n
-        self.parent=  [i for i in range(n)]
-        self.size=    [1 for i in range(n)]   
+        # parent[i] stores the representative of the set containing i
+        self.parent = list(range(n))
+        # size[i] stores the number of nodes in the set rooted at i
+        self.size = [1] * n
     
-    def findUPar(self, n):   
-        if n== self.parent[n]:   
+    def findUPar(self, n):
+        # Path Compression: Connects node directly to the root
+        if n == self.parent[n]:
             return n
-        self.parent[n]= self.findUPar(self.parent[n])   
+        self.parent[n] = self.findUPar(self.parent[n])
         return self.parent[n]
     
     def unionBySize(self, n1, n2):
-        p1, p2= self.findUPar(n1), self.findUPar(n2)
-        if p1== p2:   # we can't do union since they belong to the same component.
-            return
-            # return False
+        # Find ultimate parents of both nodes
+        p1, p2 = self.findUPar(n1), self.findUPar(n2)
+        if p1 == p2:
+            return # Already in the same component
+            
+        # Union by Size: Attach smaller tree under larger tree
         if self.size[p1] < self.size[p2]:
-            self.parent[p1]= p2  
-            self.size[p2]+= self.size[p1]   
-        else :   # rank[p1]>= rank[p2]
-            self.parent[p2]= p1   
-            self.size[p1]+= self.size[p2]
+            self.parent[p1] = p2
+            self.size[p2] += self.size[p1]
+        else:
+            self.parent[p2] = p1
+            self.size[p1] += self.size[p2]
 
 class Solution:
-    def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
-        n= len(accounts)
-        dsu= DSU(n)
-        mail_to_Name= {}
-        for name in range(n):   # first index will represent the name in each account.
-            for emails in range(1, len(accounts[name])):   # email for each account will start from '1' for each name.
-                mail= accounts[name][emails]
-                if mail not in mail_to_Name:  # if this email is not into 'map'
-                    mail_to_Name[mail]= name
-                else: # join the two accounts(name into 1 by updating the parent)
-                    dsu.unionBySize(name, mail_to_Name[mail])
-                    # no need to map this curr mail because this same mail is already there.
-        # map with mail-> account_no(i.e 0,1,2) is created
-        # Now disjoint set is also created and account with same email id is merged into one.
+    def accountsMerge(self, accounts: list[list[str]]) -> list[list[str]]:
+        n = len(accounts)
+        dsu = DSU(n)
         
-        # Now take email one by one from 'map' and add that to the ultimate parent of their account_no(values) with name in sorted order.
-        # first merging mail together belonging to same account.
-        mergedMail= [[] for i in range(n)]
-        for mail, account_no in mail_to_Name.items():
-            ultimate_parent= dsu.findUPar(account_no)
-            mergedMail[ultimate_parent].append(mail)
-        # now all mail will be get merged into respective parent account
+        # Step 1: Map each email to the FIRST account index that owns it.
+        # If we see the email again in a different account, we UNION the two indices.
+        email_to_acc = {} # { "email@test.com": account_index }
         
-        # now add the name before these mails.
-        print(mergedMail)
-        ans= []
         for i in range(n):
-            if not mergedMail[i]: # after merging there may not be any mail because they are already added to parent account.
-                continue
-            mergedMail[i].sort()  # sorting emails after merging.
-            merged_account= []    # to store the name and email for each account after merging
-            merged_account.append(accounts[i][0])  # adding the name of each count first
-            for mail in mergedMail[i]:
-                merged_account.append(mail)
-            ans.append(merged_account)
-        return ans
+            # Skip the first element as it is the Name, start from index 1 (emails)
+            for j in range(1, len(accounts[i])):
+                email = accounts[i][j]
+                
+                if email not in email_to_acc:
+                    # First time seeing this email, associate it with current account index
+                    email_to_acc[email] = i
+                else:
+                    # This email appeared before! Merge current account with previous one.
+                    dsu.unionBySize(i, email_to_acc[email])
+        
+        # Step 2: Group all unique emails by their "Ultimate Parent" account index.
+        # This effectively merges all emails belonging to the same person.
+        merged_mail_dict = collections.defaultdict(list)
+        for email, acc_idx in email_to_acc.items():
+            root = dsu.findUPar(acc_idx)
+            merged_mail_dict[root].append(email)
+            
+        # Step 3: Format the final output.
+        # Each entry must be [Name, sorted_email1, sorted_email2, ...]
+        result = []
+        for root_idx, emails in merged_mail_dict.items():
+            # The name is taken from the representative account index
+            name = accounts[root_idx][0]
+            # Requirement: emails must be in sorted order
+            result.append([name] + sorted(emails))
+            
+        return result
 
 # Java
 """

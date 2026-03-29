@@ -1,11 +1,16 @@
-# logic: first form the sets(connected components) using the given ele when you encounter '1' with its adjacent neighbour.
-# in this way parent and size will get updated automatically.
+"""
+logic: first form the sets(connected components) using the given ele when you encounter '1' with its adjacent neighbour.
+in this way parent and size will get updated automatically.
 
-# Now try to fill '0' with ''1' . and try to combine the size of all of parent adjacent cell having value= 1.
-# VVI: But the adjacent cell may have same ultimate parent(may adjacent cell connected to each other also) and if we combine their size then,
-# we will get the wrong ans.
-# so we we need something to check for each whether we have already visited that ultimate parent or not for each available '0'.
-# so using visited_parent to check for every node.
+Now try to fill '0' with ''1' . and try to combine the size of all of parent adjacent cell having value= 1.
+VVI: But the adjacent cell may have same ultimate parent(may adjacent cell connected to each other also) and if we combine their size then,
+we will get the wrong ans.
+so we we need something to check for each whether we have already visited that ultimate parent or not for each available '0'.
+so using visited_parent to check for every node.
+
+Time : Operation: N^2 cells * 4 directions * alpha(N^2)  = O(N^2 * 4 * alpha(N^2))
+Space : O(N^2)
+"""
 
 class DSU:
     def __init__(self, n):

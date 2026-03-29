@@ -27,7 +27,7 @@ Note : Make diagram on paper for better visualisation.
 
 Q) Why use (n+1) * (n+1)?
 A single square (1x1) has vertices at:(0,0), (0,1)(1,0), (1,1)
-To represent a grid of $n$ squares, you need $n+1$ points in each direction. If n=3, you have points 0, 1, 2, 3.
+To represent a grid of n squares, you need n+1 points in each direction. If n=3, you have points 0, 1, 2, 3.
 
 Time : O(n^2 * alpha(n^2)) 
 space : O(n^2) 

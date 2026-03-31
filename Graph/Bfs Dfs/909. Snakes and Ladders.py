@@ -19,7 +19,7 @@ class Solution:
         def SquareNoToCoordinate(square):
             # 'r' is distance from the bottom row
             # 'c' is distance from the left-most side of THAT row
-            r, c = divmod(square - 1, n)
+            r, c = divmod(square - 1, n)  # sqaure was 1-based indexing so using 'square - 1'
             
             # actual_row: Convert 'distance from bottom' to 'index from top'
             actual_row = (n - 1) - r

@@ -16,17 +16,23 @@ class Solution:
     def snakesAndLadders(self, board: List[List[int]]) -> int:
         n= len(board)
 
-        def SquareNoToCoordinate(square):  # will return the coordinate of the 'square' no.
-            r, c= divmod(square- 1, n)   # square no is in '1' based indexing.
-            # so for getting the coordinates in '0' based indexing(board) dividing by 'n'. 
-            # it will give row no from bottom , so from top row no will be...
-            row_no= (n -1) - r   # board is zero based indexing so subtracting with 'n-1'.
-            # for finding exact col(due to cell no from left->right, right->left in alternate row) , 
+        def SquareNoToCoordinate(square):
+            # 'r' is distance from the bottom row
+            # 'c' is distance from the left-most side of THAT row
+            r, c = divmod(square - 1, n)
             
-            # it will depend on whether 'r' is odd or even from bottom
-            if r% 2== 0:  # if even
-                return [row_no, c]
-            return [row_no, n-c-1]    
+            # actual_row: Convert 'distance from bottom' to 'index from top'
+            actual_row = (n - 1) - r
+            
+            # actual_col: Handle the zig-zag (Boustrophedon)
+            # If r is even (0, 2, 4...), we are moving Left -> Right, so col is just c.
+            # If r is odd (1, 3, 5...), we are moving Right -> Left, so col is flipped.
+            if r % 2 == 0:
+                actual_col = c
+            else:
+                actual_col = (n - 1) - c
+                
+            return actual_row, actual_col    
 
         q= collections.deque([])
         visited= set()

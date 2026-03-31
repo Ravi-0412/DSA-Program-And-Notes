@@ -38,7 +38,7 @@ class Solution:
         return len(edges) == n - 1
 
 # Method 2:
-# Shortcut of above one.
+# Shortcut of above one. Understand it properly later.
 class Solution:
     def validTree(self, n, edges):
         # initialize n isolated islands

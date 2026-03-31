@@ -1,19 +1,21 @@
-# Logic: Any binary tree follow 2 properties:
-# 1) There shouldn't be any cycle 
-# 2) All nodes should be connected in single component.
+"""
+Logic: Any binary tree follow 2 properties:
+1) There shouldn't be any cycle 
+2) All nodes should be connected in single component.
 
-# But here tree is not given only leftchild and rightChild of a node is given(i.e indegree[child] = 1 exactly)
-# So when we will try to connect them together we can connect because Dsu doesn't care about orientation.
-# Dsu will simply connect them together avoiding cycle.
+But here tree is not given , only leftchild and rightChild of a node is given(i.e indegree[child] = 1 exactly)
+So when we will try to connect them together we can connect because Dsu doesn't care about orientation.
+Dsu will simply connect them together avoiding cycle.
 
-# Note: But here orientation will also matter i.e one node can be either left or right child of a single node.
-# So once we have included any node as child of any other node then that node can't be child further.
+Note: But here orientation will also matter i.e one node can be either left or right child of a single node.
+So once we have included any node as child of any other node then that node can't be child further.
 
-# So we need to keep track of node that is included as child.
+So we need to keep track of node that is included as child.
 
-# Note: We can do this by bfs or dfs , just first find the root and then we need to check all three conditions treating link as undirected graph.
+Note: We can do this by bfs or dfs , just first find the root and then we need to check all three conditions treating link as undirected graph.
 
-# See the code of bfs and dfs in graph
+See the code of bfs and dfs in graph
+"""
 
 class DSU:
     def __init__(self, n):
@@ -74,10 +76,14 @@ class Solution:
             l , r = leftChild[i], rightChild[i]
             if l != -1:
                 if l in child or dsu.union(i, l) == False:
+                    # 1. l has already a parent, two parent
+                    # 2. 'l' & 'r' belong to same parent so can't connect , will lead to cycle
                     return False
                 child.add(l)
             if r != -1:
                 if r in child or  dsu.union(i, r) == False :
+                     # 1. l has already a parent, two parent
+                    # 2. 'l' & 'r' belong to same parent so can't connect , will lead to cycle
                     return False
                 child.add(r)
         maxSize = max(dsu.size)

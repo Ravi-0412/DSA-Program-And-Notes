@@ -151,11 +151,19 @@ public:
 
 # Method 2: Kahn's Algo only
 """
-Nodes that do not lead to a cycle are called "eventual safe nodes".
+Safe: Nodes that do not lead to a cycle are called "eventual safe nodes".
+Terminal Nodes: These are the "ultimate" safe nodes (outdegree = 0).
 If we reverse the graph, then terminal nodes (no outgoing edges) become sources.
 Using Kahn’s algorithm (topological sort) on the reversed graph, we can find all nodes
 that eventually lead to terminal nodes (i.e., safe nodes) by following paths backwards.
-Any node that can reach a terminal node without hitting a cycle is marked safe.
+
+By reversing the edges, the original terminal nodes (outdegree 0) now have an indegree of 0 in the reversed graph.
+Now, we can perform a standard Topological Sort starting from these terminal nodes.
+If a node's outdegree becomes 0, it means all of its original outgoing edges now point to 
+nodes that have been confirmed as "safe." Therefore, this node is now safe too! Add it to the queue.
+Any node that was added to the queue is safe.
+
+Time = sapce : O(V + E)
 """
 from collections import deque, defaultdict
 from typing import List
@@ -163,30 +171,45 @@ from typing import List
 class Solution:
     def eventualSafeNodes(self, graph: List[List[int]]) -> List[int]:
         n = len(graph)
+        # reverse_graph[v] will store all nodes 'u' such that there is an edge u -> v
         reverse_graph = defaultdict(list)
-        indegree = [0] * n
+        
+        # In this reversed context, 'outdegree' of the original graph 
+        # acts like 'indegree' for our Kahn's algorithm.
+        outdegree = [0] * n
 
-        # Build reverse graph and count original outdegrees
+        # Step 1: Build the reversed graph and calculate original outdegrees
         for u in range(n):
             for v in graph[u]:
+                # Original: u -> v | Reversed: v -> u
                 reverse_graph[v].append(u)
-                indegree[u] += 1
+                # Count how many outgoing edges node 'u' has
+                outdegree[u] += 1
 
-        # Start with terminal nodes (outdegree 0)
-        queue = deque([i for i in range(n) if indegree[i] == 0])
-        safe = [False] * n
+        # Step 2: Initialize queue with Terminal Nodes
+        # A terminal node has an outdegree of 0 (no outgoing edges).
+        queue = deque([i for i in range(n) if outdegree[i] == 0])
+        
+        # safe[i] will be True if node i is an eventual safe state
+        is_safe = [False] * n
 
-        # Kahn's algorithm to find safe nodes
+        # Step 3: Kahn's Algorithm (Topological Sort on reversed graph)
         while queue:
-            node = queue.popleft()
-            safe[node] = True
-            for prev in reverse_graph[node]:
-                indegree[prev] -= 1
-                if indegree[prev] == 0:
+            curr = queue.popleft()
+            is_safe[curr] = True
+            
+            # Look at all nodes 'prev' that point to the current 'safe' node
+            for prev in reverse_graph[curr]:
+                # Since 'curr' is safe, 'prev' has one less 'potentially unsafe' path
+                outdegree[prev] -= 1
+                
+                # If outdegree becomes 0, ALL paths from 'prev' lead to safe nodes
+                if outdegree[prev] == 0:
                     queue.append(prev)
 
-        # Collect and return safe nodes
-        return sorted(i for i, val in enumerate(safe) if val)
+        # Step 4: Collect all nodes marked as safe
+        # We iterate from 0 to n-1 to ensure the result is sorted as required
+        return [i for i in range(n) if is_safe[i]]
 
 # Java
 """

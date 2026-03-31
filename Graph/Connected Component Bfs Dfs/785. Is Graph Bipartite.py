@@ -50,7 +50,7 @@ class Solution:
                     Q.append(nei)  # in DFS instead of this line we call the DFS gain and everything is same only
                 elif color[nei]== color[curr]: # if colored and have same color then not bipartite 
                     return False
-        # return True  # no need of this
+        return True  # no need of this but safe
 
 # Java Code
 """

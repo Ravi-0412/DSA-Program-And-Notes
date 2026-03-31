@@ -75,7 +75,7 @@ class Solution:
             graph[d].append(s)
 
         visited= set()
-        # this will check cycle or not using DFS
+        # this will check cycle or not using DFS , just same way we check cycle in undirected graph
         def isCycle(src,parent):
             visited.add(src)
             for u in graph[src]:

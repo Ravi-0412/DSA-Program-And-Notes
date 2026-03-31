@@ -137,7 +137,7 @@ class Solution:
             return 
         nodeCopy = Node(node.val)
         dic = {node: nodeCopy}    #  will contain the clone(copy) of each node
-        queue = collections.deque([node])
+        queue = collections.deque([node])  # traversal should be according to old node only because we can only add clone node as neighbors
         while queue:
             node = queue.popleft()
             # now go to adjacent node and add as its neighbor by copying
@@ -147,7 +147,7 @@ class Solution:
                     dic[neighbor] = neighborCopy
                     dic[node].neighbors.append(neighborCopy)
                     queue.append(neighbor)
-                else:  # if presen then append its value i.e as its copy is already created
+                else:  # if presen then append its value i.e as its copy is already created. By this we are creating undirected graph
                     dic[node].neighbors.append(dic[neighbor])
         return nodeCopy  # return the 1st node like we were also given only the one reference node
         

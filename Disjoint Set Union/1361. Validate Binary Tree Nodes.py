@@ -82,7 +82,7 @@ class Solution:
                 child.add(l)
             if r != -1:
                 if r in child or  dsu.union(i, r) == False :
-                     # 1. l has already a parent, two parent
+                     # 1. r has already a parent, two parent
                     # 2. 'l' & 'r' belong to same parent so can't connect , will lead to cycle
                     return False
                 child.add(r)

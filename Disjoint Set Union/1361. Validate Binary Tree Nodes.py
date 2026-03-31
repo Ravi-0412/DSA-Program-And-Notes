@@ -14,6 +14,8 @@ So we need to keep track of node that is included as child.
 
 Note: We can do this by bfs or dfs , just first find the root and then we need to check all three conditions treating link as undirected graph.
 
+Time : O(N * alpha(N))
+
 See the code of bfs and dfs in graph
 """
 
@@ -47,12 +49,15 @@ class Solution:
         for i in range(n):
             l , r = leftChild[i], rightChild[i]
             if l != -1:
-                # if node 'l' is already included as child of any other node before
                 if l in child or dsu.union(i, l) == False:
+                    # 1. l has already a parent, two parent
+                    # 2. 'l' & 'r' belong to same parent so can't connect , will lead to cycle
                     return False
                 child.add(l)
             if r != -1:
                 if r in child or  dsu.union(i, r) == False :
+                    # 1. r has already a parent, two parent
+                    # 2. 'l' & 'r' belong to same parent so can't connect , will lead to cycle
                     return False
                 child.add(r)
         # Now to make sure that they are connected in a single component only

@@ -18,6 +18,8 @@ Note: Complete graph can never be bipartite.
 
 Note: It can done also by 'm-coloring' problem using backtracking.
 Just replace 'm' -> 2.
+
+Time : O(V + E) , space : O(V)
 """
 
 # method 1: 

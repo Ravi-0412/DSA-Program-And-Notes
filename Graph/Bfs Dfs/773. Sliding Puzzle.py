@@ -1,10 +1,16 @@
 """
-Treat sequenc eif number in grid as starting(source) node. Then our question reduces to find the minimum moves
+Logic: 
+1. Treat sequenc eif number in grid as starting(source) node. Then our question reduces to find the minimum moves
 to reach from source to destination where destination = "123450".
+2. Identify where the "empty space" is and determines which numbers can legally slide into it.
 
 For this we can use bfs. 
 Why not Dijkastra?
 Because cost is not associated with moves.
+
+Time Complexity: O((R * C)!)
+For a 2 * 3 board, there are only 6! = 720 possible permutations of the tiles. In the worst case, BFS visits every reachable state exactly once.
+Space Complexity: O((R * C)!). To store the visited set and the queue in the worst-case scenario.
 """
 
 from collections import deque
@@ -16,7 +22,8 @@ class Solution:
         target = "123450"
         start = ''.join(str(num) for row in board for num in row)
         
-        # Neighbor mapping for each index in the 1D representation of the board
+        # Neighbor mapping for each number in the 1D representation of the board, in 0- indexing
+        # if sequence is correct
         neighbors = {
             0: [1, 3], 1: [0, 2, 4], 2: [1, 5],
             3: [0, 4], 4: [1, 3, 5], 5: [2, 4]

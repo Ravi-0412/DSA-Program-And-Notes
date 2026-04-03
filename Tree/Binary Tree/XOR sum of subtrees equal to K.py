@@ -280,6 +280,93 @@ if __name__ == "__main__":
 """
 Part 4: 
 Q) Assign a value (0 or 1) to each node in a Binary Tree such that the sum(normal sum not XOR) of the cost all subtrees equals a target value K.
+
+Thought Process & Logic: 
+1. The Node's "Weight"
+In a tree where we want to sum subtree costs, the contribution of any node i with a value of 1 is exactly its depth (d_i).
+  Why? Because that node is part of d_i different subtrees (itself and all ancestors).
+  This transforms the problem into: "Pick a subset of nodes whose depths sum to K."  => Subset Sum problem
+
+2. Decision Tracking (The has_included Table):
+Standard space-optimized DP (using only one or two rows) tells you if K is possible, but it "forgets" which nodes were used.
+  We use a 2D boolean table has_included[node_index][current_sum].
+  If we decide to include node i to reach a sum j, we mark this cell as True.
+
+3. The Backtracking Phase:
+Once the table is filled, we start at the final state: (Total Nodes, Target K).
+  If has_included[i][current_sum] is True:
+    Node i was part of the solution. Assign it 1.
+    Move to the previous node (i-1) and reduce the target sum by that node's depth.
+If False:
+  Node i was not used. Assign it 0.
+  Move to the previous node ($i-1$) with the same target sum.
+
+Time : O(N * K) = space
 """
+
+class TreeNode:
+    def __init__(self, node_id, left=None, right=None):
+        self.node_id = node_id  # Unique ID from 0 to n-1
+        self.left = left
+        self.right = right
+
+class Solution:
+    def findAssignments(self, root: TreeNode, n: int, K: int):
+        """
+        Goal: Assign 0 or 1 to each node such that sum of subtree costs = K.
+        Complexity: Time O(N*K), Space O(N*K) for the decision table.
+        """
+        # --- Step 1: Extract Depths (Weights) ---
+        # We need both the depth (the value we sum) and the node_id (the identity)
+        node_metadata = [] # List of (depth, node_id)
+        
+        def traverse(node, depth):
+            if not node:
+                return
+            node_metadata.append((depth, node.node_id))
+            traverse(node.left, depth + 1)
+            traverse(node.right, depth + 1)
+            
+        traverse(root, 1)
+
+        # --- Step 2: Build the DP Table ---
+        # dp[i][j] -> Can we reach sum 'j' using the first 'i' nodes?
+        dp = [[False] * (K + 1) for _ in range(n + 1)]
+        # has_included[i][j] -> Did we use node 'i' to achieve sum 'j'?
+        has_included = [[False] * (K + 1) for _ in range(n + 1)]
+
+        # Base case: A sum of 0 is always possible (by picking nothing)
+        for i in range(n + 1):
+            dp[i][0] = True
+
+        for i in range(1, n + 1):
+            node_depth, node_id = node_metadata[i-1]
+            for current_target in range(1, K + 1):
+                # Option A: Exclude this node. 
+                # Check if the previous state (i-1) could already achieve this sum.
+                dp[i][current_target] = dp[i-1][current_target]
+                
+                # Option B: Include this node (if it fits in the current_target).
+                # Check if the previous state could achieve the 'remaining sum'.
+                if node_depth <= current_target:
+                    if dp[i-1][current_target - node_depth]:
+                        dp[i][current_target] = True
+                        has_included[i][current_target] = True
+
+        # --- Step 3: Backtrack to find specific node values ---
+        if not dp[n][K]:
+            return "Impossible" # Target sum K cannot be formed by any node combination
+
+        final_assignments = [0] * n
+        remaining_k = K
+        
+        # Move backwards from the last node to the first
+        for i in range(n, 0, -1):
+            if has_included[i][remaining_k]:
+                node_depth, node_id = node_metadata[i-1]
+                final_assignments[node_id] = 1 # Mark node as 'used'
+                remaining_k -= node_depth # Reduce the sum we are looking for
+        
+        return final_assignments
 
 

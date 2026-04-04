@@ -295,3 +295,61 @@ public:
 };
 """
 
+# Method 5:
+"""
+Most optimised
+Using single array , not creating a new one at each step.
+That one also has space O(N) only because at any time only O(2*N) memory remain active and get wiped out by garbage collector.
+
+How to do this ?
+The Core Intuition: "The Dependency Rule"
+To use a single array, you must look at where the data comes from.
+In your two-row code, to calculate cur[j], you look at:
+1. pre[j] (The cell directly above)
+2. pre[j - weight] (A cell to the top-left)
+The Problem: If you use a single array and fill it from left to right (index 0 to Target), 
+you will overwrite dp[j - weight] before you get a chance to use it for dp[j]. You would be accidentally using data from the current row instead of the previous row.
+
+The Solution: Fill the array from right to left (index Target down to 0).
+By moving backwards, when you are at index j, the value at j - weight hasn't been updated yet—it still belongs to the previous iteration (the previous "row").
+
+The Generalized Logic (How to apply this elsewhere)
+Whenever you see a DP relation that looks like this:
+    dp[i][j] = f(dp[i-1][j], dp[i-1][j - offset])
+You can follow these three steps to optimize space:
+Step 1: Identify the "Row" Dependency
+    Does the current state only depend on the immediately previous row (i-1)?
+        If yes, you only need O(Width) space.
+        If it depends on i-1 and i-2 (like Fibonacci), you need two variables/rows.
+Step 2: Check the "Direction" of Dependency
+Look at the second parameter (j).
+    If j depends on a smaller index (j - w), you must iterate Backwards (K to 0).
+    If j depends on a larger index (j + w), you must iterate Forwards (0 to K).
+    If j only depends on the same index (j), the direction doesn't matter.
+Step 3: The "In-Place" Update
+The logic cur[j] = pre[j] or pre[j-w] becomes:
+    dp[j] = dp[j] or dp[j-w]
+    The first dp[j] on the left is the "New" value. 
+    The dp[j] on the right is the "Old" value (effectively pre[j]).
+"""
+
+class Solution:
+    def isSubsetSum(self, arr, total_sum):
+        N = len(arr)
+        # We only need one array of size (target + 1)
+        dp = [False] * (total_sum + 1)
+        
+        # Base case: A sum of 0 is always possible
+        dp[0] = True
+        
+        for i in range(N):
+            current_weight = arr[i]
+            # CRITICAL: Iterate backwards from total_sum down to current_weight
+            # This ensures dp[j - current_weight] is still from the PREVIOUS item
+            for j in range(total_sum, current_weight - 1, -1):
+                # If the sum was already possible, or becomes possible by adding arr[i]
+                if dp[j - current_weight]:
+                    dp[j] = True
+                    
+        return dp[total_sum]
+        

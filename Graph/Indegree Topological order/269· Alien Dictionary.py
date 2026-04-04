@@ -232,5 +232,69 @@ public:
 };
 
 """
-# other way:
-# Link: https://leetcode.com/problems/alien-dictionary/solutions/70119/java-ac-solution-using-bfs/
+
+# Method 2:
+"""
+Using BFS
+
+Q) if w2[j] not in adj[w1[j]] 
+why it's needed here , not in dfs approach
+
+-> Because we are using indegree here so for duplicates indegree will also increase leading to wrong ans.
+E.g: If you encounter the relationship "a before b" three different times and you don't check if b not in adj[a], 
+you will increment the in-degree of "b" to 3.
+"""
+
+from collections import deque, defaultdict
+
+class Solution:
+    def alienOrder(self, words: List[str]) -> str:
+        # 1. Initialize data structures
+        # adj: maps a character to a set of characters that must come AFTER it
+        # in_degree: counts how many characters must come BEFORE a specific character
+        adj = {char: set() for word in words for char in word}
+        in_degree = {char: 0 for word in words for char in word}
+        
+        # 2. Build the Graph
+        for i in range(len(words) - 1):
+            w1, w2 = words[i], words[i + 1]
+            minLen = min(len(w1), len(w2))
+            
+            # Special Check: If w2 is a prefix of w1 (e.g., "apple", "app"), it's invalid
+            if len(w1) > len(w2) and w1[:minLen] == w2[:minLen]:
+                return ""
+            
+            # Find the first differing character to establish a relationship
+            for j in range(minLen):
+                if w1[j] != w2[j]:
+                    # If we haven't recorded this dependency yet
+                    if w2[j] not in adj[w1[j]]:
+                        adj[w1[j]].add(w2[j])
+                        in_degree[w2[j]] += 1
+                    # Only the first differing character defines the order
+                    break
+        
+        # 3. BFS Approach (Kahn's Algorithm)
+        # Start with all characters that have NO dependencies (in-degree == 0)
+        queue = deque([char for char in in_degree if in_degree[char] == 0])
+        res = []
+        
+        while queue:
+            char = queue.popleft()
+            res.append(char)
+            
+            # Decrease the in-degree for all characters that depend on 'char'
+            for neighbor in adj[char]:
+                in_degree[neighbor] -= 1
+                # If a neighbor now has 0 dependencies, it can be added to the result
+                if in_degree[neighbor] == 0:
+                    queue.append(neighbor)
+        
+        # 4. Final Validation
+        # If the result length is less than the number of unique characters,
+        # it means there was a cycle (e.g., a -> b -> a)
+        if len(res) < len(in_degree):
+            return ""
+            
+        return "".join(res)
+        

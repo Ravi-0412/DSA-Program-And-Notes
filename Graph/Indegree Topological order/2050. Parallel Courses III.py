@@ -8,7 +8,7 @@ Thus solving batch-wise, the minimum total time taken to complete all the course
 
 This greedy approach won't work.
 e.g : Input: n = 5, relations = [[1,2],[2,5],[3,4],[4,5]], time = [2, 7, 10, 2, 3]
-if we apply this logic then ans = 20 .
+if we apply this logic then ans = 20 , expected : 15
 
 Read this: https://leetcode.com/problems/parallel-courses-iii/solutions/1816306/reason-for-10th-test-case-failure-reason-for-wrong-answer/
 """

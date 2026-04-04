@@ -22,8 +22,8 @@ As where there will be "0" in grid that will be the parent of itself and that al
 only that will be part of ans who is parent of himself and value at that grid cell== "1".
 
 Time : O((m * n) * alpha(m*n)),
-The alpha factor: The technical time per operation is $O(\alpha(V))$, where $\alpha$ is the Inverse Ackermann function. 
-It grows so slowly that for all practical purposes (even if $V$ is the number of atoms in the universe), it is less than 5.
+The alpha factor: The technical time per operation is O(alpha(V)), where alpha is the Inverse Ackermann function. 
+It grows so slowly that for all practical purposes (even if V is the number of atoms in the universe), it is less than 5.
 """
 
 class DSU:

@@ -8,7 +8,7 @@ Where M is the number of rows and N is the number of columns
 
 Space : O(M * N) , for marking visited
 
-can use anhy other to mark visited like 'DFS' one to reduce the space complexity.
+can use any other char to mark visited like 'DFS' one to reduce the space complexity.
 """
 # 1st Method: Using Bfs
 

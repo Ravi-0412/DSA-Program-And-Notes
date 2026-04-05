@@ -1,4 +1,4 @@
-# Method 2:
+# Method 1:
 """
 logic: just simple bfs to find the cost from src to destination.
 Difficult part to think how we can do by graph.
@@ -477,7 +477,8 @@ class Solution:
 
 # Google asked Exact same Question
 """
-Q) Question: You are writing the Google Search unit converter. You are given a list of unit conversion factors and a query. The conversion factor is the value needed to convert from unit A to unit B.
+Q) Question: You are writing the Google Search unit converter. You are given a list of unit conversion factors and a query. 
+The conversion factor is the value needed to convert from unit A to unit B.
 Write a function that takes a list of conversion factors and 2 units (a and b) and outputs the conversion factor from a -> b.
 
 12 inches is 1 foot
@@ -527,7 +528,8 @@ class UnitConverter:
 
 # follow ups 1: Follow ups:
 """
-Q) Suppose conversion factors only change 1x a week, but users query the conversion factor function 10000x per second. How could you refactor to make this more efficient?
+Q) Suppose conversion factors only change 1x a week, but users query the conversion factor function 10000x per second. 
+How could you refactor to make this more efficient?
 Pre-computation (The "All-Pairs" Strategy)
 Instead of running BFS for every query, you calculate the conversion factor between every possible pair of units within a "connected component"
 (e.g., all distance units) and store them in a Matrix or a Nested Hash Map.

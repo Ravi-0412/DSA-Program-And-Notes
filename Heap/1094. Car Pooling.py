@@ -73,7 +73,7 @@ For each trip [num, start, end]:
 Iterate through road, adding the values to a current_occupancy variable.
 If current_occupancy > capacity at any index, return False.
 
-Time = Space = O(1)
+Time = Space = O(N)
 
 Comparison of Approaches:
 

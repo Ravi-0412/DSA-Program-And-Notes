@@ -8,6 +8,13 @@
 # understand and visualise properly.
 # Try by other approaches also later.
 
+"""
+Related Patterns & Interview Strategy:
+The "Min-Max" vs "Max-Min" Vocabulary
+Maximize the Minimum: (This problem). Use Max-Heap or Binary Search with "Can we do >= X".
+Minimize the Maximum: (e.g., LC 1631). Use Min-Heap or Binary Search with "Can we do <= X?".
+"""
+
 class Solution:
     def maximumSafenessFactor(self, grid: List[List[int]]) -> int:
         n = len(grid)

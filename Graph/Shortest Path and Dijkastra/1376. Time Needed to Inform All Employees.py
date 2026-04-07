@@ -1,3 +1,5 @@
+# Method 1: 
+
 """
 logic: when we form tree according the hierarchy then ans= "max cost from root to leaf" where cost= time
 i.e Max path sum from root to leaf.
@@ -181,20 +183,40 @@ public:
 # Other way of writing this
 # Better one. Just same as ""2050. Parallel Courses III"." 2nd method.
 
-class Solution:
-    def numOfMinutes(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:
-        hierarchy= collections.defaultdict(list)  # just forming adjacency list, directed graph
-        for i in range(len(manager)):
-            if manager[i]== -1:
-                continue
-            hierarchy[manager[i]].append(i)  # manager[i] will pass info to these employee
-    
-        def dfs(u):
-            max_time = 0
-            for v in hierarchy[u]:
-                max_time = max(max_time, dfs(v))
-            return informTime[u] + max_time
+from collections import defaultdict
 
+class Solution:
+    def numOfMinutes(self, n: int, headID: int, manager: list[int], informTime: list[int]) -> int:
+        """
+        Calculates the maximum time to inform all employees using DFS.
+        Time Complexity: O(N)
+        Space Complexity: O(N)
+        """
+        
+        # 1. Build Adjacency List: O(N) time/space
+        # Map Parent -> List of Children
+        subordinates = defaultdict(list)
+        for emp_id, mgr_id in enumerate(manager):
+            if mgr_id != -1:
+                subordinates[mgr_id].append(emp_id)
+        
+        # 2. DFS Traversal
+        def dfs(curr_id: int) -> int:
+            # Base Case: If the employee has no subordinates, 
+            # they don't need time to inform anyone.
+            if curr_id not in subordinates:
+                return 0
+            
+            max_child_time = 0
+            
+            # Since news spreads to all subordinates simultaneously,
+            # we only care about the subordinate that takes the longest.
+            for sub_id in subordinates[curr_id]:
+                max_child_time = max(max_child_time, dfs(sub_id))
+            
+            # The total time is the current manager's time + the slowest branch
+            return informTime[curr_id] + max_child_time
+            
         return dfs(headID)
 
 # Java

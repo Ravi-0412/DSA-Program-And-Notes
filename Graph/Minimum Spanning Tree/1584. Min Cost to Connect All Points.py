@@ -45,6 +45,46 @@ for i in range(len(points)//2 +1):  # if you do like this then you will miss all
         adj[i].append((j,distance))
         adj[j].append((i, distance))
 
+# method 2:
+import heapq
+
+class Solution:
+    def minCostConnectPoints(self, points: list[list[int]]) -> int:
+        """
+        Optimal Prim's Algorithm for a Complete Graph.
+        Time: O(N^2 log N) | Space: O(N)
+        """
+        n = len(points)
+        min_mst_cost = 0
+        visited = set()
+        
+        # min_heap stores: (cost_to_reach_node, node_index)
+        # We start with node 0. The cost to include the first node is always 0.
+        min_heap = [(0, 0)]
+        
+        while len(visited) < n:
+            cost, u = heapq.heappop(min_heap)
+            
+            # If the node is already part of our MST, skip it
+            if u in visited:
+                continue
+            
+            # 1. Add node to MST
+            visited.add(u)
+            min_mst_cost += cost
+            
+            # 2. Explore all neighbors (all other points)
+            # In a complete graph, every other point is a neighbor.
+            for v in range(n):
+                if v not in visited:
+                    # Calculate Manhattan distance on the fly to save O(N^2) space
+                    dist = abs(points[u][0] - points[v][0]) + \
+                           abs(points[u][1] - points[v][1])
+                    
+                    heapq.heappush(min_heap, (dist, v))
+                    
+        return min_mst_cost
+
 # Java Code 
 """
 import java.util.*;

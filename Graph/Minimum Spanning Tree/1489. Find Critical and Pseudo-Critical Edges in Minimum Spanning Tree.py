@@ -1,116 +1,99 @@
-# Method 1: 
-
-"""
-Very good problem. Not much hard. Medium level
-Just need to think a little.
-
-little similar way of doing as :"2699. Modify Graph Edge Weights".
-
-1) critical: Edge that must be in all of the mst.
-How to find? 
-If deleting the edge and re-calculating the mst again makes mst increase 
-(or can't form mst),then the edge goes into critical list.
-
-Note: if any edge is critical then that can't be pseudo because pseudo may or may not be in all mst.
-
-2) pseudo: edge that is part of some mst but not all.
-i.e if no matter we use or do not use this edge, we can always find an MST with the min cost.
-
-Note vvi: If any edge is critical then no need to check for 'pseudo' else check for pseudo.
-
-How to check?
-Ans: If after including the edge we get mst value = original mst then it is 'pseudo'.
-Because it is  not critical(not part of all MST) but part of one of the MST.
-
-Note: Pseudo we will only get when edge weight will repeat , in case of unique edge weight there is no chance of pseudo edge.
-
-Note: some edge may not belong to either 'critical' or 'pseudo'
-The larger weight edge remaining after mst.
-
-Time: O(E^2)
-"""
+import collections
+from typing import List
 
 class DSU:
+    """
+    Disjoint Set Union (Union-Find) with Path Compression and Union by Size.
+    Optimizes edge connectivity checks to nearly O(1) time.
+    """
     def __init__(self, n):
-        self.parent=  [i for i in range(n)]
-        self.size=    [1 for i in range(n)]   
+        self.parent = [i for i in range(n)]
+        self.size = [1 for i in range(n)]   
     
     def findParent(self, n):   
-        if n== self.parent[n]:   
+        # Path compression: flattens the structure for faster future lookups
+        if n == self.parent[n]:   
             return n
-        self.parent[n]= self.findParent(self.parent[n])   
+        self.parent[n] = self.findParent(self.parent[n])   
         return self.parent[n]
     
     def union(self, n1, n2):  
-        p1, p2= self.findParent(n1), self.findParent(n2)
-        if p1== p2:   
+        # Union by size: attaches smaller tree under the larger tree
+        p1, p2 = self.findParent(n1), self.findParent(n2)
+        if p1 == p2:   
             return False
         if self.size[p1] < self.size[p2]:
-            self.parent[p1]= p2  
-            self.size[p2]+= self.size[p1]   
-        else :   # rank[p1]>= rank[p2]
-            self.parent[p2]= p1   
-            self.size[p1]+= self.size[p2]
+            self.parent[p1] = p2  
+            self.size[p2] += self.size[p1]   
+        else:
+            self.parent[p2] = p1   
+            self.size[p1] += self.size[p2]
         return True
 
 class Solution:
     def findCriticalAndPseudoCriticalEdges(self, n: int, edges: List[List[int]]) -> List[List[int]]:
-        # we will find the MST using 'Kruskal' so sorting is needed but we also need to preserve the 
-        # edge index to get the edge number for ans. for this appending the index at last in each edge.
+        """
+        1. Critical: Must be in all MSTs. Deleting it increases MST weight or breaks connectivity.
+        2. Pseudo-Critical: Part of some MST but not all. Forcing it into the MST maintains min weight.
+        """
+        # Preserving original indices before sorting for the final answer
         for i, edge in enumerate(edges):
-            edge.append(i)   #[v1, v2, weight, index]
+            edge.append(i)  # Format: [u, v, weight, original_index]
         
-        # sort the edges based on weight
-        edges.sort(key = lambda e :e[2])
-        mst = 0
+        # Kruskal's requires edges sorted by weight
+        edges.sort(key=lambda e: e[2])
+        
+        # Step 1: Find the baseline weight of the standard MST
+        base_mst_weight = self.get_mst_weight(n, edges)
+        
+        critical, pseudo = [], []
+
+        # Step 2: Test each edge individually
+        for u_curr, v_curr, w_curr, edge_idx in edges:
+            
+            # --- CRITICAL CHECK ---
+            # Try to build an MST without this edge.
+            # If weight increases or we can't connect all nodes, it's critical.
+            weight_without = self.get_mst_weight(n, edges, exclude_idx=edge_idx)
+            if weight_without > base_mst_weight:
+                critical.append(edge_idx)
+                continue # If it's critical, it cannot be pseudo-critical by definition
+            
+            # --- PSEUDO-CRITICAL CHECK ---
+            # Try to build an MST by forcing this edge into the solution first.
+            # If the resulting total weight still equals the baseline, it's pseudo-critical.
+            weight_with = self.get_mst_weight(n, edges, include_edge=[u_curr, v_curr, w_curr])
+            if weight_with == base_mst_weight:
+                pseudo.append(edge_idx)
+
+        return [critical, pseudo]
+
+    def get_mst_weight(self, n, edges, exclude_idx=-1, include_edge=None):
+        """
+        Kruskal's Algorithm helper.
+        Calculates MST weight with options to skip an edge or force one in.
+        """
         uf = DSU(n)
-        # find the mst with all edges.
-        for u, v, w, i in edges:
+        weight_sum = 0
+        edges_count = 0
+        
+        # Scenario: Force Include (used for pseudo-critical check)
+        # We start the MST by taking this edge regardless of weight order
+        if include_edge:
+            u, v, w = include_edge
             if uf.union(u, v):
-                mst += w
-        # Now find the critical and pseudo critical
-        critical , pseudo = [], []
-        # Traverse each edge once more
-        for n1, n2, weight, j in edges:
-            # check for critical
-            # Find the mst without this edge
-            mst_excluding = 0
-            uf1 = DSU(n)
-            # find the mst with all edges.
-            for u, v, w, i in edges:
-                if i == j:
-                    # we have to exclude the above edge
-                    continue
-                if uf1.union(u, v):
-                    mst_excluding += w
+                weight_sum += w
+                edges_count += 1
             
-            # add if critical
-            # if we are not able to form mst without the above edge(any of parent size is not 'n') 
-            # or value of mst is greater then it is critical edge
-            if max(uf1.size) != n or mst_excluding > mst:
-                critical.append(j)
-                continue  # because if any edge in critical then that can't be 'pseudo critical'
-                          # so no need to check for psedu critical
+        # Scenario: Standard Kruskal's (with optional exclusion)
+        for u, v, w, i in edges:
+            if i == exclude_idx:
+                continue # Skip the edge we are testing for criticality
             
-            # Now check for pseudo critical
-            # means the current edge is not critical so it may or not be part of MST
-            # But after including the cur edge if we get the same mst value as original then
-            # it means cur edge is part of any of the MST and since not critical(not part of all MST)
-            # Therefore it will be 'pseudo critical'.
-
-            # Find Mst including cur edge
-            mst_including = weight
-            uf2 = DSU(n)
-            uf2.union(n1, n2)   # We have to include this edges first
-            # find the mst with all edges.
-            for u, v, w, i in edges:
-                if uf2.union(u, v):  # no need to check (i = j) as already added so union will return False automatically
-                    mst_including += w
-
-            # Add if 'pseudo' . Here no need to check for mst formation
-            # As it will form mst for sure since we are including 
-            if mst_including == mst:
-                pseudo.append(j)
-
-        return [critical ,pseudo]
-
+            if uf.union(u, v):
+                weight_sum += w
+                edges_count += 1
+        
+        # A valid MST must contain exactly n-1 edges
+        # If it's disconnected, return infinity so the weight comparison fails
+        return weight_sum if edges_count == n - 1 else float('inf')

@@ -5,7 +5,7 @@
 # for adjacency list we will have to take distance between every pair of node,
 # and all node will be adjacnet to each other  => O(n^2)
 
-# Time: o(E*logV) + O(n^2)
+# Time: o(n^2 * logn^2) + O(n^2) = O(N^2 * logN)
 
 class Solution:
     def minCostConnectPoints(self, points: List[List[int]]) -> int:
@@ -46,6 +46,7 @@ for i in range(len(points)//2 +1):  # if you do like this then you will miss all
         adj[j].append((i, distance))
 
 # method 2:
+# Time  : same as above
 import heapq
 
 class Solution:

@@ -13,7 +13,7 @@ If deleting the edge and re-calculating the mst again makes mst increase
 
 Note: if any edge is critical then that can't be pseudo because pseudo may or may not be in all mst.
 
-2) pseudo: edge that is part of some mst but not.
+2) pseudo: edge that is part of some mst but not all.
 i.e if no matter we use or do not use this edge, we can always find an MST with the min cost.
 
 Note vvi: If any edge is critical then no need to check for 'pseudo' else check for pseudo.

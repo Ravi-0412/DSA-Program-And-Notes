@@ -1,5 +1,9 @@
-# Q: have to find the city from which we can reach the smallest no of nodes within the threshold.
-# since we have to find the optimal for each city then only Algo comes into mind is 'Floyd Warshall Algo'.
+"""
+Problem : We have to find the city from which we can reach the smallest no of nodes within the threshold.
+For each city, count how many other cities it can reach using a path that is shorter than or equal to threshold.
+
+since we have to find the optimal for each city then only Algo comes into mind is 'Floyd Warshall Algo'.
+"""
 
 class Solution:
     def findTheCity(self, n: int, edges: List[List[int]], distanceThreshold: int) -> int:
@@ -24,11 +28,9 @@ class Solution:
             for j in range(n):
                 if adjMat[i][j] <= distanceThreshold:
                     count+= 1
-            if count < MinCity:
+            if count <= MinCity:
                 MinCity= count 
-                ans= i
-            elif count== MinCity:
-                ans= i
+                ans = i
         return ans
 
 # for finding the count of city(smallest reachable ) just subtract '-1' from the minCity as we were also including the same city while calculating.

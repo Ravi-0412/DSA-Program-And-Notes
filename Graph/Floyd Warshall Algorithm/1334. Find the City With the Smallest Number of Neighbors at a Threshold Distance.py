@@ -3,6 +3,8 @@ Problem : We have to find the city from which we can reach the smallest no of no
 For each city, count how many other cities it can reach using a path that is shorter than or equal to threshold.
 
 since we have to find the optimal for each city then only Algo comes into mind is 'Floyd Warshall Algo'.
+
+Time : O(N^3), space : o(N^2)
 """
 
 class Solution:

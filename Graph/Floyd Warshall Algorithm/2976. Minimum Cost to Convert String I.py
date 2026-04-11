@@ -7,9 +7,8 @@ For this we can use Floydd warshall Algorithm.
 2) After that go through source and target and if we can convert each char of source to target 
 and keep adding cost.
 
-Time complexity: O(n^3)
- where 'n' is the number of unique characters that can exist in our string. 
-Since we only use lowercase english characters this is just O(26^3).
+Time complexity: O(N + E + V^3) , E = 2000, V = 26
+Space : O(V^2) 
 """
 
 class Solution:
@@ -59,3 +58,9 @@ class Solution:
             
         return total_cost
     
+# follow ups:
+"""
+1. "What if the character set was Unicode (thousands of characters)?"
+-> Floyd-Warshall ($V^3$) would become too slow. In that case, you would use Dijkstra only for the characters that actually appear in the source and target strings. 
+You would also use an adjacency list instead of a matrix.
+"""

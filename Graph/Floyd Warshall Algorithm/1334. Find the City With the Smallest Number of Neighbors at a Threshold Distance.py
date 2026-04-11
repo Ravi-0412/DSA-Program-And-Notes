@@ -4,6 +4,8 @@ For each city, count how many other cities it can reach using a path that is sho
 
 since we have to find the optimal for each city then only Algo comes into mind is 'Floyd Warshall Algo'.
 
+for finding the count of city(smallest reachable ) just subtract '-1' from the minCity as we were also including the same city while calculating.
+
 Time : O(N^3), space : o(N^2)
 """
 
@@ -23,7 +25,7 @@ class Solution:
 	            for j in range(n):
 	                adjMat[i][j]= min(adjMat[i][j], (adjMat[i][via] + adjMat[via][j])) 
         # now for each vertex find the no of city that we can visit within the given threshold.
-        MinCity= n +1  # will store the min count of reachable city for a node till now. initialisng with any number we can't visit.
+        MinCity = n + 1  # will store the min count of reachable city for a node till now. initialisng with any number we can't visit.
         ans= -1   # will give the city number we are finding
         for i in range(n):
             count= 0  
@@ -35,8 +37,63 @@ class Solution:
                 ans = i
         return ans
 
-# for finding the count of city(smallest reachable ) just subtract '-1' from the minCity as we were also including the same city while calculating.
+# Follow ups:
+"""
+1. If the graph is sparse (few edges), N-Dijkstra is technically faster than Floyd-Warshall.
+Run Dijkstra's algorithm n times, using each city as a starting point. Complexity: O(n * E log V).
 
+"""
+"""
+2. "What if weights are all 1?"
+-> If all weights are 1, you don't need Floyd-Warshall or Dijkstra. You can just run BFS n times, which is O(n * (V + E)).
+"""
+
+from collections import deque
+
+class Solution:
+    def findTheCity(self, n: int, edges: list[list[int]], distanceThreshold: int) -> int:
+        # Build adjacency list (weights are ignored since they are all 1)
+        adj = [[] for _ in range(n)]
+        for u, v, w in edges:
+            adj[u].append(v)
+            adj[v].append(u)
+            
+        def get_reachable_count(start_node):
+            # Standard BFS
+            distances = [-1] * n  # can do using visited also but distance array is good here to skip the node for which we have already crossed the threshold.
+            distances[start_node] = 0
+            queue = deque([start_node])
+            count = 0
+            
+            while queue:
+                curr = queue.popleft()
+                
+                # If we've reached the threshold distance, 
+                # we don't explore neighbors further
+                if distances[curr] >= distanceThreshold:
+                    continue
+                
+                for neighbor in adj[curr]:
+                    if distances[neighbor] == -1: # Not visited
+                        distances[neighbor] = distances[curr] + 1
+                        count += 1
+                        queue.append(neighbor)
+            return count
+
+        min_neighbors = float('inf')
+        result_city = -1
+        
+        # Run BFS for every city
+        for i in range(n):
+            count = get_reachable_count(i)
+            # Tie-breaker: smallest count, then largest city index
+            if count <= min_neighbors:
+                min_neighbors = count
+                result_city = i
+                
+        return result_city
+
+# Method 1:
 # Java Code 
 """
 class Solution {

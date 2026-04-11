@@ -1,20 +1,23 @@
 # Method 1: 
 
-# logic: totally same as Bellman ford
-# just relax the every edge in each iteration seeing the previous modified array
-# relaxing edge one time will give the optimal ans till one stop and so on
-# time: O(n*k) for this q
+"""
+logic: totally same as Bellman ford
+just relax the every edge in each iteration seeing the previous modified array
+relaxing edge one time will give the optimal ans till one stop and so on
+time: O(n*k) for this q
 
-# Bellman ford: time- O(N*E) as each edge will get relaxed 'n' times, E= no of edges, N= no of vertices
-# and we run the loop for n-1 times it will give the optimal ans from src to each node 
-# and for checking the negative weight cycle, just run the loop n times nad compare the value of any node with previous one
-# if it is less then it means cycle 
+Bellman ford: time- O(N*E) as each edge will get relaxed 'n' times, E= no of edges, N= no of vertices
+and we run the loop for n-1 times it will give the optimal ans from src to each node 
+and for checking the negative weight cycle, just run the loop n times nad compare the value of any node with previous one
+if it is less then it means cycle 
 
-# working: phla bar run karne pe jo edge source se attach(directly connected) hoga uska optimal ans milega.
-# 2nd time jo node abhi tak reached hua h uske help se remaining connected edge 
-# optimise hoga + already optimise edge also if they are connected to any viisted node till now. 
-# isi tarah se ye repeat hota rhega or har bar har edge optimise hota rhega agar wo connected hoga to
-# Note: we will optimise seeing the previous iteration result not the current one 
+working: phla bar run karne pe jo edge source se attach(directly connected) hoga uska optimal ans milega.
+2nd time jo node abhi tak reached hua h uske help se remaining connected edge 
+optimise hoga + already optimise edge also if they are connected to any viisted node till now. 
+isi tarah se ye repeat hota rhega or har bar har edge optimise hota rhega agar wo connected hoga to
+Note: we will optimise seeing the previous iteration result not the current one 
+"""
+
 class Solution:
     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
         prices= ['inf']*n  # this will store the actual ans
@@ -188,14 +191,21 @@ Instead of simply putting node in visited set
 If we keepy track of no_stops like in how many stops , we have reached this node.
 We can keep on adding the same node if we come through less stop than before. 
 
-Visualisation: Here we may add same node again even that nod eis already visited, 
-if we visit that node with fewer stops.
+Visualisation: Here we may add same node again even that node is already visited, if we visit that node with fewer stops.
 """
 """
 Time :
 At most, each city can be visited with stops from 0 → k, so:
-Maximum states = n × (k + 1)
-For each state, you explore all neighbors → average degree ≈ m / n (worst-case n)
+Maximum states = n × (k + 1)  = states or Vertices(V) 
+
+For every state (city, stops) we pop, we look at all its outgoing flight connections (neighbors).
+    Let m be the total number of flights (edges).
+    In the worst case, each flight could be relaxed for each possible "stop" value.
+    Total Edge relaxations: O(m * k).
+When we sum the work:
+    Heap Pops: We pop at most n * k states. Each pop is log(n * k).
+    Heap Pushes: For every flight m, we might push a new state into the heap. There are m flights, and each could potentially be processed for different stop counts.
+    O(m * log(n * k))
 Overall Time = O( (n × k) × log(n × k) + m × log(n × k) ) = O(m × log(n × k))
 
 Space = O(m + n × k) , PQ

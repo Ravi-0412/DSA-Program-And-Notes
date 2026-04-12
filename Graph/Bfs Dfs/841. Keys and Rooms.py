@@ -17,6 +17,8 @@ class Solution:
                 if room not in visited:
                     dq.append(room)
                     visited.add(room)
+                    if len(visited) == n:   #optimisation
+                        return True
         return len(visited) == n   # if len(visited) == n then, we can enter all rooms.
 
 # Java code 

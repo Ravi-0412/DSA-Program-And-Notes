@@ -54,6 +54,7 @@ class OfflineAPKEngine:
                 apk_ptr += 1
             
             # 2. Clean up: Remove APKs that are too old for the current OS (max_os < current_os)
+            # some apk may end before this current OS version
             while max_heap and max_heap[0][1] < os_v:
                 heapq.heappop(max_heap)
             
@@ -72,6 +73,43 @@ apks = [[100, 10, 20], [200, 10, 30], [50, 1, 4]]
 queries = [12, 25, 5]
 print(f"Offline Results: {offline_engine.solve(apks, queries)}") # Expected: [200, 200, -1]
 
+"""
+Real life scenarios
+
+Scenario 1: The "Smart Home Device" Compatibility
+Imagine you are an engineer at a smart home company. Your company releases different versions of a Smart Thermostat.
+
+The Constraints: Each thermostat model requires a specific range of voltage from the house's electrical system to operate safely (e.g., Model A needs 10V–20V, Model B needs 15V–30V).
+
+The Goal: A customer tells you their house has exactly 18V. You want to give them the most advanced (highest version) thermostat that won't blow up or fail at that specific voltage.
+
+Relating to the Logic:
+
+Voltage = OS Version.
+
+Voltage Range [Min, Max] = APK Support Range.
+
+Thermostat Model # = APK Version ID.
+
+Scenario 2: The "Streaming Quality" Logic (Netflix/YouTube)
+Imagine a streaming service that has multiple versions of the same movie file (4K, 1080p, 720p, 480p).
+
+The Constraints: Each file version requires a certain Internet Bandwidth range.
+
+4K needs 25Mbps–100Mbps.
+
+1080p needs 5Mbps–50Mbps.
+
+The Goal: A user currently has exactly 30Mbps. You want to provide the highest quality (max version) file that their current speed can handle.
+
+Relating to the Logic:
+
+Bandwidth Speed = OS Version.
+
+Bandwidth Range = APK Support Range.
+
+Video Quality Index = APK Version ID.
+"""
 
 """
 Part 2: The Online Version (Real-time Stream)   => Understand it later

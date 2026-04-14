@@ -52,7 +52,7 @@ def serialize(self, root):
         return s
 
 
-# other way to write 
+# other way to write , using iter()
 class Codec:
     def serialize(self, root):
         """

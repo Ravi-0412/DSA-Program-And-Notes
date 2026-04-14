@@ -52,6 +52,53 @@ def serialize(self, root):
         return s
 
 
+# other way to write 
+class Codec:
+    def serialize(self, root):
+        """
+        Encodes a tree to a single string.
+        Strategy: Preorder traversal with "N" for null nodes.
+        """
+        vals = []
+        
+        def preorder(node):
+            if not node:
+                vals.append("N")
+                return
+            vals.append(str(node.val))
+            preorder(node.left)
+            preorder(node.right)
+            
+        preorder(root)
+        return ",".join(vals)
+
+    def deserialize(self, data):
+        """
+        Decodes your encoded data to tree.
+        Strategy: Use an iterator to process preorder values sequentially.
+        """
+        # data.split(",") creates the list
+        # iter() creates an iterator that we can call next() on
+        vals_iter = iter(data.split(","))
+        
+        def build_tree():
+            # Get the next value from the iterator
+            val = next(vals_iter)
+            
+            if val == "N":
+                return None
+            
+            # Create the current root
+            node = TreeNode(int(val))
+            
+            # Recurse left and then right (maintains preorder logic)
+            node.left = build_tree()
+            node.right = build_tree()
+            
+            return node
+            
+        return build_tree()
+
 # Java
 """"
 public class Codec {

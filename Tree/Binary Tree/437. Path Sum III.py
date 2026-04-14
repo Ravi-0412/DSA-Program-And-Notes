@@ -146,6 +146,54 @@ class Solution:
         dfs(root, 0)   # 0: preSum
         return self.count
 
+# Other way of writing this
+"""
+"If you are not using self or the nonlocal keyword, you can't reassign an immutable variable (like an Integer, String, or Boolean) from the outer scope. 
+However, you can modify the contents of a mutable object (like a List or Dictionary) without any special keywords."
+"""
+
+import collections
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
+        """
+        Calculates the number of paths that sum to targetSum using 
+        prefix sums and backtracking.
+        """
+        # Prefix sum frequency map: {prefix_sum: frequency}
+        # Initialized with {0: 1} to handle paths that exactly equal targetSum from the root.
+        preSum_freq = collections.defaultdict(int)
+        preSum_freq[0] = 1
+        
+        count = 0
+
+        def dfs(node, current_sum):
+            # Using nonlocal to modify the 'count' variable defined in pathSum
+            nonlocal count
+            
+            if not node:
+                return
+            
+            # Update prefix sum for the current path
+            current_sum += node.val
+            
+            # 1. CHECK: Does a previous prefix sum exist such that (current_sum - old_preSum) == targetSum?
+            # This is equivalent to current_sum - targetSum == old_preSum
+            count += preSum_freq[current_sum - targetSum]
+            
+            # 2. RECORD: Add the current prefix sum to the map so child nodes can use it
+            preSum_freq[current_sum] += 1
+            
+            # 3. RECURSE: Move down to children
+            dfs(node.left, current_sum)
+            dfs(node.right, current_sum)
+            
+            # 4. BACKTRACK: Remove the current prefix sum before moving back up the tree.
+            # This ensures nodes in different branches don't see this sum.
+            preSum_freq[current_sum] -= 1
+        
+        dfs(root, 0)
+        return count
+
 # Java Code 
 """
 import java.util.HashMap;

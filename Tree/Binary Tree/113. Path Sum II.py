@@ -46,6 +46,41 @@ class Solution:
         self.AllPath(root.right, target- root.val, path + [root.val], ans)
 
 
+# Note :
+"""
+path + [root.val] creates a new list at every single recursive call. Creating a new list of length $k$ takes O(k) time.
+We can void that by backtracking 
+"""
+
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
+        results = []
+        current_path = []
+        
+        def find_paths(node, remaining_sum):
+            if not node:
+                return
+            
+            # Action: Add current node to the path
+            current_path.append(node.val)
+            
+            # Check if it's a leaf and if the sum matches
+            is_leaf = not node.left and not node.right
+            if is_leaf and remaining_sum == node.val:
+                # We only copy the path when a valid result is found
+                results.append(list(current_path))
+            else:
+                # Recurse for children
+                find_paths(node.left, remaining_sum - node.val)
+                find_paths(node.right, remaining_sum - node.val)
+            
+            # Backtrack: Remove current node before going back up the tree
+            current_path.pop()
+
+        find_paths(root, targetSum)
+        return results
+
+
 # Java 
 """
 import java.util.ArrayList;

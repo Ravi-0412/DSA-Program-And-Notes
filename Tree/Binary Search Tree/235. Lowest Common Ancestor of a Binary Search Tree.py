@@ -9,6 +9,8 @@ But in Binary Search tree, we can decide.
 just traverse till you find both the nodes in different subtree,
 as soon as you will find the nodes in different subtree that will be the ans 
 as the current node will be the parent for both.
+
+Note : No need to traverse from bottom to up like Binary Tree because we are just finding the node from which two nodes will diverge. 
 """
 
 class Solution:

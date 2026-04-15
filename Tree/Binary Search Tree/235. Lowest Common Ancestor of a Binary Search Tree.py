@@ -11,16 +11,18 @@ as soon as you will find the nodes in different subtree that will be the ans
 as the current node will be the parent for both.
 
 Note : No need to traverse from bottom to up like Binary Tree because we are just finding the node from which two nodes will diverge. 
+
+Time : O(Height) , in average : O(logN), worst : O(N) : skew tree
 """
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         # if root== None:     # No need of this as it won't reach till 'root= None', it will get returned before only
         #     return root
-        # check if both lie in the left subtree of this node
+        # check if both lie in the left subtree of this node, the LCA must be in the left subtree.
         if root.val > p.val and root.val > q.val:  
             return self.lowestCommonAncestor(root.left, p, q)
-        # check if both lie in the right subtree of this node
+        # check if both lie in the right subtree of this node, the LCA must be in the right subtree.
         if root.val < p.val and root.val < q.val:   
             return self.lowestCommonAncestor(root.right, p, q)
         # means one lie left and other lie in right or (one tree is LCA of other) so return root itself

@@ -2,7 +2,7 @@
 
 class Solution:
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
-        if not root:
+        if not root:   # Need to handle this otherwise , 'None' will get added in 'q' and later it won't run.
             return None
         q = deque([root])
         ans, level= [], []

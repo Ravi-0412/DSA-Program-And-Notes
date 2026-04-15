@@ -2,8 +2,7 @@
 """
 time: O(n^2). Because we are finding index each time 
 just do on pen and paper for visualisation like how slicing is doing perfect work.
-same logic as we used to do in GATE exam i.e:
-Preorder will decide the which ele will be the parent of the upcoming tree.
+Note : Preorder will decide the which ele will be the parent of the upcoming tree.
 preorder[0] will be the parent always.
 inorder will decide the which ele will go the left and right of the parent.
 """
@@ -42,6 +41,7 @@ class Solution:
         self.inorderIndexMap = {value: index for index, value in enumerate(inorder)}
         return self.buildTreeRecursive(preorder, 0, len(inorder) - 1)
 
+    # left & right  are indexes of inorder 
     def buildTreeRecursive(self, preorder: List[int], left: int, right: int) -> Optional[TreeNode]:
         # Base case - no elements to construct the tree
         if left > right:

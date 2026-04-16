@@ -383,7 +383,7 @@ Note : Q) Why Method 5 is working and Method 4(My mistake) is not.
 i) left, k = findKthSmallest(root.left, k)   => Replacing k with the updated value returned by the recursive call.
 ii) ❌ First version: k is passed by value and modified locally — changes aren't reflected across recursive calls, so the count is lost.
 
-✅ Second version: Returns the updated k along with the result — each call gets the new k, maintaining correct state across recursion.
+Second version: Returns the updated k along with the result — each call gets the new k, maintaining correct state across recursion.
 """
 class Solution:
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:

@@ -202,3 +202,58 @@ public:
 };
 
 """
+
+# Method 2:
+"""
+Concise way to write , very better one.
+
+Instead of building two full arrays, we maintain two stacks. We "peek" at the next smallest element from each tree and only pop the one that is smaller.
+
+1. Initialize: Create two stacks to store the left-leaning paths of root1 and root2.
+2. Traverse: At each step, find the leftmost available node for both trees.
+3. Compare: * If stack1's top is smaller, pop it, add to results, and move to its right child.
+
+If stack2's top is smaller, pop it, add to results, and move to its right child.
+4. Repeat: Continue until both stacks and both current pointers are empty.
+
+Time : O(m + n) 
+"""
+
+class Solution:
+    def merge(self, root1, root2):
+        # Two stacks to keep track of the paths in both trees
+        stack1, stack2 = [], []
+        ans = []
+        
+        # Pointers to current nodes we are exploring
+        curr1, curr2 = root1, root2
+        
+        # Continue as long as there are nodes to visit or nodes in the stacks
+        while curr1 or curr2 or stack1 or stack2:
+            
+            # Step 1: Reach the leftmost node of Tree 1
+            while curr1:
+                stack1.append(curr1)
+                curr1 = curr1.left
+                
+            # Step 2: Reach the leftmost node of Tree 2
+            while curr2:
+                stack2.append(curr2)
+                curr2 = curr2.left
+            
+            # Step 3: Compare the smallest available nodes from both trees
+            # We pick from stack1 if:
+            # - stack2 is empty (nothing left in tree 2)
+            # - OR stack1's top is smaller than stack2's top
+            if not stack2 or (stack1 and stack1[-1].data <= stack2[-1].data):
+                curr1 = stack1.pop()
+                ans.append(curr1.data)
+                # After visiting a node, we must explore its right subtree
+                curr1 = curr1.right 
+            else:
+                curr2 = stack2.pop()
+                ans.append(curr2.data)
+                # After visiting a node, we must explore its right subtree
+                curr2 = curr2.right
+                
+        return ans

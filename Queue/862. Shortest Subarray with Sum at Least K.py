@@ -256,7 +256,8 @@ public:
 
 # Related Q:
 # 1) "209. Minimum Size Subarray Sum"
-# 2) 239. Sliding Window Maximum
 # 3) 1425. Constrained Subsequence Sum
+# 3) 239. Sliding Window Maximum
+# 4) 1825. Finding MK Average
 
 

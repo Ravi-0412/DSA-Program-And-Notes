@@ -350,37 +350,51 @@ Idea is simple:
 
 """
 How to think of this logic?
-# Q. How to come up with this logic?
-# Ans: Just given the preorder, draw the BST on paper and analyse how you are putting the nodes and 
-# which Data Structure we can use to get BST directly from preorder.
+Q. How to come up with this logic?
+Ans: Just given the preorder, draw the BST on paper and analyse how you are putting the nodes and 
+which Data Structure we can use to get BST directly from preorder.
 
-# Q. why we are directly adding when num is samller and poping before adding when num is greater?
-# Ans: if smaller means that must be the left child of the just previous ele in stack , 
-# Because we are doing acc to the preorder and in preorder we will move to left after root and 
-# it is BST so smaller ele will be on left.(root, left right,)
-# vvi: until we find any ele greater than top of stack, all those num will be go as left child only(like skew tree).
-# And we will find any ele greater then we will search for the node to which 'num' will be the right child.  
-# (now direction of tree will change).
-# i.e we will find the last smaller ele from the current num. 'num' will be the right child of that ele.
+Q. why we are directly adding when num is samller and poping before adding when num is greater?
+Ans: if smaller means that must be the left child of the just previous ele in stack , 
+Because we are doing acc to the preorder and in preorder we will move to left after root and 
+it is BST so smaller ele will be on left.(root, left right,)
+vvi: until we find any ele greater than top of stack, all those num will be go as left child only(like skew tree).
+And we will find any ele greater then we will search for the node to which 'num' will be the right child.  
+(now direction of tree will change).
+i.e we will find the last smaller ele from the current num. 'num' will be the right child of that ele.
 
-# That's why we are using stack.
+That's why we are using stack.
 """
 
 # Time = space = O(n)
 
 class Solution:
     def bstFromPreorder(self, preorder: List[int]) -> TreeNode:
+        # The first element is always the root in a preorder traversal
         root = TreeNode(preorder[0])
+        # Stack stores the 'path' of ancestors we can still attach children to
         stack = [root]
+        
         for value in preorder[1:]:
+            # Case 1: Value is smaller than the current node (top of stack)
+            # In a BST, this MUST be the left child.
             if value < stack[-1].val:
                 stack[-1].left = TreeNode(value)
-                stack.append(stack[-1].left)
+                stack.append(stack[-1].left) # Move deeper into the left branch
+            
+            # Case 2: Value is larger than the current node
+            # This means the current 'left-leaning' branch is finished.
+            # We must find the lowest ancestor that this value can be a right child of.
             else:
                 while stack and stack[-1].val < value:
+                    # 'last' will eventually hold the node that becomes the parent
                     last = stack.pop()
+                
+                # Attach the value as the right child of the last popped ancestor
                 last.right = TreeNode(value)
+                # This new right child is now the current path, so add it to the stack
                 stack.append(last.right)
+                
         return root
 
 
@@ -460,83 +474,40 @@ public:
 """
 
 # Method 5: 
-# Optimising space to O(1)
-# Time: O(n), space = O(1) 
+"""
+with Recursion
+Time: O(n), space = O(H) 
+
+Instead of searching for where the left subtree ends and the right begins, we can simply tell each recursive call what the maximum possible value it is allowed to accept.
+    When we go Left, the current node's value becomes the new upper bound.
+    When we go Right, the upper bound remains the same as what the parent was told.
+
+"""
 
 class Solution:
-    def __init__(self):
-        self.i = 0
-
     def bstFromPreorder(self, preorder: List[int]) -> Optional[TreeNode]:
-        return self.build(preorder, float('inf'))
-
-    def build(self, preorder: List[int], bound: int) -> Optional[TreeNode]:
-        if self.i == len(preorder) or preorder[self.i] > bound:
-            return None
-        root = TreeNode(preorder[self.i])
-        self.i += 1
-        root.left = self.build(preorder, root.val)
-        root.right = self.build(preorder, bound)
-        return root
-
-
-# Java Code 
-"""
-class TreeNode {
-    int val;
-    TreeNode left, right;
-    TreeNode(int x) { val = x; }
-}
-
-class Solution {
-    int i = 0;
-
-    public TreeNode bstFromPreorder(int[] preorder) {
-        return build(preorder, Integer.MAX_VALUE);
-    }
-
-    private TreeNode build(int[] preorder, int bound) {
-        if (i == preorder.length || preorder[i] > bound) {
-            return null;
-        }
-
-        TreeNode root = new TreeNode(preorder[i++]);
-        root.left = build(preorder, root.val);
-        root.right = build(preorder, bound);
-
-        return root;
-    }
-}
-"""
-# C++ Code 
-"""
-#include <vector>
-using namespace std;
-
-struct TreeNode {
-    int val;
-    TreeNode *left, *right;
-    TreeNode(int x): val(x), left(nullptr), right(nullptr) {}
-};
-
-class Solution {
-public:
-    int i = 0;
-
-    TreeNode* bstFromPreorder(vector<int>& preorder) {
-        return build(preorder, INT_MAX);
-    }
-
-    TreeNode* build(const vector<int>& preorder, int bound) {
-        if (i == preorder.size() || preorder[i] > bound) {
-            return nullptr;
-        }
-
-        TreeNode* root = new TreeNode(preorder[i++]);
-        root->left = build(preorder, root->val);
-        root->right = build(preorder, bound);
-
-        return root;
-    }
-};
-"""
+        # Track our current position in the preorder list across recursive calls
+        self.index = 0
+        
+        def solve(upper_bound):
+            # If we've used all values or the current value exceeds the 
+            # allowed limit for this subtree, this branch is finished.
+            if self.index == len(preorder) or preorder[self.index] > upper_bound:
+                return None
+            
+            # Create the root for the current subtree
+            root_val = preorder[self.index]
+            root = TreeNode(root_val)
+            self.index += 1
+            
+            # For the LEFT subtree, the values must be smaller than the current root
+            root.left = solve(root_val)
+            
+            # For the RIGHT subtree, the values can be anything up to the 
+            # parent's upper bound.
+            root.right = solve(upper_bound)
+            
+            return root
+            
+        # Initially, the root can be any value (infinity)
+        return solve(float('inf'))

@@ -316,16 +316,30 @@ public:
 
 class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        # Global flag to track if any violation is found
         self.ans = True
 
-        def check(root):
-            if not root:
-                return [float('inf'), float('-inf')]  # [minimum, maximum]. For base case return such value which will be valid always
-            min1, max1 = check(root.left)
-            min2, max2 = check(root.right)
-            if root.val <= max1 or root.val >= min2:
+        def check(node):
+            # BASE CASE: An empty node is technically a valid BST.
+            # We return [inf, -inf] so that any parent node comparing 
+            # itself to these values will always satisfy the BST property.
+            if not node:
+                return [float('inf'), float('-inf')]
+            
+            # Post-order traversal: Get the min/max from left and right children
+            min_left, max_left = check(node.left)
+            min_right, max_right = check(node.right)
+            
+            # --- BST VIOLATION CHECK ---
+            # 1. Current value must be > everything in the left (max_left)
+            # 2. Current value must be < everything in the right (min_right)
+            if node.val <= max_left or node.val >= min_right:
                 self.ans = False
-            return [min(min1, root.val), max(root.val, max2)]
+            
+            # Return the new [min, max] range for the current subtree to the parent
+            # min: smallest of (left subtree min, current value)
+            # max: largest of (current value, right subtree max)
+            return [min(min_left, node.val), max(node.val, max_right)]
 
         check(root)
         return self.ans

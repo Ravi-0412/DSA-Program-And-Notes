@@ -1,30 +1,32 @@
 # method 1:
-# Recursion + memoisation
+"""
+Recursion + memoisation
 
-# How do we calculate for 1D?
-# Ans: from every index find the "length of  longest strictly increasing subarray" and add those length to get the final ans.
+How do we calculate for 1D?
+Ans: from every index find the "length of  longest strictly increasing subarray" and add those length to get the final ans.
 
-# E.g: arr= [1,2,3,4,3]
+E.g: arr= [1,2,3,4,3]
 
-# Let's try to pick each element/index as our starting point and find the answer.
-# 1 -> [1,2,3,4] = 4, 2 -> [2,3,4] = 3, 3-> [3,4] = 2, [4] = 1, [3] = 1. 
-# Summing these individual values will produce the answer. But what do these individual results essentially mean?
+Let's try to pick each element/index as our starting point and find the answer.
+1 -> [1,2,3,4] = 4, 2 -> [2,3,4] = 3, 3-> [3,4] = 2, [4] = 1, [3] = 1. 
+Summing these individual values will produce the answer. But what do these individual results essentially mean?
 
-# Let's look at [1,2,3,4] = 4, this means starting from 1 we have a total of 4 increasing sequences/paths. 
-# [1,2,3,4], [1,2,3], [1,2], [1]. We are calculating the same for each starting point.
+Let's look at [1,2,3,4] = 4, this means starting from 1 we have a total of 4 increasing sequences/paths. 
+[1,2,3,4], [1,2,3], [1,2], [1]. We are calculating the same for each starting point.
 
-# Note: The 2D version is similar as it forms a DAG and hence are no cycles in the graph/path.
+Note: The 2D version is similar as it forms a DAG and hence are no cycles in the graph/path.
 
-# In same way we are doing for 2D.
+In same way we are doing for 2D.
 
-# Note: Just same as '329. Longest Increasing Path in a Matrix'
-# Isme number chahiye isliye adjacent wale ka 'sum le lo ' and '1' add karke 
-# return kar do .
+Note: Just same as '329. Longest Increasing Path in a Matrix'
+Isme number chahiye isliye adjacent wale ka 'sum le lo ' and '1' add karke 
+return kar do .
 
-# time : O(4*m *n) .At each recursion at max you have 4 directions thus O(1) further calls and we have a total of m*n states for the DP.
-# SPACE: o(m * n)
+time : O(4*m *n) .At each recursion at max you have 4 directions thus O(1) further calls and we have a total of m*n states for the DP.
+SPACE: o(m * n)
 
-# Note: It's strictly increasing so we don't need visited array.
+Note: It's strictly increasing so we don't need visited array.
+"""
 
 from typing import List
 
@@ -139,7 +141,8 @@ private:
 };
 """
 # Method 2: 
-# Tabulation
+# Tabulation : Same as '329. Longest Increasing Path in a Matrix'
+# time : O(m * n * log(m * n))
 
 from typing import List
 

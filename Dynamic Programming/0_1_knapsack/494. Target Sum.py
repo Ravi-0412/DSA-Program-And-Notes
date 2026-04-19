@@ -12,28 +12,45 @@
 
 class Solution:
     def findTargetSumWays(self, nums: List[int], target: int) -> int:
-        total, n= sum(nums), len(nums)
-        if (total+ target) & 1:  # if odd then no such subsets possible 
+        total = sum(nums)
+        # 1. Edge Case: If target is unreachable or (total+target) is odd, 
+        # it's impossible to partition the sum into two integers.
+        if abs(target) > total or (total + target) % 2 != 0:
             return 0
-        s1 = (total+ target)//2  # by solving mathematically(see the notes)
-        dp= [[-1 for i in range(s1 +1)] for i in range(n)]  # no need to go till 'N+1' as we are starting from  'N-1' 
-        return self.helper(n-1, nums, s1, dp)
+            
+        s1 = (total + target) // 2
+        n = len(nums)
+        
+        # dp[index][current_sum]
+        dp = [[-1 for _ in range(s1 + 1)] for _ in range(n)]
+        
+        return self.helper(n - 1, nums, s1, dp)
     
-    def helper(self, ind, arr, sum, dp):
-        if ind== 0:
-            if sum== 0 and arr[0]== 0:
-                return 2
-            if sum==0 or sum== arr[0]: # in actual sum== 0 and arr[0] != 0 or sum== arr[0]
-                return 1
-            else:
-                return 0
-        if dp[ind][sum] != -1: 
-            return dp[ind][sum]
-        if arr[ind]> sum:
-            dp[ind][sum]= self.helper(ind -1, arr, sum, dp)
-        else:   # arr[ind] <= sum
-            dp[ind][sum]= self.helper(ind -1, arr, sum- arr[ind], dp) +  self.helper(ind -1, arr, sum, dp)
-        return dp[ind][sum]  # return the last ele
+    def helper(self, ind, arr, target_sum, dp):
+        # Base Case: When we are at the first element (index 0)
+        if ind == 0:
+            # If target_sum is 0 and arr[0] is 0, we can either include it or exclude it.
+            # Both results in a sum of 0, so there are 2 ways.
+            if target_sum == 0 and arr[0] == 0: return 2
+            # If target_sum matches the element OR target_sum is 0 (we exclude the element),
+            # there is exactly 1 way to get the sum.
+            if target_sum == 0 or target_sum == arr[0]: return 1
+            return 0
+            
+        if dp[ind][target_sum] != -1:
+            return dp[ind][target_sum]
+            
+        # Recursive Step
+        # Choice 1: Exclude the element
+        exclude = self.helper(ind - 1, arr, target_sum, dp)
+        
+        # Choice 2: Include the element (only if it fits in the target_sum)
+        include = 0
+        if arr[ind] <= target_sum:
+            include = self.helper(ind - 1, arr, target_sum - arr[ind], dp)
+            
+        dp[ind][target_sum] = include + exclude
+        return dp[ind][target_sum]
 
 # Java Code 
 """
@@ -233,3 +250,26 @@ public:
     }
 };
 """
+
+# Short way : Tabulation
+class Solution:
+    def findTargetSumWays(self, nums: List[int], target: int) -> int:
+        total = sum(nums)
+        if abs(target) > total or (total + target) % 2 != 0: return 0
+        s1 = (total + target) // 2
+        
+        # dp[i][j] = number of ways to get sum 'j' using first 'i' elements
+        dp = [[0] * (s1 + 1) for _ in range(len(nums) + 1)]
+        
+        # Base Case: 1 way to get sum 0 (by choosing an empty set)
+        dp[0][0] = 1
+        
+        for i in range(1, len(nums) + 1):
+            for j in range(s1 + 1):
+                # Exclude current element
+                dp[i][j] = dp[i-1][j]
+                # Include current element (if it fits)
+                if nums[i-1] <= j:
+                    dp[i][j] += dp[i-1][j - nums[i-1]]
+                    
+        return dp[len(nums)][s1]

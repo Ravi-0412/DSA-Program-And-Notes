@@ -57,15 +57,16 @@ class Solution:
 # tabulation: top down
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
-        dp= [[0 for j in range(n)] for i in range(m)]
-        # initialise with base cases, last row and last col with 1
-        for i in range(m):
-            for j in range(n):
-                if i== m-1 or j== n-1:
-                    dp[i][j]= 1
-        for i in range(m-2, -1, -1):
-            for j in range(n-2, -1, -1):
-                dp[i][j]= dp[i+1][j] + dp[i][j+1]
+        dp = [[ 1 for j in range(n)]for i in range(m)]   # kisi bhi cell se at least one way to hoga hi. 
+        # for c in range(n):
+        #     dp[m-1][c] = 1  #only right 
+        # for r in range(m):
+        #     dp[r][n-1] = 1  # only down
+        
+        
+        for r in range(m -2 , -1, -1):
+            for c in range(n -2, -1, -1):
+                dp[r][c] = dp[r][c + 1] + dp[r + 1][c]  # right + left 
         return dp[0][0]
 
 # Method 6:
@@ -77,8 +78,8 @@ Time : O(2 *N)
 Q) But we are creating array for each row so it should not be N*N ?
 ans: No. While it looks like we are creating a new array N times, 
 at any single point in time, only two arrays exist in the computer's memory: pre and cur.
-When the loop finishes one row, the "old" pre is no longer needed.Python’s Garbage Collector 
-sees that nothing is pointing to the old array and frees up that memory.
+When the loop finishes one row, the "old" pre is no longer needed.
+Python’s Garbage Collector sees that nothing is pointing to the old array and frees up that memory.
 Therefore, the peak memory usage (the most memory the program uses at once) is just 2*N
 """
 class Solution:
@@ -136,7 +137,8 @@ So the problem becomes:
 "How many ways can we arrange (m - 1) downs among (m + n - 2) total steps?"
 
 That is a combinations problem:
-Unique Paths = C(m + n - 2, m - 1)​
+Unique Paths = C(m + n - 2, m - 1) 
+After simplification C(N, K) = (N//1) * ((N - 1) // 2) * .....* ((N -K) // K) 
 
 Time : O(min(m-1, n-1))
 
@@ -152,8 +154,7 @@ class Solution:
         k = min(m - 1, n - 1)
         res = 1
 
-        # Compute C(N, k) iteratively:
-        # C(N, k) = (N-k+1)(N-k+2)...N / (1·2·...·k)
+        # Compute C(N, k) iteratively, simplication one
         for i in range(1, k + 1):
             # Multiply next numerator term
             # and divide by next denominator term

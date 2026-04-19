@@ -233,12 +233,6 @@ public:
 };
 """
 
-# optimising space complexity to O(n).
-# Find ans row wise from last row
-
-
-
-
 # oppsite way
 # from (m-1,n-1) to (0,0)
 class Solution:

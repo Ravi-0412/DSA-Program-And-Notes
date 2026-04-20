@@ -271,7 +271,6 @@ public:
 
 """
 
-
 # Method 3: 
 # Reducing space complexity to O(n).
 class Solution:
@@ -377,3 +376,43 @@ public:
     }
 };
 """
+
+
+# Method 4:
+# Better way to write Tabulation 
+# Note : Use this in all questions related to subset sum
+# Time = sapce = O(N * sum(nums)) 
+
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        total_sum = sum(nums)
+        
+        # If the total is odd, we cannot partition it into two equal subsets
+        if total_sum % 2 != 0:
+            return False
+            
+        target = total_sum // 2
+        n = len(nums)
+        
+        # dp[i][current_sum] stores: 
+        # Is it possible to form 'current_sum' using the first 'i' numbers?
+        dp = [[False] * (target + 1) for _ in range(n + 1)]
+        
+        # Base Case: With 0 elements, we can only form a sum of 0
+        dp[0][0] = True
+        
+        for i in range(1, n + 1):
+            num = nums[i-1] # The number we are considering at this step
+            for current_sum in range(target + 1):
+                
+                # Option 1: Exclude the number
+                # We carry over the result from the previous row (i-1)
+                dp[i][current_sum] = dp[i-1][current_sum]
+                
+                # Option 2: Include the number
+                # If the sum is reachable without this number, or by 
+                # subtracting this number from the current_sum
+                if current_sum >= num:
+                    dp[i][current_sum] = dp[i][current_sum] or dp[i-1][current_sum - num]
+        
+        return dp[n][target]

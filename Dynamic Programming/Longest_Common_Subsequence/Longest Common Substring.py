@@ -37,6 +37,12 @@ class Solution:
 
 
 # method 3:
+# Tabulation ;
+"""
+A and B builds a DP table where dp[i][j] = length of the longest common suffix ending at A[i-1] and B[j-1].
+
+Time : O(n * m) = space 
+"""
 def longestCommonSubstr(S1, S2, n, m):
     dp= [[0 for j in range(m+1)] for i in range(n+1)]  # dp[i][j]= store the ans from the last time when both has differed.
         # not giving the value like Lcs where each ele in the matrix used to mean like: 

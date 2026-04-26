@@ -83,12 +83,15 @@ public:
 # Using DP
 # Logic:
 """
-1) Let dp[i][j] represent the length of the longest common substring between the suffixes starting
-at index i and index j of the string, under the condition that i != j (to avoid matching the substring with itself.
+1) The standard Longest Common Substring (LCS) algorithm for two strings A and B builds a DP table where dp[i][j] = length of the longest common suffix ending at A[i-1] and B[j-1].
+Here, we run LCS on s vs itself. The problem is that without constraints, the entire string matches itself and the answer is always n. 
+The fix is elegant: only count a match when i != j, forcing the two matching positions to be different occurrences in the string.
 2) Recurrence Relation:
-If s[i-1] == s[j-1] and i != j, then dp[i][j] = dp[i-1][j-1] + 1.
-Otherwise, dp[i][j] = 0 (i.e., no common substring at these indices).
+If s[i-1] == s[j-1] and i != j, then dp[i][j] = dp[i-1][j-1] + 1 , # extend the chain from the diagonal
+Otherwise, dp[i][j] = 0 (i.e., no common substring at these indices),  no common substring here
 3) Result: Track the maximum value in the DP table, which will give the length of the longest repeating substring.
+
+Note : The diagonal dp[i-1][j-1] is the key — it tells you: "how long was the match before this character?" If the current characters also match (at different positions), we extend that chain by 1.
 
 """
 # Time: O(n^2)

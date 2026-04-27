@@ -27,8 +27,15 @@ dp[i][j] = max(
 Base Case:
 If either array is exhausted (i == n or j == m), return -inf because we need non-empty subsequences.
 
-Time: O(n * m)
+Time: O(n * m) = space
 
+Q) How are we making sure that we are taking equal number of elements from both the arrays ?
+- > When we are adding in answer then, we are taking one element from each array * moving pointer by '1' in both the arrays in this case. 
+nums1[i] * nums2[j] + max(solve(i + 1, j + 1), 0)
+And in non-take cases we are just calling the function we are not adding any value to answer.
+
+Q) How are we handling non-empty subsequences?
+-> Since length of the ararys are >= 1 and we are returning '0' , this automatically covers it because we can get negative answer in case positive & negative are multiplied.
 """
 
 class Solution:
@@ -105,3 +112,45 @@ private:
     }
 };
 """
+
+
+# Method 2:
+# Tabulation
+
+"""
+dp[i][j] stores the max dot product for subsequences 
+starting from index i of nums1 and index j of nums2.
+
+Time: O(n * m) = space
+"""
+
+class Solution:
+    def maxDotProduct(self, nums1: List[int], nums2: List[int]) -> int:
+        n, m = len(nums1), len(nums2)
+        
+        # Initialize with negative infinity to handle cases where 
+        # result must be negative.
+        dp = [[float('-inf')] * (m + 1) for _ in range(n + 1)]
+        
+        # We iterate backwards from the end of both arrays
+        for i in range(n - 1, -1, -1):
+            for j in range(m - 1, -1, -1):
+                
+                # 1. Option: Pair up the current elements
+                current_product = nums1[i] * nums2[j]
+                
+                # We either:
+                # - Pair them and continue (if dp[i+1][j+1] is positive)
+                # - Pair them and stop (add 0 instead of a negative future product)
+                option_multiply = current_product + max(dp[i + 1][j + 1], 0)
+                
+                # 2. Option: Skip nums1[i]
+                option_skip_nums1 = dp[i + 1][j]
+                
+                # 3. Option: Skip nums2[j]
+                option_skip_nums2 = dp[i][j + 1]
+                
+                # Take the best of all three choices
+                dp[i][j] = max(option_multiply, option_skip_nums1, option_skip_nums2)
+        
+        return dp[0][0]

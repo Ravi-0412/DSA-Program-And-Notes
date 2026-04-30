@@ -28,30 +28,51 @@ class Solution:
 # In one pass. 
 # Time = O(n), space: O(1)
 
+"""
+Q) Why we skipping the indices and not checking all ?
+Imagine the array as a landscape: [1, 2, 3, 2, 1, 4, 5, 4].
+Phase 1 (Up): The pointer i moves from 1 to 3. (up = 2)
+Phase 2 (Down): The pointer i moves from 3 to 1. (down = 2)
+
+The Result: You found a mountain of length 5.
+
+The "Magic" of the Loop:
+The pointer i is now at the bottom of that valley. 
+Since a mountain must start with an upward slope, there is no point in re-evaluating the indices inside the mountain you just climbed. 
+You only care about what happens from your current position onward.
+"""
+
 class Solution:
     def longestMountain(self, arr: List[int]) -> int:
         maxMnt = 0
         i = 1
         n = len(arr)
-        
         while i < n:
-          # skip the equal element
+            # A mountain cannot have equal adjacent elements.
             while i < n and arr[i-1] == arr[i]:
                 i += 1
-            # find the length of upHill
+            # PHASE 2: Climb Up
+            # We count how many consecutive steps are strictly increasing.
             up = 0
             while i < n and arr[i-1] < arr[i]:
                 up += 1
                 i += 1
-            # find the length of downHill
+            # PHASE 3: Climb Down
+            # If we just finished an ascent, we check for a strict descent.
+            # Note: 'i' continues moving forward from where the ascent ended.
             down = 0
             while i < n and arr[i-1] > arr[i]:
                 down += 1
                 i += 1
-            # update the ans if there exist element both side
+            # PHASE 4: Validate and Calculate
+            # A valid mountain MUST have at least one step up AND one step down.
             if up > 0 and down > 0:
-                maxMnt = max(maxMnt, up + down + 1)
-        
+                # Total length = steps up + steps down + 1 (for the peak/base)
+                current_mountain_len = up + down + 1
+                maxMnt = max(maxMnt, current_mountain_len)
+            # CRITICAL: We do not reset 'i'.
+            # The end of the current descent is the earliest possible 
+            # starting point for the next mountain.
         return maxMnt
 
 # Java Code 

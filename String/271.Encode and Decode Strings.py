@@ -12,8 +12,9 @@
 class Codec:
     def encode(self, strs: List[str]) -> str:
         res= ""
-        for s in strs:   # adding the len(word) + special symbol + s.
-            res+= str(len(s)) + '#' + s
+        # for s in strs:   # adding the len(word) + special symbol + s.
+        #     res+= str(len(s)) + '#' + s
+		return "".join(f"{len(s)}#{s}" for s in strs)
         return res
         
 

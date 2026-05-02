@@ -22,6 +22,8 @@ class Solution:
 
 # Method 2:
 """
+Same logic as : 287. Find the Duplicate Number
+
 Observation: the missing integer must be in the range [1..n + 1]. (n = length of array)
 So, If an integer is missing it must be in the range [1..n], if an integer is not missing then the answer is n+1.
 

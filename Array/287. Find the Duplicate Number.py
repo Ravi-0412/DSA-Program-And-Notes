@@ -8,20 +8,21 @@
 
 
 # Method 1:
+"""
+Same logic as : 41. First Missing Positive
+Logic: Since all values of the array are between '1' to 'n' and array size is 'n+1' .
+so index can go from '0' to 'n'.
 
-# Logic: Since all values of the array are between '1' to 'n' and array size is 'n+1' .
-# so index can go from '0' to 'n'.
+How to do?
+While tarversing array say cur_num =  'num' then, mark the ele at index 'num' to its negative value.
+You are just marking to check that you have already visited 'num' before and 
+if you find value at index 'num' negative, it will mean that that number is repeating.
+So 'num' will be our ans only.
 
-# How to do?
-# While tarversing array say cur_num =  'num' then, mark the ele at index 'num' to its negative value.
-# You are just marking to check that you have already visited 'num' before and 
-# if you find value at index 'num' negative, it will mean that that number is repeating.
-# So 'num' will be our ans only.
+Note : we are modifying array in this method. But we are not allowed to do this.
 
-# Note : we are modifying array in this method. But we are not allowed to do this.
-
-# Time = O(n), space = O(1)
-
+Time = O(n), space = O(1)
+"""
 
 class Solution:
     def findDuplicate(self, nums: List[int]) -> int:
@@ -37,32 +38,34 @@ class Solution:
 
 
 # Mmethod 2:
-# Floyd's Cycle Detection Algorithm= > using slow and fast pointer.
+"""
+Floyd's Cycle Detection Algorithm= > using slow and fast pointer.
 
-# How to think?
-# The key is to understand how to treat the input array as a linked list.
+How to think?
+The key is to understand how to treat the input array as a linked list.
 
-# Take the array [1,3,4,2] as an example, the index of this
-# array is [0,1,2,3], we can map the index to the nums[n]
-# i.e 0→1→3→2→4 
+Take the array [1, 3, 4, 2] as an example, the index of this
+array is       [0, 1, 2, 3], we can map the index to the nums[n]
+i.e 0→1→3→2→4 
 
-# How mapping: 
-# index '0' pe kon sa num h (1), '1' index pe kon sa number h '3', '3' index pe kon sa number h '2' ,.......
-# till index goes out of bound like linklist.
+How mapping: 
+index '0' pe kon sa num h (1), '1' index pe kon sa number h '3', '3' index pe kon sa number h '2' ,'2' index pe kon sa number h '4' , .......
+till index goes out of bound like linklist.
 
-# take another example
-# array : [1,3,4,2,2]
-# then it will form linklist like: 0 ->1 ->3 -> 2 -> 4 -> 2 -> 4 .....
-# Here you can see cycle starts to repeat from num = 2.
+take another example
+array : [1,3,4,2,2]
+then it will form linklist like: 0 ->1 ->3 -> 2 -> 4 -> 2 -> 4 .....
+Here you can see cycle starts to repeat from num = 2.
 
-# So now this Q reduces to: "Find the starting node from which cycle starts in linklist".
+So now this Q reduces to: "Find the starting node from which cycle starts in linklist".
 
-# Q is based on this logic only.
+Q is based on this logic only.
 
-# Note: Here we are not modifying the array. 
+Note: Here we are not modifying the array. 
 
-# Just same logic :" 142. Linked List Cycle II".
-# Time = O(n), space = O(1)
+Just same logic :" 142. Linked List Cycle II".
+Time = O(n), space = O(1)
+"""
 
 class Solution:
     def findDuplicate(self, nums: List[int]) -> int:

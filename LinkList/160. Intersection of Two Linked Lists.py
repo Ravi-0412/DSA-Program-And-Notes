@@ -22,13 +22,15 @@ def getIntersectionNode(self, headA, headB) ->:
         return None
 
 # Method 2:
-# find the diff in the length of linked list
-# now move the linklist with greater length equal to the len_diff 
-# now start moving the both linked list simultaneously and keep checking
-# whether they point to the same Node
-# if no common point exist then intersection point doesn't exist
-# basically comapring the address of the nodes
-# time: O(m+n), space: O(1)
+"""
+find the diff in the length of linked list
+now move the linklist with greater length equal to the len_diff 
+now start moving the both linked list simultaneously and keep checking
+whether they point to the same Node
+if no common point exist then intersection point doesn't exist
+basically comapring the address of the nodes
+time: O(m+n), space: O(1)
+"""
 
 class Solution:
     def getIntersectionNode(self, headA, headB):

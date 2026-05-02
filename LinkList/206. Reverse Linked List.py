@@ -192,7 +192,7 @@ class Solution:
         # second reversing: dummy->3 - 2 - 1 - 4 - 5;   pre = dummy, start = 1, then = 4    , 1st three node got reversed
         # third reversing:  dummy->4- 3 - 2 - 1 - 5;    pre = dummy, start = 1, then = 5   , 1st four node got reversed
         # fourth reversing: dummy->5- 4- 3 - 2 - 1;    pre = dummy, start = 1, then = None (finish)  , all nodes got reversed
-        return dummy.next
+        return dummy.next  # return pre.next
 """
 class ListNode {
     int val;
@@ -401,12 +401,16 @@ class Solution:
 
 
 # method 5:
-# Recursion using only one parameter
-# Logic: After reaching base case 'that last node' should be head for reverse order.
-# That reverse node should not change.
-# Only change the pointer to reverse the direction and return the same 'reverseNode' always like above recursive methods.# Note vvi: Whenever you have comapare 1st and last ele , 
-# do sum of 1st and last ele, append 1st to last ele , or any operation related to 1st and last ele.
-# Must think of 'reversing linklist' and how we can get ans from reversing.
+"""
+Recursion using only one parameter
+Logic: After reaching base case 'that last node' should be head for reverse order.
+That reverse node should not change.
+Only change the pointer to reverse the direction and return the same 'reverseNode' always like above recursive methods.
+
+Note vvi: Whenever you have comapare 1st and last ele , 
+do sum of 1st and last ele, append 1st to last ele , or any operation related to 1st and last ele.
+Must think of 'reversing linklist' and how we can get ans from reversing.
+"""
 
 # mistakes
 # i got my mistake: for using a variable defined in other function, just put both the function inside a class and 

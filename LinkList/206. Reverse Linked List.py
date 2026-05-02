@@ -156,14 +156,18 @@ We'll use three pointers:
   then - the next node that needs to be moved to the front of the reversed section
 Keep doing this until we've moved all nodes to the front
 At the end, dummy.next will point to the new head of the reversed list
+
+Do on pen and paper and understand.
+This method we can use in "92. Reverse Linked List II"  for concise code.
+
+Time Complexity: O(N) — traverse the list once
+Space Complexity: O(1) — only a few pointers used
+
+Q) How it is different from Method 2?
+-> In above method we are just reversing the direction when we see the current element, but in this
+we are bring the next element at front of all the reversed node till now .
 """
-# Do on pen and paper and understand.
-# This method we can use in "92. Reverse Linked List II"  for concise code.
-"""
-Method 3 Analysis:
-# Time Complexity: O(N) — traverse the list once
-# Space Complexity: O(1) — only a few pointers used
-"""
+
 
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:

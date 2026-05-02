@@ -23,7 +23,6 @@ class Solution:
                 temp.next= curr1
                 temp= curr1
                 curr1= curr1.next
-            temp = temp.next
         # Connect the node which is still remaining
         # if curr1!= None:
         #     temp.next= curr1
@@ -50,7 +49,6 @@ class Solution {
                 temp = curr1;
                 curr1 = curr1.next;
             }
-            temp = temp.next;
         }
 
         temp.next = (curr1 != null) ? curr1 : curr2;
@@ -77,7 +75,6 @@ public:
                 temp = curr1;
                 curr1 = curr1->next;
             }
-            temp = temp->next;
         }
 
         temp->next = (curr1 != nullptr) ? curr1 : curr2;

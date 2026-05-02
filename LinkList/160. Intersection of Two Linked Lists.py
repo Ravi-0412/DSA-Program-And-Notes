@@ -24,8 +24,8 @@ def getIntersectionNode(self, headA, headB) ->:
 # Method 2:
 """
 find the diff in the length of linked list
-now move the linklist with greater length equal to the len_diff 
-now start moving the both linked list simultaneously and keep checking
+now move the linklist with greater length equal to the len_diff . 
+Then start moving the both linked list simultaneously and keep checking
 whether they point to the same Node
 if no common point exist then intersection point doesn't exist
 basically comapring the address of the nodes
@@ -48,7 +48,8 @@ class Solution:
         else:
             d= length2-length1
             return self.IntersectionNode(d,headB, headA)
-    
+
+# head1 : will contain list with bigger length. 
     def IntersectionNode(self,d,head1,head2):
         curr1,curr2= head1,head2
         for i in range(d):
@@ -65,17 +66,27 @@ class Solution:
             curr1,curr2= curr1.next, curr2.next
         return None
 
-"""
 # Method 3:
-# Using two pointers technique
-# We can use two pointers to find the intersection point.
-# We will traverse both linked lists simultaneously, and when we reach the end of one list, we will switch to the other list.
-# This way, both pointers will traverse the same number of nodes, and they will meet at the intersection point if it exists.
+"""
+Using two pointers technique
+We can use two pointers to find the intersection point.
+We will traverse both linked lists simultaneously, and when we reach the end of one list, we will switch to the other list.
+This way, both pointers will traverse the same number of nodes, and they will meet at the intersection point if it exists.
+
+How ?
+Let:
+        L1 = Distance before intersection in List A
+        L2 = Distance before intersection in List B
+        C = Common distance (from intersection to end)
+If Pointer A travels L1 + C and then switches to List B to travel L2, its total distance is:L1 + C + L2
+If Pointer B travels L2 + C and then switches to List A to travel L1, its total distance is:L2 + C + L1
+Mathematically, the total distances are now identical. By switching heads, both pointers effectively traverse the same "combined" path. 
+They will meet exactly at the start of C (the intersection point).
 
 Analysis:
-# Time Complexity: O(m+n) where m and n are the lengths of the two linked lists.
-# Space Complexity: O(1) as we are not using any extra space.
-# Note: This method works because if there is an intersection, both pointers will eventually meet at the intersection point.
+Time Complexity: O(m+n) where m and n are the lengths of the two linked lists.
+Space Complexity: O(1) as we are not using any extra space.
+Note: This method works because if there is an intersection, both pointers will eventually meet at the intersection point.
 
 """
 class Solution:
@@ -84,11 +95,14 @@ class Solution:
             return None
         
         curr1, curr2 = headA, headB
-        
+        # The loop continues until the pointers meet.
+        # If there is no intersection, they will both hit None at the same time
+        # after traversing (lengthA + lengthB) nodes.
         while curr1 != curr2:
             curr1 = curr1.next if curr1 else headB
             curr2 = curr2.next if curr2 else headA
-            
+        # At this point, either curr1 == curr2 (Intersection)
+        # OR curr1 == curr2 == None (No Intersection)
         return curr1
 
 

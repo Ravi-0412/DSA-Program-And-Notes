@@ -131,3 +131,24 @@ class Solution:
             min_possible_max = max(min_possible_max, current_average_ceil)
             
         return min_possible_max
+
+
+# Follow ups:
+"""
+Q) If the operation were reversed—meaning you increase nums[i] and decrease nums[i-1]—
+Ans: the fundamental logic of the problem shifts from moving values "left" to moving values "right.
+
+# Logic for REVERSED operation (Moving values Left to Right)
+suffix_sum = 0
+max_of_averages = 0
+n = len(nums)
+
+for i in range(n - 1, -1, -1):
+    suffix_sum += nums[i]
+    count = n - i
+    # Ceiling division of suffix average
+    current_suffix_avg = (suffix_sum + count - 1) // count
+    max_of_averages = max(max_of_averages, current_suffix_avg)
+
+return max_of_averages
+"""

@@ -38,26 +38,41 @@ class Solution:
         valueToIndexes= collections.defaultdict(list)   # [value: indexes]
         for i, num in enumerate(nums):
             valueToIndexes[num].append(i)  # all indices will get stored in ascending order only.
+        res = [0] * len(nums)
         for num, indices in valueToIndexes.items():
             if len(indices)== 1:  # unique ele
-                ind= indices[0]
-                nums[ind]= 0
+            # If a value only appears once, the sum of distances is 0.
+                ind = indices[0]
+                res[ind] = 0
             else:
-                n= len(indices)
-                leftSum= 0  
-                rightSum= 0   # will be equal to sum of all indices
-                for num in indices:
-                    rightSum+= num
+                n = len(indices)
+                left_sum = 0
+                right_sum = sum(indices)
+                
+                # For each index 'ind' in the list of occurrences:
+                # We want: sum(|ind - other_ind|)
+                # 1. For other_ind < ind: (ind - other_ind) = (ind * count_left) - left_sum
+                # 2. For other_ind >= ind: (other_ind - ind) = right_sum - (ind * count_right)
                 for i, ind in enumerate(indices):
-                    curAns= 0
-                    noLeftSide= i
-                    noRightSide= n- i  # including the curr ind also because we have to subtarct curr index value also from 'preRight'
-                    curAns+= (ind * noLeftSide)- leftSum
-                    curAns+= rightSum- (ind *noRightSide)
-                    nums[ind]= curAns
-                    leftSum+= ind
-                    rightSum-= ind
-        return nums
+                    # i is the number of elements strictly to the left.
+                    # n - i is the number of elements from current to the end (inclusive).I ncluding the curr ind also because we have to subtarct curr index value also from 'rightSum'
+                    
+                    count_left = i
+                    count_right = n - i
+                    
+                    # Contribution from left side
+                    dist_left = (ind * count_left) - left_sum
+                    
+                    # Contribution from right side (including self which becomes 0)
+                    dist_right = right_sum - (ind * count_right)
+                    
+                    res[ind] = dist_left + dist_right
+                    
+                    # Update running sums for the next index in this list
+                    left_sum += ind
+                    right_sum -= ind
+        return res
+        
 
 # Java Code 
 """

@@ -4,9 +4,16 @@
 # Need to distribute the max dollar b/w n kid with given condition. (Fav kid(index) should get max amount)?
 
 # logic: 
-# The minimum case would be nums[index] is a peak in nums.
-# It's arithmetic sequence on the left of A[index] with difference is 1.
-# It's also arithmetic sequence on the right of A[index] with difference is -1.
+"""
+The minimum case would be nums[index] is a peak in nums, because of given conditions:
+i) abs(nums[i] - nums[i+1]) <= 1 where 0 <= i < n-1.
+ii) The sum of all the elements of nums does not exceed maxSum.
+So, 
+It's arithmetic sequence on the left of A[index] with difference is 1, and when index value reaches = 1 then all elements onwards that index will be '1'
+It's also arithmetic sequence on the right of A[index] with difference is -1, and when index value reaches = 0 then all elements onwards that index will be '1'
+
+Time Complexity: O(log(maxSum)).
+"""
 
 class Solution:
     def maxValue(self, n: int, index: int, maxSum: int) -> int:

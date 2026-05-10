@@ -1,7 +1,14 @@
-# Logic: Just start from index '0' and take all possible indices and finally take maximum of all.
+"""
+Logic: Just start from index '0' and take all possible indices and finally take maximum of all.
 
-# Time: O(n^2)
+Time: O(n^2)
 
+Time without optimisation:
+In the worst case (all jumps valid), from index i you have (n-1-i) choices.
+T(n) = T(n-1) + T(n-2) + ... + T(1)
+     ≈ O(2^n)
+
+"""
 class Solution:
     def maximumJumps(self, nums: List[int], target: int) -> int:
         

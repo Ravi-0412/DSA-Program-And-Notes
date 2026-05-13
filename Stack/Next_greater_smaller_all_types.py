@@ -206,6 +206,15 @@ int main() {
 """
 
 # 3rd: Next smaller left program
+"""
+Use case : 
+1. You need the answer immediately while iterating (online/streaming data)
+2. You only need the value, not the index.
+
+Short : Use this when you only care about the value of the smaller neighbor and not where it is located.
+
+Same for all types.
+"""
 
 def nextSmallerLeft(arr):
     stack= []
@@ -227,6 +236,11 @@ arr= [2,5,8,3,2,4,1,7]
 # other way:
 # Traverse right to left.
 # Here will store ans as index not actual value.
+"""
+Use case : 
+1. If you need to know the "boundary" of an element's influence (how far left can this number be the minimum?), the index tells you exactly where that boundary is.
+2. When you care about the index not values. 
+"""
 
 # next_smaller_left = [-1]*n
 # stack2 = []

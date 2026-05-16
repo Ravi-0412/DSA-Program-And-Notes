@@ -215,3 +215,172 @@ class Leaderboard {
     }
 }
 """
+
+# Follow ups: Google L5 Question
+"""
+Question Link : https://leetcode.com/discuss/post/5057509/google-l5-coding-round-design-mini-leade-dght/
+
+Design a mini leaderboard. It should have the following methods.
+
+    insert(uid) - inserts a new user id into the mini leaderboard
+    update(uid, score) - updates the score of the given user id with score
+    topk() - returns top k userids and their scores
+    getWindow(uid, k) - return k userids around the given uid. Preferrably, the given uid can be placed in the middle if possible.
+
+"""
+
+"""
+import java.util.*;
+
+class MiniLeaderboard {
+    
+    // 1. AN ANALOGY FOR THE USER CLASS:
+    // Think of this like a Player Card. It binds a name and a score together.
+    // We say "implements Comparable" so Java knows these cards can be compared to each other.
+    private static class User implements Comparable<User> {
+        String uid;
+        int score;
+
+        User(String uid, int score) {
+            this.uid = uid;
+            this.score = score;
+        }
+
+        // This is the "Rulebook" the TreeSet uses to sort the players.
+        @Override
+        public int compareTo(User other) {
+            // Rule A: If scores are different, put the higher score first
+            if (this.score != other.score) {
+                return Integer.compare(other.score, this.score); 
+            }
+            
+            // Rule B (The Tie-Breaker): If scores are identical, sort by their User ID.
+            // This prevents the TreeSet from deleting players with duplicate scores!
+            return this.uid.compareTo(other.uid);
+        }
+    }
+
+    // 2. OUR TWO TRACKING SYSTEMS:
+    // The Map is like an instant-search phonebook: "Give me Player X's card."
+    private final Map<String, User> userRegistry;
+    // The TreeSet is like a live scoreboard: It automatically keeps the cards sorted.
+    private final TreeSet<User> sortedLeaderboard;
+    private final int K; 
+
+    public MiniLeaderboard(int k) {
+        this.userRegistry = new HashMap<>();
+        this.sortedLeaderboard = new TreeSet<>();
+        this.K = k;
+    }
+
+    /**
+     * Inserts a new user into the leaderboard with a score of 0.
+     */
+    public void insert(String uid) {
+        // If the user is already registered, skip them
+        if (userRegistry.containsKey(uid)) {
+            return; 
+        }
+
+        User newUser = new User(uid, 0);
+        
+        // Put the card into both tracking systems
+        userRegistry.put(uid, newUser);
+        sortedLeaderboard.add(newUser);
+    }
+
+    /**
+     * Updates a user's score.
+     */
+    public void update(String uid, int newScore) {
+        User user = userRegistry.get(uid);
+        if (user == null) {
+            return;
+        }
+
+        // CRITICAL TREE RULE: You cannot change an object's score while it is inside a TreeSet.
+        // If you do, the tree gets confused and breaks. You must follow these 3 steps:
+        sortedLeaderboard.remove(user); // Step 1: Pull them out of the scoreboard
+        user.score = newScore;          // Step 2: Change their score
+        sortedLeaderboard.add(user);    // Step 3: Put them back in (TreeSet automatically recalculates their new rank!)
+    }
+
+    /**
+     * Returns the top K user IDs and their scores.
+     */
+    public List<String> topk() {
+        List<String> result = new ArrayList<>();
+        int itemsGathered = 0;
+
+        // Because our TreeSet is perfectly sorted descending, 
+        // we can just loop through it from the beginning and grab the first K items.
+        for (User user : sortedLeaderboard) {
+            if (itemsGathered >= this.K) {
+                break; // Stop once we have gathered K elements
+            }
+            result.add(user.uid + ": " + user.score);
+            itemsGathered++;
+        }
+        return result;
+    }
+
+    /**
+     * Returns a window of users around a target user.
+     */
+    public List<String> getWindow(String uid, int windowSize) {
+        List<String> result = new ArrayList<>();
+        User targetUser = userRegistry.get(uid);
+        
+        // If target user doesn't exist, return empty list
+        if (targetUser == null || windowSize <= 0) {
+            return result;
+        }
+
+        // We use a LinkedList because it lets us add items to the FRONT (.addFirst) 
+        // and to the BACK (.addLast) easily as we build our window.
+        LinkedList<User> windowList = new LinkedList<>();
+        windowList.add(targetUser); // Start our window with the target user in it
+        windowSize--; // One slot is now taken by the target user
+
+        // Think of these like two fingers on the scoreboard. 
+        // One finger moves UP to higher scores, one moves DOWN to lower scores.
+        User higherPointer = targetUser;
+        User lowerPointer = targetUser;
+
+        // Keep expanding outwards until our window is completely filled up
+        while (windowSize > 0) {
+            // TreeSet has two amazing built-in features:
+            // .higher() finds the next immediate item above a node
+            // .lower() finds the next immediate item below a node
+            User nextHigherUser = (higherPointer != null) ? sortedLeaderboard.higher(higherPointer) : null;
+            User nextLowerUser = (lowerPointer != null) ? sortedLeaderboard.lower(lowerPointer) : null;
+
+            // If we hit the absolute top AND absolute bottom of the leaderboard, stop.
+            if (nextHigherUser == null && nextLowerUser == null) {
+                break;
+            }
+
+            // We want to alternate sides to keep the target user right in the middle.
+            // If there's a higher player available, and we either hit the bottom OR it's an even turn:
+            if (nextHigherUser != null && (nextLowerUser == null || windowSize % 2 == 0)) {
+                windowList.addFirst(nextHigherUser); // Put them at the top of our window list
+                higherPointer = nextHigherUser;      // Move our upper finger up
+            } 
+            // Otherwise, take the lower player
+            else if (nextLowerUser != null) {
+                windowList.addLast(nextLowerUser);   // Put them at the bottom of our window list
+                lowerPointer = nextLowerUser;        // Move our lower finger down
+            }
+            
+            windowSize--; // One more slot filled!
+        }
+
+        // Convert our list of User objects into formatted strings
+        for (User u : windowList) {
+            result.add(u.uid + ": " + u.score);
+        }
+        return result;
+    }
+}
+
+"""

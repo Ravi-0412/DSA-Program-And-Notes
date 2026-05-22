@@ -164,7 +164,38 @@ public:
 
 
 
+# Method 3:
+# Time : O(N) 
 
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        n = len(nums)
+        
+        # 'reached' represents the closest checkpoint that we know 
+        # can successfully make it to the very last index.
+        # Initially, the last index itself is our destination.
+        reached = n - 1
+        
+        # Traverse the array backwards, starting from the second-to-last element
+        # down to the first element (index 0).
+        for i in range(n - 2, -1, -1):
+            
+            # Check if the current index 'i' plus its maximum jump length 'nums[i]'
+            # can meet or overshoot our target checkpoint ('reached').
+            if i + nums[i] >= reached:
+                # If yes, 'i' is a valid stepping stone. 
+                # We update our target checkpoint to be 'i'.
+                reached = i
+                
+            # Note on your commented 'else': We do NOT return False here.
+            # Just because index 'i' cannot reach the checkpoint doesn't mean 
+            # the problem is impossible; an earlier index (like i-1) might have 
+            # a massive jump that completely leaps over index 'i'.
+            # e.g ; [2, 0, 0] 
+            
+        # If our target checkpoint successfully rolled all the way back to the 
+        # starting index (0), it means a valid path exists from start to end.
+        return reached == 0
 
 
 

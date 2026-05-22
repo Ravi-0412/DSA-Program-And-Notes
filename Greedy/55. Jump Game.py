@@ -187,7 +187,7 @@ class Solution:
                 # We update our target checkpoint to be 'i'.
                 reached = i
                 
-            # Note on your commented 'else': We do NOT return False here.
+            # We do NOT return False here.
             # Just because index 'i' cannot reach the checkpoint doesn't mean 
             # the problem is impossible; an earlier index (like i-1) might have 
             # a massive jump that completely leaps over index 'i'.

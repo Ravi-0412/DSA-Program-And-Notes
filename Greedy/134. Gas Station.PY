@@ -26,7 +26,11 @@ A can reach C1 (by Fact3) & C1 can reach B => A can reach B (Contradict with Fac
 Same proof could be applied to C2 ~ Ck
 => any station between A and B that A can reach cannot reach B
 
-Note: we don't need to check in circular way because of above reason only.
+Note: Why don't we need to check the "circular" path at the end?
+Ans : because we verified : if sum(gas) < sum(cost):
+Because we already verified that the total global gas >= total global cost, we are guaranteed that a solution exists. 
+Since our loop successfully eliminates all the "bad" starting points up to the final index, whatever value is left in start must be the correct unique starting point. 
+It doesn't need to validate the wrap-around loop because the math ensures it will have enough leftover fuel to cover any deficits encountered in the beginning.
 
 Short : If starting at C_1 with 0 gas could get you all the way to B, then starting at A (which gets you to C_1 with >= 0 gas) 
 would definitely get you to B. But we already know A failed to reach B. Therefore, starting fresh at C_1 stands absolutely no chance.

@@ -54,29 +54,30 @@ class Solution:
 
 # Java code.
 """
+import java.util.*;
+
 class Solution {
-    public List<List<Integer>> merge(int[][] intervals) {
-        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
-        // intervals.sort(key= lambda i: i[0])   // 'i': intervals, i[0] index value on which we want to sort
+    public int[][] merge(int[][] intervals) {
+        // 1. Sort intervals by their start time
+        Arrays.sort(intervals, (a, b) -> (a[0] - b[0]));
 
-        List<List<Integer>> output = new ArrayList<>();
-        output.add(Arrays.asList(intervals[0][0], intervals[0][1])); 
-        // to handle the edge case and make comparison easy
+        List<int[]> output = new ArrayList<>();
+        // Seed the list with the first interval to easily compare against
+        output.add(intervals[0]);
 
-        for (int i = 1; i < intervals.length; i++) {
-            int start = intervals[i][0], end = intervals[i][1];
-            // check if ending of last added interval is >= than starting of the current one 
-            if (output.get(output.size() - 1).get(1) >= start) {
-                // i.e if overlapping then merge, make end of last added one max(end of last added, end)
-                int updatedEnd = Math.max(output.get(output.size() - 1).get(1), end);
-                output.get(output.size() - 1).set(1, updatedEnd);  // [[1,4],[2,3]] = [[1,4]]
+        for (int[] interval : intervals) {
+            int[] lastAdded = output.get(output.size() - 1);
+            
+            // If the current interval overlaps with the last added interval
+            if (lastAdded[1] >= interval[0]) {
+                lastAdded[1] = Math.max(lastAdded[1], interval[1]); // Merge them inline
             } else {
-                // If not overlapping then add directly 
-                output.add(Arrays.asList(start, end));  // just the curr interval only.
+                output.add(interval); // No overlap, add as a new standalone interval
             }
         }
 
-        return output;
+        // Convert the dynamic list back to a 2D array
+        return output.toArray(new int[output.size()][]);
     }
 }
 

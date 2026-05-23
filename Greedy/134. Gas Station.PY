@@ -28,6 +28,9 @@ Same proof could be applied to C2 ~ Ck
 
 Note: we don't need to check in circular way because of above reason only.
 
+Short : If starting at C_1 with 0 gas could get you all the way to B, then starting at A (which gets you to C_1 with >= 0 gas) 
+would definitely get you to B. But we already know A failed to reach B. Therefore, starting fresh at C_1 stands absolutely no chance.
+
 time: O(n), space: O(1)
 """
 class Solution:

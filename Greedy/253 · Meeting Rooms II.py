@@ -463,37 +463,43 @@ class Solution:
             
         return max_rooms
 
-# follow ups
+# Java
 """
-Q) This logic is perfect for finding the Peak, but what if you need to know the Total Duration that at least one room was occupied?
+import java.util.*;
+
+class Solution {
+    public int minMeetingRooms(int[][] intervals) {
+        // Step 1: Create an event map to record changes at specific times
+        // TreeMap automatically keeps the keys (timestamps) sorted!
+        Map<Integer, Integer> timeDiffs = new TreeMap<>();
+        
+        for (int[] interval : intervals) {
+            int start = interval[0];
+            int end = interval[1];
+            
+            // A room is requested (+1)
+            timeDiffs.put(start, timeDiffs.getOrDefault(start, 0) + 1);
+            // A room is vacated (-1)
+            timeDiffs.put(end, timeDiffs.getOrDefault(end, 0) - 1);
+        }
+        
+        int currentRooms = 0;
+        int maxRooms = 0;
+        
+        // Step 2: "Sweep" through the timeline chronologically
+        // Because it's a TreeMap, iterating over the values goes in strict sorted key order
+        for (int change : timeDiffs.values()) {
+            // Update the ongoing count of rooms currently in use
+            currentRooms += change;
+            
+            // Track the peak demand at any single point in time
+            maxRooms = Math.max(maxRooms, currentRooms);
+        }
+        
+        return maxRooms;
+    }
+}
 """
-
-from collections import defaultdict
-
-class Solution:
-    def totalOccupiedDuration(self, intervals: List[List[int]]) -> int:
-        time_diffs = defaultdict(int)
-        for start, end in intervals:
-            time_diffs[start] += 1
-            time_diffs[end] -= 1
-        
-        sorted_times = sorted(time_diffs.keys())
-        total_duration = 0
-        current_active_meetings = 0     # minimum number of rooms required
-        period_start = 0
-        
-        for i in range(len(sorted_times)):
-            time = sorted_times[i]
-            
-            # Before updating the count, check if we were in an active period
-            if current_active_meetings > 0:
-                # Add the distance between the previous timestamp and current
-                total_duration += (time - sorted_times[i-1])
-            
-            # Update current room occupancy
-            current_active_meetings += time_diffs[time]
-            
-        return total_duration
 
 # Conversions
 
@@ -546,5 +552,38 @@ public:
     }
 };
 """
+
+# follow ups
+"""
+Q) This logic is perfect for finding the Peak, but what if you need to know the Total Duration that at least one room was occupied?
+need to lok into this properly.
+"""
+
+from collections import defaultdict
+
+class Solution:
+    def totalOccupiedDuration(self, intervals: List[List[int]]) -> int:
+        time_diffs = defaultdict(int)
+        for start, end in intervals:
+            time_diffs[start] += 1
+            time_diffs[end] -= 1
+        
+        sorted_times = sorted(time_diffs.keys())
+        total_duration = 0
+        current_active_meetings = 0     # minimum number of rooms required
+        period_start = 0
+        
+        for i in range(len(sorted_times)):
+            time = sorted_times[i]
+            
+            # Before updating the count, check if we were in an active period
+            if current_active_meetings > 0:
+                # Add the distance between the previous timestamp and current
+                total_duration += (time - sorted_times[i-1])
+            
+            # Update current room occupancy
+            current_active_meetings += time_diffs[time]
+            
+        return total_duration
 # Related Q:
 # 1) Minimum Platforms

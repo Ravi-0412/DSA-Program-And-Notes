@@ -17,7 +17,7 @@ class Solution:
         for i in range(n//groupSize):
             # finding the 1st ele of group
             first_ele= heapq.heappop(hand)
-            # check if this ele has already occured to it's frequency and find the ele with atleast one freq remaining.
+            # check if this ele has already occured(processed in other gr) to it's frequency and find the ele with atleast one freq remaining.
             while cnt[first_ele]== 0:
                 first_ele = heapq.heappop(hand)
             

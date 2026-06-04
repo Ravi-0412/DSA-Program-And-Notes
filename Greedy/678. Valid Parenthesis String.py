@@ -222,48 +222,40 @@ public:
 
 
 # Method  3: 
-
 """
-Greedy : Most Optimal
-While iterating through the string you have 3 possibilites - "(" OR "*" OR ")". We will doscuss what to do in each case.
+Instead of maintaining a massive tree of numbers, we just maintain these two integers 
+(min_open and max_open) as a dynamic interval window: [min_open, max_open].
 
-For "(" : 
-When we encounter a open parenthesis, "(" , we are either looking for a ")" to close it or even a "*" would help as it could act as anything.
-So, it is quite understandable that whenever we get a "(" , we have something to do in the 'Future'.
-So, without any hesitation , whenever we get a open parenthesis, we will push it into the stack for future use .
+min_open: The absolute minimum number of open brackets you could have if you were aggressive about closing brackets (treating asterisks * as ) whenever possible).
+max_open: The absolute maximum number of open brackets you could have if you were aggressive about opening brackets (treating asterisks * as ( whenever possible).
 
-For "*" :
-It can act both as open or closed parenthesis. 
-So, we will push it into a sepaarate stack. (Along with the indices - the reason will be understoood at the last)
+The Rules of the Window
+As we scan each character in the string, our window changes based on simple rules:
+1. If char == '(': Both boundaries must increase.
+min_open += 1
+max_open += 1
 
-For ")" : 
-If we out open parenthesis stack is empty (i.e, we already have a parenthesis opened which we pushed into the stack), then we pop one element out of it, to close this bracket.
-If our open parenthesis stack is empty (i.e, no open parenthesis are left), then we look at the star stack. (i.e, if our star stack is not empty, then our star can act as open parenthesis for this one). 
-So , we pop out our star stack for that matter. 
-If both of these doesn't happen, i.e, if both open parenthesis stack and star stack is empty, then it means there is no chance for a closed parenthesis to get an open one.
-So, we can immediately return False in that case. 
+2. If char == ')': Both boundaries must decrease.
+min_open -= 1
+max_open -= 1
+
+3. If char == '*': The wildcard gives choices! It can decrease our minimum (treated as )) or increase our maximum (treated as ().
+min_open -= 1
+max_open += 1
+
+The Two Vital Course Corrections (The "Greedy" Part)
+1. Safety Check 1 (Too Many Closing Brackets): If at any point max_open < 0, it means even if we treated every single asterisk as an open bracket, 
+we still don't have enough ( to match the overwhelming amount of ). The string is instantly invalid.
+2. Safety Check 2 (Floor Guard): min_open can never realistically drop below 0. 
+If min_open becomes negative, it just means we treated too many wildcards as ) early on. 
+We simply reset min_open = 0 to assume those extra wildcards were used as empty strings "" instead.
 
 
-After completing the iteration, there is an edge case left - 
-What if the open parenthesis are not yet closed, and they can be closed using the "*" stars left.
-
-So , now we will iterate through the open parenthesis stack ...
-For each open parenthesis, we will see if there is a star present after it ( this is the reason we pushed along with indices into the stack ).
-
-If all the stacks are empty, we will return true. 
-Else, we can return false.
-"""
-
-"""
 TIME COMPLEXITY ANALYSIS :
-
 -> 0(n) for iterating through the array.
--> 0(n) (worst case) for itertating through the left over stack.staticmethod
-->> Overall TC : 0(n)
-
 
 SPACE COMPLEXITY : 
--> O(n) for the stack spaces.
+-> O(1) for the stack spaces.
 """
 
 
@@ -272,100 +264,37 @@ SPACE COMPLEXITY :
 
 class Solution:
     def checkValidString(self, s: str) -> bool:
-        stk = []
-        star = []
-        for idx, char in enumerate(s):
+        # min_open tracks the minimum possible unmatched '(' we could have
+        # max_open tracks the maximum possible unmatched '(' we could have
+        min_open = 0
+        max_open = 0
+        
+        for char in s:
             if char == '(':
-                stk.append( idx )
+                min_open += 1
+                max_open += 1
             elif char == ')':
-                if stk:
-                    stk.pop()
-                elif star:
-                    star.pop()
-                else:
-                    return False
-            else:
-                star.append( idx )
-        while stk and star:
-            if stk[-1] > star[-1]:
+                min_open -= 1
+                max_open -= 1
+            elif char == '*':
+                # If '*' is used as ')', min_open decreases
+                # If '*' is used as '(', max_open increases
+                # (If used as "", min_open/max_open stay steady, which is handled implicitly by the range expansion)
+                min_open -= 1
+                max_open += 1
+                
+            # CRITICAL CHECK 1: If max_open drops below 0, there are too many ')'
+            # No amount of asterisks can save this string.
+            if max_open < 0:
                 return False
-            stk.pop()
-            star.pop()
-        return len(stk) == 0
-    
-
-
-# JAVA : 
-
-
-'''
-class Solution {
-    public boolean checkValidString(String s) {
-        Stack<Integer> stk = new Stack<>();
-        Stack<Integer> star = new Stack<>();
-        for (int i = 0; i < s.length(); i++) {
-            char ch = s.charAt(i);
-            if (ch == '(') {
-                stk.push(i);
-            } else if (ch == ')') {
-                if (!stk.isEmpty()) {
-                    stk.pop();
-                } else if (!star.isEmpty()) {
-                    star.pop();
-                } else {
-                    return false;
-                }
-            } else {
-                star.push(i);
-            }
-        }
-        while (!stk.isEmpty() && !star.isEmpty()) {
-            if (stk.peek() > star.peek()) {
-                return false;
-            }
-            stk.pop();
-            star.pop();
-        }
-        return stk.isEmpty();
-    }
-}
-'''
-
-
-
-# C++ : 
-
-
-
-'''
-class Solution {
-public:
-    bool checkValidString(string s) {
-        stack<int> stk, star;
-        for (int i = 0; i < s.size(); i++) {
-            if (s[i] == '(') {
-                stk.push(i);
-            } else if (s[i] == ')') {
-                if (!stk.empty()) {
-                    stk.pop();
-                } else if (!star.empty()) {
-                    star.pop();
-                } else {
-                    return false;
-                }
-            } else {
-                star.push(i);
-            }
-        }
-        while (!stk.empty() && !star.empty()) {
-            if (stk.top() > star.top()) {
-                return false;
-            }
-            stk.pop();
-            star.pop();
-        }
-        return stk.empty();
-    }
-};
-'''
-
+                
+            # CRITICAL CHECK 2: min_open cannot step below zero. 
+            # You can't have a negative balance of open brackets. If it dips negative,
+            # it just means we shouldn't have counted some '*' as ')' yet. Reset to 0.
+            if min_open < 0:
+                min_open = 0
+                
+        # At the end of the string, if 0 falls perfectly inside our possible 
+        # range of unmatched open brackets [min_open, max_open], then the string is valid.
+        # Since we guard min_open to never go below 0, we just check if min_open reached exactly 0.
+        return min_open == 0

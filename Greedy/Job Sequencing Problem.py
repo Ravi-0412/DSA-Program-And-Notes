@@ -41,9 +41,9 @@ class Job:
 
 class Solution:
     
-    def JobScheduling(self,Jobs_given,n):
-        Jobs.sort(key= lambda x: x.profit, reverse= True) 
-        max_deadline_job= max(Jobs, key = lambda x : x.deadline)   # it will return the job details having max deadline
+    def JobScheduling(self,Jobs,n):
+        jobs.sort(key= lambda x: x.profit, reverse= True) 
+        max_deadline_job= max(jobs, key = lambda x : x.deadline)   # it will return the job details having max deadline
         max_deadline= max_deadline_job.deadline                   # it will return the job having max deadline among all jobs
         # print(max_deadline_job)
         # print(max_deadline)

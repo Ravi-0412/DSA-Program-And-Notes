@@ -225,6 +225,7 @@ public:
 """
 Instead of maintaining a massive tree of numbers, we just maintain these two integers 
 (min_open and max_open) as a dynamic interval window: [min_open, max_open].
+keeping track of the fewest and most possible open brackets we could have at any given moment.
 
 min_open: The absolute minimum number of open brackets you could have if you were aggressive about closing brackets (treating asterisks * as ) whenever possible).
 max_open: The absolute maximum number of open brackets you could have if you were aggressive about opening brackets (treating asterisks * as ( whenever possible).
@@ -284,13 +285,14 @@ class Solution:
                 max_open += 1
                 
             # CRITICAL CHECK 1: If max_open drops below 0, there are too many ')'
-            # No amount of asterisks can save this string.
+            # Example: "())" -> at the second ')', max_open becomes -1.
             if max_open < 0:
                 return False
                 
-            # CRITICAL CHECK 2: min_open cannot step below zero. 
-            # You can't have a negative balance of open brackets. If it dips negative,
-            # it just means we shouldn't have counted some '*' as ')' yet. Reset to 0.
+            # Can we have a negative number of "fewest open brackets"? No, that makes no sense.
+            # If min_open drops below 0, it just means we were too aggressive in pretending 
+            # our '*' wildcards were closing brackets. We just reset it to 0, which means 
+            # "in the best-case scenario, we have perfectly balanced brackets so far."
             if min_open < 0:
                 min_open = 0
                 

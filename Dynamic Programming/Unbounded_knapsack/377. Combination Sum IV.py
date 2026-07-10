@@ -117,7 +117,7 @@ What limitation we need to add to the question to allow negative numbers?
 This means there are infinitely many combinations that result in the target. The answer effectively becomes "Infinity."
 
 What limitation must be added?
-1. You could restrict the sequence length: "Find the number of combinations that sum to target using exactly $K$ integers."
+1. You could restrict the sequence length: "Find the number of combinations that sum to target using exactly K integers."
 2. Forbid Zero-Sum Subsequences
 You could explicitly state: "You cannot use any subsequence of numbers that sums to zero."
 """

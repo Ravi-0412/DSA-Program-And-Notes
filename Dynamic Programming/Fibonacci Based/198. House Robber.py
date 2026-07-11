@@ -232,3 +232,46 @@ public:
 };
 """
 
+# follow ups
+"""
+Problem: Given an array nums (money per house) and an integer k, 
+find the maximum money you can rob such that you never rob k or more houses in a row.
+"""
+
+"""
+State Definition: f(i, left) returns the maximum value from house i onward, given left remaining consecutive robberies allowed.
+Choice 1 (Skip): Pass on house i. The consecutive streak breaks, completely resetting the capacity for the next house: f(i + 1, k - 1).
+Choice 2 (Rob): Valid only if left > 0. Collect the money and decrement the remaining capacity for the next house: nums[i] + f(i + 1, left - 1).
+Caching: Store computed state pairs (i, left) to prevent redundant subtree calculations.
+
+Time Complexity: O(N * K)
+"""
+
+class Solution:
+    def robMaxStreak(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        memo = {}
+        
+        # max_budget is the maximum consecutive houses allowed (k - 1)
+        max_budget = k - 1 
+        
+        def f(i, left):
+            # Base Case: No more houses left to rob
+            if i == n:
+                return 0
+                
+            if (i, left) in memo:
+                return memo[(i, left)]
+            
+            # Option 1: Skip. The streak breaks, so 'left' refreshes back to max_budget
+            ans = f(i + 1, max_budget)
+            
+            # Option 2: Rob. Only allowed if we have capacity left > 0
+            if left > 0:
+                ans = max(ans, nums[i] + f(i + 1, left - 1))
+                
+            memo[(i, left)] = ans
+            return ans
+            
+        # We start at house 0 with full capacity (k - 1) available
+        return f(0, max_budget)

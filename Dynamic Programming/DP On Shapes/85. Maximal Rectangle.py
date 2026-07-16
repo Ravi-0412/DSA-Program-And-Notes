@@ -16,8 +16,7 @@ class Solution:
         heights= [0 for i in range(col)]
         for i in range(row):
             for j in range(col):
-                # if matrix[i][j]== 0:   # don't know why writing like this is not working in leetcode but working in GFG
-                if matrix[i][j]== '0':  # this is working properly in leetcode but giving error in GFG
+                if matrix[i][j]== '0':  
                     heights[j]= 0 
                 else:
                     heights[j]+= 1                
@@ -25,22 +24,36 @@ class Solution:
             max_area= max(max_area,local_area)
         return max_area
     
-    def largestRectangleArea(self, heights):
-        stack, index= [], 0
-        maxArea= 0
-        while(index < len(heights)):
-            if not stack or heights[index] >= heights[stack[-1]]:
-                stack.append(index)
-                index+= 1
-            else:
-                topOfStack= stack.pop()
-                currArea= heights[topOfStack] *((index- stack[-1]-1) if stack else index)
-                maxArea= max(maxArea, currArea)  # here getting error : '>' is not supported bw instance of str and int
-        while stack:
-            topOfStack= stack.pop()
-            currArea= heights[topOfStack] *((index- stack[-1]-1) if stack else index)
-            maxArea= max(maxArea, currArea)
-        return maxArea
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        stack = []
+        max_area = 0
+        
+        # A height of 0 at the end guarantees every remaining index in the stack 
+        # encounters a "Next Smaller Element" and is processed before the loop terminates.
+        extended_heights = heights + [0]
+        
+        for i, h in enumerate(extended_heights):
+            # Maintain a monotonic strictly increasing stack of indices.
+            # A drop in height means 'i' acts as the Right Boundary (Next Smaller Element) 
+            # for the bar currently at the top of the stack.
+            while stack and extended_heights[stack[-1]] > h:
+                # Target bar to calculate area for. Its maximum height is fixed.
+                target_idx = stack.pop()
+                height = extended_heights[target_idx]
+                
+                # If stack is empty after pop, target_idx was the smallest bar seen so far;
+                # it can expand all the way left to index 0, so total width is 'i'.
+                # If not empty, the new top of stack is the Left Boundary (Previous Smaller Element);
+                # the bar can safely expand left up to (stack[-1] + 1).
+                width = i if not stack else i - stack[-1] - 1
+                
+                # Maximize area using the full continuous span discovered for this height
+                max_area = max(max_area, height * width)
+                
+            # Current index is pushed as it is greater than or equal to the current stack top
+            stack.append(i)
+            
+        return max_area
 
 
 # Later do by DP also

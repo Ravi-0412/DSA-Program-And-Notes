@@ -285,25 +285,52 @@ public:
 
 # method 3:
 
-# very concise one of Method 2
-# https://leetcode.com/problems/largest-rectangle-in-histogram/discuss/995249/Python-increasing-stack-explained
-# whenever you see any ele greater than equal on the stack to the current index
-# then just calculate the area like above method 
-# it just finding the next smaller and stopping there
-#  time: O(n)
+"""
+Logic :
+1. A Monotonic Increasing Stack preserves historical order. If you push elements as long as they are increasing, 
+the element directly below any item in the stack is guaranteed to be its Previous Smaller Element. 
+2. The moment you encounter a bar heights[index] that is smaller than your stack's top element (heights[stack[-1]]), 
+you have instantly discovered the Next Smaller Element for that top bar.
+3. Since you now know both its left boundary (the element below it in the stack) and its right boundary (the current index), 
+you have everything needed to calculate that specific bar's area immediately.
 
-def largestRectangleArea(self, heights):        
-    stack, area= [], 0
-    for i ,h in enumerate(heights+ [0]): # to evaluate the last ele, just append with smallest ele possible
-        while stack and heights[stack[-1]]>= h:  # matlab stack[pop] right side me 'i' tak ja skta h
-                                                # and left side me stack[-1] tak after poping the ele
-            # h= heights[stack.pop()]             # will give the wrong result as h you are using for iterating also
-                                                # this mistake i was making and got after a long time
-            H= heights[stack.pop()] 
-            W= i if not stack else i-stack[-1]-1
-            area= max(area, H*W)
-        stack.append(i)
-    return area
+Time = sapce = O(n)
+"""
+
+from typing import List
+
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        stack = []
+        max_area = 0
+        
+        # A height of 0 at the end guarantees every remaining index in the stack 
+        # encounters a "Next Smaller Element" and is processed before the loop terminates.
+        extended_heights = heights + [0]
+        
+        for i, h in enumerate(extended_heights):
+            # Maintain a monotonic strictly increasing stack of indices.
+            # A drop in height means 'i' acts as the Right Boundary (Next Smaller Element) 
+            # for the bar currently at the top of the stack.
+            while stack and extended_heights[stack[-1]] > h:
+                # Target bar to calculate area for. Its maximum height is fixed.
+                target_idx = stack.pop()
+                height = extended_heights[target_idx]
+                
+                # If stack is empty after pop, target_idx was the smallest bar seen so far;
+                # it can expand all the way left to index 0, so total width is 'i'.
+                # If not empty, the new top of stack is the Left Boundary (Previous Smaller Element);
+                # the bar can safely expand left up to (stack[-1] + 1).
+                width = i if not stack else i - stack[-1] - 1
+                
+                # Maximize area using the full continuous span discovered for this height
+                max_area = max(max_area, height * width)
+                
+            # Current index is pushed as it is greater than or equal to the current stack top
+            stack.append(i)
+            
+        return max_area
+        return max_area
 
 # Java Code 
 """

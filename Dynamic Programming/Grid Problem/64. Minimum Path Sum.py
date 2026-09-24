@@ -216,6 +216,37 @@ public:
 };
 """
 
+# Sapce optimised
+
+from typing import List
+
+class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        m, n = len(grid), len(grid[0])
+        
+        # dp[c] stores the min path sum from cell (r, c) to bottom-right (m-1, n-1)
+        dp = [0] * n
+        
+        # Step 1: Base Case - Fill last cell
+        dp[n - 1] = grid[m - 1][n - 1]
+        
+        # Step 2: Base Case - Pre-fill last row (moving right to left)
+        for c in range(n - 2, -1, -1):
+            dp[c] = grid[m - 1][c] + dp[c + 1]
+            
+        # Step 3: Fill remaining rows from bottom-up (r = m-2 down to 0)
+        for r in range(m - 2, -1, -1):
+            # Update last column for current row r (can only go DOWN, which is old dp[n-1])
+            dp[n - 1] += grid[r][n - 1]
+            
+            # Update rest of columns from right to left
+            for c in range(n - 2, -1, -1):
+                # dp[c] currently holds 'down' value from row r+1
+                # dp[c+1] holds newly updated 'right' value from row r
+                dp[c] = grid[r][c] + min(dp[c], dp[c + 1])
+                
+        return dp[0]
+
 # similar q asked in interview
 # 1) https://www.geeksforgeeks.org/maximum-sum-path-in-a-matrix-from-top-left-to-bottom-right/
 # Instead on minimum we have to find maximum

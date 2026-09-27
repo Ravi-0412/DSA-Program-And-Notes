@@ -156,5 +156,76 @@ class Solution:
                   i += 1
           return "".join(res)                     # build the final string once
 
+# follow ups:
+"""
+1. s has 10⁹ characters and k is small. Solve it with O(k) extra space.
+
+  Step 1: Start from the current optimal and find what's too big
+
+  Our previous solution used two things that grow with n:
+
+  match = [-1] * len(s)   → 10⁹ slots, but at most k (≈100) are ever not -1
+  res.append(s[i])        → up to 10⁹ one-character items in a list
+  At 10⁹ characters, the list alone holds 10⁹ references of 8 bytes each, about 8 GB, before the result string even exists. That fails.
+
+  Step 2: Find the gap
+
+  Ask: "how much of this data carries real information?"
+  - match[] is almost entirely -1. Only k slots matter. When a table is mostly empty, store only the entries that are set.
+  - The characters between replacements are never changed. Why copy them one at a time? Copy each untouched stretch as one slice.
+
+  s:    [ untouched ][ src0 ][ untouched ][ src1 ][ untouched tail ]
+  out:  [ slice     ][ tgt0 ][ slice     ][ tgt1 ][ slice          ]
+         → at most 2k + 1 pieces, not 10⁹
+
+  This means you only need the matched operations, sorted from left to right, and a pointer prev marking where the not-yet-copied part of s begins.
+
+  Step 3: Dry run
+
+  s = "abcd", indices = [2, 0], sources = ["cd", "a"], targets = ["ffff", "eee"]
+
+  matched ops sorted by index → [(0, op1), (2, op0)]
+
+  prev=0, (idx 0, op1): s[0:0] = ""   → append "", "eee"    prev = 0+1 = 1
+  prev=1, (idx 2, op0): s[1:2] = "b"  → append "b", "ffff"  prev = 2+2 = 4
+  tail: s[4:] = ""                    → append ""
+
+  "".join → "eeebffff" ✓
+  
+
+  Complexity
+
+  Let n = len(s), k = number of operations, L = the longest source, T = the longest target.
+
+  ┌──────────────────────┬────────────────────────────┬───────────────────────────────┬───────────────────────────────────────────────────────────────────┐
+  │         Step         │            Time            │          Extra space          │                                Why                                │
+  ├──────────────────────┼────────────────────────────┼───────────────────────────────┼───────────────────────────────────────────────────────────────────┤
+  │ Match checks         │ O(k·L)                     │ none                          │ startswith compares up to L characters, k times                   │
+  ├──────────────────────┼────────────────────────────┼───────────────────────────────┼───────────────────────────────────────────────────────────────────┤
+  │ Sort the matched ops │ O(k log k)                 │ O(k)                          │ At most k tuples                                                  │
+  ├──────────────────────┼────────────────────────────┼───────────────────────────────┼───────────────────────────────────────────────────────────────────┤
+  │ Build the pieces     │ O(n + k·T)                 │ O(k) pieces                   │ Every character of s lands in exactly one slice, plus the targets │
+  ├──────────────────────┼────────────────────────────┼───────────────────────────────┼───────────────────────────────────────────────────────────────────┤
+  │ join                 │ O(n + k·T)                 │ output only                   │ One final copy                                                    │
+  ├──────────────────────┼────────────────────────────┼───────────────────────────────┼───────────────────────────────────────────────────────────────────┤
+  │ Total                │ O(n + k log k + k·L + k·T) │ O(k), not counting the output │                                                                   │
+  └──────────────────────┴────────────────────────────┴───────────────────────────────┴───────────────────────────────────────────────────────────────────┘
+
+  Trade-off compared with the match[] version: you pay O(k log k) for the sort to save O(n) space. When k is small and n is huge, that's clearly worth it.
+
+"""
+
+  class Solution:
+      def findReplaceString(self, s, indices, sources, targets):
+          # only the matched ops, sorted left to right: O(k) space
+          ops = sorted((idx, op) for op, idx in enumerate(indices)
+                       if s.startswith(sources[op], idx))   # still checked against the ORIGINAL s
+          res, prev = [], 0                                   # prev = start of the part not copied yet
+          for idx, op in ops:
+              res.append(s[prev:idx])                         # copy the untouched chunk as one slice
+              res.append(targets[op])                         # write the replacement
+              prev = idx + len(sources[op])                   # skip the source window
+          res.append(s[prev:])                                # the tail after the last replacement
+          return "".join(res)
         
 

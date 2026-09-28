@@ -351,3 +351,26 @@ public:
     }
 };
 """
+
+Follow-ups
+"""
+1. Solve it with DP, where dp[i] = the length of the longest valid substring ending at index i.
+2. Return the longest valid substring itself, not just its length. 
+3. 678. Valid Parenthesis String (https://leetcode.com/problems/valid-parenthesis-string/)
+"""
+
+# Return the string itself
+class Solution:
+      def longestValidSubstring(self, s: str) -> str:
+          stack = [-1]
+          best_start = best_len = 0
+          for i, char in enumerate(s):
+              if char == '(':
+                  stack.append(i)
+              else:
+                  stack.pop()
+                  if not stack:
+                      stack.append(i)
+                  elif i - stack[-1] > best_len:
+                      best_len, best_start = i - stack[-1], stack[-1] + 1
+          return s[best_start : best_start + best_len]

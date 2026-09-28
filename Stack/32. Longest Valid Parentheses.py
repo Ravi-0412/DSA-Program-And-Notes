@@ -25,6 +25,15 @@ class Solution:
                 return False
         return self.isValid(i+1, s, open)
 
+# other way 
+def isValid(self, t):
+      open = 0
+      for c in t:
+          open += 1 if c == '(' else -1
+          if open < 0:
+              return False
+      return open == 0
+
 
 # method 2: 
 # using stack

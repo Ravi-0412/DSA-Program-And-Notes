@@ -34,20 +34,54 @@ def isValid(self, t):
               return False
       return open == 0
 
+# Other way : 1.1
+"""
+ For a fixed i, validating s[i..j] repeats all the work already done for s[i..j-1], then adds one character.
+
+  i=0:  scan "("  → scan "()" again → scan "()(" again ...   ✗ redoing work
+  fix:  keep a running balance as j moves right   → one step per j
+  Two more observations let you exit early:
+  - The balance goes below 0: there's an unmatched ). No longer substring starting at i can be valid, so break.
+  - The balance is exactly 0: s[i..j] is valid, so record its length.
+
+Worst case: "(((((...." never breaks early.
+
+Time : O(N^2)
+"""
+class Solution:
+      def longestValidParentheses(self, s: str) -> int:
+          ans = 0
+          for i in range(len(s)):
+              bal = 0
+              for j in range(i, len(s)):
+                  bal += 1 if s[j] == '(' else -1
+                  if bal < 0:                    # unmatched ')' → nothing longer from i can work
+                      break
+                  if bal == 0:                   # s[i..j] is balanced
+                      ans = max(ans, j - i + 1)
+          return ans
+
 
 # method 2: 
-# using stack
-# logic: Put '(' always into stack
-# and ')' when we are not able to find any valid after we see ')'.
-# Pushing ')' will denote that after index of ')' , paranthesis are vlid.
+"""
+using stack
+logic: Put '(' always into stack
+and ')' when we are not able to find any valid after we see ')'.
+Pushing ')' will denote that after index of ')' , paranthesis are vlid.
 
-# Implementation:
-# when you see '(': push the index into the stack
-# when you see ')': pop and check if stack is empty or not.
-# if empty push the curr index into stack.
-# if not empty then we got one valid ans.
+Implementation:
+when you see '(': push the index into the stack
+when you see ')': pop and check if stack is empty or not.
+if empty push the curr index into stack.
+if not empty then we got one valid ans.
+
+In short : 
+Each i rescans a region the previous i already covered. Ask: "when I'm at a ), what do I actually need to know?"
+1. Which ( it matches. That's the most recent unmatched (, which is the same stack idea as LeetCode 20 (https://leetcode.com/problems/valid-parentheses/).
+2. Where the valid run ending here begins. It begins right after the last position that could not be matched.
 
 # time= space= O(n)
+"""
 
 class Solution:
     def longestValidParentheses(self, s: str) -> int:

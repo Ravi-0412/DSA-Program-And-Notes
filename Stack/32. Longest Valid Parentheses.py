@@ -80,6 +80,10 @@ Each i rescans a region the previous i already covered. Ask: "when I'm at a ), w
 1. Which ( it matches. That's the most recent unmatched (, which is the same stack idea as LeetCode 20 (https://leetcode.com/problems/valid-parentheses/).
 2. Where the valid run ending here begins. It begins right after the last position that could not be matched.
 
+So push indices onto the stack, not characters. The bottom of the stack always holds a base: the index of the last unmatched position. 
+Start with -1 so that a run starting at index 0 measures correctly.
+
+
 # time= space= O(n)
 """
 
@@ -91,26 +95,27 @@ class Solution:
             if s[i]== '(':
                 stack.append(i)
             else:
-                stack.pop()
-                if not stack:   # means we have found invalid one 
+                stack.pop()    # match the latest '(' (or remove the base)
+                if not stack:   # means we have found invalid one . unmatched ')' → becomes the new base
                     stack.append(i)
                 else:  # means we have found the valid one
-                    ans= max(ans, i- stack[-1])  # substring after index 'stack[-1]' to 'i' will be a valid one
+                    ans= max(ans, i- stack[-1])  # substring after index 'stack[-1]' to 'i' will be a valid one, run length = i - index just before the run
         return ans 
 
 
 # method 3: 
+"""
+for valid one: open== close
+logic: for left to right: when at any index if we see open > close => it means till no string can be valid till this index.
+for right to left: close > open => no string can be valid till this index.
 
-# for valid one: open== close
-# logic: for left to right: when at any index if we see open > close => it means till no string can be valid till this index.
-# for right to left: close > open => no string can be valid till this index.
-
-# why we need two pass?
-# Ans: if we go only from either left to right, OR either from right to left then we may get the ans less than the required.
-# e.g: "(()".. if we go from left to right then no way we will find open== close and we will get ans= 0
-# But ans will be '2'. And this we will get when we will traverse from right to left.
+why we need two pass?
+Ans: if we go only from either left to right, OR either from right to left then we may get the ans less than the required.
+e.g: "(()".. if we go from left to right then no way we will find open== close and we will get ans= 0
+But ans will be '2'. And this we will get when we will traverse from right to left.
 
 # time: o(n), space: O(1)
+"""
 
 class Solution:
     def longestValidParentheses(self, s: str) -> int:
@@ -139,6 +144,26 @@ class Solution:
             elif open> close:
                 open= close= 0
         return ans
+
+# shorter version
+class Solution:
+      def longestValidParentheses(self, s: str) -> int:
+          def longest_balanced_run(chars, open_char):
+              longest = open_count = close_count = 0
+              for char in chars:
+                  if char == open_char:
+                      open_count += 1
+                  else:
+                      close_count += 1
+                  if open_count == close_count:
+                      longest = max(longest, 2 * close_count)   # balanced run
+                  elif close_count > open_count:
+                      open_count = close_count = 0              # too many closers → run broken, restart
+              return longest
+
+          # L→R catches surplus ')'; R→L (roles swapped) catches surplus '('
+          return max(longest_balanced_run(s, '('),
+                     longest_balanced_run(reversed(s), ')'))
 
 # Java Code
 """

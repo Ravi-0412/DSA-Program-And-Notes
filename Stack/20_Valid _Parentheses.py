@@ -217,3 +217,10 @@ Adding a new bracket type means one new dict entry, with no new if branch.
                   stack.append(c)
           return not stack                        # leftover openers → invalid
   
+# Follow-ups
+"""
+  1. The string contains only '(' and ')'. Solve it with O(1) extra space.
+  2. 921. Minimum Add to Make Parentheses Valid (https://leetcode.com/problems/minimum-add-to-make-parentheses-valid/)
+  3. 1249. Minimum Remove to Make Valid Parentheses (https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/)
+
+"""

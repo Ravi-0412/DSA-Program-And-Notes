@@ -196,3 +196,24 @@ public:
 };
 
 """
+
+# Method 3:
+"""
+A cleaner version to use in interviews
+Adding a new bracket type means one new dict entry, with no new if branch.
+"""
+
+  class Solution:
+      def isValid(self, s: str) -> bool:
+          if len(s) % 2:                          # odd length can never be balanced
+              return False
+          pairs = {')': '(', ']': '[', '}': '{'}  # closer → matching opener
+          stack = []
+          for c in s:
+              if c in pairs:                      # closing bracket
+                  if not stack or stack.pop() != pairs[c]:
+                      return False
+              else:                               # opening bracket
+                  stack.append(c)
+          return not stack                        # leftover openers → invalid
+  

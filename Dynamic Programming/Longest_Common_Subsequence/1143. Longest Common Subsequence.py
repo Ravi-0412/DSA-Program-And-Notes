@@ -223,4 +223,6 @@ private:
 """
 1) Printing Longest Common Subsequence
 2) Longest Common Substring
+3) 72. Edit Distance (https://leetcode.com/problems/edit-distance/)
+4) 1092. Shortest Common Supersequence (https://leetcode.com/problems/shortest-common-supersequence/)
 """

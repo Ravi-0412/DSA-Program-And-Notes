@@ -172,3 +172,9 @@ class Solution:
 
           max_gain(root)
           return self.best
+"""
+Follow-ups : 
+ 1. Return the nodes on the maximum path, not just its sum.
+  2. The path must start and end at leaves.
+  3. 687. Longest Univalue Path (https://leetcode.com/problems/longest-univalue-path/)
+""'

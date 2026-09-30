@@ -155,23 +155,53 @@ class Solution {
 
 
 # Method 5:
+"""
+ Thought process
+
+  1. Preorder = root, left subtree, right subtree. So the next unused value is always the next node to create. Read the array once, left to right, with a pointer.
+  2. The BST rule gives each subtree a ceiling:
+     - The left child's values must be below the root's value.
+     - The right child's values must stay below the root's own limit.
+  3. The only question at each call is "does the next value fit under my ceiling?"
+     - Yes: make it the root of this subtree.
+     - No: it belongs higher up in the tree, so return None and let an ancestor with a bigger ceiling place it.
+  4. No lower bound is needed. When the left subtree stops, the next value is already bigger than the root, so the preorder order keeps the right subtree on the correct side.
+
+  preorder = [8, 5, 1, 7, 10, 12]
+
+              8          limit ∞
+            /   \
+     (< 8) 5     10 (< ∞)
+          / \      \
+   (< 5) 1   7 (< 8)  12 (< ∞)
+
+  Logic
+
+  build(upper_bound):
+  1. If there are no values left, or the next value is greater than upper_bound, return None.
+  2. Otherwise, create a node from the next value and move the pointer forward.
+  3. Build the left subtree with upper_bound = node.val.
+  4. Build the right subtree with the same upper_bound.
+"""
 # Time: O(n), space = O(1) 
 
 class Solution:
-    def __init__(self):
-        self.i = 0
+      def bstFromPreorder(self, preorder: List[int]) -> Optional[TreeNode]:
+          next_index = 0                                  # next unused value in preorder
 
-    def bstFromPreorder(self, preorder: List[int]) -> Optional[TreeNode]:
-        return self.build(preorder, float('inf'))
+          def build(upper_bound):
+              """Builds the subtree whose values must all be < upper_bound."""
+              nonlocal next_index
+              if next_index == len(preorder) or preorder[next_index] > upper_bound:
+                  return None                             # no values left, or the value belongs higher up
 
-    def build(self, preorder: List[int], bound: int) -> Optional[TreeNode]:
-        if self.i == len(preorder) or preorder[self.i] > bound:
-            return None
-        root = TreeNode(preorder[self.i])
-        self.i += 1
-        root.left = self.build(preorder, root.val)
-        root.right = self.build(preorder, bound)
-        return root
+              root = TreeNode(preorder[next_index])       # preorder: the next value is this subtree's root
+              next_index += 1
+              root.left = build(root.val)                 # left subtree: values < root
+              root.right = build(upper_bound)             # right subtree: same limit as root
+              return root
+
+          return build(math.inf)                          # the whole tree has no limit
 
 # Java
 """

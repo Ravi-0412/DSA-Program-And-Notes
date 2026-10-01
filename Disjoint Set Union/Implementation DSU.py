@@ -1,59 +1,61 @@
-# There are two things in this: 1) FindParent  (ultimate parent)  2) Union.
+"""
+There are two things in this: 1) FindParent  (ultimate parent)  2) Union.
 
-# 1) find parent.
-# it is used to check whether two node belong to same component or not.
-# every node will be parent of itself at start.
+1) find parent.
+it is used to check whether two node belong to same component or not.
+every node will be parent of itself at start.
 
-# to find whether two node belong to the same component or not, just find the parent of both
-# if parent of both is same then they belong to same component otherwise not.
+to find whether two node belong to the same component or not, just find the parent of both
+if parent of both is same then they belong to same component otherwise not.
 
-# this one is the basic to check whether adding any edge will lead to the cycle or not
-# if we want to add an edge between two node belonging to same component(having same root parent) then adding that edge will lead to the cycle.
+this one is the basic to check whether adding any edge will lead to the cycle or not
+if we want to add an edge between two node belonging to same component(having same root parent) then adding that edge will lead to the cycle.
 
-# so we can only do union of two node if they belong to different component for avoiding cycle.
-
-
-# 2) for union(merging the two into one): union tells whether we can connect two node or not by an edge.
-#  if not then it means connecting these two node(given edge) will lead to cycle.
-
-# logic for union: first find the root parent(ultimate parent) of both the node.
-# if parent is different then it means they belong to different component and we can do the union otherwise not.
-# then for doing union just use any of ways i.e rank or size.
-
-# There are two ways we can do union:
-# a) 'union by Rank':
-# attach the ultimate parent  with smaller rank to the ultimate parent with larger rank.
-# and make parent[node_with_smaller_rank]= parent_larger_rank.
-
-# Here we only increase the rank of any of parent node, if rank of both is same.
-# when attaching the node, only increment the rank by '1'  for parent node(to which we are attaching),
-# if rank of both the parent node is equal otherwise don't incr..
-
-# Reason: increment in rank by '1' means increment in height by '1'
-# and icreasing the rank always will increase the height of tree  and will lead to high time complexity.
+so we can only do union of two node if they belong to different component for avoiding cycle.
 
 
-# b) Union by Size:
-# increase the size of node to which you are attaching other node by 'size of node you are attaching'.
-# i.e if parent[p1]= p2 then size[p2]+= size[p1].
-# vvi: we merge the ultimate parent of both the nodes. so we add the size of one into other(new_parent).
+2) for union(merging the two into one): union tells whether we can connect two node or not by an edge.
+ if not then it means connecting these two node(given edge) will lead to cycle.
 
-# Note: 'UnionBySize' is more meaningful and initiutive than 'UnionByRank'.
+logic for union: first find the root parent(ultimate parent) of both the node.
+if parent is different then it means they belong to different component and we can do the union otherwise not.
+then for doing union just use any of ways i.e rank or size.
 
-# Q) why connect smaller to larger only in both rank in size cases?
-# so that height doesn't increase much leading to higher time complexity.
+There are two ways we can do union:
+a) 'union by Rank':
+attach the ultimate parent  with smaller rank to the ultimate parent with larger rank.
+and make parent[node_with_smaller_rank]= parent_larger_rank.
 
-# Note: After finding the root parent of each node, ultimate parent of both nodes are get attached to each other. not the two given node.
+Here we only increase the rank of any of parent node, if rank of both is same.
+when attaching the node, only increment the rank by '1'  for parent node(to which we are attaching),
+if rank of both the parent node is equal otherwise don't incr..
 
-# Q) why we are calling 'findParent' to find the ultimate parent of each node.
-#  why are we don't directly finding the parent from parent array?
-# Ans: when we combine two node from different component then we are not able to update the 
-# remaining nodes of 'node having lesser size/rank' to new ultimate parent. 
-# Also while finding parent, only the nodes that belong to that component there parent get updated.
+Reason: increment in rank by '1' means increment in height by '1'
+and icreasing the rank always will increase the height of tree  and will lead to high time complexity.
 
 
-# time for union: O(4 alpha) nearly = O(1), space: O(n)
-# time for find Parent= O(4* alpha)
+b) Union by Size:
+increase the size of node to which you are attaching other node by 'size of node you are attaching'.
+i.e if parent[p1]= p2 then size[p2]+= size[p1].
+vvi: we merge the ultimate parent of both the nodes. so we add the size of one into other(new_parent).
+
+Note: 'UnionBySize' is more meaningful and initiutive than 'UnionByRank'.
+
+Q) why connect smaller to larger only in both rank in size cases?
+so that height doesn't increase much leading to higher time complexity.
+
+Note: After finding the root parent of each node, ultimate parent of both nodes are get attached to each other. not the two given node.
+
+Q) why we are calling 'findParent' to find the ultimate parent of each node.
+ why are we don't directly finding the parent from parent array?
+Ans: when we combine two node from different component then we are not able to update the 
+remaining nodes of 'node having lesser size/rank' to new ultimate parent. 
+Also while finding parent, only the nodes that belong to that component there parent get updated.
+
+
+time for union: O(4 alpha) nearly = O(1), space: O(n)
+time for find Parent= O(4* alpha)
+"""
 
 class DSU:
     def __init__(self, n):

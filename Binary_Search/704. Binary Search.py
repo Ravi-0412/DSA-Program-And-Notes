@@ -6,7 +6,7 @@ just think from 'mid' i.e if it is not equal to mid then where to move for this 
 
 Note: for initialising 'low' and 'up' just find the range in which we can get the ans.
 and initialise 'low'= min range value and 'up'= maximum range value.
-After this use template 1 or template 2 or template 4 according to the Q.
+After this use template 1 or template 4 or template 5 according to the Q.
 Note: Using above three template you can solve almost all Q of binary search, just think which template we can use here analysing the Q.
 
 Note: 'up' hmesha '>=' or '>' target' me update hoga and low '<=' or '<' target me update hoga, 
@@ -196,8 +196,27 @@ Note: after while loop, end will point to the last index of target.
 as before while loop exit start had last index value since equal to(<=) condition with 'start') and
 'start' will point to the first greater ele than the 'target'.
 
-Note: end will give first element >= target.
-Note: And in case target > max(arr) then end = n.
+Note:
+1. end will give last element <= target. (floor, or the last occurrence of target)
+2. And in case target > max(arr) then start = n , end = n -1
+3. target < min(arr) → start = 0, end = −1
+4. start = the first element > target
+
+The rule to remember: 
+on success, move toward bigger values if you want the maximum, or toward smaller values if you want the minimum. 
+Then return the pointer that was left sitting on the last success. 
+-> It means: return the pointer that did not move when check passed.
+
+Maximize: start moves on success, so return end
+Minimize: end moves on success, so return start
+
+┌─────────┬──────────────────┬────────┐
+│  Goal   │ Moves on success │ Return │
+├─────────┼──────────────────┼────────┤
+│ maximum │ start            │ end    │
+├─────────┼──────────────────┼────────┤
+│ minimum │ end              │ start  │
+└─────────┴──────────────────┴────────┘
 """
 
 def binary_search(nums,target):

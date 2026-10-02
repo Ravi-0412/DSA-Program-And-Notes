@@ -41,6 +41,8 @@ class Solution:
     def maxPossibleScore(self, start: List[int], d: int) -> int:
         start.sort()                                   # equal-length ranges → sorted by start = sorted by end
 
+        """Checks whether we can pick one number from each range so every two picks are at least `gap` apart.
+            Returns True if possible, else False."""
         def can_achieve(gap):
             prev = start[0]                            # take the leftmost number of the first range
             for i in range(1, len(start)):

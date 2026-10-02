@@ -11,6 +11,10 @@ pick 2, 3, 6 → distances 1, 3, 4 → score = 1   (worse)
 """
 
 """
+closest match : Aggressive Cows
+"""
+
+"""
 Ask : 
 Turn the question around. Instead of "which numbers give the best score?", ask "for a given gap g, can I choose numbers that are all at least g apart?"
 That yes/no check is easy, and its answers form T T T … F F F. So you can binary search over g.
@@ -48,9 +52,10 @@ class Solution:
     def maxPossibleScore(self, start: List[int], d: int) -> int:
         start.sort()                                   # equal-length ranges → sorted by start = sorted by end
 
-        """Checks whether we can pick one number from each range so every two picks are at least `gap` apart.
-            Returns True if possible, else False."""
         def can_achieve(gap):
+            """Checks whether we can pick one number from each range so every two picks are at least `gap` apart.
+            Returns True if possible, else False."""
+            
             prev = start[0]                            # take the leftmost number of the first range
             for i in range(1, len(start)):
                 pick = max(prev + gap, start[i])       # smallest number ≥ prev + gap inside this range

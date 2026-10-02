@@ -34,6 +34,13 @@ low=5, high=8 → mid=6: F → high=5
 low=5, high=5 → mid=5: F → high=4
 low=5 > high=4 → stop → return high = 4 ✓
 
+pick = max(prev + gap, start[i]), how ?
+it finds the leftmost number you're allowed to take.
+1. pick ≥ prev + gap      (far enough from the previous pick)
+2. pick ≥ start[i]        (not left of the range)
+3. pick ≤ start[i] + d    (not right of the range)
+- max(prev + gap, start[i]) is the smallest number that satisfies both 1 and 2.
+
 Time : O(n * logn + n * log(Range))
 """
 

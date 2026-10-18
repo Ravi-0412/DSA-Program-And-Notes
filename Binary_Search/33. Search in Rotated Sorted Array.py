@@ -21,24 +21,23 @@ class Solution:
             else:
                 return right
         return left
-    
+
+    # index of minimum element
     def BinarySearchPivot(self, nums):              
         left, right = 0, len(nums)-1
         while left < right:
             mid = (left + right) // 2
-    
-            if nums[left] > nums[mid]:   # means array from 'left' to 'mid' is unsorted
-                right = mid-1            # so max will lie before mid 
+            if nums[mid] > nums[right]:   # means array from 'mid' to 'right' is unsorted
+                left = mid + 1            # so minimum will lie in this part only i.e beyond mid
 
-            else:      # here it will guarantee that array from left to mid is sorted and 
-            # mid to right is unsorted and mid can also be the max
-            # so max will lie in this range only 
-                left= mid
+            else:      
+                # here it will guarantee that array from 
+                # mid to right is sorted and start to mid is unsorted and mid can also be minimum
+                right = mid
         # after loop will fail , start and end will point to 
-        # the same ele and that will be the maximum ele
-        # because both are merging towards the index of max ele in each iteration
-    
-        return nums[left]
+        # the same ele and that will be the minimum ele
+        # because both are merging towards the index of min ele in each iteration
+        return left
             
     def BinarySearch(self,arr,target,low,high):
         start,end= low,high
@@ -51,6 +50,8 @@ class Solution:
             else:
                 end= mid-1
         return -1
+
+        
 
 # Java Code 
 """
